@@ -7,6 +7,7 @@ public class Main extends PApplet {
 	private double[][] test;
 	private long seed = 870L;
 	private boolean helpMode = false;
+	public EmbedTerrain embed = new EmbedTerrain(this); //A 3D embedded applet that renders the selected terrain (also displayed in minimap)
 
 	public void setup() 
 	{
@@ -29,6 +30,11 @@ public class Main extends PApplet {
 		assignNewTerrain(seed);
 		Data data = new Data(test,cutoff);
 		data.recurDivIndex(0, 0, test.length);
+
+		//this.add(embed);
+		//embed.init();
+		//embed.setBounds(950,550,400,300);
+		//embed.setVisible(true);
 	}
 
 	public void assignNewTerrain(long seed)
@@ -79,6 +85,18 @@ public class Main extends PApplet {
 
 	public void keyPressed()
 	{
+		executeKey(key);
+	}
+	
+	public void mousePressed()
+	{
+		//embed.background(255);
+		//embed.showTerrain(sendEmbed);	
+	}
+
+	//Takes key from 2D and 3D inputs
+	public void executeKey(char key)
+	{
 		if (key == 'r')
 		{
 			seed = System.currentTimeMillis();
@@ -110,6 +128,7 @@ public class Main extends PApplet {
 	float width = 900/(float)nDiv; float height = 900/(float)nDiv; 
 	int cutoff = 55;
 	private int sight = 8;
+	private double[][] sendEmbed = new double[sight*2][sight*2];
 	public void draw()
 	{
 		background(0);
@@ -148,7 +167,7 @@ public class Main extends PApplet {
 			text("Sea level: " + cutoff,50,50);
 			text("Percent of world submerged: " + (sea/(land+sea)),50,80);
 			text("Seed: " + seed,50,110);
-			
+
 			text("[I/O] Zoom in/out minimap", 950, 600);
 			text("[U/J] Raise/lower sea level", 950, 630);
 			text("[R] Generate new seed and terrain", 950, 660);
@@ -160,6 +179,7 @@ public class Main extends PApplet {
 			int r = (int)(mouseX/900F*test.length);
 			int c = (int)(mouseY/900F*test[0].length);
 			int rCount = 0; int cCount = 0;
+			sendEmbed = new double[sight*2][sight*2]; //Data to be sent to embed viewer for rendering
 			for (int i = r - sight; i < r + sight; i++)
 			{
 				for (int j = c - sight; j < c + sight; j++)
@@ -171,13 +191,27 @@ public class Main extends PApplet {
 							fill(0,0,255);
 						else
 							fill(0,255,0);
-						text((int)test[i][j] + "", 950 + 20*rCount, 50 + 20*cCount);
+						text((int)test[i][j] + "", 950 + 20*rCount, 20 + 20*cCount);
+						sendEmbed[rCount][cCount] = test[i][j];
+					}
+					else
+					{
+
+						sendEmbed[rCount][cCount] = 0;
 					}
 					cCount++;
 				}
 				rCount++;
 				cCount = 0;
 			}
+			/*for (int row = 0; row < sendEmbed.length; row++)
+			{
+				for (int col = 0; col < sendEmbed[0].length; col++)
+				{
+					print(sendEmbed[row][col] + " ");
+				}
+				println();
+			}*/	
 		}
 	}
 
