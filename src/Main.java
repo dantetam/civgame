@@ -6,12 +6,11 @@ public class Main extends PApplet {
 	public int rows = 32; public int cols = 32; public double nDiv = 256;
 	private double[][] test;
 	private long seed = 870L;
-	private boolean helpMode = false;
-	public EmbedTerrain embed = new EmbedTerrain(this); //A 3D embedded applet that renders the selected terrain (also displayed in minimap)
+	private boolean helpMode = true;
 
 	public void setup() 
 	{
-		size(1500,900);
+		size(1800,900);
 		textSize(10);
 		noStroke();
 		//noLoop();
@@ -30,11 +29,6 @@ public class Main extends PApplet {
 		assignNewTerrain(seed);
 		Data data = new Data(test,cutoff);
 		data.recurDivIndex(0, 0, test.length);
-
-		//this.add(embed);
-		//embed.init();
-		//embed.setBounds(950,550,400,300);
-		//embed.setVisible(true);
 	}
 
 	public void assignNewTerrain(long seed)
@@ -85,18 +79,6 @@ public class Main extends PApplet {
 
 	public void keyPressed()
 	{
-		executeKey(key);
-	}
-	
-	public void mousePressed()
-	{
-		//embed.background(255);
-		//embed.showTerrain(sendEmbed);	
-	}
-
-	//Takes key from 2D and 3D inputs
-	public void executeKey(char key)
-	{
 		if (key == 'r')
 		{
 			seed = System.currentTimeMillis();
@@ -104,10 +86,26 @@ public class Main extends PApplet {
 		}
 		else if (key == 'i')
 		{
+			if (zoom > 1)
+			{
+				zoom /= 2;
+				sight /= 2;
+			}
+		}
+		else if (key == 'o')
+		{
+			if (sight*2 < test.length)
+			{
+				zoom *= 2;
+				sight *= 2;
+			}
+		}
+		else if (key == 'k')
+		{
 			if (sight > 5)
 				sight--;
 		}
-		else if (key == 'o')
+		else if (key == 'l')
 		{
 			sight++;
 		}
@@ -128,7 +126,7 @@ public class Main extends PApplet {
 	float width = 900/(float)nDiv; float height = 900/(float)nDiv; 
 	int cutoff = 55;
 	private int sight = 8;
-	private double[][] sendEmbed = new double[sight*2][sight*2];
+	private int zoom = 1;
 	public void draw()
 	{
 		background(0);
@@ -167,51 +165,68 @@ public class Main extends PApplet {
 			text("Sea level: " + cutoff,50,50);
 			text("Percent of world submerged: " + (sea/(land+sea)),50,80);
 			text("Seed: " + seed,50,110);
-
-			text("[I/O] Zoom in/out minimap", 950, 600);
-			text("[U/J] Raise/lower sea level", 950, 630);
-			text("[R] Generate new seed and terrain", 950, 660);
+			
+			if (zoom == 1)
+			{
+				text("Maximum zoom", 950, 25);
+			}
+			else
+			{
+				text("Zoomed out", 950, 25);
+			}
+			
+			int top = 800;
+			text("[I/O] Zoom in/out minimap", 950, top);
+			text("[K/L] Minimize/enlarge minimap", 950, top + 30);
+			text("[U/J] Raise/lower sea level", 950, top + 60);
+			text("[R] Generate new seed and terrain", 950, top + 90);
 		}
 
 		//if (mouseX < 900 && mouseY < 900)
+		textSize(10);
+		int r = (int)(mouseX/900F*test.length);
+		int c = (int)(mouseY/900F*test[0].length);
+		int rCount = 0; int cCount = 0;
+		for (int i = r - sight; i < r + sight; i += zoom)
 		{
-			textSize(10);
-			int r = (int)(mouseX/900F*test.length);
-			int c = (int)(mouseY/900F*test[0].length);
-			int rCount = 0; int cCount = 0;
-			sendEmbed = new double[sight*2][sight*2]; //Data to be sent to embed viewer for rendering
-			for (int i = r - sight; i < r + sight; i++)
+			for (int j = c - sight; j < c + sight; j += zoom)
 			{
-				for (int j = c - sight; j < c + sight; j++)
+				//System.out.println(i + " " + j);
+				if (i >= 0 && i < test.length && j >= 0 && j < test[0].length)
 				{
-					//System.out.println(i + " " + j);
-					if (i >= 0 && i < test.length && j >= 0 && j < test[0].length)
+					if (test[i][j] < cutoff)
+						fill(0,0,255);
+					else
+						fill(0,255,0);
+					int height;//display this level
+					//If zoomed in, display the exact value.
+					//If zoomed out, display an appropriate average.
+					if (zoom == 1)
 					{
-						if (test[i][j] < cutoff)
-							fill(0,0,255);
-						else
-							fill(0,255,0);
-						text((int)test[i][j] + "", 950 + 20*rCount, 20 + 20*cCount);
-						sendEmbed[rCount][cCount] = test[i][j];
+						height = (int)test[i][j];
 					}
 					else
 					{
-
-						sendEmbed[rCount][cCount] = 0;
+						double avg = 0; double n = 0;
+						for (int row = i - zoom/2; row < i + zoom/2; row++)
+						{
+							for (int col = j - zoom/2; col < j + zoom/2; col++)
+							{
+								if (row >= 0 && row < test.length && col >= 0 && col < test[0].length)
+								{
+									avg += test[row][col];
+									n++;
+								}
+							}
+						}
+						height = (int)(avg/n);
 					}
-					cCount++;
+					text(height + "", 950 + 20*rCount, 50 + 20*cCount);
 				}
-				rCount++;
-				cCount = 0;
+				cCount++;
 			}
-			/*for (int row = 0; row < sendEmbed.length; row++)
-			{
-				for (int col = 0; col < sendEmbed[0].length; col++)
-				{
-					print(sendEmbed[row][col] + " ");
-				}
-				println();
-			}*/	
+			rCount++;
+			cCount = 0;
 		}
 	}
 

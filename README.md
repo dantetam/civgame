@@ -1,10 +1,4 @@
-terraingen
-==========
-
-terraingen
-==========
-
-(Forced push with "git push --force -u origin master" on 8/19/2014. 25 commits are missing. Odd.)
+(30 previous commits)
 
 This project is for experimenting with terrain in Java. It is rendered with Processing for convenience. I recommend creating a project from source in Eclipse.
 
