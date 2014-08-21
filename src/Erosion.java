@@ -4,11 +4,13 @@ import java.util.ArrayList;
 public class Erosion {
 
 	public double[][] terrain;
+	public double cutoff;
 	public Droplet[][] waterLevel;
 
-	public Erosion(double[][] terrain)
+	public Erosion(double[][] terrain, double cutoff)
 	{
 		this.terrain = terrain;
+		this.cutoff = cutoff;
 		waterLevel = new Droplet[terrain.length][terrain[0].length];
 	}
 
@@ -28,6 +30,8 @@ public class Erosion {
 		 * Loop through all water droplets
 		 * If there is a neighboring lower level, dissolve some soil and move down
 		 * If there is not, place all dissolved soil at bottom
+		 * 
+		 * TODO: Dissolve soil from neighboring tiles (less intensive)
 		 */
 		for (int r = 0; r < terrain.length; r++)
 		{
@@ -38,7 +42,11 @@ public class Erosion {
 					ArrayList<Location> locs = checkLower(r,c);
 					if (locs.size() > 0) 
 					{
-						double dissolved = (Math.random()*0.5)*waterLevel[r][c].maxSoil;
+						double dissolved = (Math.random()*0.25)*waterLevel[r][c].maxSoil;
+						if (terrain[r][c] - dissolved < averageNeighbors(r,c))
+						{
+							dissolved = terrain[r][c] - averageNeighbors(r,c);
+						}
 						waterLevel[r][c].soil += dissolved;
 						terrain[r][c] -= dissolved;
 						if (waterLevel[r][c].soil > waterLevel[r][c].maxSoil)
@@ -46,19 +54,35 @@ public class Erosion {
 							waterLevel[r][c].soil = waterLevel[r][c].maxSoil;
 						}
 						int random = (int)(locs.size()*Math.random());
-					    Location loc = locs.get(random);
-					    if (waterLevel[loc.r][loc.c] != null)
-					    {
-					    	waterLevel[loc.r][loc.c].water += waterLevel[r][c].water;
-					    	waterLevel[loc.r][loc.c].soil += waterLevel[r][c].soil;
-					    	waterLevel[r][c] = null;
-					    }
-					    else
-					    {
-					    	waterLevel[loc.r][loc.c] = new Droplet(waterLevel[r][c], loc.r, loc.c);
-					    	waterLevel[r][c] = null;
-					    }
-					    
+						Location loc = locs.get(random);
+						for (int i = 0; i < locs.size(); i++)
+						{
+							if (i != random)
+							{
+								terrain[locs.get(i).r][locs.get(i).c] -= (Math.random()*0.5)*dissolved;
+							}
+						}
+						//If droplet is going to go to water, end the erosion
+						//Else, either make a new droplet or combine with the existing one at the location
+						if (terrain[loc.r][loc.c] < cutoff) 
+						{
+							waterLevel[r][c] = null;
+						}
+						else
+						{
+							if (waterLevel[loc.r][loc.c] != null)
+							{
+								waterLevel[loc.r][loc.c].water += waterLevel[r][c].water;
+								waterLevel[loc.r][loc.c].soil += waterLevel[r][c].soil;
+								waterLevel[r][c] = null;
+							}
+							else
+							{
+								waterLevel[loc.r][loc.c] = new Droplet(waterLevel[r][c], loc.r, loc.c);
+								waterLevel[r][c] = null;
+							}
+						}
+
 					}
 					else
 					{
@@ -99,10 +123,37 @@ public class Erosion {
 		return temp;
 	}
 
+	public double averageNeighbors(int r, int c)
+	{
+		double avg = 0;
+		ArrayList<Location> temp = new ArrayList<Location>();
+		temp.add(new Location(r-1,c-1));
+		temp.add(new Location(r-1,c));
+		temp.add(new Location(r-1,c+1));
+		temp.add(new Location(r,c+1));
+		temp.add(new Location(r+1,c+1));
+		temp.add(new Location(r+1,c));
+		temp.add(new Location(r+1,c-1));
+		temp.add(new Location(r,c-1));
+		for (int i = 0; i < temp.size(); i++)
+		{
+			int row = temp.get(i).r;
+			int col = temp.get(i).c;
+			if (row >= 0 && row < terrain.length && col >= 0 && col < terrain[0].length)
+			{
+				avg += terrain[row][col];
+			}
+			temp.remove(i);
+			i--;
+		}
+		return avg/(double)temp.size();
+	}
+
 	//Wrapper class
 	public class Droplet
 	{
 		public double water; public double maxSoil; public double soil;
+		public double speed;
 		public int r; public int c;
 
 		public Droplet(double water, double soil, double maxSoil, int r, int c)

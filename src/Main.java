@@ -32,7 +32,7 @@ public class Main extends PApplet {
 		Data data = new Data(test,cutoff);
 		data.recurDivIndex(0, 0, test.length);
 		
-		erosion = new Erosion(test);
+		erosion = new Erosion(test,55);
 	}
 	
 	public void assignNewTerrain(long seed)
