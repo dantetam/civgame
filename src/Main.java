@@ -34,20 +34,20 @@ public class Main extends PApplet {
 	public void assignNewTerrain(long seed)
 	{
 		//(int)(Math.log(rows)/Math.log(2))-1
-		double[][] source = new PerlinNoise(seed).makePerlinNoise(rows,cols,150,8,1,0.5,3);
+		double[][] source = new PerlinNoise(seed).makePerlinNoise(rows,cols,150,8,1,0.6,3);
 		//double[][] newSource = PerlinNoise.recurInter(source,2,nDiv/4);
 		double[][] newSource = PerlinNoise.expand(PerlinNoise.expand(source,nDiv/2),nDiv);
 		//double[][] newSource = source;
 		test = newSource;
 
-		for (int i = 0; i < newSource.length; i++)
+		/*for (int i = 0; i < newSource.length; i++)
 		{
 			for (int j = 0; j < newSource[0].length; j++)
 			{
 				System.out.print((int)newSource[i][j] + "   ");
 			}
 			System.out.println();
-		}
+		}*/
 	}
 
 	public void displayTable(double[][] t)

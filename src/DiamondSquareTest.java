@@ -8,7 +8,7 @@ public class DiamondSquareTest extends PApplet {
 	public double[][] temp;
 	public ArrayList<byte[][]> displayTables;
 	public int step = 0;
-	public int len = 64;
+	public int len = 128;
 
 	public void setup()
 	{
@@ -23,7 +23,7 @@ public class DiamondSquareTest extends PApplet {
 
 		Data.IslandHelper helper = data.islandHelper();
 		ArrayList<ArrayList<Data.IslandHelper.Location>> islands = helper.listIslands;
-		data.divIndex(islands.get(0));
+		//data.divIndex(islands.get(0));
 		//System.out.println(ds.t[1][1]);
 		frameRate(40);
 		strokeWeight(3);
