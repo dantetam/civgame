@@ -7,12 +7,14 @@ public class Main extends PApplet {
 	private double[][] test;
 	private long seed = 870L;
 	private boolean helpMode = true;
-
+	private Erosion erosion;
+	
 	public void setup() 
 	{
 		size(1800,900);
 		textSize(10);
 		noStroke();
+		frameRate(25);
 		//noLoop();
 		//double[][] source = new double[][]{{1,1,1,1}, {2,2,2,2}, {3,3,3,3}, {2,2,2,2}};
 		/*double[][] source = new PerlinNoise().makePerlinNoise(rows,cols,128,4,3,0.5,2);
@@ -29,8 +31,10 @@ public class Main extends PApplet {
 		assignNewTerrain(seed);
 		Data data = new Data(test,cutoff);
 		data.recurDivIndex(0, 0, test.length);
+		
+		erosion = new Erosion(test);
 	}
-
+	
 	public void assignNewTerrain(long seed)
 	{
 		//(int)(Math.log(rows)/Math.log(2))-1
@@ -121,6 +125,17 @@ public class Main extends PApplet {
 		{
 			helpMode = !helpMode;
 		}
+		else if (key == 'e')
+		{
+			erosion.tick();
+		}
+		else if (key == 'n')
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				erosion.flood((int)(test.length*Math.random()),(int)(test.length*Math.random()),10);
+			}
+		}
 	}
 
 	float width = 900/(float)nDiv; float height = 900/(float)nDiv; 
@@ -175,11 +190,12 @@ public class Main extends PApplet {
 				text("Zoomed out", 950, 25);
 			}
 			
-			int top = 800;
+			int top = 770;
 			text("[I/O] Zoom in/out minimap", 950, top);
 			text("[K/L] Minimize/enlarge minimap", 950, top + 30);
 			text("[U/J] Raise/lower sea level", 950, top + 60);
 			text("[R] Generate new seed and terrain", 950, top + 90);
+			text("[E/N] Simulate erosion; add water", 950, top + 120);
 		}
 
 		//if (mouseX < 900 && mouseY < 900)

@@ -16,13 +16,13 @@ public class DiamondSquareTest extends PApplet {
 		temp = DiamondSquare.makeTable(50,50,50,50,len+1);
 		DiamondSquare ds = new DiamondSquare(temp);
 		//ds.diamond(0, 0, 4);
-		displayTables = ds.dS(0, 0, len, 40, 0.5);
+		displayTables = ds.dS(0, 0, len, 40, 0.7);
 
 		Data data = new Data(ds.t,30);
 		data.divIndex(0, 0, len);
 
-		Data.IslandHelper helper = data.islandHelper();
-		ArrayList<ArrayList<Data.IslandHelper.Location>> islands = helper.listIslands;
+		//Data.IslandHelper helper = data.islandHelper();
+		//ArrayList<ArrayList<Data.IslandHelper.Location>> islands = helper.listIslands;
 		//data.divIndex(islands.get(0));
 		//System.out.println(ds.t[1][1]);
 		frameRate(40);
