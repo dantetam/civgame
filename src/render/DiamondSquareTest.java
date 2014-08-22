@@ -1,7 +1,9 @@
+package render;
 
 import java.util.ArrayList;
-
 import processing.core.PApplet;
+
+import terrain.*;
 
 public class DiamondSquareTest extends PApplet {
 

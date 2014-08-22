@@ -1,12 +1,15 @@
+package terrain;
 
 import java.util.ArrayList;
+
+import processing.core.PApplet;
 
 public class Erosion {
 
 	public double[][] terrain;
 	public double cutoff;
 	public Droplet[][] waterLevel;
-
+	
 	public Erosion(double[][] terrain, double cutoff)
 	{
 		this.terrain = terrain;
@@ -42,7 +45,7 @@ public class Erosion {
 					ArrayList<Location> locs = checkLower(r,c);
 					if (locs.size() > 0) 
 					{
-						double dissolved = (Math.random()*0.25)*waterLevel[r][c].maxSoil;
+						double dissolved = (Math.random()*0.25)*waterLevel[r][c].maxSoil + waterLevel[r][c].speed*(Math.random()*0.25);
 						//System.out.println(averageNeighbors(r,c));
 						if (terrain[r][c] - dissolved < averageNeighbors(r,c) - 5)
 						{
@@ -73,6 +76,7 @@ public class Erosion {
 						}
 						else
 						{
+							waterLevel[r][c].speed = terrain[r][c] - terrain[loc.r][loc.c];
 							if (waterLevel[loc.r][loc.c] != null)
 							{
 								waterLevel[loc.r][loc.c].water += waterLevel[r][c].water;
@@ -162,6 +166,7 @@ public class Erosion {
 
 		public Droplet(double water, double soil, double maxSoil, int r, int c)
 		{
+			speed = 0;
 			this.water = water;
 			this.soil = soil;
 			this.maxSoil = maxSoil;
@@ -171,6 +176,7 @@ public class Erosion {
 
 		public Droplet(Droplet o, int r, int c)
 		{
+			speed = o.speed;
 			water = o.water;
 			soil = o.soil;
 			maxSoil = o.maxSoil;

@@ -1,14 +1,27 @@
+package render;
+
+
+import javax.swing.JFrame;
 
 import processing.core.*;
+import terrain.*;
 
 public class Main extends PApplet {
 
-	public int rows = 32; public int cols = 32; public double nDiv = 256;
+	public int rows = 32; public int cols = 32; public double nDiv = 128;
 	private double[][] test;
 	private long seed = 870L;
-	private boolean helpMode = true;
+	private boolean helpMode = true; private boolean stopRendering = false;
 	private Erosion erosion;
-	
+
+	//Hopefully will render in a separate window
+	private OpenGLTerrain renderer;
+
+	public static void main(String[] args)
+	{
+		PApplet.main(new String[] { Main.class.getName() });
+	}
+
 	public void setup() 
 	{
 		size(1800,900);
@@ -29,12 +42,26 @@ public class Main extends PApplet {
 			System.out.println();
 		}*/
 		assignNewTerrain(seed);
-		Data data = new Data(test,cutoff);
-		data.recurDivIndex(0, 0, test.length);
-		
+		//Data data = new Data(test,cutoff);
+		//data.recurDivIndex(0, 0, test.length);
+
 		erosion = new Erosion(test,cutoff);
+
+		PFrame f = new PFrame(1500,900);
+		f.setTitle("3D Renderer");
 	}
-	
+
+	public class PFrame extends JFrame {
+		public PFrame(int width, int height) {
+			setBounds(100, 100, width, height);
+			renderer = new OpenGLTerrain();
+			add(renderer);
+			renderer.init();
+			renderer.setTerrain(test,cutoff);
+			show();
+		}
+	}
+
 	public void assignNewTerrain(long seed)
 	{
 		//(int)(Math.log(rows)/Math.log(2))-1
@@ -120,12 +147,16 @@ public class Main extends PApplet {
 			cutoff += 1;
 			erosion = null;
 			erosion = new Erosion(test,cutoff);
+			renderer.setTerrain(test,cutoff);
+			renderer.redraw();
 		}
 		else if (key == 'j')
 		{
 			cutoff -= 1;
 			erosion = null;
 			erosion = new Erosion(test,cutoff);
+			renderer.setTerrain(test,cutoff);
+			renderer.redraw();
 		}
 		else if (key == 'h')
 		{
@@ -134,6 +165,8 @@ public class Main extends PApplet {
 		else if (key == 'e')
 		{
 			erosion.tick();
+			renderer.setTerrain(test,cutoff);
+			renderer.redraw();
 		}
 		else if (key == 'n')
 		{
@@ -141,6 +174,10 @@ public class Main extends PApplet {
 			{
 				erosion.flood((int)(test.length*Math.random()),(int)(test.length*Math.random()),10);
 			}
+		}
+		else if (key == 's')
+		{
+			stopRendering = true;
 		}
 	}
 
@@ -151,6 +188,7 @@ public class Main extends PApplet {
 	public void draw()
 	{
 		background(0);
+		if (stopRendering) return;
 		//camera(2000,2000,2000,0,0,0,0,-1,0);
 		//displayTable(test);
 		float land = 0; float sea = 0;
@@ -186,7 +224,7 @@ public class Main extends PApplet {
 			text("Sea level: " + cutoff,50,50);
 			text("Percent of world submerged: " + (sea/(land+sea)),50,80);
 			text("Seed: " + seed,50,110);
-			
+
 			if (zoom == 1)
 			{
 				text("Maximum zoom", 950, 25);
@@ -195,7 +233,7 @@ public class Main extends PApplet {
 			{
 				text("Zoomed out", 950, 25);
 			}
-			
+
 			int top = 770;
 			text("[I/O] Zoom in/out minimap", 950, top);
 			text("[K/L] Minimize/enlarge minimap", 950, top + 30);
