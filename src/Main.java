@@ -32,7 +32,7 @@ public class Main extends PApplet {
 		Data data = new Data(test,cutoff);
 		data.recurDivIndex(0, 0, test.length);
 		
-		erosion = new Erosion(test,55);
+		erosion = new Erosion(test,cutoff);
 	}
 	
 	public void assignNewTerrain(long seed)
@@ -52,6 +52,8 @@ public class Main extends PApplet {
 			}
 			System.out.println();
 		}*/
+		erosion = null;
+		erosion = new Erosion(test,cutoff);
 	}
 
 	public void displayTable(double[][] t)
@@ -116,10 +118,14 @@ public class Main extends PApplet {
 		else if (key == 'u')
 		{
 			cutoff += 1;
+			erosion = null;
+			erosion = new Erosion(test,cutoff);
 		}
 		else if (key == 'j')
 		{
 			cutoff -= 1;
+			erosion = null;
+			erosion = new Erosion(test,cutoff);
 		}
 		else if (key == 'h')
 		{
