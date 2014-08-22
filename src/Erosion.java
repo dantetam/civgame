@@ -43,9 +43,12 @@ public class Erosion {
 					if (locs.size() > 0) 
 					{
 						double dissolved = (Math.random()*0.25)*waterLevel[r][c].maxSoil;
-						if (terrain[r][c] - dissolved < averageNeighbors(r,c))
+						//System.out.println(averageNeighbors(r,c));
+						if (terrain[r][c] - dissolved < averageNeighbors(r,c) - 5)
 						{
-							dissolved = terrain[r][c] - averageNeighbors(r,c);
+							dissolved = terrain[r][c] - averageNeighbors(r,c) + 5;
+							dissolved = Math.max(0, dissolved);
+							//System.out.println(dissolved);
 						}
 						waterLevel[r][c].soil += dissolved;
 						terrain[r][c] -= dissolved;
@@ -59,7 +62,7 @@ public class Erosion {
 						{
 							if (i != random)
 							{
-								terrain[locs.get(i).r][locs.get(i).c] -= (Math.random()*0.5)*dissolved;
+								terrain[locs.get(i).r][locs.get(i).c] -= (Math.random()*0.75)*dissolved;
 							}
 						}
 						//If droplet is going to go to water, end the erosion
@@ -86,7 +89,7 @@ public class Erosion {
 					}
 					else
 					{
-						terrain[r][c] += waterLevel[r][c].soil;
+						//terrain[r][c] += waterLevel[r][c].soil;
 						waterLevel[r][c] = null;
 					}
 				}
@@ -142,6 +145,7 @@ public class Erosion {
 			if (row >= 0 && row < terrain.length && col >= 0 && col < terrain[0].length)
 			{
 				avg += terrain[row][col];
+				continue;
 			}
 			temp.remove(i);
 			i--;
