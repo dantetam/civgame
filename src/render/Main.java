@@ -47,14 +47,15 @@ public class Main extends PApplet {
 
 		erosion = new Erosion(test,cutoff);
 
-		PFrame f = new PFrame(1500,900);
+		PFrame f = new PFrame(this,1500,900);
 		f.setTitle("3D Renderer");
 	}
 
+	//Taken from stack overflow
 	public class PFrame extends JFrame {
-		public PFrame(int width, int height) {
+		public PFrame(Main main, int width, int height) {
 			setBounds(100, 100, width, height);
-			renderer = new OpenGLTerrain();
+			renderer = new OpenGLTerrain(main);
 			add(renderer);
 			renderer.init();
 			renderer.setTerrain(test,cutoff);
@@ -112,10 +113,19 @@ public class Main extends PApplet {
 
 	public void keyPressed()
 	{
+		executeKey(key);
+	}
+	
+	public void executeKey(char key)
+	{
 		if (key == 'r')
 		{
 			seed = System.currentTimeMillis();
 			assignNewTerrain(seed);
+			erosion = null;
+			erosion = new Erosion(test,cutoff);
+			renderer.setTerrain(test,cutoff);
+			renderer.redraw();
 		}
 		else if (key == 'i')
 		{
@@ -162,7 +172,7 @@ public class Main extends PApplet {
 		{
 			helpMode = !helpMode;
 		}
-		else if (key == 'e')
+		else if (key == 't')
 		{
 			erosion.tick();
 			renderer.setTerrain(test,cutoff);
@@ -175,12 +185,12 @@ public class Main extends PApplet {
 				erosion.flood((int)(test.length*Math.random()),(int)(test.length*Math.random()),10);
 			}
 		}
-		else if (key == 's')
+		else if (key == 'x')
 		{
-			stopRendering = true;
+			stopRendering = !stopRendering;
 		}
 	}
-
+	
 	float width = 900/(float)nDiv; float height = 900/(float)nDiv; 
 	int cutoff = 55;
 	private int sight = 8;
@@ -188,7 +198,7 @@ public class Main extends PApplet {
 	public void draw()
 	{
 		background(0);
-		if (stopRendering) return;
+		if (stopRendering) {return;}
 		//camera(2000,2000,2000,0,0,0,0,-1,0);
 		//displayTable(test);
 		float land = 0; float sea = 0;
@@ -239,7 +249,7 @@ public class Main extends PApplet {
 			text("[K/L] Minimize/enlarge minimap", 950, top + 30);
 			text("[U/J] Raise/lower sea level", 950, top + 60);
 			text("[R] Generate new seed and terrain", 950, top + 90);
-			text("[E/N] Simulate erosion; add water", 950, top + 120);
+			text("[T/N] Test erosion; add water", 950, top + 120);
 		}
 
 		//if (mouseX < 900 && mouseY < 900)

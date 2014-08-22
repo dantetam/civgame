@@ -23,7 +23,7 @@ public class Erosion {
 			waterLevel[r][c].water += water;
 		else
 		{
-			waterLevel[r][c] = new Droplet(water, 0, 30, r, c);
+			waterLevel[r][c] = new Droplet(water, 0, 45, r, c);
 		}
 	}
 
