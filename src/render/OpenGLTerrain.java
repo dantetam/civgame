@@ -1,6 +1,7 @@
 package render;
 
 import processing.core.PApplet;
+import terrain.Erosion.Droplet;
 
 //Renders terrain specifically with the P3D library
 
@@ -14,7 +15,7 @@ public class OpenGLTerrain extends PApplet {
 	{
 		this.main = main;
 	}
-	
+
 	//Keys are w,a,s,d,q,e respectively
 	public boolean[] keySet = new boolean[6];
 
@@ -44,11 +45,11 @@ public class OpenGLTerrain extends PApplet {
 		{
 			keySet[5] = true;
 		}
-		
+
 		main.executeKey(key);
 		redraw();
 	}
-	
+
 	public void keyReleased()
 	{
 		if (key == 'w')
@@ -80,13 +81,14 @@ public class OpenGLTerrain extends PApplet {
 	public void setup()
 	{
 		size(1500,900,P3D);
+		frameRate(30);
 		//camera(1500,1500,1500,0,0,0,0,-1,0);
 		posX = 500;
-		posY = 500;
+		posY = -500;
 		posZ = 500;
 		tarX = 0;
 		tarZ = 0;
-		noLoop();
+		//noLoop();
 	}
 
 	public float posX, posY, posZ;
@@ -94,9 +96,8 @@ public class OpenGLTerrain extends PApplet {
 	public void draw()
 	{
 		background(135, 206, 235);
-		fill(0,200,0);
 		int width = 20; int con = 2;
-		camera(posX,posY,posZ,tarX,0,tarZ,0,-1,0);
+		camera(posX,posY,posZ,tarX,0,tarZ,0,1,0);
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
@@ -104,40 +105,52 @@ public class OpenGLTerrain extends PApplet {
 				pushMatrix();
 				if ((int)terrain[r][c] > cutoff)
 				{
-					translate(r*width,(int)(terrain[r][c] - cutoff)/2*con,c*width);
-					box(width,(int)(terrain[r][c] - cutoff)*con,width);
+					fill(0,200,0);
+					translate(r*width,-(int)(terrain[r][c] - cutoff)/2*con,c*width);
+					box(width,-(int)(terrain[r][c] - cutoff)*con,width);
+					Droplet d = main.erosion.waterLevel[r][c];
+					if (d != null) 
+					{
+						fill(0,0,255);
+						//pushMatrix();
+						translate(0,-10,0);
+						//translate(r*width,-(int)(terrain[r][c] - cutoff)/2*con - 10,c*width);
+						box(width,10,width);
+						//popMatrix();
+					}
 				}
 				popMatrix();
 			}
 		}
+
 		int dist = 15;
 		if (keySet[0])
-		{
-			posX -= dist;
-			tarX -= dist;
-		}
-		if (keySet[1])
 		{
 			posZ -= dist;
 			tarZ -= dist;
 		}
-		if (keySet[2])
+		if (keySet[1])
 		{
-			posX += dist;
-			tarX += dist;
+			posX -= dist;
+			tarX -= dist;
 		}
-		if (keySet[3])
+		if (keySet[2])
 		{
 			posZ += dist;
 			tarZ += dist;
 		}
+		if (keySet[3])
+		{
+			posX += dist;
+			tarX += dist;
+		}
 		if (keySet[4])
 		{
-			posY -= dist;
+			posY += dist;
 		}
 		if (keySet[5])
 		{
-			posY += dist;
+			posY -= dist;
 		}
 	}
 

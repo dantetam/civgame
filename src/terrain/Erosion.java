@@ -7,6 +7,7 @@ import processing.core.PApplet;
 public class Erosion {
 
 	public double[][] terrain;
+	public double max;
 	public double cutoff;
 	public Droplet[][] waterLevel;
 	
@@ -15,6 +16,15 @@ public class Erosion {
 		this.terrain = terrain;
 		this.cutoff = cutoff;
 		waterLevel = new Droplet[terrain.length][terrain[0].length];
+		double max = 0;
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				if (terrain[r][c] > max) max = terrain[r][c];
+			}
+		}
+		this.max = max;
 	}
 
 	public void flood(int r, int c, int water)
@@ -23,7 +33,7 @@ public class Erosion {
 			waterLevel[r][c].water += water;
 		else
 		{
-			waterLevel[r][c] = new Droplet(water, 0, 45, r, c);
+			waterLevel[r][c] = new Droplet(water, 0, 100, r, c);
 		}
 	}
 
@@ -45,11 +55,13 @@ public class Erosion {
 					ArrayList<Location> locs = checkLower(r,c);
 					if (locs.size() > 0) 
 					{
-						double dissolved = (Math.random()*0.25)*waterLevel[r][c].maxSoil + waterLevel[r][c].speed*(Math.random()*0.25);
-						//System.out.println(averageNeighbors(r,c));
-						if (terrain[r][c] - dissolved < averageNeighbors(r,c) - 5)
+						double a = (Math.random()*0.25)*waterLevel[r][c].water;
+						double b = Math.max(0,waterLevel[r][c].speed*(Math.random()*0.75));
+						double dissolved = a + b;
+						System.out.println(a + " " + b);
+						if (terrain[r][c] - dissolved < averageNeighbors(r,c) - 10)
 						{
-							dissolved = terrain[r][c] - averageNeighbors(r,c) + 5;
+							dissolved = terrain[r][c] - averageNeighbors(r,c) + 10;
 							dissolved = Math.max(0, dissolved);
 							//System.out.println(dissolved);
 						}
@@ -63,7 +75,7 @@ public class Erosion {
 						Location loc = locs.get(random);
 						for (int i = 0; i < locs.size(); i++)
 						{
-							if (i != random)
+							//if (i != random)
 							{
 								terrain[locs.get(i).r][locs.get(i).c] -= (Math.random()*0.75)*dissolved;
 							}
@@ -76,7 +88,7 @@ public class Erosion {
 						}
 						else
 						{
-							waterLevel[r][c].speed = terrain[r][c] - terrain[loc.r][loc.c];
+							waterLevel[r][c].speed = (terrain[r][c] - terrain[loc.r][loc.c])*(terrain[r][c]/max);
 							if (waterLevel[loc.r][loc.c] != null)
 							{
 								waterLevel[loc.r][loc.c].water += waterLevel[r][c].water;
@@ -114,6 +126,7 @@ public class Erosion {
 		temp.add(new Location(r+1,c));
 		temp.add(new Location(r+1,c-1));
 		temp.add(new Location(r,c-1));
+		
 		for (int i = temp.size() - 1; i >= 0; i--)
 		{
 			int row = temp.get(i).r;
@@ -142,6 +155,10 @@ public class Erosion {
 		temp.add(new Location(r+1,c));
 		temp.add(new Location(r+1,c-1));
 		temp.add(new Location(r,c-1));
+		temp.add(new Location(r,c+2));
+		temp.add(new Location(r+2,c));
+		temp.add(new Location(r,c-2));
+		temp.add(new Location(r-2,c));
 		for (int i = 0; i < temp.size(); i++)
 		{
 			int row = temp.get(i).r;

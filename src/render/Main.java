@@ -12,7 +12,7 @@ public class Main extends PApplet {
 	private double[][] test;
 	private long seed = 870L;
 	private boolean helpMode = true; private boolean stopRendering = false;
-	private Erosion erosion;
+	public Erosion erosion;
 
 	//Hopefully will render in a separate window
 	private OpenGLTerrain renderer;
@@ -49,6 +49,9 @@ public class Main extends PApplet {
 
 		PFrame f = new PFrame(this,1500,900);
 		f.setTitle("3D Renderer");
+		frame.setTitle("2D Renderer + Data");
+		
+		noLoop();
 	}
 
 	//Taken from stack overflow
@@ -182,13 +185,20 @@ public class Main extends PApplet {
 		{
 			for (int i = 0; i < 50; i++)
 			{
-				erosion.flood((int)(test.length*Math.random()),(int)(test.length*Math.random()),10);
+				int r = 0; int c = 0; 
+				do
+				{
+					r = (int)(test.length*Math.random());
+					c = (int)(test.length*Math.random());
+				} while (test[r][c] < cutoff);
+				erosion.flood(r,c,25);
 			}
 		}
 		else if (key == 'x')
 		{
 			stopRendering = !stopRendering;
 		}
+		redraw();
 	}
 	
 	float width = 900/(float)nDiv; float height = 900/(float)nDiv; 
