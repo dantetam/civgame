@@ -33,7 +33,7 @@ public class Erosion {
 			waterLevel[r][c].water += water;
 		else
 		{
-			waterLevel[r][c] = new Droplet(water, 0, 100, r, c);
+			waterLevel[r][c] = new Droplet(water, 0, 60, r, c);
 		}
 	}
 
@@ -55,10 +55,10 @@ public class Erosion {
 					ArrayList<Location> locs = checkLower(r,c);
 					if (locs.size() > 0) 
 					{
-						double a = (Math.random()*0.25)*waterLevel[r][c].water;
-						double b = Math.max(0,waterLevel[r][c].speed*(Math.random()*0.75));
+						double a = (Math.random()*0.15 + 0.2)*waterLevel[r][c].water;
+						double b = Math.max(0,waterLevel[r][c].speed*(Math.random()*0.25 + 0.25));
 						double dissolved = a + b;
-						System.out.println(a + " " + b);
+						//System.out.println(a + " " + b);
 						if (terrain[r][c] - dissolved < averageNeighbors(r,c) - 10)
 						{
 							dissolved = terrain[r][c] - averageNeighbors(r,c) + 10;
@@ -77,7 +77,7 @@ public class Erosion {
 						{
 							//if (i != random)
 							{
-								terrain[locs.get(i).r][locs.get(i).c] -= (Math.random()*0.75)*dissolved;
+								terrain[locs.get(i).r][locs.get(i).c] -= (Math.random()*0.25 + 0.5)*dissolved;
 							}
 						}
 						//If droplet is going to go to water, end the erosion

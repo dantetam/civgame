@@ -8,7 +8,7 @@ import terrain.*;
 
 public class Main extends PApplet {
 
-	public int rows = 32; public int cols = 32; public double nDiv = 128;
+	public int rows = 32; public int cols = 32; public double nDiv = 256;
 	private double[][] test;
 	private long seed = 870L;
 	private boolean helpMode = true; private boolean stopRendering = false;
@@ -191,7 +191,7 @@ public class Main extends PApplet {
 					r = (int)(test.length*Math.random());
 					c = (int)(test.length*Math.random());
 				} while (test[r][c] < cutoff);
-				erosion.flood(r,c,25);
+				erosion.flood(r,c,15);
 			}
 		}
 		else if (key == 'x')

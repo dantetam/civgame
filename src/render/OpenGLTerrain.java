@@ -106,14 +106,14 @@ public class OpenGLTerrain extends PApplet {
 				if ((int)terrain[r][c] > cutoff)
 				{
 					fill(0,200,0);
-					translate(r*width,-(int)(terrain[r][c] - cutoff)/2*con,c*width);
+					translate(r*width,-(float)((terrain[r][c] - cutoff)/2*con),c*width);
 					box(width,-(int)(terrain[r][c] - cutoff)*con,width);
 					Droplet d = main.erosion.waterLevel[r][c];
 					if (d != null) 
 					{
 						fill(0,0,255);
 						//pushMatrix();
-						translate(0,-10,0);
+						translate(0,-(float)((terrain[r][c] - cutoff)/2*con)-10,0);
 						//translate(r*width,-(int)(terrain[r][c] - cutoff)/2*con - 10,c*width);
 						box(width,10,width);
 						//popMatrix();
