@@ -50,8 +50,9 @@ public class Erosion {
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
-				if (waterLevel[r][c] != null)
+				if (waterLevel[r][c] != null && !waterLevel[r][c].tick)
 				{
+					waterLevel[r][c].tick = true;
 					ArrayList<Location> locs = checkLower(r,c);
 					if (locs.size() > 0) 
 					{
@@ -108,6 +109,16 @@ public class Erosion {
 						//terrain[r][c] += waterLevel[r][c].soil;
 						waterLevel[r][c] = null;
 					}
+				}
+			}
+		}
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				if (waterLevel[r][c] != null)
+				{
+					waterLevel[r][c].tick = false;
 				}
 			}
 		}
@@ -178,7 +189,7 @@ public class Erosion {
 	public class Droplet
 	{
 		public double water; public double maxSoil; public double soil;
-		public double speed;
+		public double speed; public boolean tick = false;
 		public int r; public int c;
 
 		public Droplet(double water, double soil, double maxSoil, int r, int c)

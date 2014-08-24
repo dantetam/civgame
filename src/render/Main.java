@@ -3,16 +3,18 @@ package render;
 
 import javax.swing.JFrame;
 
+import entity.Player;
 import processing.core.*;
 import terrain.*;
 
 public class Main extends PApplet {
 
-	public int rows = 32; public int cols = 32; public double nDiv = 256;
+	public int rows = 32; public int cols = 32; public double nDiv = 128;
 	private double[][] test;
 	private long seed = 870L;
 	private boolean helpMode = true; private boolean stopRendering = false;
 	public Erosion erosion;
+	public Player player;
 
 	//Hopefully will render in a separate window
 	private OpenGLTerrain renderer;
@@ -50,6 +52,8 @@ public class Main extends PApplet {
 		PFrame f = new PFrame(this,1500,900);
 		f.setTitle("3D Renderer");
 		frame.setTitle("2D Renderer + Data");
+		
+		player = new Player();
 		
 		noLoop();
 	}
