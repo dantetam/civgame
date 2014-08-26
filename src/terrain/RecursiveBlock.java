@@ -23,6 +23,7 @@ public class RecursiveBlock extends PApplet {
 	{
 		size(1500,900,P3D);
 		generateTerrain(seed);
+		heightMap();
 	}
 
 	public void draw()
@@ -53,6 +54,42 @@ public class RecursiveBlock extends PApplet {
 		}
 	}
 	
+	//Returns a more familiar 2d array of heights
+	public double[][] heightMap()
+	{
+		int minX = 0; int maxX = 0; int minZ = 0; int maxZ = 0;
+		int width = 3;
+		for (int i = 0; i < entities.size(); i++)
+		{
+			Entity en = entities.get(i);
+			if (en.posX < minX) minX = (int)en.posX;
+			if (en.posZ < minZ) minZ = (int)en.posZ;
+			if (en.posX > maxX) maxX = (int)en.posX;
+			if (en.posZ > maxZ) maxZ = (int)en.posZ;
+		}
+		double[][] temp = new double[(int)(maxX-minX)/width + 1][(int)(maxZ-minZ)/width + 1];
+		int row = 0; int col = 0; //Keep track of position in table
+		for (int r = minX; r <= maxX; r++)
+		{
+			for (int c = minZ; c <= maxZ; c++)
+			{
+				ArrayList<Entity> candidates = getNear(r,c,10);
+				int max = 0;
+				for (int i = 0; i < candidates.size(); i++)
+				{
+					int height = candidates.get(i).intersectRay(r, c);
+					if (height > max) max = height;
+				}
+				println(temp.length + " " + temp[0].length);
+				temp[row][col] = max;
+				col++;
+			}
+			col = 0;
+			row++;
+		}
+		return temp;
+	}
+	
 	public void generateTerrain(long seed)
 	{
 		entities = new ArrayList<Entity>();
@@ -78,6 +115,20 @@ public class RecursiveBlock extends PApplet {
 				i--;
 			}
 		}
+	}
+	
+	public ArrayList<Entity> getNear(double r, double c, double slack)
+	{
+		ArrayList<Entity> temp = new ArrayList<Entity>();
+		for (int i = 0; i < entities.size(); i++)
+		{
+			Entity en = entities.get(i);
+			if (Math.sqrt(Math.pow(en.posX - r,2) + Math.pow(en.posZ - c,2)) <= slack)
+			{
+				temp.add(en);
+			}
+		}
+		return temp;
 	}
 
 	public void terrain(Entity en, int times)
@@ -130,6 +181,15 @@ public class RecursiveBlock extends PApplet {
 		public void setSize(float x, float y, float z) {sizeX = x; sizeY = y; sizeZ = z;}
 		public void move(float x, float y, float z) {posX += x; posY += y; posZ += z;}
 		public float getMass() {return sizeX*sizeY*sizeZ;}
+		
+		public Integer intersectRay(int x, int z)
+		{
+			if (x > posX - sizeX/2 && x < posX + sizeX/2 && z > posZ - sizeZ/2 && z < posZ + sizeZ/2)
+			{
+				return new Integer((int)(posY + sizeY/2));
+			}
+			return null;
+		}
 	}
 
 }
