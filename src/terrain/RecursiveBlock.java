@@ -23,7 +23,7 @@ public class RecursiveBlock extends PApplet {
 	{
 		size(1500,900,P3D);
 		generateTerrain(seed);
-		heightMap();
+		printTable(heightMap());
 	}
 
 	public void draw()
@@ -70,9 +70,9 @@ public class RecursiveBlock extends PApplet {
 		double[][] temp = new double[(int)(maxX-minX)/width + 10][(int)(maxZ-minZ)/width + 10];
 		println(temp.length + " " + temp[0].length);
 		int row = 0; int col = 0; //Keep track of position in table
-		for (int r = minX; r <= maxX; r++)
+		for (int r = minX; r <= maxX; r += width)
 		{
-			for (int c = minZ; c <= maxZ; c++)
+			for (int c = minZ; c <= maxZ; c += width)
 			{
 				ArrayList<Entity> candidates = getNear(r,c,10);
 				int max = 0;
@@ -89,7 +89,7 @@ public class RecursiveBlock extends PApplet {
 					temp[row][col] = max;
 				} catch (Exception e) 
 				{
-					//e.printStackTrace();
+					e.printStackTrace();
 					//println(row + " " + col);
 				}
 				
@@ -125,6 +125,18 @@ public class RecursiveBlock extends PApplet {
 				en = null;
 				i--;
 			}
+		}
+	}
+	
+	public void printTable(double[][] t)
+	{
+		for (int r = 0; r < t.length; r++)
+		{
+			for (int c = 0; c < t[0].length; c++)
+			{
+				System.out.print((int)t[r][c] + " ");
+			}
+			System.out.println();
 		}
 	}
 
