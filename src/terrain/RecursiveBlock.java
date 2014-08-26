@@ -53,7 +53,7 @@ public class RecursiveBlock extends PApplet {
 			generateTerrain(seed);
 		}
 	}
-	
+
 	//Returns a more familiar 2d array of heights
 	public double[][] heightMap()
 	{
@@ -67,7 +67,8 @@ public class RecursiveBlock extends PApplet {
 			if (en.posX > maxX) maxX = (int)en.posX;
 			if (en.posZ > maxZ) maxZ = (int)en.posZ;
 		}
-		double[][] temp = new double[(int)(maxX-minX)/width + 1][(int)(maxZ-minZ)/width + 1];
+		double[][] temp = new double[(int)(maxX-minX)/width + 10][(int)(maxZ-minZ)/width + 10];
+		println(temp.length + " " + temp[0].length);
 		int row = 0; int col = 0; //Keep track of position in table
 		for (int r = minX; r <= maxX; r++)
 		{
@@ -77,11 +78,21 @@ public class RecursiveBlock extends PApplet {
 				int max = 0;
 				for (int i = 0; i < candidates.size(); i++)
 				{
-					int height = candidates.get(i).intersectRay(r, c);
-					if (height > max) max = height;
+					Integer height = candidates.get(i).intersectRay(r, c);
+					if (height != null)
+					{
+						if (height > max) max = height;
+					}
 				}
-				println(temp.length + " " + temp[0].length);
-				temp[row][col] = max;
+				try 
+				{
+					temp[row][col] = max;
+				} catch (Exception e) 
+				{
+					//e.printStackTrace();
+					//println(row + " " + col);
+				}
+				
 				col++;
 			}
 			col = 0;
@@ -89,7 +100,7 @@ public class RecursiveBlock extends PApplet {
 		}
 		return temp;
 	}
-	
+
 	public void generateTerrain(long seed)
 	{
 		entities = new ArrayList<Entity>();
@@ -116,7 +127,7 @@ public class RecursiveBlock extends PApplet {
 			}
 		}
 	}
-	
+
 	public ArrayList<Entity> getNear(double r, double c, double slack)
 	{
 		ArrayList<Entity> temp = new ArrayList<Entity>();
@@ -181,7 +192,7 @@ public class RecursiveBlock extends PApplet {
 		public void setSize(float x, float y, float z) {sizeX = x; sizeY = y; sizeZ = z;}
 		public void move(float x, float y, float z) {posX += x; posY += y; posZ += z;}
 		public float getMass() {return sizeX*sizeY*sizeZ;}
-		
+
 		public Integer intersectRay(int x, int z)
 		{
 			if (x > posX - sizeX/2 && x < posX + sizeX/2 && z > posZ - sizeZ/2 && z < posZ + sizeZ/2)
