@@ -3,6 +3,8 @@ package terrain;
 //A new experimental method of terrain generation using a recursive creation of generated blocks
 
 import processing.core.PApplet;
+import processing.core.PImage;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -14,6 +16,7 @@ public class RecursiveBlock extends PApplet {
 	public long seed = 87069200L;
 	public Random random;
 	public double[][] terrain;
+	public PImage background;
 
 	public static void main(String[] args)
 	{
@@ -24,11 +27,13 @@ public class RecursiveBlock extends PApplet {
 	{
 		size(1500,900,P3D);
 		generateTerrain(seed);
+		background = loadImage("desktop.png");
 	}
 
 	public void draw()
 	{
-		background(255);
+		background(150,225,255);
+		//background(background);
 		lights();
 		noStroke();
 		fill(135, 206, 235);
@@ -51,6 +56,24 @@ public class RecursiveBlock extends PApplet {
 			seed = System.currentTimeMillis();
 			generateTerrain(seed);
 		}
+	}
+
+	public double[][] expandData(double[][] a, double nDiv)
+	{
+		BicubicInterpolator bi = new BicubicInterpolator();
+		double[][] returnThis = new double[(int)nDiv][(int)nDiv];
+		for (int i = 0; i < nDiv; i++)
+		{
+			for (int j = 0; j < nDiv; j++)
+			{
+				double idx = (double)(a.length*i)/nDiv;
+				double idy = (double)(a[0].length*j)/nDiv;
+				//System.out.println("L: " + idx + "," + idy + ": " + bi.getValue(source,idx,idx));
+				double zeroCheck = bi.getValue(a,idx,idy);
+				returnThis[i][j] = zeroCheck >= 0 ? zeroCheck : 0;
+			}
+		}
+		return returnThis;
 	}
 
 	//Returns a more familiar 2d array of heights
@@ -125,7 +148,8 @@ public class RecursiveBlock extends PApplet {
 			}
 		}
 		terrain = heightMap();
-		println(n + " blocks");
+		//terrain = expandData(terrain, terrain.length*4);
+		//println(n + " blocks");
 		printTable(terrain);
 	}
 
@@ -135,7 +159,14 @@ public class RecursiveBlock extends PApplet {
 		{
 			for (int c = 0; c < t[0].length; c++)
 			{
-				System.out.print((int)t[r][c] + " ");
+				int height = (int)t[r][c];
+				if (height < 10)
+				{
+					//Attempt to program the equivalent of C/C++'s "%02d" to align the data correctly
+					System.out.print("0" + height + " ");
+				}
+				else
+					System.out.print(height + " ");
 			}
 			System.out.println();
 		}
