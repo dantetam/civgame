@@ -17,7 +17,10 @@ public class RecursiveBlock extends PApplet {
 	public Random random;
 	public double[][] terrain;
 	public PImage background;
-
+	public boolean drawHeightMap = false;
+	public int widthBlock = 5;
+	public int expandRatio = 2;
+	
 	public static void main(String[] args)
 	{
 		PApplet.main(new String[] { RecursiveBlock.class.getName() });
@@ -37,15 +40,40 @@ public class RecursiveBlock extends PApplet {
 		lights();
 		noStroke();
 		fill(135, 206, 235);
-		camera(150,150,150,0,0,0,0,-1,0);
 		perspective(3.14F/2,15F/9F,1,10000);
-		for (int i = 0; i < entities.size(); i++)
+		if (!drawHeightMap)
 		{
-			Entity en = entities.get(i);
-			pushMatrix();
-			translate(en.posX, en.posY, en.posZ);
-			box(en.sizeX, en.sizeY, en.sizeZ);
-			popMatrix();
+			camera(150,150,150,0,0,0,0,-1,0);
+			for (int i = 0; i < entities.size(); i++)
+			{
+				Entity en = entities.get(i);
+				pushMatrix();
+				translate(en.posX, en.posY, en.posZ);
+				box(en.sizeX, en.sizeY, en.sizeZ);
+				popMatrix();
+			}
+		}
+		else
+		{
+			camera(100*widthBlock*expandRatio,100*widthBlock*expandRatio,100*widthBlock*expandRatio,
+					50*widthBlock*expandRatio,50*widthBlock*expandRatio,50*widthBlock*expandRatio,
+					0,-1,0);
+			for (int r = 0; r < terrain.length; r++)
+			{
+				for (int c = 0; c < terrain[0].length; c++)
+				{
+					double height = terrain[r][c];
+					int con = 2;
+					if (height > 5)
+					{
+						pushMatrix();
+						translate(r*widthBlock, (int)(height/2D)*con, c*widthBlock);
+						box(widthBlock, (int)height*con, widthBlock);
+						//println((int)height);
+						popMatrix();
+					}
+				}
+			}
 		}
 	}
 
@@ -55,6 +83,10 @@ public class RecursiveBlock extends PApplet {
 		{
 			seed = System.currentTimeMillis();
 			generateTerrain(seed);
+		}
+		else if (key == 't')
+		{
+			drawHeightMap = !drawHeightMap;
 		}
 	}
 
@@ -80,6 +112,7 @@ public class RecursiveBlock extends PApplet {
 	public double[][] heightMap()
 	{
 		int minX = 0; int maxX = 0; int minZ = 0; int maxZ = 0;
+		int minY = 10000;
 		int width = 3;
 		for (int i = 0; i < entities.size(); i++)
 		{
@@ -88,7 +121,9 @@ public class RecursiveBlock extends PApplet {
 			if (en.posZ < minZ) minZ = (int)en.posZ;
 			if (en.posX > maxX) maxX = (int)en.posX;
 			if (en.posZ > maxZ) maxZ = (int)en.posZ;
+			if (en.posY < minY) minY = (int)en.posY;
 		}
+		minY--;
 		double[][] temp = new double[(int)(maxX-minX)/width + 1][(int)(maxZ-minZ)/width + 1];
 		//println(temp.length + " " + temp[0].length);
 		int row = 0; int col = 0; //Keep track of position in table
@@ -96,7 +131,7 @@ public class RecursiveBlock extends PApplet {
 		{
 			for (int c = minZ; c <= maxZ; c += width)
 			{
-				ArrayList<Entity> candidates = getNear(r,c,10);
+				ArrayList<Entity> candidates = getNear(r,c,widthBlock);
 				int max = 0;
 				for (int i = 0; i < candidates.size(); i++)
 				{
@@ -106,7 +141,18 @@ public class RecursiveBlock extends PApplet {
 						if (height > max) max = height;
 					}
 				}
-				temp[row][col] = max;
+				temp[row][col] = max > 0 ? max - minY : 0;
+				/*Entity en = getNearest(candidates,r,c);
+				if (en == null)
+					temp[row][col] = 0;
+				else
+				{
+					//println(en.posX);
+					//println(en.topFace());
+					temp[row][col] = en.topFace();
+					temp[row][col] = temp[row][col] > 0 ? temp[row][col] - minY : 0;
+					temp[row][col] -= 10;
+				}*/
 				col++;
 			}
 			col = 0;
@@ -148,7 +194,7 @@ public class RecursiveBlock extends PApplet {
 			}
 		}
 		terrain = heightMap();
-		//terrain = expandData(terrain, terrain.length*4);
+		terrain = expandData(terrain, terrain.length*expandRatio);
 		//println(n + " blocks");
 		printTable(terrain);
 	}
@@ -184,6 +230,23 @@ public class RecursiveBlock extends PApplet {
 			}
 		}
 		return temp;
+	}
+
+	public Entity getNearest(ArrayList<Entity> candidates, double r, double c)
+	{
+		double leastDist = 10000;
+		Entity returnThis = null;
+		for (int i = 0; i < entities.size(); i++)
+		{
+			Entity en = entities.get(i);
+			double dist = Math.sqrt(Math.pow(en.posX - r,2) + Math.pow(en.posZ - c,2)); 
+			if (dist < leastDist)
+			{
+				leastDist = dist;
+				returnThis = en;
+			}
+		}
+		return returnThis;
 	}
 
 	public void terrain(Entity en, int times)
@@ -245,6 +308,8 @@ public class RecursiveBlock extends PApplet {
 			}
 			return null;
 		}
+		
+		public int topFace() {return (int)(posY + sizeY/2);}
 	}
 
 }

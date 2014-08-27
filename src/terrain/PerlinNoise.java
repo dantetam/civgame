@@ -2,7 +2,7 @@ package terrain;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PerlinNoise {
+public class PerlinNoise extends BaseTerrain {
 
 	private Random random;
 	
@@ -176,6 +176,18 @@ public class PerlinNoise {
 		returnThis /= sum;
 		//System.out.println(returnThis);
 		return returnThis;
+	}
+
+	@Override
+	public double[][] generate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double[][] generate(int[] arguments) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

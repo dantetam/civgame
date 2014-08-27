@@ -2,7 +2,7 @@ package terrain;
 import java.util.ArrayList;
 
 
-public class DiamondSquare {
+public class DiamondSquare extends BaseTerrain {
 
 	public double[][] t;
 
@@ -94,7 +94,7 @@ public class DiamondSquare {
 	public void diamond(int sX, int sY, int width, double startAmp)
 	{
 		t[sX + width/2][sY + width/2] = (t[sX][sY] + t[sX+width][sY] + t[sX][sY+width] + t[sX+width][sY+width])/4 + 
-				startAmp*(Math.random() - 0.5)*2;
+				startAmp*(random.nextDouble() - 0.5)*2;
 		/*System.out.println(t[sX][sY]);
 		System.out.println(t[sX+width][sY]);
 		System.out.println(t[sX][sY+width]);
@@ -142,9 +142,21 @@ public class DiamondSquare {
 			//System.out.println(sX + " 5 " + sY);
 			t[sX][sY] = (t[sX][sY + width/2] + t[sX][sY - width/2] + t[sX + width/2][sY] + t[sX - width/2][sY])/4;
 		}
-		t[sX][sY] += startAmp*(Math.random() - 0.5)*2;
+		t[sX][sY] += startAmp*(random.nextDouble() - 0.5)*2;
 		//printTable(t);
 		//System.out.println("-------");
+	}
+
+	@Override
+	public double[][] generate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double[][] generate(int[] arguments) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
