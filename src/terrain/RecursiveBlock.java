@@ -13,6 +13,7 @@ public class RecursiveBlock extends PApplet {
 	public ArrayList<Entity> entities;
 	public long seed = 87069200L;
 	public Random random;
+	public double[][] terrain;
 
 	public static void main(String[] args)
 	{
@@ -23,7 +24,6 @@ public class RecursiveBlock extends PApplet {
 	{
 		size(1500,900,P3D);
 		generateTerrain(seed);
-		printTable(heightMap());
 	}
 
 	public void draw()
@@ -49,7 +49,6 @@ public class RecursiveBlock extends PApplet {
 		if (key == 'r')
 		{
 			seed = System.currentTimeMillis();
-			println(seed);
 			generateTerrain(seed);
 		}
 	}
@@ -67,8 +66,8 @@ public class RecursiveBlock extends PApplet {
 			if (en.posX > maxX) maxX = (int)en.posX;
 			if (en.posZ > maxZ) maxZ = (int)en.posZ;
 		}
-		double[][] temp = new double[(int)(maxX-minX)/width + 10][(int)(maxZ-minZ)/width + 10];
-		println(temp.length + " " + temp[0].length);
+		double[][] temp = new double[(int)(maxX-minX)/width + 1][(int)(maxZ-minZ)/width + 1];
+		//println(temp.length + " " + temp[0].length);
 		int row = 0; int col = 0; //Keep track of position in table
 		for (int r = minX; r <= maxX; r += width)
 		{
@@ -84,15 +83,7 @@ public class RecursiveBlock extends PApplet {
 						if (height > max) max = height;
 					}
 				}
-				try 
-				{
-					temp[row][col] = max;
-				} catch (Exception e) 
-				{
-					e.printStackTrace();
-					//println(row + " " + col);
-				}
-				
+				temp[row][col] = max;
 				col++;
 			}
 			col = 0;
@@ -103,6 +94,8 @@ public class RecursiveBlock extends PApplet {
 
 	public void generateTerrain(long seed)
 	{
+		println("-----------------------------------");
+		println(seed);
 		entities = new ArrayList<Entity>();
 		for (int i = entities.size() - 1; i >= 0; i--)
 		{
@@ -116,6 +109,7 @@ public class RecursiveBlock extends PApplet {
 		start.setPos(0,100,0);
 		start.setSize(100,100,100);
 		terrain(start,3);
+		int n = 0;
 		for (int i = 0; i < entities.size(); i++)
 		{
 			Entity en = entities.get(i);
@@ -125,9 +119,16 @@ public class RecursiveBlock extends PApplet {
 				en = null;
 				i--;
 			}
+			else
+			{
+				n++;
+			}
 		}
+		terrain = heightMap();
+		println(n + " blocks");
+		printTable(terrain);
 	}
-	
+
 	public void printTable(double[][] t)
 	{
 		for (int r = 0; r < t.length; r++)
