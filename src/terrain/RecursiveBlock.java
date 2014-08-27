@@ -8,6 +8,7 @@ import processing.core.PImage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import entity.Player;
 import vector.*;
 
 public class RecursiveBlock extends PApplet {
@@ -18,8 +19,9 @@ public class RecursiveBlock extends PApplet {
 	public double[][] terrain;
 	public PImage background;
 	public boolean drawHeightMap = false;
-	public int widthBlock = 5;
-	public int expandRatio = 2;
+	public int widthBlock = 3;
+	public int expandRatio = 1;
+	public Player player;
 	
 	public static void main(String[] args)
 	{
@@ -30,20 +32,24 @@ public class RecursiveBlock extends PApplet {
 	{
 		size(1500,900,P3D);
 		generateTerrain(seed);
+		player = new Player();
 		background = loadImage("desktop.png");
 	}
 
 	public void draw()
 	{
 		background(150,225,255);
+		smooth(4);
 		//background(background);
 		lights();
 		noStroke();
+		//stroke(0);
 		fill(135, 206, 235);
 		perspective(3.14F/2,15F/9F,1,10000);
+		camera(player.posX,player.posY,player.posZ,player.tarX,player.tarY,player.tarZ,0,-1,0);
 		if (!drawHeightMap)
 		{
-			camera(150,150,150,0,0,0,0,-1,0);
+			//camera(150,150,150,0,0,0,0,-1,0);
 			for (int i = 0; i < entities.size(); i++)
 			{
 				Entity en = entities.get(i);
@@ -55,9 +61,9 @@ public class RecursiveBlock extends PApplet {
 		}
 		else
 		{
-			camera(100*widthBlock*expandRatio,100*widthBlock*expandRatio,100*widthBlock*expandRatio,
-					50*widthBlock*expandRatio,50*widthBlock*expandRatio,50*widthBlock*expandRatio,
-					0,-1,0);
+			//camera(50*widthBlock*expandRatio,50*widthBlock*expandRatio,50*widthBlock*expandRatio,
+					//1*widthBlock*expandRatio,1*widthBlock*expandRatio,1*widthBlock*expandRatio,
+					//0,-1,0);
 			for (int r = 0; r < terrain.length; r++)
 			{
 				for (int c = 0; c < terrain[0].length; c++)
@@ -75,6 +81,65 @@ public class RecursiveBlock extends PApplet {
 				}
 			}
 		}
+		int dist = 15;
+		if (keySet[0])
+		{
+			player.posX -= dist;
+			player.tarX -= dist;
+		}
+		if (keySet[1])
+		{
+			player.posZ -= dist;
+			player.tarZ -= dist;
+		}
+		if (keySet[2])
+		{
+			player.posX += dist;
+			player.tarX += dist;
+		}
+		if (keySet[3])
+		{
+			player.posZ += dist;
+			player.tarZ += dist;
+		}
+		if (keySet[4])
+		{
+			player.posY += dist;
+		}
+		if (keySet[5])
+		{
+			player.posY -= dist;
+		}
+	}
+	
+	public boolean[] keySet = new boolean[6];
+
+	public void keyReleased()
+	{
+		if (key == 'w')
+		{
+			keySet[0] = false;
+		}
+		if (key == 'a')
+		{
+			keySet[1] = false;
+		}
+		if (key == 's')
+		{
+			keySet[2] = false;
+		}
+		if (key == 'd')
+		{
+			keySet[3] = false;
+		}
+		if (key == 'q')
+		{
+			keySet[4] = false;
+		}
+		if (key == 'e')
+		{
+			keySet[5] = false;
+		}
 	}
 
 	public void keyPressed()
@@ -88,6 +153,31 @@ public class RecursiveBlock extends PApplet {
 		{
 			drawHeightMap = !drawHeightMap;
 		}
+		if (key == 'w')
+		{
+			keySet[0] = true;
+		}
+		if (key == 'a')
+		{
+			keySet[1] = true;
+		}
+		if (key == 's')
+		{
+			keySet[2] = true;
+		}
+		if (key == 'd')
+		{
+			keySet[3] = true;
+		}
+		if (key == 'q')
+		{
+			keySet[4] = true;
+		}
+		if (key == 'e')
+		{
+			keySet[5] = true;
+		}
+		redraw();
 	}
 
 	public double[][] expandData(double[][] a, double nDiv)
