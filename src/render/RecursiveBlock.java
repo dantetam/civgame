@@ -1,4 +1,4 @@
-package terrain;
+package render;
 
 //A new experimental method of terrain generation using a recursive creation of generated blocks
 
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import entity.Player;
+import terrain.BicubicInterpolator;
 import vector.*;
 
 public class RecursiveBlock extends PApplet {
@@ -81,7 +82,7 @@ public class RecursiveBlock extends PApplet {
 				}
 			}
 		}
-		int dist = 15;
+		int dist = 5;
 		if (keySet[0])
 		{
 			player.posX -= dist;
