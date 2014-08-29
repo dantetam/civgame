@@ -18,6 +18,7 @@ public class RecursiveBlock extends PApplet {
 	public long seed = 87069200L;
 	public Random random;
 	public double[][] terrain;
+	public boolean[][] zeroMap;
 	public PImage background;
 	public boolean drawHeightMap = false;
 	public int widthBlock = 5;
@@ -35,7 +36,6 @@ public class RecursiveBlock extends PApplet {
 		generateTerrain(seed);
 		player = new Player();
 		background = loadImage("desktop.png");
-		rough();
 	}
 
 	public void draw()
@@ -71,7 +71,7 @@ public class RecursiveBlock extends PApplet {
 				for (int c = 0; c < terrain[0].length; c++)
 				{
 					double height = terrain[r][c];
-					int con = 1;
+					int con = 2;
 					if (height > 1)
 					{
 						pushMatrix();
@@ -181,20 +181,69 @@ public class RecursiveBlock extends PApplet {
 		}
 		redraw();
 	}
-	
+
 	public void rough()
 	{
-		int first = (int)Math.floor(Math.log(terrain.length)/Math.log(2D))+1;
+		//int first = (int)Math.floor(Math.log(terrain.length)/Math.log(2D));
+		int first = 3;
 		if (Math.pow(2,first) == terrain.length) first--;
-		int width = (int)Math.pow(2, first) + 1;
-		println(terrain.length - width + " " + width);
-		for (int i = 0; i < terrain.length; i += width)
+		while (true)
 		{
-			for (int j = 0; j < terrain.length; j += width)
+			int width = (int)Math.pow(2, first);
+			//println("Yoooo " + width);
+			for (int i = 0; i < terrain.length - width; i += width)
 			{
-				println(dS(i,j,width,10,0.5).size());
+				for (int j = 0; j < terrain.length - width; j += width)
+				{
+					if (i + width >= terrain.length || j + width >= terrain.length) continue;
+					//println(i + " " + j + " " + width);
+					//if (devZero(i,j,width))
+					{
+						//print("-----------");
+						dS(i,j,width,10,0.5);
+					}
+					//println(dS(i,j,width,10,0.5).size());
+				}
 			}
+			if (width <= 8) break;
+			width /= 2;
 		}
+	}
+	
+	//Returns true if there are fewer than 3 zeroes and the data is flat (low std dev)
+	public boolean devZero(int i, int j, int width)
+	{
+		int zero = 0;
+		int terms = 0; int avg = 0;
+		ArrayList<Integer> numbers = new ArrayList<Integer>();
+		for (int r = i; r < i + width; r++)
+		{
+			for (int c = j; c < j + width; c++)
+			{
+				int num = (int)terrain[r][c];
+				//print(num + " ");
+				if (num == 0)
+				{
+					zero++;
+				}
+				else
+				{
+					terms++;
+					avg += num;
+					numbers.add(num);
+				}
+			}
+			//println();
+		}
+		if (terms == 0 || zero >= 2) return false;
+		avg /= terms;
+		int sum = 0;
+		for (int iter = 0; iter < numbers.size(); iter++)
+		{
+			sum += Math.pow(numbers.get(iter) - avg,2);
+		}
+		println("STDDEV: " + (int) Math.pow(sum/terms, 0.5) + " " + i + " " + j);
+		return (int) Math.pow(sum/terms, 0.5) < 3;
 	}
 
 	public double[][] expandData(double[][] a, double nDiv)
@@ -220,7 +269,7 @@ public class RecursiveBlock extends PApplet {
 	{
 		int minX = 0; int maxX = 0; int minZ = 0; int maxZ = 0;
 		int minY = 10000;
-		int width = 3;
+		int width = 4;
 		for (int i = 0; i < entities.size(); i++)
 		{
 			Entity en = entities.get(i);
@@ -270,10 +319,8 @@ public class RecursiveBlock extends PApplet {
 
 	//Starts the iterative loop over the terrain that modifies it
 	//Returns a list of the tables between each diamond-square cycle
-	public ArrayList<double[][]> dS(int sX, int sY, int width, double startAmp, double ratio)
+	public void dS(int sX, int sY, int width, double startAmp, double ratio)
 	{
-		ArrayList<double[][]> temp = new ArrayList<double[][]>();
-		int origWidth = width;
 		while (true)
 		{
 			for (int r = sX; r <= terrain.length - 2; r += width)
@@ -284,15 +331,6 @@ public class RecursiveBlock extends PApplet {
 					//System.out.println(c + " " + t.length);
 					//System.out.println("r " + r + " c " + c);
 					diamond(r, c, width, startAmp);
-					double[][] record = new double[origWidth][origWidth];
-					for (int nr = 0; nr < origWidth; nr++)
-					{
-						for (int nc = 0; nc < origWidth; nc++)
-						{
-							record[nr][nc] = (double)terrain[nr][nc];
-						}
-					}
-					temp.add(record);
 				}
 			}
 			if (width > 1)
@@ -303,11 +341,11 @@ public class RecursiveBlock extends PApplet {
 			else
 				break;
 		}
-		return temp;
 	}
 
 	public void diamond(int sX, int sY, int width, double startAmp)
 	{
+		if (sX + width >= terrain.length || sY + width >= terrain.length) return;
 		terrain[sX + width/2][sY + width/2] = (terrain[sX][sY] + terrain[sX+width][sY] + terrain[sX][sY+width] + terrain[sX+width][sY+width])/4 + 
 				startAmp*(random.nextDouble() - 0.5)*2;
 		/*System.out.println(terrain[sX][sY]);
@@ -399,6 +437,33 @@ public class RecursiveBlock extends PApplet {
 		terrain = expandData(terrain, terrain.length*expandRatio);
 		//println(n + " blocks");
 		printTable(terrain);
+		zeroMap = new boolean[terrain.length][terrain[0].length];
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				if (terrain[r][c] == 0)
+				{
+					zeroMap[r][c] = true;
+				}
+				else
+				{
+					zeroMap[r][c] = false;
+				}
+			}
+		}
+		rough();
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				if (zeroMap[r][c])
+				{
+					terrain[r][c] = 0;
+				}
+			}
+		}
+		//terrain = expandData(terrain, terrain.length*expandRatio);
 	}
 
 	public void printTable(double[][] t)
