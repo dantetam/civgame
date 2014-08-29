@@ -1,210 +1,22 @@
-package render;
-
-//A new experimental method of terrain generation using a recursive creation of generated blocks
-
-import processing.core.PApplet;
-import processing.core.PImage;
+package terrain;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import entity.Player;
-import terrain.BicubicInterpolator;
-import vector.*;
-
-public class RecursiveBlock extends PApplet {
+public class RecursiveBlock {
 
 	public ArrayList<Entity> entities;
-	public long seed = 87069200L;
 	public Random random;
 	public double[][] terrain;
-	public boolean[][] zeroMap;
-	public PImage background;
-	public boolean drawHeightMap = false;
-	public int widthBlock = 5;
+	public boolean[][] zeroMap;	
+	//public long seed;
 	public int expandRatio = 2;
-	public Player player;
-
-	public static void main(String[] args)
+	
+	public RecursiveBlock()
 	{
-		PApplet.main(new String[] { RecursiveBlock.class.getName() });
+
 	}
-
-	public void setup()
-	{
-		size(1500,900,P3D);
-		generateTerrain(seed);
-		player = new Player();
-		background = loadImage("desktop.png");
-	}
-
-	public void draw()
-	{
-		background(150,225,255);
-		smooth(4);
-		//background(background);
-		lights();
-		noStroke();
-		//stroke(0);
-		fill(135, 206, 235);
-		perspective(3.14F/2,15F/9F,1,10000);
-		camera(player.posX,player.posY,player.posZ,player.tarX,player.tarY,player.tarZ,0,-1,0);
-		if (!drawHeightMap)
-		{
-			//camera(150,150,150,0,0,0,0,-1,0);
-			for (int i = 0; i < entities.size(); i++)
-			{
-				Entity en = entities.get(i);
-				pushMatrix();
-				translate(en.posX, en.posY, en.posZ);
-				box(en.sizeX, en.sizeY, en.sizeZ);
-				popMatrix();
-			}
-		}
-		else
-		{
-			/*camera(50*widthBlock*expandRatio,50*widthBlock*expandRatio,50*widthBlock*expandRatio,
-					1*widthBlock*expandRatio,1*widthBlock*expandRatio,1*widthBlock*expandRatio,
-					0,-1,0);*/
-			for (int r = 0; r < terrain.length; r++)
-			{
-				for (int c = 0; c < terrain[0].length; c++)
-				{
-					double height = terrain[r][c];
-					float dist = dist(player.posX,player.posZ,r*widthBlock,c*widthBlock);
-					int con = 2;
-					if (dist > 500)
-					{
-						if (height > 1 && r % 3 == 0 && c % 3 == 0)
-						{
-							pushMatrix();
-							translate(r*widthBlock, (float)Math.floor((double)height/2D*con), c*widthBlock);
-							box(widthBlock*3, (float)Math.floor((double)height*con), widthBlock*3);
-							//println((int)height);
-							popMatrix();
-						}
-					}
-					else
-					{
-						if (dist <= 150)
-						{
-							stroke(0);
-						}
-						else
-						{
-							noStroke();
-						}
-						if (height > 1)
-						{
-							pushMatrix();
-							translate(r*widthBlock, (float)Math.floor((double)height/2D*con), c*widthBlock);
-							box(widthBlock, (float)Math.floor((double)height*con), widthBlock);
-							//println((int)height);
-							popMatrix();
-						}
-					}
-				}
-			}
-		}
-		int dist = 5;
-		if (keySet[0])
-		{
-			player.posX -= dist;
-			player.tarX -= dist;
-		}
-		if (keySet[1])
-		{
-			player.posZ -= dist;
-			player.tarZ -= dist;
-		}
-		if (keySet[2])
-		{
-			player.posX += dist;
-			player.tarX += dist;
-		}
-		if (keySet[3])
-		{
-			player.posZ += dist;
-			player.tarZ += dist;
-		}
-		if (keySet[4])
-		{
-			player.posY += dist;
-		}
-		if (keySet[5])
-		{
-			player.posY -= dist;
-		}
-	}
-
-	public boolean[] keySet = new boolean[6];
-
-	public void keyReleased()
-	{
-		if (key == 'w')
-		{
-			keySet[0] = false;
-		}
-		if (key == 'a')
-		{
-			keySet[1] = false;
-		}
-		if (key == 's')
-		{
-			keySet[2] = false;
-		}
-		if (key == 'd')
-		{
-			keySet[3] = false;
-		}
-		if (key == 'q')
-		{
-			keySet[4] = false;
-		}
-		if (key == 'e')
-		{
-			keySet[5] = false;
-		}
-	}
-
-	public void keyPressed()
-	{
-		if (key == 'r')
-		{
-			seed = System.currentTimeMillis();
-			generateTerrain(seed);
-		}
-		else if (key == 't')
-		{
-			drawHeightMap = !drawHeightMap;
-		}
-		if (key == 'w')
-		{
-			keySet[0] = true;
-		}
-		if (key == 'a')
-		{
-			keySet[1] = true;
-		}
-		if (key == 's')
-		{
-			keySet[2] = true;
-		}
-		if (key == 'd')
-		{
-			keySet[3] = true;
-		}
-		if (key == 'q')
-		{
-			keySet[4] = true;
-		}
-		if (key == 'e')
-		{
-			keySet[5] = true;
-		}
-		redraw();
-	}
-
+	
 	public void rough()
 	{
 		//int first = (int)Math.floor(Math.log(terrain.length)/Math.log(2D));
@@ -265,7 +77,7 @@ public class RecursiveBlock extends PApplet {
 		{
 			sum += Math.pow(numbers.get(iter) - avg,2);
 		}
-		println("STDDEV: " + (int) Math.pow(sum/terms, 0.5) + " " + i + " " + j);
+		//println("STDDEV: " + (int) Math.pow(sum/terms, 0.5) + " " + i + " " + j);
 		return (int) Math.pow(sum/terms, 0.5) < 3;
 	}
 
@@ -288,7 +100,7 @@ public class RecursiveBlock extends PApplet {
 	}
 
 	//Returns a more familiar 2d array of heights
-	public double[][] heightMap()
+	public double[][] heightMap(int widthBlock)
 	{
 		int minX = 0; int maxX = 0; int minZ = 0; int maxZ = 0;
 		int minY = 10000;
@@ -423,10 +235,10 @@ public class RecursiveBlock extends PApplet {
 		//System.out.println("-------");
 	}
 
-	public void generateTerrain(long seed)
+	public void generateTerrain(long seed, int widthBlock)
 	{
-		println("-----------------------------------");
-		println(seed);
+		//println("-----------------------------------");
+		//println(seed);
 		entities = new ArrayList<Entity>();
 		for (int i = entities.size() - 1; i >= 0; i--)
 		{
@@ -456,7 +268,7 @@ public class RecursiveBlock extends PApplet {
 				n++;
 			}
 		}
-		terrain = heightMap();
+		terrain = heightMap(widthBlock);
 		terrain = expandData(terrain, terrain.length*expandRatio);
 		//println(n + " blocks");
 		printTable(terrain);
@@ -601,5 +413,5 @@ public class RecursiveBlock extends PApplet {
 
 		public int topFace() {return (int)(posY + sizeY/2);}
 	}
-
+	
 }
