@@ -149,7 +149,8 @@ public class PerlinNoise extends BaseTerrain {
 		{
 			for (int j = b; j < b+w; j++)
 			{
-				arr[i][j] = number;
+				if (i < arr.length && j < arr[0].length)
+					arr[i][j] = number;
 			}
 		}
 	}

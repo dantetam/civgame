@@ -9,7 +9,7 @@ import terrain.*;
 
 public class Main extends PApplet {
 
-	public int rows = 32; public int cols = 32; public double nDiv = 128;
+	public int rows = 64; public int cols = 64; public double nDiv = 256;
 	private double[][] test;
 	private long seed = 870L;
 	private boolean helpMode = true; private boolean stopRendering = false;
@@ -73,7 +73,7 @@ public class Main extends PApplet {
 	public void assignNewTerrain(long seed)
 	{
 		//(int)(Math.log(rows)/Math.log(2))-1
-		double[][] source = new PerlinNoise(seed).makePerlinNoise(rows,cols,150,8,1,0.6,3);
+		double[][] source = new PerlinNoise(seed).makePerlinNoise(rows,cols,150,8,1,0.4,4);
 		//double[][] newSource = PerlinNoise.recurInter(source,2,nDiv/4);
 		double[][] newSource = PerlinNoise.expand(PerlinNoise.expand(source,nDiv/2),nDiv);
 		//double[][] newSource = source;
