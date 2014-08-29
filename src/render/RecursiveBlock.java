@@ -71,14 +71,37 @@ public class RecursiveBlock extends PApplet {
 				for (int c = 0; c < terrain[0].length; c++)
 				{
 					double height = terrain[r][c];
+					float dist = dist(player.posX,player.posZ,r*widthBlock,c*widthBlock);
 					int con = 2;
-					if (height > 1)
+					if (dist > 500)
 					{
-						pushMatrix();
-						translate(r*widthBlock, (int)Math.floor(height/2D*con), c*widthBlock);
-						box(widthBlock, (int)Math.floor(height*con), widthBlock);
-						//println((int)height);
-						popMatrix();
+						if (height > 1 && r % 3 == 0 && c % 3 == 0)
+						{
+							pushMatrix();
+							translate(r*widthBlock, (float)Math.floor((double)height/2D*con), c*widthBlock);
+							box(widthBlock*3, (float)Math.floor((double)height*con), widthBlock*3);
+							//println((int)height);
+							popMatrix();
+						}
+					}
+					else
+					{
+						if (dist <= 150)
+						{
+							stroke(0);
+						}
+						else
+						{
+							noStroke();
+						}
+						if (height > 1)
+						{
+							pushMatrix();
+							translate(r*widthBlock, (float)Math.floor((double)height/2D*con), c*widthBlock);
+							box(widthBlock, (float)Math.floor((double)height*con), widthBlock);
+							//println((int)height);
+							popMatrix();
+						}
 					}
 				}
 			}
@@ -209,7 +232,7 @@ public class RecursiveBlock extends PApplet {
 			width /= 2;
 		}
 	}
-	
+
 	//Returns true if there are fewer than 3 zeroes and the data is flat (low std dev)
 	public boolean devZero(int i, int j, int width)
 	{
@@ -463,7 +486,7 @@ public class RecursiveBlock extends PApplet {
 				}
 			}
 		}
-		//terrain = expandData(terrain, terrain.length*expandRatio);
+		terrain = expandData(terrain, terrain.length*2);
 	}
 
 	public void printTable(double[][] t)
