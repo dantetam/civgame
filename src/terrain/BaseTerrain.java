@@ -18,6 +18,6 @@ public abstract class BaseTerrain {
 	}
 	
 	public abstract double[][] generate();
-	public abstract double[][] generate(int[] arguments);
+	public abstract double[][] generate(long[] arguments);
 	
 }

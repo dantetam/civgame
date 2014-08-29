@@ -186,7 +186,7 @@ public class PerlinNoise extends BaseTerrain {
 	}
 
 	@Override
-	public double[][] generate(int[] arguments) {
+	public double[][] generate(long[] arguments) {
 		// TODO Auto-generated method stub
 		return null;
 	}

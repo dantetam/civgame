@@ -3,11 +3,9 @@ package terrain;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class RecursiveBlock {
+public class RecursiveBlock extends BaseTerrain {
 
 	public ArrayList<Entity> entities;
-	public Random random;
-	public double[][] terrain;
 	public boolean[][] zeroMap;	
 	//public long seed;
 	public int expandRatio = 2;
@@ -234,9 +232,16 @@ public class RecursiveBlock {
 		//printTable(t);
 		//System.out.println("-------");
 	}
-
-	public void generateTerrain(long seed, int widthBlock)
+	
+	public double[][] generate()
 	{
+		System.out.println("Use the overloaded function with arguments");
+		return null;
+	}
+
+	public double[][] generate(long[] args)
+	{
+		//args[0] seed; args[1] widthBlock
 		//println("-----------------------------------");
 		//println(seed);
 		entities = new ArrayList<Entity>();
@@ -247,7 +252,7 @@ public class RecursiveBlock {
 		entities = null;
 		entities = new ArrayList<Entity>();
 		Entity start = new Entity();
-		random = new Random(seed);
+		random = new Random((long)args[0]);
 		entities.add(start);
 		start.setPos(0,100,0);
 		start.setSize(100,100,100);
@@ -268,7 +273,7 @@ public class RecursiveBlock {
 				n++;
 			}
 		}
-		terrain = heightMap(widthBlock);
+		terrain = heightMap((int)args[1]);
 		terrain = expandData(terrain, terrain.length*expandRatio);
 		//println(n + " blocks");
 		printTable(terrain);
@@ -299,6 +304,7 @@ public class RecursiveBlock {
 			}
 		}
 		terrain = expandData(terrain, terrain.length*2);
+		return terrain;
 	}
 
 	public void printTable(double[][] t)

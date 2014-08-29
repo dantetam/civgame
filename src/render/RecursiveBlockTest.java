@@ -19,7 +19,7 @@ public class RecursiveBlockTest extends PApplet {
 	public PImage background;
 	public long seed = 87069200L;
 	public RecursiveBlock t;
-	public int widthBlock = 10;
+	public int widthBlock = 3;
 
 	public static void main(String[] args)
 	{
@@ -30,7 +30,7 @@ public class RecursiveBlockTest extends PApplet {
 	{
 		size(1500,900,P3D);
 		t = new RecursiveBlock();
-		t.generateTerrain(seed,widthBlock);
+		t.generate(new long[]{seed,widthBlock});
 		player = new Player();
 		background = loadImage("desktop.png");
 	}
@@ -71,11 +71,13 @@ public class RecursiveBlockTest extends PApplet {
 				{
 					double height = terrain[r][c];
 					float dist = dist(player.posX,player.posZ,r*widthBlock,c*widthBlock);
-					int con = 3;
-					if (dist > 500)
+					float con = (3F/10F)*widthBlock;
+					noStroke();
+					//println(con);
+					if (dist > widthBlock*50)
 					{
 						int sampleSize = 2;
-						if (dist > 1000) sampleSize = 4;
+						if (dist > widthBlock*150) sampleSize = 4;
 						if (height > 1 && r % sampleSize == 0 && c % sampleSize == 0)
 						{
 							pushMatrix();
@@ -87,7 +89,7 @@ public class RecursiveBlockTest extends PApplet {
 					}
 					else
 					{
-						if (dist <= 150)
+						if (dist <= width*15)
 						{
 							stroke(0);
 						}
@@ -173,7 +175,7 @@ public class RecursiveBlockTest extends PApplet {
 		if (key == 'r')
 		{
 			seed = System.currentTimeMillis();
-			t.generateTerrain(seed,widthBlock);
+			t.generate(new long[]{seed,widthBlock});
 		}
 		else if (key == 't')
 		{
