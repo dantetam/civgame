@@ -93,6 +93,7 @@ public class DiamondSquare extends BaseTerrain {
 
 	public void diamond(int sX, int sY, int width, double startAmp)
 	{
+		//System.out.println(random);
 		t[sX + width/2][sY + width/2] = (t[sX][sY] + t[sX+width][sY] + t[sX][sY+width] + t[sX+width][sY+width])/4 + 
 				startAmp*(random.nextDouble() - 0.5)*2;
 		/*System.out.println(t[sX][sY]);
@@ -154,9 +155,10 @@ public class DiamondSquare extends BaseTerrain {
 	}
 
 	@Override
-	public double[][] generate(long[] arguments) {
-		// TODO Auto-generated method stub
-		return null;
+	public double[][] generate(double[] args) {
+		//seed(870);
+		dS((int)args[0],(int)args[1],(int)args[2],args[3],args[4]);
+		return terrain;
 	}
 
 }

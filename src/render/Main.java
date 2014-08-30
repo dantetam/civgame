@@ -55,7 +55,7 @@ public class Main extends PApplet {
 		
 		player = new Player();
 		
-		noLoop();
+		//noLoop();
 	}
 
 	//Taken from stack overflow
@@ -73,12 +73,14 @@ public class Main extends PApplet {
 	public void assignNewTerrain(long seed)
 	{
 		//(int)(Math.log(rows)/Math.log(2))-1
-		double[][] source = new PerlinNoise(seed).makePerlinNoise(rows,cols,150,8,1,0.4,4);
+		//double[][] source = new PerlinNoise(seed).makePerlinNoise(rows,cols,150,8,1,0.4,4);
 		//double[][] newSource = PerlinNoise.recurInter(source,2,nDiv/4);
-		double[][] newSource = PerlinNoise.expand(PerlinNoise.expand(source,nDiv/2),nDiv);
+		//double[][] newSource = PerlinNoise.expand(PerlinNoise.expand(source,nDiv/2),nDiv);
 		//double[][] newSource = source;
-		test = newSource;
-
+		
+		PerlinNoise n = new PerlinNoise(seed);
+		double[][] source = n.generate(new double[]{rows,cols,150,8,1,0.7,6,nDiv});
+		test = source;
 		/*for (int i = 0; i < newSource.length; i++)
 		{
 			for (int j = 0; j < newSource[0].length; j++)

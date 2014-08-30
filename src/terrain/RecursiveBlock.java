@@ -7,12 +7,13 @@ public class RecursiveBlock extends BaseTerrain {
 
 	public ArrayList<Entity> entities;
 	public boolean[][] zeroMap;	
-	//public long seed;
+	public long seed;
 	public int expandRatio = 2;
 	
-	public RecursiveBlock()
+	public RecursiveBlock(long seed)
 	{
-
+		random = new Random(seed);
+		this.seed = seed;
 	}
 	
 	public void rough()
@@ -239,9 +240,9 @@ public class RecursiveBlock extends BaseTerrain {
 		return null;
 	}
 
-	public double[][] generate(long[] args)
+	public double[][] generate(double[] args)
 	{
-		//args[0] seed; args[1] widthBlock
+		//args[0] widthBlock
 		//println("-----------------------------------");
 		//println(seed);
 		entities = new ArrayList<Entity>();
@@ -252,7 +253,6 @@ public class RecursiveBlock extends BaseTerrain {
 		entities = null;
 		entities = new ArrayList<Entity>();
 		Entity start = new Entity();
-		random = new Random((long)args[0]);
 		entities.add(start);
 		start.setPos(0,100,0);
 		start.setSize(100,100,100);
@@ -273,7 +273,7 @@ public class RecursiveBlock extends BaseTerrain {
 				n++;
 			}
 		}
-		terrain = heightMap((int)args[1]);
+		terrain = heightMap((int)args[0]);
 		terrain = expandData(terrain, terrain.length*expandRatio);
 		//println(n + " blocks");
 		printTable(terrain);

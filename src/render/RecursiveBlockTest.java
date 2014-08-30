@@ -29,8 +29,8 @@ public class RecursiveBlockTest extends PApplet {
 	public void setup()
 	{
 		size(1500,900,P3D);
-		t = new RecursiveBlock();
-		t.generate(new long[]{seed,widthBlock});
+		t = new RecursiveBlock(87069200L);
+		t.generate(new double[]{widthBlock});
 		player = new Player();
 		background = loadImage("desktop.png");
 	}
@@ -100,8 +100,8 @@ public class RecursiveBlockTest extends PApplet {
 						if (height > 1)
 						{
 							pushMatrix();
-							translate(r*widthBlock, (float)Math.floor((double)height/2D*con), c*widthBlock);
-							box(widthBlock, (float)Math.floor((double)height*con), widthBlock);
+							translate(r*widthBlock, ((float)height/2F*con), c*widthBlock);
+							box(widthBlock, ((float)height*con), widthBlock);
 							//println((int)height);
 							popMatrix();
 						}
@@ -175,7 +175,7 @@ public class RecursiveBlockTest extends PApplet {
 		if (key == 'r')
 		{
 			seed = System.currentTimeMillis();
-			t.generate(new long[]{seed,widthBlock});
+			t.generate(new double[]{widthBlock});
 		}
 		else if (key == 't')
 		{

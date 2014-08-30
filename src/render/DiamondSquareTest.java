@@ -11,14 +11,16 @@ public class DiamondSquareTest extends PApplet {
 	public ArrayList<byte[][]> displayTables;
 	public int step = 0;
 	public int len = 128;
-
+	
 	public void setup()
 	{
 		size(1900,1000,P3D);
 		temp = DiamondSquare.makeTable(50,50,50,50,len+1);
 		DiamondSquare ds = new DiamondSquare(temp);
 		//ds.diamond(0, 0, 4);
-		displayTables = ds.dS(0, 0, len, 40, 0.7);
+		//displayTables = ds.dS(0, 0, len, 40, 0.7)
+		ds.seed(870);
+		ds.generate(new double[]{0, 0, len, 40, 0.7});
 
 		Data data = new Data(ds.t,30);
 		data.divIndex(0, 0, len);
@@ -38,12 +40,13 @@ public class DiamondSquareTest extends PApplet {
 		//perspective((float)Math.PI/4,1.9F,0,1000);
 		camera(zoom,zoom,zoom,0,400,0,0,-1,0);
 		background(255);
-		displayTable(displayTables.get(step));
+		displayTable(temp);
+		/*displayTable(displayTables.get(step));
 		step += stepSpeed;
 		if (step >= displayTables.size())
 		{
 			step = 0;
-		}
+		}*/
 	}
 
 	public void keyPressed()
@@ -121,7 +124,7 @@ public class DiamondSquareTest extends PApplet {
 		return temp;
 	}
 
-	public void displayTable(byte[][] t)
+	public void displayTable(double[][] t)
 	{
 		float len = 20; float con = 10;
 		fill(0); stroke(0);

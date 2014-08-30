@@ -3,11 +3,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class PerlinNoise extends BaseTerrain {
-
-	private Random random;
 	
 	public PerlinNoise(double seed)
 	{
+		//this.seed = seed;
 		random = new Random((long)seed);
 	}
 
@@ -186,9 +185,11 @@ public class PerlinNoise extends BaseTerrain {
 	}
 
 	@Override
-	public double[][] generate(long[] arguments) {
-		// TODO Auto-generated method stub
-		return null;
+	public double[][] generate(double[] a) {
+		double[][] source = makePerlinNoise((int)a[0],(int)a[1],a[2],a[3],a[4],a[5],(int)a[6]);
+		//double[][] newSource = PerlinNoise.recurInter(source,2,nDiv/4);
+		source = PerlinNoise.expand(PerlinNoise.expand(source,a[7]/2),a[7]);
+		return source;
 	}
 
 }
