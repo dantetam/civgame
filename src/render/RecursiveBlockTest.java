@@ -8,6 +8,7 @@ import processing.core.PImage;
 import java.util.ArrayList;
 
 import entity.Player;
+import terrain.Erosion;
 import terrain.RecursiveBlock;
 import terrain.RecursiveBlock.Entity;
 import vector.*;
@@ -20,6 +21,7 @@ public class RecursiveBlockTest extends PApplet {
 	public long seed = 87069200L;
 	public RecursiveBlock t;
 	public int widthBlock = 3;
+	public Erosion e;
 
 	public static void main(String[] args)
 	{
@@ -31,6 +33,7 @@ public class RecursiveBlockTest extends PApplet {
 		size(1500,900,P3D);
 		t = new RecursiveBlock(87069200L);
 		t.generate(new double[]{widthBlock});
+		e = new Erosion(t.terrain,1);
 		player = new Player();
 		background = loadImage("desktop.png");
 	}
@@ -81,8 +84,8 @@ public class RecursiveBlockTest extends PApplet {
 						if (height > 1 && r % sampleSize == 0 && c % sampleSize == 0)
 						{
 							pushMatrix();
-							translate(r*widthBlock, (float)Math.floor((double)height/2D*con), c*widthBlock);
-							box(widthBlock*sampleSize, (float)Math.floor((double)height*con), widthBlock*sampleSize);
+							translate(r*widthBlock, (float)height/2F*con, c*widthBlock);
+							box(widthBlock*sampleSize, (float)height*con, widthBlock*sampleSize);
 							//println((int)height);
 							popMatrix();
 						}
@@ -97,7 +100,7 @@ public class RecursiveBlockTest extends PApplet {
 						{
 							noStroke();
 						}
-						if (height > 1)
+						if (height >= 1)
 						{
 							pushMatrix();
 							translate(r*widthBlock, ((float)height/2F*con), c*widthBlock);
@@ -177,33 +180,50 @@ public class RecursiveBlockTest extends PApplet {
 			seed = System.currentTimeMillis();
 			t.generate(new double[]{widthBlock});
 		}
-		else if (key == 't')
+		else if (key == 'z')
 		{
 			drawHeightMap = !drawHeightMap;
 		}
-		if (key == 'w')
+		else if (key == 'w')
 		{
 			keySet[0] = true;
 		}
-		if (key == 'a')
+		else if (key == 'a')
 		{
 			keySet[1] = true;
 		}
-		if (key == 's')
+		else if (key == 's')
 		{
 			keySet[2] = true;
 		}
-		if (key == 'd')
+		else if (key == 'd')
 		{
 			keySet[3] = true;
 		}
-		if (key == 'q')
+		else if (key == 'q')
 		{
 			keySet[4] = true;
 		}
-		if (key == 'e')
+		else if (key == 'e')
 		{
 			keySet[5] = true;
+		}
+		else if (key == 't')
+		{
+			e.tick();
+		}
+		else if (key == 'n')
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				int r = 0; int c = 0; 
+				do
+				{
+					r = (int)(t.terrain.length*Math.random());
+					c = (int)(t.terrain.length*Math.random());
+				} while (t.terrain[r][c] < e.cutoff);
+				e.flood(r,c,15);
+			}
 		}
 		redraw();
 	}
