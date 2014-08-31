@@ -1,4 +1,4 @@
-package render;
+package terraintest;
 
 import processing.core.PApplet;
 import terrain.Erosion.Droplet;

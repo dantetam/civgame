@@ -1,4 +1,4 @@
-package render;
+package terraintest;
 
 import java.util.ArrayList;
 import processing.core.PApplet;

@@ -1,4 +1,4 @@
-package render;
+package terraintest;
 
 
 import javax.swing.JFrame;

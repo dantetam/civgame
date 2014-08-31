@@ -1,4 +1,4 @@
-package render;
+package terraintest;
 
 //A new experimental method of terrain generation using a recursive creation of generated blocks
 
@@ -151,23 +151,23 @@ public class RecursiveBlockTest extends PApplet {
 		{
 			keySet[0] = false;
 		}
-		if (key == 'a')
+		else if (key == 'a')
 		{
 			keySet[1] = false;
 		}
-		if (key == 's')
+		else if (key == 's')
 		{
 			keySet[2] = false;
 		}
-		if (key == 'd')
+		else if (key == 'd')
 		{
 			keySet[3] = false;
 		}
-		if (key == 'q')
+		else if (key == 'q')
 		{
 			keySet[4] = false;
 		}
-		if (key == 'e')
+		else if (key == 'e')
 		{
 			keySet[5] = false;
 		}
@@ -178,7 +178,9 @@ public class RecursiveBlockTest extends PApplet {
 		if (key == 'r')
 		{
 			seed = System.currentTimeMillis();
+			t.seed(seed);
 			t.generate(new double[]{widthBlock});
+			e = new Erosion(t.terrain,1);
 		}
 		else if (key == 'z')
 		{
