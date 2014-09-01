@@ -5,15 +5,17 @@ import java.util.ArrayList;
 public class Menu {
 
 	public ArrayList<Button> buttons;
+	public String name;
 
-	public Menu()
+	public Menu(String name)
 	{
+		this.name = name;
 		buttons = new ArrayList<Button>();
 	}
 
-	public void addButton(String command, float a, float b, float c, float d)
+	public void addButton(String command, String display, float a, float b, float c, float d)
 	{
-		buttons.add(new Button(command,a,b,c,d));
+		buttons.add(new Button(command,display,a,b,c,d));
 	}
 
 	public String click(float mouseX, float mouseY)
@@ -21,18 +23,20 @@ public class Menu {
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			Button b = buttons.get(i);
-			if (b.enabled)
+			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY)
 			{
-				if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY)
-				{
-					return b.command;
-				}
+				return b.command;
 			}
 		}
 		return null;
 	}
 	
-	public void on()
+	public boolean equals(Menu other)
+	{
+		return name.equals(other.name);
+	}
+	
+	/*public void on()
 	{
 		for (int i = 0; i < buttons.size(); i++)
 		{
@@ -46,6 +50,6 @@ public class Menu {
 		{
 			buttons.get(i).enabled = false;
 		}
-	}
+	}*/
 
 }
