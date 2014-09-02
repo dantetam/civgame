@@ -1,7 +1,13 @@
 package render;
 
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
 import processing.core.PApplet;
+import terraintest.Main;
+import terraintest.OpenGLTerrain;
+import terraintest.Main.PFrame;
 
 public class Game extends PApplet {
 
@@ -10,6 +16,11 @@ public class Game extends PApplet {
 	public ArrayList<Menu> menus;
 	public Menu activeMenu;
 
+	public static void main(String[] args)
+	{
+		PApplet.main(new String[] { Game.class.getName() });
+	}
+	
 	public void setup()
 	{
 		size(1600,900);
@@ -28,10 +39,13 @@ public class Game extends PApplet {
 		
 		Menu menu2 = new Menu("TerrainMenu");
 		menus.add(menu2);
-		menu2.addButton("", "Archipelago", 100, 100, 210, 70);
-		menu2.addButton("", "Island Chain", 100, 200, 210, 70);
-		menu2.addButton("", "Rolling Hills", 100, 300, 210, 70);
+		menu2.addButton("terrain1", "Archipelago", 100, 100, 210, 70);
+		menu2.addButton("terrain2", "Island Chain", 100, 200, 210, 70);
+		menu2.addButton("terrain3", "Rolling Hills", 100, 300, 210, 70);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
+		
+		//Main main = new Main();
+		//PApplet.main(new String[] { Main.class.getName(),"Test" });
 	}
 
 	public void draw()
@@ -58,6 +72,18 @@ public class Game extends PApplet {
 			textAlign(CENTER, CENTER);
 			fill(255);
 			text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+		}
+	}
+	
+	private CivGame renderer;
+	//Taken from stack overflow
+	public class PFrame extends JFrame {
+		public PFrame(Game game, int width, int height, String terrainType) {
+			setBounds(0, 0, width, height);
+			renderer = new CivGame(game, terrainType);
+			add(renderer);
+			renderer.init();
+			show();
 		}
 	}
 
@@ -90,7 +116,24 @@ public class Game extends PApplet {
 						gameMode = "TerrainMenu";
 						redraw();
 					}
-					
+					else if (command.equals("terrain1"))
+					{
+						PFrame f = new PFrame(this,1500,900,"terrain1");
+						f.setTitle("");
+						setVisible(false);
+					}
+					else if (command.equals("terrain2"))
+					{
+						PFrame f = new PFrame(this,1500,900,"terrain2");
+						f.setTitle("");
+						setVisible(false);
+					}
+					else if (command.equals("terrain3"))
+					{
+						PFrame f = new PFrame(this,1500,900,"terrain3");
+						f.setTitle("");
+						setVisible(false);
+					}
 				}
 			}
 		}

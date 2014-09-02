@@ -21,6 +21,7 @@ public class Main extends PApplet {
 
 	public static void main(String[] args)
 	{
+		System.out.println(args[1]);
 		PApplet.main(new String[] { Main.class.getName() });
 	}
 
