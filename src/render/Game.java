@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import processing.core.PApplet;
-import terraintest.Main;
-import terraintest.OpenGLTerrain;
-import terraintest.Main.PFrame;
 
 public class Game extends PApplet {
 
@@ -41,7 +38,7 @@ public class Game extends PApplet {
 		menus.add(menu2);
 		menu2.addButton("terrain1", "Archipelago", 100, 100, 210, 70);
 		menu2.addButton("terrain2", "Island Chain", 100, 200, 210, 70);
-		menu2.addButton("terrain3", "Rolling Hills", 100, 300, 210, 70);
+		//menu2.addButton("terrain3", "Rolling Hills", 100, 300, 210, 70);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
 		
 		//Main main = new Main();
@@ -121,18 +118,21 @@ public class Game extends PApplet {
 						PFrame f = new PFrame(this,1500,900,"terrain1");
 						f.setTitle("");
 						setVisible(false);
+						noLoop();
 					}
 					else if (command.equals("terrain2"))
 					{
 						PFrame f = new PFrame(this,1500,900,"terrain2");
 						f.setTitle("");
 						setVisible(false);
+						noLoop();
 					}
 					else if (command.equals("terrain3"))
 					{
 						PFrame f = new PFrame(this,1500,900,"terrain3");
 						f.setTitle("");
 						setVisible(false);
+						noLoop();
 					}
 				}
 			}
