@@ -15,6 +15,7 @@ public class CivGame extends PApplet {
 	public double[][] terrain;
 	
 	public ArrayList<BaseSystem> systems;
+	private RenderSystem renderSystem = new RenderSystem(this);
 	
 	public CivGame(Game game, String challengeType, String terrainType)
 	{
@@ -22,6 +23,8 @@ public class CivGame extends PApplet {
 		this.challengeType = challengeType;
 		this.terrainType = terrainType;
 		systems = new ArrayList<BaseSystem>();
+		
+		systems.add(renderSystem);
 	}
 	
 	public void setup()
