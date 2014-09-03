@@ -13,4 +13,25 @@ public class Entity {
 		
 	}
 	
+	public void moveTo(float x, float y, float z)
+	{
+		posX = x;
+		posY = y;
+		posZ = z;
+	}
+	
+	public void move(float x, float y, float z)
+	{
+		posX += x;
+		posY += y;
+		posZ += z;
+	}
+	
+	public void size(float x, float y, float z)
+	{
+		sizeX = x;
+		sizeY = y;
+		sizeZ = z;
+	}
+	
 }

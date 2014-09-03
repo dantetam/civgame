@@ -31,14 +31,15 @@ public class CivGame extends PApplet {
 	{
 		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
 		generate(terrainType);
-		for (int r = 0; r < terrain.length; r++)
+		/*for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
 				print((int)terrain[r][c] + " ");
 			}
 			println();
-		}
+		}*/
+		
 	}
 	
 	public void draw()
@@ -57,6 +58,7 @@ public class CivGame extends PApplet {
 		//super.stop();
 	}
 	
+	//Use the appropriate terrain to make a table and then render it by making some entities
 	public void generate(String terrainType)
 	{
 		if (terrainType.equals("terrain1"))
@@ -82,8 +84,10 @@ public class CivGame extends PApplet {
 		}
 		else
 		{
-			println("No map!");
+			System.err.println("No map!");
+			int[] err = new int[5]; err[10] = 0;
 		}
+		renderSystem.addTerrain(terrain);
 	}
 	
 }

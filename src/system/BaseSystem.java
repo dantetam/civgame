@@ -4,11 +4,11 @@ import render.CivGame;
 
 public abstract class BaseSystem {
 
-	public CivGame civGame;
+	public CivGame main;
 	
 	public BaseSystem(CivGame civGame)
 	{
-		this.civGame = civGame;
+		main = civGame;
 	}
 	
 	public abstract void tick();
