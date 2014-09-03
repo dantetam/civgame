@@ -22,7 +22,7 @@ public class DiamondSquareTest extends PApplet {
 		ds.seed(870);
 		ds.generate(new double[]{0, 0, len, 40, 0.7});
 
-		Data data = new Data(ds.t,30);
+		TerrainData data = new TerrainData(ds.t,30);
 		data.divIndex(0, 0, len);
 
 		//Data.IslandHelper helper = data.islandHelper();

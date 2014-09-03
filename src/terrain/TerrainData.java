@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-public class Data {
+public class TerrainData {
 
 	public double[][] terrain;
 	public double cutoff;
 
-	public Data(double[][] terrain, double cutoff)
+	public TerrainData(double[][] terrain, double cutoff)
 	{
 		this.terrain = terrain;
 		this.cutoff = cutoff;

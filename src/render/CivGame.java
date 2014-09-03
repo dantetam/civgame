@@ -1,30 +1,33 @@
 package render;
 
 import processing.core.PApplet;
+import java.util.ArrayList;
+
 import terrain.*;
+import system.*;
 
 public class CivGame extends PApplet {
 
 	public Game game;
 	public BaseTerrain map;
+	public String challengeType;
 	public String terrainType;
 	public double[][] terrain;
 	
-	public CivGame(Game game, String terrainType)
+	public ArrayList<BaseSystem> systems;
+	
+	public CivGame(Game game, String challengeType, String terrainType)
 	{
 		this.game = game;
+		this.challengeType = challengeType;
 		this.terrainType = terrainType;
+		systems = new ArrayList<BaseSystem>();
 	}
 	
 	public void setup()
 	{
-		size(1500,900); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
+		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
 		generate(terrainType);
-	}
-	
-	public void draw()
-	{
-		background(255);
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
@@ -33,7 +36,15 @@ public class CivGame extends PApplet {
 			}
 			println();
 		}
-		noLoop();
+	}
+	
+	public void draw()
+	{
+		background(255);
+		for (int i = 0; i < systems.size(); i++)
+		{
+			systems.get(i).tick();
+		}
 	}
 	
 	public void stop()

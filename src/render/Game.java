@@ -49,15 +49,15 @@ public class Game extends PApplet {
 	{
 		background(255);
 		activeMenu = menus.get(0);
-		if (gameMode.equals("MainMenu"))
+		if (gameMode.equals("mainMenu"))
 		{
 			activeMenu = menus.get(0);
 		} 
-		else if (gameMode.equals("ChallengeTypeMenu"))
+		else if (gameMode.equals("challengeTypeMenu"))
 		{
 			activeMenu = menus.get(1);
 		}
-		else if (gameMode.equals("TerrainMenu"))
+		else if (gameMode.equals("terrainMenu"))
 		{
 			activeMenu = menus.get(2);
 		}
@@ -75,9 +75,9 @@ public class Game extends PApplet {
 	private CivGame renderer;
 	//Taken from stack overflow
 	public class PFrame extends JFrame {
-		public PFrame(Game game, int width, int height, String terrainType) {
+		public PFrame(Game game, int width, int height, String challengeType, String terrainType) {
 			setBounds(0, 0, width, height);
-			renderer = new CivGame(game, terrainType);
+			renderer = new CivGame(game, challengeType, terrainType);
 			add(renderer);
 			renderer.init();
 			show();
@@ -95,7 +95,7 @@ public class Game extends PApplet {
 				{
 					if (command.equals("newgame"))
 					{
-						gameMode = "ChallengeTypeMenu";
+						gameMode = "challengeTypeMenu";
 					}
 					else if (command.equals("exitgame"))
 					{
@@ -103,33 +103,33 @@ public class Game extends PApplet {
 					}
 					else if (command.equals("conquestgame"))
 					{
-						challengeType = "Conquest";
-						gameMode = "TerrainMenu";
+						challengeType = "conquest";
+						gameMode = "terrainMenu";
 						redraw();
 					}
 					else if (command.equals("survivalgame"))
 					{
-						challengeType = "Survival";
-						gameMode = "TerrainMenu";
+						challengeType = "survival";
+						gameMode = "terrainMenu";
 						redraw();
 					}
 					else if (command.equals("terrain1"))
 					{
-						PFrame f = new PFrame(this,1500,900,"terrain1");
+						PFrame f = new PFrame(this,1500,900,challengeType,"terrain1");
 						f.setTitle("");
 						setVisible(false);
 						noLoop();
 					}
 					else if (command.equals("terrain2"))
 					{
-						PFrame f = new PFrame(this,1500,900,"terrain2");
+						PFrame f = new PFrame(this,1500,900,challengeType,"terrain2");
 						f.setTitle("");
 						setVisible(false);
 						noLoop();
 					}
 					else if (command.equals("terrain3"))
 					{
-						PFrame f = new PFrame(this,1500,900,"terrain3");
+						PFrame f = new PFrame(this,1500,900,challengeType,"terrain3");
 						f.setTitle("");
 						setVisible(false);
 						noLoop();
