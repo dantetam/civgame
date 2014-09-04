@@ -20,7 +20,7 @@ public class Game extends PApplet {
 	
 	public void setup()
 	{
-		size(1600,900);
+		size(450,900);
 		menus = new ArrayList<Menu>();
 
 		Menu menu0 = new Menu("MainMenu");
@@ -118,6 +118,7 @@ public class Game extends PApplet {
 						PFrame f = new PFrame(this,1500,900,challengeType,"terrain1");
 						f.setTitle("");
 						setVisible(false);
+						redraw();
 						noLoop();
 					}
 					else if (command.equals("terrain2"))
@@ -125,6 +126,7 @@ public class Game extends PApplet {
 						PFrame f = new PFrame(this,1500,900,challengeType,"terrain2");
 						f.setTitle("");
 						setVisible(false);
+						redraw();
 						noLoop();
 					}
 					else if (command.equals("terrain3"))
@@ -132,6 +134,7 @@ public class Game extends PApplet {
 						PFrame f = new PFrame(this,1500,900,challengeType,"terrain3");
 						f.setTitle("");
 						setVisible(false);
+						redraw();
 						noLoop();
 					}
 				}
