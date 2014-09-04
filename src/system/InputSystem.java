@@ -26,7 +26,40 @@ public class InputSystem extends BaseSystem {
 		{
 			if (keyHeld[i])
 			{
-				System.out.println(i+97);
+				//System.out.println(i+97);
+				if (i == 97 - 97) //a
+				{
+					//Limit movement to an axis
+					main.player.posZ -= 10;
+					main.player.tarZ -= 10;
+					main.player.posX += 10;
+					main.player.tarX += 10;
+				}
+				else if (i == 100 - 97) //d
+				{
+					//Limit movement to an axis
+					main.player.posZ += 10;
+					main.player.tarZ += 10;
+					main.player.posX -= 10;
+					main.player.tarX -= 10;
+				}
+				else if (i == 115 - 97) //s
+				{
+					//Limit movement to an axis
+					main.player.posX += 10;
+					main.player.tarX += 10;
+					main.player.posZ += 10;
+					main.player.tarZ += 10;
+				}
+				else if (i == 119 - 97) //w
+				{
+					//Limit movement to an axis
+					main.player.posX -= 10;
+					main.player.tarX -= 10;
+					main.player.posZ -= 10;
+					main.player.tarZ -= 10;
+				}
+				main.redraw();
 			}
 		}
 	}
@@ -49,6 +82,23 @@ public class InputSystem extends BaseSystem {
 			keyHeld[key-97] = false;
 		}
 	}
+	
+	/*public void test()
+	{
+		for (int i = 0; i < keyHeld.length; i++)
+		{
+			if (keyHeld[i])
+			{
+				//System.out.println(i+97);
+				if (i == 0)
+				{
+					//Limit movement to an axis
+					main.player.posX += 10;
+					main.player.tarX += 10;
+				}
+			}
+		}
+	}*/
 	
 	public void executeAction(char key)
 	{

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import terrain.*;
 import system.*;
+import entity.Player;
 
 public class CivGame extends PApplet {
 
@@ -13,6 +14,8 @@ public class CivGame extends PApplet {
 	public String challengeType;
 	public String terrainType;
 	public double[][] terrain;
+	
+	public Player player = new Player();
 	
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
@@ -23,6 +26,7 @@ public class CivGame extends PApplet {
 		this.game = game;
 		this.challengeType = challengeType;
 		this.terrainType = terrainType;
+		
 		systems = new ArrayList<BaseSystem>();
 		
 		systems.add(renderSystem);
@@ -56,6 +60,7 @@ public class CivGame extends PApplet {
 	public void keyPressed()
 	{
 		inputSystem.queueKey(key);
+		//inputSystem.test();
 	}
 	
 	public void keyReleased()
@@ -73,15 +78,20 @@ public class CivGame extends PApplet {
 	//Use the appropriate terrain to make a table and then render it by making some entities
 	public void generate(String terrainType)
 	{
+		float con; float cutoff;
 		if (terrainType.equals("terrain1"))
 		{
 			map = new PerlinNoise(870L);
 			terrain = map.generate(new double[]{64,64,150,8,1,0.8,6,256});
+			con = 0.5F;
+			cutoff = 55;
 		}
 		else if (terrainType.equals("terrain2"))
 		{
 			map = new RecursiveBlock(87069200L);
 			terrain = map.generate(new double[]{10});
+			con = 3F;
+			cutoff = 1;
 		}
 		else if (terrainType.equals("terrain3"))
 		{
@@ -93,13 +103,17 @@ public class CivGame extends PApplet {
 			map.seed(870);
 			terrain = map.generate(new double[]{0, 0, len, 40, 0.7});
 			print(terrain);
+			con = 1F;
+			cutoff = 40;
 		}
 		else
 		{
 			System.err.println("No map!");
 			int[] err = new int[5]; err[10] = 0;
+			con = 1F;
+			cutoff = 0;
 		}
-		renderSystem.addTerrain(terrain);
+		renderSystem.addTerrain(terrain, con, cutoff);
 	}
 	
 }
