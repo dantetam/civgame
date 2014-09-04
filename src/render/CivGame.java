@@ -16,6 +16,7 @@ public class CivGame extends PApplet {
 	
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
+	private InputSystem inputSystem = new InputSystem(this);
 	
 	public CivGame(Game game, String challengeType, String terrainType)
 	{
@@ -25,6 +26,7 @@ public class CivGame extends PApplet {
 		systems = new ArrayList<BaseSystem>();
 		
 		systems.add(renderSystem);
+		systems.add(inputSystem);
 	}
 	
 	public void setup()
@@ -49,6 +51,16 @@ public class CivGame extends PApplet {
 		{
 			systems.get(i).tick();
 		}
+	}
+	
+	public void keyPressed()
+	{
+		inputSystem.queueKey(key);
+	}
+	
+	public void keyReleased()
+	{
+		inputSystem.keyReleased(key);
 	}
 	
 	public void stop()

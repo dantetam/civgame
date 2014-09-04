@@ -23,8 +23,8 @@ public class RenderSystem extends BaseSystem {
 		main.background(150,225,255);
 		main.smooth(4);
 		//background(background);
-		main.lights();
 		main.noStroke();
+		main.lights();
 		//stroke(0);
 		main.fill(135, 206, 235);
 		main.perspective(3.14F/2,15F/9F,1,10000);
