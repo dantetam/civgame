@@ -41,7 +41,8 @@ public class RenderSystem extends BaseSystem {
 	public void renderBlock(Entity en)
 	{
 		float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
-		if (dist < 1000 && en.sizeY >= cutoff)
+		//if (dist < 1000 && en.sizeY >= cutoff)
+		if (en.sizeY >= cutoff)
 		{	
 			main.pushMatrix();
 			main.translate(en.posX, en.posY*con, en.posZ);
