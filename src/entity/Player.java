@@ -11,9 +11,9 @@ public class Player {
 	
 	public Player()
 	{
-		posX = 500;
-		posY = 200;
-		posZ = 500;
+		posX = 2000;
+		posY = 300;
+		posZ = 2000;
 		tarX = 0;
 		tarY = 0;
 		tarZ = 0;

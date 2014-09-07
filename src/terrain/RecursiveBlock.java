@@ -262,7 +262,7 @@ public class RecursiveBlock extends BaseTerrain {
 		float base = 70;
 		float radius = 70; 
 		float block = 64;
-		for (int i = 0; i < 3; i++) 
+		for (int i = 0; i < 2; i++) 
 		{
 			for (int j = 0; j < (int)Math.pow(2,i); j++) 
 			{
@@ -271,7 +271,7 @@ public class RecursiveBlock extends BaseTerrain {
 				int size = (int)(block/(Math.pow(1.5,j-1)));
 				if (size >= 16)
 				{
-					//startIsland(size,size,size,(int)(radius*Math.cos(angle)),100,(int)(radius*Math.sin(angle)),(int)(Math.random()*2 + 1));
+					startIsland(size,size,size,(int)(radius*Math.cos(angle)),100,(int)(radius*Math.sin(angle)),(int)(Math.random()*2 + 1));
 				}
 			}
 			radius = radius + (float)Math.pow(base,1.3 - i/10);

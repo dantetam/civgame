@@ -21,6 +21,7 @@ public class Game extends PApplet {
 	public void setup()
 	{
 		size(450,900);
+		frame.setTitle("Survival: Civilization");
 		menus = new ArrayList<Menu>();
 
 		Menu menu0 = new Menu("MainMenu");
