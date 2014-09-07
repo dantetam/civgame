@@ -48,7 +48,6 @@ public class CivGame extends PApplet {
 			}
 			println();
 		}*/
-		
 	}
 	
 	public void draw()

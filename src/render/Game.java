@@ -1,5 +1,6 @@
 package render;
 
+import java.awt.Frame;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -20,14 +21,14 @@ public class Game extends PApplet {
 	
 	public void setup()
 	{
-		size(450,900);
+		size(400,800);
 		frame.setTitle("Survival: Civilization");
 		menus = new ArrayList<Menu>();
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
 		menu0.addButton("newgame", "New Game", 100, 100, 210, 70);
-		menu0.addButton("exitgame", "Exit Game", 100, 700, 210, 70);
+		menu0.addButton("exitgame", "Exit Game", 100, 630, 210, 70);
 		//menu1.on();
 
 		Menu menu1 = new Menu("ChallengeTypeMenu");
@@ -81,6 +82,7 @@ public class Game extends PApplet {
 			renderer = new CivGame(game, challengeType, terrainType);
 			add(renderer);
 			renderer.init();
+			//setTitle("Survival: Civilization");
 			show();
 		}
 	}
@@ -117,7 +119,7 @@ public class Game extends PApplet {
 					else if (command.equals("terrain1"))
 					{
 						PFrame f = new PFrame(this,1500,900,challengeType,"terrain1");
-						f.setTitle("");
+						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						redraw();
 						noLoop();
@@ -125,7 +127,7 @@ public class Game extends PApplet {
 					else if (command.equals("terrain2"))
 					{
 						PFrame f = new PFrame(this,1500,900,challengeType,"terrain2");
-						f.setTitle("");
+						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						redraw();
 						noLoop();
@@ -133,7 +135,7 @@ public class Game extends PApplet {
 					else if (command.equals("terrain3"))
 					{
 						PFrame f = new PFrame(this,1500,900,challengeType,"terrain3");
-						f.setTitle("");
+						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						redraw();
 						noLoop();

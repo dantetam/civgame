@@ -12,7 +12,7 @@ public class Player {
 	public Player()
 	{
 		posX = 2000;
-		posY = 300;
+		posY = 700;
 		posZ = 2000;
 		tarX = 0;
 		tarY = 0;
