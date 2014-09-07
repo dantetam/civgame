@@ -258,6 +258,25 @@ public class RecursiveBlock extends BaseTerrain {
 		start.setSize(100,100,100);
 		//TODO: More than one starter block?
 		terrain(start,3);
+		
+		float base = 70;
+		float radius = 70; 
+		float block = 64;
+		for (int i = 0; i < 3; i++) 
+		{
+			for (int j = 0; j < (int)Math.pow(2,i); j++) 
+			{
+				double angle = Math.random()*6.28;
+				System.out.println(angle);
+				int size = (int)(block/(Math.pow(1.5,j-1)));
+				if (size >= 16)
+				{
+					//startIsland(size,size,size,(int)(radius*Math.cos(angle)),100,(int)(radius*Math.sin(angle)),(int)(Math.random()*2 + 1));
+				}
+			}
+			radius = radius + (float)Math.pow(base,1.3 - i/10);
+		}
+		
 		int n = 0;
 		for (int i = 0; i < entities.size(); i++)
 		{
@@ -305,6 +324,15 @@ public class RecursiveBlock extends BaseTerrain {
 		}
 		terrain = expandData(terrain, terrain.length*2);
 		return terrain;
+	}
+	
+	public void startIsland(int x, int y, int z, int posX, int posY, int posZ, int n)
+	{
+		Entity start = new Entity();
+		entities.add(start);
+		start.setPos(posX,posY,posZ);
+		start.setSize(x,y,z);
+		terrain(start,n);
 	}
 
 	public void printTable(double[][] t)
