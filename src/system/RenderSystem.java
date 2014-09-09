@@ -46,13 +46,13 @@ public class RenderSystem extends BaseSystem {
 	public float con; public float cutoff;
 	public void renderBlock(Entity en, int r, int c)
 	{
-		float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
 		//if (dist < 1000 && en.sizeY >= cutoff)
-		int sampleSize;
-		int dist1 = 500;
-		int dist2 = 1000;
 		if (en.sizeY >= cutoff)
 		{
+			int sampleSize;
+			int dist1 = 500;
+			int dist2 = 1000;
+			float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
 			if (dist > dist2)
 			{
 				sampleSize = 4;
