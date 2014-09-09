@@ -126,11 +126,11 @@ public class CivGame extends PApplet {
 			con = 1F;
 			cutoff = 0;
 		}
+		grid = new Grid(terrain.length, terrain[0].length);
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
-				grid = new Grid(terrain.length, terrain[0].length);
 				grid.tiles[r][c] = new Tile((int)terrain[r][c],r,c);
 			}
 		}
