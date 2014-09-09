@@ -6,5 +6,6 @@ public class BaseEntity {
 
 	public Tile location;
 	public String name;
+	public Civilization owner;
 	
 }

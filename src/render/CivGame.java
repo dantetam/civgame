@@ -17,6 +17,7 @@ public class CivGame extends PApplet {
 	public BaseTerrain map;
 	public String challengeType;
 	public String terrainType;
+	public int numCivs;
 	public double[][] terrain;
 	public Erosion erosion;
 
@@ -28,9 +29,10 @@ public class CivGame extends PApplet {
 	private RenderSystem renderSystem = new RenderSystem(this);
 	private InputSystem inputSystem = new InputSystem(this);
 
-	public CivGame(Game game, String challengeType, String terrainType)
+	public CivGame(Game game, int numCivs, String challengeType, String terrainType)
 	{
 		this.game = game;
+		this.numCivs = numCivs;
 		this.challengeType = challengeType;
 		this.terrainType = terrainType;
 
@@ -126,20 +128,15 @@ public class CivGame extends PApplet {
 			con = 1F;
 			cutoff = 0;
 		}
-		grid = new Grid(terrain.length, terrain[0].length);
-		for (int r = 0; r < terrain.length; r++)
-		{
-			for (int c = 0; c < terrain[0].length; c++)
-			{
-				grid.tiles[r][c] = new Tile((int)terrain[r][c],r,c);
-			}
-		}
+		grid = new Grid(terrain.length, terrain[0].length, numCivs);
+		grid.setupTiles(terrain);
+		grid.setupCivs();
 		renderSystem.addTerrain(terrain, con, cutoff);
 	}
 
 	public void erode()
 	{
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 100; i++)
 		{
 			int r = 0; int c = 0; 
 			do

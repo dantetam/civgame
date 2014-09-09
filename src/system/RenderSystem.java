@@ -55,6 +55,7 @@ public class RenderSystem extends BaseSystem {
 			float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
 			if (dist > dist2)
 			{
+				main.noStroke();
 				sampleSize = 4;
 				if (!(r % sampleSize == 0 && c % sampleSize == 0))
 				{
@@ -63,6 +64,7 @@ public class RenderSystem extends BaseSystem {
 			}
 			else if (dist > dist1)
 			{	
+				main.noStroke();
 				sampleSize = 2;
 				if (!(r % sampleSize == 0 && c % sampleSize == 0))
 				{
@@ -71,6 +73,7 @@ public class RenderSystem extends BaseSystem {
 			}
 			else
 			{
+				main.stroke(0);
 				sampleSize = 1;
 			}
 			main.pushMatrix();
