@@ -8,37 +8,38 @@ import terrain.*;
 import system.*;
 import entity.Player;
 import game.Grid;
+import game.Tile;
 
 public class CivGame extends PApplet {
 
 	public Game game;
-	
+
 	public BaseTerrain map;
 	public String challengeType;
 	public String terrainType;
 	public double[][] terrain;
 	public Erosion erosion;
-	
+
 	public Grid grid;
-	
+
 	public Player player = new Player();
-	
+
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
 	private InputSystem inputSystem = new InputSystem(this);
-	
+
 	public CivGame(Game game, String challengeType, String terrainType)
 	{
 		this.game = game;
 		this.challengeType = challengeType;
 		this.terrainType = terrainType;
-		
+
 		systems = new ArrayList<BaseSystem>();
-		
+
 		systems.add(renderSystem);
 		systems.add(inputSystem);
 	}
-	
+
 	public void setup()
 	{
 		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
@@ -58,7 +59,7 @@ public class CivGame extends PApplet {
 		erosion = new Erosion(terrain,1);
 		erode();
 	}
-	
+
 	public void draw()
 	{
 		background(255);
@@ -67,25 +68,25 @@ public class CivGame extends PApplet {
 			systems.get(i).tick();
 		}
 	}
-	
+
 	public void keyPressed()
 	{
 		inputSystem.queueKey(key);
 		//inputSystem.test();
 	}
-	
+
 	public void keyReleased()
 	{
 		inputSystem.keyReleased(key);
 	}
-	
+
 	public void stop()
 	{
 		println("hi");
 		game.exit();
 		//super.stop();
 	}
-	
+
 	//Use the appropriate terrain to make a table and then render it by making some entities
 	//Then make a grid out of it
 	public void generate(String terrainType)
@@ -94,7 +95,7 @@ public class CivGame extends PApplet {
 		if (terrainType.equals("terrain1"))
 		{
 			map = new PerlinNoise(870L);
-			terrain = map.generate(new double[]{64,64,150,8,1,0.8,6,256});
+			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,256});
 			con = 0.5F;
 			cutoff = 55;
 		}
@@ -125,9 +126,17 @@ public class CivGame extends PApplet {
 			con = 1F;
 			cutoff = 0;
 		}
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				grid = new Grid(terrain.length, terrain[0].length);
+				grid.tiles[r][c] = new Tile((int)terrain[r][c],r,c);
+			}
+		}
 		renderSystem.addTerrain(terrain, con, cutoff);
 	}
-	
+
 	public void erode()
 	{
 		for (int i = 0; i < 50; i++)
@@ -146,5 +155,5 @@ public class CivGame extends PApplet {
 			done = !erosion.tick();
 		}
 	}
-	
+
 }

@@ -12,9 +12,8 @@ public class Tile {
 
 	public String type;
 	
-	public Tile(String type, int height, int row, int col)
+	public Tile(int height, int row, int col)
 	{
-		this.type = type;
 		occupants = new ArrayList<GameEntity>();
 		this.height = height;
 		this.row = row;
