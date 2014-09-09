@@ -59,6 +59,18 @@ public class InputSystem extends BaseSystem {
 					main.player.posZ -= 10;
 					main.player.tarZ -= 10;
 				}
+				else if (i == 113 - 97) //q
+				{
+					//Limit movement to an axis
+					main.player.posY -= 10;
+					main.player.tarY -= 10;
+				}
+				else if (i == 101 - 97) //e
+				{
+					//Limit movement to an axis
+					main.player.posY += 10;
+					main.player.tarY += 10;
+				}
 				main.redraw();
 			}
 		}

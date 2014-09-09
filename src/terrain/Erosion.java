@@ -37,7 +37,7 @@ public class Erosion {
 		}
 	}
 
-	public void tick()
+	public boolean tick()
 	{
 		/*
 		 * Loop through all water droplets
@@ -46,12 +46,14 @@ public class Erosion {
 		 * 
 		 * TODO: Dissolve soil from neighboring tiles (less intensive)
 		 */
+		boolean inProgress = false;
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
 				if (waterLevel[r][c] != null && !waterLevel[r][c].tick)
 				{
+					inProgress = true;
 					waterLevel[r][c].tick = true;
 					ArrayList<Location> locs = checkLower(r,c);
 					if (locs.size() > 0) 
@@ -102,7 +104,7 @@ public class Erosion {
 								waterLevel[r][c] = null;
 							}
 						}
-
+						
 					}
 					else
 					{
@@ -122,6 +124,7 @@ public class Erosion {
 				}
 			}
 		}
+		return inProgress;
 	}
 
 	public class Location {public int r; public int c; Location(int x, int y) {r = x; c = y;}}

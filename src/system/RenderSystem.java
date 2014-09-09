@@ -49,8 +49,8 @@ public class RenderSystem extends BaseSystem {
 		float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
 		//if (dist < 1000 && en.sizeY >= cutoff)
 		int sampleSize;
-		int dist1 = 1000;
-		int dist2 = 2000;
+		int dist1 = 500;
+		int dist2 = 1000;
 		if (en.sizeY >= cutoff)
 		{
 			if (dist > dist2)
@@ -88,7 +88,7 @@ public class RenderSystem extends BaseSystem {
 		{
 			for (int c = 0; c < t[0].length; c++)
 			{
-				int widthBlock = 10;
+				int widthBlock = 20;
 				double h = t[r][c];
 				//float con = (1F/10F)*widthBlock;
 				Entity en = new Entity();

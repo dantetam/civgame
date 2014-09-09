@@ -1,19 +1,25 @@
 package render;
 
 import processing.core.PApplet;
+
 import java.util.ArrayList;
 
 import terrain.*;
 import system.*;
 import entity.Player;
+import game.Grid;
 
 public class CivGame extends PApplet {
 
 	public Game game;
+	
 	public BaseTerrain map;
 	public String challengeType;
 	public String terrainType;
 	public double[][] terrain;
+	public Erosion erosion;
+	
+	public Grid grid;
 	
 	public Player player = new Player();
 	
@@ -39,6 +45,7 @@ public class CivGame extends PApplet {
 		background(0,225,255);
 		camera(500,500,500,0,0,0,0,-1,0);
 		box(100,100,100);
+		redraw();
 		generate(terrainType);
 		/*for (int r = 0; r < terrain.length; r++)
 		{
@@ -48,6 +55,8 @@ public class CivGame extends PApplet {
 			}
 			println();
 		}*/
+		erosion = new Erosion(terrain,1);
+		erode();
 	}
 	
 	public void draw()
@@ -78,6 +87,7 @@ public class CivGame extends PApplet {
 	}
 	
 	//Use the appropriate terrain to make a table and then render it by making some entities
+	//Then make a grid out of it
 	public void generate(String terrainType)
 	{
 		float con; float cutoff;
@@ -116,6 +126,25 @@ public class CivGame extends PApplet {
 			cutoff = 0;
 		}
 		renderSystem.addTerrain(terrain, con, cutoff);
+	}
+	
+	public void erode()
+	{
+		for (int i = 0; i < 50; i++)
+		{
+			int r = 0; int c = 0; 
+			do
+			{
+				r = (int)(terrain.length*Math.random());
+				c = (int)(terrain.length*Math.random());
+			} while (terrain[r][c] < erosion.cutoff);
+			erosion.flood(r,c,15);
+		}
+		boolean done = false;
+		while (!done)
+		{
+			done = !erosion.tick();
+		}
 	}
 	
 }
