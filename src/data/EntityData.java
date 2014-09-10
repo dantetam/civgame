@@ -3,13 +3,14 @@ package data;
 import java.util.HashMap;
 
 import entity.Entity;
+import game.*;
 
 public class EntityData {
 
 	public static HashMap<Integer, Color> brickColorMap; //Defines integer brickcolors e.g. 21, 1003
-	
+	public static HashMap<String, GameEntity> gameEntityMap;
+	public static HashMap<String, TileEntity> tileEntityMap;
 	public static HashMap<Integer, Integer> groundColorMap; //Defines color of ground of certain biomes
-	
 	
 	public EntityData()
 	{
@@ -19,9 +20,12 @@ public class EntityData {
 	public static void init()
 	{
 		brickColorMap = new HashMap<Integer,Color>();
+		gameEntityMap = new HashMap<String, GameEntity>();
+		tileEntityMap = new HashMap<String, TileEntity>();
 		groundColorMap = new HashMap<Integer, Integer>();
 		
 		setupColors();
+		setupEntityMap();
 		groundColorMap();
 	}
 	
@@ -91,6 +95,11 @@ public class EntityData {
 		brickColorMap.put(1030,new Color(1,0.80000007152557,0.60000002384186));
 		brickColorMap.put(1031,new Color(0.38431376218796,0.14509804546833,0.81960791349411));
 		brickColorMap.put(1032,new Color(1,0,0.74901962280273));
+	}
+	
+	private static void setupEntityMap()
+	{
+		gameEntityMap.put("Settler",new GameEntity("Settler"));
 	}
 	
 	private static void groundColorMap()

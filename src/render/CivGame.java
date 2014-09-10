@@ -128,9 +128,9 @@ public class CivGame extends PApplet {
 			con = 1F;
 			cutoff = 0;
 		}
-		grid = new Grid(terrain.length, terrain[0].length, numCivs);
-		grid.setupTiles(terrain);
-		grid.setupCivs();
+		grid = new Grid(terrain, numCivs, (int)cutoff);
+		//grid.setupTiles(terrain);
+		//grid.setupCivs();
 		renderSystem.addTerrain(terrain, con, cutoff);
 	}
 

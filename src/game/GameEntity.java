@@ -4,4 +4,9 @@ package game;
 
 public class GameEntity extends BaseEntity {
 
+	public GameEntity(String name)
+	{
+		super(name);
+	}
+	
 }

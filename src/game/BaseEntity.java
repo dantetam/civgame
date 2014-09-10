@@ -8,4 +8,9 @@ public class BaseEntity {
 	public String name;
 	public Civilization owner;
 	
+	public BaseEntity(String name)
+	{
+		
+	}
+	
 }

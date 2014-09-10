@@ -4,4 +4,9 @@ package game;
 
 public class TileEntity extends BaseEntity {
 
+	public TileEntity(String name)
+	{
+		super(name);
+	}
+	
 }

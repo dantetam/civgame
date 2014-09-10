@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import render.CivGame;
 import entity.*;
+import game.Civilization;
 import data.Color;
 
 public class RenderSystem extends BaseSystem {
@@ -53,9 +54,10 @@ public class RenderSystem extends BaseSystem {
 			int dist1 = 500;
 			int dist2 = 1000;
 			float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
+			main.fill(135, 206, 235);
+			main.noStroke();
 			if (dist > dist2)
 			{
-				main.noStroke();
 				sampleSize = 4;
 				if (!(r % sampleSize == 0 && c % sampleSize == 0))
 				{
@@ -64,7 +66,6 @@ public class RenderSystem extends BaseSystem {
 			}
 			else if (dist > dist1)
 			{	
-				main.noStroke();
 				sampleSize = 2;
 				if (!(r % sampleSize == 0 && c % sampleSize == 0))
 				{
@@ -73,7 +74,12 @@ public class RenderSystem extends BaseSystem {
 			}
 			else
 			{
-				main.stroke(0);
+				if (main.grid.tiles[r][c].owner != null)
+				{
+					main.stroke(255);
+					Civilization civ = main.grid.tiles[r][c].owner;
+					main.fill(civ.r, civ.g, civ.b);
+				}
 				sampleSize = 1;
 			}
 			main.pushMatrix();
