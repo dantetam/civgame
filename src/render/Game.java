@@ -45,6 +45,7 @@ public class Game extends PApplet {
 		menu2.addButton("civs8", "Standard", 100, 400, 210, 70);
 		menu2.addButton("civs12", "Large", 100, 500, 210, 70);
 		menu2.addButton("civs16", "Huge", 100, 600, 210, 70);
+		menu2.addButton("civs64", "Testing", 100, 700, 210, 70);
 		
 		Menu menu3 = new Menu("TerrainMenu");
 		menus.add(menu3);

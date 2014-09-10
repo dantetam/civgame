@@ -9,4 +9,9 @@ public class TileEntity extends BaseEntity {
 		super(name);
 	}
 	
+	public TileEntity(TileEntity other)
+	{
+		super(other);
+	}
+	
 }

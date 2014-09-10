@@ -21,4 +21,20 @@ public class Tile {
 		this.col = col;
 	}
 	
+	public void addUnit(BaseEntity en)
+	{
+		if (en instanceof GameEntity)
+		{
+			
+		}
+		else if (en instanceof TileEntity)
+		{
+			
+		}
+		else
+		{
+			System.err.println("Not a game entity or tile entity");
+		}
+	}
+	
 }

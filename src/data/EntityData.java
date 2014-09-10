@@ -1,6 +1,7 @@
 package data;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import entity.Entity;
 import game.*;
@@ -100,6 +101,29 @@ public class EntityData {
 	private static void setupEntityMap()
 	{
 		gameEntityMap.put("Settler",new GameEntity("Settler"));
+	}
+	
+	public static BaseEntity get(String name)
+	{
+		/*for (Entry e: gameEntityMap.entrySet())
+		{
+			if (e.getKey().equals(name))
+			{
+				return new GameEntity()
+			}
+		}*/
+		BaseEntity b = gameEntityMap.get(name);
+		if (b != null)
+		{
+			return new GameEntity((GameEntity)b);
+		}
+		b = tileEntityMap.get(name);
+		if (b != null)
+		{
+			return new TileEntity((TileEntity)b);
+		}
+		System.out.println("Entity name not found");
+		return null;
 	}
 	
 	private static void groundColorMap()

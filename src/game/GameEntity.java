@@ -9,4 +9,9 @@ public class GameEntity extends BaseEntity {
 		super(name);
 	}
 	
+	public GameEntity(GameEntity other)
+	{
+		super(other);
+	}
+	
 }

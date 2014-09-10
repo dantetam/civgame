@@ -2,6 +2,8 @@ package game;
 
 import java.util.ArrayList;
 
+import data.EntityData;
+
 public class Grid {
 
 	public Tile[][] tiles;
@@ -39,6 +41,9 @@ public class Grid {
 			} while (tiles[r][c].type.equals("Sea"));
 			//Test out giving a civilization land and a unit
 			tiles[r][c].owner = civs[i];
+			
+			BaseEntity en = EntityData.get("Settler");
+			tiles[r][c].addUnit(en);
 		}
 	}
 
