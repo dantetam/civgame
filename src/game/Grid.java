@@ -43,6 +43,7 @@ public class Grid {
 			tiles[r][c].owner = civs[i];
 			
 			BaseEntity en = EntityData.get("Settler");
+			en.owner = civs[i];
 			tiles[r][c].addUnit(en);
 		}
 	}

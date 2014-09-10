@@ -5,13 +5,14 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import data.EntityData;
 import processing.core.PApplet;
 
 public class Game extends PApplet {
 
 	public String gameMode = "MainMenu";
 	public String challengeType = "";
-	public int numCivs = 0;
+	public int numCivs = 2;
 	public ArrayList<Menu> menus;
 	public Menu activeMenu;
 
@@ -23,6 +24,7 @@ public class Game extends PApplet {
 	public void setup()
 	{
 		size(400,800);
+		EntityData.init();
 		frame.setTitle("Survival: Civilization");
 		menus = new ArrayList<Menu>();
 

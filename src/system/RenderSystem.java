@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import render.CivGame;
 import entity.*;
 import game.Civilization;
+import game.GameEntity;
+import game.Tile;
 import data.Color;
 
 public class RenderSystem extends BaseSystem {
@@ -39,6 +41,25 @@ public class RenderSystem extends BaseSystem {
 			for (int c = 0; c < terrain.entities[0].length; c++)
 			{
 				renderBlock(terrain.entities[r][c],r,c);
+			}
+		}
+		for (int r = 0; r < main.grid.tiles.length; r++)
+		{
+			for (int c = 0; c < main.grid.tiles[0].length; c++)
+			{
+				Tile t = main.grid.tiles[r][c];
+				if (t.improvement != null)
+				{
+					//Render the improvement
+				}
+				if (t.occupants.size() > 0)
+				{
+					for (int i = 0; i < t.occupants.size(); i++)
+					{
+						GameEntity en = t.occupants.get(i);
+						renderGameEntity(en,r,c);
+					}
+				}
 			}
 		}
 	}
@@ -88,8 +109,25 @@ public class RenderSystem extends BaseSystem {
 			main.popMatrix();
 		}
 	}
+	
+	//Render a game entity
+	public void renderGameEntity(GameEntity en, int r, int c)
+	{
+		main.fill(en.owner.r,en.owner.g,en.owner.b);
+		float dist = (float)Math.sqrt(Math.pow(player.posX - r*widthBlock, 2) + Math.pow(player.posY - main.terrain[r][c], 2) + Math.pow(player.posZ - c*widthBlock, 2));
+		main.noStroke();
+		if (dist < 500)
+		{
+			float sizeY = widthBlock*3F;
+			main.pushMatrix();
+			main.translate(r*widthBlock, (float)main.terrain[r][c] + sizeY/2, c*widthBlock);
+			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
+			main.popMatrix();
+		}
+	}
 
 	//Make a model of entities with a height map
+	int widthBlock = 20;
 	public void addTerrain(double[][] t, float con, float cutoff)
 	{
 		terrain = new GridModel(t.length, t[0].length);
@@ -97,7 +135,6 @@ public class RenderSystem extends BaseSystem {
 		{
 			for (int c = 0; c < t[0].length; c++)
 			{
-				int widthBlock = 20;
 				double h = t[r][c];
 				//float con = (1F/10F)*widthBlock;
 				Entity en = new Entity();
