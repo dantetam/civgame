@@ -43,11 +43,11 @@ public class RenderSystem extends BaseSystem {
 				renderBlock(terrain.entities[r][c],r,c);
 			}
 		}
-		for (int r = 0; r < main.grid.tiles.length; r++)
+		for (int r = 0; r < main.grid.getTiles().length; r++)
 		{
-			for (int c = 0; c < main.grid.tiles[0].length; c++)
+			for (int c = 0; c < main.grid.getTiles()[0].length; c++)
 			{
-				Tile t = main.grid.tiles[r][c];
+				Tile t = main.grid.getTiles()[r][c];
 				if (t.improvement != null)
 				{
 					//Render the improvement
@@ -95,10 +95,10 @@ public class RenderSystem extends BaseSystem {
 			}
 			else
 			{
-				if (main.grid.tiles[r][c].owner != null)
+				if (main.grid.getTiles()[r][c].owner != null)
 				{
 					main.stroke(255);
-					Civilization civ = main.grid.tiles[r][c].owner;
+					Civilization civ = main.grid.getTiles()[r][c].owner;
 					main.fill(civ.r, civ.g, civ.b);
 				}
 				sampleSize = 1;

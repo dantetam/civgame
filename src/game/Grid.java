@@ -6,7 +6,7 @@ import data.EntityData;
 
 public class Grid {
 
-	public Tile[][] tiles;
+	private Tile[][] tiles;
 	public Civilization[] civs;
 	//public Civilization playerCiv;
 	//Player's civilization will always be the first
@@ -39,20 +39,50 @@ public class Grid {
 				r = (int)(Math.random()*tiles.length);
 				c = (int)(Math.random()*tiles[0].length);
 			} while (tiles[r][c].type.equals("Sea"));
-			//Test out giving a civilization land and a unit
-			tiles[r][c].owner = civs[i];
-			civs[i].tiles.add(tiles[r][c]);
-			
+			//Test out giving a civilization land and a unit 
+			//with proper encapsulation
+			addTile(civs[i], tiles[r][c]);
+
 			BaseEntity en = EntityData.get("Settler");
-			en.owner = civs[i];
-			civs[i].units.add((GameEntity) en);
-			tiles[r][c].addUnit(en);
+			addUnit(en,civs[i],r,c);
 		}
+	}
+
+	public void move(BaseEntity en, int rDis, int cDis)
+	{
+		int r = en.location.row; int c = en.location.col;
+		if (r+rDis >= 0 && r+rDis < tiles.length && c+cDis >= 0 && c+cDis < tiles.length)
+		{
+			tiles[r][c].occupants.remove(en);
+			en.location = tiles[r+rDis][c+cDis];
+			en.location.addUnit(en);
+		}
+	}
+
+	public void addUnit(BaseEntity en, Civilization civ, int r, int c)
+	{
+		en.owner = civ;
+		if (en instanceof GameEntity)
+			civ.units.add((GameEntity)en);
+		else if (en instanceof TileEntity)
+			civ.improvements.add((TileEntity)en);
+		tiles[r][c].addUnit(en);
+	}
+
+	public void addTile(Civilization civ, Tile tile)
+	{
+		tile.owner = civ;
+		civ.tiles.add(tile);
 	}
 
 	public void setupCivs()
 	{
 
+	}
+
+	public Tile[][] getTiles()
+	{
+		return tiles;
 	}
 
 }

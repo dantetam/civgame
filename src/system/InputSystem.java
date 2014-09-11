@@ -116,7 +116,7 @@ public class InputSystem extends BaseSystem {
 	{
 		if (key == 32)
 		{
-			System.out.println("Space");
+			//System.out.println("Space");
 			main.civilizationSystem.requestTurn = true;
 		}
 	}

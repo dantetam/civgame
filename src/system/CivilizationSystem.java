@@ -29,9 +29,7 @@ public class CivilizationSystem extends BaseSystem {
 						GameEntity en = civ.units.get(j);
 						int r = en.location.row;
 						int c = en.location.col;
-						en.location.occupants.remove(en);
-						en.location = main.grid.tiles[r+1][c+1];
-						en.location.addUnit(en);
+						main.grid.move(en,1,1);
 					}
 				}
 			}
