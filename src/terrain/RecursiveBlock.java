@@ -259,22 +259,25 @@ public class RecursiveBlock extends BaseTerrain {
 		//TODO: More than one starter block?
 		terrain(start,3);
 		
-		float base = 70;
-		float radius = 70; 
-		float block = 64;
-		for (int i = 0; i < 2; i++) 
+		if (args[1] == 1)
 		{
-			for (int j = 0; j < (int)Math.pow(2,i); j++) 
+			float base = 70;
+			float radius = 70; 
+			float block = 64;
+			for (int i = 0; i < 2; i++) 
 			{
-				double angle = Math.random()*6.28;
-				System.out.println(angle);
-				int size = (int)(block/(Math.pow(1.5,j-1)));
-				if (size >= 16)
+				for (int j = 0; j < (int)Math.pow(2,i); j++) 
 				{
-					startIsland(size,size,size,(int)(radius*Math.cos(angle)),100,(int)(radius*Math.sin(angle)),(int)(Math.random()*2 + 1));
+					double angle = Math.random()*6.28;
+					System.out.println(angle);
+					int size = (int)(block/(Math.pow(1.5,j-1)));
+					if (size >= 16)
+					{
+						startIsland(size,size,size,(int)(radius*Math.cos(angle)),100,(int)(radius*Math.sin(angle)),(int)(Math.random()*2 + 1));
+					}
 				}
+				radius = radius + (float)Math.pow(base,1.3 - i/10);
 			}
-			radius = radius + (float)Math.pow(base,1.3 - i/10);
 		}
 		
 		int n = 0;
@@ -295,7 +298,7 @@ public class RecursiveBlock extends BaseTerrain {
 		terrain = heightMap((int)args[0]);
 		terrain = expandData(terrain, terrain.length*expandRatio);
 		//println(n + " blocks");
-		printTable(terrain);
+		//printTable(terrain);
 		zeroMap = new boolean[terrain.length][terrain[0].length];
 		for (int r = 0; r < terrain.length; r++)
 		{
@@ -311,7 +314,7 @@ public class RecursiveBlock extends BaseTerrain {
 				}
 			}
 		}
-		rough();
+		if (args[1] == 1) rough();
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)

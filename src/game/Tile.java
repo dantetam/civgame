@@ -10,15 +10,15 @@ public class Tile {
 	
 	public String type;
 	public int height;
-	public int rows, cols;
+	public int row, col;
 	
-	public Tile(String type, int height, int rows, int cols)
+	public Tile(String type, int height, int row, int col)
 	{
 		occupants = new ArrayList<GameEntity>();
 		this.type = type;
 		this.height = height;
-		this.rows = rows;
-		this.cols = cols;
+		this.row = row;
+		this.col = col;
 	}
 	
 	public void addUnit(BaseEntity en)

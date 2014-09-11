@@ -120,7 +120,7 @@ public class RenderSystem extends BaseSystem {
 		{
 			float sizeY = widthBlock*3F;
 			main.pushMatrix();
-			main.translate(r*widthBlock, (float)main.terrain[r][c] + sizeY/2, c*widthBlock);
+			main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
 			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
 			main.popMatrix();
 		}

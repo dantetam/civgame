@@ -112,7 +112,7 @@ public class EntityData {
 				return new GameEntity()
 			}
 		}*/
-		System.out.println(name);
+		//System.out.println(name);
 		BaseEntity b = gameEntityMap.get(name);
 		if (b != null)
 		{

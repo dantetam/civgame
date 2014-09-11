@@ -104,7 +104,7 @@ public class CivGame extends PApplet {
 		else if (terrainType.equals("terrain2"))
 		{
 			map = new RecursiveBlock(87069200L);
-			terrain = map.generate(new double[]{10});
+			terrain = map.generate(new double[]{10,0});
 			con = 3F;
 			cutoff = 1;
 		}
@@ -120,6 +120,13 @@ public class CivGame extends PApplet {
 			print(terrain);
 			con = 1F;
 			cutoff = 40;
+		}
+		else if (terrainType.equals("terrain4"))
+		{
+			map = new RecursiveBlock(87069200L);
+			terrain = map.generate(new double[]{10,1});
+			con = 3F;
+			cutoff = 1;
 		}
 		else
 		{

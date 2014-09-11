@@ -41,6 +41,7 @@ public class Grid {
 			} while (tiles[r][c].type.equals("Sea"));
 			//Test out giving a civilization land and a unit
 			tiles[r][c].owner = civs[i];
+			civs[i].tiles.add(tiles[r][c]);
 			
 			BaseEntity en = EntityData.get("Settler");
 			en.owner = civs[i];
