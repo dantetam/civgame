@@ -65,6 +65,7 @@ public class CivGame extends PApplet {
 		systems.add(chunkSystem);
 		erosion = new Erosion(terrain,1);
 		erode();
+		chunkSystem.tick();
 	}
 
 	public void draw()
@@ -165,4 +166,9 @@ public class CivGame extends PApplet {
 		}
 	}
 
+	public int widthBlock()
+	{
+		return renderSystem.widthBlock;
+	}
+	
 }

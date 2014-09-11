@@ -40,24 +40,32 @@ public class RenderSystem extends BaseSystem {
 		{
 			for (int c = 0; c < terrain.entities[0].length; c++)
 			{
-				renderBlock(terrain.entities[r][c],r,c);
+				int chunk = main.chunkSystem.chunkFromLocation(r*widthBlock,c*widthBlock);
+				float dist = main.chunkSystem.dist[chunk];
+				if (dist < 2000 && dist != -1F)
+					renderBlock(terrain.entities[r][c],dist,r,c);
 			}
 		}
 		for (int r = 0; r < main.grid.getTiles().length; r++)
 		{
 			for (int c = 0; c < main.grid.getTiles()[0].length; c++)
 			{
-				Tile t = main.grid.getTiles()[r][c];
-				if (t.improvement != null)
+				int chunk = main.chunkSystem.chunkFromLocation(r*widthBlock,c*widthBlock);
+				float dist = main.chunkSystem.dist[chunk];
+				if (dist < dist1 && dist != -1F)
 				{
-					//Render the improvement
-				}
-				if (t.occupants.size() > 0)
-				{
-					for (int i = 0; i < t.occupants.size(); i++)
+					Tile t = main.grid.getTiles()[r][c];
+					if (t.improvement != null)
 					{
-						GameEntity en = t.occupants.get(i);
-						renderGameEntity(en,r,c);
+						//Render the improvement
+					}
+					if (t.occupants.size() > 0)
+					{
+						for (int i = 0; i < t.occupants.size(); i++)
+						{
+							GameEntity en = t.occupants.get(i);
+							renderGameEntity(en,dist,r,c);
+						}
 					}
 				}
 			}
@@ -66,15 +74,14 @@ public class RenderSystem extends BaseSystem {
 
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
-	public void renderBlock(Entity en, int r, int c)
+	private int dist1 = 1000; private int dist2 = 1500;
+	public void renderBlock(Entity en, float dist, int r, int c)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
 		if (en.sizeY >= cutoff)
 		{
 			int sampleSize;
-			int dist1 = 500;
-			int dist2 = 1000;
-			float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
+			//float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
 			main.fill(135, 206, 235);
 			main.noStroke();
 			if (dist > dist2)
@@ -109,25 +116,22 @@ public class RenderSystem extends BaseSystem {
 			main.popMatrix();
 		}
 	}
-	
+
 	//Render a game entity
-	public void renderGameEntity(GameEntity en, int r, int c)
+	public void renderGameEntity(GameEntity en, float dist, int r, int c)
 	{
 		main.fill(en.owner.r,en.owner.g,en.owner.b);
-		float dist = (float)Math.sqrt(Math.pow(player.posX - r*widthBlock, 2) + Math.pow(player.posY - main.terrain[r][c], 2) + Math.pow(player.posZ - c*widthBlock, 2));
+		//float dist = (float)Math.sqrt(Math.pow(player.posX - r*widthBlock, 2) + Math.pow(player.posY - main.terrain[r][c], 2) + Math.pow(player.posZ - c*widthBlock, 2));
 		main.noStroke();
-		if (dist < 500)
-		{
-			float sizeY = widthBlock*3F;
-			main.pushMatrix();
-			main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
-			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
-			main.popMatrix();
-		}
+		float sizeY = widthBlock*3F;
+		main.pushMatrix();
+		main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
+		main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
+		main.popMatrix();
 	}
 
 	//Make a model of entities with a height map
-	int widthBlock = 20;
+	public int widthBlock = 20;
 	public void addTerrain(double[][] t, float con, float cutoff)
 	{
 		terrain = new GridModel(t.length, t[0].length);

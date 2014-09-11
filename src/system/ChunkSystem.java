@@ -1,11 +1,12 @@
 package system;
 
+import processing.core.PApplet;
 import render.CivGame;
 
 public class ChunkSystem extends BaseSystem {
 
 	public int[][] chunkMap;
-	public double[] dist;
+	public float[] dist;
 	
 	public ChunkSystem(CivGame civGame) 
 	{
@@ -49,26 +50,56 @@ public class ChunkSystem extends BaseSystem {
 				chunkNum++;
 			}
 		}
+		dist = new float[chunkNum];
+		
+		/*int last = 1000;
 		for (int r = 0; r < chunkMap.length; r++)
 		{
 			for (int c = 0; c < chunkMap[0].length; c++)
 			{
-				System.out.print((int)chunkMap[r][c] + " ");
+				if ((int)chunkMap[r][c] != last)
+					System.out.print((int)chunkMap[r][c] + " ");
+				last = (int)chunkMap[r][c];
 			}
 			System.out.println();
-		}
+		}*/
 	}
 	
-	public int chunkFromLocation(double posX, double posY)
+	public int chunkFromLocation(int posX, int posY)
 	{
-		
+		int w = main.widthBlock();
+		return chunkMap[(posX - posX%w)/w][(posY - posY%w)/w];
+	}
+	
+	public int[] locationFromChunk(int chunk)
+	{
+		for (int r = 0; r < chunkMap.length; r++)
+		{
+			for (int c = 0; c < chunkMap[0].length; c++)
+			{
+				if (chunkMap[r][c] == chunk)
+				{
+					int w = main.widthBlock();
+					return new int[]{r*w,c*w};
+				}
+			}
+		}
+		//System.err.println("Chunk not found: " + chunk);
+		return null;
 	}
 
 	public void tick() 
 	{
-		if (main.frameCount % 250 == 0)
+		if (main.frameCount % 50 == 0)
 		{
-			
+			for (int i = 0; i < dist.length; i++)
+			{
+				int[] dists = locationFromChunk(i);
+				if (dists != null)
+					dist[i] = PApplet.dist(dists[0], dists[1], main.player.posX, main.player.posZ);
+				else
+					dist[i] = -1;
+			}
 		}
 	}
 
