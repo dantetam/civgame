@@ -28,6 +28,7 @@ public class CivGame extends PApplet {
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
 	private InputSystem inputSystem = new InputSystem(this);
+	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 
 	public CivGame(Game game, int numCivs, String challengeType, String terrainType)
 	{
@@ -40,6 +41,7 @@ public class CivGame extends PApplet {
 
 		systems.add(renderSystem);
 		systems.add(inputSystem);
+		systems.add(civilizationSystem);
 	}
 
 	public void setup()

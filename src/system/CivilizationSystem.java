@@ -31,6 +31,7 @@ public class CivilizationSystem extends BaseSystem {
 						int c = en.location.col;
 						en.location.occupants.remove(en);
 						en.location = main.grid.tiles[r+1][c+1];
+						en.location.addUnit(en);
 					}
 				}
 			}
