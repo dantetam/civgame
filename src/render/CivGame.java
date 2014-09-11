@@ -29,6 +29,7 @@ public class CivGame extends PApplet {
 	private RenderSystem renderSystem = new RenderSystem(this);
 	private InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
+	public ChunkSystem chunkSystem;
 
 	public CivGame(Game game, int numCivs, String challengeType, String terrainType)
 	{
@@ -60,6 +61,8 @@ public class CivGame extends PApplet {
 			}
 			println();
 		}*/
+		chunkSystem = new ChunkSystem(this);
+		systems.add(chunkSystem);
 		erosion = new Erosion(terrain,1);
 		erode();
 	}

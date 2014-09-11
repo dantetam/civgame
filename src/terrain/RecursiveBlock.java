@@ -400,7 +400,7 @@ public class RecursiveBlock extends BaseTerrain {
 					//random.nextDouble();
 				}
 				continue;
-			} 
+			}
 			Entity clone = new Entity();
 			int newSize = (int)Math.floor((random.nextDouble()*0.5 + 0.5)*en.sizeX);
 			newSize -= newSize % 2;
