@@ -44,7 +44,7 @@ public class RenderSystem extends BaseSystem {
 				int chunk = main.chunkSystem.chunkFromLocation(r*widthBlock,c*widthBlock);
 				float dist = main.chunkSystem.dist[chunk]; 
 				//TODO: The center of the player's view is the right bound of the viewing angle
-				if (dist < 2000 && dist != -1F && Math.abs(main.chunkSystem.angle[chunk] - main.chunkSystem.playerAngle) < viewAngle && main.chunkSystem.angle[chunk] != -10)
+				if (dist < 2000 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10)
 				{
 					renderBlock(terrain.entities[r][c],dist,r,c);
 				}
@@ -155,6 +155,19 @@ public class RenderSystem extends BaseSystem {
 				this.con = con;
 				this.cutoff = cutoff;
 			}
+		}
+	}
+	
+	//Compares two angles between 0 and 6.28 (2*Math.PI)
+	public boolean angle(double a1, double a2)
+	{
+		if (a2 > a1)
+		{
+			return (2*Math.PI - a2) + a1 <= viewAngle || a2 - a1 <= viewAngle;
+		}
+		else
+		{
+			return (2*Math.PI - a1) + a2 <= viewAngle || a1 - a2 <= viewAngle;
 		}
 	}
 
