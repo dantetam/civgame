@@ -91,9 +91,14 @@ public class ChunkSystem extends BaseSystem {
 		return null;
 	}
 
+	//How many frames to pass before updating
+	public int updateFrame = 50;
 	public void tick() 
 	{
-		if (main.frameCount % 50 == 0)
+		//50, 1000
+		//20, 100
+		//if (main.frameCount % (main.player.posY-100)/30 + 20 == 0)
+		if (main.frameCount % updateFrame == 0)
 		{
 			for (int i = 0; i < dist.length; i++)
 			{

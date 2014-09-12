@@ -7,16 +7,19 @@ import render.CivGame;
 public class InputSystem extends BaseSystem {
 
 	private ArrayList<Character> keyPresses;
-	
+	public boolean moving = false;
+	public boolean lastMoving = false;
+
 	public InputSystem(CivGame main)
 	{
 		super(main);
 		keyPresses = new ArrayList<Character>();
 	}
-	
+
 	//Goes through keys backwards to avoid arraylist trap
 	public void tick()
 	{
+		moving = false;
 		for (int i = keyPresses.size() - 1; i >= 0; i--)
 		{
 			executeAction(keyPresses.get(i));
@@ -71,11 +74,24 @@ public class InputSystem extends BaseSystem {
 					main.player.posY += 10;
 					main.player.tarY += 10;
 				}
+				if (i == 0 || i == 3 || i == 4 || i == 16 || i == 18 || i == 22)
+				{
+					//main.setUpdateFrame(50);
+					//if (moving) main.setUpdateFrame(10);
+					moving = true;
+				}
+				//System.out.println(moving);
 				main.redraw();
 			}
 		}
+		if (moving == false && lastMoving)
+		{
+			main.chunkSystem.tick();
+			System.out.println("Update");
+		}
+		lastMoving = moving;
 	}
-	
+
 	//Stores which keys are being held (such as panning with WASD)
 	public boolean[] keyHeld = new boolean[26];
 	public void queueKey(char key)
@@ -86,7 +102,7 @@ public class InputSystem extends BaseSystem {
 		}
 		keyPresses.add(key);
 	}
-	
+
 	public void keyReleased(char key)
 	{
 		if (key >= 97 && key <= 122)
@@ -94,7 +110,7 @@ public class InputSystem extends BaseSystem {
 			keyHeld[key-97] = false;
 		}
 	}
-	
+
 	/*public void test()
 	{
 		for (int i = 0; i < keyHeld.length; i++)
@@ -111,7 +127,7 @@ public class InputSystem extends BaseSystem {
 			}
 		}
 	}*/
-	
+
 	public void executeAction(char key)
 	{
 		if (key == 32)
@@ -120,5 +136,5 @@ public class InputSystem extends BaseSystem {
 			main.civilizationSystem.requestTurn = true;
 		}
 	}
-	
+
 }

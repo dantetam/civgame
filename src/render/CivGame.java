@@ -166,9 +166,7 @@ public class CivGame extends PApplet {
 		}
 	}
 
-	public int widthBlock()
-	{
-		return renderSystem.widthBlock;
-	}
+	public int widthBlock() {return renderSystem.widthBlock;}
+	public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
 	
 }
