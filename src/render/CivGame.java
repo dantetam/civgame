@@ -104,7 +104,7 @@ public class CivGame extends PApplet {
 		{
 			map = new PerlinNoise(870L);
 			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,256});
-			con = 0.5F;
+			con = 1F;
 			cutoff = 55;
 		}
 		else if (terrainType.equals("terrain2"))

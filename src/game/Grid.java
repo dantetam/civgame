@@ -41,7 +41,7 @@ public class Grid {
 			} while (tiles[r][c].type.equals("Sea"));
 			//Test out giving a civilization land and a unit 
 			//with proper encapsulation
-			addTile(civs[i], tiles[r][c]);
+			//addTile(civs[i], tiles[r][c]);
 
 			BaseEntity en = EntityData.get("Settler");
 			addUnit(en,civs[i],r,c);

@@ -29,7 +29,7 @@ public class CivilizationSystem extends BaseSystem {
 						GameEntity en = civ.units.get(j);
 						int r = en.location.row;
 						int c = en.location.col;
-						main.grid.move(en,1,1);
+						main.grid.move(en,(int)(Math.random()*3) - 1,(int)(Math.random()*3) - 1);
 					}
 				}
 			}

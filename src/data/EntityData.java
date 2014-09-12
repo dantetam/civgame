@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import entity.Entity;
 import game.*;
+import units.*;
 
 public class EntityData {
 
@@ -101,6 +102,9 @@ public class EntityData {
 	private static void setupEntityMap()
 	{
 		gameEntityMap.put("Settler",new GameEntity("Settler"));
+		gameEntityMap.put("Worker",new GameEntity("Worker"));
+		
+		tileEntityMap.put("City",new City("City"));
 	}
 	
 	public static BaseEntity get(String name)

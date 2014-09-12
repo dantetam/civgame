@@ -34,7 +34,7 @@ public class ChunkSystem extends BaseSystem {
 			System.out.println();
 		}*/
 		//int width = (int)Math.ceil(Math.sqrt(chunkMap.length*chunkMap[0].length));
-		int width = 8;
+		int width = 16;
 		int chunkNum = 0;
 		for (int r = 0; r < chunkMap.length + width; r += width)
 		{
