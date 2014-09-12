@@ -74,7 +74,7 @@ public class RenderSystem extends BaseSystem {
 
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
-	private int dist1 = 1000; private int dist2 = 1500;
+	private int dist1 = 500; private int dist2 = 1000;
 	public void renderBlock(Entity en, float dist, int r, int c)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
