@@ -14,9 +14,9 @@ public class Player {
 		posX = 2000;
 		posY = 700;
 		posZ = 2000;
-		tarX = 0;
+		tarX = 1000;
 		tarY = 0;
-		tarZ = 0;
+		tarZ = 1000;
 	}
 	
 	/*public void moveTo(float x, float y, float z)

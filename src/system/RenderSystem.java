@@ -36,14 +36,18 @@ public class RenderSystem extends BaseSystem {
 		{
 			renderBlock(terrain.entities.get(i));
 		}*/
+		//Look to see if the entity is both within the player's vision and is a close enough distance
 		for (int r = 0; r < terrain.entities.length; r++)
 		{
 			for (int c = 0; c < terrain.entities[0].length; c++)
 			{
 				int chunk = main.chunkSystem.chunkFromLocation(r*widthBlock,c*widthBlock);
-				float dist = main.chunkSystem.dist[chunk];
-				if (dist < 2000 && dist != -1F)
+				float dist = main.chunkSystem.dist[chunk]; 
+				//TODO: The center of the player's view is the right bound of the viewing angle
+				if (dist < 2000 && dist != -1F && Math.abs(main.chunkSystem.angle[chunk] - main.chunkSystem.playerAngle) < viewAngle && main.chunkSystem.angle[chunk] != -10)
+				{
 					renderBlock(terrain.entities[r][c],dist,r,c);
+				}
 			}
 		}
 		for (int r = 0; r < main.grid.getTiles().length; r++)
@@ -52,7 +56,7 @@ public class RenderSystem extends BaseSystem {
 			{
 				int chunk = main.chunkSystem.chunkFromLocation(r*widthBlock,c*widthBlock);
 				float dist = main.chunkSystem.dist[chunk];
-				if (dist < dist1 && dist != -1F)
+				if (dist < dist1 && dist != -1F && Math.abs(main.chunkSystem.angle[chunk] - main.chunkSystem.playerAngle) < viewAngle && main.chunkSystem.angle[chunk] != -10)
 				{
 					Tile t = main.grid.getTiles()[r][c];
 					if (t.improvement != null)
@@ -74,7 +78,8 @@ public class RenderSystem extends BaseSystem {
 
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
-	private int dist1 = 500; private int dist2 = 1000;
+	private final int dist1 = 500; private final int dist2 = 1000;
+	private double viewAngle = Math.PI/2;
 	public void renderBlock(Entity en, float dist, int r, int c)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)

@@ -33,7 +33,8 @@ public class ChunkSystem extends BaseSystem {
 			}
 			System.out.println();
 		}*/
-		int width = 8;
+		//int width = (int)Math.ceil(Math.sqrt(chunkMap.length*chunkMap[0].length));
+		int width = 16;
 		int chunkNum = 0;
 		for (int r = 0; r < chunkMap.length + width; r += width)
 		{
@@ -102,6 +103,8 @@ public class ChunkSystem extends BaseSystem {
 				else
 					dist[i] = -1;
 			}
+			playerAngle = Math.atan2(main.player.tarZ - main.player.posZ, main.player.posX - main.player.posX);
+			//System.out.println(playerAngle);
 			for (int i = 0; i < angle.length; i++)
 			{
 				int[] dists = locationFromChunk(i);
@@ -111,7 +114,6 @@ public class ChunkSystem extends BaseSystem {
 				}
 				else
 					angle[i] = -10;
-				playerAngle = Math.atan2(main.player.tarZ - main.player.posZ, main.player.posX - main.player.posX);
 			}
 		}
 	}
