@@ -86,8 +86,8 @@ public class InputSystem extends BaseSystem {
 		}
 		if (moving == false && lastMoving)
 		{
-			main.chunkSystem.tick();
-			System.out.println("Update");
+			main.chunkSystem.update();
+			//System.out.println("Update");
 		}
 		lastMoving = moving;
 	}

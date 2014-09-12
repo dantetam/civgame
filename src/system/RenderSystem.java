@@ -79,20 +79,20 @@ public class RenderSystem extends BaseSystem {
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
 	private final int dist1 = 500; private final int dist2 = 2000;
-	private double viewAngle = Math.PI/2;
+	private double viewAngle = Math.PI/2 + Math.PI/12;
 	public void renderBlock(Entity en, float dist, int r, int c)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
 		if (en.sizeY >= cutoff)
 		{
-			int sampleSize;
+			float sampleSize;
 			//float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
 			main.fill(135, 206, 235);
 			main.noStroke();
 			if (dist > dist2)
 			{
 				sampleSize = 4;
-				if (!(r % sampleSize == 0 && c % sampleSize == 0))
+				if (!((r+1) % sampleSize == 0 && (c+1) % sampleSize == 0))
 				{
 					return;
 				}
@@ -100,7 +100,7 @@ public class RenderSystem extends BaseSystem {
 			else if (dist > dist1)
 			{	
 				sampleSize = 2;
-				if (!(r % sampleSize == 0 && c % sampleSize == 0))
+				if (!((r+1) % sampleSize == 0 && (c+1) % sampleSize == 0))
 				{
 					return;
 				}
@@ -116,6 +116,7 @@ public class RenderSystem extends BaseSystem {
 				sampleSize = 1;
 			}
 			main.pushMatrix();
+			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			main.translate(en.posX, en.posY*con, en.posZ);
 			main.box(en.sizeX*sampleSize, (en.sizeY - cutoff)*con, en.sizeZ*sampleSize);
 			main.popMatrix();

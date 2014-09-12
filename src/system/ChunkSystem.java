@@ -34,7 +34,7 @@ public class ChunkSystem extends BaseSystem {
 			System.out.println();
 		}*/
 		//int width = (int)Math.ceil(Math.sqrt(chunkMap.length*chunkMap[0].length));
-		int width = 16;
+		int width = 8;
 		int chunkNum = 0;
 		for (int r = 0; r < chunkMap.length + width; r += width)
 		{
@@ -83,7 +83,7 @@ public class ChunkSystem extends BaseSystem {
 				if (chunkMap[r][c] == chunk)
 				{
 					int w = main.widthBlock();
-					return new int[]{r*w,c*w};
+					return new int[]{r*w + (int)(w/2F),c*w + (int)(w/2F)};
 				}
 			}
 		}
@@ -100,26 +100,31 @@ public class ChunkSystem extends BaseSystem {
 		//if (main.frameCount % (main.player.posY-100)/30 + 20 == 0)
 		if (main.frameCount % updateFrame == 0)
 		{
-			for (int i = 0; i < dist.length; i++)
+			update();
+		}
+	}
+
+	public void update()
+	{
+		for (int i = 0; i < dist.length; i++)
+		{
+			int[] dists = locationFromChunk(i);
+			if (dists != null)
+				dist[i] = PApplet.dist(dists[0], dists[1], main.player.posX, main.player.posZ);
+			else
+				dist[i] = -1;
+		}
+		playerAngle = Math.atan2(main.player.tarZ - main.player.posZ, main.player.posX - main.player.posX);
+		//System.out.println(playerAngle);
+		for (int i = 0; i < angle.length; i++)
+		{
+			int[] dists = locationFromChunk(i);
+			if (dists != null)
 			{
-				int[] dists = locationFromChunk(i);
-				if (dists != null)
-					dist[i] = PApplet.dist(dists[0], dists[1], main.player.posX, main.player.posZ);
-				else
-					dist[i] = -1;
+				angle[i] = Math.atan2(dists[1] - main.player.posZ, dists[0] - main.player.posX);
 			}
-			playerAngle = Math.atan2(main.player.tarZ - main.player.posZ, main.player.posX - main.player.posX);
-			//System.out.println(playerAngle);
-			for (int i = 0; i < angle.length; i++)
-			{
-				int[] dists = locationFromChunk(i);
-				if (dists != null)
-				{
-					angle[i] = Math.atan2(dists[1] - main.player.posZ, dists[0] - main.player.posX);
-				}
-				else
-					angle[i] = -10;
-			}
+			else
+				angle[i] = -10;
 		}
 	}
 
