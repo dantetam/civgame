@@ -31,7 +31,7 @@ public class CivilizationSystem extends BaseSystem {
 						int r = en.location.row;
 						int c = en.location.col;
 						main.grid.move(en,(int)(Math.random()*3) - 1,(int)(Math.random()*3) - 1);
-						if (Math.random() < 0.5)
+						if (Math.random() < 0.5 && en.location.owner == null)
 						{
 							sacrifice(en);
 						}

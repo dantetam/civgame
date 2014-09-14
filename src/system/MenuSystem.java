@@ -25,12 +25,29 @@ public class MenuSystem extends BaseSystem {
 
 	public void tick()
 	{
-		main.pg.beginDraw();
+		main.hint(main.DISABLE_DEPTH_TEST);
+		main.textSize(20);
+		//main.background(255,255,255,0);
 		main.camera();
+		main.noLights();
+		for (int i = 0; i < activeMenu.buttons.size(); i++)
+		{
+			main.fill(0);
+			Button b = activeMenu.buttons.get(i);
+			main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+			main.textAlign(main.pg.CENTER, main.pg.CENTER);
+			main.fill(255);
+			main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+		}
+		main.hint(main.ENABLE_DEPTH_TEST);
+		/*main.pg.beginDraw();
 		//main.perspective();
 		main.pg.textSize(20);
 		main.pg.background(255,255,255,0);
+		main.hint(PApplet.DISABLE_DEPTH_TEST);
 		main.pg.hint(PApplet.DISABLE_DEPTH_TEST);
+		main.camera();
+		main.noLights();
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
 		{
 			main.pg.fill(0);
@@ -40,9 +57,11 @@ public class MenuSystem extends BaseSystem {
 			main.pg.fill(255);
 			main.pg.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
+		main.hint(PApplet.ENABLE_DEPTH_TEST);
 		main.pg.hint(PApplet.ENABLE_DEPTH_TEST);
+		main.lights();
 		main.pg.endDraw();
-		main.image(main.pg, 1500, 900);
+		main.image(main.pg, 1500, 900);*/
 	}
 	
 }

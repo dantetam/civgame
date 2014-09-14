@@ -2,6 +2,8 @@ package system;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+import render.Button;
 import render.CivGame;
 import entity.*;
 import game.BaseEntity;
@@ -30,7 +32,7 @@ public class RenderSystem extends BaseSystem {
 		main.lights();
 		//stroke(0);
 		main.fill(135, 206, 235);
-		main.perspective(3.14F/2,15F/9F,1,10000);
+		//main.perspective(3.14F/2,15F/9F,1,10000);
 		//System.out.println(player);
 		setCamera();
 		/*for (int i = 0; i < terrain.entities.size(); i++)
@@ -75,6 +77,7 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
+		//main.perspective();
 		//main.stroke(255);
 		//float lineWidth = 20;
 		//main.line(main.width/2 - lineWidth/2, main.height/2 - lineWidth/2, main.width/2 + lineWidth/2, main.height/2 + lineWidth/2);
