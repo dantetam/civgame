@@ -10,12 +10,12 @@ public abstract class BaseEntity {
 	
 	public BaseEntity(String name)
 	{
-		
+		this.name = name;
 	}
 	
 	public BaseEntity(BaseEntity other)
 	{
-		
+		name = other.name; 
 	}
 	
 }

@@ -68,6 +68,17 @@ public class Grid {
 			civ.improvements.add((TileEntity)en);
 		tiles[r][c].addUnit(en);
 	}
+	
+	public void removeUnit(BaseEntity en)
+	{
+		tiles[en.location.row][en.location.col].occupants.remove(en);
+		if (en instanceof GameEntity)
+			en.owner.units.remove((GameEntity)en);
+		else if (en instanceof TileEntity)
+			en.owner.improvements.remove((TileEntity)en);
+		en.location = null;
+		en = null;
+	}
 
 	public void addTile(Civilization civ, Tile tile)
 	{

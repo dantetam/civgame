@@ -125,6 +125,10 @@ public class EntityData {
 		b = tileEntityMap.get(name);
 		if (b != null)
 		{
+			if (name == "City")
+			{
+				return new City((City)b);
+			}
 			return new TileEntity((TileEntity)b);
 		}
 		System.out.println("Entity name not found");
