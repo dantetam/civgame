@@ -32,7 +32,7 @@ public class RenderSystem extends BaseSystem {
 		main.fill(135, 206, 235);
 		main.perspective(3.14F/2,15F/9F,1,10000);
 		//System.out.println(player);
-		main.camera(player.posX,player.posY,player.posZ,player.tarX,player.tarY,player.tarZ,0,-1,0);
+		setCamera();
 		/*for (int i = 0; i < terrain.entities.size(); i++)
 		{
 			renderBlock(terrain.entities.get(i));
@@ -75,14 +75,14 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
-		main.stroke(255);
-		float lineWidth = 20;
-		main.line(main.width/2 - lineWidth/2, main.height/2 - lineWidth/2, main.width/2 + lineWidth/2, main.height/2 + lineWidth/2);
+		//main.stroke(255);
+		//float lineWidth = 20;
+		//main.line(main.width/2 - lineWidth/2, main.height/2 - lineWidth/2, main.width/2 + lineWidth/2, main.height/2 + lineWidth/2);
 	}
-
+	
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
-	private final int dist1 = 500; private final int dist2 = 2000;
+	private final int dist1 = 800; private final int dist2 = 1200;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
 	public void renderBlock(Entity en, float dist, int r, int c)
 	{
@@ -140,6 +140,11 @@ public class RenderSystem extends BaseSystem {
 		main.popMatrix();
 	}
 
+	public void setCamera()
+	{
+		main.camera(player.posX,player.posY,player.posZ,player.tarX,player.tarY,player.tarZ,0,-1,0);
+	}
+	
 	//Make a model of entities with a height map
 	public float widthBlock = 20;
 	public void addTerrain(double[][] t, float con, float cutoff)
