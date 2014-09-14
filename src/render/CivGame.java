@@ -1,6 +1,7 @@
 package render;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,9 @@ public class CivGame extends PApplet {
 
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
+	public PGraphics pg;
+	private MenuSystem menuSystem = new MenuSystem(this);
+	
 	private InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
@@ -43,11 +47,13 @@ public class CivGame extends PApplet {
 		systems.add(renderSystem);
 		systems.add(inputSystem);
 		systems.add(civilizationSystem);
+		systems.add(menuSystem);
 	}
 
 	public void setup()
 	{
 		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
+		pg = createGraphics(1500,900);
 		background(0,225,255);
 		camera(500,500,500,0,0,0,0,-1,0);
 		box(100,100,100);
@@ -166,7 +172,7 @@ public class CivGame extends PApplet {
 		}
 	}
 
-	public int widthBlock() {return renderSystem.widthBlock;}
+	public float widthBlock() {return renderSystem.widthBlock;}
 	public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
 	
 }

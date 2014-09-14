@@ -11,6 +11,7 @@ public class Tile {
 	public String type;
 	public int height;
 	public int row, col;
+	public boolean road;
 	
 	public Tile(String type, int height, int row, int col)
 	{
@@ -19,6 +20,7 @@ public class Tile {
 		this.height = height;
 		this.row = row;
 		this.col = col;
+		road = false;
 	}
 	
 	public void addUnit(BaseEntity en)

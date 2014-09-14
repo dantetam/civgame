@@ -70,7 +70,7 @@ public class ChunkSystem extends BaseSystem {
 
 	public int chunkFromLocation(int posX, int posY)
 	{
-		int w = main.widthBlock();
+		int w = (int)main.widthBlock();
 		return chunkMap[(posX - posX%w)/w][(posY - posY%w)/w];
 	}
 
@@ -82,7 +82,7 @@ public class ChunkSystem extends BaseSystem {
 			{
 				if (chunkMap[r][c] == chunk)
 				{
-					int w = main.widthBlock();
+					int w = (int)main.widthBlock();
 					return new int[]{r*w + (int)(w/2F),c*w + (int)(w/2F)};
 				}
 			}

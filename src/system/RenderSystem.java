@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import render.CivGame;
 import entity.*;
+import game.BaseEntity;
 import game.Civilization;
 import game.GameEntity;
 import game.Tile;
@@ -41,7 +42,7 @@ public class RenderSystem extends BaseSystem {
 		{
 			for (int c = 0; c < terrain.entities[0].length; c++)
 			{
-				int chunk = main.chunkSystem.chunkFromLocation(r*widthBlock,c*widthBlock);
+				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
 				float dist = main.chunkSystem.dist[chunk]; 
 				//TODO: The center of the player's view is the right bound of the viewing angle
 				if (dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10)
@@ -54,14 +55,14 @@ public class RenderSystem extends BaseSystem {
 		{
 			for (int c = 0; c < main.grid.getTiles()[0].length; c++)
 			{
-				int chunk = main.chunkSystem.chunkFromLocation(r*widthBlock,c*widthBlock);
+				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
 				float dist = main.chunkSystem.dist[chunk];
 				if (dist < dist1 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10)
 				{
 					Tile t = main.grid.getTiles()[r][c];
 					if (t.improvement != null)
 					{
-						//Render the improvement
+						renderGameEntity(t.improvement,dist,r,c);
 					}
 					if (t.occupants.size() > 0)
 					{
@@ -74,6 +75,9 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
+		main.stroke(255);
+		float lineWidth = 20;
+		main.line(main.width/2 - lineWidth/2, main.height/2 - lineWidth/2, main.width/2 + lineWidth/2, main.height/2 + lineWidth/2);
 	}
 
 	//Render a block by accessing main's P3D abilities
@@ -92,7 +96,7 @@ public class RenderSystem extends BaseSystem {
 			if (dist > dist2)
 			{
 				sampleSize = 4;
-				if (!((r+1) % sampleSize == 0 && (c+1) % sampleSize == 0))
+				if (!((r) % sampleSize == 0 && (c) % sampleSize == 0))
 				{
 					return;
 				}
@@ -124,7 +128,7 @@ public class RenderSystem extends BaseSystem {
 	}
 
 	//Render a game entity
-	public void renderGameEntity(GameEntity en, float dist, int r, int c)
+	public void renderGameEntity(BaseEntity en, float dist, int r, int c)
 	{
 		main.fill(en.owner.r,en.owner.g,en.owner.b);
 		//float dist = (float)Math.sqrt(Math.pow(player.posX - r*widthBlock, 2) + Math.pow(player.posY - main.terrain[r][c], 2) + Math.pow(player.posZ - c*widthBlock, 2));
@@ -137,7 +141,7 @@ public class RenderSystem extends BaseSystem {
 	}
 
 	//Make a model of entities with a height map
-	public int widthBlock = 20;
+	public float widthBlock = 20;
 	public void addTerrain(double[][] t, float con, float cutoff)
 	{
 		terrain = new GridModel(t.length, t[0].length);
