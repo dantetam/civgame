@@ -30,9 +30,13 @@ public class CivilizationSystem extends BaseSystem {
 						GameEntity en = civ.units.get(j);
 						int r = (int)(Math.random()*3) - 1;
 						int c = (int)(Math.random()*3) - 1;
-						if (main.grid.getTiles()[en.location.row+r][en.location.col+c].owner == null)
+						if (main.grid.getTile(en.location.row+r,en.location.col+c) != null)
 						{
-							main.grid.move(en,r,c);
+							if (main.grid.getTile(en.location.row+r,en.location.col+c).owner == en.owner ||
+									main.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
+							{
+								main.grid.move(en,r,c);
+							}
 						}
 						if (Math.random() < 0.5 && en.location.owner == null)
 						{
@@ -47,7 +51,7 @@ public class CivilizationSystem extends BaseSystem {
 							c.queue = "Settler";
 							c.queueTurns = 10;
 						}
-						else
+						else if (c.queue != null)
 						{
 							c.queueTurns--;
 							if (c.queueTurns == 0)
@@ -60,11 +64,11 @@ public class CivilizationSystem extends BaseSystem {
 				}
 			}
 		}
-		for (int r = 0; r < main.grid.getTiles().length; r++)
+		for (int r = 0; r < main.grid.rows; r++)
 		{
-			for (int c = 0; c < main.grid.getTiles()[0].length; c++)
+			for (int c = 0; c < main.grid.cols; c++)
 			{
-				Tile t = main.grid.getTiles()[r][c];
+				Tile t = main.grid.getTile(r,c);
 				if (t.improvement != null)
 				{
 					t.improvement.tick();
@@ -90,12 +94,15 @@ public class CivilizationSystem extends BaseSystem {
 			{
 				for (int j = en.location.col - 2; j <= en.location.col + 2; j++)
 				{
-					if (i >= 0 && i < main.grid.getTiles().length && j >= 0 && j < main.grid.getTiles()[0].length)
+					if (i >= 0 && i < main.grid.rows && j >= 0 && j < main.grid.cols)
 					{
-						Tile t = main.grid.getTiles()[i][j];
-						if (t.owner == null)
+						Tile t = main.grid.getTile(i,j);
+						if (t != null)
 						{
-							main.grid.addTile(en.owner, t);
+							if (t.owner == null)
+							{
+								main.grid.addTile(en.owner, t);
+							}
 						}
 					}
 				}

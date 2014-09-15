@@ -13,7 +13,7 @@ public class ChunkSystem extends BaseSystem {
 	public ChunkSystem(CivGame civGame) 
 	{
 		super(civGame);
-		chunkMap = new int[civGame.grid.getTiles().length][civGame.grid.getTiles()[0].length];
+		chunkMap = new int[civGame.grid.rows][civGame.grid.cols];
 		/*for (int r = 0; r < chunkMap.length; r++)
 		{
 			for (int c = 0; c < chunkMap[0].length; c++)

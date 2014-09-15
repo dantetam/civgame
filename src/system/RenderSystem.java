@@ -53,15 +53,15 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
-		for (int r = 0; r < main.grid.getTiles().length; r++)
+		for (int r = 0; r < main.grid.rows; r++)
 		{
-			for (int c = 0; c < main.grid.getTiles()[0].length; c++)
+			for (int c = 0; c < main.grid.cols; c++)
 			{
 				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
 				float dist = main.chunkSystem.dist[chunk];
 				if (dist < dist1 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10)
 				{
-					Tile t = main.grid.getTiles()[r][c];
+					Tile t = main.grid.getTile(r,c);
 					if (t.improvement != null)
 					{
 						renderGameEntity(t.improvement,dist,r,c);
@@ -115,10 +115,10 @@ public class RenderSystem extends BaseSystem {
 			}
 			else
 			{
-				if (main.grid.getTiles()[r][c].owner != null)
+				if (main.grid.getTile(r,c).owner != null)
 				{
 					main.stroke(255);
-					Civilization civ = main.grid.getTiles()[r][c].owner;
+					Civilization civ = main.grid.getTile(r,c).owner;
 					main.fill(civ.r, civ.g, civ.b);
 				}
 				sampleSize = 1;

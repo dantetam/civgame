@@ -7,6 +7,7 @@ import data.EntityData;
 public class Grid {
 
 	private Tile[][] tiles;
+	public int rows, cols;
 	public Civilization[] civs;
 	//public Civilization playerCiv;
 	//Player's civilization will always be the first
@@ -15,6 +16,7 @@ public class Grid {
 	{
 		civs = new Civilization[numCivs];
 		tiles = new Tile[terrain.length][terrain[0].length];
+		rows = tiles.length; cols = tiles[0].length;
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
@@ -98,9 +100,15 @@ public class Grid {
 
 	}
 
-	public Tile[][] getTiles()
+	public Tile getTile(int r, int c)
 	{
-		return tiles;
+		if (r >= 0 && r < tiles.length && c >= 0 && c < tiles[0].length)
+		{
+			return tiles[r][c];
+		}
+		return null;
 	}
+	
+	//public Tile[][] getTiles() {return tiles;}
 
 }
