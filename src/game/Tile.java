@@ -2,11 +2,14 @@ package game;
 
 import java.util.ArrayList;
 
+import units.City;
+
 public class Tile {
 
 	public TileEntity improvement;
 	public ArrayList<GameEntity> occupants;
 	public Civilization owner;
+	public City city;
 	
 	public String type;
 	public int height;

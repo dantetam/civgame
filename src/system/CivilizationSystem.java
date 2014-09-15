@@ -114,6 +114,10 @@ public class CivilizationSystem extends BaseSystem {
 							if (t.owner == null)
 							{
 								main.grid.addTile(en.owner, t);
+								if (t.city == null)
+								{
+									t.city = city;
+								}
 							}
 						}
 					}
