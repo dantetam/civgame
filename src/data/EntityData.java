@@ -137,6 +137,7 @@ public class EntityData {
 	
 	private static void groundColorMap()
 	{
+		groundColorMap.put(-1,26);
 		groundColorMap.put(0,1);
 		groundColorMap.put(1,102);
 		groundColorMap.put(2,5);

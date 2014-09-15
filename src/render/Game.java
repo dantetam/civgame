@@ -15,6 +15,8 @@ public class Game extends PApplet {
 	public int numCivs = 2;
 	public ArrayList<Menu> menus;
 	public Menu activeMenu;
+	
+	public long seed = 87069200L;
 
 	public static void main(String[] args)
 	{
@@ -95,9 +97,9 @@ public class Game extends PApplet {
 	private CivGame renderer;
 	//Taken from stack overflow
 	public class PFrame extends JFrame {
-		public PFrame(Game game, int width, int height, int numCivs, String challengeType, String terrainType) {
+		public PFrame(Game game, int width, int height, int numCivs, String challengeType, String terrainType, long seed) {
 			setBounds(0, 0, width, height);
-			renderer = new CivGame(game, numCivs, challengeType, terrainType);
+			renderer = new CivGame(game, numCivs, challengeType, terrainType, seed);
 			add(renderer);
 			setResizable(false);
 			renderer.init();
@@ -143,7 +145,7 @@ public class Game extends PApplet {
 					}
 					else if (command.equals("terrain1"))
 					{
-						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain1");
+						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain1",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						redraw();
@@ -151,7 +153,7 @@ public class Game extends PApplet {
 					}
 					else if (command.equals("terrain2"))
 					{
-						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain2");
+						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain2",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						redraw();
@@ -159,7 +161,7 @@ public class Game extends PApplet {
 					}
 					else if (command.equals("terrain3"))
 					{
-						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain3");
+						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain3",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						redraw();
@@ -167,7 +169,7 @@ public class Game extends PApplet {
 					}
 					else if (command.equals("terrain4"))
 					{
-						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain4");
+						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain4",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						redraw();

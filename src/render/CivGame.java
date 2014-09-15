@@ -23,6 +23,7 @@ public class CivGame extends PApplet {
 	public Erosion erosion;
 
 	public Grid grid;
+	public long seed; 
 
 	public Player player = new Player();
 
@@ -35,12 +36,14 @@ public class CivGame extends PApplet {
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
 
-	public CivGame(Game game, int numCivs, String challengeType, String terrainType)
+	public CivGame(Game game, int numCivs, String challengeType, String terrainType, long seed)
 	{
 		this.game = game;
 		this.numCivs = numCivs;
 		this.challengeType = challengeType;
 		this.terrainType = terrainType;
+		
+		this.seed = seed;
 
 		systems = new ArrayList<BaseSystem>();
 
@@ -175,26 +178,24 @@ public class CivGame extends PApplet {
 			{
 				if (terrain[r][c] >= cutoff)
 				{
-					System.out.println("------");
+					/*System.out.println("------");
 					System.out.println(temp.length + " " + temp[0].length);
 					System.out.println(terrain.length + " " + terrain[0].length);
-					System.out.println(temperature.length + " " + rain.length);
+					System.out.println(temperature.length + " " + rain.length);*/
 					temp[r][c] = returnBiome(temperature[r][c],rain[r][c]);
 				}
 				else
 					temp[r][c] = -1;
 			}
 		}
-
-		for (int r = 0; r < temp.length; r++)
+		/*for (int r = 0; r < temp.length; r++)
 		{
 			for (int c = 0; c < temp[0].length; c++)
 			{
 				System.out.print(temp[r][c] + " ");
 			}
 			System.out.println();
-		}
-
+		}*/
 		return temp;
 	}
 

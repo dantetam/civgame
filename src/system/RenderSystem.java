@@ -11,6 +11,7 @@ import game.Civilization;
 import game.GameEntity;
 import game.Tile;
 import data.Color;
+import data.EntityData;
 
 public class RenderSystem extends BaseSystem {
 
@@ -95,7 +96,9 @@ public class RenderSystem extends BaseSystem {
 		{
 			float sampleSize;
 			//float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
-			main.fill(135, 206, 235);
+			//main.fill(135, 206, 235);
+			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
+			main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
 			main.noStroke();
 			if (dist > dist2)
 			{
@@ -117,9 +120,8 @@ public class RenderSystem extends BaseSystem {
 			{
 				if (main.grid.getTile(r,c).owner != null)
 				{
-					main.stroke(255);
 					Civilization civ = main.grid.getTile(r,c).owner;
-					main.fill(civ.r, civ.g, civ.b);
+					main.stroke(civ.r, civ.g, civ.b);
 				}
 				sampleSize = 1;
 			}
