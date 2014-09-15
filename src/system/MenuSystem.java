@@ -6,27 +6,30 @@ import processing.core.PApplet;
 import render.Button;
 import render.CivGame;
 import render.Menu;
+import render.Game.PFrame;
 
 public class MenuSystem extends BaseSystem {
 
 	public ArrayList<Menu> menus;
+	private ArrayList<Click> clicks;
 	public Menu activeMenu;
-	
+
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
 		menus = new ArrayList<Menu>();
-		
+		clicks = new ArrayList<Click>();
+
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		menu0.addButton("exitgame", "Exit Game", 0, 0, 200, 50);
-		
+		menu0.addButton("exitgame", "Exit", 0, 0, 200, 50);
+
 		activeMenu = menu0;
 	}
 
 	public void tick()
 	{
 		main.hint(main.DISABLE_DEPTH_TEST);
-		main.textSize(20);
+		main.textSize(12);
 		//main.background(255,255,255,0);
 		main.camera();
 		main.noLights();
@@ -35,7 +38,7 @@ public class MenuSystem extends BaseSystem {
 			main.fill(0);
 			Button b = activeMenu.buttons.get(i);
 			main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-			main.textAlign(main.pg.CENTER, main.pg.CENTER);
+			main.textAlign(main.CENTER, main.CENTER);
 			main.fill(255);
 			main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
@@ -62,6 +65,25 @@ public class MenuSystem extends BaseSystem {
 		main.lights();
 		main.pg.endDraw();
 		main.image(main.pg, 1500, 900);*/
+		for (int i = clicks.size() - 1; i >= 0; i--)
+		{
+			String command = activeMenu.click(clicks.get(i).mouseX, clicks.get(i).mouseY);
+			if (command != null && !command.equals(""))
+			{
+				if (command.equals("exitgame"))
+				{
+					System.exit(0);
+				}
+			}
+
+		}
 	}
-	
+
+	public class Click {float mouseX, mouseY; Click(float x, float y) {mouseX = x; mouseY = y;}}
+	public void queueClick(float mouseX, float mouseY)
+	{
+		clicks.add(0, new Click(mouseX, mouseY));
+	}
+
+
 }

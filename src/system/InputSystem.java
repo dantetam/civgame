@@ -100,7 +100,7 @@ public class InputSystem extends BaseSystem {
 		{
 			keyHeld[key-97] = true;
 		}
-		keyPresses.add(key);
+		keyPresses.add(0,key);
 	}
 
 	public void keyReleased(char key)

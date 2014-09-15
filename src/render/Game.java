@@ -31,7 +31,7 @@ public class Game extends PApplet {
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
 		menu0.addButton("newgame", "New Game", 100, 100, 210, 70);
-		menu0.addButton("exitgame", "Exit Game", 100, 630, 210, 70);
+		menu0.addButton("exitgame", "Exit", 100, 630, 210, 70);
 		//menu1.on();
 
 		Menu menu1 = new Menu("ChallengeTypeMenu");
