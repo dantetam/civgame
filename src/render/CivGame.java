@@ -30,7 +30,7 @@ public class CivGame extends PApplet {
 	private RenderSystem renderSystem = new RenderSystem(this);
 	//public PGraphics pg;
 	private MenuSystem menuSystem = new MenuSystem(this);
-	
+
 	private InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
@@ -82,7 +82,7 @@ public class CivGame extends PApplet {
 			systems.get(i).tick();
 		}
 	}
-	
+
 	public void mousePressed()
 	{
 		menuSystem.queueClick(mouseX, mouseY);
@@ -153,10 +153,123 @@ public class CivGame extends PApplet {
 			con = 1F;
 			cutoff = 0;
 		}
-		grid = new Grid(terrain, numCivs, (int)cutoff);
+		grid = new Grid(terrain, assignBiome(terrain), numCivs, (int)cutoff);
+
 		//grid.setupTiles(terrain);
 		//grid.setupCivs();
 		renderSystem.addTerrain(terrain, con, cutoff);
+	}
+
+	public int[][] assignBiome(double[][] terrain)
+	{
+		int[][] temp = new int[terrain.length][terrain[0].length];
+		double width = Math.max(
+				Math.pow(2,Math.floor(Math.log10(terrain.length)/Math.log10(2)) + 1),
+				Math.pow(2,Math.floor(Math.log10(terrain[0].length)/Math.log10(2)) + 1)
+				);
+		double[][] temperature = assignTemperature(width);
+		double[][] rain = assignRain(temperature);
+		for (int r = 0; r < temp.length; r++)
+		{
+			for (int c = 0; c < temp[0].length; c++)
+			{
+				if (terrain[r][c] >= cutoff)
+				{
+					System.out.println("------");
+					System.out.println(temp.length + " " + temp[0].length);
+					System.out.println(terrain.length + " " + terrain[0].length);
+					System.out.println(temperature.length + " " + rain.length);
+					temp[r][c] = returnBiome(temperature[r][c],rain[r][c]);
+				}
+				else
+					temp[r][c] = -1;
+			}
+		}
+
+		for (int r = 0; r < temp.length; r++)
+		{
+			for (int c = 0; c < temp[0].length; c++)
+			{
+				System.out.print(temp[r][c] + " ");
+			}
+			System.out.println();
+		}
+
+		return temp;
+	}
+
+	//The three methods below stolen from "blockgame"
+	//Returns an interpolated map which gives each chunk a temperature, 0 to 4 (arctic to tropical)
+	public double[][] assignTemperature(double nDiv)
+	{
+		//int chunkLength = rows; //chunkService.returnChunkLength();
+		double[][] oldSource = new PerlinNoise(870).makePerlinNoise((int)nDiv,(int)nDiv,3,8,3,0.5,2);
+		//return PerlinNoise.recurInter(oldSource,2,nDiv/4);
+		return oldSource;
+	}
+
+	//Returns an interpolated map which gives each chunk a level of rain, based on temperature
+	//Arctic climates do not have rain, tropical climates can have any level
+	public double[][] assignRain(double[][] temperature)
+	{
+		double[][] returnThis = new double[temperature.length][temperature[0].length];
+		for (int i = 0; i < temperature.length; i++)
+		{
+			for (int j = 0; j < temperature[0].length; j++)
+			{
+				returnThis[i][j] = Math.random()*temperature[i][j] + Math.random();
+			}
+		}
+		//returnThis = PerlinNoise.recurInter(returnThis,1,returnThis.length/2);
+		return returnThis;
+	}
+
+	//returns the biome based on temperature, t, and rain, r
+	public int returnBiome(double t, double r)
+	{
+		if (t > 3)
+		{
+			if (r > 3)
+				return 6;
+			else if (r > 2)
+				return 5;
+			else if (r > 1)
+				return 4;
+			else if (r > 0.5)
+				return 3;
+			else 
+				return 2;
+		}
+		else if (t > 2)
+		{
+			if (r > 2)
+				return 5;
+			else if (r > 1)
+				return 4;
+			else if (r > 0.5)
+				return 3;
+			else 
+				return 2;
+		}
+		else if (t > 1)
+		{
+			if (r > 1)
+				return 4;
+			else if (r > 0.5)
+				return 3;
+			else 
+				return 2;
+		}
+		else
+		{
+			if (r > 0.5)
+				return 1;
+			else 
+			{
+				//System.out.println(t + " " + r);
+				return 0;
+			}
+		}
 	}
 
 	public void erode()
@@ -180,5 +293,5 @@ public class CivGame extends PApplet {
 
 	public float widthBlock() {return renderSystem.widthBlock;}
 	public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
-	
+
 }

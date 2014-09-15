@@ -7,6 +7,8 @@ Cities have population. Population grows in normal circumstances if there is eno
 
 Cities can work one tile for each level of population. If a city is unhealthy, it will not grow. If a city is unhappy, it will work one less tile for each level of unhappiness. This serves to limit the size of cities in the early game. Each tile has a food, metal, gold, and happiness value that adds to the total. Excess food and metal are added to the civilization's supply. Gold is always added to the supply. Happiness only applies to the city and cannot be shared.
 
+
+
 Workers can build improvements in unoccupied tiles. These improvements take turns to build and increase the yield of a tile. The resource increases depends on the tile and improvement.
 
 Units can be trained in cities. To prevent unit spam, every production of a unit slows the respective city's growth and takes a certain amount of food and gold each turn. Each unit stationed in a city or its borders increases happiness.

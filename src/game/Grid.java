@@ -12,7 +12,7 @@ public class Grid {
 	//public Civilization playerCiv;
 	//Player's civilization will always be the first
 
-	public Grid(double[][] terrain, int numCivs, int cutoff)
+	public Grid(double[][] terrain, int[][] biomes, int numCivs, int cutoff)
 	{
 		civs = new Civilization[numCivs];
 		tiles = new Tile[terrain.length][terrain[0].length];
@@ -22,9 +22,9 @@ public class Grid {
 			for (int c = 0; c < terrain[0].length; c++)
 			{
 				if (terrain[r][c] >= cutoff)
-					tiles[r][c] = new Tile("Land",(int)terrain[r][c],false,r,c);
+					tiles[r][c] = new Tile("Land",(int)terrain[r][c],biomes[r][c],r,c);
 				else
-					tiles[r][c] = new Tile("Sea",(int)terrain[r][c],true,r,c);
+					tiles[r][c] = new Tile("Sea",(int)terrain[r][c],biomes[r][c],r,c);
 			}
 		}
 		for (int i = 0; i < civs.length; i++)

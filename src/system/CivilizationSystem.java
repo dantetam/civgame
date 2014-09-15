@@ -38,7 +38,7 @@ public class CivilizationSystem extends BaseSystem {
 								main.grid.move(en,r,c);
 							}
 						}
-						if (Math.random() < 0.1 && en.location.owner == null && !en.location.sea)
+						if (Math.random() < 0.1 && en.location.owner == null && en.location.biome != -1)
 						{
 							sacrifice(en);
 						}
