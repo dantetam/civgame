@@ -108,13 +108,14 @@ public class CivGame extends PApplet {
 
 	//Use the appropriate terrain to make a table and then render it by making some entities
 	//Then make a grid out of it
+	public float cutoff;
 	public void generate(String terrainType)
 	{
-		float con; float cutoff;
+		float con;
 		if (terrainType.equals("terrain1"))
 		{
 			map = new PerlinNoise(870L);
-			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,256});
+			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,256,55});
 			con = 1F;
 			cutoff = 55;
 		}

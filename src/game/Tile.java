@@ -11,13 +11,15 @@ public class Tile {
 	public String type;
 	public int height;
 	public int row, col;
+	public boolean sea;
 	public boolean road;
 	
-	public Tile(String type, int height, int row, int col)
+	public Tile(String type, int height, boolean sea, int row, int col)
 	{
 		occupants = new ArrayList<GameEntity>();
 		this.type = type;
 		this.height = height;
+		this.sea = sea;
 		this.row = row;
 		this.col = col;
 		road = false;

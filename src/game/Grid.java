@@ -22,9 +22,9 @@ public class Grid {
 			for (int c = 0; c < terrain[0].length; c++)
 			{
 				if (terrain[r][c] >= cutoff)
-					tiles[r][c] = new Tile("Land",(int)terrain[r][c],r,c);
+					tiles[r][c] = new Tile("Land",(int)terrain[r][c],false,r,c);
 				else
-					tiles[r][c] = new Tile("Sea",(int)terrain[r][c],r,c);
+					tiles[r][c] = new Tile("Sea",(int)terrain[r][c],true,r,c);
 			}
 		}
 		for (int i = 0; i < civs.length; i++)

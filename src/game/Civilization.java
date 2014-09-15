@@ -14,6 +14,8 @@ public class Civilization {
 	public ArrayList<TileEntity> improvements;
 	public ArrayList<Tile> tiles;
 	
+	public int food, gold, metal;
+	
 	public Civilization(String name)
 	{
 		cities = new ArrayList<City>();
@@ -21,6 +23,7 @@ public class Civilization {
 		improvements = new ArrayList<TileEntity>();
 		tiles = new ArrayList<Tile>();
 		this.name = name;
+		food = 0; gold = 0; metal = 0;
 	}
 	
 }

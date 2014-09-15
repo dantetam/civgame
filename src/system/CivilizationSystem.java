@@ -38,7 +38,7 @@ public class CivilizationSystem extends BaseSystem {
 								main.grid.move(en,r,c);
 							}
 						}
-						if (Math.random() < 0.5 && en.location.owner == null)
+						if (Math.random() < 0.1 && en.location.owner == null && !en.location.sea)
 						{
 							sacrifice(en);
 						}
@@ -46,8 +46,20 @@ public class CivilizationSystem extends BaseSystem {
 					for (int j = 0; j < civ.cities.size(); j++)
 					{
 						City c = civ.cities.get(j);
-						if (c.queue == null && civ.units.size() < 3)
+						int numSettlers = 0;
+						for (int k = 0; k < civ.cities.size(); k++)
 						{
+							if (civ.cities.get(k).queue != null)
+							{
+								if (civ.cities.get(k).queue.equals("Settler"))
+								{
+									numSettlers++;
+								}
+							}
+						}
+						if (c.queue == null && civ.units.size() + numSettlers < 3)
+						{
+							//System.out.println(civ.units.size());
 							c.queue = "Settler";
 							c.queueTurns = 10;
 						}

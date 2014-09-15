@@ -99,6 +99,7 @@ public class Game extends PApplet {
 			setBounds(0, 0, width, height);
 			renderer = new CivGame(game, numCivs, challengeType, terrainType);
 			add(renderer);
+			setResizable(false);
 			renderer.init();
 			//setTitle("Survival: Civilization");
 			show();

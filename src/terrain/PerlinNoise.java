@@ -43,6 +43,19 @@ public class PerlinNoise extends BaseTerrain {
 		return b;
 	}
 	
+	public double[][] cutoff(double[][] t, double cutoff)
+	{
+		double[][] temp = new double[t.length][t[0].length];
+		for (int r = 0; r < t.length; r++)
+		{
+			for (int c = 0; c < t[0].length; c++)
+			{
+				temp[r][c] = t[r][c] - cutoff;
+			}
+		}
+		return temp;
+	}
+	
 	public static double[][] recurInter(double[][] source, int times, double nDiv)
 	{
 		if (times < 0)
@@ -189,6 +202,7 @@ public class PerlinNoise extends BaseTerrain {
 		double[][] source = makePerlinNoise((int)a[0],(int)a[1],a[2],a[3],a[4],a[5],(int)a[6]);
 		//double[][] newSource = PerlinNoise.recurInter(source,2,nDiv/4);
 		source = PerlinNoise.expand(PerlinNoise.expand(source,a[7]/2),a[7]);
+		//source = cutoff(source,a[8]);
 		return source;
 	}
 

@@ -1,5 +1,7 @@
 package system;
 
+import game.Tile;
+
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -42,6 +44,36 @@ public class MenuSystem extends BaseSystem {
 			main.fill(255);
 			main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
+
+		/*main.noStroke();
+		//main.rect(0, 700, 50, 50);
+		float sX = 0; float sY = 700; float widthX = 100; float widthY = 200; 
+		int con = 15;
+		for (int r = 0; r < main.grid.rows; r += con)
+		{
+			for (int c = 0; c < main.grid.cols; c += con)
+			{
+				Tile t = main.grid.getTile(r,c);
+				if (t.height >= main.cutoff)
+				{
+					if (t.owner != null)
+					{
+						main.fill(t.owner.r,t.owner.g,t.owner.b);
+					}
+					else
+					{
+						main.fill(150);
+					}
+				}
+				else
+				{
+					main.fill(255,0,0);
+				}
+				//System.out.println(sX + r/(float)main.grid.rows*widthX);
+				main.rect(sX + r/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,r/(float)main.grid.rows*widthX*con,c/(float)main.grid.cols*widthY*con);
+			}
+		}*/
+
 		main.hint(main.ENABLE_DEPTH_TEST);
 		/*main.pg.beginDraw();
 		//main.perspective();
