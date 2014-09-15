@@ -18,4 +18,9 @@ public abstract class BaseEntity {
 		name = other.name; 
 	}
 	
+	public void tick()
+	{
+		
+	}
+	
 }

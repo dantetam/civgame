@@ -59,6 +59,13 @@ public class Grid {
 		}
 	}
 
+	public void moveTo(BaseEntity en, int r, int c)
+	{
+		tiles[en.location.row][en.location.col].occupants.remove(en);
+		en.location = tiles[r][c];
+		en.location.addUnit(en);
+	}
+
 	public void addUnit(BaseEntity en, Civilization civ, int r, int c)
 	{
 		en.owner = civ;
@@ -68,7 +75,7 @@ public class Grid {
 			civ.improvements.add((TileEntity)en);
 		tiles[r][c].addUnit(en);
 	}
-	
+
 	public void removeUnit(BaseEntity en)
 	{
 		tiles[en.location.row][en.location.col].occupants.remove(en);
