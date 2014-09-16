@@ -125,13 +125,14 @@ public class EntityData {
 		b = tileEntityMap.get(name);
 		if (b != null)
 		{
-			if (name == "City")
+			if (name.equals("City"))
 			{
 				return new City((City)b);
+				//return new City("City");
 			}
 			return new TileEntity((TileEntity)b);
 		}
-		System.out.println("Entity name not found");
+		//System.out.println("Entity name not found");
 		return null;
 	}
 	

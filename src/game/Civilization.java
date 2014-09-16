@@ -23,7 +23,7 @@ public class Civilization {
 		improvements = new ArrayList<TileEntity>();
 		tiles = new ArrayList<Tile>();
 		this.name = name;
-		food = 0; gold = 0; metal = 0;
+		food = 10; gold = 0; metal = 0;
 	}
 	
 }

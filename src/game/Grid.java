@@ -21,7 +21,7 @@ public class Grid {
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
-				int hill = Math.random() < 0.25 ? 1 : 0;
+				int hill = Math.random() < 0.15 ? 1 : 0;
 				if (terrain[r][c] >= cutoff)
 					tiles[r][c] = new Tile("Land",(int)terrain[r][c],biomes[r][c],hill,r,c);
 				else

@@ -10,6 +10,7 @@ public class Tile {
 	public ArrayList<GameEntity> occupants;
 	public Civilization owner;
 	public City city;
+	public boolean harvest; //For rendering purposes
 	
 	public String type;
 	public int height;
@@ -22,6 +23,7 @@ public class Tile {
 	public Tile(String type, int height, int biome, int shape, int row, int col)
 	{
 		occupants = new ArrayList<GameEntity>();
+		harvest = false;
 		this.type = type;
 		this.height = height;
 		this.biome = biome;
@@ -48,6 +50,11 @@ public class Tile {
 		}
 		en.location = this;
 		
+	}
+	
+	public boolean equals(Tile t)
+	{
+		return row == t.row && col == t.col;
 	}
 	
 }

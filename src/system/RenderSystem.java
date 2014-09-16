@@ -122,6 +122,14 @@ public class RenderSystem extends BaseSystem {
 				{
 					Civilization civ = main.grid.getTile(r,c).owner;
 					main.stroke(civ.r, civ.g, civ.b);
+					if (main.grid.getTile(r,c).harvest)
+					{
+						main.strokeWeight(5);
+					}
+					else
+					{
+						main.strokeWeight(1);
+					}
 				}
 				sampleSize = 1;
 			}
@@ -129,6 +137,12 @@ public class RenderSystem extends BaseSystem {
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			main.translate(en.posX, en.posY*con, en.posZ);
 			main.box(en.sizeX*sampleSize, (en.sizeY - cutoff)*con, en.sizeZ*sampleSize);
+			//Render a hill
+			if (main.grid.getTile(r,c).shape == 1 && sampleSize == 1)
+			{
+				main.translate(0, (en.sizeY - cutoff)*con/2, 0);
+				main.box(en.sizeX/2*sampleSize);
+			}
 			main.popMatrix();
 		}
 	}

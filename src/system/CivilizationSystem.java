@@ -1,5 +1,7 @@
 package system;
 
+import java.util.ArrayList;
+
 import data.EntityData;
 import render.CivGame;
 import game.*;
@@ -46,6 +48,7 @@ public class CivilizationSystem extends BaseSystem {
 					for (int j = 0; j < civ.cities.size(); j++)
 					{
 						City c = civ.cities.get(j);
+						//Make some settlers to test
 						int numSettlers = 0;
 						for (int k = 0; k < civ.cities.size(); k++)
 						{
@@ -68,9 +71,58 @@ public class CivilizationSystem extends BaseSystem {
 							c.queueTurns--;
 							if (c.queueTurns == 0)
 							{
+								main.grid.addUnit(EntityData.get(c.queue),civ,c.location.row,c.location.col);
 								c.queue = null;
-								main.grid.addUnit(EntityData.get("Settler"),civ,c.location.row,c.location.col);
 							}
+						}
+						//Loop through a city's tiles
+						/*
+						 * 0 ice 0,1,2
+						 * 1 taiga 1,1,1
+						 * 2 desert 0,0,2
+						 * 3 savannah 2,0,1
+						 * 4 dry forest 2,1,1
+						 * 5 forest 3,0,1
+						 * 6 rainforest 3,1,0
+						 * 7 beach (outdated)
+						 * 
+						 * modifiers:
+						 * 8 oasis 3,3,0
+						 * hill -1,0,1
+						 *
+						 */
+						c.workTiles(c.population);
+						for (int k = 0; k < c.land.size(); k++)
+						{
+							c.land.get(k).harvest = false;
+						}
+						for (int k = 0; k < c.workedLand.size(); k++)
+						{
+							int f,g,m;
+							switch (c.workedLand.get(k).biome)
+							{
+							case 0:
+								f = 0; g = 1; m = 2;
+							case 1:
+								f = 1; g = 1; m = 1;
+							case 2:
+								f = 0; g = 0; m = 2;
+							case 3:
+								f = 2; g = 0; m = 1;
+							case 4:
+								f = 2; g = 1; m = 1;
+							case 5:
+								f = 3; g = 0; m = 1;
+							case 6:
+								f = 3; g = 1; m = 0;
+							default:
+								System.err.println("Invalid biome");
+								f = 0; g = 0; m = 0;
+							}
+							civ.food += f;
+							civ.gold += g;
+							civ.metal += m;
+							c.workedLand.get(k).harvest = true;
 						}
 					}
 				}
@@ -117,6 +169,8 @@ public class CivilizationSystem extends BaseSystem {
 								if (t.city == null)
 								{
 									t.city = city;
+									city.land = new ArrayList<Tile>();
+									city.land.add(t);
 								}
 							}
 						}

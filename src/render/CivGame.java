@@ -48,10 +48,10 @@ public class CivGame extends PApplet {
 
 		systems = new ArrayList<BaseSystem>();
 
-		systems.add(renderSystem);
 		systems.add(inputSystem);
 		systems.add(civilizationSystem);
 		systems.add(menuSystem);
+		systems.add(renderSystem);
 	}
 
 	public void setup()
