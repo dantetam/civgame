@@ -20,6 +20,10 @@ public class City extends TileEntity {
 	public City(TileEntity other) {
 		super(other);
 	}
-
+	
+	public void tick()
+	{
+		
+	}
 	
 }

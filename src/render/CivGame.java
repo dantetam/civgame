@@ -4,6 +4,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import terrain.*;
 import system.*;
@@ -117,14 +118,14 @@ public class CivGame extends PApplet {
 		float con;
 		if (terrainType.equals("terrain1"))
 		{
-			map = new PerlinNoise(870L);
+			map = new PerlinNoise(seed);
 			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,256,55});
 			con = 1F;
 			cutoff = 55;
 		}
 		else if (terrainType.equals("terrain2"))
 		{
-			map = new RecursiveBlock(87069200L);
+			map = new RecursiveBlock(seed);
 			terrain = map.generate(new double[]{10,0});
 			con = 3F;
 			cutoff = 1;
@@ -136,7 +137,7 @@ public class CivGame extends PApplet {
 			map = new DiamondSquare(temp);
 			//ds.diamond(0, 0, 4);
 			//displayTables = ds.dS(0, 0, len, 40, 0.7)
-			map.seed(870);
+			map.seed(seed);
 			terrain = map.generate(new double[]{0, 0, len, 40, 0.7});
 			print(terrain);
 			con = 1F;
@@ -144,7 +145,7 @@ public class CivGame extends PApplet {
 		}
 		else if (terrainType.equals("terrain4"))
 		{
-			map = new RecursiveBlock(87069200L);
+			map = new RecursiveBlock(seed);
 			terrain = map.generate(new double[]{10,1});
 			con = 3F;
 			cutoff = 1;
@@ -204,13 +205,15 @@ public class CivGame extends PApplet {
 	public double[][] assignTemperature(double nDiv)
 	{
 		//int chunkLength = rows; //chunkService.returnChunkLength();
-		double[][] oldSource = new PerlinNoise(870).makePerlinNoise((int)nDiv,(int)nDiv,3,8,3,0.5,2);
-		//return PerlinNoise.recurInter(oldSource,2,nDiv/4);
+		//double[][] oldSource = new PerlinNoise(870).makePerlinNoise((int)nDiv,(int)nDiv,3,8,3,0.5,2);
+		//return PerlinNoise.expand(oldSource,nDiv*2);
+		double[][] oldSource = new PerlinNoise(seed).generate(new double[]{32,32,3,16,3,1,3,nDiv});
 		return oldSource;
 	}
 
 	//Returns an interpolated map which gives each chunk a level of rain, based on temperature
 	//Arctic climates do not have rain, tropical climates can have any level
+	Random rainRandom = new Random(seed);
 	public double[][] assignRain(double[][] temperature)
 	{
 		double[][] returnThis = new double[temperature.length][temperature[0].length];
@@ -218,7 +221,7 @@ public class CivGame extends PApplet {
 		{
 			for (int j = 0; j < temperature[0].length; j++)
 			{
-				returnThis[i][j] = Math.random()*temperature[i][j] + Math.random();
+				returnThis[i][j] = rainRandom.nextDouble()*temperature[i][j] + rainRandom.nextDouble();
 			}
 		}
 		//returnThis = PerlinNoise.recurInter(returnThis,1,returnThis.length/2);
@@ -226,28 +229,38 @@ public class CivGame extends PApplet {
 	}
 
 	//returns the biome based on temperature, t, and rain, r
+	/*
+	 * 0 ice
+	 * 1 taiga
+	 * 2 desert
+	 * 3 savannah
+	 * 4 dry forest
+	 * 5 forest
+	 * 6 rainforest
+	 * 7 beach (outdated)
+	 */
 	public int returnBiome(double t, double r)
 	{
 		if (t > 3)
 		{
-			if (r > 3)
+			if (r > 3.5)
 				return 6;
-			else if (r > 2)
+			else if (r > 2.5)
 				return 5;
-			else if (r > 1)
+			else //if (r > 2)
 				return 4;
-			else if (r > 0.5)
+			/*else if (r > 1.25)
 				return 3;
 			else 
-				return 2;
+				return 2;*/
 		}
 		else if (t > 2)
 		{
 			if (r > 2)
 				return 5;
-			else if (r > 1)
+			else if (r > 1.5)
 				return 4;
-			else if (r > 0.5)
+			else if (r > 0.75)
 				return 3;
 			else 
 				return 2;
@@ -256,7 +269,7 @@ public class CivGame extends PApplet {
 		{
 			if (r > 1)
 				return 4;
-			else if (r > 0.5)
+			if (r > 0.5)
 				return 3;
 			else 
 				return 2;

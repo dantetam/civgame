@@ -87,7 +87,7 @@ public class RenderSystem extends BaseSystem {
 	
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
-	private final int dist1 = 800; private final int dist2 = 1200;
+	private final int dist1 = 1000; private final int dist2 = 1350;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
 	public void renderBlock(Entity en, float dist, int r, int c)
 	{

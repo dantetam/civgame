@@ -15,15 +15,17 @@ public class Tile {
 	public int height;
 	public int row, col;
 	public int biome;
+	public int shape;
 	//public boolean sea;
 	public boolean road;
 	
-	public Tile(String type, int height, int biome, int row, int col)
+	public Tile(String type, int height, int biome, int shape, int row, int col)
 	{
 		occupants = new ArrayList<GameEntity>();
 		this.type = type;
 		this.height = height;
 		this.biome = biome;
+		this.shape = shape;
 		//this.sea = sea;
 		this.row = row;
 		this.col = col;
