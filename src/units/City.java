@@ -13,7 +13,7 @@ public class City extends TileEntity {
 	public int queueTurns;
 	public Civilization owner;
 	public String focus;
-	
+
 	public City(String name)
 	{
 		super(name);
@@ -25,7 +25,7 @@ public class City extends TileEntity {
 		//owner = null;
 		focus = "Growth";
 	}
-	
+
 	public City(TileEntity other) {
 		super(other);
 		population = 1;
@@ -36,12 +36,12 @@ public class City extends TileEntity {
 		//owner = null;
 		focus = "Growth";
 	}
-	
+
 	public void tick()
 	{
-		
+
 	}
-	
+
 	public void workTiles(int num)
 	{
 		ArrayList<Tile> temp = new ArrayList<Tile>();
@@ -50,24 +50,41 @@ public class City extends TileEntity {
 		{
 			Tile t = land.get(k);
 			int f, g, m;
-			switch (t.biome)
+			if (t.biome == -1)
 			{
-			case 0:
+				f = 1; g = 1; m = 0;
+			}
+			else if (t.biome == 0)
+			{
 				f = 0; g = 1; m = 2;
-			case 1:
+			}
+			else if (t.biome == 1)
+			{
 				f = 1; g = 1; m = 1;
-			case 2:
+			}
+			else if (t.biome == 2)
+			{
 				f = 0; g = 0; m = 2;
-			case 3:
+			}
+			else if (t.biome == 3)
+			{
 				f = 2; g = 0; m = 1;
-			case 4:
+			}
+			else if (t.biome == 4)
+			{
 				f = 2; g = 1; m = 1;
-			case 5:
+			}
+			else if (t.biome == 5)
+			{
 				f = 3; g = 0; m = 1;
-			case 6:
+			}
+			else if (t.biome == 6)
+			{
 				f = 3; g = 1; m = 0;
-			default:
-				System.err.println("Invalid biome");
+			}
+			else
+			{
+				System.err.println("Invalid biomerrr " + t.biome);
 				f = 0; g = 0; m = 0;
 			}
 			if (t.shape == 1)
@@ -104,16 +121,18 @@ public class City extends TileEntity {
 			scores.add(score);
 		}
 		workedLand.clear();
+		System.out.println("-----");
 		for (int i = 0; i < num; i++)
 		{
 			int index = indexOfBest(scores);
 			workedLand.add(temp.get(index));
+			System.out.println(temp.get(index).row + " " + temp.get(index).col + " " + this.location.row + " " + this.location.col);
 			temp.remove(index);
 			scores.remove(index);
 		}
 		//return returnThis;
 	}
-	
+
 	private int indexOfBest(ArrayList<Integer> scores)
 	{
 		int index = 0;
@@ -121,7 +140,8 @@ public class City extends TileEntity {
 		{
 			if (scores.get(i) > scores.get(index)) index = i;
 		}
+		//System.out.println(scores.get(index));
 		return index;
 	}
-	
+
 }

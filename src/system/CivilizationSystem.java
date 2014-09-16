@@ -99,24 +99,42 @@ public class CivilizationSystem extends BaseSystem {
 						for (int k = 0; k < c.workedLand.size(); k++)
 						{
 							int f,g,m;
-							switch (c.workedLand.get(k).biome)
+							Tile t = c.workedLand.get(k);
+							if (t.biome == -1)
 							{
-							case 0:
+								f = 1; g = 1; m = 0;
+							}
+							else if (t.biome == 0)
+							{
 								f = 0; g = 1; m = 2;
-							case 1:
+							}
+							else if (t.biome == 1)
+							{
 								f = 1; g = 1; m = 1;
-							case 2:
+							}
+							else if (t.biome == 2)
+							{
 								f = 0; g = 0; m = 2;
-							case 3:
+							}
+							else if (t.biome == 3)
+							{
 								f = 2; g = 0; m = 1;
-							case 4:
+							}
+							else if (t.biome == 4)
+							{
 								f = 2; g = 1; m = 1;
-							case 5:
+							}
+							else if (t.biome == 5)
+							{
 								f = 3; g = 0; m = 1;
-							case 6:
+							}
+							else if (t.biome == 6)
+							{
 								f = 3; g = 1; m = 0;
-							default:
-								System.err.println("Invalid biome");
+							}
+							else
+							{
+								System.err.println("Invalid biomerrr " + t.biome);
 								f = 0; g = 0; m = 0;
 							}
 							civ.food += f;
@@ -169,7 +187,6 @@ public class CivilizationSystem extends BaseSystem {
 								if (t.city == null)
 								{
 									t.city = city;
-									city.land = new ArrayList<Tile>();
 									city.land.add(t);
 								}
 							}
