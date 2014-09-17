@@ -7,8 +7,12 @@ import game.*;
 public class City extends TileEntity {
 
 	public int population;
+	public double percentGrowth; 
+	
 	public ArrayList<Tile> land;
 	public ArrayList<Tile> workedLand;
+	public int happiness;
+	public int health;
 	public String queue;
 	public int queueTurns;
 	public Civilization owner;
@@ -18,6 +22,9 @@ public class City extends TileEntity {
 	{
 		super(name);
 		population = 1;
+		percentGrowth = 0;
+		happiness = 0;
+		health = 0;
 		land = new ArrayList<Tile>();
 		workedLand = new ArrayList<Tile>();
 		//queue = null;
@@ -44,6 +51,7 @@ public class City extends TileEntity {
 
 	public void workTiles(int num)
 	{
+		if (num > land.size()) num = land.size();
 		ArrayList<Tile> temp = new ArrayList<Tile>();
 		ArrayList<Integer> scores = new ArrayList<Integer>();
 		for (int k = 0; k < land.size(); k++)

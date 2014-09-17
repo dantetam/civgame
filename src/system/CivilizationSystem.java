@@ -45,6 +45,7 @@ public class CivilizationSystem extends BaseSystem {
 							sacrifice(en);
 						}
 					}
+					double tf = 0, tg = 0, tm = 0;
 					for (int j = 0; j < civ.cities.size(); j++)
 					{
 						City c = civ.cities.get(j);
@@ -91,14 +92,19 @@ public class CivilizationSystem extends BaseSystem {
 						 * hill -1,0,1
 						 *
 						 */
-						c.workTiles(c.population);
+						c.happiness = 4 - c.population;
+						if (c.happiness < 0)
+							c.workTiles(c.population - c.happiness);
+						else
+							c.workTiles(c.population);
+						c.health = 5 - c.population + c.happiness;
 						for (int k = 0; k < c.land.size(); k++)
 						{
 							c.land.get(k).harvest = false;
 						}
 						for (int k = 0; k < c.workedLand.size(); k++)
 						{
-							int f,g,m;
+							double f,g,m;
 							Tile t = c.workedLand.get(k);
 							if (t.biome == -1)
 							{
@@ -137,12 +143,33 @@ public class CivilizationSystem extends BaseSystem {
 								System.err.println("Invalid biomerrr " + t.biome);
 								f = 0; g = 0; m = 0;
 							}
-							civ.food += f;
-							civ.gold += g;
-							civ.metal += m;
+							//civ.food += f;
+							//civ.gold += g;
+							//civ.metal += m;
+							tf += f; tg += g; tm += m;
 							c.workedLand.get(k).harvest = true;
 						}
 					}
+					for (int j = 0; j < civ.cities.size(); j++)
+					{
+						City c = civ.cities.get(j);
+						if (c.focus.equals("Growth") && c.health >= 0)
+						{
+							if (tf >= c.population*3)
+							{
+								tf -= c.population*3;
+								c.percentGrowth += 0.2;
+								if (c.percentGrowth >= 1)
+								{
+									c.percentGrowth = 0;
+									c.population++;
+								}
+							}
+						}
+					}
+					civ.food += tf;
+					civ.gold += tg;
+					civ.metal += tm;
 				}
 			}
 		}
