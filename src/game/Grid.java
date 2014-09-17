@@ -110,7 +110,7 @@ public class Grid {
 		for (int i = 0; i < tiles[r][c].occupants.size(); i++)
 		{
 			GameEntity occupant = tiles[r][c].occupants.get(i);
-			if (occupant.owner.equals(attacker.owner))
+			if (!occupant.owner.equals(attacker.owner))
 			{
 				return occupant;
 			}

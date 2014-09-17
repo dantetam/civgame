@@ -38,7 +38,7 @@ public class CivilizationSystem extends BaseSystem {
 							if (main.grid.getTile(en.location.row+r,en.location.col+c).owner == en.owner ||
 									main.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
 							{
-								GameEntity enemy = main.grid.hasEnemy(en,r,c);
+								GameEntity enemy = main.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 								if (enemy != null)
 								{
 									if (en.name.equals("Warrior"))
@@ -53,6 +53,7 @@ public class CivilizationSystem extends BaseSystem {
 											else
 											{
 												main.grid.removeUnit(en);
+												continue;
 											}
 										}
 										else
@@ -65,6 +66,13 @@ public class CivilizationSystem extends BaseSystem {
 								else
 								{
 									main.grid.move(en,r,c);
+									if (en.location.improvement.name.equals("City"))
+									{
+										City city = (City)en.location.improvement;
+										city.owner.cities.remove(city);
+										en.location.improvement = null;
+										//city = null;
+									}
 								}
 							}
 						}
@@ -87,7 +95,7 @@ public class CivilizationSystem extends BaseSystem {
 								{
 									numSettlers++;
 								}
-								else if (civ.cities.get(k).queue.equals("Settler"))
+								else if (civ.cities.get(k).queue.equals("Worker"))
 								{
 									numWorkers++;
 								}
@@ -122,8 +130,11 @@ public class CivilizationSystem extends BaseSystem {
 							}
 							else if (c.focus.equals("Production"))
 							{
-								c.queue = "Warrior";
-								c.queueTurns = 6;
+								if (civ.units.size() <= civ.cities.size()*2)
+								{
+									c.queue = "Warrior";
+									c.queueTurns = 6;
+								}
 							}
 						}
 						else if (c.queue != null)
