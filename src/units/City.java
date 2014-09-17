@@ -94,7 +94,7 @@ public class City extends TileEntity {
 			}
 			if (location.equals(t))
 			{
-				f = 2; g = 2; m = 2;
+				f = 1; g = 2; m = 1;
 			}
 			int score = 0;
 			if (focus.equals("Growth"))
@@ -121,12 +121,12 @@ public class City extends TileEntity {
 			scores.add(score);
 		}
 		workedLand.clear();
-		System.out.println("-----");
+		//System.out.println("-----");
 		for (int i = 0; i < num; i++)
 		{
 			int index = indexOfBest(scores);
 			workedLand.add(temp.get(index));
-			System.out.println(temp.get(index).row + " " + temp.get(index).col + " " + this.location.row + " " + this.location.col);
+			//System.out.println(temp.get(index).row + " " + temp.get(index).col + " " + this.location.row + " " + this.location.col);
 			temp.remove(index);
 			scores.remove(index);
 		}
