@@ -17,6 +17,7 @@ public class City extends TileEntity {
 	public int queueTurns;
 	public Civilization owner;
 	public String focus;
+	public ArrayList<String> buildings;
 
 	public City(String name)
 	{
@@ -31,6 +32,7 @@ public class City extends TileEntity {
 		queueTurns = 0;
 		//owner = null;
 		focus = "Growth";
+		buildings = new ArrayList<String>();
 	}
 
 	public City(TileEntity other) {
@@ -57,43 +59,43 @@ public class City extends TileEntity {
 		for (int k = 0; k < land.size(); k++)
 		{
 			Tile t = land.get(k);
-			int f, g, m;
+			int f, g, m, r;
 			if (t.biome == -1)
 			{
-				f = 1; g = 1; m = 0;
+				f = 1; g = 1; m = 0; r = 2;
 			}
 			else if (t.biome == 0)
 			{
-				f = 0; g = 1; m = 2;
+				f = 0; g = 1; m = 2; r = 1;
 			}
 			else if (t.biome == 1)
 			{
-				f = 1; g = 1; m = 1;
+				f = 1; g = 1; m = 1; r = 1;
 			}
 			else if (t.biome == 2)
 			{
-				f = 0; g = 0; m = 2;
+				f = 0; g = 0; m = 2; r = 1;
 			}
 			else if (t.biome == 3)
 			{
-				f = 2; g = 0; m = 1;
+				f = 2; g = 0; m = 1; r = 2;
 			}
 			else if (t.biome == 4)
 			{
-				f = 2; g = 1; m = 1;
+				f = 2; g = 1; m = 1; r = 2;
 			}
 			else if (t.biome == 5)
 			{
-				f = 3; g = 0; m = 1;
+				f = 3; g = 0; m = 1; r = 2;
 			}
 			else if (t.biome == 6)
 			{
-				f = 3; g = 1; m = 0;
+				f = 3; g = 1; m = 0; r = 3;
 			}
 			else
 			{
 				System.err.println("Invalid biomerrr " + t.biome);
-				f = 0; g = 0; m = 0;
+				f = 0; g = 0; m = 0; r = 0;
 			}
 			if (t.shape == 1)
 			{
@@ -102,24 +104,24 @@ public class City extends TileEntity {
 			}
 			if (location.equals(t))
 			{
-				f = 1; g = 2; m = 1;
+				f = 1; g = 2; m = 1; r = 2;
 			}
 			int score = 0;
 			if (focus.equals("Growth"))
 			{
-				score = f*2 + g + m;
+				score = f*2 + g + m + r;
 			}
 			else if (focus.equals("Production"))
 			{
-				score = f + g + m*2;
+				score = f + g + m*2 + r;
 			}
 			else if (focus.equals("Wealth"))
 			{
-				score = f + g*2 + m;
+				score = f + g*2 + m + r*2;
 			}
 			else if (focus.equals("Balanced"))
 			{
-				score = f + g + m;
+				score = f + g + m + r;
 			}
 			else
 			{

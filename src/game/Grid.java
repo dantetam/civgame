@@ -21,7 +21,16 @@ public class Grid {
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
-				int hill = Math.random() < 0.15 ? 1 : 0;
+				int hill = 0;
+				double random = Math.random();
+				if (random < 0.025)
+				{
+					hill = 2;
+				}
+				else if (random < 0.15)
+				{
+					hill = 1;
+				}
 				if (terrain[r][c] >= cutoff)
 					tiles[r][c] = new Tile("Land",(int)terrain[r][c],biomes[r][c],hill,r,c);
 				else
@@ -94,6 +103,19 @@ public class Grid {
 	{
 		tile.owner = civ;
 		civ.tiles.add(tile);
+	}
+	
+	public GameEntity hasEnemy(GameEntity attacker, int r, int c)
+	{
+		for (int i = 0; i < tiles[r][c].occupants.size(); i++)
+		{
+			GameEntity occupant = tiles[r][c].occupants.get(i);
+			if (occupant.owner.equals(attacker.owner))
+			{
+				return occupant;
+			}
+		}
+		return null;
 	}
 
 	public void setupCivs()

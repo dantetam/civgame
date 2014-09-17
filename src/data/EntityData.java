@@ -102,6 +102,7 @@ public class EntityData {
 	private static void setupEntityMap()
 	{
 		gameEntityMap.put("Settler",new GameEntity("Settler"));
+		gameEntityMap.put("Warrior",new GameEntity("Warrior"));
 		gameEntityMap.put("Worker",new GameEntity("Worker"));
 		
 		tileEntityMap.put("City",new City("City"));

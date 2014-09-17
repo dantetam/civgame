@@ -137,11 +137,20 @@ public class RenderSystem extends BaseSystem {
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			main.translate(en.posX, en.posY*con, en.posZ);
 			main.box(en.sizeX*sampleSize, (en.sizeY - cutoff)*con, en.sizeZ*sampleSize);
-			//Render a hill
-			if (main.grid.getTile(r,c).shape == 1 && sampleSize == 1)
+			//Render a hill or mountain
+			if (sampleSize == 1)
+			{
+			if (main.grid.getTile(r,c).shape == 1)
 			{
 				main.translate(0, (en.sizeY - cutoff)*con/2, 0);
 				main.box(en.sizeX/2*sampleSize);
+			}
+			else if (main.grid.getTile(r,c).shape == 2)
+			{
+				main.translate(0, (en.sizeY - cutoff)*con/2, 0);
+				main.translate(0, en.sizeX*sampleSize/4, 0);
+				main.box(en.sizeX/2*sampleSize, en.sizeX*sampleSize*1.5F, en.sizeX/2*sampleSize);
+			}
 			}
 			main.popMatrix();
 		}

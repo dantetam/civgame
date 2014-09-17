@@ -14,7 +14,7 @@ public class Civilization {
 	public ArrayList<TileEntity> improvements;
 	public ArrayList<Tile> tiles;
 	
-	public int food, gold, metal;
+	public int food, gold, metal, research;
 	
 	public Civilization(String name)
 	{
@@ -23,7 +23,12 @@ public class Civilization {
 		improvements = new ArrayList<TileEntity>();
 		tiles = new ArrayList<Tile>();
 		this.name = name;
-		food = 10; gold = 0; metal = 0;
+		food = 10; gold = 0; metal = 0; research = 0;
+	}
+	
+	public boolean equals(Civilization other)
+	{
+		return name.equals(other.name);
 	}
 	
 }
