@@ -78,8 +78,13 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
+		/*main.hint(PApplet.DISABLE_DEPTH_TEST);
+		main.camera();
+		main.perspective();
+		main.rect(500, 500, 500, 500);
+		main.hint(PApplet.ENABLE_DEPTH_TEST);*/
 		//main.perspective();
-		main.ortho();
+		//main.ortho();
 		//main.stroke(255);
 		//float lineWidth = 20;
 		//main.line(main.width/2 - lineWidth/2, main.height/2 - lineWidth/2, main.width/2 + lineWidth/2, main.height/2 + lineWidth/2);

@@ -37,6 +37,7 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							//if (main.grid.getTile(en.location.row+r,en.location.col+c).owner == en.owner ||
 									//main.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
+							if (main.grid.getTile(en.location.row+r,en.location.col+c).biome != -1)
 							{
 								GameEntity enemy = main.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 								if (enemy != null)
@@ -247,26 +248,35 @@ public class CivilizationSystem extends BaseSystem {
 							//tf += f;
 							if (c.focus.equals("Growth") && c.health >= 0)
 							{
-								if (f >= c.population*3)
+								if (f > c.population)
 								{
-									f -= c.population*3;
-									c.percentGrowth += 0.1;
+									double amount = Math.min(f, c.population*3);
+									f -= amount;
+									c.percentGrowth += 0.1*(amount/c.population*3);
+								}
+								else if (civ.food > c.population)
+								{
+									//civ.food -= c.population*3;
+									//c.percentGrowth += 0.1;
+									double amount = Math.min(civ.food, c.population*3);
+									civ.food -= amount;
+									c.percentGrowth += 0.1*(amount/c.population*3);
 								}
 								else
 								{
-									c.percentGrowth -= 0.1;
+									c.percentGrowth -= 0.05;
 								}
 								if (c.percentGrowth >= 1)
 								{
 									c.percentGrowth = 0;
 									c.population++;
-									c.focus = "Production";
+									//c.focus = "Growth";
 								}
 								else if (c.percentGrowth < 0 && c.population > 1)
 								{
-									c.percentGrowth = 0;
+									c.percentGrowth = 0.5;
 									c.population--;
-									c.focus = "Growth";
+									//c.focus = "Production";
 								}
 							}
 							else if (c.health <= 0)

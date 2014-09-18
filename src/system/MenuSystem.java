@@ -30,17 +30,18 @@ public class MenuSystem extends BaseSystem {
 
 	public void tick()
 	{
-		main.hint(main.DISABLE_DEPTH_TEST);
-		main.textSize(12);
+		main.hint(PApplet.DISABLE_DEPTH_TEST);
+		main.textSize(20);
 		//main.background(255,255,255,0);
 		main.camera();
-		main.noLights();
+		main.perspective();
+		//main.noLights();
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
 		{
 			main.fill(0);
 			Button b = activeMenu.buttons.get(i);
 			main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-			main.textAlign(main.CENTER, main.CENTER);
+			main.textAlign(PApplet.CENTER, PApplet.CENTER);
 			main.fill(255);
 			main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
@@ -74,7 +75,7 @@ public class MenuSystem extends BaseSystem {
 			}
 		}*/
 
-		main.hint(main.ENABLE_DEPTH_TEST);
+		main.hint(PApplet.ENABLE_DEPTH_TEST);
 		/*main.pg.beginDraw();
 		//main.perspective();
 		main.pg.textSize(20);

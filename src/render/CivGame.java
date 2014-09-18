@@ -50,14 +50,15 @@ public class CivGame extends PApplet {
 
 		systems.add(inputSystem);
 		systems.add(civilizationSystem);
-		systems.add(menuSystem);
 		systems.add(renderSystem);
+		systems.add(menuSystem);
 	}
 
 	public void setup()
 	{
 		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
 		//pg = createGraphics(1500,900,P2D);
+		frameRate(25);
 		background(0,225,255);
 		camera(500,500,500,0,0,0,0,-1,0);
 		box(100,100,100);
