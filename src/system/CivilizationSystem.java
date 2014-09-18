@@ -161,6 +161,8 @@ public class CivilizationSystem extends BaseSystem {
 						}
 						//Loop through a city's tiles
 						/*
+						 * -2 freshwater 2,1,0,2
+						 * -1 sea 1,1,0,2
 						 * 0 ice 0,1,2,1
 						 * 1 taiga 1,1,1,1
 						 * 2 desert 0,0,2,1

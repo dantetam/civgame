@@ -158,7 +158,8 @@ public class CivGame extends PApplet {
 			con = 1F;
 			cutoff = 0;
 		}
-		grid = new Grid(terrain, assignBiome(terrain), numCivs, (int)cutoff);
+		int[][] biomes = assignBiome(terrain);
+		grid = new Grid(terrain, biomes, assignResources(biomes), numCivs, (int)cutoff);
 
 		//grid.setupTiles(terrain);
 		//grid.setupCivs();
@@ -199,6 +200,102 @@ public class CivGame extends PApplet {
 			System.out.println();
 		}*/
 		return temp;
+	}
+	
+	public int[][] assignResources(int[][] biomes)
+	{
+		int[][] resources = new int[biomes.length][biomes[0].length];
+		for (int r = 0; r < biomes.length; r++)
+		{
+			for (int c = 0; c < biomes[0].length; c++)
+			{
+				int b = biomes[r][c];
+				boolean[] candidates = new boolean[100];
+				if (b == -1)
+				{
+					candidates[10] = true;
+					candidates[11] = true;
+				}
+				else if (b == 0)
+				{
+					candidates[20] = true;
+					candidates[21] = true;
+					candidates[22] = true;
+					candidates[40] = true;
+				}
+				else if (b == 1)
+				{
+					candidates[20] = true;
+					candidates[21] = true;
+					candidates[22] = true;
+					candidates[40] = true;
+				}
+				else if (b == 2)
+				{
+					candidates[20] = true;
+					candidates[21] = true;
+					candidates[22] = true;
+					candidates[40] = true;
+				}
+				else if (b == 3)
+				{
+					candidates[1] = true;
+					
+					candidates[20] = true;
+					candidates[22] = true;
+					candidates[40] = true;
+				}
+				else if (b == 4)
+				{
+					candidates[1] = true;
+					
+					candidates[20] = true;
+					candidates[22] = true;
+					candidates[30] = true;
+					candidates[40] = true;
+				}
+				else if (b == 5)
+				{
+					candidates[1] = true;
+					
+					candidates[22] = true;
+					candidates[30] = true;
+					candidates[40] = true;
+				}
+				else if (b == 6)
+				{
+					candidates[1] = true;
+					candidates[2] = true;
+					
+					candidates[22] = true;
+					candidates[30] = true;
+					candidates[40] = true;
+				}
+				else if (b == 8)
+				{
+					
+				}
+				for (int i = 0; i < candidates.length; i++)
+				{
+					if (candidates[i])
+					{
+						if (Math.random() < 0.025)
+						{
+							resources[r][c] = i;
+						}
+					}
+				}
+			}
+		}
+		for (int r = 0; r < resources.length; r++)
+		{
+			for (int c = 0; c < resources[0].length; c++)
+			{
+				System.out.print(resources[r][c] + " ");
+			}
+			System.out.println();
+		}
+		return resources;
 	}
 
 	//The three methods below stolen from "blockgame"
@@ -248,12 +345,12 @@ public class CivGame extends PApplet {
 				return 6;
 			else if (r > 2.5)
 				return 5;
-			else //if (r > 2)
+			else if (r > 1.5)
 				return 4;
 			/*else if (r > 1.25)
-				return 3;
+				return 3;*/
 			else 
-				return 2;*/
+				return 2;
 		}
 		else if (t > 2)
 		{

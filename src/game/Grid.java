@@ -12,7 +12,7 @@ public class Grid {
 	//public Civilization playerCiv;
 	//Player's civilization will always be the first
 
-	public Grid(double[][] terrain, int[][] biomes, int numCivs, int cutoff)
+	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int cutoff)
 	{
 		civs = new Civilization[numCivs];
 		tiles = new Tile[terrain.length][terrain[0].length];
@@ -23,6 +23,7 @@ public class Grid {
 			{
 				int hill = 0;
 				double random = Math.random();
+				//Assign a shape
 				if (random < 0.025)
 				{
 					hill = 2;
@@ -32,9 +33,9 @@ public class Grid {
 					hill = 1;
 				}
 				if (terrain[r][c] >= cutoff)
-					tiles[r][c] = new Tile("Land",(int)terrain[r][c],biomes[r][c],hill,r,c);
+					tiles[r][c] = new Tile("Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],r,c);
 				else
-					tiles[r][c] = new Tile("Sea",(int)terrain[r][c],-1,0,r,c);
+					tiles[r][c] = new Tile("Sea",(int)terrain[r][c],-1,0,resources[r][c],r,c);
 			}
 		}
 		for (int i = 0; i < civs.length; i++)

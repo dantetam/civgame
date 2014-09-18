@@ -17,10 +17,11 @@ public class Tile {
 	public int row, col;
 	public int biome;
 	public int shape;
+	public int resource;
 	//public boolean sea;
 	public boolean road;
 	
-	public Tile(String type, int height, int biome, int shape, int row, int col)
+	public Tile(String type, int height, int biome, int shape, int resource, int row, int col)
 	{
 		occupants = new ArrayList<GameEntity>();
 		harvest = false;
@@ -28,6 +29,7 @@ public class Tile {
 		this.height = height;
 		this.biome = biome;
 		this.shape = shape;
+		this.resource = resource;
 		//this.sea = sea;
 		this.row = row;
 		this.col = col;

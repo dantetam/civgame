@@ -89,7 +89,7 @@ public class RenderSystem extends BaseSystem {
 		//float lineWidth = 20;
 		//main.line(main.width/2 - lineWidth/2, main.height/2 - lineWidth/2, main.width/2 + lineWidth/2, main.height/2 + lineWidth/2);
 	}
-	
+
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
 	private final int dist1 = 1000; private final int dist2 = 1350;
@@ -145,17 +145,21 @@ public class RenderSystem extends BaseSystem {
 			//Render a hill or mountain
 			if (sampleSize == 1)
 			{
-			if (main.grid.getTile(r,c).shape == 1)
-			{
-				main.translate(0, (en.sizeY - cutoff)*con/2, 0);
-				main.box(en.sizeX/2*sampleSize);
-			}
-			else if (main.grid.getTile(r,c).shape == 2)
-			{
-				main.translate(0, (en.sizeY - cutoff)*con/2, 0);
-				main.translate(0, en.sizeX*sampleSize/4, 0);
-				main.box(en.sizeX/2*sampleSize, en.sizeX*sampleSize*1.5F, en.sizeX/2*sampleSize);
-			}
+				if (main.grid.getTile(r,c).shape == 1)
+				{
+					main.translate(0, (en.sizeY - cutoff)*con/2, 0);
+					main.box(en.sizeX/2*sampleSize);
+				}
+				else if (main.grid.getTile(r,c).shape == 2)
+				{
+					main.translate(0, (en.sizeY - cutoff)*con/2, 0);
+					main.translate(0, en.sizeX*sampleSize/4, 0);
+					main.box(en.sizeX/2*sampleSize, en.sizeX*sampleSize*1.5F, en.sizeX/2*sampleSize);
+				}
+				if (main.grid.getTile(r,c).resource != 0)
+				{
+					
+				}
 			}
 			main.popMatrix();
 		}
@@ -196,7 +200,7 @@ public class RenderSystem extends BaseSystem {
 	{
 		main.camera(player.posX,player.posY,player.posZ,player.tarX,player.tarY,player.tarZ,0,-1,0);
 	}
-	
+
 	//Make a model of entities with a height map
 	public float widthBlock = 20;
 	public void addTerrain(double[][] t, float con, float cutoff)
@@ -219,7 +223,7 @@ public class RenderSystem extends BaseSystem {
 			}
 		}
 	}
-	
+
 	//Compares two angles between 0 and 6.28 (2*Math.PI)
 	public boolean angle(double a1, double a2)
 	{
