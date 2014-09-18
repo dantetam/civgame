@@ -35,8 +35,8 @@ public class CivilizationSystem extends BaseSystem {
 						int c = (int)(Math.random()*3) - 1;
 						if (main.grid.getTile(en.location.row+r,en.location.col+c) != null)
 						{
-							if (main.grid.getTile(en.location.row+r,en.location.col+c).owner == en.owner ||
-									main.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
+							//if (main.grid.getTile(en.location.row+r,en.location.col+c).owner == en.owner ||
+									//main.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
 							{
 								GameEntity enemy = main.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 								if (enemy != null)
@@ -66,12 +66,24 @@ public class CivilizationSystem extends BaseSystem {
 								else
 								{
 									main.grid.move(en,r,c);
-									if (en.location.improvement.name.equals("City"))
+									if (en.location.improvement != null)
 									{
-										City city = (City)en.location.improvement;
-										city.owner.cities.remove(city);
-										en.location.improvement = null;
-										//city = null;
+										if (en.location.improvement.name.equals("City") && !en.owner.equals(en.location.improvement.owner))
+										{
+											City city = (City)en.location.improvement;
+											for (int k = city.land.size() - 1; k >= 0; k--)
+											{
+												Tile t = city.land.get(k);
+												city.land.remove(t);
+												t.owner = null;
+												//System.out.println("Destroyed");
+												//en.owner.
+												//t.owner = en.owner;
+											}
+											city.owner.cities.remove(city);
+											en.location.improvement = null;
+											//city = null;
+										}
 									}
 								}
 							}
