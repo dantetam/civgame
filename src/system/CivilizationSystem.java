@@ -190,60 +190,10 @@ public class CivilizationSystem extends BaseSystem {
 						}
 						for (int k = 0; k < c.workedLand.size(); k++)
 						{
-							double f,g,m,r;
 							Tile t = c.workedLand.get(k);
-							if (t.biome == -1)
-							{
-								f = 1; g = 1; m = 0; r = 2;
-							}
-							else if (t.biome == 0)
-							{
-								f = 0; g = 1; m = 2; r = 1;
-							}
-							else if (t.biome == 1)
-							{
-								f = 1; g = 1; m = 1; r = 1;
-							}
-							else if (t.biome == 2)
-							{
-								f = 0; g = 0; m = 2; r = 1;
-							}
-							else if (t.biome == 3)
-							{
-								f = 2; g = 0; m = 1; r = 2;
-							}
-							else if (t.biome == 4)
-							{
-								f = 2; g = 1; m = 1; r = 2;
-							}
-							else if (t.biome == 5)
-							{
-								f = 3; g = 0; m = 1; r = 2;
-							}
-							else if (t.biome == 6)
-							{
-								f = 3; g = 1; m = 0; r = 3;
-							}
-							else
-							{
-								System.err.println("Invalid biomerrr " + t.biome);
-								f = 0; g = 0; m = 0; r = 0;
-							}
-							if (t.shape == 1)
-							{
-								f--;
-								m++;
-							}
-							else if (t.shape == 2)
-							{
-								f -= 2;
-								m += 2;
-								r += 2;
-							}
-							if (c.location.equals(t))
-							{
-								f = 1; g = 2; m = 1; r = 2;
-							}
+							double[] eval = c.evaluate(t,null);
+							double f=eval[0],g=eval[1],m=eval[2],r=eval[3];
+							
 							//civ.food += f;
 							//civ.gold += g;
 							//civ.metal += m;

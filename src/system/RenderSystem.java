@@ -156,9 +156,12 @@ public class RenderSystem extends BaseSystem {
 					main.translate(0, en.sizeX*sampleSize/4, 0);
 					main.box(en.sizeX/2*sampleSize, en.sizeX*sampleSize*1.5F, en.sizeX/2*sampleSize);
 				}
-				if (main.grid.getTile(r,c).resource != 0)
+				int res = main.grid.getTile(r,c).resource;
+				if (res != 0)
 				{
-					
+					main.fill(EntityData.get(res));
+					main.translate(0, 15, 0);
+					main.box(5);
 				}
 			}
 			main.popMatrix();

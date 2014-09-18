@@ -108,6 +108,30 @@ public class EntityData {
 		tileEntityMap.put("City",new City("City"));
 	}
 	
+	public static Color get(int res)
+	{
+		switch (res)
+		{
+		case 1: return EntityData.brickColorMap.get(106);
+		case 2: return EntityData.brickColorMap.get(1);
+		
+		case 10: return EntityData.brickColorMap.get(23);
+		case 11: return EntityData.brickColorMap.get(1011);
+		
+		case 20: return EntityData.brickColorMap.get(1014);
+		case 21: return EntityData.brickColorMap.get(194);
+		case 22: return EntityData.brickColorMap.get(26);
+		
+		case 30: return EntityData.brickColorMap.get(21);
+		
+		case 40: return EntityData.brickColorMap.get(45);
+		
+		default: 
+			System.err.println("Invalid resource " + res);
+			return null;
+		}
+	}
+	
 	public static BaseEntity get(String name)
 	{
 		/*for (Entry e: gameEntityMap.entrySet())

@@ -6,6 +6,7 @@ import processing.core.PGraphics;
 import java.util.ArrayList;
 import java.util.Random;
 
+import data.Color;
 import terrain.*;
 import system.*;
 import entity.Player;
@@ -102,6 +103,11 @@ public class CivGame extends PApplet {
 	public void keyReleased()
 	{
 		inputSystem.keyReleased(key);
+	}
+	
+	public void fill(Color c)
+	{
+		fill((float)c.r*255F,(float)c.g*255F,(float)c.b*255F);
 	}
 
 	public void stop()
@@ -279,7 +285,7 @@ public class CivGame extends PApplet {
 				{
 					if (candidates[i])
 					{
-						if (Math.random() < 0.025)
+						if (Math.random() < 0.0125)
 						{
 							resources[r][c] = i;
 						}
