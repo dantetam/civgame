@@ -171,6 +171,24 @@ public class RenderSystem extends BaseSystem {
 		main.pushMatrix();
 		main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
 		main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
+		if (en.name.equals("Settler"))
+		{
+			main.translate(0,sizeY/2 + widthBlock*0.4F,0);
+			main.fill(150,225,255);
+			main.box(widthBlock*0.4F*2);
+		}
+		else if (en.name.equals("Worker"))
+		{
+			main.translate(0,sizeY/2 + widthBlock*0.4F/2,0);
+			main.fill(150,225,255);
+			main.box(widthBlock*0.4F);
+		}
+		else if (en.name.equals("Warrior"))
+		{
+			main.translate(0,sizeY/2 + widthBlock*0.4F/2,0);
+			main.fill(255,0,0);
+			main.box(widthBlock*0.4F);
+		}
 		main.popMatrix();
 	}
 

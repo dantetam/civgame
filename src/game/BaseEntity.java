@@ -8,6 +8,9 @@ public abstract class BaseEntity {
 	public String name;
 	public Civilization owner;
 	
+	public String queue;
+	public int queueTurns;
+	
 	public BaseEntity(String name)
 	{
 		this.name = name;

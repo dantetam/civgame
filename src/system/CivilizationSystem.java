@@ -246,8 +246,9 @@ public class CivilizationSystem extends BaseSystem {
 							//civ.gold += g;
 							//civ.metal += m;
 							//tf += f;
-							if (c.focus.equals("Growth") && c.health >= 0)
+							if (c.health >= 0)
 							{
+								c.focus = "Growth";
 								if (f > c.population)
 								{
 									double amount = Math.min(f, c.population*3);
@@ -279,9 +280,10 @@ public class CivilizationSystem extends BaseSystem {
 									//c.focus = "Production";
 								}
 							}
-							else if (c.health <= 0)
+							else 
 							{
 								f -= c.population*2;
+								c.focus = "Production";
 							}
 							tf += f; tg += g; tm += m; tr += r;
 							c.workedLand.get(k).harvest = true;

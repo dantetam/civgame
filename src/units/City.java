@@ -13,8 +13,8 @@ public class City extends TileEntity {
 	public ArrayList<Tile> workedLand;
 	public int happiness;
 	public int health;
-	public String queue;
-	public int queueTurns;
+	//public String queue;
+	//public int queueTurns;
 	public Civilization owner;
 	public String focus;
 	public ArrayList<String> buildings;
