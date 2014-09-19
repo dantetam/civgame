@@ -6,6 +6,7 @@ import units.City;
 
 public class Tile {
 
+	public Grid grid;
 	public TileEntity improvement;
 	public ArrayList<GameEntity> occupants;
 	public Civilization owner;
@@ -21,8 +22,9 @@ public class Tile {
 	//public boolean sea;
 	public boolean road;
 	
-	public Tile(String type, int height, int biome, int shape, int resource, int row, int col)
+	public Tile(Grid grid, String type, int height, int biome, int shape, int resource, int row, int col)
 	{
+		this.grid = grid;
 		occupants = new ArrayList<GameEntity>();
 		harvest = false;
 		this.type = type;

@@ -33,9 +33,9 @@ public class Grid {
 					hill = 1;
 				}
 				if (terrain[r][c] >= cutoff)
-					tiles[r][c] = new Tile("Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],r,c);
+					tiles[r][c] = new Tile(this,"Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],r,c);
 				else
-					tiles[r][c] = new Tile("Sea",(int)terrain[r][c],-1,0,resources[r][c],r,c);
+					tiles[r][c] = new Tile(this,"Sea",(int)terrain[r][c],-1,0,resources[r][c],r,c);
 			}
 		}
 		for (int i = 0; i < civs.length; i++)

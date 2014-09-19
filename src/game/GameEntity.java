@@ -14,4 +14,17 @@ public class GameEntity extends BaseEntity {
 		super(other);
 	}
 	
+	public void tick()
+	{
+		if (name.equals("Worker") && queue != null)
+		{
+			queueTurns--;
+			if (queueTurns <= 0)
+			{
+				queueTurns = 0; //just to be sure
+				location.grid.addUnit(en, owner, location.row, location.col);
+			}
+		}
+	}
+	
 }

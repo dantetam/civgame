@@ -66,10 +66,12 @@ public class CivilizationSystem extends BaseSystem {
 								}
 								else
 								{
-									main.grid.move(en,r,c);
+									//en.tick();
+									if (en.queue == null)
+										main.grid.move(en,r,c);
 									if (en.location.improvement != null)
 									{
-										if (en.location.improvement.name.equals("City") && !en.owner.equals(en.location.improvement.owner))
+										if (en.location.improvement.name.equals("City") && !en.owner.equals(en.location.improvement.owner) && en.name.equals("Warrior"))
 										{
 											City city = (City)en.location.improvement;
 											for (int k = city.land.size() - 1; k >= 0; k--)
@@ -84,6 +86,35 @@ public class CivilizationSystem extends BaseSystem {
 											city.owner.cities.remove(city);
 											en.location.improvement = null;
 											//city = null;
+										}
+									}
+									else
+									{
+										if (en.name.equals("Worker") && en.queue == null)
+										{
+											if (en.location.city != null)
+											{
+												City city = en.location.city;
+												//Factor in the city later
+												if (en.location.biome >= 3 && en.location.biome <= 6)
+												{
+													en.queueTurns = 6;
+													en.queue = "Farm";
+												}
+												else if (en.location.shape == 1)
+												{
+													en.queueTurns = 6;
+													en.queue = "Mine";
+												}
+												else if (en.location.shape == 2)
+												{
+													if (en.location.biome >= 0 && en.location.biome <= 3)
+													{
+														en.queueTurns = 6;
+														en.queue = "Mine";
+													}
+												}
+											}
 										}
 									}
 								}

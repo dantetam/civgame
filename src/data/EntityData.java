@@ -106,6 +106,13 @@ public class EntityData {
 		gameEntityMap.put("Worker",new GameEntity("Worker"));
 		
 		tileEntityMap.put("City",new City("City"));
+		tileEntityMap.put("Mine",new TileEntity("Mine"));
+		tileEntityMap.put("Windmill",new TileEntity("Windmill"));
+		tileEntityMap.put("Lumbermill",new TileEntity("Lumbermill"));
+		tileEntityMap.put("Mine",new TileEntity("Mine"));
+		tileEntityMap.put("Forest Yard",new TileEntity("Forest Yard"));
+		tileEntityMap.put("Trading Post",new TileEntity("Trading Post"));
+		tileEntityMap.put("Pasture",new TileEntity("Pasture"));
 	}
 	
 	public static Color get(int res)
