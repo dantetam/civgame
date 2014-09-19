@@ -106,7 +106,7 @@ public class EntityData {
 		gameEntityMap.put("Worker",new GameEntity("Worker"));
 		
 		tileEntityMap.put("City",new City("City"));
-		tileEntityMap.put("Mine",new TileEntity("Mine"));
+		tileEntityMap.put("Farm",new TileEntity("Farm"));
 		tileEntityMap.put("Windmill",new TileEntity("Windmill"));
 		tileEntityMap.put("Lumbermill",new TileEntity("Lumbermill"));
 		tileEntityMap.put("Mine",new TileEntity("Mine"));

@@ -10,6 +10,7 @@ import game.BaseEntity;
 import game.Civilization;
 import game.GameEntity;
 import game.Tile;
+import game.TileEntity;
 import data.Color;
 import data.EntityData;
 
@@ -105,6 +106,7 @@ public class RenderSystem extends BaseSystem {
 			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
 			main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
 			main.noStroke();
+			Tile t = main.grid.getTile(r,c);
 			if (dist > dist2)
 			{
 				sampleSize = 4;
@@ -125,9 +127,9 @@ public class RenderSystem extends BaseSystem {
 			{
 				if (main.grid.getTile(r,c).owner != null)
 				{
-					Civilization civ = main.grid.getTile(r,c).owner;
+					Civilization civ = t.owner;
 					main.stroke(civ.r, civ.g, civ.b);
-					if (main.grid.getTile(r,c).harvest)
+					if (t.harvest)
 					{
 						main.strokeWeight(5);
 					}
@@ -145,18 +147,18 @@ public class RenderSystem extends BaseSystem {
 			//Render a hill or mountain
 			if (sampleSize == 1)
 			{
-				if (main.grid.getTile(r,c).shape == 1)
+				if (t.shape == 1)
 				{
 					main.translate(0, (en.sizeY - cutoff)*con/2, 0);
 					main.box(en.sizeX/2*sampleSize);
 				}
-				else if (main.grid.getTile(r,c).shape == 2)
+				else if (t.shape == 2)
 				{
 					main.translate(0, (en.sizeY - cutoff)*con/2, 0);
 					main.translate(0, en.sizeX*sampleSize/4, 0);
 					main.box(en.sizeX/2*sampleSize, en.sizeX*sampleSize*1.5F, en.sizeX/2*sampleSize);
 				}
-				int res = main.grid.getTile(r,c).resource;
+				int res = t.resource;
 				if (res != 0)
 				{
 					main.fill(EntityData.get(res));
@@ -176,25 +178,35 @@ public class RenderSystem extends BaseSystem {
 		main.noStroke();
 		float sizeY = widthBlock*3F;
 		main.pushMatrix();
-		main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
-		main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
-		if (en.name.equals("Settler"))
+		if (en instanceof TileEntity)
 		{
-			main.translate(0,sizeY/2 + widthBlock*0.4F,0);
-			main.fill(150,225,255);
-			main.box(widthBlock*0.4F*2);
+			main.fill(0);
+			main.stroke(en.owner.r,en.owner.g,en.owner.b);
+			main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
+			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
 		}
-		else if (en.name.equals("Worker"))
+		else
 		{
-			main.translate(0,sizeY/2 + widthBlock*0.4F/2,0);
-			main.fill(150,225,255);
-			main.box(widthBlock*0.4F);
-		}
-		else if (en.name.equals("Warrior"))
-		{
-			main.translate(0,sizeY/2 + widthBlock*0.4F/2,0);
-			main.fill(255,0,0);
-			main.box(widthBlock*0.4F);
+			main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
+			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
+			if (en.name.equals("Settler"))
+			{
+				main.translate(0,sizeY/2 + widthBlock*0.4F,0);
+				main.fill(150,225,255);
+				main.box(widthBlock*0.4F*2);
+			}
+			else if (en.name.equals("Worker"))
+			{
+				main.translate(0,sizeY/2 + widthBlock*0.4F/2,0);
+				main.fill(150,225,255);
+				main.box(widthBlock*0.4F);
+			}
+			else if (en.name.equals("Warrior"))
+			{
+				main.translate(0,sizeY/2 + widthBlock*0.4F/2,0);
+				main.fill(255,0,0);
+				main.box(widthBlock*0.4F);
+			}
 		}
 		main.popMatrix();
 	}

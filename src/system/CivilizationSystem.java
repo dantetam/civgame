@@ -33,7 +33,7 @@ public class CivilizationSystem extends BaseSystem {
 						GameEntity en = civ.units.get(j);
 						int r = (int)(Math.random()*3) - 1;
 						int c = (int)(Math.random()*3) - 1;
-						if (main.grid.getTile(en.location.row+r,en.location.col+c) != null)
+						/*if (main.grid.getTile(en.location.row+r,en.location.col+c) != null && !en.name.equals("Worker"))
 						{
 							//if (main.grid.getTile(en.location.row+r,en.location.col+c).owner == en.owner ||
 									//main.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
@@ -119,7 +119,7 @@ public class CivilizationSystem extends BaseSystem {
 									}
 								}
 							}
-						}
+						}*/
 						if (Math.random() < 0.1 && en.location.owner == null && en.location.biome != -1 && en.name.equals("Settler"))
 						{
 							sacrifice(en);
@@ -295,19 +295,19 @@ public class CivilizationSystem extends BaseSystem {
 					civ.research += tr;
 				}
 			}
-		}
-		for (int r = 0; r < main.grid.rows; r++)
-		{
-			for (int c = 0; c < main.grid.cols; c++)
+			for (int r = 0; r < main.grid.rows; r++)
 			{
-				Tile t = main.grid.getTile(r,c);
-				if (t.improvement != null)
+				for (int c = 0; c < main.grid.cols; c++)
 				{
-					t.improvement.tick();
-				}
-				for (int i = 0; i < t.occupants.size(); i++)
-				{
-					t.occupants.get(i).tick();
+					Tile t = main.grid.getTile(r,c);
+					if (t.improvement != null)
+					{
+						t.improvement.tick();
+					}
+					for (int i = 0; i < t.occupants.size(); i++)
+					{
+						t.occupants.get(i).tick();
+					}
 				}
 			}
 		}
