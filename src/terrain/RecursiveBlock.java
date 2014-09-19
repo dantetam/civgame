@@ -314,7 +314,7 @@ public class RecursiveBlock extends BaseTerrain {
 				}
 			}
 		}
-		if (args[1] == 1) rough();
+		//if (args[1] == 1) rough();
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)

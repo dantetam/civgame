@@ -110,6 +110,16 @@ public class InputSystem extends BaseSystem {
 			keyHeld[key-97] = false;
 		}
 	}
+	
+	public float lastMouseX = main.width/2; public float lastMouseY = main.height/2;
+	public void passMouse(float mouseX, float mouseY)
+	{
+		float dX = mouseX - lastMouseX;
+		float dY = mouseY - lastMouseY;
+		
+		lastMouseX = mouseX;
+		lastMouseY = mouseY;
+	}
 
 	/*public void test()
 	{

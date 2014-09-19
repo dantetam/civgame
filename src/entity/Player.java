@@ -8,6 +8,7 @@ public class Player {
 
 	public float posX, posY, posZ;
 	public float tarX, tarY, tarZ;
+	public float rotY = 45; //degrees
 	
 	public Player()
 	{

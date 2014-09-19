@@ -83,6 +83,7 @@ public class CivGame extends PApplet {
 	public void draw()
 	{
 		background(255);
+		inputSystem.passMouse(mouseX, mouseY);
 		for (int i = 0; i < systems.size(); i++)
 		{
 			systems.get(i).tick();

@@ -180,10 +180,28 @@ public class RenderSystem extends BaseSystem {
 		main.pushMatrix();
 		if (en instanceof TileEntity)
 		{
-			main.fill(0);
-			main.stroke(en.owner.r,en.owner.g,en.owner.b);
-			main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
-			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
+			if (en.location.harvest)
+			{
+				main.strokeWeight(5);
+			}
+			else
+			{
+				main.strokeWeight(1);
+			}
+			if (en.name.equals("City"))
+			{
+				main.fill(0);
+				main.stroke(en.owner.r,en.owner.g,en.owner.b);
+				main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
+				main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
+			}
+			else
+			{
+				main.fill(0);
+				main.stroke(en.owner.r,en.owner.g,en.owner.b);
+				main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con, c*widthBlock);
+				main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
+			}
 		}
 		else
 		{

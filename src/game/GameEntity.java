@@ -40,6 +40,24 @@ public class GameEntity extends BaseEntity {
 					//Factor in the city later
 					//if (city.location.owner.equals(owner)) //just in case
 					{
+						if (en.location.resource == 1 || en.location.resource == 2)
+						{
+							en.queueTurns = 6;
+							en.queue = "Farm";
+						}
+						else if (en.location.resource == 10 || en.location.resource == 11)
+						{
+							
+						}
+						else if (en.location.resource >= 20 && en.location.resource <= 22)
+						{
+							en.queueTurns = 6;
+							en.queue = "Mine";
+						}
+						else if (en.location.resource >= 30)
+						{
+							
+						}
 						if (en.location.biome >= 3 && en.location.biome <= 6)
 						{
 							en.queueTurns = 6;
@@ -98,7 +116,7 @@ public class GameEntity extends BaseEntity {
 				return;
 			}
 		}
-
+		if (!name.equals("Worker") || (name.equals("Worker") && queue == null))
 		{
 			int r = (int)(Math.random()*3) - 1;
 			int c = (int)(Math.random()*3) - 1;
