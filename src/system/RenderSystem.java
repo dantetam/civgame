@@ -49,7 +49,8 @@ public class RenderSystem extends BaseSystem {
 				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
 				float dist = main.chunkSystem.dist[chunk]; 
 				//TODO: The center of the player's view is the right bound of the viewing angle
-				if (dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10)
+				if ((dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
+						dist < dist0 && dist != -1F)
 				{
 					renderBlock(terrain.entities[r][c],dist,r,c);
 				}
@@ -93,6 +94,7 @@ public class RenderSystem extends BaseSystem {
 
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
+	private final int dist0 = 300;
 	private final int dist1 = 1000; private final int dist2 = 1350;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
 	public void renderBlock(Entity en, float dist, int r, int c)
