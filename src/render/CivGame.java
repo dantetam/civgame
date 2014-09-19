@@ -293,14 +293,14 @@ public class CivGame extends PApplet {
 				}
 			}
 		}
-		for (int r = 0; r < resources.length; r++)
+		/*for (int r = 0; r < resources.length; r++)
 		{
 			for (int c = 0; c < resources[0].length; c++)
 			{
 				System.out.print(resources[r][c] + " ");
 			}
 			System.out.println();
-		}
+		}*/
 		return resources;
 	}
 
