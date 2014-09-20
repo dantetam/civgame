@@ -9,6 +9,7 @@ public class Player {
 	public float posX, posY, posZ;
 	public float tarX, tarY, tarZ;
 	public float rotY = (float)Math.PI/4F; //degrees
+	public float rotVertical = 0;
 
 	public Player()
 	{
@@ -35,7 +36,7 @@ public class Player {
 	{
 		float dist = 100;
 		tarX = posX + dist*(float)Math.cos(rotY);
-		tarY = 0;
+		tarY = posY - dist*(float)Math.sin(rotVertical)*2;
 		tarZ = posZ + dist*(float)Math.sin(rotY);
 	}
 

@@ -28,7 +28,7 @@ public class RenderSystem extends BaseSystem {
 	public void tick()
 	{
 		main.background(150,225,255);
-		main.smooth(4);
+		//main.smooth(4);
 		//background(background);
 		main.noStroke();
 		main.lights();
@@ -55,6 +55,19 @@ public class RenderSystem extends BaseSystem {
 							dist < dist0 && dist != -1F)
 					{
 						renderBlock(terrain.entities[r][c],dist,r,c);
+						Tile t = main.grid.getTile(r,c);
+						if (t.improvement != null)
+						{
+							renderGameEntity(t.improvement,dist,r,c);
+						}
+						if (t.occupants.size() > 0)
+						{
+							for (int i = 0; i < t.occupants.size(); i++)
+							{
+								GameEntity en = t.occupants.get(i);
+								renderGameEntity(en,dist,r,c);
+							}
+						}
 					}
 				}
 				else
@@ -62,11 +75,24 @@ public class RenderSystem extends BaseSystem {
 					if (dist < dist1 && dist != -1F)
 					{
 						renderBlock(terrain.entities[r][c],dist,r,c);
+						Tile t = main.grid.getTile(r,c);
+						if (t.improvement != null)
+						{
+							renderGameEntity(t.improvement,dist,r,c);
+						}
+						if (t.occupants.size() > 0)
+						{
+							for (int i = 0; i < t.occupants.size(); i++)
+							{
+								GameEntity en = t.occupants.get(i);
+								renderGameEntity(en,dist,r,c);
+							}
+						}
 					}
 				}
 			}
 		}
-		for (int r = 0; r < main.grid.rows; r++)
+		/*for (int r = 0; r < main.grid.rows; r++)
 		{
 			for (int c = 0; c < main.grid.cols; c++)
 			{
@@ -74,22 +100,10 @@ public class RenderSystem extends BaseSystem {
 				float dist = main.chunkSystem.dist[chunk];
 				if (dist < dist1 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10)
 				{
-					Tile t = main.grid.getTile(r,c);
-					if (t.improvement != null)
-					{
-						renderGameEntity(t.improvement,dist,r,c);
-					}
-					if (t.occupants.size() > 0)
-					{
-						for (int i = 0; i < t.occupants.size(); i++)
-						{
-							GameEntity en = t.occupants.get(i);
-							renderGameEntity(en,dist,r,c);
-						}
-					}
+
 				}
 			}
-		}
+		}*/
 		/*main.hint(PApplet.DISABLE_DEPTH_TEST);
 		main.camera();
 		main.perspective();

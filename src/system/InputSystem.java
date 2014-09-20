@@ -118,6 +118,7 @@ public class InputSystem extends BaseSystem {
 		float dX = mouseX - lastMouseX;
 		float dY = mouseY - lastMouseY;
 		main.player.rotY -= dX/125; //Axis is weird, oh well
+		main.player.rotVertical -= dY/125;
 		main.player.update();
 		if (Math.abs(dX) <= 20)
 		{
