@@ -13,7 +13,7 @@ public class Player {
 	public Player()
 	{
 		posX = 2000;
-		posY = 700;
+		posY = 300;
 		posZ = 2000;
 		update();
 	}
@@ -33,9 +33,10 @@ public class Player {
 	}*/
 	public void update()
 	{
-		tarX = posX + 1000*(float)Math.cos(rotY);
+		float dist = 100;
+		tarX = posX + dist*(float)Math.cos(rotY);
 		tarY = 0;
-		tarZ = posZ + 1000*(float)Math.sin(rotY);
+		tarZ = posZ + dist*(float)Math.sin(rotY);
 	}
 
 	public Line getLookVector()
