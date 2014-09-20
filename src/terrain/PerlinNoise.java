@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class PerlinNoise extends BaseTerrain {
-	
+
 	public PerlinNoise(double seed)
 	{
 		//this.seed = seed;
@@ -42,7 +42,7 @@ public class PerlinNoise extends BaseTerrain {
 		}*/
 		return b;
 	}
-	
+
 	public double[][] cutoff(double[][] t, double cutoff)
 	{
 		double[][] temp = new double[t.length][t[0].length];
@@ -55,7 +55,7 @@ public class PerlinNoise extends BaseTerrain {
 		}
 		return temp;
 	}
-	
+
 	public static double[][] recurInter(double[][] source, int times, double nDiv)
 	{
 		if (times < 0)
@@ -64,7 +64,7 @@ public class PerlinNoise extends BaseTerrain {
 		}
 		return recurInter(expand(source,nDiv),times-1,nDiv);
 	}
-	
+
 	public static double[][] expand(double[][] a, double nDiv)
 	{
 		BicubicInterpolator bi = new BicubicInterpolator();
@@ -95,7 +95,7 @@ public class PerlinNoise extends BaseTerrain {
 		}
 		return b;
 	}
-	
+
 	public double[][] scalar(double ratio, double[][] a)
 	{
 		for (int i = 0; i < a.length; i++)
@@ -199,10 +199,15 @@ public class PerlinNoise extends BaseTerrain {
 
 	@Override
 	public double[][] generate(double[] a) {
+		//for (int i = 0; i < a.length; i++) 
+			//System.out.println(a[i]);
 		double[][] source = makePerlinNoise((int)a[0],(int)a[1],a[2],a[3],a[4],a[5],(int)a[6]);
 		//double[][] newSource = PerlinNoise.recurInter(source,2,nDiv/4);
 		source = PerlinNoise.expand(PerlinNoise.expand(source,a[7]/2),a[7]);
-		//source = cutoff(source,a[8]);
+		if (a.length == 9)
+		{
+			source = cutoff(source,a[8]);
+		}
 		return source;
 	}
 

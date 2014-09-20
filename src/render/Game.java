@@ -27,6 +27,7 @@ public class Game extends PApplet {
 	{
 		size(400,800);
 		EntityData.init();
+		setModels();
 		frame.setTitle("Survival: Civilization");
 		menus = new ArrayList<Menu>();
 
@@ -148,7 +149,8 @@ public class Game extends PApplet {
 						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain1",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
-						redraw();
+						//redraw();
+						
 						noLoop();
 					}
 					else if (command.equals("terrain2"))
@@ -156,7 +158,7 @@ public class Game extends PApplet {
 						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain2",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
-						redraw();
+						//redraw();
 						noLoop();
 					}
 					else if (command.equals("terrain3"))
@@ -164,7 +166,7 @@ public class Game extends PApplet {
 						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain3",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
-						redraw();
+						//redraw();
 						noLoop();
 					}
 					else if (command.equals("terrain4"))
@@ -172,11 +174,21 @@ public class Game extends PApplet {
 						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain4",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
-						redraw();
+						//redraw();
 						noLoop();
 					}
 				}
 			}
+		}
+	}
+	
+	private String[] models = {"City","Farm","Mine","Settler","Warrior","Worker"};
+	private void setModels()
+	{
+		for (int i = 0; i < models.length; i++)
+		{
+			String[] data = loadStrings("/models/"+models[i]);
+			EntityData.passModelData(models[i],data);
 		}
 	}
 

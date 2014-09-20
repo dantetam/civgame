@@ -3,6 +3,7 @@ package data;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import processing.core.PApplet;
 import entity.Entity;
 import game.*;
 import units.*;
@@ -13,24 +14,27 @@ public class EntityData {
 	public static HashMap<String, GameEntity> gameEntityMap;
 	public static HashMap<String, TileEntity> tileEntityMap;
 	public static HashMap<Integer, Integer> groundColorMap; //Defines color of ground of certain biomes
-	
+	private static HashMap<String, float[][]> unitModelMap;
+
 	public EntityData()
 	{
-		
+
 	}
-	
+
 	public static void init()
 	{
 		brickColorMap = new HashMap<Integer,Color>();
 		gameEntityMap = new HashMap<String, GameEntity>();
 		tileEntityMap = new HashMap<String, TileEntity>();
 		groundColorMap = new HashMap<Integer, Integer>();
-		
+		unitModelMap = new HashMap<String, float[][]>();
+
 		setupColors();
 		setupEntityMap();
 		groundColorMap();
+		//setModels();
 	}
-	
+
 	private static void setupColors()
 	{
 		brickColorMap.put(1,new Color(0.94901967048645,0.95294123888016,0.95294123888016));
@@ -98,13 +102,18 @@ public class EntityData {
 		brickColorMap.put(1031,new Color(0.38431376218796,0.14509804546833,0.81960791349411));
 		brickColorMap.put(1032,new Color(1,0,0.74901962280273));
 	}
-	
+
+	public static float[][] getModel(String name)
+	{
+		return unitModelMap.get(name);
+	}
+
 	private static void setupEntityMap()
 	{
 		gameEntityMap.put("Settler",new GameEntity("Settler"));
 		gameEntityMap.put("Warrior",new GameEntity("Warrior"));
 		gameEntityMap.put("Worker",new GameEntity("Worker"));
-		
+
 		tileEntityMap.put("City",new City("City"));
 		tileEntityMap.put("Farm",new TileEntity("Farm"));
 		tileEntityMap.put("Windmill",new TileEntity("Windmill"));
@@ -114,31 +123,64 @@ public class EntityData {
 		tileEntityMap.put("Trading Post",new TileEntity("Trading Post"));
 		tileEntityMap.put("Pasture",new TileEntity("Pasture"));
 	}
-	
+
 	public static Color get(int res)
 	{
 		switch (res)
 		{
 		case 1: return EntityData.brickColorMap.get(106);
 		case 2: return EntityData.brickColorMap.get(1);
-		
+
 		case 10: return EntityData.brickColorMap.get(23);
 		case 11: return EntityData.brickColorMap.get(1011);
-		
+
 		case 20: return EntityData.brickColorMap.get(1014);
 		case 21: return EntityData.brickColorMap.get(194);
 		case 22: return EntityData.brickColorMap.get(26);
-		
+
 		case 30: return EntityData.brickColorMap.get(21);
-		
+
 		case 40: return EntityData.brickColorMap.get(45);
-		
+
 		default: 
 			System.err.println("Invalid resource " + res);
 			return null;
 		}
 	}
-	
+
+	public static void passModelData(String name, String[] data)
+	{
+		float[][] temp = new float[data.length][10];
+		for (int line = 0; line < data.length; line++)
+		{
+			String[] split = PApplet.split(data[line], ",");
+			for (int i = 0; i < split.length; i++)
+			{
+				if (i == 0)
+				{
+					if (split[0].equals("Color"))
+					{
+						temp[line][i] = 1;
+					}
+					else
+					{
+						temp[line][i] = 0;
+					}
+				}
+				else
+				{
+					if (i >= 4 && i <= 6)
+					{
+						temp[line][i] = (float)Math.toRadians(Float.parseFloat(split[i]));
+					}
+					else
+						temp[line][i] = Float.parseFloat(split[i]);
+				}
+			}
+		}
+		unitModelMap.put(name, temp);
+	}
+
 	public static BaseEntity get(String name)
 	{
 		/*for (Entry e: gameEntityMap.entrySet())
@@ -167,7 +209,7 @@ public class EntityData {
 		//System.out.println("Entity name not found");
 		return null;
 	}
-	
+
 	private static void groundColorMap()
 	{
 		groundColorMap.put(-1,26);
@@ -180,5 +222,5 @@ public class EntityData {
 		groundColorMap.put(6,217);
 		groundColorMap.put(7,226);
 	}
-	
+
 }

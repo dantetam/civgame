@@ -28,7 +28,7 @@ public class Grid {
 				{
 					hill = 2;
 				}
-				else if (random < 0.15)
+				else if (random < 0.3)
 				{
 					hill = 1;
 				}

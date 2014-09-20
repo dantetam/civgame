@@ -42,19 +42,19 @@ public class RenderSystem extends BaseSystem {
 			renderBlock(terrain.entities.get(i));
 		}*/
 		//Look to see if the entity is both within the player's vision and is a close enough distance
-		for (int r = 0; r < terrain.entities.length; r++)
+		for (int r = 0; r < main.terrain.length; r++)
 		{
-			for (int c = 0; c < terrain.entities[0].length; c++)
+			for (int c = 0; c < main.terrain[0].length; c++)
 			{
 				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
 				float dist = main.chunkSystem.dist[chunk]; 
 				//TODO: The center of the player's view is the right bound of the viewing angle
-				if (main.player.posY <= 300)
+				if (main.player.posY <= 100)
 				{
 					if ((dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
 							dist < dist0 && dist != -1F)
 					{
-						renderBlock(terrain.entities[r][c],dist,r,c);
+						renderBlock(dist,r,c);
 						Tile t = main.grid.getTile(r,c);
 						if (t.improvement != null)
 						{
@@ -74,7 +74,7 @@ public class RenderSystem extends BaseSystem {
 				{
 					if (dist < dist1 && dist != -1F)
 					{
-						renderBlock(terrain.entities[r][c],dist,r,c);
+						renderBlock(dist,r,c);
 						Tile t = main.grid.getTile(r,c);
 						if (t.improvement != null)
 						{
@@ -121,10 +121,10 @@ public class RenderSystem extends BaseSystem {
 	private final int dist0 = 300;
 	private final int dist1 = 1000; private final int dist2 = 1350;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
-	public void renderBlock(Entity en, float dist, int r, int c)
+	public void renderBlock(float dist, int r, int c)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
-		if (en.sizeY >= cutoff)
+		if (main.terrain[r][c] >= 0)
 		{
 			float sampleSize;
 			//float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
@@ -133,7 +133,7 @@ public class RenderSystem extends BaseSystem {
 			main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
 			main.noStroke();
 			Tile t = main.grid.getTile(r,c);
-			if (dist > dist2)
+			/*if (dist > dist2)
 			{
 				sampleSize = 4;
 				if (!((r) % sampleSize == 0 && (c) % sampleSize == 0))
@@ -148,8 +148,8 @@ public class RenderSystem extends BaseSystem {
 				{
 					return;
 				}
-			}
-			else
+			}*/
+			//if (dist < dist1)
 			{
 				if (main.grid.getTile(r,c).owner != null)
 				{
@@ -168,21 +168,22 @@ public class RenderSystem extends BaseSystem {
 			}
 			main.pushMatrix();
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
-			main.translate(en.posX, en.posY*con, en.posZ);
-			main.box(en.sizeX*sampleSize, (en.sizeY - cutoff)*con, en.sizeZ*sampleSize);
+			//main.translate(en.posX, en.posY*con, en.posZ);
+			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
+			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 			//Render a hill or mountain
 			if (sampleSize == 1)
 			{
 				if (t.shape == 1)
 				{
-					main.translate(0, (en.sizeY - cutoff)*con/2, 0);
-					main.box(en.sizeX/2*sampleSize);
+					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
+					main.box(widthBlock/2*sampleSize);
 				}
 				else if (t.shape == 2)
 				{
-					main.translate(0, (en.sizeY - cutoff)*con/2, 0);
-					main.translate(0, en.sizeX*sampleSize/4, 0);
-					main.box(en.sizeX/2*sampleSize, en.sizeX*sampleSize*1.5F, en.sizeX/2*sampleSize);
+					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
+					main.translate(0, widthBlock*sampleSize/4, 0);
+					main.box(widthBlock/2*sampleSize, widthBlock*sampleSize*1.5F, widthBlock/2*sampleSize);
 				}
 				int res = t.resource;
 				if (res != 0)
@@ -204,32 +205,55 @@ public class RenderSystem extends BaseSystem {
 		main.noStroke();
 		float sizeY = widthBlock*3F;
 		main.pushMatrix();
-		if (en instanceof TileEntity)
+		if (en.location.harvest)
 		{
-			if (en.location.harvest)
-			{
-				main.strokeWeight(5);
-			}
-			else
-			{
-				main.strokeWeight(1);
-			}
-			if (en.name.equals("City"))
+			main.strokeWeight(5);
+		}
+		else
+		{
+			main.strokeWeight(1);
+		}
+		/*if (en.name.equals("City"))
 			{
 				main.fill(0);
 				main.stroke(en.owner.r,en.owner.g,en.owner.b);
 				main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
 				main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
-			}
-			else
+			}*/
+		//System.out.println(en.name);
+		//System.out.println(EntityData.getModel(en.name));
+		float[][] model = EntityData.getModel(en.name);
+		if (model != null)
+		{
+			main.translate(r*widthBlock, (float)(main.terrain[r][c])*con, c*widthBlock);
+			main.pushMatrix();
+			for (int i = 0; i < model.length; i++)
 			{
-				main.fill(0);
-				main.stroke(en.owner.r,en.owner.g,en.owner.b);
-				main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con, c*widthBlock);
-				main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
+				main.pushMatrix();
+				float[] t = model[i];
+				if ((int)t[0] == 0)
+				{
+					main.fill(150);
+				}
+				else if ((int)t[0] == 1)
+				{
+					main.fill(en.owner.r,en.owner.g,en.owner.b);
+				}
+				main.translate(t[1],t[2],t[3]);
+				main.rotateY(t[5]);
+				main.box(t[7],t[8],t[9]);
+				main.popMatrix();
 			}
+			main.popMatrix();
 		}
 		else
+		{
+			main.fill(0);
+			main.stroke(en.owner.r,en.owner.g,en.owner.b);
+			main.translate(r*widthBlock, (float)(main.terrain[r][c])*con, c*widthBlock);
+			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
+		}
+		/*else
 		{
 			main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
 			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
@@ -251,7 +275,7 @@ public class RenderSystem extends BaseSystem {
 				main.fill(255,0,0);
 				main.box(widthBlock*0.4F);
 			}
-		}
+		}*/
 		main.popMatrix();
 	}
 
@@ -262,7 +286,7 @@ public class RenderSystem extends BaseSystem {
 
 	//Make a model of entities with a height map
 	public float widthBlock = 20;
-	public void addTerrain(double[][] t, float con, float cutoff)
+	/*public void addTerrain(double[][] t, float con, float cutoff)
 	{
 		terrain = new GridModel(t.length, t[0].length);
 		for (int r = 0; r < t.length; r++)
@@ -274,14 +298,14 @@ public class RenderSystem extends BaseSystem {
 				Entity en = new Entity();
 				//en.moveTo(r*widthBlock, (float)h/2F*con, c*widthBlock);
 				//en.size(widthBlock, (float)h*con, widthBlock);
-				en.moveTo(r*widthBlock, (float)h/2F, c*widthBlock);
-				en.size(widthBlock, (float)h, widthBlock);
+				en.moveTo(r*widthBlock, (float)(h-cutoff)/2F, c*widthBlock);
+				en.size(widthBlock, (float)(h-cutoff), widthBlock);
 				terrain.add(en,r,c);
 				this.con = con;
 				this.cutoff = cutoff;
 			}
 		}
-	}
+	}*/
 
 	//Compares two angles between 0 and 6.28 (2*Math.PI)
 	public boolean angle(double a1, double a2)

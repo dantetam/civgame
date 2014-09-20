@@ -135,7 +135,7 @@ public class CivGame extends PApplet {
 		{
 			map = new RecursiveBlock(seed);
 			terrain = map.generate(new double[]{10,0});
-			con = 3F;
+			con = 1F;
 			cutoff = 1;
 		}
 		else if (terrainType.equals("terrain3"))
@@ -170,7 +170,7 @@ public class CivGame extends PApplet {
 
 		//grid.setupTiles(terrain);
 		//grid.setupCivs();
-		renderSystem.addTerrain(terrain, con, cutoff);
+		//renderSystem.addTerrain(terrain, con, cutoff);
 	}
 
 	public int[][] assignBiome(double[][] terrain)
