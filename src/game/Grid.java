@@ -32,10 +32,19 @@ public class Grid {
 				{
 					hill = 1;
 				}
+				boolean forest = false;
+				if (biomes[r][c] == 3)
+				{
+					forest = Math.random() < 0.02;
+				}
+				else if (biomes[r][c] >= 4 && biomes[r][c] <= 6)
+				{
+					forest = Math.random() < 0.075;
+				}
 				if (terrain[r][c] >= cutoff)
-					tiles[r][c] = new Tile(this,"Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],r,c);
+					tiles[r][c] = new Tile(this,"Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],forest,r,c);
 				else
-					tiles[r][c] = new Tile(this,"Sea",(int)terrain[r][c],-1,0,resources[r][c],r,c);
+					tiles[r][c] = new Tile(this,"Sea",(int)terrain[r][c],-1,0,resources[r][c],forest,r,c);
 			}
 		}
 		for (int i = 0; i < civs.length; i++)
@@ -59,6 +68,7 @@ public class Grid {
 			BaseEntity en = EntityData.get("Settler");
 			addUnit(en,civs[i],r,c);
 		}
+		//makeRivers(terrain);
 	}
 
 	public void move(BaseEntity en, int rDis, int cDis)
@@ -91,11 +101,16 @@ public class Grid {
 
 	public void removeUnit(BaseEntity en)
 	{
-		tiles[en.location.row][en.location.col].occupants.remove(en);
 		if (en instanceof GameEntity)
+		{
+			tiles[en.location.row][en.location.col].occupants.remove(en);
 			en.owner.units.remove((GameEntity)en);
+		}
 		else if (en instanceof TileEntity)
+		{
+			tiles[en.location.row][en.location.col].improvement = null;
 			en.owner.improvements.remove((TileEntity)en);
+		}
 		en.location = null;
 		en = null;
 	}
@@ -105,7 +120,7 @@ public class Grid {
 		tile.owner = civ;
 		civ.tiles.add(tile);
 	}
-	
+
 	public GameEntity hasEnemy(GameEntity attacker, int r, int c)
 	{
 		for (int i = 0; i < tiles[r][c].occupants.size(); i++)
@@ -118,7 +133,7 @@ public class Grid {
 		}
 		return null;
 	}
-
+	
 	public void setupCivs()
 	{
 
@@ -132,7 +147,7 @@ public class Grid {
 		}
 		return null;
 	}
-	
+
 	//public Tile[][] getTiles() {return tiles;}
 
 }

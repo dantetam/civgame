@@ -19,10 +19,9 @@ public class Tile {
 	public int biome;
 	public int shape;
 	public int resource;
-	//public boolean sea;
-	public boolean road;
+	public boolean forest, freshWater, road;
 	
-	public Tile(Grid grid, String type, int height, int biome, int shape, int resource, int row, int col)
+	public Tile(Grid grid, String type, int height, int biome, int shape, int resource, boolean forest, int row, int col)
 	{
 		this.grid = grid;
 		occupants = new ArrayList<GameEntity>();
@@ -35,7 +34,7 @@ public class Tile {
 		//this.sea = sea;
 		this.row = row;
 		this.col = col;
-		road = false;
+		this.forest = forest; freshWater = false; road = false;
 	}
 	
 	public void addUnit(BaseEntity en)

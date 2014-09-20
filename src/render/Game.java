@@ -150,7 +150,7 @@ public class Game extends PApplet {
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						//redraw();
-						
+						background(255);
 						noLoop();
 					}
 					else if (command.equals("terrain2"))
@@ -159,6 +159,7 @@ public class Game extends PApplet {
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						//redraw();
+						background(255);
 						noLoop();
 					}
 					else if (command.equals("terrain3"))
@@ -167,6 +168,7 @@ public class Game extends PApplet {
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						//redraw();
+						background(255);
 						noLoop();
 					}
 					else if (command.equals("terrain4"))
@@ -175,6 +177,7 @@ public class Game extends PApplet {
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						//redraw();
+						background(255);
 						noLoop();
 					}
 				}
@@ -182,7 +185,7 @@ public class Game extends PApplet {
 		}
 	}
 	
-	private String[] models = {"City","Farm","Mine","Settler","Warrior","Worker"};
+	private String[] models = {"City","Farm","Forest","Mine","Settler","Warrior","Worker"};
 	private void setModels()
 	{
 		for (int i = 0; i < models.length; i++)

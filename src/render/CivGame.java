@@ -22,6 +22,9 @@ public class CivGame extends PApplet {
 	public String terrainType;
 	public int numCivs;
 	public double[][] terrain;
+	//public boolean[][] rivers;
+	public boolean[][] verticalRivers;
+	public boolean[][] horizontalRivers;
 	public Erosion erosion;
 
 	public Grid grid;
@@ -44,7 +47,7 @@ public class CivGame extends PApplet {
 		this.numCivs = numCivs;
 		this.challengeType = challengeType;
 		this.terrainType = terrainType;
-		
+
 		this.seed = seed;
 
 		systems = new ArrayList<BaseSystem>();
@@ -65,6 +68,7 @@ public class CivGame extends PApplet {
 		box(100,100,100);
 		redraw();
 		generate(terrainType);
+		//makeRivers(terrain);
 		/*for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
@@ -105,7 +109,7 @@ public class CivGame extends PApplet {
 	{
 		inputSystem.keyReleased(key);
 	}
-	
+
 	public void fill(Color c)
 	{
 		fill((float)c.r*255F,(float)c.g*255F,(float)c.b*255F);
@@ -166,6 +170,7 @@ public class CivGame extends PApplet {
 			cutoff = 0;
 		}
 		int[][] biomes = assignBiome(terrain);
+		makeRivers(biomes); 
 		grid = new Grid(terrain, biomes, assignResources(biomes), numCivs, (int)cutoff);
 
 		//grid.setupTiles(terrain);
@@ -208,7 +213,36 @@ public class CivGame extends PApplet {
 		}*/
 		return temp;
 	}
-	
+
+	public void makeRivers(int[][] biomes)
+	{
+		verticalRivers = new boolean[biomes.length][biomes.length - 1];
+		horizontalRivers = new boolean[biomes.length - 1][biomes.length];
+		for (int r = 0; r < verticalRivers.length; r++)
+		{
+			for (int c = 0; c < verticalRivers[0].length; c++)
+			{
+				if (biomes[r][c] >= 1)
+				{
+					if (Math.random() < 0.01*biomes[r][c])
+					{
+						verticalRivers[r][c] = true;
+					}
+				}
+			}
+		}
+		for (int r = 0; r < horizontalRivers.length; r++)
+		{
+			for (int c = 0; c < horizontalRivers[0].length; c++)
+			{
+				if (Math.random() < 0.01*biomes[r][c])
+				{
+					horizontalRivers[r][c] = true;
+				}
+			}
+		}
+	}
+
 	public int[][] assignResources(int[][] biomes)
 	{
 		int[][] resources = new int[biomes.length][biomes[0].length];
@@ -247,7 +281,7 @@ public class CivGame extends PApplet {
 				else if (b == 3)
 				{
 					candidates[1] = true;
-					
+
 					candidates[20] = true;
 					candidates[22] = true;
 					candidates[40] = true;
@@ -255,7 +289,7 @@ public class CivGame extends PApplet {
 				else if (b == 4)
 				{
 					candidates[1] = true;
-					
+
 					candidates[20] = true;
 					candidates[22] = true;
 					candidates[30] = true;
@@ -264,7 +298,7 @@ public class CivGame extends PApplet {
 				else if (b == 5)
 				{
 					candidates[1] = true;
-					
+
 					candidates[22] = true;
 					candidates[30] = true;
 					candidates[40] = true;
@@ -273,14 +307,14 @@ public class CivGame extends PApplet {
 				{
 					candidates[1] = true;
 					candidates[2] = true;
-					
+
 					candidates[22] = true;
 					candidates[30] = true;
 					candidates[40] = true;
 				}
 				else if (b == 8)
 				{
-					
+
 				}
 				for (int i = 0; i < candidates.length; i++)
 				{

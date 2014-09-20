@@ -49,30 +49,34 @@ public class RenderSystem extends BaseSystem {
 				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
 				float dist = main.chunkSystem.dist[chunk]; 
 				//TODO: The center of the player's view is the right bound of the viewing angle
-				if (main.player.posY <= 100)
+				if ((main.player.posY <= 100 && dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
+						(dist < dist1 && dist != -1F))
 				{
-					if ((dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
-							dist < dist0 && dist != -1F)
+					renderBlock(dist,r,c);
+					Tile t = main.grid.getTile(r,c);
+					if (t.improvement != null)
 					{
-						renderBlock(dist,r,c);
-						Tile t = main.grid.getTile(r,c);
-						if (t.improvement != null)
+						renderGameEntity(t.improvement,dist,r,c);
+					}
+					if (t.occupants.size() > 0)
+					{
+						for (int i = 0; i < t.occupants.size(); i++)
 						{
-							renderGameEntity(t.improvement,dist,r,c);
+							GameEntity en = t.occupants.get(i);
+							renderGameEntity(en,dist,r,c);
 						}
-						if (t.occupants.size() > 0)
-						{
-							for (int i = 0; i < t.occupants.size(); i++)
-							{
-								GameEntity en = t.occupants.get(i);
-								renderGameEntity(en,dist,r,c);
-							}
-						}
+					}
+					if (t.forest)
+					{
+						main.pushMatrix();
+						//main.translate(r*widthBlock, (float)main.terrain[r][c]*con/2F, c*widthBlock);
+						renderModel("Forest",r,c,0,0,0);
+						main.popMatrix();
 					}
 				}
 				else
 				{
-					if (dist < dist1 && dist != -1F)
+					/*if (dist < dist1 && dist != -1F)
 					{
 						renderBlock(dist,r,c);
 						Tile t = main.grid.getTile(r,c);
@@ -88,8 +92,22 @@ public class RenderSystem extends BaseSystem {
 								renderGameEntity(en,dist,r,c);
 							}
 						}
-					}
+					}*/
 				}
+			}
+		}
+		for (int r = 0; r < main.verticalRivers.length; r++)
+		{
+			for (int c = 0; c < main.verticalRivers[0].length; c++)
+			{
+				if (main.verticalRivers[r][c]) renderRiver(r,c,r,c+1);
+			}
+		}
+		for (int r = 0; r < main.horizontalRivers.length; r++)
+		{
+			for (int c = 0; c < main.horizontalRivers[0].length; c++)
+			{
+				if (main.horizontalRivers[r][c]) renderRiver(r+1,c,r+1,c);
 			}
 		}
 		/*for (int r = 0; r < main.grid.rows; r++)
@@ -172,25 +190,32 @@ public class RenderSystem extends BaseSystem {
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 			//Render a hill or mountain
+
 			if (sampleSize == 1)
 			{
 				if (t.shape == 1)
 				{
+					main.pushMatrix();
 					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
 					main.box(widthBlock/2*sampleSize);
+					main.popMatrix();
 				}
 				else if (t.shape == 2)
 				{
+					main.pushMatrix();
 					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
 					main.translate(0, widthBlock*sampleSize/4, 0);
 					main.box(widthBlock/2*sampleSize, widthBlock*sampleSize*1.5F, widthBlock/2*sampleSize);
+					main.popMatrix();
 				}
 				int res = t.resource;
 				if (res != 0)
 				{
+					main.pushMatrix();
 					main.fill(EntityData.get(res));
 					main.translate(0, 15, 0);
 					main.box(5);
+					main.popMatrix();
 				}
 			}
 			main.popMatrix();
@@ -222,37 +247,14 @@ public class RenderSystem extends BaseSystem {
 			}*/
 		//System.out.println(en.name);
 		//System.out.println(EntityData.getModel(en.name));
-		float[][] model = EntityData.getModel(en.name);
-		if (model != null)
-		{
-			main.translate(r*widthBlock, (float)(main.terrain[r][c])*con, c*widthBlock);
-			main.pushMatrix();
-			for (int i = 0; i < model.length; i++)
-			{
-				main.pushMatrix();
-				float[] t = model[i];
-				if ((int)t[0] == 0)
-				{
-					main.fill(150);
-				}
-				else if ((int)t[0] == 1)
-				{
-					main.fill(en.owner.r,en.owner.g,en.owner.b);
-				}
-				main.translate(t[1],t[2],t[3]);
-				main.rotateY(t[5]);
-				main.box(t[7],t[8],t[9]);
-				main.popMatrix();
-			}
-			main.popMatrix();
-		}
-		else
+		renderModel(en.name,r,c,en.owner.r,en.owner.g,en.owner.b);
+		/*else
 		{
 			main.fill(0);
 			main.stroke(en.owner.r,en.owner.g,en.owner.b);
 			main.translate(r*widthBlock, (float)(main.terrain[r][c])*con, c*widthBlock);
 			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
-		}
+		}*/
 		/*else
 		{
 			main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
@@ -277,6 +279,57 @@ public class RenderSystem extends BaseSystem {
 			}
 		}*/
 		main.popMatrix();
+	}
+
+	public void renderModel(String name, int r, int c, float red, float green, float blue)
+	{
+		float[][] model = EntityData.getModel(name);
+		if (model != null)
+		{
+			main.translate(r*widthBlock, (float)(main.terrain[r][c])*con, c*widthBlock);
+			main.pushMatrix();
+			for (int i = 0; i < model.length; i++)
+			{
+				main.pushMatrix();
+				float[] t = model[i];
+				if ((int)t[0] == 0)
+				{
+					main.fill(150);
+				}
+				else if ((int)t[0] == 1)
+				{
+					main.fill(red,green,blue);
+				}
+				main.translate(t[1],t[2],t[3]);
+				main.rotateY(t[5]);
+				main.box(t[7],t[8],t[9]);
+				main.popMatrix();
+			}
+			main.popMatrix();
+		}
+	}
+
+	public void renderRiver(int r1, int c1, int r2, int c2)
+	{
+		main.fill(0,0,150);
+		if (r1 == r2)
+		{
+			main.pushMatrix();
+			main.translate(r1*widthBlock,0,(c1+0.5F)*widthBlock);
+			main.box(5,5,5);
+			main.popMatrix();
+		}
+		else if (c1 == c2)
+		{
+			main.pushMatrix();
+			main.translate((r1+0.5F)*widthBlock,0,c1*widthBlock);
+			main.box(5,5,5);
+			main.popMatrix();
+		}
+		else
+		{
+			System.err.println("Invalid river");
+		}
 	}
 
 	public void setCamera()

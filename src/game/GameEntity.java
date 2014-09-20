@@ -164,14 +164,22 @@ public class GameEntity extends BaseEntity {
 								for (int k = city.land.size() - 1; k >= 0; k--)
 								{
 									Tile t = city.land.get(k);
-									city.land.remove(t);
+									if (t.equals(city.location)) continue;
+									if (t.improvement != null)
+									{
+										location.grid.removeUnit(t.improvement);
+									}
+									city.owner.tiles.remove(t);
 									t.owner = null;
+									t.city = null;
+									city.land.remove(k);
 									//System.out.println("Destroyed");
 									//en.owner.
 									//t.owner = en.owner;
 								}
 								city.owner.cities.remove(city);
-								en.location.improvement = null;
+								location.grid.removeUnit(city);
+								//en.location.improvement = null;
 								//city = null;
 							}
 						}
