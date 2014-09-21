@@ -15,8 +15,10 @@ public class City extends TileEntity {
 	public int health;
 	//public String queue;
 	//public int queueTurns;
+	public int queueFood, queueMetal;
 	public Civilization owner;
 	public String focus;
+	public boolean capital;
 	public ArrayList<String> buildings;
 
 	public City(String name)
@@ -29,7 +31,8 @@ public class City extends TileEntity {
 		land = new ArrayList<Tile>();
 		workedLand = new ArrayList<Tile>();
 		//queue = null;
-		queueTurns = 0;
+		queueTurns = 0; queueFood = 0; queueMetal = 0;
+		capital = false;
 		//owner = null;
 		focus = "Growth";
 		buildings = new ArrayList<String>();

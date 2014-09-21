@@ -73,6 +73,14 @@ public class RenderSystem extends BaseSystem {
 						renderModel("Forest",r,c,0,0,0);
 						main.popMatrix();
 					}
+					if (r < main.terrain.length - 1)
+					{
+						if (main.horizontalRivers[r][c]) renderRiver(r+1,c,r,c);
+					}
+					if (c < main.terrain[0].length - 1)
+					{
+						if (main.verticalRivers[r][c]) renderRiver(r,c,r,c+1);
+					}
 				}
 				else
 				{
@@ -96,7 +104,7 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
-		for (int r = 0; r < main.verticalRivers.length; r++)
+		/*for (int r = 0; r < main.verticalRivers.length; r++)
 		{
 			for (int c = 0; c < main.verticalRivers[0].length; c++)
 			{
@@ -109,7 +117,7 @@ public class RenderSystem extends BaseSystem {
 			{
 				if (main.horizontalRivers[r][c]) renderRiver(r+1,c,r+1,c);
 			}
-		}
+		}*/
 		/*for (int r = 0; r < main.grid.rows; r++)
 		{
 			for (int c = 0; c < main.grid.cols; c++)
@@ -150,6 +158,8 @@ public class RenderSystem extends BaseSystem {
 			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
 			main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
 			main.noStroke();
+			/*if (main.grid.irrigated(r, c))
+				main.fill(0,0,0);*/
 			Tile t = main.grid.getTile(r,c);
 			/*if (dist > dist2)
 			{
@@ -312,18 +322,18 @@ public class RenderSystem extends BaseSystem {
 	public void renderRiver(int r1, int c1, int r2, int c2)
 	{
 		main.fill(0,0,150);
-		if (r1 == r2)
+		if (r1 == r2) //"Vertical"
 		{
 			main.pushMatrix();
 			main.translate(r1*widthBlock,0,(c1+0.5F)*widthBlock);
-			main.box(5,5,5);
+			main.box(widthBlock,5,5);
 			main.popMatrix();
 		}
-		else if (c1 == c2)
+		else if (c1 == c2) //"Horizontal"
 		{
 			main.pushMatrix();
-			main.translate((r1+0.5F)*widthBlock,0,c1*widthBlock);
-			main.box(5,5,5);
+			main.translate((r1-0.5F)*widthBlock,0,c1*widthBlock);
+			main.box(5,5,widthBlock);
 			main.popMatrix();
 		}
 		else

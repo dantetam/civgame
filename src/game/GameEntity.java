@@ -47,21 +47,24 @@ public class GameEntity extends BaseEntity {
 						}
 						else if (en.location.resource == 10 || en.location.resource == 11)
 						{
-							
+
 						}
 						else if (en.location.resource >= 20 && en.location.resource <= 22)
 						{
 							en.queueTurns = 6;
 							en.queue = "Mine";
 						}
-						else if (en.location.resource >= 30)
+						else if (en.location.resource >= 30 && en.location.resource <= 30)
 						{
-							
+
 						}
 						if (en.location.biome >= 3 && en.location.biome <= 6)
 						{
-							en.queueTurns = 6;
-							en.queue = "Farm";
+							if (location.grid.irrigated(location.row, location.col))
+							{
+								en.queueTurns = 6;
+								en.queue = "Farm";
+							}
 						}
 						else if (en.location.shape == 1)
 						{
@@ -84,11 +87,15 @@ public class GameEntity extends BaseEntity {
 		{
 			if (en.location.owner == null && Math.random() < 0.2)
 			{
-				//Make the city and set its surrounding tiles to 
+				//Make the city and set its surrounding tiles to the civilization's territory
 				City city = (City)EntityData.get("City");
 				city.owner = en.owner;
 				city.owner.cities.add(city);
 				location.grid.addUnit(city, en.owner, en.location.row, en.location.col);
+				if (owner.cities.size() == 1)
+				{
+					city.capital = true;
+				}
 				for (int i = en.location.row - 2; i <= en.location.row + 2; i++)
 				{
 					for (int j = en.location.col - 2; j <= en.location.col + 2; j++)
@@ -100,6 +107,8 @@ public class GameEntity extends BaseEntity {
 							{
 								if (t.owner == null)
 								{
+									t.city = city;
+									city.land.add(t);
 									location.grid.addTile(en.owner, t);
 								}
 								if (t.owner == city.owner && t.city == null)
@@ -154,22 +163,29 @@ public class GameEntity extends BaseEntity {
 					else
 					{
 						//en.tick();
+						if ((name.equals("Settler") || name.equals("Worker")) && !owner.equals(location.grid.getTile(en.location.row+r,en.location.col+c).owner))
+						{
+							return;
+						}
 						if (en.queue == null)
 							location.grid.move(en,r,c);
 						if (en.location.improvement != null)
 						{
 							if (en.location.improvement.name.equals("City") && !en.owner.equals(en.location.improvement.owner) && en.name.equals("Warrior"))
 							{
+								//System.out.println("Destroyed");
 								City city = (City)en.location.improvement;
 								for (int k = city.land.size() - 1; k >= 0; k--)
 								{
 									Tile t = city.land.get(k);
-									if (t.equals(city.location)) continue;
+									//if (t.equals(city.location)) continue;
 									if (t.improvement != null)
 									{
-										location.grid.removeUnit(t.improvement);
+										if (!t.improvement.name.equals("City"))
+											location.grid.removeUnit(t.improvement);
+										t.improvement = null;
 									}
-									city.owner.tiles.remove(t);
+									//city.owner.tiles.remove(t);
 									t.owner = null;
 									t.city = null;
 									city.land.remove(k);
@@ -179,7 +195,7 @@ public class GameEntity extends BaseEntity {
 								}
 								city.owner.cities.remove(city);
 								location.grid.removeUnit(city);
-								//en.location.improvement = null;
+								en.location.improvement = null;
 								//city = null;
 							}
 						}

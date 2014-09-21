@@ -2,6 +2,7 @@ package system;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
 import data.EntityData;
 import render.CivGame;
 import game.*;
@@ -161,15 +162,26 @@ public class CivilizationSystem extends BaseSystem {
 							//System.out.println(civ.units.size());
 							if (c.focus.equals("Growth"))
 							{
-								if (numSettlers < 3)
+								if (civ.units.size() == 0)
+								{
+									c.queue = "Worker";
+									c.queueFood = 25;
+								}
+								else if (numSettlers < 3)
 								{
 									c.queue = "Settler";
-									c.queueTurns = 15;
+									c.queueFood = 35;
 								}
 								else if (numWorkers < civ.cities.size())
 								{
 									c.queue = "Worker";
-									c.queueTurns = 15;
+									c.queueFood = 25;
+								}
+								else if (civ.units.size() <= civ.cities.size()*2)
+								{
+									c.queue = "Warrior";
+									c.queueFood = 5;
+									c.queueMetal = 5;
 								}
 							}
 							else if (c.focus.equals("Production"))
@@ -177,16 +189,34 @@ public class CivilizationSystem extends BaseSystem {
 								if (civ.units.size() <= civ.cities.size()*2)
 								{
 									c.queue = "Warrior";
-									c.queueTurns = 6;
+									c.queueFood = 5;
+									c.queueMetal = 5;
 								}
 							}
 						}
 						else if (c.queue != null)
 						{
-							c.queueTurns--;
+							/*c.queueTurns--;
 							if (c.queueTurns == 0)
 							{
 								main.grid.addUnit(EntityData.get(c.queue),civ,c.location.row,c.location.col);
+								c.queue = null;
+							}*/
+							if (c.queueFood > 0)
+							{
+								c.owner.food -= PApplet.min(c.owner.food,c.population*5,c.queueFood);
+								c.queueFood -= PApplet.min(c.owner.food,c.population*5,c.queueFood);
+							}
+							if (c.queueMetal > 0)
+							{
+								c.owner.metal -= PApplet.min(c.owner.metal,c.population*5,c.queueMetal);
+								c.queueMetal -= PApplet.min(c.owner.metal,c.population*5,c.queueMetal);
+							}
+							if (c.queueFood <= 0 && c.queueMetal <= 0)
+							{
+								main.grid.addUnit(EntityData.get(c.queue),civ,c.location.row,c.location.col);
+								c.queueFood = 0;
+								c.queueMetal = 0;
 								c.queue = null;
 							}
 						}
@@ -224,52 +254,63 @@ public class CivilizationSystem extends BaseSystem {
 							Tile t = c.workedLand.get(k);
 							double[] eval = c.evaluate(t,null);
 							double f=eval[0],g=eval[1],m=eval[2],r=eval[3];
-							
+
 							//civ.food += f;
 							//civ.gold += g;
 							//civ.metal += m;
 							//tf += f;
-							if (c.health >= 0)
-							{
-								c.focus = "Growth";
-								if (f > c.population)
-								{
-									double amount = Math.min(f, c.population*3);
-									f -= amount;
-									c.percentGrowth += 0.1*(amount/c.population*3);
-								}
-								else if (civ.food > c.population)
-								{
-									//civ.food -= c.population*3;
-									//c.percentGrowth += 0.1;
-									double amount = Math.min(civ.food, c.population*3);
-									civ.food -= amount;
-									c.percentGrowth += 0.1*(amount/c.population*3);
-								}
-								else
-								{
-									c.percentGrowth -= 0.05;
-								}
-								if (c.percentGrowth >= 1)
-								{
-									c.percentGrowth = 0;
-									c.population++;
-									//c.focus = "Growth";
-								}
-								else if (c.percentGrowth < 0 && c.population > 1)
-								{
-									c.percentGrowth = 0.5;
-									c.population--;
-									//c.focus = "Production";
-								}
-							}
-							else 
-							{
-								f -= c.population*2;
-								c.focus = "Production";
-							}
 							tf += f; tg += g; tm += m; tr += r;
 							c.workedLand.get(k).harvest = true;
+						}
+						if (c.queue != null)
+						{
+							if (c.queue.equals("Settler") || c.queue.equals("Worker"))
+							{
+								civ.food += Math.min(tf, c.population*5);
+								tf -= Math.min(tf, c.population*5);
+							}
+						}
+						if (c.health >= 0)
+						{
+							c.focus = "Growth";
+							if (tf > c.population*2)
+							{
+								if (c.population < 3)
+								{
+									double amount = Math.min(tf, c.population*3);
+									tf -= amount;
+									c.percentGrowth += 0.1*(amount/c.population*3);
+								}
+							}
+							/*else if (civ.food > c.population)
+							{
+								//civ.food -= c.population*3;
+								//c.percentGrowth += 0.1;
+								double amount = Math.min(civ.food, c.population*3);
+								civ.food -= amount;
+								c.percentGrowth += 0.1*(amount/c.population*3);
+							}*/
+							else
+							{
+								c.percentGrowth -= 0.05;
+							}
+							if (c.percentGrowth >= 1)
+							{
+								c.percentGrowth = 0;
+								c.population++;
+								//c.focus = "Growth";
+							}
+							else if (c.percentGrowth < 0 && c.population > 1)
+							{
+								c.percentGrowth = 0.5;
+								c.population--;
+								//c.focus = "Production";
+							}
+						}
+						else 
+						{
+							//tf -= c.population*2;
+							c.focus = "Production";
 						}
 					}
 					/*for (int j = 0; j < civ.cities.size(); j++)

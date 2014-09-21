@@ -170,9 +170,9 @@ public class CivGame extends PApplet {
 			cutoff = 0;
 		}
 		int[][] biomes = assignBiome(terrain);
-		makeRivers(biomes); 
 		grid = new Grid(terrain, biomes, assignResources(biomes), numCivs, (int)cutoff);
-
+		makeRivers(biomes); 
+		
 		//grid.setupTiles(terrain);
 		//grid.setupCivs();
 		//renderSystem.addTerrain(terrain, con, cutoff);
@@ -222,9 +222,9 @@ public class CivGame extends PApplet {
 		{
 			for (int c = 0; c < verticalRivers[0].length; c++)
 			{
-				if (biomes[r][c] >= 1)
+				if (biomes[r][c] >= 1 && biomes[r][c+1] >= 1)
 				{
-					if (Math.random() < 0.01*biomes[r][c])
+					if (Math.random() < 0.02*biomes[r][c])
 					{
 						verticalRivers[r][c] = true;
 					}
@@ -235,12 +235,17 @@ public class CivGame extends PApplet {
 		{
 			for (int c = 0; c < horizontalRivers[0].length; c++)
 			{
-				if (Math.random() < 0.01*biomes[r][c])
+				if (biomes[r][c] >= 1 && biomes[r+1][c] >= 1)
 				{
-					horizontalRivers[r][c] = true;
+					if (Math.random() < 0.02*biomes[r][c])
+					{
+						horizontalRivers[r][c] = true;
+					}
 				}
 			}
 		}
+		grid.verticalRivers = verticalRivers;
+		grid.horizontalRivers = horizontalRivers;
 	}
 
 	public int[][] assignResources(int[][] biomes)

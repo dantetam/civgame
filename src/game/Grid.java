@@ -9,6 +9,8 @@ public class Grid {
 	private Tile[][] tiles;
 	public int rows, cols;
 	public Civilization[] civs;
+	public boolean[][] verticalRivers;
+	public boolean[][] horizontalRivers;
 	//public Civilization playerCiv;
 	//Player's civilization will always be the first
 
@@ -39,7 +41,7 @@ public class Grid {
 				}
 				else if (biomes[r][c] >= 4 && biomes[r][c] <= 6)
 				{
-					forest = Math.random() < 0.075;
+					forest = Math.random() < 0.15;
 				}
 				if (terrain[r][c] >= cutoff)
 					tiles[r][c] = new Tile(this,"Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],forest,r,c);
@@ -118,7 +120,7 @@ public class Grid {
 	public void addTile(Civilization civ, Tile tile)
 	{
 		tile.owner = civ;
-		civ.tiles.add(tile);
+		//civ.tiles.add(tile);
 	}
 
 	public GameEntity hasEnemy(GameEntity attacker, int r, int c)
@@ -139,6 +141,28 @@ public class Grid {
 
 	}
 
+	public boolean irrigated(int r, int c)
+	{
+		boolean temp = false;
+		if (c > 0)
+		{
+			temp = temp || verticalRivers[r][c-1];
+		}
+		if (c < cols - 1)
+		{
+			temp = temp || verticalRivers[r][c];
+		}
+		if (r > 0)
+		{
+			temp = temp || horizontalRivers[r-1][c];
+		}
+		if (r < rows - 1)
+		{
+			temp = temp || horizontalRivers[r][c];
+		}
+		return temp;
+	}
+	
 	public Tile getTile(int r, int c)
 	{
 		if (r >= 0 && r < tiles.length && c >= 0 && c < tiles[0].length)
@@ -147,7 +171,7 @@ public class Grid {
 		}
 		return null;
 	}
-
+	
 	//public Tile[][] getTiles() {return tiles;}
 
 }
