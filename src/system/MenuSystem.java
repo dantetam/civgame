@@ -46,10 +46,10 @@ public class MenuSystem extends BaseSystem {
 			main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
 
-		/*main.noStroke();
+		main.noStroke();
 		//main.rect(0, 700, 50, 50);
-		float sX = 0; float sY = 700; float widthX = 100; float widthY = 200; 
-		int con = 15;
+		float sX = 0; float sY = 500; float widthX = 600; float widthY = 400; 
+		int con = 3;
 		for (int r = 0; r < main.grid.rows; r += con)
 		{
 			for (int c = 0; c < main.grid.cols; c += con)
@@ -68,12 +68,12 @@ public class MenuSystem extends BaseSystem {
 				}
 				else
 				{
-					main.fill(255,0,0);
+					main.fill(150,225,255);
 				}
 				//System.out.println(sX + r/(float)main.grid.rows*widthX);
-				main.rect(sX + r/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,r/(float)main.grid.rows*widthX*con,c/(float)main.grid.cols*widthY*con);
+				main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,con+4,con+2);
 			}
-		}*/
+		}
 
 		main.hint(PApplet.ENABLE_DEPTH_TEST);
 		/*main.pg.beginDraw();
