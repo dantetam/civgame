@@ -10,6 +10,8 @@ public class InputSystem extends BaseSystem {
 	public boolean moving = false;
 	public boolean lastMoving = false;
 
+	public boolean on = true;
+
 	public InputSystem(CivGame main)
 	{
 		super(main);
@@ -111,21 +113,24 @@ public class InputSystem extends BaseSystem {
 			keyHeld[key-97] = false;
 		}
 	}
-	
+
 	public float lastMouseX = main.width/2; public float lastMouseY = main.height/2;
 	public void passMouse(float mouseX, float mouseY)
 	{
-		float dX = mouseX - lastMouseX;
-		float dY = mouseY - lastMouseY;
-		main.player.rotY -= dX/125; //Axis is weird, oh well
-		main.player.rotVertical -= dY/125;
-		main.player.update();
-		if (Math.abs(dX) <= 20)
+		if (on)
 		{
-			main.chunkSystem.update();
+			float dX = mouseX - lastMouseX;
+			float dY = mouseY - lastMouseY;
+			main.player.rotY -= dX/125; //Axis is weird, oh well
+			main.player.rotVertical -= dY/125;
+			main.player.update();
+			if (Math.abs(dX) <= 20)
+			{
+				main.chunkSystem.update();
+			}
+			lastMouseX = mouseX;
+			lastMouseY = mouseY;
 		}
-		lastMouseX = mouseX;
-		lastMouseY = mouseY;
 	}
 
 	/*public void test()
@@ -151,6 +156,14 @@ public class InputSystem extends BaseSystem {
 		{
 			//System.out.println("Space");
 			main.civilizationSystem.requestTurn = true;
+		}
+		if (key == 'c')
+		{
+			on = !on;
+		}
+		if (key == 'm')
+		{
+			main.menuSystem.minimap = !main.menuSystem.minimap;
 		}
 	}
 

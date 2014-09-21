@@ -29,6 +29,7 @@ public class GameEntity extends BaseEntity {
 				queueTurns = 0; //just to be sure
 				queue = null;
 			}
+			return;
 		}
 		else if (name.equals("Worker"))
 		{
@@ -125,7 +126,67 @@ public class GameEntity extends BaseEntity {
 				return;
 			}
 		}
-		if (!name.equals("Worker") || (name.equals("Worker") && queue == null))
+		else if (name.equals("Work Boat") || name.equals("Galley"))
+		{
+			int r = (int)(Math.random()*3) - 1;
+			int c = (int)(Math.random()*3) - 1;
+			if (location.grid.getTile(en.location.row+r,en.location.col+c) != null)
+			{
+				if (location.grid.getTile(en.location.row+r,en.location.col+c).biome == -1)
+				{
+					//if (location.grid.getTile(en.location.row+r,en.location.col+c).improvement.name.equals("City"))
+					if (name.equals("Galley"))
+					{
+						if (queue == null)
+						{
+							location.grid.move(en,r,c);
+							//System.out.println(location.grid.getTile(en.location.row+r,en.location.col+c));
+							//if (location == null) return;
+							if (location.resource == 10 ||
+									location.resource == 11)
+							{
+								en.queueTurns = 6;
+								en.queue = "Fishing Boats";
+							}
+						}
+						else
+						{
+							en.queueTurns--;
+							if (queueTurns <= 0)
+							{
+								location.grid.addUnit(EntityData.get(queue), owner, location.row, location.col);
+								queueTurns = 0;
+								queue = null;
+							}
+						}
+					}
+					else
+					{
+						GameEntity enemy = location.grid.hasEnemy(this, location.row, location.col);
+						if (enemy != null)
+						{
+							if (Math.random() < 0.6)
+							{
+								location.grid.removeUnit(enemy);
+								location.grid.move(en,r,c);
+							}
+							else
+							{
+								location.grid.removeUnit(en);
+								return;
+							}
+						}
+						else
+						{
+							location.grid.move(en,r,c);
+						}
+					}
+				}
+			}
+			return;
+		}
+		//if (!name.equals("Worker") || (name.equals("Worker") && queue == null))
+		if (!name.equals("Work Boat"))
 		{
 			int r = (int)(Math.random()*3) - 1;
 			int c = (int)(Math.random()*3) - 1;

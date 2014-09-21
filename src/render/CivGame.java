@@ -35,7 +35,7 @@ public class CivGame extends PApplet {
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
 	//public PGraphics pg;
-	private MenuSystem menuSystem = new MenuSystem(this);
+	public MenuSystem menuSystem = new MenuSystem(this);
 
 	private InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);

@@ -219,14 +219,36 @@ public class CivilizationSystem extends BaseSystem {
 								}
 								else if (numWorkers < civ.cities.size())
 								{
+									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
+									{
+										c.queue = "Work Boat";
+										c.queueFood = 15;
+									}
 									c.queue = "Worker";
 									c.queueFood = 25;
 								}
 								else if (civ.units.size() <= civ.cities.size()*2)
 								{
-									c.queue = "Warrior";
-									c.queueFood = 5;
-									c.queueMetal = 5;
+									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
+									{
+										c.queue = "Work Boat";
+										c.queueFood = 15;
+									}
+									else
+									{
+										c.queue = "Warrior";
+										c.queueFood = 5;
+										c.queueMetal = 5;
+									}
+								}
+								else if (civ.units.size() <= civ.cities.size()*3)
+								{
+									if (main.grid.coastal(c.location.row, c.location.col))
+									{
+										c.queue = "Galley";
+										c.queueFood = 15;
+										c.queueMetal = 15;
+									}
 								}
 							}
 							else if (c.focus.equals("Production"))
@@ -268,7 +290,7 @@ public class CivilizationSystem extends BaseSystem {
 								c.queue = null;
 							}
 						}
-						
+
 						/*if (c.queue != null)
 						{
 							if (c.queue.equals("Settler") || c.queue.equals("Worker"))
@@ -341,7 +363,7 @@ public class CivilizationSystem extends BaseSystem {
 					civ.gold += tg;
 					civ.metal += tm;
 					civ.research += tr;
-					
+
 					//Resource caps
 					civ.food = Math.min(civ.food, population*5);
 					civ.metal = Math.min(civ.metal, population*5);

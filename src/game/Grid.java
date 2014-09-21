@@ -141,6 +141,7 @@ public class Grid {
 
 	}
 
+	//Check if a tile is bordered by a river
 	public boolean irrigated(int r, int c)
 	{
 		boolean temp = false;
@@ -160,6 +161,21 @@ public class Grid {
 		{
 			temp = temp || horizontalRivers[r][c];
 		}
+		return temp;
+	}
+	
+	//Check if a tile borders the sea
+	public boolean coastal(int r, int c)
+	{
+		boolean temp = false;
+		if (getTile(r+1,c) != null) {temp = temp || getTile(r+1,c).biome == -1;} 
+		if (getTile(r-1,c) != null) {temp = temp || getTile(r-1,c).biome == -1;} 
+		if (getTile(r,c-1) != null) {temp = temp || getTile(r,c-1).biome == -1;} 
+		if (getTile(r,c+1) != null) {temp = temp || getTile(r,c+1).biome == -1;} 
+		if (getTile(r+1,c+1) != null) {temp = temp || getTile(r+1,c+1).biome == -1;} 
+		if (getTile(r+1,c-1) != null) {temp = temp || getTile(r+1,c-1).biome == -1;} 
+		if (getTile(r-1,c+1) != null) {temp = temp || getTile(r-1,c+1).biome == -1;} 
+		if (getTile(r-1,c-1) != null) {temp = temp || getTile(r-1,c-1).biome == -1;} 
 		return temp;
 	}
 	

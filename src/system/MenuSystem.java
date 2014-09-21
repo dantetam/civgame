@@ -16,6 +16,8 @@ public class MenuSystem extends BaseSystem {
 	private ArrayList<Click> clicks;
 	public Menu activeMenu;
 
+	public boolean minimap = false;
+
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
 		menus = new ArrayList<Menu>();
@@ -23,7 +25,8 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		menu0.addButton("exitgame", "Exit", 0, 0, 200, 50);
+		menu0.addButton("exitgame", "Exit", 0, 0, 100, 30);
+		menu0.addButton("minimap", "Minimap", 0, 800, 100, 50);
 
 		activeMenu = menu0;
 	}
@@ -46,35 +49,38 @@ public class MenuSystem extends BaseSystem {
 			main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
 
-		main.noStroke();
-		//main.rect(0, 700, 50, 50);
-		float sX = 0; float sY = 500; float widthX = 600; float widthY = 400; 
-		int con = 3;
-		for (int r = 0; r < main.grid.rows; r += con)
+		if (minimap)
 		{
-			for (int c = 0; c < main.grid.cols; c += con)
+			main.noStroke();
+			//main.rect(0, 700, 50, 50);
+			float sX = 0; float sY = 400; float widthX = main.grid.rows*2; float widthY = main.grid.cols*1.5F; 
+			int con = 2;
+			for (int r = 0; r < main.grid.rows; r += con)
 			{
-				Tile t = main.grid.getTile(r,c);
-				if (t.height >= main.cutoff)
+				for (int c = 0; c < main.grid.cols; c += con)
 				{
-					if (t.owner != null)
+					Tile t = main.grid.getTile(r,c);
+					if (t.height >= main.cutoff)
 					{
-						main.fill(t.owner.r,t.owner.g,t.owner.b);
+						if (t.owner != null)
+						{
+							main.fill(t.owner.r,t.owner.g,t.owner.b);
+						}
+						else
+						{
+							main.fill(150);
+						}
 					}
 					else
 					{
-						main.fill(150);
+						main.fill(150,225,255);
 					}
+					//System.out.println(sX + r/(float)main.grid.rows*widthX);
+					main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,con*con,con*con);
 				}
-				else
-				{
-					main.fill(150,225,255);
-				}
-				//System.out.println(sX + r/(float)main.grid.rows*widthX);
-				main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,con+4,con+2);
 			}
 		}
-
+		
 		main.hint(PApplet.ENABLE_DEPTH_TEST);
 		/*main.pg.beginDraw();
 		//main.perspective();
@@ -107,9 +113,13 @@ public class MenuSystem extends BaseSystem {
 				{
 					System.exit(0);
 				}
+				else if (command.equals("minimap"))
+				{
+					minimap = !minimap;
+				}
 			}
-
 		}
+		clicks.clear();
 	}
 
 	public class Click {float mouseX, mouseY; Click(float x, float y) {mouseX = x; mouseY = y;}}
