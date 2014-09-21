@@ -121,15 +121,17 @@ public class CivilizationSystem extends BaseSystem {
 								}
 							}
 						}*/
-						if (Math.random() < 0.1 && en.location.owner == null && en.location.biome != -1 && en.name.equals("Settler"))
+						/*if (Math.random() < 0.1 && en.location.owner == null && en.location.biome != -1 && en.name.equals("Settler"))
 						{
 							sacrifice(en);
-						}
+						}*/
 					}
 					double tf = 0, tg = 0, tm = 0, tr = 0;
+					int population = 0;
 					for (int j = 0; j < civ.cities.size(); j++)
 					{
 						City c = civ.cities.get(j);
+						population += c.population;
 						//Make some settlers to test
 						int numSettlers = 0, numWorkers = 0;
 						for (int k = 0; k < civ.cities.size(); k++)
@@ -157,6 +159,49 @@ public class CivilizationSystem extends BaseSystem {
 								numWorkers++;
 							}
 						}
+						//Loop through a city's tiles
+						/*
+						 * -2 freshwater 2,1,0,2
+						 * -1 sea 1,1,0,2
+						 * 0 ice 0,1,2,1
+						 * 1 taiga 1,1,1,1
+						 * 2 desert 0,0,2,1
+						 * 3 savannah 2,0,1,2
+						 * 4 dry forest 2,1,1,2
+						 * 5 forest 3,0,1,2
+						 * 6 rainforest 3,1,0,3
+						 * 7 beach (outdated)
+						 * 
+						 * modifiers:
+						 * 8 oasis 3,3,0,2
+						 * (shape 1) hill -1,0,1,0
+						 * (shape 2) mountain -2,0,2,2
+						 *
+						 */
+						c.happiness = 4 - c.population;
+						if (c.happiness < 0)
+							c.workTiles(c.population - c.happiness);
+						else
+							c.workTiles(c.population);
+						c.health = 5 - c.population + c.happiness;
+						for (int k = 0; k < c.land.size(); k++)
+						{
+							c.land.get(k).harvest = false;
+						}
+						for (int k = 0; k < c.workedLand.size(); k++)
+						{
+							Tile t = c.workedLand.get(k);
+							double[] eval = c.evaluate(t,null);
+							double f=eval[0],g=eval[1],m=eval[2],r=eval[3];
+
+							//civ.food += f;
+							//civ.gold += g;
+							//civ.metal += m;
+							//tf += f;
+							tf += f; tg += g; tm += m; tr += r;
+							c.workedLand.get(k).harvest = true;
+						}
+						//System.out.println(tf + " " + c.owner.food);
 						if (c.queue == null)
 						{
 							//System.out.println(civ.units.size());
@@ -204,14 +249,17 @@ public class CivilizationSystem extends BaseSystem {
 							}*/
 							if (c.queueFood > 0)
 							{
-								c.owner.food -= PApplet.min(c.owner.food,c.population*5,c.queueFood);
-								c.queueFood -= PApplet.min(c.owner.food,c.population*5,c.queueFood);
+								float amount = PApplet.min((float)tf,c.population*5,c.queueFood);
+								tf -= amount;
+								c.queueFood -= amount;
 							}
 							if (c.queueMetal > 0)
 							{
-								c.owner.metal -= PApplet.min(c.owner.metal,c.population*5,c.queueMetal);
-								c.queueMetal -= PApplet.min(c.owner.metal,c.population*5,c.queueMetal);
+								float amount = PApplet.min((float)tm,c.population*5,c.queueMetal);
+								tm -= amount;
+								c.queueMetal -= amount;
 							}
+							//System.out.println(c.queueFood);
 							if (c.queueFood <= 0 && c.queueMetal <= 0)
 							{
 								main.grid.addUnit(EntityData.get(c.queue),civ,c.location.row,c.location.col);
@@ -220,56 +268,15 @@ public class CivilizationSystem extends BaseSystem {
 								c.queue = null;
 							}
 						}
-						//Loop through a city's tiles
-						/*
-						 * -2 freshwater 2,1,0,2
-						 * -1 sea 1,1,0,2
-						 * 0 ice 0,1,2,1
-						 * 1 taiga 1,1,1,1
-						 * 2 desert 0,0,2,1
-						 * 3 savannah 2,0,1,2
-						 * 4 dry forest 2,1,1,2
-						 * 5 forest 3,0,1,2
-						 * 6 rainforest 3,1,0,3
-						 * 7 beach (outdated)
-						 * 
-						 * modifiers:
-						 * 8 oasis 3,3,0,2
-						 * (shape 1) hill -1,0,1,0
-						 * (shape 2) mountain -2,0,2,2
-						 *
-						 */
-						c.happiness = 4 - c.population;
-						if (c.happiness < 0)
-							c.workTiles(c.population - c.happiness);
-						else
-							c.workTiles(c.population);
-						c.health = 5 - c.population + c.happiness;
-						for (int k = 0; k < c.land.size(); k++)
-						{
-							c.land.get(k).harvest = false;
-						}
-						for (int k = 0; k < c.workedLand.size(); k++)
-						{
-							Tile t = c.workedLand.get(k);
-							double[] eval = c.evaluate(t,null);
-							double f=eval[0],g=eval[1],m=eval[2],r=eval[3];
-
-							//civ.food += f;
-							//civ.gold += g;
-							//civ.metal += m;
-							//tf += f;
-							tf += f; tg += g; tm += m; tr += r;
-							c.workedLand.get(k).harvest = true;
-						}
-						if (c.queue != null)
+						
+						/*if (c.queue != null)
 						{
 							if (c.queue.equals("Settler") || c.queue.equals("Worker"))
 							{
-								civ.food += Math.min(tf, c.population*5);
-								tf -= Math.min(tf, c.population*5);
+								civ.food += Math.min(tf, c.population*2);
+								tf -= Math.min(tf, c.population*2);
 							}
-						}
+						}*/
 						if (c.health >= 0)
 						{
 							c.focus = "Growth";
@@ -282,14 +289,14 @@ public class CivilizationSystem extends BaseSystem {
 									c.percentGrowth += 0.1*(amount/c.population*3);
 								}
 							}
-							/*else if (civ.food > c.population)
+							else if (civ.food > c.population)
 							{
 								//civ.food -= c.population*3;
 								//c.percentGrowth += 0.1;
 								double amount = Math.min(civ.food, c.population*3);
 								civ.food -= amount;
 								c.percentGrowth += 0.1*(amount/c.population*3);
-							}*/
+							}
 							else
 							{
 								c.percentGrowth -= 0.05;
@@ -334,6 +341,10 @@ public class CivilizationSystem extends BaseSystem {
 					civ.gold += tg;
 					civ.metal += tm;
 					civ.research += tr;
+					
+					//Resource caps
+					civ.food = Math.min(civ.food, population*5);
+					civ.metal = Math.min(civ.metal, population*5);
 				}
 			}
 			for (int r = 0; r < main.grid.rows; r++)
