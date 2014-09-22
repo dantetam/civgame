@@ -19,7 +19,7 @@ public class GameEntity extends BaseEntity {
 
 	public void tick()
 	{
-		GameEntity en = this;
+		/*GameEntity en = this;
 		if (name.equals("Worker") && queue != null)
 		{
 			queueTurns--;
@@ -263,7 +263,7 @@ public class GameEntity extends BaseEntity {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 }

@@ -150,11 +150,11 @@ public class CivilizationSystem extends BaseSystem {
 						}
 						for (int k = 0; k < civ.units.size(); k++)
 						{
-							if (civ.units.get(k).name.equals("Settler"))
+							if (civ.units.get(k) instanceof Settler)
 							{
 								numSettlers++;
 							}
-							else if (civ.units.get(k).name.equals("Worker"))
+							else if (civ.units.get(k) instanceof Worker)
 							{
 								numWorkers++;
 							}
@@ -389,7 +389,7 @@ public class CivilizationSystem extends BaseSystem {
 
 	public void sacrifice(GameEntity en)
 	{
-		if (en.name.equals("Settler"))
+		if (en instanceof Settler)
 		{
 			//Make the city and set its surrounding tiles to 
 			City city = (City)EntityData.get("City");

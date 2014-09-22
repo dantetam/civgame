@@ -26,4 +26,9 @@ public abstract class BaseEntity {
 		
 	}
 	
+	public String getName()
+	{
+		return this.getClass().getName();
+	}
+	
 }

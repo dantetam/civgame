@@ -110,12 +110,12 @@ public class EntityData {
 
 	private static void setupEntityMap()
 	{
-		gameEntityMap.put("Settler",new GameEntity("Settler"));
-		gameEntityMap.put("Warrior",new GameEntity("Warrior"));
-		gameEntityMap.put("Worker",new GameEntity("Worker"));
+		gameEntityMap.put("Settler",new Settler("Settler"));
+		gameEntityMap.put("Warrior",new Warrior("Warrior"));
+		gameEntityMap.put("Worker",new Worker("Worker"));
 		
-		gameEntityMap.put("Galley",new GameEntity("Galley"));
-		gameEntityMap.put("Work Boat",new GameEntity("Work Boat"));
+		gameEntityMap.put("Galley",new Galley("Galley"));
+		gameEntityMap.put("Work Boat",new WorkBoat("Work Boat"));
 
 		tileEntityMap.put("City",new City("City"));
 		tileEntityMap.put("Farm",new TileEntity("Farm"));
@@ -198,6 +198,7 @@ public class EntityData {
 		BaseEntity b = gameEntityMap.get(name);
 		if (b != null)
 		{
+			//TODO: Fix this so that it doesn't return a generic GameEntity
 			return new GameEntity((GameEntity)b);
 		}
 		b = tileEntityMap.get(name);
