@@ -14,4 +14,9 @@ public class TileEntity extends BaseEntity {
 		super(other);
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
 }

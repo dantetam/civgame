@@ -45,7 +45,7 @@ public class Warrior extends GameEntity {
 						if (en.location.improvement instanceof City && !en.owner.equals(en.location.improvement.owner))
 						{
 							//System.out.println("Destroyed");
-							City city = (City)en.location.improvement;
+							/*City city = (City)en.location.improvement;
 							for (int k = city.land.size() - 1; k >= 0; k--)
 							{
 								Tile t = city.land.get(k);
@@ -66,10 +66,31 @@ public class Warrior extends GameEntity {
 							}
 							city.owner.cities.remove(city);
 							location.grid.removeUnit(city);
-							en.location.improvement = null;
-							//city = null;
+							en.location.improvement = null;*/
+							City city = (City)en.location.improvement;
+							for (int k = city.land.size() - 1; k >= 0; k--)
+							{
+								Tile t = city.land.get(k);
+								//if (t.equals(city.location)) continue;
+								if (t.improvement != null)
+								{
+									//if (!(t.improvement instanceof City))
+										t.improvement.owner = owner;
+								}
+								//city.owner.tiles.remove(t);
+								t.owner = owner;
+								//t.city = null;
+								//city.land.remove(k);
+								//System.out.println("Destroyed");
+								//en.owner.
+								//t.owner = en.owner;
+							}
+							city.owner.cities.remove(city);
+							city.owner = owner;
+							owner.cities.add(city);
 						}
 					}
+					location.grid.move(this, r, c);
 				}
 			}
 		}

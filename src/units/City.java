@@ -119,6 +119,11 @@ public class City extends TileEntity {
 			System.err.println("Invalid biomerrr " + t.biome);
 			f = 0; g = 0; m = 0; r = 0;
 		}
+		if (t.biome >= 4 && t.biome <= 6 && !t.forest)
+		{
+			f--;
+			r--;
+		}
 		if (t.shape == 1)
 		{
 			f--;
@@ -242,5 +247,7 @@ public class City extends TileEntity {
 		//System.out.println(scores.get(index));
 		return index;
 	}
+	
+	public String getName() {return "City";}
 
 }

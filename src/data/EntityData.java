@@ -199,14 +199,23 @@ public class EntityData {
 		if (b != null)
 		{
 			//TODO: Fix this so that it doesn't return a generic GameEntity
-			return new GameEntity((GameEntity)b);
+			if (name.equals("Settler"))
+				return new Settler("Settler");
+			else if (name.equals("Galley"))
+				return new Galley("Galley");
+			else if (name.equals("Warrior"))
+				return new Warrior("Warrior");
+			else if (name.equals("Work Boat"))
+				return new WorkBoat("Work Boat");
+			else if (name.equals("Worker"))
+				return new Worker("Worker");
 		}
 		b = tileEntityMap.get(name);
 		if (b != null)
 		{
 			if (name.equals("City"))
 			{
-				return new City((City)b);
+				return new City("City");
 				//return new City("City");
 			}
 			return new TileEntity((TileEntity)b);

@@ -5,7 +5,7 @@ import data.EntityData;
 
 //An entity that moves around the map i.e. a unit
 
-public class GameEntity extends BaseEntity {
+public abstract class GameEntity extends BaseEntity {
 
 	public GameEntity(String name)
 	{
@@ -16,8 +16,30 @@ public class GameEntity extends BaseEntity {
 	{
 		super(other);
 	}
+	
+	//public abstract String getName();
 
-	public void tick()
+	public abstract void tick();
+	
+	public void waddle()
+	{
+		GameEntity en = this;
+		int r = (int)(Math.random()*3) - 1;
+		int c = (int)(Math.random()*3) - 1;
+		if (location.grid.getTile(en.location.row+r,en.location.col+c) != null)
+		{
+			if (location.grid.getTile(en.location.row+r,en.location.col+c).biome != -1)
+			{
+				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
+				if (enemy == null)
+				{
+					location.grid.move(this, r, c);
+				}
+			}
+		}
+	}
+	
+	//public void tick()
 	{
 		/*GameEntity en = this;
 		if (name.equals("Worker") && queue != null)

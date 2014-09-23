@@ -43,7 +43,7 @@ public class Settler extends GameEntity {
 								city.land.add(t);
 								location.grid.addTile(en.owner, t);
 							}
-							if (t.owner == city.owner && t.city == null)
+							else if (t.owner == city.owner && t.city == null)
 							{
 								t.city = city;
 								city.land.add(t);
@@ -56,6 +56,7 @@ public class Settler extends GameEntity {
 			location.grid.removeUnit(en);
 			return;
 		}
+		waddle();
 	}
 	
 	public String getName() {return "Settler";}

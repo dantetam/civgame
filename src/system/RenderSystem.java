@@ -293,7 +293,7 @@ public class RenderSystem extends BaseSystem {
 
 	public void renderModel(String name, int r, int c, float red, float green, float blue)
 	{
-		System.out.println(name);
+		//System.out.println(name);
 		float[][] model = EntityData.getModel(name);
 		if (model != null)
 		{

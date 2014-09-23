@@ -18,6 +18,7 @@ public class Worker extends GameEntity {
 		GameEntity en = this;
 		if (queue != null)
 		{
+			//System.out.println(queue);
 			queueTurns--;
 			if (queueTurns <= 0)
 			{
@@ -25,14 +26,14 @@ public class Worker extends GameEntity {
 				queueTurns = 0; //just to be sure
 				queue = null;
 			}
-			return;
 		}
-		if (en.location.city != null && en.location.improvement == null)
+		else
 		{
-			City city = en.location.city;
-			//Factor in the city later
-			//if (city.location.owner.equals(owner)) //just in case
+			if (en.location.city != null && en.location.improvement == null)
 			{
+				City city = en.location.city;
+				//Factor in the city later
+				//if (city.location.owner.equals(owner)) //just in case
 				if (en.location.resource == 1 || en.location.resource == 2)
 				{
 					en.queueTurns = 6;
@@ -51,13 +52,10 @@ public class Worker extends GameEntity {
 				{
 
 				}
-				if (en.location.biome >= 3 && en.location.biome <= 6)
+				if (en.location.biome >= 3 && en.location.biome <= 6 && location.grid.irrigated(location.row, location.col))
 				{
-					if (location.grid.irrigated(location.row, location.col))
-					{
-						en.queueTurns = 6;
-						en.queue = "Farm";
-					}
+					en.queueTurns = 6;
+					en.queue = "Farm";
 				}
 				else if (en.location.shape == 1)
 				{
@@ -73,9 +71,13 @@ public class Worker extends GameEntity {
 					}
 				}
 			}
-		}	
+		}
+		if (queue == null)
+		{
+			waddle();
+		}
 	}
-	
+
 	public String getName() {return "Worker";}
 
 }

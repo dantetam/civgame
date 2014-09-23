@@ -28,8 +28,8 @@ public class WorkBoat extends GameEntity {
 			if (location.grid.getTile(en.location.row+r,en.location.col+c).biome == -1)
 			{
 				//if (location.grid.getTile(en.location.row+r,en.location.col+c).improvement.name.equals("City"))
-				GameEntity enemy = location.grid.hasEnemy(this, location.row, location.col);
-				if (enemy == null)
+				//GameEntity enemy = location.grid.hasEnemy(this, location.row, location.col);
+				//if (enemy == null)
 				{
 					if (queue == null)
 					{
@@ -56,7 +56,6 @@ public class WorkBoat extends GameEntity {
 				}
 			}
 		}
-		return;
 	}
 	
 }

@@ -227,7 +227,7 @@ public class CivilizationSystem extends BaseSystem {
 									c.queue = "Worker";
 									c.queueFood = 25;
 								}
-								else if (civ.units.size() <= civ.cities.size()*2)
+								else if (civ.units.size() <= civ.cities.size()*3)
 								{
 									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
 									{
@@ -241,7 +241,7 @@ public class CivilizationSystem extends BaseSystem {
 										c.queueMetal = 5;
 									}
 								}
-								else if (civ.units.size() <= civ.cities.size()*3)
+								/*else if (civ.units.size() <= civ.cities.size()*3)
 								{
 									if (main.grid.coastal(c.location.row, c.location.col))
 									{
@@ -249,7 +249,7 @@ public class CivilizationSystem extends BaseSystem {
 										c.queueFood = 15;
 										c.queueMetal = 15;
 									}
-								}
+								}*/
 							}
 							else if (c.focus.equals("Production"))
 							{
@@ -284,6 +284,7 @@ public class CivilizationSystem extends BaseSystem {
 							//System.out.println(c.queueFood);
 							if (c.queueFood <= 0 && c.queueMetal <= 0)
 							{
+								//System.out.println(c.queue);
 								main.grid.addUnit(EntityData.get(c.queue),civ,c.location.row,c.location.col);
 								c.queueFood = 0;
 								c.queueMetal = 0;
@@ -381,6 +382,7 @@ public class CivilizationSystem extends BaseSystem {
 					for (int i = 0; i < t.occupants.size(); i++)
 					{
 						t.occupants.get(i).tick();
+						//System.out.println("yoo");
 					}
 				}
 			}
