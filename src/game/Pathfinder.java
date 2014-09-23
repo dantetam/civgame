@@ -20,10 +20,10 @@ public class Pathfinder {
 	public Pathfinder(Grid grid, int x1, int y1, int x2, int y2)
 	{
 		this.grid = grid;
-		nodes = new Node[grid.rows+1][grid.rows+1];
-		for (int r = 0; r <= grid.rows; r++)
+		nodes = new Node[grid.rows][grid.cols];
+		for (int r = 0; r < grid.rows; r++)
 		{
-			for (int c = 0; c <= grid.cols; c++)
+			for (int c = 0; c < grid.cols; c++)
 			{
 				if (grid.getTile(r,c).biome != -1)
 					nodes[r][c] = new Node(r,c);
@@ -35,7 +35,7 @@ public class Pathfinder {
 		System.out.println(x1 + "," + y1 + "," + x2 + "," + y2);
 	}
 
-	public ArrayList<Location> findPath(boolean diagonal)
+	public ArrayList<Tile> findPath(boolean diagonal)
 	{
 		openSet = new ArrayList<Node>();
 		closedSet = new ArrayList<Node>();
@@ -81,23 +81,23 @@ public class Pathfinder {
 				return null;
 			}
 		} while (!openSet.get(findLowestQueueIndex(openSet)).equals(end));
-		ArrayList<Location> temp = new ArrayList<Location>();
+		ArrayList<Tile> temp = new ArrayList<Tile>();
 		do
 		{
-			temp.add(new Location(lastNode.r,lastNode.c));
+			temp.add(grid.getTile(lastNode.r,lastNode.c));
 			lastNode = lastNode.parent;
 		} while (lastNode.parent != null);
 		return temp;
 	}
 
-	public ArrayList<Location> findAdjustedPath()
+	public ArrayList<Tile> findAdjustedPath()
 	{
-		ArrayList<Location> temp = findPath(false);
+		ArrayList<Tile> temp = findPath(false);
 		if (temp == null) return null;
-		if (!temp.get(0).equals(new Location(end.r,end.c)))
+		if (!temp.get(0).equals(grid.getTile(end.r,end.c)))
 		{
 			temp.remove(0);
-			temp.add(0,new Location(end.r,end.c));
+			temp.add(0,grid.getTile(end.r,end.c));
 		}
 		//temp.add(temp.size(),new Location(start.r,start.c));
 		return temp;
@@ -203,6 +203,9 @@ public class Pathfinder {
 		}
 		public double dist(Node other)
 		{
+			System.out.println(other);
+			System.out.println(other.r);
+			System.out.println(other.c);
 			return Math.abs((double)other.r - r) + Math.abs((double)other.c - c);
 		}
 	}

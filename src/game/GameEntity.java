@@ -1,11 +1,15 @@
 package game;
 
+import java.util.ArrayList;
+
 import units.City;
 import data.EntityData;
 
 //An entity that moves around the map i.e. a unit
 
 public abstract class GameEntity extends BaseEntity {
+
+	public ArrayList<Tile> queueTiles = new ArrayList<Tile>();
 
 	public GameEntity(String name)
 	{
@@ -16,29 +20,51 @@ public abstract class GameEntity extends BaseEntity {
 	{
 		super(other);
 	}
-	
+
 	//public abstract String getName();
 
 	public abstract void tick();
-	
+
 	public void waddle()
 	{
-		GameEntity en = this;
-		int r = (int)(Math.random()*3) - 1;
-		int c = (int)(Math.random()*3) - 1;
-		if (location.grid.getTile(en.location.row+r,en.location.col+c) != null)
+		if (queueTiles.size() > 0)
 		{
-			if (location.grid.getTile(en.location.row+r,en.location.col+c).biome != -1)
+			location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
+			queueTiles.remove(0);
+		}
+		else
+		{
+			/*GameEntity en = this;
+			int r = (int)(Math.random()*3) - 1;
+			int c = (int)(Math.random()*3) - 1;
+			if (location.grid.getTile(en.location.row+r,en.location.col+c) != null)
 			{
-				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
-				if (enemy == null)
+				if (location.grid.getTile(en.location.row+r,en.location.col+c).biome != -1)
 				{
-					location.grid.move(this, r, c);
+					GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
+					if (enemy == null)
+					{
+						location.grid.move(this, r, c);
+					}
 				}
+			}*/
+			waddlePath();
+		}
+	}
+
+	public void waddlePath()
+	{
+		Pathfinder p = new Pathfinder(location.grid,location.row,location.col,location.row + (int)(Math.random()*5) - 2,location.col + (int)(Math.random()*5) - 2);
+		ArrayList<Tile> tiles = p.findAdjustedPath();
+		if (tiles != null)
+		{
+			if (tiles.size() > 0)
+			{
+				queueTiles = tiles;
 			}
 		}
 	}
-	
+
 	//public void tick()
 	{
 		/*GameEntity en = this;

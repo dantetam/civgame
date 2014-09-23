@@ -157,11 +157,11 @@ public class InputSystem extends BaseSystem {
 			//System.out.println("Space");
 			main.civilizationSystem.requestTurn = true;
 		}
-		if (key == 'c')
+		else if (key == 'c')
 		{
 			on = !on;
 		}
-		if (key == 'm')
+		else if (key == 'm')
 		{
 			main.menuSystem.minimap = !main.menuSystem.minimap;
 		}
