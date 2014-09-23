@@ -11,7 +11,7 @@ public class Grid {
 	public Civilization[] civs;
 	public boolean[][] verticalRivers;
 	public boolean[][] horizontalRivers;
-	
+
 	public Pathfinder pathFinder;
 	//public Civilization playerCiv;
 	//Player's civilization will always be the first
@@ -128,17 +128,20 @@ public class Grid {
 
 	public GameEntity hasEnemy(GameEntity attacker, int r, int c)
 	{
-		for (int i = 0; i < tiles[r][c].occupants.size(); i++)
+		if (getTile(r,c) != null)
 		{
-			GameEntity occupant = tiles[r][c].occupants.get(i);
-			if (!occupant.owner.equals(attacker.owner))
+			for (int i = 0; i < tiles[r][c].occupants.size(); i++)
 			{
-				return occupant;
+				GameEntity occupant = tiles[r][c].occupants.get(i);
+				if (occupant.owner.war(attacker.owner))
+				{
+					return occupant;
+				}
 			}
 		}
 		return null;
 	}
-	
+
 	public void setupCivs()
 	{
 
@@ -166,7 +169,7 @@ public class Grid {
 		}
 		return temp;
 	}
-	
+
 	//Check if a tile borders the sea
 	public boolean coastal(int r, int c)
 	{
@@ -181,7 +184,7 @@ public class Grid {
 		if (getTile(r-1,c-1) != null) {temp = temp || getTile(r-1,c-1).biome == -1;} 
 		return temp;
 	}
-	
+
 	public Tile getTile(int r, int c)
 	{
 		if (r >= 0 && r < tiles.length && c >= 0 && c < tiles[0].length)
@@ -190,7 +193,7 @@ public class Grid {
 		}
 		return null;
 	}
-	
+
 	//public Tile[][] getTiles() {return tiles;}
 
 }

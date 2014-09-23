@@ -60,4 +60,9 @@ public class Tile {
 		return row == t.row && col == t.col;
 	}
 	
+	public double dist(Tile t)
+	{
+		return Math.sqrt((row-t.row)^2 + (col-t.col)^2);
+	}
+	
 }

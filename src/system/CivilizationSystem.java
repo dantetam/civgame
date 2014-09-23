@@ -369,6 +369,28 @@ public class CivilizationSystem extends BaseSystem {
 					civ.food = Math.min(civ.food, population*5);
 					civ.metal = Math.min(civ.metal, population*5);
 				}
+				//Declare war on other civilizations
+				for (int j = 0; j < main.grid.civs.length; j++)
+				{
+					if (main.grid.civs[j].cities.size() > 2)
+					{
+						if (main.grid.civs[j].capital != null && civ.capital != null)
+						{
+							if (civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
+									Math.random() < 0.01 &&
+									civ.capital.location.dist(main.grid.civs[j].capital.location) < 30)
+							{
+								//System.out.println("war");
+								civ.enemies.add(main.grid.civs[j]);
+								main.grid.civs[j].enemies.add(civ);
+							}
+						}
+					}
+					else
+					{
+						civ.enemies.remove(main.grid.civs[j]);
+					}
+				}
 			}
 			for (int r = 0; r < main.grid.rows; r++)
 			{

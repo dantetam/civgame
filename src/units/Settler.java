@@ -26,7 +26,7 @@ public class Settler extends GameEntity {
 			location.grid.addUnit(city, en.owner, en.location.row, en.location.col);
 			if (owner.cities.size() == 1)
 			{
-				city.capital = true;
+				owner.capital = city;
 			}
 			for (int i = en.location.row - 2; i <= en.location.row + 2; i++)
 			{

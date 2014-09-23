@@ -18,7 +18,6 @@ public class City extends TileEntity {
 	public int queueFood, queueMetal;
 	public Civilization owner;
 	public String focus;
-	public boolean capital;
 	public ArrayList<String> buildings;
 
 	public City(String name)
@@ -32,7 +31,6 @@ public class City extends TileEntity {
 		workedLand = new ArrayList<Tile>();
 		//queue = null;
 		queueTurns = 0; queueFood = 0; queueMetal = 0;
-		capital = false;
 		//owner = null;
 		focus = "Growth";
 		buildings = new ArrayList<String>();
@@ -249,5 +247,10 @@ public class City extends TileEntity {
 	}
 	
 	public String getName() {return "City";}
+	
+	public boolean equals(City other)
+	{
+		return location.equals(other.location);
+	}
 
 }
