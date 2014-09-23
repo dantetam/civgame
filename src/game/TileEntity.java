@@ -7,11 +7,13 @@ public class TileEntity extends BaseEntity {
 	public TileEntity(String name)
 	{
 		super(name);
+		health = 1;
 	}
 	
 	public TileEntity(TileEntity other)
 	{
 		super(other);
+		health = 1;
 	}
 	
 	public String getName()

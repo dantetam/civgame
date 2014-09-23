@@ -8,10 +8,14 @@ public class Settler extends GameEntity {
 
 	public Settler(String name) {
 		super(name);
+		health = 10;
+		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 	
 	public Settler(GameEntity en) {
 		super(en);
+		health = 10;
+		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 	
 	public void tick()

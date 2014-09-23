@@ -7,10 +7,14 @@ public class Worker extends GameEntity {
 
 	public Worker(String name) {
 		super(name);
+		health = 10;
+		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public Worker(GameEntity en) {
 		super(en);
+		health = 10;
+		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public void tick()

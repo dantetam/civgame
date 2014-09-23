@@ -1,26 +1,28 @@
 package terrain;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class DiamondSquare extends BaseTerrain {
 
-	public double[][] t;
-
-	/*public static void main(String[] args)
+	//public double[][] t;
+	public Random random = new Random(870L);
+	
+	public static void main(String[] args)
 	{
-		double[][] temp = makeTable(50,50,50,50,17);
+		double[][] temp = makeTable(50,50,50,50,129);
 		DiamondSquare ds = new DiamondSquare(temp);
 		//ds.diamond(0, 0, 4);
-		ds.dS(0, 0, 16, 15, 0.5);
+		ds.dS(0, 0, 128, 15, 0.5);
 		
-		Data data = new Data(ds.t);
-		data.divIndex(0, 0, 16);
+		//Data data = new Data(ds.t);
+		//data.divIndex(0, 0, 16);
 		//System.out.println(ds.t[1][1]);
-	}*/
+	}
 
 	public DiamondSquare(double[][] start)
 	{
-		t = start;
+		terrain = start;
 	}
 	
 	//Creates a table with 4 corners set to argument values
@@ -61,9 +63,9 @@ public class DiamondSquare extends BaseTerrain {
 		int origWidth = width;
 		while (true)
 		{
-			for (int r = sX; r <= t.length - 2; r += width)
+			for (int r = sX; r <= terrain.length - 2; r += width)
 			{
-				for (int c = sY; c <= t[0].length - 2; c += width)
+				for (int c = sY; c <= terrain[0].length - 2; c += width)
 				{
 					//System.out.println(r + " " + t.length);
 					//System.out.println(c + " " + t.length);
@@ -74,7 +76,7 @@ public class DiamondSquare extends BaseTerrain {
 					{
 						for (int nc = 0; nc < origWidth; nc++)
 						{
-							record[nr][nc] = (byte)t[nr][nc];
+							record[nr][nc] = (byte)terrain[nr][nc];
 						}
 					}
 					temp.add(record);
@@ -94,7 +96,7 @@ public class DiamondSquare extends BaseTerrain {
 	public void diamond(int sX, int sY, int width, double startAmp)
 	{
 		//System.out.println(random);
-		t[sX + width/2][sY + width/2] = (t[sX][sY] + t[sX+width][sY] + t[sX][sY+width] + t[sX+width][sY+width])/4 + 
+		terrain[sX + width/2][sY + width/2] = (terrain[sX][sY] + terrain[sX+width][sY] + terrain[sX][sY+width] + terrain[sX+width][sY+width])/4 + 
 				startAmp*(random.nextDouble() - 0.5)*2;
 		/*System.out.println(t[sX][sY]);
 		System.out.println(t[sX+width][sY]);
@@ -121,29 +123,29 @@ public class DiamondSquare extends BaseTerrain {
 		if (sX - width/2 < 0)
 		{
 			//System.out.println(sX + " 1 " + sY);
-			t[sX][sY] = (t[sX][sY - width/2] + t[sX][sY + width/2] + t[sX + width/2][sY])/3;
+			terrain[sX][sY] = (terrain[sX][sY - width/2] + terrain[sX][sY + width/2] + terrain[sX + width/2][sY])/3;
 		}
-		else if (sX + width/2 >= t.length)
+		else if (sX + width/2 >= terrain.length)
 		{
 			//System.out.println(sX + " 2 " + sY);
-			t[sX][sY] = (t[sX][sY - width/2] + t[sX][sY + width/2] + t[sX - width/2][sY])/3;
+			terrain[sX][sY] = (terrain[sX][sY - width/2] + terrain[sX][sY + width/2] + terrain[sX - width/2][sY])/3;
 		}
 		else if (sY - width/2 < 0)
 		{
 			//System.out.println(sX + " 3 " + sY);
-			t[sX][sY] = (t[sX][sY + width/2] + t[sX + width/2][sY] + t[sX - width/2][sY])/3;
+			terrain[sX][sY] = (terrain[sX][sY + width/2] + terrain[sX + width/2][sY] + terrain[sX - width/2][sY])/3;
 		}
-		else if (sY + width/2 >= t.length)
+		else if (sY + width/2 >= terrain.length)
 		{
 			//System.out.println(sX + " 4 " + sY);
-			t[sX][sY] = (t[sX][sY - width/2] + t[sX + width/2][sY] + t[sX - width/2][sY])/3;
+			terrain[sX][sY] = (terrain[sX][sY - width/2] + terrain[sX + width/2][sY] + terrain[sX - width/2][sY])/3;
 		}
 		else
 		{
 			//System.out.println(sX + " 5 " + sY);
-			t[sX][sY] = (t[sX][sY + width/2] + t[sX][sY - width/2] + t[sX + width/2][sY] + t[sX - width/2][sY])/4;
+			terrain[sX][sY] = (terrain[sX][sY + width/2] + terrain[sX][sY - width/2] + terrain[sX + width/2][sY] + terrain[sX - width/2][sY])/4;
 		}
-		t[sX][sY] += startAmp*(random.nextDouble() - 0.5)*2;
+		terrain[sX][sY] += startAmp*(random.nextDouble() - 0.5)*2;
 		//printTable(t);
 		//System.out.println("-------");
 	}
@@ -156,7 +158,8 @@ public class DiamondSquare extends BaseTerrain {
 
 	@Override
 	public double[][] generate(double[] args) {
-		//seed(870);
+		double[][] temp = makeTable(50,50,50,50,129);
+		//ds.diamond(0, 0, 4);
 		dS((int)args[0],(int)args[1],(int)args[2],args[3],args[4]);
 		return terrain;
 	}

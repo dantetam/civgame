@@ -143,18 +143,17 @@ public class CivGame extends PApplet {
 			con = 1F;
 			cutoff = 1;
 		}
-		else if (terrainType.equals("terrain3"))
+		else if (terrainType.equals("terrain10"))
 		{
 			int len = 128;
 			double[][] temp = DiamondSquare.makeTable(50,50,50,50,len+1);
 			map = new DiamondSquare(temp);
 			//ds.diamond(0, 0, 4);
 			//displayTables = ds.dS(0, 0, len, 40, 0.7)
-			map.seed(seed);
+			//map.seed(seed);
 			terrain = map.generate(new double[]{0, 0, len, 40, 0.7});
-			print(terrain);
 			con = 1F;
-			cutoff = 40;
+			cutoff = 60;
 		}
 		else if (terrainType.equals("terrain4"))
 		{

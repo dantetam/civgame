@@ -11,6 +11,9 @@ public abstract class BaseEntity {
 	public String queue;
 	public int queueTurns;
 	
+	public int health;
+	public float offensiveStr, rangedStr, defensiveStr;
+	
 	public BaseEntity(String name)
 	{
 		this.name = name;

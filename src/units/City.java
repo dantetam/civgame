@@ -34,9 +34,11 @@ public class City extends TileEntity {
 		//owner = null;
 		focus = "Growth";
 		buildings = new ArrayList<String>();
+		health = 20;
+		offensiveStr = 0; rangedStr = 3; defensiveStr = 6;
 	}
 
-	public City(TileEntity other) {
+	/*public City(TileEntity other) {
 		super(other);
 		population = 1;
 		land = new ArrayList<Tile>();
@@ -45,7 +47,7 @@ public class City extends TileEntity {
 		queueTurns = 0;
 		//owner = null;
 		focus = "Growth";
-	}
+	}*/
 
 	public void tick()
 	{

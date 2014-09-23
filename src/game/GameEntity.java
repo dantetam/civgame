@@ -55,7 +55,7 @@ public abstract class GameEntity extends BaseEntity {
 			}
 		}
 	}
-	
+
 	public void passiveWaddle(int r, int c)
 	{
 		GameEntity en = this;
@@ -84,15 +84,31 @@ public abstract class GameEntity extends BaseEntity {
 				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 				if (enemy != null)
 				{
-					if (Math.random() < 0.5)
+					if (owner.cities.size() > 5 && enemy.owner.cities.size() < 6)
 					{
-						location.grid.removeUnit(enemy);
-						location.grid.move(en,r,c);
+						if (Math.random() < 0.75)
+						{
+							location.grid.removeUnit(enemy);
+							location.grid.move(en,r,c);
+						}
+						else
+						{
+							location.grid.removeUnit(en);
+							return;
+						}
 					}
 					else
 					{
-						location.grid.removeUnit(en);
-						return;
+						if (Math.random() < 0.5)
+						{
+							location.grid.removeUnit(enemy);
+							location.grid.move(en,r,c);
+						}
+						else
+						{
+							location.grid.removeUnit(en);
+							return;
+						}
 					}
 				}
 				else

@@ -7,10 +7,14 @@ public class Warrior extends GameEntity {
 
 	public Warrior(String name) {
 		super(name);
+		health = 10;
+		offensiveStr = 2; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public Warrior(GameEntity en) {
 		super(en);
+		health = 10;
+		offensiveStr = 2; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public void tick()
@@ -18,6 +22,12 @@ public class Warrior extends GameEntity {
 		if (queueTiles.size() > 0)
 		{
 			aggressiveWaddle(queueTiles.get(0).row - location.row, queueTiles.get(0).col - location.col);
+			Tile t = adjacentEnemy();
+			if (t != null)
+			{
+				queueTiles.clear();
+				aggressiveWaddle(t.row - location.row, t.col - location.col);
+			}
 		}
 		else
 		{
