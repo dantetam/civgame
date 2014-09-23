@@ -5,19 +5,13 @@ import java.util.ArrayList;
 public class Pathfinder {
 
 	public Grid grid;
-
-	public Pathfinder(Grid grid)
-	{
-		this.grid = grid;
-	}
-
 	public Node[][] nodes;
 	public Node start;
 	public Node end;
 	public ArrayList<Node> openSet;
 	public ArrayList<Node> closedSet;
 
-	public Pathfinder(Grid grid, int x1, int y1, int x2, int y2)
+	public Pathfinder(Grid grid)
 	{
 		this.grid = grid;
 		nodes = new Node[grid.rows][grid.cols];
@@ -29,14 +23,26 @@ public class Pathfinder {
 					nodes[r][c] = new Node(r,c);
 			}
 		}
+		//System.out.println(x1 + "," + y1 + "," + x2 + "," + y2);
+	}
+
+	public ArrayList<Tile> findPath(int x1, int y1, int x2, int y2, boolean diagonal)
+	{
+		for (int r = 0; r < grid.rows; r++)
+		{
+			for (int c = 0; c < grid.cols; c++)
+			{
+				if (grid.getTile(r,c).biome != -1)
+				{
+					nodes[r][c].parent = null;
+					nodes[r][c].g = 0;
+					nodes[r][c].queue = 0;
+				}
+			}
+		}
 		start = nodes[x1][y1];
 		start.queue = 0;
 		end = nodes[x2][y2];
-		System.out.println(x1 + "," + y1 + "," + x2 + "," + y2);
-	}
-
-	public ArrayList<Tile> findPath(boolean diagonal)
-	{
 		openSet = new ArrayList<Node>();
 		closedSet = new ArrayList<Node>();
 
@@ -70,14 +76,20 @@ public class Pathfinder {
 				{
 					ns.get(i).g = cost;
 					openSet.add(ns.get(i));
-					ns.get(i).queue = ns.get(i).g + 1.1*ns.get(i).dist(end);
+					double dist = ns.get(i).dist(end);
+					if (dist == -1)
+					{
+						//System.err.println("No path found.");
+						return null;
+					}
+					ns.get(i).queue = ns.get(i).g + 1.1*dist;
 					ns.get(i).parent = current;
 					lastNode = ns.get(i);
 				}
 			}
 			if (openSet.size() == 0) 
 			{
-				System.err.println("No path found.");
+				//System.err.println("No path found.");
 				return null;
 			}
 		} while (!openSet.get(findLowestQueueIndex(openSet)).equals(end));
@@ -90,9 +102,9 @@ public class Pathfinder {
 		return temp;
 	}
 
-	public ArrayList<Tile> findAdjustedPath()
+	public ArrayList<Tile> findAdjustedPath(int x1, int y1, int x2, int y2)
 	{
-		ArrayList<Tile> temp = findPath(false);
+		ArrayList<Tile> temp = findPath(x1,y1,x2,y2,false);
 		if (temp == null) return null;
 		if (!temp.get(0).equals(grid.getTile(end.r,end.c)))
 		{
@@ -203,13 +215,12 @@ public class Pathfinder {
 		}
 		public double dist(Node other)
 		{
-			System.out.println(other);
-			System.out.println(other.r);
-			System.out.println(other.c);
-			return Math.abs((double)other.r - r) + Math.abs((double)other.c - c);
+			if (other != null)
+				return Math.abs((double)other.r - r) + Math.abs((double)other.c - c);
+			return -1;
 		}
 	}
-	
+
 	public class Location {int r, c; public Location(int x, int y) {r=x; c=y;}}
 
 }

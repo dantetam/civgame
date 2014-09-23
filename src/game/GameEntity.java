@@ -34,7 +34,7 @@ public abstract class GameEntity extends BaseEntity {
 		}
 		else
 		{
-			/*GameEntity en = this;
+			GameEntity en = this;
 			int r = (int)(Math.random()*3) - 1;
 			int c = (int)(Math.random()*3) - 1;
 			if (location.grid.getTile(en.location.row+r,en.location.col+c) != null)
@@ -47,20 +47,21 @@ public abstract class GameEntity extends BaseEntity {
 						location.grid.move(this, r, c);
 					}
 				}
-			}*/
-			waddlePath();
+			}
 		}
 	}
 
-	public void waddlePath()
+	public void waddleTo(int r, int c)
 	{
-		Pathfinder p = new Pathfinder(location.grid,location.row,location.col,location.row + (int)(Math.random()*5) - 2,location.col + (int)(Math.random()*5) - 2);
-		ArrayList<Tile> tiles = p.findAdjustedPath();
-		if (tiles != null)
+		if (location.grid.getTile(location.row+r,location.col+c) == null)
 		{
-			if (tiles.size() > 0)
+			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(location.row,location.col,location.row+r,location.col+c);
+			if (tiles != null)
 			{
-				queueTiles = tiles;
+				if (tiles.size() > 0)
+				{
+					queueTiles = tiles;
+				}
 			}
 		}
 	}

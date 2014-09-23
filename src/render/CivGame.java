@@ -11,6 +11,7 @@ import terrain.*;
 import system.*;
 import entity.Player;
 import game.Grid;
+import game.Pathfinder;
 import game.Tile;
 
 public class CivGame extends PApplet {
@@ -31,7 +32,7 @@ public class CivGame extends PApplet {
 	public long seed; 
 
 	public Player player = new Player();
-
+	
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
 	//public PGraphics pg;

@@ -11,6 +11,8 @@ public class Grid {
 	public Civilization[] civs;
 	public boolean[][] verticalRivers;
 	public boolean[][] horizontalRivers;
+	
+	public Pathfinder pathFinder;
 	//public Civilization playerCiv;
 	//Player's civilization will always be the first
 
@@ -71,6 +73,7 @@ public class Grid {
 			addUnit(en,civs[i],r,c);
 		}
 		//makeRivers(terrain);
+		pathFinder = new Pathfinder(this);
 	}
 
 	public void move(BaseEntity en, int rDis, int cDis)

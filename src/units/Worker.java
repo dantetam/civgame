@@ -29,7 +29,7 @@ public class Worker extends GameEntity {
 		}
 		else
 		{
-			if (en.location.city != null && en.location.improvement == null)
+			if (en.location.city != null && en.location.improvement == null && en.location.owner.equals(owner))
 			{
 				City city = en.location.city;
 				//Factor in the city later
