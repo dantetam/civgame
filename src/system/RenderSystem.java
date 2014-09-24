@@ -177,23 +177,20 @@ public class RenderSystem extends BaseSystem {
 					return;
 				}
 			}*/
-			//if (dist < dist1)
+			if (main.grid.getTile(r,c).owner != null)
 			{
-				if (main.grid.getTile(r,c).owner != null)
+				Civilization civ = t.owner;
+				main.stroke(civ.r, civ.g, civ.b);
+				if (t.harvest)
 				{
-					Civilization civ = t.owner;
-					main.stroke(civ.r, civ.g, civ.b);
-					if (t.harvest)
-					{
-						main.strokeWeight(5);
-					}
-					else
-					{
-						main.strokeWeight(1);
-					}
+					main.strokeWeight(5);
 				}
-				sampleSize = 1;
+				else
+				{
+					main.strokeWeight(1);
+				}
 			}
+			sampleSize = 1;
 			main.pushMatrix();
 			
 			Entity temp = new Entity();
@@ -201,14 +198,16 @@ public class RenderSystem extends BaseSystem {
 			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			if (main.player.lookingAtEntity(temp))
 			{
-				System.out.println(r + " " + c);
-				main.fill(0);
+				main.menuSystem.target = main.grid.getTile(r, c);
+				//main.fill(0);
+				main.stroke(0,0,255);
+				main.strokeWeight(8);
 			}
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
-		
+
 			//Render a hill or mountain
 
 			if (sampleSize == 1)

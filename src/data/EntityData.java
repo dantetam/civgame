@@ -108,12 +108,54 @@ public class EntityData {
 		return unitModelMap.get(name);
 	}
 
+	public static String getBiome(int biome)
+	{
+		if (biome == -1)
+		{
+			return "Sea";
+		}
+		else if (biome == 0)
+		{
+			return "Ice";
+		}
+		else if (biome == 1)
+		{
+			return "Taiga";
+		}
+		else if (biome == 2)
+		{
+			return "Desert";
+		}
+		else if (biome == 3)
+		{
+			return "Savannah";
+		}
+		else if (biome == 4)
+		{
+			return "Dry Forest";
+		}
+		else if (biome == 5)
+		{
+			return "Forest";
+		}
+		else if (biome == 6)
+		{
+			return "Rainforest";
+		}
+		else if (biome == 8)
+		{
+			return "Oasis";
+		}
+		System.err.println("Invalid biome");
+		return null;
+	}
+
 	private static void setupEntityMap()
 	{
 		gameEntityMap.put("Settler",new Settler("Settler"));
 		gameEntityMap.put("Warrior",new Warrior("Warrior"));
 		gameEntityMap.put("Worker",new Worker("Worker"));
-		
+
 		gameEntityMap.put("Galley",new Galley("Galley"));
 		gameEntityMap.put("Work Boat",new WorkBoat("Work Boat"));
 
