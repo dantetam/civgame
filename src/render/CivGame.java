@@ -169,6 +169,18 @@ public class CivGame extends PApplet {
 			con = 1F;
 			cutoff = 0;
 		}
+		if (numCivs <= 4)
+		{
+			terrain = downSample(terrain,3);
+		}
+		else if (numCivs <= 8)
+		{
+			terrain = downSample(terrain,2);
+		}
+		else
+		{
+			//Don't sample and downsize it
+		}
 		int[][] biomes = assignBiome(terrain);
 		grid = new Grid(terrain, biomes, assignResources(biomes), numCivs, (int)cutoff);
 		makeRivers(biomes); 
@@ -430,6 +442,19 @@ public class CivGame extends PApplet {
 		}
 	}
 
+	public double[][] downSample(double[][] terrain, int num)
+	{
+		double[][] temp = new double[terrain.length/num + 1][terrain.length/num + 1];
+		for (int r = 0; r < terrain.length; r += num)
+		{
+			for (int c = 0; c < terrain[0].length; c += num)
+			{
+				temp[r/num][c/num] = terrain[r][c];
+			}
+		}
+		return temp;
+	}
+	
 	public void erode()
 	{
 		for (int i = 0; i < 100; i++)

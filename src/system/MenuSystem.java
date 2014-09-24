@@ -39,6 +39,7 @@ public class MenuSystem extends BaseSystem {
 		main.camera();
 		main.perspective();
 		//main.noLights();
+		main.noStroke();
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
 		{
 			main.fill(0);
@@ -51,7 +52,6 @@ public class MenuSystem extends BaseSystem {
 
 		if (minimap)
 		{
-			main.noStroke();
 			//main.rect(0, 700, 50, 50);
 			float sX = 0; float sY = 400; float widthX = main.grid.rows*2; float widthY = main.grid.cols*1.5F; 
 			int con = 2;

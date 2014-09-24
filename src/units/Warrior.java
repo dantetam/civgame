@@ -22,6 +22,7 @@ public class Warrior extends GameEntity {
 		if (queueTiles.size() > 0)
 		{
 			aggressiveWaddle(queueTiles.get(0).row - location.row, queueTiles.get(0).col - location.col);
+			queueTiles.remove(0);
 			Tile t = adjacentEnemy();
 			if (t != null)
 			{

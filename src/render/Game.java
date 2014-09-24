@@ -177,7 +177,7 @@ public class Game extends PApplet {
 						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain4",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
-						//redraw();
+						//redraw(); 
 						background(255);
 						noLoop();
 					}

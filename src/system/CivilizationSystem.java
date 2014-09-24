@@ -342,6 +342,10 @@ public class CivilizationSystem extends BaseSystem {
 							//tf -= c.population*2;
 							c.focus = "Production";
 						}
+						if (c.population > 4)
+						{
+							c.focus = "Growth";
+						}
 					}
 					/*for (int j = 0; j < civ.cities.size(); j++)
 					{
@@ -378,7 +382,7 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							if (civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
 									Math.random() < 0.01 &&
-									civ.capital.location.dist(main.grid.civs[j].capital.location) < 30)
+									civ.capital.location.dist(main.grid.civs[j].capital.location) < 50)
 							{
 								//System.out.println("war");
 								civ.enemies.add(main.grid.civs[j]);
@@ -388,7 +392,16 @@ public class CivilizationSystem extends BaseSystem {
 					}
 					else
 					{
+						main.grid.civs[j].enemies.remove(civ);
 						civ.enemies.remove(main.grid.civs[j]);
+					}
+				}
+				//Begin starvation if there is lack of food
+				if (civ.food <= -10)
+				{
+					if (Math.random() < 0.2 && civ.units.size() > 0)
+					{
+						main.grid.removeUnit(civ.units.get((int)(Math.random()*civ.units.size())));
 					}
 				}
 			}
@@ -403,6 +416,7 @@ public class CivilizationSystem extends BaseSystem {
 					}
 					for (int i = 0; i < t.occupants.size(); i++)
 					{
+						t.occupants.get(i).owner.food--;
 						t.occupants.get(i).tick();
 						//System.out.println("yoo");
 					}
