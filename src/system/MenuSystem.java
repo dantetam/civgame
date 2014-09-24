@@ -17,12 +17,17 @@ public class MenuSystem extends BaseSystem {
 	public Menu activeMenu;
 
 	public boolean minimap = false;
+	public int multiplier = 1;
+	
+	public ArrayList<String> hintText;
 
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
 		menus = new ArrayList<Menu>();
 		clicks = new ArrayList<Click>();
 
+		hintText = new ArrayList<String>();
+		
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
 		menu0.addButton("exitgame", "Exit", 0, 0, 100, 30);
@@ -53,8 +58,8 @@ public class MenuSystem extends BaseSystem {
 		if (minimap)
 		{
 			//main.rect(0, 700, 50, 50);
-			float sX = 0; float sY = 400; float widthX = main.grid.rows*2; float widthY = main.grid.cols*1.5F; 
 			int con = 2;
+			float sX = 0; float sY = 400; float widthX = main.grid.rows*con*multiplier; float widthY = main.grid.cols*con*multiplier; 
 			for (int r = 0; r < main.grid.rows; r += con)
 			{
 				for (int c = 0; c < main.grid.cols; c += con)
@@ -76,8 +81,26 @@ public class MenuSystem extends BaseSystem {
 						main.fill(150,225,255);
 					}
 					//System.out.println(sX + r/(float)main.grid.rows*widthX);
-					main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,con*con,con*con);
+					main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,con*multiplier,con*multiplier);
 				}
+			}
+		}
+		
+		int width = 6;
+		main.stroke(255);
+		main.fill(0);
+		main.rect((main.width - width)/2, (main.height - width)/2, width, width);
+		
+		if (hintText.size() > 0)
+		{
+			main.stroke(255);
+			main.fill(0);
+			main.rect(main.width*5/6,main.height*5/6,200,150);
+			main.fill(255);
+			main.textSize(12);
+			for (int i = 0; i < hintText.size(); i++)
+			{
+				main.text(hintText.get(i), main.width*5/6 + 15, main.height*5/6 + 15*(i+1));
 			}
 		}
 		

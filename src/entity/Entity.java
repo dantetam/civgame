@@ -34,4 +34,11 @@ public class Entity {
 		sizeZ = z;
 	}
 	
+	public boolean within(double x, double y, double z)
+	{
+		return x >= posX - sizeX/2 && x <= posX + sizeX/2 &&
+				 y >= posY - sizeY/2 && y <= posY + sizeY/2 &&
+				 z >= posZ - sizeZ/2 && z <= posZ + sizeZ/2;
+	}
+	
 }

@@ -140,6 +140,7 @@ public abstract class GameEntity extends BaseEntity {
 								city.owner.capital = city.owner.cities.get(0);
 							}
 							city.owner = owner;
+							city.takeover = 5;
 							owner.cities.add(city);
 						}
 					}

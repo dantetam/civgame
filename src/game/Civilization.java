@@ -27,7 +27,7 @@ public class Civilization {
 		enemies = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		this.name = name;
-		food = 25; gold = 0; metal = 0; research = 0;
+		food = 17; gold = 0; metal = 0; research = 0;
 	}
 	
 	public boolean equals(Civilization other)

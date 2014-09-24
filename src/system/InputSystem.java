@@ -130,6 +130,15 @@ public class InputSystem extends BaseSystem {
 			}
 			lastMouseX = mouseX;
 			lastMouseY = mouseY;
+			
+			main.menuSystem.hintText.clear();
+			//Find the target of the player's cursor
+			main.player.getLookVector();
+			
+			if (Math.sqrt(Math.pow(dX,2) + Math.pow(dY, 2)) >= 10)
+			{
+				main.menuSystem.hintText.add("Test");
+			}
 		}
 	}
 

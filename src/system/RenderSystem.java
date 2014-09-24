@@ -195,10 +195,20 @@ public class RenderSystem extends BaseSystem {
 				sampleSize = 1;
 			}
 			main.pushMatrix();
+			
+			Entity temp = new Entity();
+			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 5, widthBlock*sampleSize);
+			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
+			if (main.player.lookingAtEntity(temp))
+			{
+				System.out.println(r + " " + c);
+				main.fill(0);
+			}
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
+		
 			//Render a hill or mountain
 
 			if (sampleSize == 1)

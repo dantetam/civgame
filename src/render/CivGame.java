@@ -172,13 +172,16 @@ public class CivGame extends PApplet {
 		if (numCivs <= 4)
 		{
 			terrain = downSample(terrain,3);
+			menuSystem.multiplier = 3;
 		}
 		else if (numCivs <= 8)
 		{
 			terrain = downSample(terrain,2);
+			menuSystem.multiplier = 2;
 		}
 		else
 		{
+			menuSystem.multiplier = 1;
 			//Don't sample and downsize it
 		}
 		int[][] biomes = assignBiome(terrain);

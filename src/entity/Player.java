@@ -45,4 +45,32 @@ public class Player {
 		return new Line(tarX-posX,posX,tarY-posY,posY,tarZ-posZ,posZ);
 	}
 
+	public boolean lookingAtEntity(Entity en)
+	{
+		Line lookVector = getLookVector();
+		Plane plane = (planeFromPoints(
+				new Point(en.posX,en.posY - en.sizeY/2,en.posZ),
+				new Point(en.posX+en.sizeY/2,en.posY - en.sizeY/2,en.posZ),
+				new Point(en.posX+en.sizeY/2,en.posY - en.sizeY/2,en.posZ+en.sizeZ/2)
+				));
+		Point intersection = plane.intersect(lookVector);
+
+		if (en.within(intersection.x,intersection.y,intersection.z))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public Plane planeFromPoints(Point a, Point b, Point c)
+	{
+		int x = (int)((b.y - a.y)*(c.z - a.z) - (c.y - a.y)*(b.z - a.z));
+		int y = (int)(-(b.x - a.x)*(c.z - a.z) + (c.x - a.x)*(b.z - a.z));
+		int z = (int)((b.x - a.x)*(c.y - a.y) - (c.x - a.x)*(b.y - a.y));
+		int d = (int)(x*a.x + y*a.y + z*a.z);
+		//int e = (int)(x*b.x + y*b.y + z*b.z);
+		//System.out.println(d + " " + e);
+		return new Plane(x,y,z,d);
+	}
+
 }

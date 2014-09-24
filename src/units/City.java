@@ -19,6 +19,7 @@ public class City extends TileEntity {
 	public Civilization owner;
 	public String focus;
 	public ArrayList<String> buildings;
+	public int takeover;
 
 	public City(String name)
 	{
@@ -36,6 +37,7 @@ public class City extends TileEntity {
 		buildings = new ArrayList<String>();
 		health = 20;
 		offensiveStr = 0; rangedStr = 3; defensiveStr = 6;
+		takeover = 0;
 	}
 
 	/*public City(TileEntity other) {
@@ -51,7 +53,10 @@ public class City extends TileEntity {
 
 	public void tick()
 	{
-
+		if (takeover > 0)
+		{
+			takeover--;
+		}
 	}
 
 	public void workTiles(int num)

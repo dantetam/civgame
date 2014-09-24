@@ -132,6 +132,18 @@ public class CivilizationSystem extends BaseSystem {
 					{
 						City c = civ.cities.get(j);
 						population += c.population;
+						
+						if (c.takeover > 0)
+						{
+							continue;
+						}
+						if (civ.capital.equals(c))
+						{
+							tf += 3;
+							tg += 3;
+							tr += 3;
+						}
+						
 						//Make some settlers to test
 						int numSettlers = 0, numWorkers = 0;
 						for (int k = 0; k < civ.cities.size(); k++)
