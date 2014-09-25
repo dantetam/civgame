@@ -269,6 +269,12 @@ public class RenderSystem extends BaseSystem {
 		{
 			main.strokeWeight(1);
 		}
+		
+		if (main.menuSystem.selected != null)
+			if (en.equals(main.menuSystem.selected))
+			{
+				
+			}
 		/*if (en.name.equals("City"))
 			{
 				main.fill(0);

@@ -77,6 +77,11 @@ public class MenuSystem extends BaseSystem {
 						{
 							main.fill(t.owner.r,t.owner.g,t.owner.b);
 						}
+						else if (t.occupants.size() > 0)
+						{
+							GameEntity en = t.occupants.get(0);
+							main.fill(en.owner.r, en.owner.g, en.owner.b);
+						}
 						else
 						{
 							main.fill(150);
@@ -138,6 +143,27 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
+		if (selected != null)
+		{
+			main.stroke(255);
+			main.fill(0);
+			main.rect(main.width*4/6,main.height*5/6,200,150);
+			main.fill(255);
+			main.textSize(12);
+			
+			ArrayList<String> temp = new ArrayList<String>();
+			temp.add(selected.name + " " + selected.action + "/" + selected.maxAction);
+			temp.add(selected.offensiveStr + " offensive / " + selected.rangedStr + " ranged");
+			temp.add(selected.defensiveStr + " defensive");
+			
+			for (int i = 0; i < temp.size(); i++)
+			{
+				main.textAlign(main.LEFT);
+				main.text(temp.get(i), main.width*4/6 + 15, main.height*5/6 + 15*(i+1));
+			}
+			//main.text("Test", main.width*5/6 + 15, main.height*5/6 + 15);
+		}
+		
 		if (hintText.size() > 0)
 		{
 			main.stroke(255);

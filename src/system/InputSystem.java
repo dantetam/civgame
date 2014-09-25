@@ -1,5 +1,7 @@
 package system;
 
+import game.GameEntity;
+
 import java.util.ArrayList;
 
 import render.CivGame;
@@ -130,6 +132,45 @@ public class InputSystem extends BaseSystem {
 			}
 			lastMouseX = mouseX;
 			lastMouseY = mouseY;
+		}
+	}
+	
+	//Make a system to cycle through units on a list
+	//private ArrayList<GameEntity> lastList = null;
+	//private int num = 0;
+	public void passLeftMouseClick(float mouseX, float mouseY)
+	{
+		if (on)
+		{
+			if (main.menuSystem.highlighted.size() > 0)
+			{
+				/*if (main.menuSystem.highlighted.equals(lastList))
+				{
+					num++;
+					if (main.menuSystem.highlighted.size() == num)
+					{
+						num = 0;
+					}
+				}
+				else
+				{
+					num = 0;
+				}*/
+				int r = (int)(main.menuSystem.highlighted.size()*Math.random()); 
+				if (main.menuSystem.highlighted.get(r).owner.equals(main.grid.civs[0]))
+				{
+					main.menuSystem.selected = main.menuSystem.highlighted.get(r);
+				}
+				else
+				{
+					main.menuSystem.selected = null;
+				}
+				//lastList = main.menuSystem.highlighted;
+			}
+			else
+			{
+				main.menuSystem.selected = null;
+			}
 		}
 	}
 

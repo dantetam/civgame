@@ -1,5 +1,8 @@
 package entity;
 
+import game.Civilization;
+import game.GameEntity;
+
 import java.util.ArrayList;
 
 import vector.*;
@@ -10,9 +13,15 @@ public class Player {
 	public float tarX, tarY, tarZ;
 	public float rotY = (float)Math.PI/4F; //degrees
 	public float rotVertical = 0;
+	
+	public Civilization civ;
+	//public ArrayList<GameEntity> moved; //Keep track of which units are moved; should be done for every civ
+	//i.e. every civ moves their units until there are none left to move
 
 	public Player()
 	{
+		//this.civ = civ;
+		//moved = new ArrayList<GameEntity>();
 		posX = 2000;
 		posY = 300;
 		posZ = 2000;

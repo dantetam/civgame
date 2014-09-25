@@ -10,7 +10,8 @@ import data.EntityData;
 public abstract class GameEntity extends BaseEntity {
 
 	public ArrayList<Tile> queueTiles = new ArrayList<Tile>();
-
+	public int action = 1, maxAction = 1;
+	
 	public GameEntity(String name)
 	{
 		super(name);

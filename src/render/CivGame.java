@@ -67,7 +67,7 @@ public class CivGame extends PApplet {
 		background(0,225,255);
 		camera(500,500,500,0,0,0,0,-1,0);
 		box(100,100,100);
-		redraw();
+		//redraw();
 		generate(terrainType);
 		//makeRivers(terrain);
 		/*for (int r = 0; r < terrain.length; r++)
@@ -83,6 +83,9 @@ public class CivGame extends PApplet {
 		erosion = new Erosion(terrain,1);
 		erode();
 		chunkSystem.tick();
+		
+		//Set it manually
+		player.civ = grid.civs[0];
 	}
 
 	public void draw()
@@ -98,6 +101,14 @@ public class CivGame extends PApplet {
 	public void mousePressed()
 	{
 		menuSystem.queueClick(mouseX, mouseY);
+		if (mouseButton == LEFT)
+		{
+			inputSystem.passLeftMouseClick(mouseX, mouseY);
+		}
+		else if (mouseButton == RIGHT)
+		{
+			//Pass a right click to input system
+		}
 	}
 
 	public void keyPressed()
@@ -186,6 +197,7 @@ public class CivGame extends PApplet {
 		}
 		int[][] biomes = assignBiome(terrain);
 		grid = new Grid(terrain, biomes, assignResources(biomes), numCivs, (int)cutoff);
+		//player = new Player(grid.civs[0]);
 		makeRivers(biomes); 
 		
 		//grid.setupTiles(terrain);
