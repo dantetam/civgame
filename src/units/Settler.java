@@ -24,6 +24,11 @@ public class Settler extends GameEntity {
 		{
 			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
 			aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			System.out.println("list VVV");
+			for (int i = 0; i < queueTiles.size(); i++)
+			{
+				System.out.println(queueTiles.get(i).row + " " + queueTiles.get(i).col);
+			}
 			queueTiles.remove(queueTiles.size()-1);
 		}
 	}

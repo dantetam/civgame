@@ -41,6 +41,7 @@ public class Player {
 		posY += y;
 		posZ += z;
 	}*/
+	
 	public void update()
 	{
 		float dist = 100;

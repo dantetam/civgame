@@ -71,7 +71,7 @@ public class Grid {
 			//with proper encapsulation
 			//addTile(civs[i], tiles[r][c]);
 
-			BaseEntity en = EntityData.get("Warrior");
+			BaseEntity en = EntityData.get("Settler");
 			addUnit(en,civs[i],r,c);
 		}
 		//makeRivers(terrain);

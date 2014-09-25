@@ -441,6 +441,16 @@ public class CivilizationSystem extends BaseSystem {
 								en.action--;
 							}
 						}
+					}
+				}
+			}
+			for (int r = 0; r < main.grid.rows; r++)
+			{
+				for (int c = 0; c < main.grid.cols; c++)
+				{
+					for (int i = 0; i < main.grid.getTile(r,c).occupants.size(); i++)
+					{
+						GameEntity en = main.grid.getTile(r,c).occupants.get(i);
 						en.action = en.maxAction;
 					}
 				}
