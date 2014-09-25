@@ -313,7 +313,7 @@ public class CivilizationSystem extends BaseSystem {
 							{
 								if (c.population < 3)
 								{
-									double amount = Math.min(tf, c.population*3);
+									double amount = Math.min(tf/2, c.population*3);
 									tf -= amount;
 									c.percentGrowth += 0.1*(amount/c.population*3);
 								}
@@ -322,7 +322,7 @@ public class CivilizationSystem extends BaseSystem {
 							{
 								//civ.food -= c.population*3;
 								//c.percentGrowth += 0.1;
-								double amount = Math.min(civ.food, c.population*3);
+								double amount = Math.min(civ.food/2, c.population*3);
 								civ.food -= amount;
 								c.percentGrowth += 0.1*(amount/c.population*3);
 							}
@@ -382,6 +382,7 @@ public class CivilizationSystem extends BaseSystem {
 				//Declare war on other civilizations
 				for (int j = 0; j < main.grid.civs.length; j++)
 				{
+					if (j == 0) continue;
 					if (main.grid.civs[j].cities.size() > 2)
 					{
 						if (main.grid.civs[j].capital != null && civ.capital != null)
@@ -423,6 +424,7 @@ public class CivilizationSystem extends BaseSystem {
 					for (int i = 0; i < t.occupants.size(); i++)
 					{
 						t.occupants.get(i).owner.food--;
+						if (t.occupants.get(i).owner.equals(main.grid.civs[0]))
 						t.occupants.get(i).tick();
 						//System.out.println("yoo");
 					}

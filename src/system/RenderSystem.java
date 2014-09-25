@@ -177,24 +177,12 @@ public class RenderSystem extends BaseSystem {
 					return;
 				}
 			}*/
-			if (main.grid.getTile(r,c).owner != null)
-			{
-				Civilization civ = t.owner;
-				main.stroke(civ.r, civ.g, civ.b);
-				if (t.harvest)
-				{
-					main.strokeWeight(5);
-				}
-				else
-				{
-					main.strokeWeight(1);
-				}
-			}
+			
 			sampleSize = 1;
 			main.pushMatrix();
 			
 			Entity temp = new Entity();
-			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 5, widthBlock*sampleSize);
+			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 1, widthBlock*sampleSize);
 			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			if (main.player.lookingAtEntity(temp))
 			{
@@ -202,6 +190,22 @@ public class RenderSystem extends BaseSystem {
 				//main.fill(0);
 				main.stroke(0,0,255);
 				main.strokeWeight(8);
+			}
+			else
+			{
+				if (main.grid.getTile(r,c).owner != null)
+				{
+					Civilization civ = t.owner;
+					main.stroke(civ.r, civ.g, civ.b);
+					if (t.harvest)
+					{
+						main.strokeWeight(5);
+					}
+					else
+					{
+						main.strokeWeight(1);
+					}
+				}
 			}
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
