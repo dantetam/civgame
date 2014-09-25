@@ -4,6 +4,7 @@ import game.Tile;
 
 import java.util.ArrayList;
 
+import data.EntityData;
 import processing.core.PApplet;
 import render.Button;
 import render.CivGame;
@@ -19,6 +20,7 @@ public class MenuSystem extends BaseSystem {
 	public boolean minimap = false;
 	public int multiplier = 1;
 	
+	public Tile target;
 	public ArrayList<String> hintText;
 
 	public MenuSystem(CivGame civGame) {
@@ -59,7 +61,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			//main.rect(0, 700, 50, 50);
 			int con = 2;
-			float sX = 0; float sY = 400; float widthX = main.grid.rows*con*multiplier; float widthY = main.grid.cols*con*multiplier; 
+			float sX = 0; float sY = 400; float widthX = 400; float widthY = 400; 
 			for (int r = 0; r < main.grid.rows; r += con)
 			{
 				for (int c = 0; c < main.grid.cols; c += con)
@@ -81,7 +83,7 @@ public class MenuSystem extends BaseSystem {
 						main.fill(150,225,255);
 					}
 					//System.out.println(sX + r/(float)main.grid.rows*widthX);
-					main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,con*multiplier,con*multiplier);
+					main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,widthX*con/main.grid.rows,widthY*con/main.grid.cols);
 				}
 			}
 		}
@@ -91,6 +93,41 @@ public class MenuSystem extends BaseSystem {
 		main.fill(0);
 		main.rect((main.width - width)/2, (main.height - width)/2, width, width);
 		
+		hintText.clear();
+		if (target != null)
+		{
+			hintText.add(target.row + " " + target.col);
+			if (target.owner != null)
+				hintText.add("Owner: " + target.owner.name);
+			else
+				hintText.add("Terra nullius");
+			
+			if (target.biome >= 4 && target.biome <= 6)
+			{
+				if (target.forest)
+					hintText.add(EntityData.getBiome(target.biome) + " (forested)");
+				else
+					hintText.add(EntityData.getBiome(target.biome) + " (unforested)");
+			}
+			else
+			{
+				hintText.add(EntityData.getBiome(target.biome));
+			}
+			
+			if (target.improvement != null)
+				hintText.add(target.improvement.name);
+			else
+				hintText.add("Pristine");
+			
+			if (target.city != null)
+			{
+				double[] data = target.city.evaluate(target, null);
+				hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
+			}
+			
+			if (target.freshWater)
+				hintText.add("Fresh Water");
+		}
 		if (hintText.size() > 0)
 		{
 			main.stroke(255);
@@ -100,6 +137,7 @@ public class MenuSystem extends BaseSystem {
 			main.textSize(12);
 			for (int i = 0; i < hintText.size(); i++)
 			{
+				main.textAlign(main.LEFT);
 				main.text(hintText.get(i), main.width*5/6 + 15, main.height*5/6 + 15*(i+1));
 			}
 		}

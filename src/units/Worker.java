@@ -61,7 +61,7 @@ public class Worker extends GameEntity {
 					en.queueTurns = 6;
 					en.queue = "Farm";
 				}
-				else if (en.location.shape == 1)
+				if (en.location.shape == 1)
 				{
 					en.queueTurns = 6;
 					en.queue = "Mine";

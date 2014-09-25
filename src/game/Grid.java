@@ -53,7 +53,9 @@ public class Grid {
 		}
 		for (int i = 0; i < civs.length; i++)
 		{
-			Civilization civ = new Civilization("Civilization " + Long.toString((long)(System.currentTimeMillis()*Math.random())));
+			Civilization civ = new Civilization("Civilization " + Double.toString(
+					Math.floor(Math.sqrt(System.currentTimeMillis()*Math.random()))
+					));
 			civ.r = (float)(Math.random()*255);
 			civ.g = (float)(Math.random()*255);
 			civ.b = (float)(Math.random()*255);

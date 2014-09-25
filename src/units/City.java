@@ -133,11 +133,17 @@ public class City extends TileEntity {
 		{
 			f--;
 			m++;
+			if (t.improvement != null)
+				if (t.improvement.name.equals("Mine"))
+					m++;
 		}
 		else if (t.shape == 2)
 		{
-			f -= 2;
-			m += 2;
+			f -= 1;
+			m += 1;
+			if (t.improvement != null)
+				if (t.improvement.name.equals("Mine"))
+					m+=2;
 		}
 		if (t.improvement != null)
 		{
@@ -210,6 +216,16 @@ public class City extends TileEntity {
 		if (location.equals(t))
 		{
 			f = 1; g = 2; m = 1; r = 2;
+			if (owner.capital != null)
+			{
+				if (owner.capital.equals(this))
+				{
+					f = 3;
+					g = 3;
+					m = 2;
+					r = 3;
+				}
+			}
 		}
 		if (focus == null)
 		{
