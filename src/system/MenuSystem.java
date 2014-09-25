@@ -122,7 +122,10 @@ public class MenuSystem extends BaseSystem {
 			if (target.city != null)
 			{
 				double[] data = target.city.evaluate(target, null);
+<<<<<<< HEAD
 				hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
+=======
+>>>>>>> 009f628fe769ff9168895de75c235b3546760aa0
 			}
 			
 			if (target.freshWater)
