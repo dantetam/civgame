@@ -24,10 +24,8 @@ public abstract class BaseEntity {
 		name = other.name; 
 	}
 	
-	public void tick()
-	{
-		
-	}
+	public void tick() {}
+	public void playerTick() {};
 	
 	public abstract String getName();
 	

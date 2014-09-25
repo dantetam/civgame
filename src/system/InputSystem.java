@@ -1,6 +1,7 @@
 package system;
 
 import game.GameEntity;
+import game.Tile;
 
 import java.util.ArrayList;
 
@@ -140,9 +141,9 @@ public class InputSystem extends BaseSystem {
 	//private int num = 0;
 	public void passLeftMouseClick(float mouseX, float mouseY)
 	{
-		if (on)
+		if (on && main.menuSystem.highlighted != null)
 		{
-			if (main.menuSystem.highlighted.size() > 0)
+			if (main.menuSystem.highlighted.occupants.size() > 0)
 			{
 				/*if (main.menuSystem.highlighted.equals(lastList))
 				{
@@ -156,10 +157,10 @@ public class InputSystem extends BaseSystem {
 				{
 					num = 0;
 				}*/
-				int r = (int)(main.menuSystem.highlighted.size()*Math.random()); 
-				if (main.menuSystem.highlighted.get(r).owner.equals(main.grid.civs[0]))
+				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
+				if (main.menuSystem.highlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
 				{
-					main.menuSystem.selected = main.menuSystem.highlighted.get(r);
+					main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
 				}
 				else
 				{
@@ -170,6 +171,29 @@ public class InputSystem extends BaseSystem {
 			else
 			{
 				main.menuSystem.selected = null;
+			}
+		}
+	}
+	
+	public void passRightMouseClick(float mouseX, float mouseY)
+	{
+		GameEntity en = main.menuSystem.selected;
+		Tile t = main.menuSystem.highlighted;
+		if (on && en != null && t != null)
+		{
+			if (t.biome != -1)
+			{
+				int r = t.row - en.location.row;
+				int c = t.col - en.location.col;
+				System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
+				System.out.println(r + " " + c);
+				en.queueTiles.clear();
+				en.waddleTo(r,c);
+				while (en.action > 0)
+				{
+					en.tick();
+					en.action--;
+				}
 			}
 		}
 	}

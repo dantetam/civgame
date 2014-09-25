@@ -406,7 +406,7 @@ public class CivilizationSystem extends BaseSystem {
 				//Begin starvation if there is lack of food
 				if (civ.food <= -10)
 				{
-					if (Math.random() < 0.2 && civ.units.size() > 0)
+					if (Math.random() < 0.2 && civ.units.size() > 5)
 					{
 						main.grid.removeUnit(civ.units.get((int)(Math.random()*civ.units.size())));
 					}
@@ -433,6 +433,14 @@ public class CivilizationSystem extends BaseSystem {
 								en.action--;
 							}
 						}
+						else
+						{
+							while (en.action > 0)
+							{
+								t.occupants.get(i).playerTick();
+								en.action--;
+							}
+						}
 						en.action = en.maxAction;
 					}
 				}
@@ -440,7 +448,7 @@ public class CivilizationSystem extends BaseSystem {
 		}
 	}	
 
-	public void sacrifice(GameEntity en)
+	/*public void sacrifice(GameEntity en)
 	{
 		if (en instanceof Settler)
 		{
@@ -474,6 +482,6 @@ public class CivilizationSystem extends BaseSystem {
 			//Remove the settler
 			main.grid.removeUnit(en);
 		}
-	}
+	}*/
 
 }

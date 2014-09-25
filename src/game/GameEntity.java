@@ -11,7 +11,7 @@ public abstract class GameEntity extends BaseEntity {
 
 	public ArrayList<Tile> queueTiles = new ArrayList<Tile>();
 	public int action = 1, maxAction = 1;
-	
+
 	public GameEntity(String name)
 	{
 		super(name);
@@ -25,14 +25,15 @@ public abstract class GameEntity extends BaseEntity {
 	//public abstract String getName();
 
 	public abstract void tick();
-
+	public abstract void playerTick();
+	
 	public void waddle()
 	{
 		if (queueTiles.size() > 0)
 		{
 			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
-			passiveWaddle(queueTiles.get(0).row - location.row, queueTiles.get(0).col - location.col);
-			queueTiles.remove(0);
+			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			queueTiles.remove(queueTiles.size()-1);
 		}
 		else
 		{
@@ -44,9 +45,16 @@ public abstract class GameEntity extends BaseEntity {
 
 	public void waddleTo(int r, int c)
 	{
-		if (location.grid.getTile(location.row+r,location.col+c) == null)
+		if (location.grid.getTile(location.row+r,location.col+c) != null)
 		{
 			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(location.row,location.col,location.row+r,location.col+c);
+			if (owner.name.equals("Player"))
+			{
+				for (int i = 0; i < tiles.size(); i++)
+				{
+					System.out.println(tiles.get(i).row + " " + tiles.get(i).col);
+				}
+			}
 			if (tiles != null)
 			{
 				if (tiles.size() > 0)

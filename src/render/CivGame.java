@@ -86,6 +86,7 @@ public class CivGame extends PApplet {
 		
 		//Set it manually
 		player.civ = grid.civs[0];
+		player.civ.name = "Player";
 	}
 
 	public void draw()
@@ -108,6 +109,7 @@ public class CivGame extends PApplet {
 		else if (mouseButton == RIGHT)
 		{
 			//Pass a right click to input system
+			inputSystem.passRightMouseClick(mouseX, mouseY);
 		}
 	}
 

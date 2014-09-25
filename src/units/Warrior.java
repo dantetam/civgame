@@ -17,12 +17,22 @@ public class Warrior extends GameEntity {
 		offensiveStr = 2; rangedStr = 0; defensiveStr = 2;
 	}
 
+	public void playerTick()
+	{
+		if (queueTiles.size() > 0)
+		{
+			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
+			aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			queueTiles.remove(queueTiles.size()-1);
+		}
+	}
+	
 	public void tick()
 	{
 		if (queueTiles.size() > 0)
 		{
-			aggressiveWaddle(queueTiles.get(0).row - location.row, queueTiles.get(0).col - location.col);
-			queueTiles.remove(0);
+			aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			queueTiles.remove(queueTiles.size()-1);
 			Tile t = adjacentEnemy();
 			if (t != null)
 			{

@@ -23,7 +23,7 @@ public class MenuSystem extends BaseSystem {
 	
 	public Tile target;
 	public ArrayList<String> hintText;
-	public ArrayList<GameEntity> highlighted; //Under the player's crosshair
+	public Tile highlighted; //Under the player's crosshair
 	public GameEntity selected; //Selected by the player with the mouse explicitly
 
 	public MenuSystem(CivGame civGame) {
@@ -32,7 +32,7 @@ public class MenuSystem extends BaseSystem {
 		clicks = new ArrayList<Click>();
 
 		hintText = new ArrayList<String>();
-		highlighted = new ArrayList<GameEntity>();
+		//highlighted = null;
 		
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
@@ -133,15 +133,16 @@ public class MenuSystem extends BaseSystem {
 			if (target.freshWater)
 				hintText.add("Fresh Water");
 			
-			if (highlighted.size() > 0)
-			{
-				String stringy = "";
-				for (int i = 0; i < highlighted.size(); i++)
+			if (highlighted != null)
+				if (highlighted.occupants.size() > 0)
 				{
-					stringy += highlighted.get(i).name + "; ";
-					hintText.add(stringy);
+					String stringy = "";
+					for (int i = 0; i < highlighted.occupants.size(); i++)
+					{
+						stringy += highlighted.occupants.get(i).name + "; ";
+						hintText.add(stringy);
+					}
 				}
-			}
 		}
 		if (selected != null)
 		{

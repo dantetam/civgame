@@ -22,9 +22,9 @@ public class Player {
 	{
 		//this.civ = civ;
 		//moved = new ArrayList<GameEntity>();
-		posX = 2000;
+		posX = 1000;
 		posY = 300;
-		posZ = 2000;
+		posZ = 1000;
 		update();
 	}
 

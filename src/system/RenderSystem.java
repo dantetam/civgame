@@ -190,13 +190,13 @@ public class RenderSystem extends BaseSystem {
 				//main.fill(0);
 				main.stroke(0,0,255);
 				main.strokeWeight(8);
-				if (main.grid.getTile(r,c).occupants.size() > 0)
+				if (main.grid.getTile(r,c) != null)
 				{
-					main.menuSystem.highlighted = main.grid.getTile(r,c).occupants;
+					main.menuSystem.highlighted = main.grid.getTile(r,c);
 				}
 				else
 				{
-					main.menuSystem.highlighted = new ArrayList<GameEntity>();
+					main.menuSystem.highlighted = null;
 				}
 			}
 			else

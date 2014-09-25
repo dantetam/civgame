@@ -104,7 +104,7 @@ public class Pathfinder {
 
 	public ArrayList<Tile> findAdjustedPath(int x1, int y1, int x2, int y2)
 	{
-		ArrayList<Tile> temp = findPath(x1,y1,x2,y2,false);
+		ArrayList<Tile> temp = findPath(x1,y1,x2,y2,true);
 		if (temp == null) return null;
 		if (!temp.get(0).equals(grid.getTile(end.r,end.c)))
 		{
