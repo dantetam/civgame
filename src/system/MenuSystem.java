@@ -1,5 +1,6 @@
 package system;
 
+import game.GameEntity;
 import game.Tile;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class MenuSystem extends BaseSystem {
 	
 	public Tile target;
 	public ArrayList<String> hintText;
+	public ArrayList<GameEntity> highlighted; //Under the player's crosshair
+	public GameEntity selected; //Selected by the player with the mouse explicitly
 
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
@@ -29,6 +32,7 @@ public class MenuSystem extends BaseSystem {
 		clicks = new ArrayList<Click>();
 
 		hintText = new ArrayList<String>();
+		highlighted = new ArrayList<GameEntity>();
 		
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
@@ -103,16 +107,12 @@ public class MenuSystem extends BaseSystem {
 				hintText.add("Terra nullius");
 			
 			if (target.biome >= 4 && target.biome <= 6)
-			{
 				if (target.forest)
 					hintText.add(EntityData.getBiome(target.biome) + " (forested)");
 				else
 					hintText.add(EntityData.getBiome(target.biome) + " (unforested)");
-			}
 			else
-			{
 				hintText.add(EntityData.getBiome(target.biome));
-			}
 			
 			if (target.improvement != null)
 				hintText.add(target.improvement.name);
@@ -127,6 +127,16 @@ public class MenuSystem extends BaseSystem {
 			
 			if (target.freshWater)
 				hintText.add("Fresh Water");
+			
+			if (highlighted.size() > 0)
+			{
+				String stringy = "";
+				for (int i = 0; i < highlighted.size(); i++)
+				{
+					stringy += highlighted.get(i).name + "; ";
+					hintText.add(stringy);
+				}
+			}
 		}
 		if (hintText.size() > 0)
 		{

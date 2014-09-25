@@ -424,8 +424,8 @@ public class CivilizationSystem extends BaseSystem {
 					for (int i = 0; i < t.occupants.size(); i++)
 					{
 						t.occupants.get(i).owner.food--;
-						if (t.occupants.get(i).owner.equals(main.grid.civs[0]))
-						t.occupants.get(i).tick();
+						if (!t.occupants.get(i).owner.equals(main.grid.civs[0]))
+							t.occupants.get(i).tick();
 						//System.out.println("yoo");
 					}
 				}
