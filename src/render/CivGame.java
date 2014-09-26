@@ -35,6 +35,7 @@ public class CivGame extends PApplet {
 	
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
+	public float width = 1500, height = 900;
 	//public PGraphics pg;
 	public MenuSystem menuSystem = new MenuSystem(this);
 
@@ -53,10 +54,10 @@ public class CivGame extends PApplet {
 
 		systems = new ArrayList<BaseSystem>();
 
-		systems.add(inputSystem);
 		systems.add(civilizationSystem);
 		systems.add(renderSystem);
 		systems.add(menuSystem);
+		systems.add(inputSystem);
 	}
 
 	public void setup()
@@ -104,12 +105,12 @@ public class CivGame extends PApplet {
 		menuSystem.queueClick(mouseX, mouseY);
 		if (mouseButton == LEFT)
 		{
-			inputSystem.passLeftMouseClick(mouseX, mouseY);
+			inputSystem.queueLeftClick(mouseX, mouseY);
 		}
 		else if (mouseButton == RIGHT)
 		{
 			//Pass a right click to input system
-			inputSystem.passRightMouseClick(mouseX, mouseY);
+			inputSystem.queueRightClick(mouseX, mouseY);
 		}
 	}
 
@@ -141,8 +142,8 @@ public class CivGame extends PApplet {
 		player.posX = r*renderSystem.widthBlock;
 		player.posY = 80;
 		player.posZ = c*renderSystem.widthBlock;
-		player.rotY = 0;
-		player.rotVertical = 0;
+		//player.rotY = 0;
+		//player.rotVertical = 0;
 		//player.update();
 	}
 

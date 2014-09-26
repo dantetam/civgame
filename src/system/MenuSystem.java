@@ -1,5 +1,6 @@
 package system;
 
+import game.BaseEntity;
 import game.GameEntity;
 import game.Tile;
 
@@ -16,15 +17,15 @@ public class MenuSystem extends BaseSystem {
 
 	public ArrayList<Menu> menus;
 	private ArrayList<Click> clicks;
-	public Menu activeMenu;
 
 	public boolean minimap = false;
 	public int multiplier = 1;
-	
+
 	public Tile target;
 	public ArrayList<String> hintText;
 	public Tile highlighted; //Under the player's crosshair
 	public GameEntity selected; //Selected by the player with the mouse explicitly
+	public String typeOfLastSelected = "";
 
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
@@ -33,15 +34,19 @@ public class MenuSystem extends BaseSystem {
 
 		hintText = new ArrayList<String>();
 		//highlighted = null;
-		
+
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
 		menu0.addButton("exitgame", "Exit", 0, 0, 100, 30);
 		menu0.addButton("minimap", "Minimap", 0, 800, 100, 50);
 
-		activeMenu = menu0;
+		Menu menu1 = new Menu("UnitMenu");
+		menus.add(menu1);
+
+		menu0.active = true;
 	}
 
+	public boolean menuActivated = false;
 	public void tick()
 	{
 		main.hint(PApplet.DISABLE_DEPTH_TEST);
@@ -51,14 +56,20 @@ public class MenuSystem extends BaseSystem {
 		main.perspective();
 		//main.noLights();
 		main.noStroke();
-		for (int i = 0; i < activeMenu.buttons.size(); i++)
+		for (int menu = 0; menu < menus.size(); menu++)
 		{
-			main.fill(0);
-			Button b = activeMenu.buttons.get(i);
-			main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-			main.textAlign(PApplet.CENTER, PApplet.CENTER);
-			main.fill(255);
-			main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+			if (menus.get(menu).active)
+			{
+				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+				{
+					main.fill(0);
+					Button b = menus.get(menu).buttons.get(i);
+					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+					main.textAlign(PApplet.CENTER, PApplet.CENTER);
+					main.fill(255);
+					main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+				}
+			}
 		}
 
 		if (minimap)
@@ -96,12 +107,12 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
-		
+
 		int width = 6;
 		main.stroke(255);
 		main.fill(0);
 		main.rect((main.width - width)/2, (main.height - width)/2, width, width);
-		
+
 		hintText.clear();
 		if (target != null)
 		{
@@ -110,7 +121,7 @@ public class MenuSystem extends BaseSystem {
 				hintText.add("Owner: " + target.owner.name);
 			else
 				hintText.add("Terra nullius");
-			
+
 			if (target.biome >= 4 && target.biome <= 6)
 				if (target.forest)
 					hintText.add(EntityData.getBiome(target.biome) + " (forested)");
@@ -118,21 +129,21 @@ public class MenuSystem extends BaseSystem {
 					hintText.add(EntityData.getBiome(target.biome) + " (unforested)");
 			else
 				hintText.add(EntityData.getBiome(target.biome));
-			
+
 			if (target.improvement != null)
 				hintText.add(target.improvement.name);
 			else
 				hintText.add("Pristine");
-			
+
 			if (target.city != null)
 			{
 				double[] data = target.city.evaluate(target, null);
 				hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
 			}
-			
+
 			if (target.freshWater)
 				hintText.add("Fresh Water");
-			
+
 			if (highlighted != null)
 				if (highlighted.occupants.size() > 0)
 				{
@@ -151,20 +162,30 @@ public class MenuSystem extends BaseSystem {
 			main.rect(main.width*4/6,main.height*5/6,200,150);
 			main.fill(255);
 			main.textSize(12);
-			
+
 			ArrayList<String> temp = new ArrayList<String>();
 			temp.add(selected.name + " " + selected.action + "/" + selected.maxAction);
 			temp.add(selected.offensiveStr + " offensive / " + selected.rangedStr + " ranged");
 			temp.add(selected.defensiveStr + " defensive");
-			
+
 			for (int i = 0; i < temp.size(); i++)
 			{
 				main.textAlign(main.LEFT);
 				main.text(temp.get(i), main.width*4/6 + 15, main.height*5/6 + 15*(i+1));
 			}
+
+			if (!typeOfLastSelected.equals(selected.name))
+			{
+				updateUnitMenu(selected.name);
+			}
+			menus.get(1).active = true;
 			//main.text("Test", main.width*5/6 + 15, main.height*5/6 + 15);
 		}
-		
+		else
+		{
+			menus.get(1).active = false;
+		}
+
 		if (hintText.size() > 0)
 		{
 			main.stroke(255);
@@ -178,7 +199,7 @@ public class MenuSystem extends BaseSystem {
 				main.text(hintText.get(i), main.width*5/6 + 15, main.height*5/6 + 15*(i+1));
 			}
 		}
-		
+
 		main.hint(PApplet.ENABLE_DEPTH_TEST);
 		/*main.pg.beginDraw();
 		//main.perspective();
@@ -202,18 +223,26 @@ public class MenuSystem extends BaseSystem {
 		main.lights();
 		main.pg.endDraw();
 		main.image(main.pg, 1500, 900);*/
-		for (int i = clicks.size() - 1; i >= 0; i--)
+		menuActivated = false;
+		for (int menu = 0; menu < menus.size(); menu++)
 		{
-			String command = activeMenu.click(clicks.get(i).mouseX, clicks.get(i).mouseY);
-			if (command != null && !command.equals(""))
+			if (menus.get(menu).active)
 			{
-				if (command.equals("exitgame"))
+				for (int i = clicks.size() - 1; i >= 0; i--)
 				{
-					System.exit(0);
-				}
-				else if (command.equals("minimap"))
-				{
-					minimap = !minimap;
+					String command = menus.get(menu).click(clicks.get(i).mouseX, clicks.get(i).mouseY);
+					if (command != null && !command.equals(""))
+					{
+						menuActivated = true;
+						if (command.equals("exitgame"))
+						{
+							System.exit(0);
+						}
+						else if (command.equals("minimap"))
+						{
+							minimap = !minimap;
+						}
+					}
 				}
 			}
 		}
@@ -224,6 +253,17 @@ public class MenuSystem extends BaseSystem {
 	public void queueClick(float mouseX, float mouseY)
 	{
 		clicks.add(0, new Click(mouseX, mouseY));
+	}
+
+	public void updateUnitMenu(String name)
+	{
+		menus.get(1).buttons.clear();
+		menus.get(1).addButton("kill", "Destroy", (float)main.width/3F, (float)main.height*5F/6F, 50, 50);
+		if (name.equals("Settler"))
+		{
+			menus.get(1).addButton("settle", "Settle", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+		}
+		//System.out.println(menus.get(1).buttons.size());
 	}
 
 

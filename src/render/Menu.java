@@ -6,11 +6,13 @@ public class Menu {
 
 	public ArrayList<Button> buttons;
 	public String name;
+	public boolean active;
 
 	public Menu(String name)
 	{
 		this.name = name;
 		buttons = new ArrayList<Button>();
+		active = false;
 	}
 
 	public void addButton(String command, String display, float a, float b, float c, float d)

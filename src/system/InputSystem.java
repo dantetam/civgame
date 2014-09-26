@@ -7,6 +7,7 @@ import game.Tile;
 import java.util.ArrayList;
 
 import render.CivGame;
+import system.MenuSystem.Click;
 
 public class InputSystem extends BaseSystem {
 
@@ -97,6 +98,19 @@ public class InputSystem extends BaseSystem {
 			//System.out.println("Update");
 		}
 		lastMoving = moving;
+		for (int i = clicks.size() - 1; i >= 0; i--)
+		{
+			Click c = clicks.get(i);
+			if (c.type.equals("Left"))
+			{
+				passLeftMouseClick(c.mouseX, c.mouseY);
+			}
+			else if (c.type.equals("Right"))
+			{
+				passRightMouseClick(c.mouseX, c.mouseY);
+			}
+			clicks.remove(i);
+		}
 	}
 
 	//Stores which keys are being held (such as panning with WASD)
@@ -118,23 +132,32 @@ public class InputSystem extends BaseSystem {
 		}
 	}
 
-	public float lastMouseX = main.width/2; public float lastMouseY = main.height/2;
+	//public float lastMouseX = main.width/2; //public float lastMouseY = main.height/2;
 	public void passMouse(float mouseX, float mouseY)
 	{
 		if (on)
 		{
-			float dX = mouseX - lastMouseX;
-			float dY = mouseY - lastMouseY;
-			main.player.rotY -= dX/125; //Axis is weird, oh well
-			main.player.rotVertical -= dY/125;
+			float dX = (mouseX - main.width/2)/(main.width/2);
+			float dY = (mouseY - main.height/2)/(main.height/2);
+			main.player.rotY = -(float)Math.PI*dX; //Axis is weird, oh well
+			main.player.rotVertical = (float)Math.PI/4*dY;
 			main.player.update();
 			if (Math.abs(dX) <= 20)
 			{
 				main.chunkSystem.update();
 			}
-			lastMouseX = mouseX;
-			lastMouseY = mouseY;
 		}
+	}
+	
+	public ArrayList<Click> clicks = new ArrayList<Click>();
+	public class Click {String type; float mouseX, mouseY; Click(String t, float x, float y) {type = t; mouseX = x; mouseY = y;}}
+	public void queueLeftClick(float mouseX, float mouseY)
+	{
+		clicks.add(0, new Click("Left",mouseX, mouseY));
+	}
+	public void queueRightClick(float mouseX, float mouseY)
+	{
+		clicks.add(0, new Click("Right",mouseX, mouseY));
 	}
 	
 	//Make a system to cycle through units on a list
@@ -142,7 +165,7 @@ public class InputSystem extends BaseSystem {
 	//private int num = 0;
 	public void passLeftMouseClick(float mouseX, float mouseY)
 	{
-		if (on && main.menuSystem.highlighted != null)
+		if (on && main.menuSystem.highlighted != null && !main.menuSystem.menuActivated)
 		{
 			if (main.menuSystem.highlighted.occupants.size() > 0)
 			{
@@ -186,8 +209,8 @@ public class InputSystem extends BaseSystem {
 			{
 				int r = t.row - en.location.row;
 				int c = t.col - en.location.col;
-				System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
-				System.out.println(r + " " + c);
+				//System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
+				//System.out.println(r + " " + c);
 				en.queueTiles.clear();
 				en.waddleTo(r,c);
 				while (en.action > 0)
@@ -228,7 +251,7 @@ public class InputSystem extends BaseSystem {
 				if (en.action > 0 && en.queueTiles.size() == 0)
 				{
 					main.fixCamera(en.location.row, en.location.col);
-					lastMouseX = main.mouseX; lastMouseY = main.mouseY;
+					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
 					main.menuSystem.selected = en;
 					return;
 				}
