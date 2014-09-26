@@ -12,6 +12,8 @@ import render.Button;
 import render.CivGame;
 import render.Menu;
 import render.Game.PFrame;
+import units.City;
+import units.Settler;
 
 public class MenuSystem extends BaseSystem {
 
@@ -26,6 +28,7 @@ public class MenuSystem extends BaseSystem {
 	public Tile highlighted; //Under the player's crosshair
 	public GameEntity selected; //Selected by the player with the mouse explicitly
 	public String typeOfLastSelected = "";
+	public City citySelected;
 
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
@@ -42,6 +45,9 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
+		
+		Menu menu2 = new Menu("CityMenu");
+		menus.add(menu2);
 
 		menu0.active = true;
 	}
@@ -157,33 +163,73 @@ public class MenuSystem extends BaseSystem {
 		}
 		if (selected != null)
 		{
-			main.stroke(255);
-			main.fill(0);
-			main.rect(main.width*4/6,main.height*5/6,200,150);
-			main.fill(255);
-			main.textSize(12);
-
-			ArrayList<String> temp = new ArrayList<String>();
-			temp.add(selected.name + " " + selected.action + "/" + selected.maxAction);
-			temp.add(selected.offensiveStr + " offensive / " + selected.rangedStr + " ranged");
-			temp.add(selected.defensiveStr + " defensive");
-
-			for (int i = 0; i < temp.size(); i++)
+			if (selected.owner != null)
 			{
-				main.textAlign(main.LEFT);
-				main.text(temp.get(i), main.width*4/6 + 15, main.height*5/6 + 15*(i+1));
-			}
+				main.stroke(255);
+				main.fill(0);
+				main.rect(main.width*4/6,main.height*5/6,200,150);
+				main.fill(255);
+				main.textSize(12);
 
-			if (!typeOfLastSelected.equals(selected.name))
-			{
-				updateUnitMenu(selected.name);
+				ArrayList<String> temp = new ArrayList<String>();
+				temp.add(selected.name + " " + selected.action + "/" + selected.maxAction);
+				temp.add(selected.offensiveStr + " offensive / " + selected.rangedStr + " ranged");
+				temp.add(selected.defensiveStr + " defensive");
+
+				for (int i = 0; i < temp.size(); i++)
+				{
+					main.textAlign(PApplet.LEFT);
+					main.text(temp.get(i), main.width*4/6 + 15, main.height*5/6 + 15*(i+1));
+				}
+
+				if (!typeOfLastSelected.equals(selected.name))
+				{
+					updateUnitMenu(selected.name);
+				}
+				menus.get(1).active = true;
+				//main.text("Test", main.width*5/6 + 15, main.height*5/6 + 15);
 			}
-			menus.get(1).active = true;
-			//main.text("Test", main.width*5/6 + 15, main.height*5/6 + 15);
+			else
+			{
+				menus.get(1).active = false;
+			}
 		}
 		else
 		{
 			menus.get(1).active = false;
+		}
+		
+		menus.get(2).active = false;
+		if (citySelected != null)
+		{
+			if (citySelected.owner.equals(main.grid.civs[0]))
+			{
+				menus.get(2).active = true;
+				
+				main.stroke(255);
+				main.fill(0);
+				main.rect(main.width*3/6,main.height*5/6,200,150);
+				main.fill(255);
+				main.textSize(12);
+
+				ArrayList<String> temp = new ArrayList<String>();
+				temp.add(citySelected.name + "; Population: " + citySelected.population);
+				temp.add("Health: " + citySelected.health + ", Happiness: " + citySelected.happiness);
+				if (citySelected.queueTurns > 0)
+				{
+					temp.add("Queued " + citySelected.queue + ", ready in " + citySelected.queueTurns + " turns.");
+				}
+				else
+				{
+					temp.add("Nothing queued.");
+				}
+
+				for (int i = 0; i < temp.size(); i++)
+				{
+					main.textAlign(PApplet.LEFT);
+					main.text(temp.get(i), main.width*3/6 + 15, main.height*5/6 + 15*(i+1));
+				}
+			}
 		}
 
 		if (hintText.size() > 0)
@@ -242,6 +288,22 @@ public class MenuSystem extends BaseSystem {
 						{
 							minimap = !minimap;
 						}
+						
+						else if (command.equals("kill"))
+						{
+							main.grid.removeUnit(selected);
+						}
+						else if (command.equals("settle"))
+						{
+							((Settler)selected).settle();
+						}
+						
+						else if (command.equals("queueSettler"))
+						{
+							System.out.println("Queued");
+							citySelected.queue = "Settler";
+							citySelected.queueFood = 35;
+						}
 					}
 				}
 			}
@@ -255,6 +317,7 @@ public class MenuSystem extends BaseSystem {
 		clicks.add(0, new Click(mouseX, mouseY));
 	}
 
+	//Choose which buttons to show depending on unit (e.g. only settler can settle)
 	public void updateUnitMenu(String name)
 	{
 		menus.get(1).buttons.clear();
@@ -264,6 +327,13 @@ public class MenuSystem extends BaseSystem {
 			menus.get(1).addButton("settle", "Settle", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
 		//System.out.println(menus.get(1).buttons.size());
+	}
+	
+	//Choose which builds to allow i.e. which can be queued up in the city (factor in techs later)
+	public void updateCity(City c)
+	{
+		menus.get(2).buttons.clear();
+		menus.get(2).addButton("queueSettler", "Settler", 500, 500, 100, 100);
 	}
 
 

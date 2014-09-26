@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import render.CivGame;
 import system.MenuSystem.Click;
+import units.City;
 
 public class InputSystem extends BaseSystem {
 
@@ -148,7 +149,7 @@ public class InputSystem extends BaseSystem {
 			}
 		}
 	}
-	
+
 	public ArrayList<Click> clicks = new ArrayList<Click>();
 	public class Click {String type; float mouseX, mouseY; Click(String t, float x, float y) {type = t; mouseX = x; mouseY = y;}}
 	public void queueLeftClick(float mouseX, float mouseY)
@@ -159,7 +160,7 @@ public class InputSystem extends BaseSystem {
 	{
 		clicks.add(0, new Click("Right",mouseX, mouseY));
 	}
-	
+
 	//Make a system to cycle through units on a list
 	//private ArrayList<GameEntity> lastList = null;
 	//private int num = 0;
@@ -167,38 +168,23 @@ public class InputSystem extends BaseSystem {
 	{
 		if (on && main.menuSystem.highlighted != null && !main.menuSystem.menuActivated)
 		{
+			main.menuSystem.selected = null;
 			if (main.menuSystem.highlighted.occupants.size() > 0)
 			{
-				/*if (main.menuSystem.highlighted.equals(lastList))
-				{
-					num++;
-					if (main.menuSystem.highlighted.size() == num)
-					{
-						num = 0;
-					}
-				}
-				else
-				{
-					num = 0;
-				}*/
 				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
 				if (main.menuSystem.highlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
-				{
 					main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
-				}
-				else
+			}
+			if (main.menuSystem.highlighted.improvement != null)
+				if (main.grid.civs[0].cities.contains(main.menuSystem.highlighted.improvement))
 				{
-					main.menuSystem.selected = null;
+					City c = (City)main.menuSystem.highlighted.improvement;
+					main.menuSystem.citySelected = c;
+					main.menuSystem.updateCity(c);
 				}
-				//lastList = main.menuSystem.highlighted;
-			}
-			else
-			{
-				main.menuSystem.selected = null;
-			}
 		}
 	}
-	
+
 	public void passRightMouseClick(float mouseX, float mouseY)
 	{
 		GameEntity en = main.menuSystem.selected;
