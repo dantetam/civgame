@@ -48,13 +48,13 @@ public abstract class GameEntity extends BaseEntity {
 		if (location.grid.getTile(location.row+r,location.col+c) != null)
 		{
 			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(location.row,location.col,location.row+r,location.col+c);
-			if (owner.name.equals("Player"))
+			/*if (owner.name.equals("Player"))
 			{
 				for (int i = 0; i < tiles.size(); i++)
 				{
 					System.out.println(tiles.get(i).row + " " + tiles.get(i).col);
 				}
-			}
+			}*/
 			if (tiles != null)
 			{
 				if (tiles.size() > 0)

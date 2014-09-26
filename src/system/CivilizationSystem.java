@@ -388,8 +388,8 @@ public class CivilizationSystem extends BaseSystem {
 						if (main.grid.civs[j].capital != null && civ.capital != null)
 						{
 							if (civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
-									Math.random() < 0.01 &&
-									civ.capital.location.dist(main.grid.civs[j].capital.location) < 50)
+									Math.random() < 0.1 &&
+									civ.capital.location.dist(main.grid.civs[j].capital.location) < 500)
 							{
 								//System.out.println("war");
 								civ.enemies.add(main.grid.civs[j]);

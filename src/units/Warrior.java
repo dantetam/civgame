@@ -45,7 +45,11 @@ public class Warrior extends GameEntity {
 			Tile nearest = nearestEnemyCity();
 			if (nearest != null)
 			{
-				waddleTo(nearest.row, nearest.col);
+				//waddleTo(nearest.row, nearest.col);
+				int r = nearest.row - location.row;
+				int c = nearest.col - location.col;
+				queueTiles.clear();
+				waddleTo(r,c);
 			}
 			else
 			{

@@ -273,7 +273,8 @@ public class RenderSystem extends BaseSystem {
 		if (main.menuSystem.selected != null)
 			if (en.equals(main.menuSystem.selected))
 			{
-				
+				//main.stroke(0,0,255);
+				main.strokeWeight(5);
 			}
 		/*if (en.name.equals("City"))
 			{
@@ -285,6 +286,7 @@ public class RenderSystem extends BaseSystem {
 		//System.out.println(en.name);
 		//System.out.println(EntityData.getModel(en.name));
 		renderModel(en.getName(),r,c,en.owner.r,en.owner.g,en.owner.b);
+		main.noStroke();
 		/*else
 		{
 			main.fill(0);

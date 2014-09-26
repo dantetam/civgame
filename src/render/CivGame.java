@@ -135,6 +135,16 @@ public class CivGame extends PApplet {
 		game.exit();
 		//super.stop();
 	}
+	
+	public void fixCamera(int r, int c)
+	{
+		player.posX = r*renderSystem.widthBlock;
+		player.posY = 80;
+		player.posZ = c*renderSystem.widthBlock;
+		player.rotY = 0;
+		player.rotVertical = 0;
+		//player.update();
+	}
 
 	//Use the appropriate terrain to make a table and then render it by making some entities
 	//Then make a grid out of it

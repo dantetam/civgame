@@ -1,5 +1,6 @@
 package system;
 
+import game.Civilization;
 import game.GameEntity;
 import game.Tile;
 
@@ -220,6 +221,18 @@ public class InputSystem extends BaseSystem {
 		if (key == 32)
 		{
 			//System.out.println("Space");
+			Civilization civ = main.grid.civs[0];
+			for (int i = 0; i < civ.units.size(); i++)
+			{
+				GameEntity en = civ.units.get(i);
+				if (en.action > 0 && en.queueTiles.size() == 0)
+				{
+					main.fixCamera(en.location.row, en.location.col);
+					lastMouseX = main.mouseX; lastMouseY = main.mouseY;
+					main.menuSystem.selected = en;
+					return;
+				}
+			}
 			main.civilizationSystem.requestTurn = true;
 		}
 		else if (key == 'c')
