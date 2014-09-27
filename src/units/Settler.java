@@ -40,6 +40,7 @@ public class Settler extends GameEntity {
 		{
 			//Make the city and set its surrounding tiles to the civilization's territory
 			settle();
+			return;
 		}
 		waddle();
 	}
@@ -80,7 +81,7 @@ public class Settler extends GameEntity {
 			}
 		}
 		//Remove the settler
-		location.grid.removeUnit(en);
+		location.grid.removeUnit(this);
 		return;
 	}
 	

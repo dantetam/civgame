@@ -83,6 +83,27 @@ public class City extends TileEntity {
 		//return returnThis;
 	}
 
+	public int[] quickEval()
+	{
+		int p = population;
+		int happiness = 4 - p;
+		if (happiness < 0)
+			workTiles(p - happiness);
+		else
+			workTiles(population);
+		
+		int[] temp = new int[4];
+		for (int i = 0; i < workedLand.size(); i++)
+		{
+			double[] eval = evaluate(workedLand.get(i), null);
+			temp[0] += eval[0]; 
+			temp[1] += eval[1];
+			temp[2] += eval[2];
+			temp[3] += eval[3];
+		}
+		return temp;
+	}
+	
 	//Returns a score
 	public double[] evaluate(Tile t, String focus)
 	{

@@ -27,7 +27,7 @@ public class CivilizationSystem extends BaseSystem {
 				Civilization civ = main.grid.civs[i];
 				//System.out.println(civ.name + ": " + civ.food + " " + civ.gold + " " + civ.metal + " " + civ.research);
 				//Automatically move the computer players' units
-				if (i != 0)
+				if (true)
 				{
 					for (int j = 0; j < civ.units.size(); j++)
 					{
@@ -140,29 +140,32 @@ public class CivilizationSystem extends BaseSystem {
 
 						//Make some settlers to test
 						int numSettlers = 0, numWorkers = 0;
-						for (int k = 0; k < civ.cities.size(); k++)
+						if (i != 0)
 						{
-							if (civ.cities.get(k).queue != null)
+							for (int k = 0; k < civ.cities.size(); k++)
 							{
-								if (civ.cities.get(k).queue.equals("Settler"))
+								if (civ.cities.get(k).queue != null)
+								{
+									if (civ.cities.get(k).queue.equals("Settler"))
+									{
+										numSettlers++;
+									}
+									else if (civ.cities.get(k).queue.equals("Worker"))
+									{
+										numWorkers++;
+									}
+								}
+							}
+							for (int k = 0; k < civ.units.size(); k++)
+							{
+								if (civ.units.get(k) instanceof Settler)
 								{
 									numSettlers++;
 								}
-								else if (civ.cities.get(k).queue.equals("Worker"))
+								else if (civ.units.get(k) instanceof Worker)
 								{
 									numWorkers++;
 								}
-							}
-						}
-						for (int k = 0; k < civ.units.size(); k++)
-						{
-							if (civ.units.get(k) instanceof Settler)
-							{
-								numSettlers++;
-							}
-							else if (civ.units.get(k) instanceof Worker)
-							{
-								numWorkers++;
 							}
 						}
 						//Loop through a city's tiles
@@ -208,7 +211,7 @@ public class CivilizationSystem extends BaseSystem {
 							c.workedLand.get(k).harvest = true;
 						}
 						//System.out.println(tf + " " + c.owner.food);
-						if (c.queue == null)
+						if (c.queue == null && i != 0)
 						{
 							//System.out.println(civ.units.size());
 							if (c.focus.equals("Growth"))

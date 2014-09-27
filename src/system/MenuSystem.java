@@ -215,9 +215,14 @@ public class MenuSystem extends BaseSystem {
 				ArrayList<String> temp = new ArrayList<String>();
 				temp.add(citySelected.name + "; Population: " + citySelected.population);
 				temp.add("Health: " + citySelected.health + ", Happiness: " + citySelected.happiness);
-				if (citySelected.queueTurns > 0)
+				if (citySelected.queueFood > 0 || citySelected.queueMetal > 0)
 				{
-					temp.add("Queued " + citySelected.queue + ", ready in " + citySelected.queueTurns + " turns.");
+					
+					int turns = Math.max(
+							citySelected.queueFood/(citySelected.quickEval()[0]),
+							citySelected.queueMetal/(citySelected.quickEval()[2])
+							);
+					temp.add("Queued " + citySelected.queue + ", ready in " + turns + " turns.");
 				}
 				else
 				{
@@ -300,7 +305,6 @@ public class MenuSystem extends BaseSystem {
 						
 						else if (command.equals("queueSettler"))
 						{
-							System.out.println("Queued");
 							citySelected.queue = "Settler";
 							citySelected.queueFood = 35;
 						}
@@ -333,7 +337,7 @@ public class MenuSystem extends BaseSystem {
 	public void updateCity(City c)
 	{
 		menus.get(2).buttons.clear();
-		menus.get(2).addButton("queueSettler", "Settler", 500, 500, 100, 100);
+		menus.get(2).addButton("queueSettler", "Settler", main.width/2, 500, 100, 100);
 	}
 
 
