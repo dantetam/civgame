@@ -77,17 +77,17 @@ public class Worker extends GameEntity {
 				{
 
 				}
-				if (en.location.biome >= 3 && en.location.biome <= 6 && location.grid.irrigated(location.row, location.col))
+				if (en.location.biome >= 3 && en.location.biome <= 6 && location.grid.irrigated(location.row, location.col) && en.location.shape == 0)
 				{
 					en.queueTurns = 6;
 					en.queue = "Farm";
 				}
-				if (en.location.shape == 1)
+				if (en.location.shape == 2)
 				{
 					en.queueTurns = 6;
 					en.queue = "Mine";
 				}
-				else if (en.location.shape == 2)
+				else if (en.location.shape == 1)
 				{
 					if (en.location.biome >= 0 && en.location.biome <= 3)
 					{

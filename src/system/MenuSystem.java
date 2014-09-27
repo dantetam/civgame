@@ -45,7 +45,7 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
-		
+
 		Menu menu2 = new Menu("CityMenu");
 		menus.add(menu2);
 
@@ -56,12 +56,13 @@ public class MenuSystem extends BaseSystem {
 	public void tick()
 	{
 		main.hint(PApplet.DISABLE_DEPTH_TEST);
-		main.textSize(20);
+		//main.textSize(20);
 		//main.background(255,255,255,0);
 		main.camera();
 		main.perspective();
 		//main.noLights();
 		main.noStroke();
+		main.textSize(12);
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
 			if (menus.get(menu).active)
@@ -198,14 +199,14 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(1).active = false;
 		}
-		
+
 		menus.get(2).active = false;
 		if (citySelected != null)
 		{
 			if (citySelected.owner.equals(main.grid.civs[0]))
 			{
 				menus.get(2).active = true;
-				
+
 				main.stroke(255);
 				main.fill(0);
 				main.rect(main.width*3/6,main.height*5/6,200,150);
@@ -217,12 +218,32 @@ public class MenuSystem extends BaseSystem {
 				temp.add("Health: " + citySelected.health + ", Happiness: " + citySelected.happiness);
 				if (citySelected.queueFood > 0 || citySelected.queueMetal > 0)
 				{
-					
-					int turns = Math.max(
-							citySelected.queueFood/(citySelected.quickEval()[0]),
-							citySelected.queueMetal/(citySelected.quickEval()[2])
-							);
-					temp.add("Queued " + citySelected.queue + ", ready in " + turns + " turns.");
+					int[] t = citySelected.quickEval();
+					//Division by zero errors
+					if (t[0] == 0 && t[2] != 0 && citySelected.queueFood > 0)
+					{
+						temp.add("No food production, will not finish.");
+					}
+					else if (t[0] != 0 && t[2] == 0 && citySelected.queueMetal > 0)
+					{
+						temp.add("No metal production, will not finish.");
+					}
+					else if (t[0] == 0 && t[2] == 0)
+					{
+						temp.add("Neither food nor metal production, will not finish.");
+					}
+					else
+					{
+						int turns = Math.max(
+								citySelected.queueFood/(t[0]) + (int)Math.max(0,Math.ceil(citySelected.queueFood%(t[0]))),
+								citySelected.queueMetal/(t[2] + (int)Math.max(0,Math.ceil(citySelected.queueMetal%(t[2]))))
+								);
+						//English grammar...
+						if (turns == 1)
+							temp.add("Queued " + citySelected.queue + " for " + turns + " turn.");
+						else
+							temp.add("Queued " + citySelected.queue + " for " + turns + " turns.");
+					}
 				}
 				else
 				{
@@ -284,6 +305,7 @@ public class MenuSystem extends BaseSystem {
 					String command = menus.get(menu).click(clicks.get(i).mouseX, clicks.get(i).mouseY);
 					if (command != null && !command.equals(""))
 					{
+						System.out.println("Menu");
 						menuActivated = true;
 						if (command.equals("exitgame"))
 						{
@@ -293,7 +315,44 @@ public class MenuSystem extends BaseSystem {
 						{
 							minimap = !minimap;
 						}
-						
+
+						else if (command.equals("buildfarm"))
+						{
+							//Recycled code
+							BaseEntity en = selected;
+							if (en.location.resource == 1 || en.location.resource == 2)
+							{
+								en.queueTurns = 6;
+								en.queue = "Farm";
+							}
+							else if (en.location.biome >= 3 && en.location.biome <= 6 && en.location.grid.irrigated(en.location.row, en.location.col))
+							{
+								en.queueTurns = 6;
+								en.queue = "Farm";
+							}
+						}
+						else if (command.equals("buildmine"))
+						{
+							BaseEntity en = selected;
+							if (en.location.shape == 2)
+							{
+								en.queueTurns = 6;
+								en.queue = "Mine";
+							}
+							else if (en.location.resource >= 20 && en.location.resource <= 22)
+							{
+								en.queueTurns = 6;
+								en.queue = "Mine";
+							}
+							else if (en.location.shape == 1)
+							{
+								if (en.location.biome >= 0 && en.location.biome <= 3)
+								{
+									en.queueTurns = 6;
+									en.queue = "Mine";
+								}
+							}
+						}
 						else if (command.equals("kill"))
 						{
 							main.grid.removeUnit(selected);
@@ -302,11 +361,22 @@ public class MenuSystem extends BaseSystem {
 						{
 							((Settler)selected).settle();
 						}
-						
+
 						else if (command.equals("queueSettler"))
 						{
 							citySelected.queue = "Settler";
 							citySelected.queueFood = 35;
+						}
+						else if (command.equals("queueWarrior"))
+						{
+							citySelected.queue = "Warrior";
+							citySelected.queueFood = 5;
+							citySelected.queueMetal = 5;
+						}
+						else if (command.equals("queueWorker"))
+						{
+							citySelected.queue = "Worker";
+							citySelected.queueFood = 25;
 						}
 					}
 				}
@@ -330,14 +400,21 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(1).addButton("settle", "Settle", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
+		else if (name.equals("Worker"))
+		{
+			menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
+		}
 		//System.out.println(menus.get(1).buttons.size());
 	}
-	
+
 	//Choose which builds to allow i.e. which can be queued up in the city (factor in techs later)
 	public void updateCity(City c)
 	{
 		menus.get(2).buttons.clear();
 		menus.get(2).addButton("queueSettler", "Settler", main.width/2, 500, 100, 100);
+		menus.get(2).addButton("queueWorker", "Worker", main.width/2 + 110, 500, 100, 100);
+		menus.get(2).addButton("queueWarrior", "Warrior", main.width/2 + 220, 500, 100, 100);
 	}
 
 

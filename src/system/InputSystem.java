@@ -166,22 +166,24 @@ public class InputSystem extends BaseSystem {
 	//private int num = 0;
 	public void passLeftMouseClick(float mouseX, float mouseY)
 	{
-		if (on && main.menuSystem.highlighted != null && !main.menuSystem.menuActivated)
+		if (main.menuSystem.highlighted != null && !main.menuSystem.menuActivated)
 		{
 			main.menuSystem.selected = null;
-			if (main.menuSystem.highlighted.occupants.size() > 0)
-			{
-				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
-				if (main.menuSystem.highlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
-					main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
-			}
+			main.menuSystem.citySelected = null;
 			if (main.menuSystem.highlighted.improvement != null)
 				if (main.grid.civs[0].cities.contains(main.menuSystem.highlighted.improvement))
 				{
 					City c = (City)main.menuSystem.highlighted.improvement;
 					main.menuSystem.citySelected = c;
 					main.menuSystem.updateCity(c);
+					return;
 				}
+			if (main.menuSystem.highlighted.occupants.size() > 0)
+			{
+				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
+				if (main.menuSystem.highlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
+					main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
+			}
 		}
 	}
 
@@ -239,6 +241,17 @@ public class InputSystem extends BaseSystem {
 					main.fixCamera(en.location.row, en.location.col);
 					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
 					main.menuSystem.selected = en;
+					return;
+				}
+			}
+			for (int i = 0; i < civ.cities.size(); i++)
+			{
+				City c = civ.cities.get(i);
+				if (c.queue == null)
+				{
+					main.fixCamera(c.location.row, c.location.col);
+					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
+					main.menuSystem.citySelected = c;
 					return;
 				}
 			}
