@@ -192,7 +192,7 @@ public class CivilizationSystem extends BaseSystem {
 							c.workTiles(c.population - c.happiness);
 						else
 							c.workTiles(c.population);
-						c.health = 5 - c.population + c.happiness;
+						c.health = 7 - c.population + Math.min(0,c.happiness);
 						for (int k = 0; k < c.land.size(); k++)
 						{
 							c.land.get(k).harvest = false;
@@ -316,18 +316,20 @@ public class CivilizationSystem extends BaseSystem {
 							{
 								if (c.population < 3)
 								{
-									double amount = Math.min(tf/2, c.population*3);
+									double amount = Math.min(tf/2, c.population*2);
 									tf -= amount;
-									c.percentGrowth += 0.1*(amount/c.population*3);
+									c.percentGrowth += 0.1*(amount/(c.population*2));
+									System.out.println(c.percentGrowth);
 								}
 							}
-							else if (civ.food > c.population)
+							else if (civ.food/2 > c.population)
 							{
 								//civ.food -= c.population*3;
 								//c.percentGrowth += 0.1;
-								double amount = Math.min(civ.food/2, c.population*3);
+								double amount = Math.min(civ.food/2, c.population*2);
 								civ.food -= amount;
-								c.percentGrowth += 0.1*(amount/c.population*3);
+								c.percentGrowth += 0.1*(amount/(c.population*2));
+								System.out.println(c.percentGrowth);
 							}
 							else
 							{

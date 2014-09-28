@@ -26,9 +26,9 @@ public class MenuSystem extends BaseSystem {
 	public Tile target;
 	public ArrayList<String> hintText;
 	public Tile highlighted; //Under the player's crosshair
-	public GameEntity selected; //Selected by the player with the mouse explicitly
+	public BaseEntity selected; //Selected by the player with the mouse explicitly
 	public String typeOfLastSelected = "";
-	public City citySelected;
+	//public City citySelected;
 
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
@@ -164,7 +164,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		if (selected != null)
 		{
-			if (selected.owner != null)
+			if (selected.owner != null && !(selected instanceof City))
 			{
 				main.stroke(255);
 				main.fill(0);
@@ -173,7 +173,7 @@ public class MenuSystem extends BaseSystem {
 				main.textSize(12);
 
 				ArrayList<String> temp = new ArrayList<String>();
-				temp.add(selected.name + " " + selected.action + "/" + selected.maxAction);
+				temp.add(selected.name + " " + ((GameEntity)selected).action + "/" + ((GameEntity)selected).maxAction);
 				temp.add(selected.offensiveStr + " offensive / " + selected.rangedStr + " ranged");
 				temp.add(selected.defensiveStr + " defensive");
 
@@ -201,62 +201,64 @@ public class MenuSystem extends BaseSystem {
 		}
 
 		menus.get(2).active = false;
-		if (citySelected != null)
-		{
-			if (citySelected.owner.equals(main.grid.civs[0]))
-			{
-				menus.get(2).active = true;
-
-				main.stroke(255);
-				main.fill(0);
-				main.rect(main.width*3/6,main.height*5/6,200,150);
-				main.fill(255);
-				main.textSize(12);
-
-				ArrayList<String> temp = new ArrayList<String>();
-				temp.add(citySelected.name + "; Population: " + citySelected.population);
-				temp.add("Health: " + citySelected.health + ", Happiness: " + citySelected.happiness);
-				if (citySelected.queueFood > 0 || citySelected.queueMetal > 0)
+		if (selected != null)
+			if (selected.owner != null)
+				if (selected.owner.equals(main.grid.civs[0]) && selected instanceof City)
 				{
-					int[] t = citySelected.quickEval();
-					//Division by zero errors
-					if (t[0] == 0 && t[2] != 0 && citySelected.queueFood > 0)
+					City citySelected = (City)selected; //to work with old code
+					menus.get(2).active = true;
+
+					main.stroke(255);
+					main.fill(0);
+					main.rect(main.width*2/6,main.height*5/6,200,150);
+					main.fill(255);
+					main.textSize(12);
+
+					ArrayList<String> temp = new ArrayList<String>();
+					temp.add(citySelected.name + "; Population: " + citySelected.population);
+					temp.add("Health: " + citySelected.health + ", Happiness: " + citySelected.happiness);
+					if (citySelected.queueFood > 0 || citySelected.queueMetal > 0)
 					{
-						temp.add("No food production, will not finish.");
-					}
-					else if (t[0] != 0 && t[2] == 0 && citySelected.queueMetal > 0)
-					{
-						temp.add("No metal production, will not finish.");
-					}
-					else if (t[0] == 0 && t[2] == 0)
-					{
-						temp.add("Neither food nor metal production, will not finish.");
+						int[] t = citySelected.quickEval();
+						//Division by zero errors
+						if (t[0] == 0 && t[2] != 0 && citySelected.queueFood > 0)
+						{
+							temp.add("No food production, will not finish.");
+						}
+						else if (t[0] != 0 && t[2] == 0 && citySelected.queueMetal > 0)
+						{
+							temp.add("No metal production, will not finish.");
+						}
+						else if (t[0] == 0 && t[2] == 0)
+						{
+							temp.add("Neither food nor metal production");
+							temp.add("will not finish.");
+						}
+						else
+						{
+							//System.out.println(t[0] + " " + t[2]);
+							int turns = Math.max(
+									citySelected.queueFood/(t[0]) + 1,
+									citySelected.queueMetal/(t[2]) + 1
+									);
+							//English grammar...
+							if (turns == 1)
+								temp.add("Queued " + citySelected.queue + " for " + turns + " turn.");
+							else
+								temp.add("Queued " + citySelected.queue + " for " + turns + " turns.");
+						}
 					}
 					else
 					{
-						int turns = Math.max(
-								citySelected.queueFood/(t[0]) + (int)Math.max(0,Math.ceil(citySelected.queueFood%(t[0]))),
-								citySelected.queueMetal/(t[2] + (int)Math.max(0,Math.ceil(citySelected.queueMetal%(t[2]))))
-								);
-						//English grammar...
-						if (turns == 1)
-							temp.add("Queued " + citySelected.queue + " for " + turns + " turn.");
-						else
-							temp.add("Queued " + citySelected.queue + " for " + turns + " turns.");
+						temp.add("Nothing queued.");
+					}
+
+					for (int i = 0; i < temp.size(); i++)
+					{
+						main.textAlign(PApplet.LEFT);
+						main.text(temp.get(i), main.width*2/6 + 15, main.height*5/6 + 15*(i+1));
 					}
 				}
-				else
-				{
-					temp.add("Nothing queued.");
-				}
-
-				for (int i = 0; i < temp.size(); i++)
-				{
-					main.textAlign(PApplet.LEFT);
-					main.text(temp.get(i), main.width*3/6 + 15, main.height*5/6 + 15*(i+1));
-				}
-			}
-		}
 
 		if (hintText.size() > 0)
 		{
@@ -305,7 +307,6 @@ public class MenuSystem extends BaseSystem {
 					String command = menus.get(menu).click(clicks.get(i).mouseX, clicks.get(i).mouseY);
 					if (command != null && !command.equals(""))
 					{
-						System.out.println("Menu");
 						menuActivated = true;
 						if (command.equals("exitgame"))
 						{
@@ -364,19 +365,19 @@ public class MenuSystem extends BaseSystem {
 
 						else if (command.equals("queueSettler"))
 						{
-							citySelected.queue = "Settler";
-							citySelected.queueFood = 35;
+							((City)selected).queue = "Settler";
+							((City)selected).queueFood = 35;
 						}
 						else if (command.equals("queueWarrior"))
 						{
-							citySelected.queue = "Warrior";
-							citySelected.queueFood = 5;
-							citySelected.queueMetal = 5;
+							((City)selected).queue = "Warrior";
+							((City)selected).queueFood = 5;
+							((City)selected).queueMetal = 5;
 						}
 						else if (command.equals("queueWorker"))
 						{
-							citySelected.queue = "Worker";
-							citySelected.queueFood = 25;
+							((City)selected).queue = "Worker";
+							((City)selected).queueFood = 25;
 						}
 					}
 				}

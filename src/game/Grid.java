@@ -119,6 +119,7 @@ public class Grid {
 			en.owner.improvements.remove((TileEntity)en);
 		}
 		en.location = null;
+		en.owner = null;
 		en = null;
 	}
 

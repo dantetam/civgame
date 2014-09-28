@@ -34,7 +34,7 @@ public class Civilization {
 	{
 		if (other == null)
 		{
-			return true;
+			return false;
 		}
 		return name.equals(other.name);
 	}

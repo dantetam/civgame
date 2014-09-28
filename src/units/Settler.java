@@ -11,13 +11,13 @@ public class Settler extends GameEntity {
 		health = 10;
 		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
-	
+
 	public Settler(GameEntity en) {
 		super(en);
 		health = 10;
 		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
-	
+
 	public void playerTick()
 	{
 		if (queueTiles.size() > 0)
@@ -32,7 +32,7 @@ public class Settler extends GameEntity {
 			queueTiles.remove(queueTiles.size()-1);
 		}
 	}
-	
+
 	public void tick()
 	{
 		GameEntity en = this;
@@ -44,47 +44,50 @@ public class Settler extends GameEntity {
 		}
 		waddle();
 	}
-	
+
 	public void settle()
 	{
-		GameEntity en = this;
-		City city = (City)EntityData.get("City");
-		city.owner = en.owner;
-		city.owner.cities.add(city);
-		location.grid.addUnit(city, en.owner, en.location.row, en.location.col);
-		if (owner.cities.size() == 1)
+		if (location.owner == null)
 		{
-			owner.capital = city;
-		}
-		for (int i = en.location.row - 2; i <= en.location.row + 2; i++)
-		{
-			for (int j = en.location.col - 2; j <= en.location.col + 2; j++)
+			GameEntity en = this;
+			City city = (City)EntityData.get("City");
+			city.owner = en.owner;
+			city.owner.cities.add(city);
+			location.grid.addUnit(city, en.owner, en.location.row, en.location.col);
+			if (owner.cities.size() == 1)
 			{
-				if (i >= 0 && i < location.grid.rows && j >= 0 && j < location.grid.cols)
+				owner.capital = city;
+			}
+			for (int i = en.location.row - 2; i <= en.location.row + 2; i++)
+			{
+				for (int j = en.location.col - 2; j <= en.location.col + 2; j++)
 				{
-					Tile t = location.grid.getTile(i,j);
-					if (t != null)
+					if (i >= 0 && i < location.grid.rows && j >= 0 && j < location.grid.cols)
 					{
-						if (t.owner == null)
+						Tile t = location.grid.getTile(i,j);
+						if (t != null)
 						{
-							t.city = city;
-							city.land.add(t);
-							location.grid.addTile(en.owner, t);
-						}
-						else if (t.owner == city.owner && t.city == null)
-						{
-							t.city = city;
-							city.land.add(t);
+							if (t.owner == null)
+							{
+								t.city = city;
+								city.land.add(t);
+								location.grid.addTile(en.owner, t);
+							}
+							else if (t.owner == city.owner && t.city == null)
+							{
+								t.city = city;
+								city.land.add(t);
+							}
 						}
 					}
 				}
 			}
+			//Remove the settler
+			location.grid.removeUnit(this);
+			return;
 		}
-		//Remove the settler
-		location.grid.removeUnit(this);
-		return;
 	}
-	
+
 	public String getName() {return "Settler";}
 
 }

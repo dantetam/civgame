@@ -1,5 +1,6 @@
 package system;
 
+import game.BaseEntity;
 import game.Civilization;
 import game.GameEntity;
 import game.Tile;
@@ -169,42 +170,55 @@ public class InputSystem extends BaseSystem {
 		if (main.menuSystem.highlighted != null && !main.menuSystem.menuActivated)
 		{
 			main.menuSystem.selected = null;
-			main.menuSystem.citySelected = null;
-			if (main.menuSystem.highlighted.improvement != null)
-				if (main.grid.civs[0].cities.contains(main.menuSystem.highlighted.improvement))
-				{
-					City c = (City)main.menuSystem.highlighted.improvement;
-					main.menuSystem.citySelected = c;
-					main.menuSystem.updateCity(c);
-					return;
-				}
 			if (main.menuSystem.highlighted.occupants.size() > 0)
 			{
 				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
 				if (main.menuSystem.highlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
-					main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
+				{
+					if (!main.menuSystem.selected.equals(main.menuSystem.highlighted.occupants.get(r)))
+					{
+						main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
+						return;
+					}
+					else
+					{
+						//continue on to the next if statement
+					}
+				}
 			}
+			if (main.menuSystem.highlighted.improvement != null)
+				if (main.grid.civs[0].cities.contains(main.menuSystem.highlighted.improvement))
+				{
+					City c = (City)main.menuSystem.highlighted.improvement;
+					main.menuSystem.selected = c;
+					main.menuSystem.updateCity(c);
+					//return;
+				}
 		}
 	}
 
 	public void passRightMouseClick(float mouseX, float mouseY)
 	{
-		GameEntity en = main.menuSystem.selected;
-		Tile t = main.menuSystem.highlighted;
-		if (on && en != null && t != null)
+		if (main.menuSystem.selected instanceof GameEntity)
 		{
-			if (t.biome != -1)
+			GameEntity en = (GameEntity)main.menuSystem.selected;
+			Tile t = main.menuSystem.highlighted;
+			if (en != null && t != null)
 			{
-				int r = t.row - en.location.row;
-				int c = t.col - en.location.col;
-				//System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
-				//System.out.println(r + " " + c);
-				en.queueTiles.clear();
-				en.waddleTo(r,c);
-				while (en.action > 0)
+				if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
 				{
-					en.tick();
-					en.action--;
+					System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
+					int r = t.row - en.location.row;
+					int c = t.col - en.location.col;
+					//System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
+					//System.out.println(r + " " + c);
+					en.queueTiles.clear();
+					en.waddleTo(r,c);
+					while (en.action > 0)
+					{
+						en.tick();
+						en.action--;
+					}
 				}
 			}
 		}
@@ -251,7 +265,8 @@ public class InputSystem extends BaseSystem {
 				{
 					main.fixCamera(c.location.row, c.location.col);
 					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
-					main.menuSystem.citySelected = c;
+					main.menuSystem.selected = c;
+					main.menuSystem.updateCity(c);
 					return;
 				}
 			}
