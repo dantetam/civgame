@@ -195,7 +195,7 @@ public class CivilizationSystem extends BaseSystem {
 						c.health = 7 - c.population + Math.min(0,c.happiness);
 						for (int k = 0; k < c.land.size(); k++)
 							c.land.get(k).harvest = false;
-						
+
 						for (int k = 0; k < c.workedLand.size(); k++)
 						{
 							Tile t = c.workedLand.get(k);
@@ -391,15 +391,18 @@ public class CivilizationSystem extends BaseSystem {
 				for (int j = 0; j < main.grid.civs.length; j++)
 				{
 					if (j == 0) continue;
-					if (main.grid.civs[j].cities.size() > 2)
+					//if (main.grid.civs[j].cities.size() > 2)
+					if (true)
 					{
 						if (main.grid.civs[j].capital != null && civ.capital != null)
 						{
-							if (civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
-									Math.random() < 0.1 &&
-									civ.capital.location.dist(main.grid.civs[j].capital.location) < 500)
+							if (//civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
+									//Math.random() < 0.1 &&
+									!civ.equals(main.grid.civs[j]) &&
+									civ.capital.location.dist(main.grid.civs[j].capital.location) < main.grid.aggroDistance &&
+									!civ.enemies.contains(main.grid.civs[j]))
 							{
-								//System.out.println("war");
+								System.out.println("war");
 								civ.enemies.add(main.grid.civs[j]);
 								main.grid.civs[j].enemies.add(civ);
 							}
@@ -432,21 +435,24 @@ public class CivilizationSystem extends BaseSystem {
 					for (int i = 0; i < t.occupants.size(); i++)
 					{
 						GameEntity en = t.occupants.get(i);
-						en.owner.food--;
-						if (!en.owner.equals(main.grid.civs[0]))
+						if (en.owner != null)
 						{
-							while (en.action > 0)
+							en.owner.food--;
+							if (!en.owner.equals(main.grid.civs[0]))
 							{
-								t.occupants.get(i).tick();
-								en.action--;
+								while (en.action > 0)
+								{
+									en.tick();
+									en.action--;
+								}
 							}
-						}
-						else
-						{
-							while (en.action > 0)
+							else
 							{
-								t.occupants.get(i).playerTick();
-								en.action--;
+								while (en.action > 0)
+								{
+									t.occupants.get(i).playerTick();
+									en.action--;
+								}
 							}
 						}
 					}

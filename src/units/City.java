@@ -295,13 +295,15 @@ public class City extends TileEntity {
 			{
 				if (resources[1] > 0)
 				{
-					f = Math.min(resources[1],4);
-					resources[1] -= f;
+					f++;
+					m += Math.min(resources[1],3);
+					//resources[1] -= f;
 				}
 				else if (resources[2] > 0)
 				{
-					f = Math.min(resources[2],4);
-					resources[2] -= f;
+					f++;
+					m += Math.min(resources[2],3);
+					//resources[2] -= f;
 				}
 			}
 		}

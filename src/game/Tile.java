@@ -65,4 +65,6 @@ public class Tile {
 		return Math.sqrt((row-t.row)^2 + (col-t.col)^2);
 	}
 	
+	public String toString() {return "[" + row + "," + col + "]";}
+	
 }

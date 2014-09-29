@@ -15,6 +15,8 @@ public class Grid {
 	public Pathfinder pathFinder;
 	//public Civilization playerCiv;
 	//Player's civilization will always be the first
+	
+	public final int aggroDistance = 500;
 
 	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int cutoff)
 	{

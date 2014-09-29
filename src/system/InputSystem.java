@@ -170,6 +170,8 @@ public class InputSystem extends BaseSystem {
 		if (main.menuSystem.highlighted != null && !main.menuSystem.menuActivated)
 		{
 			main.menuSystem.selected = null;
+			main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
+			main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
 			if (main.menuSystem.highlighted.occupants.size() > 0)
 			{
 				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 

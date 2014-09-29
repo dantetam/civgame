@@ -187,6 +187,13 @@ public class CivGame extends PApplet {
 			con = 3F;
 			cutoff = 1;
 		}
+		else if (terrainType.equals("terrain5"))
+		{
+			map = new PerlinNoise(seed);
+			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,64,-100});
+			con = 1F;
+			cutoff = -100;
+		}
 		else
 		{
 			System.err.println("No map!");
@@ -370,10 +377,10 @@ public class CivGame extends PApplet {
 						{
 							resources[r][c] = i;
 						}
-						else if (Math.random() < 0.06)
+						/*else if (Math.random() < 0.06)
 						{
 							resources[r][c] = 1;
-						}
+						}*/
 					}
 				}
 			}

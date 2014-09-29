@@ -33,7 +33,7 @@ public class Worker extends GameEntity {
 		else if (queueTiles.size() > 0)
 		{
 			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
-			aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
 			queueTiles.remove(queueTiles.size()-1);
 		}
 	}
@@ -63,6 +63,7 @@ public class Worker extends GameEntity {
 				{
 					en.queueTurns = 6;
 					en.queue = "Farm";
+					return;
 				}
 				else if (en.location.resource == 10 || en.location.resource == 11)
 				{
@@ -72,6 +73,7 @@ public class Worker extends GameEntity {
 				{
 					en.queueTurns = 6;
 					en.queue = "Mine";
+					return;
 				}
 				else if (en.location.resource >= 30 && en.location.resource <= 30)
 				{

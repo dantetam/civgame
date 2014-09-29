@@ -59,6 +59,8 @@ public class Game extends PApplet {
 		menu3.addButton("terrain4", "Fractal+", 100, 300, 210, 70);
 		
 		menu3.addButton("terrain10", "Rolling Hills", 100, 400, 210, 70);
+		
+		menu3.addButton("terrain5", "Testing", 100, 500, 210, 70);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
 		
 		//Main main = new Main();
@@ -175,6 +177,15 @@ public class Game extends PApplet {
 					else if (command.equals("terrain4"))
 					{
 						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain4",seed);
+						f.setTitle("Survival: Civilization");
+						setVisible(false);
+						//redraw(); 
+						background(255);
+						noLoop();
+					}
+					else if (command.equals("terrain5"))
+					{
+						PFrame f = new PFrame(this,1500,900,numCivs,challengeType,"terrain5",seed);
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						//redraw(); 

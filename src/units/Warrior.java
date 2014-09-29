@@ -34,29 +34,39 @@ public class Warrior extends GameEntity {
 		{
 			aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
 			queueTiles.remove(queueTiles.size()-1);
+			/*if (queueTiles.get(0).owner.equals(owner))
+			{
+				queueTiles.clear();
+			}*/
 			Tile t = adjacentEnemy();
+			System.out.println("pathfinding");
 			if (t != null)
 			{
 				queueTiles.clear();
-				aggressiveWaddle(t.row - location.row, t.col - location.col);
+				if (!aggressiveWaddle(t.row - location.row, t.col - location.col))
+					return;
 			}
 		}
-		else
+		if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
 		{
 			Tile nearest = nearestEnemyCity();
+			//System.out.println(nearest);
+			//System.out.println(location);
 			if (nearest != null)
 			{
 				//waddleTo(nearest.row, nearest.col);
 				int r = nearest.row - location.row;
 				int c = nearest.col - location.col;
-				queueTiles.clear();
-				waddleTo(r,c);
+				//queueTiles.clear(); //just in case
+				super.waddleTo(r,c);
+				System.out.println("pathfinding start " + queueTiles.size());
 			}
 			else
 			{
 				int r = (int)(Math.random()*3) - 1;
 				int c = (int)(Math.random()*3) - 1;
-				aggressiveWaddle(r,c);
+				if (!aggressiveWaddle(r,c))
+					return;
 			}
 		}
 	}

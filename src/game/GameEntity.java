@@ -45,6 +45,9 @@ public abstract class GameEntity extends BaseEntity {
 
 	public void waddleTo(int r, int c)
 	{
+		/*System.out.println("------");
+		System.out.println(location.grid.getTile(location.row,location.col));
+		System.out.println(location.grid.getTile(location.row+r,location.col+c));*/
 		if (location.grid.getTile(location.row+r,location.col+c) != null)
 		{
 			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(location.row,location.col,location.row+r,location.col+c);
@@ -81,7 +84,8 @@ public abstract class GameEntity extends BaseEntity {
 		}
 	}
 
-	public void aggressiveWaddle(int r, int c)
+	//Waddles into the specified space and returns true if the unit is alive
+	public boolean aggressiveWaddle(int r, int c)
 	{
 		GameEntity en = this;
 		if (location.grid.getTile(en.location.row+r,en.location.col+c) != null)
@@ -103,7 +107,7 @@ public abstract class GameEntity extends BaseEntity {
 						else
 						{
 							location.grid.removeUnit(en);
-							return;
+							return false;
 						}
 					}
 					else
@@ -116,7 +120,7 @@ public abstract class GameEntity extends BaseEntity {
 						else
 						{
 							location.grid.removeUnit(en);
-							return;
+							return false;
 						}
 					}
 				}
@@ -124,7 +128,7 @@ public abstract class GameEntity extends BaseEntity {
 				{
 					if (en.location.improvement != null)
 					{
-						if (en.location.improvement instanceof City && !en.owner.equals(en.location.improvement.owner))
+						if (en.location.improvement instanceof City && owner.enemies.contains(en.owner))
 						{
 							City city = (City)en.location.improvement;
 							if (city.owner.capital != null)
@@ -153,14 +157,17 @@ public abstract class GameEntity extends BaseEntity {
 							owner.cities.add(city);
 						}
 					}
-					location.grid.move(this, r, c);
+					if (!owner.enemies.contains(location.grid.getTile(en.location.row+r,en.location.col+c).owner))
+						location.grid.move(this, r, c);
 				}
 			}
 		}
+		return true;
 	}
 
 	public Tile adjacentEnemy()
 	{
+		if (owner == null || location == null) return null;
 		//this is not random
 		if (location.grid.hasEnemy(this,location.row+1,location.col+1) != null) return location.grid.getTile(location.row+1,location.col+1);
 		if (location.grid.hasEnemy(this,location.row+1,location.col) != null) return location.grid.getTile(location.row+1,location.col);
@@ -176,6 +183,9 @@ public abstract class GameEntity extends BaseEntity {
 	public Tile nearestEnemyCity()
 	{
 		City nearest = null;
+		System.out.println("********");
+		System.out.println(owner);
+		System.out.println(owner.enemies.size());
 		if (owner.enemies.size() > 0)
 		{
 			for (int i = 0; i < owner.enemies.size(); i++)
@@ -186,6 +196,10 @@ public abstract class GameEntity extends BaseEntity {
 					if (nearest != null)
 					{
 						if (candidate.location.dist(location) < nearest.location.dist(location)) nearest = candidate;
+					}
+					else
+					{
+						nearest = candidate;
 					}
 				}
 			}
