@@ -370,6 +370,10 @@ public class CivGame extends PApplet {
 						{
 							resources[r][c] = i;
 						}
+						else if (Math.random() < 0.06)
+						{
+							resources[r][c] = 1;
+						}
 					}
 				}
 			}

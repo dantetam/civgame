@@ -194,9 +194,8 @@ public class CivilizationSystem extends BaseSystem {
 							c.workTiles(c.population);
 						c.health = 7 - c.population + Math.min(0,c.happiness);
 						for (int k = 0; k < c.land.size(); k++)
-						{
 							c.land.get(k).harvest = false;
-						}
+						
 						for (int k = 0; k < c.workedLand.size(); k++)
 						{
 							Tile t = c.workedLand.get(k);

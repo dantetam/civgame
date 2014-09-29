@@ -21,6 +21,9 @@ public class City extends TileEntity {
 	public ArrayList<String> buildings;
 	public int takeover;
 
+	//Store how many of a copy of a resource (improved) that the city holds
+	public int[] resources = new int[41]; //as of 9/28/2014 resources go up to 40 so 40+1 spaces
+
 	public City(String name)
 	{
 		super(name);
@@ -91,7 +94,7 @@ public class City extends TileEntity {
 			workTiles(p - happiness);
 		else
 			workTiles(population);
-		
+
 		int[] temp = new int[4];
 		for (int i = 0; i < workedLand.size(); i++)
 		{
@@ -103,10 +106,69 @@ public class City extends TileEntity {
 		}
 		return temp;
 	}
-	
+
+	public void findResources()
+	{
+		for (int i = 0; i < resources.length; i++)
+			resources[i] = 0;
+		//Record tiles with harvested resources as extra yield and record the number of these special tiles
+		for (int i = 0; i < workedLand.size(); i++)
+		{
+			Tile t = workedLand.get(i);
+			if (t.improvement != null)
+			{
+				if (t.improvement.name.equals("Farm"))
+				{
+					if (t.resource == 1)
+					{
+						resources[1]++;
+					}
+					else if (t.resource == 2)
+					{
+						resources[2]++;
+					}
+				}
+				else if (t.improvement.name.equals("Fishing Boats"))
+				{
+					if (t.resource == 10)
+					{
+						resources[10]++;
+					}
+					else if (t.resource == 11)
+					{
+						resources[11]++;
+					}
+				}
+				else if (t.improvement.name.equals("Mine"))
+				{
+					if (t.resource == 20)
+					{
+						resources[20]++;
+					}
+					else if (t.resource == 21)
+					{
+						resources[21]++;
+					}
+					else if (t.resource == 22)
+					{
+						resources[22]++;
+					}
+				}
+				else if (t.improvement.name.equals("Forest Yard"))
+				{
+					if (t.resource == 30)
+					{
+						resources[30]++;
+					}
+				}
+			}
+		}
+	}
+
 	//Returns a score
 	public double[] evaluate(Tile t, String focus)
 	{
+		findResources();
 		int f, g, m, r;
 		if (t.biome == -1)
 		{
@@ -166,6 +228,7 @@ public class City extends TileEntity {
 				if (t.improvement.name.equals("Mine"))
 					m+=2;
 		}
+		//Record tiles with harvested resources as extra yield and record the number of these special tiles
 		if (t.improvement != null)
 		{
 			if (t.improvement.name.equals("Farm"))
@@ -173,6 +236,7 @@ public class City extends TileEntity {
 				if (t.resource == 1)
 				{
 					f += 3;
+					resources[1]++;
 				}
 				else if (t.resource == 2)
 				{
@@ -225,6 +289,19 @@ public class City extends TileEntity {
 					g += 1;
 					m += 3;
 					r += 1;
+				}
+			}
+			else if (t.improvement.name.equals("Windmill"))
+			{
+				if (resources[1] > 0)
+				{
+					f = Math.min(resources[1],4);
+					resources[1] -= f;
+				}
+				else if (resources[2] > 0)
+				{
+					f = Math.min(resources[2],4);
+					resources[2] -= f;
 				}
 			}
 		}
@@ -289,9 +366,9 @@ public class City extends TileEntity {
 		//System.out.println(scores.get(index));
 		return index;
 	}
-	
+
 	public String getName() {return "City";}
-	
+
 	public boolean equals(City other)
 	{
 		return location.equals(other.location);
