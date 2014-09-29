@@ -156,6 +156,13 @@ public abstract class GameEntity extends BaseEntity {
 							city.takeover = 5;
 							owner.cities.add(city);
 						}
+						//Just in case
+						//The first condition is not needed
+						else if (!(en.location.improvement instanceof City) && owner.enemies.contains(en.location.improvement.owner)) 
+						{
+							location.grid.removeUnit(en.location.improvement);
+							//en.location.improvement = null;
+						}
 					}
 					if (!owner.enemies.contains(location.grid.getTile(en.location.row+r,en.location.col+c).owner))
 						location.grid.move(this, r, c);
@@ -183,9 +190,9 @@ public abstract class GameEntity extends BaseEntity {
 	public Tile nearestEnemyCity()
 	{
 		City nearest = null;
-		System.out.println("********");
+		/*System.out.println("********");
 		System.out.println(owner);
-		System.out.println(owner.enemies.size());
+		System.out.println(owner.enemies.size());*/
 		if (owner.enemies.size() > 0)
 		{
 			for (int i = 0; i < owner.enemies.size(); i++)

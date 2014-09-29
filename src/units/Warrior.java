@@ -40,7 +40,7 @@ public class Warrior extends GameEntity {
 				queueTiles.clear();
 			}*/
 			Tile t = adjacentEnemy();
-			System.out.println("pathfinding");
+			//System.out.println("pathfinding");
 			if (t != null)
 			{
 				queueTiles.clear();
@@ -60,7 +60,7 @@ public class Warrior extends GameEntity {
 				int c = nearest.col - location.col;
 				//queueTiles.clear(); //just in case
 				super.waddleTo(r,c);
-				System.out.println("pathfinding start " + queueTiles.size());
+				//System.out.println("pathfinding start " + queueTiles.size());
 			}
 			else
 			{
