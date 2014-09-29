@@ -319,7 +319,7 @@ public class CivilizationSystem extends BaseSystem {
 									double amount = Math.min(tf/2, c.population*2);
 									tf -= amount;
 									c.percentGrowth += 0.1*(amount/(c.population*2));
-									System.out.println(c.percentGrowth);
+									//System.out.println(c.percentGrowth);
 								}
 							}
 							else if (civ.food/2 > c.population)
@@ -329,7 +329,7 @@ public class CivilizationSystem extends BaseSystem {
 								double amount = Math.min(civ.food/2, c.population*2);
 								civ.food -= amount;
 								c.percentGrowth += 0.1*(amount/(c.population*2));
-								System.out.println(c.percentGrowth);
+								//System.out.println(c.percentGrowth);
 							}
 							else
 							{
@@ -341,10 +341,14 @@ public class CivilizationSystem extends BaseSystem {
 								c.population++;
 								//c.focus = "Growth";
 							}
-							else if (c.percentGrowth < 0 && c.population > 1)
+							else if (c.percentGrowth < 0)
 							{
-								c.percentGrowth = 0.5;
-								c.population--;
+								c.percentGrowth = 0;
+								if (c.population > 1)
+								{
+									c.percentGrowth = 0.5;
+									c.population--;
+								}
 								//c.focus = "Production";
 							}
 						}

@@ -36,6 +36,7 @@ public class CivGame extends PApplet {
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
 	public float width = 1500, height = 900;
+	public float centerX = width/2, centerY = height/2; //for rendering purposes, to determine how the position of the mouse affects the camera
 	//public PGraphics pg;
 	public MenuSystem menuSystem = new MenuSystem(this);
 

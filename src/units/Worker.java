@@ -82,6 +82,18 @@ public class Worker extends GameEntity {
 					en.queueTurns = 6;
 					en.queue = "Farm";
 				}
+				else if (en.location.biome >= 1 && en.location.biome <= 2)
+				{
+					en.queueTurns = 10;
+					if (Math.random() < 0.5)
+					{
+						en.queue = "Windmill";
+					}
+					else
+					{
+						en.queue = "Lumbermill";
+					}
+				}
 				if (en.location.shape == 2)
 				{
 					en.queueTurns = 6;

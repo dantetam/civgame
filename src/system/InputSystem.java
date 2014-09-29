@@ -137,18 +137,18 @@ public class InputSystem extends BaseSystem {
 	//public float lastMouseX = main.width/2; //public float lastMouseY = main.height/2;
 	public void passMouse(float mouseX, float mouseY)
 	{
-		if (on)
+		if (on && main.menuSystem.selected == null)
 		{
-			float dX = (mouseX - main.width/2)/(main.width/2);
-			float dY = (mouseY - main.height/2)/(main.height/2);
+			float dX = (mouseX - main.centerX)/(main.centerX);
+			float dY = (mouseY - main.centerY)/(main.centerY);
 			main.player.rotY = -(float)Math.PI*dX; //Axis is weird, oh well
 			main.player.rotVertical = (float)Math.PI/4*dY;
-			main.player.update();
 			if (Math.abs(dX) <= 20)
 			{
 				main.chunkSystem.update();
 			}
 		}
+		main.player.update();
 	}
 
 	public ArrayList<Click> clicks = new ArrayList<Click>();

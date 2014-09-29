@@ -18,7 +18,7 @@ public class RenderSystem extends BaseSystem {
 
 	public GridModel terrain;
 	public Player player;
-
+	
 	public RenderSystem(CivGame civGame)
 	{
 		super(civGame);
