@@ -32,7 +32,8 @@ public class Warrior extends GameEntity {
 	{
 		if (queueTiles.size() > 0)
 		{
-			aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
+				return;
 			queueTiles.remove(queueTiles.size()-1);
 			/*if (queueTiles.get(0).owner.equals(owner))
 			{

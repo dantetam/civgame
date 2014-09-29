@@ -124,11 +124,11 @@ public abstract class GameEntity extends BaseEntity {
 						}
 					}
 				}
-				else
+				if (enemy == null)
 				{
 					if (en.location.improvement != null)
 					{
-						if (en.location.improvement instanceof City && owner.enemies.contains(en.owner))
+						if (en.location.improvement instanceof City && owner.enemies.contains(en.location.improvement.owner))
 						{
 							City city = (City)en.location.improvement;
 							if (city.owner.capital != null)
