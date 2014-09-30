@@ -277,6 +277,23 @@ public class RenderSystem extends BaseSystem {
 			{
 				main.stroke(0,0,255);
 				main.strokeWeight(5);
+				if (en instanceof GameEntity)
+				{
+					GameEntity gameEn = (GameEntity)en;
+					if (gameEn.queueTiles.size() > 0)
+					{
+						System.out.println(gameEn.queueTiles.size());
+						for (int i = gameEn.queueTiles.size() - 1; i >= 0; i--)
+						{
+							Tile t = gameEn.queueTiles.get(i);
+							main.pushMatrix();
+							main.translate(t.row*widthBlock, 25, t.col*widthBlock);
+							main.fill(((float)i/(float)gameEn.queueTiles.size())*255F);
+							main.box(5,5,5);
+							main.popMatrix();
+						}
+					}
+				}
 			}
 		/*if (en.name.equals("City"))
 			{

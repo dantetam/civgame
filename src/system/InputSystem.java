@@ -169,8 +169,6 @@ public class InputSystem extends BaseSystem {
 	{
 		if (main.menuSystem.highlighted != null && !main.menuSystem.menuActivated)
 		{
-			main.menuSystem.selected = null;
-			main.resetCamera();
 			if (main.menuSystem.highlighted.occupants.size() > 0)
 			{
 				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
@@ -186,6 +184,11 @@ public class InputSystem extends BaseSystem {
 						//continue on to the next if statement
 					}
 				}
+			}
+			else
+			{
+				main.menuSystem.selected = null;
+				main.resetCamera();
 			}
 			if (main.menuSystem.highlighted.improvement != null)
 				if (main.grid.civs[0].cities.contains(main.menuSystem.highlighted.improvement))
