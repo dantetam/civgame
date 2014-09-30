@@ -426,7 +426,8 @@ public class CivilizationSystem extends BaseSystem {
 					}
 				}
 			}
-			for (int r = 0; r < main.grid.rows; r++)
+			//Loop through tiles
+			/*for (int r = 0; r < main.grid.rows; r++)
 			{
 				for (int c = 0; c < main.grid.cols; c++)
 				{
@@ -460,8 +461,34 @@ public class CivilizationSystem extends BaseSystem {
 						}
 					}
 				}
+			}*/
+			if (main.grid.civs.length > 1)
+			{
+				//loop through player units
+				Civilization player = main.grid.civs[0];
+				for (int j = 0; j < player.improvements.size(); j++)
+				{
+					player.improvements.get(j).playerTick();
+				}
+				for (int j = 0; j < player.units.size(); j++)
+				{
+					player.units.get(j).playerTick();
+				}
+				//loop through enemy units
+				for (int i = 1; i < main.grid.civs.length; i++)
+				{
+					Civilization civ = main.grid.civs[i];
+					for (int j = 0; j < civ.improvements.size(); j++)
+					{
+						civ.improvements.get(j).tick();
+					}
+					for (int j = 0; j < civ.units.size(); j++)
+					{
+						civ.units.get(j).tick();
+					}
+				}
 			}
-			for (int r = 0; r < main.grid.rows; r++)
+			/*for (int r = 0; r < main.grid.rows; r++)
 			{
 				for (int c = 0; c < main.grid.cols; c++)
 				{
@@ -470,6 +497,15 @@ public class CivilizationSystem extends BaseSystem {
 						GameEntity en = main.grid.getTile(r,c).occupants.get(i);
 						en.action = en.maxAction;
 					}
+				}
+			}*/
+			//Restore action "bars"
+			for (int i = 0; i < main.grid.civs.length; i++)
+			{
+				Civilization civ = main.grid.civs[i];
+				for (int j = 0; j < civ.units.size(); j++)
+				{
+					civ.units.get(j).action = civ.units.get(j).maxAction;
 				}
 			}
 		}

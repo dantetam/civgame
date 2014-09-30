@@ -137,7 +137,7 @@ public class InputSystem extends BaseSystem {
 	//public float lastMouseX = main.width/2; //public float lastMouseY = main.height/2;
 	public void passMouse(float mouseX, float mouseY)
 	{
-		if (on && main.menuSystem.selected == null)
+		if (on) //&& main.menuSystem.selected == null)
 		{
 			float dX = (mouseX - main.centerX)/(main.centerX);
 			float dY = (mouseY - main.centerY)/(main.centerY);
@@ -174,13 +174,17 @@ public class InputSystem extends BaseSystem {
 				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
 				if (main.menuSystem.highlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
 				{
-					if (!main.menuSystem.selected.equals(main.menuSystem.highlighted.occupants.get(r)))
+					if (main.menuSystem.selected != null)
 					{
-						main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
-						return;
+						if (!main.menuSystem.selected.equals(main.menuSystem.highlighted.occupants.get(r)))
+						{
+							main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
+							return;
+						}
 					}
 					else
 					{
+						main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
 						//continue on to the next if statement
 					}
 				}
@@ -211,18 +215,18 @@ public class InputSystem extends BaseSystem {
 			{
 				if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
 				{
-					System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
+					//System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
 					int r = t.row - en.location.row;
 					int c = t.col - en.location.col;
 					//System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
 					//System.out.println(r + " " + c);
 					en.queueTiles.clear();
 					en.waddleTo(r,c);
-					while (en.action > 0)
+					/*while (en.action > 0)
 					{
-						en.tick();
+						en.playerTick();
 						en.action--;
-					}
+					}*/
 				}
 			}
 		}
@@ -279,6 +283,7 @@ public class InputSystem extends BaseSystem {
 		else if (key == 'c')
 		{
 			on = !on;
+			main.resetCamera();
 		}
 		else if (key == 'f')
 		{

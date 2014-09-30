@@ -89,6 +89,8 @@ public class CivGame extends PApplet {
 		//Set it manually
 		player.civ = grid.civs[0];
 		player.civ.name = "Player";
+		player.orient(grid);
+		inputSystem.on = false;
 	}
 
 	public void draw()

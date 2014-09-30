@@ -282,13 +282,13 @@ public class RenderSystem extends BaseSystem {
 					GameEntity gameEn = (GameEntity)en;
 					if (gameEn.queueTiles.size() > 0)
 					{
-						System.out.println(gameEn.queueTiles.size());
+						//System.out.println(gameEn.queueTiles.size());
 						for (int i = gameEn.queueTiles.size() - 1; i >= 0; i--)
 						{
 							Tile t = gameEn.queueTiles.get(i);
 							main.pushMatrix();
 							main.translate(t.row*widthBlock, 25, t.col*widthBlock);
-							main.fill(((float)i/(float)gameEn.queueTiles.size())*255F);
+							main.fill(((float)(i+1)/(float)gameEn.queueTiles.size())*255F);
 							main.box(5,5,5);
 							main.popMatrix();
 						}
@@ -397,7 +397,7 @@ public class RenderSystem extends BaseSystem {
 	}
 
 	//Make a model of entities with a height map
-	public float widthBlock = 20;
+	public static float widthBlock = 20;
 	/*public void addTerrain(double[][] t, float con, float cutoff)
 	{
 		terrain = new GridModel(t.length, t[0].length);

@@ -2,9 +2,11 @@ package entity;
 
 import game.Civilization;
 import game.GameEntity;
+import game.Grid;
 
 import java.util.ArrayList;
 
+import system.RenderSystem;
 import vector.*;
 
 public class Player {
@@ -18,7 +20,7 @@ public class Player {
 	//public ArrayList<GameEntity> moved; //Keep track of which units are moved; should be done for every civ
 	//i.e. every civ moves their units until there are none left to move
 
-	public Player()
+	public Player()  
 	{
 		//this.civ = civ;
 		//moved = new ArrayList<GameEntity>();
@@ -41,6 +43,16 @@ public class Player {
 		posY += y;
 		posZ += z;
 	}*/
+	
+	//Orient the player to the middle of the grid
+	public void orient(Grid grid)
+	{
+		posX = grid.rows/2*RenderSystem.widthBlock;
+		posY = 50;
+		posZ = grid.cols/2*RenderSystem.widthBlock;
+		rotY = 0;
+		rotVertical = (float)Math.PI/8F;
+	}
 	
 	public void update()
 	{
