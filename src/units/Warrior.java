@@ -35,10 +35,9 @@ public class Warrior extends GameEntity {
 			if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
 				return;
 			queueTiles.remove(queueTiles.size()-1);
-			/*if (queueTiles.get(0).owner.equals(owner))
-			{
-				queueTiles.clear();
-			}*/
+			if (queueTiles.size() > 0)
+				if (queueTiles.get(0).owner.equals(owner))
+					queueTiles.clear();
 			Tile t = adjacentEnemy();
 			//System.out.println("pathfinding");
 			if (t != null)
@@ -48,7 +47,7 @@ public class Warrior extends GameEntity {
 					return;
 			}
 		}
-		if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
+		else if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
 		{
 			Tile nearest = nearestEnemyCity();
 			//System.out.println(nearest);

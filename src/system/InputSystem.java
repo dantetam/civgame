@@ -170,8 +170,7 @@ public class InputSystem extends BaseSystem {
 		if (main.menuSystem.highlighted != null && !main.menuSystem.menuActivated)
 		{
 			main.menuSystem.selected = null;
-			main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
-			main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
+			main.resetCamera();
 			if (main.menuSystem.highlighted.occupants.size() > 0)
 			{
 				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
@@ -277,6 +276,12 @@ public class InputSystem extends BaseSystem {
 		else if (key == 'c')
 		{
 			on = !on;
+		}
+		else if (key == 'f')
+		{
+			//main.resetCamera();
+			main.centerX = main.width/2;
+			main.centerY = main.height/2;
 		}
 		else if (key == 'm')
 		{

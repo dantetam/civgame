@@ -126,10 +126,12 @@ public abstract class GameEntity extends BaseEntity {
 				}
 				if (enemy == null)
 				{
-					if (en.location.improvement != null)
+					if (en.location.improvement != null && !owner.equals(location.improvement.owner))//owner.enemies.contains(en.location.owner))
 					{
-						if (en.location.improvement instanceof City && owner.enemies.contains(en.location.improvement.owner))
+						//System.out.println("takeover2");
+						if (en.location.improvement.name.equals("City"))
 						{
+							System.out.println("takeover");
 							City city = (City)en.location.improvement;
 							if (city.owner.capital != null)
 							{
@@ -158,8 +160,9 @@ public abstract class GameEntity extends BaseEntity {
 						}
 						//Just in case
 						//The first condition is not needed
-						else if (!(en.location.improvement instanceof City) && owner.enemies.contains(en.location.improvement.owner)) 
+						else if (!(en.location.improvement instanceof City) && !owner.equals(location.improvement.owner))//owner.enemies.contains(en.location.improvement.owner)) 
 						{
+							//System.out.println("raze");
 							location.grid.removeUnit(en.location.improvement);
 							//en.location.improvement = null;
 						}

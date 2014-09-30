@@ -147,6 +147,12 @@ public class CivGame extends PApplet {
 		//player.rotVertical = 0;
 		//player.update();
 	}
+	
+	public void resetCamera()
+	{
+		centerX = mouseX/(1 - player.rotY/(float)Math.PI);
+		centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
+	}
 
 	//Use the appropriate terrain to make a table and then render it by making some entities
 	//Then make a grid out of it

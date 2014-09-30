@@ -395,13 +395,17 @@ public class CivilizationSystem extends BaseSystem {
 					{
 						if (main.grid.civs[j].capital != null && civ.capital != null)
 						{
-							if (civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
-									Math.random() < 0.03 &&
+							/*System.out.println("----");
+							System.out.println(!civ.equals(main.grid.civs[j]));
+							System.out.println(civ.capital.location.dist(main.grid.civs[j].capital.location) < main.grid.aggroDistance);
+							System.out.println(!civ.enemies.contains(main.grid.civs[j]));*/
+							if (//civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
+									//Math.random() < 0.03 &&
 									!civ.equals(main.grid.civs[j]) &&
 									civ.capital.location.dist(main.grid.civs[j].capital.location) < main.grid.aggroDistance &&
 									!civ.enemies.contains(main.grid.civs[j]))
 							{
-								//System.out.println("war");
+								System.out.println("war");
 								civ.enemies.add(main.grid.civs[j]);
 								main.grid.civs[j].enemies.add(civ);
 							}
@@ -409,8 +413,8 @@ public class CivilizationSystem extends BaseSystem {
 					}
 					else
 					{
-						main.grid.civs[j].enemies.remove(civ);
-						civ.enemies.remove(main.grid.civs[j]);
+						//main.grid.civs[j].enemies.remove(civ);
+						//civ.enemies.remove(main.grid.civs[j]);
 					}
 				}
 				//Begin starvation if there is lack of food

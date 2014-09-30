@@ -383,8 +383,9 @@ public class MenuSystem extends BaseSystem {
 						}
 						main.menuSystem.selected = null;
 						//below was derived from the original expression to calculate rotY & rotVertical
-						main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
-						main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
+						//main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
+						//main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
+						main.resetCamera();
 					}
 				}
 			}
