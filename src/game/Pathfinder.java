@@ -63,6 +63,10 @@ public class Pathfinder {
 					cost = current.g + current.dist(ns.get(i));
 				else
 					cost = current.g + 1;
+				/*if (current.r != ns.get(i).r && current.c != ns.get(i).c)
+					cost = current.g + 1.4;
+				else
+					cost = current.g + 1;*/
 				if (openSet.contains(ns.get(i)) && cost < ns.get(i).g)
 				{
 					removeNodeFromOpen(ns.get(i));
@@ -85,6 +89,13 @@ public class Pathfinder {
 					ns.get(i).queue = ns.get(i).g + 1.1*dist;
 					ns.get(i).parent = current;
 					lastNode = ns.get(i);
+				}
+			}
+			for (int i = openSet.size() - 1; i >= 0; i--)
+			{
+				if (openSet.get(i).dist(end) > 1.25*start.dist(end))
+				{
+					openSet.remove(i);
 				}
 			}
 			if (openSet.size() == 0) 
@@ -216,7 +227,8 @@ public class Pathfinder {
 		public double dist(Node other)
 		{
 			if (other != null)
-				return Math.abs((double)other.r - r) + Math.abs((double)other.c - c);
+				return Math.sqrt(Math.pow(other.r - r,2) + Math.pow(other.c - c,2));
+				//return Math.abs((double)other.r - r) + Math.abs((double)other.c - c);
 			return -1;
 		}
 	}
