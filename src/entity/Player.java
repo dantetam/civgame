@@ -29,6 +29,11 @@ public class Player {
 		posZ = 1000;
 		update();
 	}
+	
+	public String toString()
+	{
+		return "Player: " + posX + " " + posY + " " + posZ + " " + tarX + " " + tarY + " " + tarZ;
+	}
 
 	/*public void moveTo(float x, float y, float z)
 	{

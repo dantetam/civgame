@@ -181,16 +181,16 @@ public abstract class GameEntity extends BaseEntity {
 
 	public boolean raze()
 	{
-		System.out.println(location + " " + location.improvement);
+		//System.out.println(location + " " + location.improvement);
 		if (location.improvement != null)
 		{
-			System.out.println(owner + " " + location.improvement.owner + " Name: " + location.improvement.id);
+			//System.out.println(owner + " " + location.improvement.owner + " Name: " + location.improvement.id);
 			if (!owner.equals(location.owner))
 			{
-				System.out.println("takeover");
+				//System.out.println("takeover");
 				if (location.improvement.name.equals("City"))
 				{
-					System.out.println("takeovercity");
+					//System.out.println("takeovercity");
 					City city = (City)location.improvement;
 					if (city.owner.capital != null)
 					{
@@ -272,6 +272,29 @@ public abstract class GameEntity extends BaseEntity {
 					{
 						nearest = candidate;
 					}
+				}
+			}
+		}
+		if (nearest != null)
+			return nearest.location;
+		return null;
+	}
+	
+	public Tile nearestAlliedCity()
+	{
+		City nearest = null;
+		if (owner.cities.size() > 0)
+		{
+			for (int i = 0; i < owner.cities.size(); i++)
+			{
+				City candidate = owner.cities.get(i);
+				if (nearest != null)
+				{
+					if (candidate.location.dist(location) < nearest.location.dist(location)) nearest = candidate;
+				}
+				else
+				{
+					nearest = candidate;
 				}
 			}
 		}

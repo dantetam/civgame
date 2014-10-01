@@ -420,7 +420,7 @@ public class CivilizationSystem extends BaseSystem {
 				//Begin starvation if there is lack of food
 				if (civ.food <= -10)
 				{
-					if (Math.random() < 0.2 && civ.units.size() > 5)
+					if (Math.random() < 0.2) //&& civ.units.size() > 5)
 					{
 						main.grid.removeUnit(civ.units.get((int)(Math.random()*civ.units.size())));
 					}

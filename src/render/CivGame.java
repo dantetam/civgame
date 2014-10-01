@@ -105,6 +105,8 @@ public class CivGame extends PApplet {
 
 	public void mousePressed()
 	{
+		println("Mouse pressed: " + mouseX + " " + mouseY);
+		println(player.toString());
 		menuSystem.queueClick(mouseX, mouseY);
 		if (mouseButton == LEFT)
 		{

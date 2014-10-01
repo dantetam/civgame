@@ -1,6 +1,7 @@
 package system;
 
 import game.BaseEntity;
+import game.Civilization;
 import game.GameEntity;
 import game.Tile;
 
@@ -185,6 +186,14 @@ public class MenuSystem extends BaseSystem {
 					main.textAlign(PApplet.LEFT);
 					main.text(temp.get(i), main.width*4/6 + 15, main.height*5/6 + 15*(i+1));
 				}
+				
+				/*main.fill(0);
+				main.rect(main.width*3/6 - 75,470 - 30,150,60);
+				main.fill(255);
+				main.textSize(12);
+				
+				main.textAlign(PApplet.LEFT);
+				main.text(selected.name,main.width*3/6 - 75,470 - 30);*/
 
 				if (!typeOfLastSelected.equals(selected.name))
 				{
@@ -301,6 +310,15 @@ public class MenuSystem extends BaseSystem {
 		main.lights();
 		main.pg.endDraw();
 		main.image(main.pg, 1500, 900);*/
+		
+		main.noStroke();
+		main.fill(0);
+		main.rect(main.width/6,0,300,50);
+		main.fill(255);
+		Civilization c = main.grid.civs[0];
+		main.textAlign(main.LEFT);
+		main.text(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research, main.width/6 + 15, 15);
+		
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
 		{

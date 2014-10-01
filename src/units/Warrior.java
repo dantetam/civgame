@@ -1,5 +1,7 @@
 package units;
 
+import java.util.ArrayList;
+
 import game.GameEntity;
 import game.Tile;
 
@@ -37,6 +39,7 @@ public class Warrior extends GameEntity {
 
 	public void tick()
 	{
+		Tile nearestA = nearestAlliedCity();
 		if (queueTiles.size() > 0)
 		{
 			if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
@@ -45,7 +48,18 @@ public class Warrior extends GameEntity {
 			queueTiles.remove(queueTiles.size()-1);
 			if (queueTiles.size() > 0)
 				if (queueTiles.get(0).owner.equals(owner) || queueTiles.get(0).equals(location))
-					queueTiles.clear();
+				{
+					queueTiles.clear(); queueTiles = new ArrayList<Tile>();
+					if (nearestA != null)
+					{
+						//waddleTo(nearest.row, nearest.col);
+						int r = nearestA.row - location.row;
+						int c = nearestA.col - location.col;
+						//queueTiles.clear(); //just in case
+						super.waddleTo(r,c);
+						//System.out.println("pathfinding start " + queueTiles.size());
+					}
+				}
 			Tile t = adjacentEnemy();
 			//System.out.println("pathfinding");
 			if (t != null)
@@ -57,14 +71,23 @@ public class Warrior extends GameEntity {
 		}
 		else if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
 		{
-			Tile nearest = nearestEnemyCity();
+			Tile nearestE = nearestEnemyCity();
 			//System.out.println(nearest);
 			//System.out.println(location);
-			if (nearest != null)
+			if (nearestE != null)
 			{
 				//waddleTo(nearest.row, nearest.col);
-				int r = nearest.row - location.row;
-				int c = nearest.col - location.col;
+				int r = nearestE.row - location.row;
+				int c = nearestE.col - location.col;
+				//queueTiles.clear(); //just in case
+				super.waddleTo(r,c);
+				//System.out.println("pathfinding start " + queueTiles.size());
+			}
+			else if (nearestA != null)
+			{
+				//waddleTo(nearest.row, nearest.col);
+				int r = nearestA.row - location.row;
+				int c = nearestA.col - location.col;
 				//queueTiles.clear(); //just in case
 				super.waddleTo(r,c);
 				//System.out.println("pathfinding start " + queueTiles.size());
