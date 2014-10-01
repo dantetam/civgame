@@ -391,7 +391,7 @@ public class CivilizationSystem extends BaseSystem {
 				for (int j = 0; j < main.grid.civs.length; j++)
 				{
 					if (j == 0) continue;
-					if (main.grid.civs[j].cities.size() > 2)
+					if (true)//main.grid.civs[j].cities.size() > 2)
 					{
 						if (main.grid.civs[j].capital != null && civ.capital != null)
 						{
@@ -402,7 +402,7 @@ public class CivilizationSystem extends BaseSystem {
 							if (//civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
 									//Math.random() < 0.03 &&
 									!civ.equals(main.grid.civs[j]) &&
-									civ.capital.location.dist(main.grid.civs[j].capital.location) < main.grid.aggroDistance &&
+									//civ.capital.location.dist(main.grid.civs[j].capital.location) < main.grid.aggroDistance &&
 									!civ.enemies.contains(main.grid.civs[j]))
 							{
 								System.out.println("war");

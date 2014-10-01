@@ -26,7 +26,7 @@ public abstract class GameEntity extends BaseEntity {
 
 	public abstract void tick();
 	public abstract void playerTick();
-	
+
 	public void waddle()
 	{
 		if (queueTiles.size() > 0)
@@ -95,6 +95,55 @@ public abstract class GameEntity extends BaseEntity {
 			if (location.grid.getTile(en.location.row+r,en.location.col+c).biome != -1)
 			{
 				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
+				if (enemy == null)
+				{
+					/*if (en.location.improvement != null && !owner.equals(location.improvement.owner))//owner.enemies.contains(en.location.owner))
+					{
+						System.out.println("takeover2");
+						if (en.location.improvement.name.equals("City"))
+						{
+							System.out.println("takeover");
+							City city = (City)en.location.improvement;
+							if (city.owner.capital != null)
+							{
+								if (city.equals(city.owner.capital))
+								{
+									city.owner.capital = null;
+								}
+							}
+							for (int k = city.land.size() - 1; k >= 0; k--)
+							{
+								Tile t = city.land.get(k);
+								if (t.improvement != null)
+								{
+									t.improvement.owner = owner;
+								}
+								t.owner = owner;
+							}
+							city.owner.cities.remove(city);
+							if (city.owner.cities.size() > 0)
+							{
+								city.owner.capital = city.owner.cities.get(0);
+							}
+							city.owner = owner;
+							city.takeover = 5;
+							owner.cities.add(city);
+							System.out.println("_________");
+							System.out.println(city.owner);
+							System.out.println(owner);
+						}
+						//Just in case
+						//The first condition is not needed
+						else if (!(en.location.improvement instanceof City) && !owner.equals(location.improvement.owner))//owner.enemies.contains(en.location.improvement.owner)) 
+						{
+							//System.out.println("raze");
+							location.grid.removeUnit(en.location.improvement);
+							//en.location.improvement = null;
+						}
+					}*/
+					if (owner.enemies.contains(location.grid.getTile(en.location.row+r,en.location.col+c).owner))
+						location.grid.move(this, r, c);
+				}
 				if (enemy != null)
 				{
 					if (owner.cities.size() > 5 && enemy.owner.cities.size() < 6)
@@ -124,55 +173,64 @@ public abstract class GameEntity extends BaseEntity {
 						}
 					}
 				}
-				if (enemy == null)
-				{
-					if (en.location.improvement != null && !owner.equals(location.improvement.owner))//owner.enemies.contains(en.location.owner))
-					{
-						//System.out.println("takeover2");
-						if (en.location.improvement.name.equals("City"))
-						{
-							System.out.println("takeover");
-							City city = (City)en.location.improvement;
-							if (city.owner.capital != null)
-							{
-								if (city.equals(city.owner.capital))
-								{
-									city.owner.capital = null;
-								}
-							}
-							for (int k = city.land.size() - 1; k >= 0; k--)
-							{
-								Tile t = city.land.get(k);
-								if (t.improvement != null)
-								{
-									t.improvement.owner = owner;
-								}
-								t.owner = owner;
-							}
-							city.owner.cities.remove(city);
-							if (city.owner.cities.size() > 0)
-							{
-								city.owner.capital = city.owner.cities.get(0);
-							}
-							city.owner = owner;
-							city.takeover = 5;
-							owner.cities.add(city);
-						}
-						//Just in case
-						//The first condition is not needed
-						else if (!(en.location.improvement instanceof City) && !owner.equals(location.improvement.owner))//owner.enemies.contains(en.location.improvement.owner)) 
-						{
-							//System.out.println("raze");
-							location.grid.removeUnit(en.location.improvement);
-							//en.location.improvement = null;
-						}
-					}
-					if (!owner.enemies.contains(location.grid.getTile(en.location.row+r,en.location.col+c).owner))
-						location.grid.move(this, r, c);
-				}
 			}
 		}
 		return true;
+	}
+
+	public boolean raze()
+	{
+		if (location.improvement != null)
+		{
+			System.out.println(owner + " " + location.owner);
+			if (!owner.equals(location.owner))
+			{
+				System.out.println("takeover2");
+				if (location.improvement.name.equals("City"))
+				{
+					System.out.println("takeover");
+					City city = (City)location.improvement;
+					if (city.owner.capital != null)
+					{
+						if (city.equals(city.owner.capital))
+						{
+							city.owner.capital = null;
+						}
+					}
+					for (int k = city.land.size() - 1; k >= 0; k--)
+					{
+						Tile t = city.land.get(k);
+						if (t.improvement != null)
+						{
+							t.improvement.owner = owner;
+						}
+						t.owner = owner;
+					}
+					city.owner.cities.remove(city);
+					if (city.owner.cities.size() > 0)
+					{
+						city.owner.capital = city.owner.cities.get(0);
+					}
+					city.owner = owner;
+					city.takeover = 5;
+					owner.cities.add(city);
+					System.out.println("_________");
+					System.out.println(city.owner);
+					System.out.println(owner);
+					return true;
+				}
+				//Just in case
+				//The first condition is not needed
+				else if (!(location.improvement instanceof City))//owner.enemies.contains(en.location.improvement.owner)) 
+				{
+					//System.out.println("raze");
+					location.grid.removeUnit(location.improvement);
+					return true;
+					//en.location.improvement = null;
+				}
+			}
+		}
+		return false;
 	}
 
 	public Tile adjacentEnemy()
