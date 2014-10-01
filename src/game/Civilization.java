@@ -44,4 +44,9 @@ public class Civilization {
 		return enemies.contains(other);
 	}
 	
+	public String toString()
+	{
+		return name;
+	}
+	
 }

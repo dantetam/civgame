@@ -93,25 +93,32 @@ public class Grid {
 		if (r+rDis >= 0 && r+rDis < tiles.length && c+cDis >= 0 && c+cDis < tiles.length)
 		{
 			tiles[r][c].occupants.remove(en);
-			en.location = tiles[r+rDis][c+cDis];
-			en.location.addUnit(en);
+			//en.location = tiles[r+rDis][c+cDis];
+			//en.location.addUnit(en);
+			addUnit(en, en.owner, r+rDis, c+cDis);
 		}
 	}
 
 	public void moveTo(BaseEntity en, int r, int c)
 	{
 		tiles[en.location.row][en.location.col].occupants.remove(en);
+		if (en instanceof TileEntity && en.equals(en.location.improvement))
+			tiles[en.location.row][en.location.col].improvement = null;
 		en.location = tiles[r][c];
-		en.location.addUnit(en);
+		//en.location.addUnit(en);
+		addUnit(en, en.owner, r, c);
 	}
 
 	public void addUnit(BaseEntity en, Civilization civ, int r, int c)
 	{
 		en.owner = civ;
+		en.location = tiles[r][c];
 		if (en instanceof GameEntity)
-			civ.units.add((GameEntity)en);
+			if (!civ.units.contains(en))
+				civ.units.add((GameEntity)en);
 		else if (en instanceof TileEntity)
-			civ.improvements.add((TileEntity)en);
+			if (civ.improvements.contains(en))
+				civ.improvements.add((TileEntity)en);
 		tiles[r][c].addUnit(en);
 	}
 

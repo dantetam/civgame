@@ -138,7 +138,10 @@ public class MenuSystem extends BaseSystem {
 				hintText.add(EntityData.getBiome(target.biome));
 
 			if (target.improvement != null)
+			{
 				hintText.add(target.improvement.name);
+				hintText.add(target.improvement.id);
+			}
 			else
 				hintText.add("Pristine");
 
@@ -270,7 +273,8 @@ public class MenuSystem extends BaseSystem {
 			for (int i = 0; i < hintText.size(); i++)
 			{
 				main.textAlign(main.LEFT);
-				main.text(hintText.get(i), main.width*5/6 + 15, main.height*5/6 + 15*(i+1));
+				if (hintText.get(i) != null)
+					main.text(hintText.get(i), main.width*5/6 + 15, main.height*5/6 + 15*(i+1));
 			}
 		}
 

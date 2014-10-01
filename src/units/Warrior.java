@@ -39,22 +39,20 @@ public class Warrior extends GameEntity {
 	{
 		if (queueTiles.size() > 0)
 		{
-			if (!raze())
-			{
-				if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
-					return;
-				queueTiles.remove(queueTiles.size()-1);
-				if (queueTiles.size() > 0)
-					if (queueTiles.get(0).owner.equals(owner) || queueTiles.get(0).equals(location))
-						queueTiles.clear();
-				Tile t = adjacentEnemy();
-				//System.out.println("pathfinding");
-				if (t != null)
-				{
+			if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
+				return;
+			if (raze()) return;
+			queueTiles.remove(queueTiles.size()-1);
+			if (queueTiles.size() > 0)
+				if (queueTiles.get(0).owner.equals(owner) || queueTiles.get(0).equals(location))
 					queueTiles.clear();
-					if (!aggressiveWaddle(t.row - location.row, t.col - location.col))
-						return;
-				}
+			Tile t = adjacentEnemy();
+			//System.out.println("pathfinding");
+			if (t != null)
+			{
+				queueTiles.clear();
+				if (!aggressiveWaddle(t.row - location.row, t.col - location.col))
+					return;
 			}
 		}
 		else if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 

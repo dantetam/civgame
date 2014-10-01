@@ -6,6 +6,7 @@ public abstract class BaseEntity {
 
 	public Tile location;
 	public String name;
+	public String id;
 	public Civilization owner;
 	
 	public String queue;
@@ -17,6 +18,7 @@ public abstract class BaseEntity {
 	public BaseEntity(String name)
 	{
 		this.name = name;
+		id = Double.toString(Math.random()*System.currentTimeMillis());
 	}
 	
 	public BaseEntity(BaseEntity other)
