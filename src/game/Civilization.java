@@ -14,6 +14,8 @@ public class Civilization {
 	public ArrayList<GameEntity> units;
 	public ArrayList<TileEntity> improvements;
 	public ArrayList<Civilization> enemies;
+	
+	public TechTree techTree;
 	//public ArrayList<Tile> tiles;
 	
 	public int food, gold, metal, research;
@@ -28,6 +30,7 @@ public class Civilization {
 		//tiles = new ArrayList<Tile>();
 		this.name = name;
 		food = 17; gold = 0; metal = 0; research = 0;
+		techTree = new TechTree();
 	}
 	
 	public boolean equals(Civilization other)
