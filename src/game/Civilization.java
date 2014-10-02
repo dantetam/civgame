@@ -31,6 +31,7 @@ public class Civilization {
 		this.name = name;
 		food = 17; gold = 0; metal = 0; research = 0;
 		techTree = new TechTree();
+		//System.out.println(techTree.researched("Agriculture"));
 	}
 	
 	public boolean equals(Civilization other)
