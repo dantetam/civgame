@@ -32,6 +32,7 @@ public class CivGame extends PApplet {
 	public long seed; 
 
 	public Player player = new Player();
+	public boolean showAll = false;
 	
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);

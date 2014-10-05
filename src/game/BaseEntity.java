@@ -26,6 +26,20 @@ public abstract class BaseEntity {
 		name = other.name; 
 	}
 	
+	public void reveal()
+	{
+		for (int i = location.row - 2; i <= location.row + 2; i++)
+		{
+			for (int j = location.col - 2; j <= location.col + 2; j++)
+			{
+				if (location.grid.getTile(i, j) != null)
+				{
+					owner.revealed[i][j] = true;
+				}
+			}
+		}
+	}
+	
 	public void tick() {}
 	public void playerTick() {};
 	

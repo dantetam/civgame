@@ -312,6 +312,10 @@ public class InputSystem extends BaseSystem {
 		{
 			main.menuSystem.minimap = !main.menuSystem.minimap;
 		}
+		else if (key == 't')
+		{
+			main.showAll = !main.showAll;
+		}
 	}
 
 }

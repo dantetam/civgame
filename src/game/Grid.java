@@ -84,6 +84,9 @@ public class Grid {
 				}
 			}
 			addUnit(en,civs[i],r,c);
+			
+			civ.revealed = new boolean[terrain.length][terrain[0].length];
+			en.reveal();
 		}
 		//makeRivers(terrain);
 		pathFinder = new Pathfinder(this);
@@ -223,8 +226,11 @@ public class Grid {
 		{
 			for (int c = 0; c < cols; c++)
 			{
-				if (getTile(r,c).biome != -1)
-					cityScores[r][c] = returnCityScoreNoOwner(r,c);
+				int dist = (int)Math.sqrt(Math.pow(r-settlerR,2) + Math.pow(c-settlerC,2));
+				if (dist > 10)
+					cityScores[r][c] = 0;
+				else if (getTile(r,c).biome != -1)
+					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(0.25*dist);
 			}
 		}
 		Tile[] temp = new Tile[10];

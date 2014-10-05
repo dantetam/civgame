@@ -47,11 +47,15 @@ public class RenderSystem extends BaseSystem {
 			for (int c = 0; c < main.terrain[0].length; c++)
 			{
 				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
-				float dist = main.chunkSystem.dist[chunk]; 
+				float dist = main.chunkSystem.dist[chunk];
 				//TODO: The center of the player's view is the right bound of the viewing angle
 				if ((main.player.posY <= 100 && dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
 						(dist < dist1 && dist != -1F))
 				{
+					if (!main.grid.civs[0].revealed[r][c] || main.showAll)
+					{
+						continue;
+					}
 					renderBlock(dist,r,c);
 					Tile t = main.grid.getTile(r,c);
 					if (t.improvement != null)

@@ -20,6 +20,8 @@ public class Civilization {
 	
 	public int food, gold, metal, research;
 	
+	public boolean[][] revealed;
+	
 	public Civilization(String name)
 	{
 		cities = new ArrayList<City>();

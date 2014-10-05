@@ -15,6 +15,7 @@ import render.Menu;
 import render.Game.PFrame;
 import units.City;
 import units.Settler;
+import units.Warrior;
 
 public class MenuSystem extends BaseSystem {
 
@@ -383,6 +384,11 @@ public class MenuSystem extends BaseSystem {
 						{
 							main.grid.removeUnit(selected);
 						}
+						else if (command.equals("raze"))
+						{
+							((Warrior)selected).raze();
+							((Warrior)selected).action = 0;
+						}
 						else if (command.equals("settle"))
 						{
 							((Settler)selected).settle();
@@ -430,6 +436,10 @@ public class MenuSystem extends BaseSystem {
 		if (name.equals("Settler"))
 		{
 			menus.get(1).addButton("settle", "Settle", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+		}
+		else if (name.equals("Warrior"))
+		{
+			menus.get(1).addButton("raze", "Raze", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
 		else if (name.equals("Worker"))
 		{

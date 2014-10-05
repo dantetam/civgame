@@ -31,6 +31,11 @@ public class CivilizationSystem extends BaseSystem {
 				{
 					for (int j = 0; j < civ.units.size(); j++)
 					{
+						//Reveal all tiles within sight
+						civ.units.get(j).reveal();
+					}
+					for (int j = 0; j < civ.units.size(); j++)
+					{
 						GameEntity en = civ.units.get(j);
 						int r = (int)(Math.random()*3) - 1;
 						int c = (int)(Math.random()*3) - 1;
