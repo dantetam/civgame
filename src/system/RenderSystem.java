@@ -52,23 +52,23 @@ public class RenderSystem extends BaseSystem {
 				if ((main.player.posY <= 100 && dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
 						(dist < dist1 && dist != -1F))
 				{
-					if (!main.grid.civs[0].revealed[r][c] || main.showAll)
+					/*if (!main.grid.civs[0].revealed[r][c] || main.showAll)
 					{
 						continue;
+					}*/
+					if (main.grid.civs[0].revealed[r][c] || main.showAll)
+					{
+						renderBlock(dist,r,c);
 					}
-					renderBlock(dist,r,c);
+					else
+					{
+						renderHiddenBlock(dist,r,c);
+						continue;
+					}
 					Tile t = main.grid.getTile(r,c);
 					if (t.improvement != null)
 					{
 						renderGameEntity(t.improvement,dist,r,c);
-					}
-					if (t.occupants.size() > 0)
-					{
-						for (int i = 0; i < t.occupants.size(); i++)
-						{
-							GameEntity en = t.occupants.get(i);
-							renderGameEntity(en,dist,r,c);
-						}
 					}
 					if (t.forest)
 					{
@@ -84,6 +84,18 @@ public class RenderSystem extends BaseSystem {
 					if (c < main.terrain[0].length - 1)
 					{
 						if (main.verticalRivers[r][c]) renderRiver(r,c,r,c+1);
+					}
+					/*if (!main.grid.civs[0].revealed[r][c] || main.showAll)
+					{
+						continue;
+					}*/
+					if (t.occupants.size() > 0)
+					{
+						for (int i = 0; i < t.occupants.size(); i++)
+						{
+							GameEntity en = t.occupants.get(i);
+							renderGameEntity(en,dist,r,c);
+						}
 					}
 				}
 				else
@@ -266,6 +278,41 @@ public class RenderSystem extends BaseSystem {
 					main.popMatrix();
 				}
 			}
+			main.popMatrix();
+		}
+	}
+	
+	public void renderHiddenBlock(float dist, int r, int c)
+	{
+		//if (dist < 1000 && en.sizeY >= cutoff)
+		if (main.terrain[r][c] >= 0)
+		{
+			float sampleSize = 1;
+			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
+			main.fill((float)color.r*125F,(float)color.g*125F,(float)color.b*125F);
+			main.noStroke();
+			Tile t = main.grid.getTile(r,c);
+			
+			if (dist > dist2)
+			{
+				sampleSize = 4;
+				if (!((r) % sampleSize == 0 && (c) % sampleSize == 0))
+				{
+					return;
+				}
+			}
+			else if (dist > dist1)
+			{	
+				sampleSize = 2;
+				if (!((r+1) % sampleSize == 0 && (c+1) % sampleSize == 0))
+				{
+					return;
+				}
+			}
+			//sampleSize = 1;
+			main.pushMatrix();
+			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
+			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 			main.popMatrix();
 		}
 	}

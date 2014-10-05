@@ -26,11 +26,12 @@ public abstract class BaseEntity {
 		name = other.name; 
 	}
 	
+	public int sight = 4;
 	public void reveal()
 	{
-		for (int i = location.row - 2; i <= location.row + 2; i++)
+		for (int i = location.row - sight; i <= location.row + sight; i++)
 		{
-			for (int j = location.col - 2; j <= location.col + 2; j++)
+			for (int j = location.col - sight; j <= location.col + sight; j++)
 			{
 				if (location.grid.getTile(i, j) != null)
 				{
