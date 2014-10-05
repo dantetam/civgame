@@ -1,7 +1,9 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import units.City;
 import data.EntityData;
 
 public class Grid {
@@ -213,6 +215,81 @@ public class Grid {
 		return null;
 	}
 
+	public Tile[] returnBestCityScores(int settlerR, int settlerC)
+	{
+		evalBefore();
+		int[][] cityScores = new int[rows][cols];
+		for (int r = 0; r < rows; r++)
+		{
+			for (int c = 0; c < cols; c++)
+			{
+				if (getTile(r,c).biome != -1)
+					cityScores[r][c] = returnCityScoreNoOwner(r,c);
+			}
+		}
+		Tile[] temp = new Tile[10];
+		
+		//There will be a more efficient algorithm here,
+		//currently the number of calculations is 10*r*c
+		
+		//Find the ten most productive tiles in the game
+		for (int i = 0; i < 10; i++)
+		{
+			Tile maxTile = tiles[0][0];
+			for (int r = 0; r < rows; r++)
+			{
+				for (int c = 0; c < cols; c++)
+				{
+					if (cityScores[r][c] <= 0) continue;
+					if (cityScores[r][c] > cityScores[maxTile.row][maxTile.col])
+					{
+						maxTile = getTile(r,c);
+					}
+				}
+			}
+			cityScores[maxTile.row][maxTile.col] = 0;
+			temp[i] = maxTile;
+		}
+		
+		return temp;
+	}
+	
+	//Get all the scores of all the tiles so they only have to be evaluated once
+	private int[][] tileScores;
+	private void evalBefore()
+	{
+		tileScores = new int[rows][cols]; 
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < cols; j++)
+			{
+				double[] e = City.staticEval(getTile(i,j));
+				//Give a little bias to food
+				tileScores[i][j] = (int)(e[0]*1.35+e[1]+e[2]+e[3]);
+			}
+		}	
+	}
+	
+	//Returns the composite of a city and its surrounding tiles,
+	//not including tiles claimed by other cities
+	private int returnCityScoreNoOwner(int r, int c)
+	{
+		int score = 0;
+	
+		for (int i = r - 2; i <= r + 2; i++)
+		{
+			for (int j = c - 2; j <= c + 2; j++)
+			{
+				if (getTile(i,j) != null)
+				{
+					if (getTile(i,j).owner == null)
+						score += tileScores[i][j];
+				}
+			}
+		}
+		return score;
+	}
+	
 	//public Tile[][] getTiles() {return tiles;}
 
 }

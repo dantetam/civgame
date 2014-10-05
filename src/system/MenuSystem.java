@@ -28,6 +28,7 @@ public class MenuSystem extends BaseSystem {
 	public ArrayList<String> hintText;
 	public Tile highlighted; //Under the player's crosshair
 	public BaseEntity selected; //Selected by the player with the mouse explicitly
+	public Tile[] settlerChoices;
 	public String typeOfLastSelected = "";
 	//public City citySelected;
 

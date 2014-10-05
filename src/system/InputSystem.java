@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import render.CivGame;
 import system.MenuSystem.Click;
 import units.City;
+import units.Settler;
 
 public class InputSystem extends BaseSystem {
 
@@ -203,6 +204,14 @@ public class InputSystem extends BaseSystem {
 					//return;
 				}
 		}
+		if (main.menuSystem.selected instanceof Settler)
+		{
+			main.menuSystem.settlerChoices = main.grid.returnBestCityScores(main.menuSystem.selected.location.row, main.menuSystem.selected.location.col);
+		}
+		else
+		{
+			main.menuSystem.settlerChoices = null;
+		}
 	}
 
 	public void passRightMouseClick(float mouseX, float mouseY)
@@ -263,6 +272,14 @@ public class InputSystem extends BaseSystem {
 					main.fixCamera(en.location.row, en.location.col);
 					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
 					main.menuSystem.selected = en;
+					if (main.menuSystem.selected instanceof Settler)
+					{
+						main.menuSystem.settlerChoices = main.grid.returnBestCityScores(main.menuSystem.selected.location.row, main.menuSystem.selected.location.col);
+					}
+					else
+					{
+						main.menuSystem.settlerChoices = null;
+					}
 					return;
 				}
 			}

@@ -165,6 +165,139 @@ public class City extends TileEntity {
 		}
 	}
 
+	public static double[] staticEval(Tile t)
+	{
+		int f, g, m, r;
+		if (t.biome == -1)
+		{
+			f = 1; g = 1; m = 0; r = 2;
+		}
+		else if (t.biome == 0)
+		{
+			f = 0; g = 1; m = 2; r = 1;
+		}
+		else if (t.biome == 1)
+		{
+			f = 1; g = 1; m = 1; r = 1;
+		}
+		else if (t.biome == 2)
+		{
+			f = 0; g = 0; m = 2; r = 1;
+		}
+		else if (t.biome == 3)
+		{
+			f = 2; g = 0; m = 1; r = 2;
+		}
+		else if (t.biome == 4)
+		{
+			f = 2; g = 1; m = 1; r = 2;
+		}
+		else if (t.biome == 5)
+		{
+			f = 3; g = 0; m = 1; r = 2;
+		}
+		else if (t.biome == 6)
+		{
+			f = 3; g = 1; m = 0; r = 3;
+		}
+		else
+		{
+			System.err.println("Invalid biomerrr " + t.biome);
+			f = 0; g = 0; m = 0; r = 0;
+		}
+		if (t.biome >= 4 && t.biome <= 6 && !t.forest)
+		{
+			f--;
+			r--;
+		}
+		if (t.shape == 1)
+		{
+			f--;
+			m++;
+			if (t.improvement != null)
+				if (t.improvement.name.equals("Mine"))
+					m++;
+		}
+		else if (t.shape == 2)
+		{
+			f -= 1;
+			m += 1;
+			if (t.improvement != null)
+				if (t.improvement.name.equals("Mine"))
+					m+=2;
+		}
+		//Record tiles with harvested resources as extra yield and record the number of these special tiles
+		if (t.improvement != null)
+		{
+			if (t.improvement.name.equals("Farm"))
+			{
+				if (t.resource == 1)
+				{
+					f += 3;
+				}
+				else if (t.resource == 2)
+				{
+					f += 4;
+				}
+				else
+				{
+					f += 2;
+				}
+			}
+			else if (t.improvement.name.equals("Fishing Boats"))
+			{
+				if (t.resource == 10)
+				{
+					f += 3;
+				}
+				else if (t.resource == 11)
+				{
+					f += 3;
+					g += 2;
+					r += 3;
+				}
+			}
+			else if (t.improvement.name.equals("Mine"))
+			{
+				if (t.resource == 20)
+				{
+					m += 3;
+					g += 1;
+					r += 1;
+				}
+				else if (t.resource == 21)
+				{
+					m += 4;
+					g += 2;
+					r += 3;
+				}
+				else if (t.resource == 22)
+				{
+					m += 3;
+					g += 1;
+					r += 1;
+				}
+			}
+			else if (t.improvement.name.equals("Forest Yard"))
+			{
+				if (t.resource == 30)
+				{
+					f += 1;
+					g += 1;
+					m += 3;
+					r += 1;
+				}
+			}
+		}
+		if (t.resource == 40)
+		{
+			f += 2;
+			g += 1;
+			r += 2;
+		}
+		return new double[]{f,g,m,r};
+	}
+	
 	//Returns a score
 	public double[] evaluate(Tile t, String focus)
 	{

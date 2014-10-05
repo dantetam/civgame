@@ -214,6 +214,19 @@ public class RenderSystem extends BaseSystem {
 						main.strokeWeight(1);
 					}
 				}
+				else if (main.menuSystem.settlerChoices != null)
+				{
+					for (int i = 0; i < main.menuSystem.settlerChoices.length; i++)
+					{
+						Tile tile = main.menuSystem.settlerChoices[i];
+						if (tile.equals(t))
+						{
+							main.stroke(200,0,255);
+							main.strokeWeight(5);
+							break;
+						}
+					}
+				}
 			}
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
