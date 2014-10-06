@@ -430,23 +430,26 @@ public class CivilizationSystem extends BaseSystem {
 						main.grid.removeUnit(civ.units.get((int)(Math.random()*civ.units.size())));
 					}
 				}
-				//Begin researching techs 
-				if (civ.researchTech == null)
+				//Begin researching techs (enemy AI only)
+				if (i == 0)
 				{
-					if (civ.beeline.size() > 0)
+					if (civ.researchTech == null)
 					{
-						civ.researchTech = civ.beeline.get(0);
-						civ.beeline.remove(0);
+						if (civ.beeline.size() > 0)
+						{
+							civ.researchTech = civ.beeline.get(0);
+							civ.beeline.remove(0);
+						}
 					}
-				}
-				else if (civ.researchTech != null) //Could be null, check for it
-				{
-					Tech tech = civ.techTree.researched(civ.researchTech);
-					tech.totalR += civ.research;
-					civ.research = 0;
-					if (tech.researched())
+					else if (civ.researchTech != null) //Could be null, check for this possibility
 					{
-						civ.researchTech = null;
+						Tech tech = civ.techTree.researched(civ.researchTech);
+						tech.totalR += civ.research;
+						civ.research = 0;
+						if (tech.researched())
+						{
+							civ.researchTech = null;
+						}
 					}
 				}
 			}

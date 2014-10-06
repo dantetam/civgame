@@ -17,7 +17,6 @@ public class Civilization {
 	
 	public TechTree techTree;
 	public String researchTech;
-	public ArrayList<String> beeline;
 	//public ArrayList<Tile> tiles;
 	
 	public int food, gold, metal, research;
@@ -36,7 +35,7 @@ public class Civilization {
 		food = 17; gold = 0; metal = 0; research = 0;
 		techTree = new TechTree();
 		beeline = new ArrayList<String>();
-		beelineTo("Forestry");
+		beelineTo("Fletching");
 		//System.out.println(techTree.researched("Agriculture"));
 	}
 	
@@ -60,17 +59,21 @@ public class Civilization {
 	}
 	
 	//Find the list of techs leading up to and including a certain target tech
+	//Queue up techs to research below, zero is first
+	public ArrayList<String> beeline;
 	public void beelineTo(String techName)
 	{
 		//System.out.println(techTree.researched("Animal Husbandry").name);
 		//System.out.println(techName);
 		beeline.clear();
 		Tech tech = techTree.researched(techName);
+		//System.out.println("Tech: " + tech); 
+		//System.out.println(tech.requisite);
 		Tech parent = tech.requisite;
 		while (true)
 		{
 			if (parent.researched()) {break;}
-			beeline.add(parent.name);
+			beeline.add(0,parent.name);
 			parent = parent.requisite;
 		}
 		beeline.add(tech.name);
@@ -78,6 +81,7 @@ public class Civilization {
 		{
 			System.out.println(beeline.get(i));
 		}
+		System.out.println("-----");
 	}
 	
 }

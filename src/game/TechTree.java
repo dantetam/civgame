@@ -8,7 +8,8 @@ public class TechTree {
 	
 	public TechTree()
 	{
-		first = new Tech("Civilization", 0,
+		first = 
+				new Tech("Civilization", 0,
 					new Tech("Agriculture", 30,
 						new Tech("Forestry", 60, 
 							new Tech("Architecture", 100, null),
@@ -18,17 +19,25 @@ public class TechTree {
 							)
 						),
 						new Tech("Milling", 60, 
-							new Tech("Fletching", 100, null))
+							new Tech("Fletching", 100, null)
+						)
 					),
 					new Tech("Mining", 30,
 						new Tech("Metal Working", 120, 
 							new Tech("Currency", 100, null),
-							new Tech("Casting", 100, null)),
+							new Tech("Casting", 100, null)
+						),
 						new Tech("Stone Working", 60,
-							new Tech("Pottery", 30, null))
+							new Tech("Pottery", 30, null)
+						)
 					)
 				);
 	}
+	
+	/*public void printOut()
+	{
+		
+	}*/
 	
 	/*public boolean researched(String name)
 	{
@@ -71,6 +80,28 @@ public class TechTree {
 	//Recursive method to find a tech within the tree
 	private Tech researched(Tech start, String name)
 	{
+		//System.out.println("Looking for tech: " + name + "; In directory: " + start.name);
+		if (start.name.equals(name))
+			return start;
+		for (int i = 0; i < start.techs.length; i++)
+		{
+			//System.out.println(start.techs[i].name);
+			if (start.techs[i].name.equals(name))
+				return start.techs[i];
+			else
+			{
+				Tech candidate = researched(start.techs[i], name);
+				if (candidate != null)
+					return candidate;
+				//else continue;
+			}
+		}
+		return null;
+	}
+	
+	/*private Tech researched(Tech start, String name)
+	{
+		Tech temp = null;
 		if (start.name.equals(name))
 		{
 			return start;
@@ -79,14 +110,14 @@ public class TechTree {
 		{
 			if (start.techs[i].name.equals(name))
 			{
-				return start.techs[i];
+				temp = start.techs[i];
 			}
 			else
 			{
-				return researched(start.techs[i], name);
+				researched(start.techs[i], name);
 			}
 		}
-		return null;
-	}
+		return temp;
+	}*/
 	
 }
