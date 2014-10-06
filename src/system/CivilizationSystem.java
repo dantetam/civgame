@@ -431,19 +431,23 @@ public class CivilizationSystem extends BaseSystem {
 					}
 				}
 				//Begin researching techs 
-				if (civ.researchTech != null)
+				if (civ.researchTech == null)
+				{
+					if (civ.beeline.size() > 0)
+					{
+						civ.researchTech = civ.beeline.get(0);
+						civ.beeline.remove(0);
+					}
+				}
+				else if (civ.researchTech != null) //Could be null, check for it
 				{
 					Tech tech = civ.techTree.researched(civ.researchTech);
 					tech.totalR += civ.research;
 					civ.research = 0;
 					if (tech.researched())
 					{
-						civ.researchTech = tech.techs[0].name;
+						civ.researchTech = null;
 					}
-				}
-				else
-				{
-					civ.researchTech = "Agriculture";
 				}
 			}
 			//Loop through tiles
