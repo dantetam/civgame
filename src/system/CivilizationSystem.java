@@ -430,6 +430,21 @@ public class CivilizationSystem extends BaseSystem {
 						main.grid.removeUnit(civ.units.get((int)(Math.random()*civ.units.size())));
 					}
 				}
+				//Begin researching techs 
+				if (civ.researchTech != null)
+				{
+					Tech tech = civ.techTree.researched(civ.researchTech);
+					tech.totalR += civ.research;
+					civ.research = 0;
+					if (tech.researched())
+					{
+						civ.researchTech = tech.techs[0].name;
+					}
+				}
+				else
+				{
+					civ.researchTech = "Agriculture";
+				}
 			}
 			//Loop through tiles
 			/*for (int r = 0; r < main.grid.rows; r++)

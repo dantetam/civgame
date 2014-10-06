@@ -23,12 +23,12 @@ public class TechTree {
 		
 	}*/
 	
-	public boolean researched(String name)
+	/*public boolean researched(String name)
 	{
 		return evalOrLower(first, name);
-	}
+	}*/
 	
-	private boolean evalOrLower(Tech start, String name)
+	/*private boolean evalOrLowerBoolean(Tech start, String name)
 	{
 		boolean temp = false;
 		if (start.name.equals(name))
@@ -47,6 +47,27 @@ public class TechTree {
 			}
 		}
 		return temp;
+	}*/
+	
+	//Recursive method to find a tech within the tree
+	public Tech researched(String name)
+	{
+		if (first.name.equals(name))
+		{
+			return first;
+		}
+		for (int i = 0; i < first.techs.length; i++)
+		{
+			if (first.techs[i].name.equals(name))
+			{
+				return first.techs[i];
+			}
+			else
+			{
+				return researched(name);
+			}
+		}
+		return null;
 	}
 	
 }

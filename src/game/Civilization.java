@@ -16,6 +16,7 @@ public class Civilization {
 	public ArrayList<Civilization> enemies;
 	
 	public TechTree techTree;
+	public String researchTech;
 	//public ArrayList<Tile> tiles;
 	
 	public int food, gold, metal, research;
