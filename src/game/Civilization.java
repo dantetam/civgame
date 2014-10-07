@@ -35,6 +35,7 @@ public class Civilization {
 		food = 17; gold = 0; metal = 0; research = 0;
 		techTree = new TechTree();
 		beeline = new ArrayList<String>();
+		beelineTo("Metal Working");
 		beelineTo("Fletching");
 		//System.out.println(techTree.researched("Agriculture"));
 	}
@@ -65,15 +66,16 @@ public class Civilization {
 	{
 		//System.out.println(techTree.researched("Animal Husbandry").name);
 		//System.out.println(techName);
-		beeline.clear();
+		//beeline.clear();
 		Tech tech = techTree.researched(techName);
+		int dis = beeline.size();
 		//System.out.println("Tech: " + tech); 
 		//System.out.println(tech.requisite);
 		Tech parent = tech.requisite;
 		while (true)
 		{
 			if (parent.researched()) {break;}
-			beeline.add(0,parent.name);
+			beeline.add(dis,parent.name);
 			parent = parent.requisite;
 		}
 		beeline.add(tech.name);

@@ -92,7 +92,7 @@ public class InputSystem extends BaseSystem {
 					moving = true;
 				}
 				//System.out.println(moving);
-				main.redraw();
+				//main.redraw();
 			}
 		}
 		if (moving == false && lastMoving)
