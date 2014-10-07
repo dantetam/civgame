@@ -230,7 +230,7 @@ public class Grid {
 				if (dist > 10)
 					cityScores[r][c] = 0;
 				else if (getTile(r,c).biome != -1)
-					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(0.25*dist);
+					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(0.75*dist);
 			}
 		}
 		Tile[] temp = new Tile[10];
