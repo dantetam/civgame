@@ -309,6 +309,24 @@ public class RenderSystem extends BaseSystem {
 					return;
 				}
 			}
+			Entity temp = new Entity();
+			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 1, widthBlock*sampleSize);
+			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
+			if (main.player.lookingAtEntity(temp))
+			{
+				main.menuSystem.target = main.grid.getTile(r, c);
+				//main.fill(0);
+				main.stroke(0,0,255);
+				main.strokeWeight(8);
+				if (main.grid.getTile(r,c) != null)
+				{
+					main.menuSystem.highlighted = main.grid.getTile(r,c);
+				}
+				else
+				{
+					main.menuSystem.highlighted = null;
+				}
+			}
 			//sampleSize = 1;
 			main.pushMatrix();
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);

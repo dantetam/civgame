@@ -44,34 +44,51 @@ public class Settler extends GameEntity {
 		}
 		waddle();
 	}*/
-	
+
 	public void tick()
 	{
 		if (queueTiles.size() == 0)
 		{
 			Tile t = settleLocation();
+			//System.out.println(t.owner);
 			waddleTo(t.row,t.col);
 		}
 		if (queueTiles.size() > 0)
-		{
+		{	
+			if (queueTiles.get(0).equals(location))
+			{
+				settle();
+				return;
+			}
 			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
 			queueTiles.remove(queueTiles.size()-1);
 			//If it reaches the destination
 			if (queueTiles.size() == 0)
 			{
-				settle();
+				if (location.owner == null)
+				{
+					settle();
+					return;
+				}
+				else
+				{
+					queueTiles.clear();
+					Tile t = settleLocation();
+					waddleTo(t.row,t.col);
+				}
 			}
-			else if (queueTiles.get(0).owner != null)
+			/*else if (queueTiles.get(0).owner != null)
 			{
 				queueTiles.clear();
-			}
+			}*/
 		}
 	}
-	
+
 	public Tile settleLocation()
 	{
 		Tile[] candidates = location.grid.returnBestCityScores(location.row, location.col);
 		return candidates[(int)(Math.random()*candidates.length)];
+		//return candidates[0];
 	}
 
 	public void settle()

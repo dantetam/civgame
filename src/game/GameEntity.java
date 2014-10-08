@@ -43,11 +43,36 @@ public abstract class GameEntity extends BaseEntity {
 		}
 	}
 
+	public void waddleInTerritory()
+	{
+		if (queueTiles.size() > 0)
+		{
+			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
+			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			queueTiles.remove(queueTiles.size()-1);
+		}
+		else
+		{
+			int r,c;
+			while (true)
+			{
+				r = (int)(Math.random()*3) - 1;
+				c = (int)(Math.random()*3) - 1;
+				Tile t = location.grid.getTile(location.row + r, location.col + c);
+				if (t != null)
+					if (owner.equals(t.owner)) 
+						break;
+			}
+			passiveWaddle(r,c);
+		}
+	}
+
 	public void waddleTo(int r, int c)
 	{
 		/*System.out.println("------");
 		System.out.println(location.grid.getTile(location.row,location.col));
 		System.out.println(location.grid.getTile(location.row+r,location.col+c));*/
+		queueTiles.clear();
 		if (location.grid.getTile(location.row+r,location.col+c) != null)
 		{
 			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(location.row,location.col,location.row+r,location.col+c);
@@ -279,7 +304,7 @@ public abstract class GameEntity extends BaseEntity {
 			return nearest.location;
 		return null;
 	}
-	
+
 	public Tile nearestAlliedCity()
 	{
 		City nearest = null;

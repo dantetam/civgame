@@ -227,10 +227,10 @@ public class Grid {
 			for (int c = 0; c < cols; c++)
 			{
 				int dist = (int)Math.sqrt(Math.pow(r-settlerR,2) + Math.pow(c-settlerC,2));
-				if (dist > 10)
+				if (dist > 10 || getTile(r,c).owner != null || getTile(r,c).biome == -1)
 					cityScores[r][c] = 0;
-				else if (getTile(r,c).biome != -1)
-					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(0.75*dist);
+				else
+					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(0.25*dist);
 			}
 		}
 		Tile[] temp = new Tile[10];
@@ -271,7 +271,7 @@ public class Grid {
 			{
 				double[] e = City.staticEval(getTile(i,j));
 				//Give a little bias to food
-				tileScores[i][j] = (int)(e[0]*1.35+e[1]+e[2]+e[3]);
+				tileScores[i][j] = (int)(e[0]*1.1+e[1]+e[2]+e[3]);
 			}
 		}	
 	}
@@ -280,8 +280,8 @@ public class Grid {
 	//not including tiles claimed by other cities
 	private int returnCityScoreNoOwner(int r, int c)
 	{
+		if (getTile(r,c).owner != null) return 0;
 		int score = 0;
-	
 		for (int i = r - 2; i <= r + 2; i++)
 		{
 			for (int j = c - 2; j <= c + 2; j++)
