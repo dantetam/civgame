@@ -66,11 +66,11 @@ public class MenuSystem extends BaseSystem {
 	public boolean menuActivated = false;
 	public void tick()
 	{
-		main.hint(PApplet.DISABLE_DEPTH_TEST);
+		//main.hint(PApplet.DISABLE_DEPTH_TEST);
 		//main.textSize(20);
 		//main.background(255,255,255,0);
-		main.camera();
-		main.perspective();
+		//main.camera();
+		//main.perspective();
 		//main.noLights();
 		main.noStroke();
 		main.textSize(12);

@@ -64,7 +64,7 @@ public class CivGame extends PApplet {
 
 	public void setup()
 	{
-		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
+		size(1500,900,P2D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
 		//pg = createGraphics(1500,900,P2D);
 		frameRate(25);
 		background(0,225,255);

@@ -24,138 +24,16 @@ public class RenderSystem extends BaseSystem {
 		super(civGame);
 		player = main.player;
 	}
-
+	
 	public void tick()
 	{
-		main.background(150,225,255);
-		//main.smooth(4);
-		//background(background);
-		main.noStroke();
-		main.lights();
-		//stroke(0);
-		main.fill(135, 206, 235);
-		main.perspective(3.14F/2,15F/9F,1,10000);
-		//System.out.println(player);
-		setCamera();
-		/*for (int i = 0; i < terrain.entities.size(); i++)
-		{
-			renderBlock(terrain.entities.get(i));
-		}*/
-		//Look to see if the entity is both within the player's vision and is a close enough distance
 		for (int r = 0; r < main.terrain.length; r++)
 		{
 			for (int c = 0; c < main.terrain[0].length; c++)
 			{
-				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
-				float dist = main.chunkSystem.dist[chunk];
-				//TODO: The center of the player's view is the right bound of the viewing angle
-				if ((main.player.posY <= 100 && dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
-						(dist < dist1 && dist != -1F))
-				{
-					/*if (!main.grid.civs[0].revealed[r][c] || main.showAll)
-					{
-						continue;
-					}*/
-					if (main.grid.civs[0].revealed[r][c] || main.showAll)
-					{
-						renderBlock(dist,r,c);
-					}
-					else
-					{
-						renderHiddenBlock(dist,r,c);
-						continue;
-					}
-					Tile t = main.grid.getTile(r,c);
-					if (t.improvement != null)
-					{
-						renderGameEntity(t.improvement,dist,r,c);
-					}
-					if (t.forest)
-					{
-						main.pushMatrix();
-						//main.translate(r*widthBlock, (float)main.terrain[r][c]*con/2F, c*widthBlock);
-						renderModel("Forest",r,c,0,0,0);
-						main.popMatrix();
-					}
-					if (r < main.terrain.length - 1)
-					{
-						if (main.horizontalRivers[r][c]) renderRiver(r+1,c,r,c);
-					}
-					if (c < main.terrain[0].length - 1)
-					{
-						if (main.verticalRivers[r][c]) renderRiver(r,c,r,c+1);
-					}
-					/*if (!main.grid.civs[0].revealed[r][c] || main.showAll)
-					{
-						continue;
-					}*/
-					if (t.occupants.size() > 0)
-					{
-						for (int i = 0; i < t.occupants.size(); i++)
-						{
-							GameEntity en = t.occupants.get(i);
-							renderGameEntity(en,dist,r,c);
-						}
-					}
-				}
-				else
-				{
-					/*if (dist < dist1 && dist != -1F)
-					{
-						renderBlock(dist,r,c);
-						Tile t = main.grid.getTile(r,c);
-						if (t.improvement != null)
-						{
-							renderGameEntity(t.improvement,dist,r,c);
-						}
-						if (t.occupants.size() > 0)
-						{
-							for (int i = 0; i < t.occupants.size(); i++)
-							{
-								GameEntity en = t.occupants.get(i);
-								renderGameEntity(en,dist,r,c);
-							}
-						}
-					}*/
-				}
+				
 			}
 		}
-		/*for (int r = 0; r < main.verticalRivers.length; r++)
-		{
-			for (int c = 0; c < main.verticalRivers[0].length; c++)
-			{
-				if (main.verticalRivers[r][c]) renderRiver(r,c,r,c+1);
-			}
-		}
-		for (int r = 0; r < main.horizontalRivers.length; r++)
-		{
-			for (int c = 0; c < main.horizontalRivers[0].length; c++)
-			{
-				if (main.horizontalRivers[r][c]) renderRiver(r+1,c,r+1,c);
-			}
-		}*/
-		/*for (int r = 0; r < main.grid.rows; r++)
-		{
-			for (int c = 0; c < main.grid.cols; c++)
-			{
-				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
-				float dist = main.chunkSystem.dist[chunk];
-				if (dist < dist1 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10)
-				{
-
-				}
-			}
-		}*/
-		/*main.hint(PApplet.DISABLE_DEPTH_TEST);
-		main.camera();
-		main.perspective();
-		main.rect(500, 500, 500, 500);
-		main.hint(PApplet.ENABLE_DEPTH_TEST);*/
-		//main.perspective();
-		//main.ortho();
-		//main.stroke(255);
-		//float lineWidth = 20;
-		//main.line(main.width/2 - lineWidth/2, main.height/2 - lineWidth/2, main.width/2 + lineWidth/2, main.height/2 + lineWidth/2);
 	}
 
 	//Render a block by accessing main's P3D abilities
