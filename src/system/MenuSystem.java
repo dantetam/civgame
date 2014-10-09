@@ -13,6 +13,7 @@ import render.Button;
 import render.CivGame;
 import render.Menu;
 import render.Game.PFrame;
+import render.TextBox;
 import units.City;
 import units.Settler;
 import units.Warrior;
@@ -20,6 +21,8 @@ import units.Warrior;
 public class MenuSystem extends BaseSystem {
 
 	public ArrayList<Menu> menus;
+	public ArrayList<TextBox> textboxes;
+	
 	private ArrayList<Click> clicks;
 
 	public boolean minimap, info = false;
@@ -38,6 +41,7 @@ public class MenuSystem extends BaseSystem {
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
 		menus = new ArrayList<Menu>();
+		textboxes = new ArrayList<TextBox>();
 		clicks = new ArrayList<Click>();
 
 		hintText = new ArrayList<String>();
