@@ -26,7 +26,7 @@ public abstract class BaseEntity {
 		name = other.name; 
 	}
 	
-	public int sight = 4;
+	public int sight = 2;
 	public void reveal()
 	{
 		for (int i = location.row - sight; i <= location.row + sight; i++)
@@ -39,6 +39,7 @@ public abstract class BaseEntity {
 				}
 			}
 		}
+		System.out.println(name + " reveal");
 	}
 	
 	public void tick() {}

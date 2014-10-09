@@ -20,6 +20,7 @@ public class City extends TileEntity {
 	public String focus;
 	public ArrayList<String> buildings;
 	public int takeover;
+	//public int sight = 4;
 
 	//Store how many of a copy of a resource (improved) that the city holds
 	public int[] resources = new int[41]; //as of 9/28/2014 resources go up to 40 so 40+1 spaces
@@ -41,6 +42,7 @@ public class City extends TileEntity {
 		health = 20;
 		offensiveStr = 0; rangedStr = 3; defensiveStr = 6;
 		takeover = 0;
+		sight = 4;
 	}
 
 	/*public City(TileEntity other) {

@@ -32,6 +32,8 @@ public class MenuSystem extends BaseSystem {
 	public Tile[] settlerChoices;
 	public String typeOfLastSelected = "";
 	//public City citySelected;
+	
+	private ArrayList<String> messages;
 
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
@@ -39,12 +41,13 @@ public class MenuSystem extends BaseSystem {
 		clicks = new ArrayList<Click>();
 
 		hintText = new ArrayList<String>();
+		messages = new ArrayList<String>();
 		//highlighted = null;
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
 		menu0.addButton("exitgame", "Exit", 0, 0, 100, 30);
-		menu0.addButton("minimap", "Minimap", 0, 800, 100, 50);
+		menu0.addButton("minimap", "Minimap", 0, 100, 100, 30);
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -118,11 +121,14 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 
+		//Render the cursor
 		int width = 6;
 		main.stroke(255);
 		main.fill(0);
 		main.rect((main.width - width)/2, (main.height - width)/2, width, width);
 
+		main.noStroke();
+		
 		hintText.clear();
 		if (target != null)
 		{
@@ -172,9 +178,9 @@ public class MenuSystem extends BaseSystem {
 		{
 			if (selected.owner != null && !(selected instanceof City))
 			{
-				main.stroke(255);
+				//main.stroke(255);
 				main.fill(0);
-				main.rect(main.width*4/6,main.height*5/6,200,150);
+				main.rect(main.width*4/6,0,200,150);
 				main.fill(255);
 				main.textSize(12);
 
@@ -186,7 +192,7 @@ public class MenuSystem extends BaseSystem {
 				for (int i = 0; i < temp.size(); i++)
 				{
 					main.textAlign(PApplet.LEFT);
-					main.text(temp.get(i), main.width*4/6 + 15, main.height*5/6 + 15*(i+1));
+					main.text(temp.get(i), main.width*4/6 + 15, 15*(i+1));
 				}
 				
 				/*main.fill(0);
@@ -222,9 +228,9 @@ public class MenuSystem extends BaseSystem {
 					City citySelected = (City)selected; //to work with old code
 					menus.get(2).active = true;
 
-					main.stroke(255);
+					//main.stroke(255);
 					main.fill(0);
-					main.rect(main.width*2/6,main.height*5/6,200,150);
+					main.rect(main.width*4/6,0,200,150);
 					main.fill(255);
 					main.textSize(12);
 
@@ -270,22 +276,44 @@ public class MenuSystem extends BaseSystem {
 					for (int i = 0; i < temp.size(); i++)
 					{
 						main.textAlign(PApplet.LEFT);
-						main.text(temp.get(i), main.width*2/6 + 15, main.height*5/6 + 15*(i+1));
+						main.text(temp.get(i), main.width*4/6 + 15, 15*(i+1));
 					}
 				}
 
+		main.fill(0);
+		main.rect(main.width*5/6,200,main.width*1/6,100);
+		main.fill(255);
+		main.textSize(12);
+		main.textAlign(PApplet.LEFT);
+		if (messages.size() > 0)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (i >= messages.size()) break;
+				main.text(messages.get(messages.size() - i - 1), main.width*5/6, 200 + 15*(i+1));
+			}
+			/*for (int i = messages.size() - 1; i >= 0; i--)
+			{
+				main.text(messages.get(i), main.width*5/6, 200 + 15*(i+1));
+				if (messages.size() - i >= 4)
+				{
+					break;
+				}
+			}*/
+		}
+		
 		if (hintText.size() > 0)
 		{
-			main.stroke(255);
+			//main.stroke(255);
 			main.fill(0);
-			main.rect(main.width*5/6,main.height*5/6,200,150);
+			main.rect(main.width*5/6,0,200,150);
 			main.fill(255);
 			main.textSize(12);
 			for (int i = 0; i < hintText.size(); i++)
 			{
 				main.textAlign(main.LEFT);
 				if (hintText.get(i) != null)
-					main.text(hintText.get(i), main.width*5/6 + 15, main.height*5/6 + 15*(i+1));
+					main.text(hintText.get(i), main.width*5/6 + 15, 15*(i+1));
 			}
 		}
 
@@ -427,6 +455,14 @@ public class MenuSystem extends BaseSystem {
 	{
 		clicks.add(0, new Click(mouseX, mouseY));
 	}
+	
+	//Send a message, checking for repeats
+	public void message(String message)
+	{
+		if (messages.size() == 0) messages.add(message);
+			if (!messages.get(messages.size()-1).equals(message))
+				messages.add(message);
+	}
 
 	//Choose which buttons to show depending on unit (e.g. only settler can settle)
 	public void updateUnitMenu(String name)
@@ -453,9 +489,9 @@ public class MenuSystem extends BaseSystem {
 	public void updateCity(City c)
 	{
 		menus.get(2).buttons.clear();
-		menus.get(2).addButton("queueSettler", "Settler", main.width/2, 500, 100, 100);
-		menus.get(2).addButton("queueWorker", "Worker", main.width/2 + 110, 500, 100, 100);
-		menus.get(2).addButton("queueWarrior", "Warrior", main.width/2 + 220, 500, 100, 100);
+		menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 100, 100);
+		menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 110, (float)main.height*5F/6F, 100, 100);
+		menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 220, (float)main.height*5F/6F, 100, 100);
 	}
 
 

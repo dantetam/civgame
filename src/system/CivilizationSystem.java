@@ -11,7 +11,8 @@ import units.*;
 public class CivilizationSystem extends BaseSystem {
 
 	public boolean requestTurn = false;
-
+	public int turnsPassed = 0;
+	
 	public CivilizationSystem(CivGame civGame) 
 	{
 		super(civGame);
@@ -22,6 +23,7 @@ public class CivilizationSystem extends BaseSystem {
 		if (requestTurn) 
 		{
 			requestTurn = false;
+			main.menuSystem.message("Executed AI actions");
 			for (int i = 0; i < main.grid.civs.length; i++)
 			{
 				Civilization civ = main.grid.civs[i];
@@ -33,6 +35,11 @@ public class CivilizationSystem extends BaseSystem {
 					{
 						//Reveal all tiles within sight
 						civ.units.get(j).reveal();
+					}
+					for (int j = 0; j < civ.improvements.size(); j++)
+					{
+						//Reveal all tiles within sight
+						civ.improvements.get(j).reveal();
 					}
 					for (int j = 0; j < civ.units.size(); j++)
 					{
@@ -535,6 +542,10 @@ public class CivilizationSystem extends BaseSystem {
 					civ.units.get(j).action = civ.units.get(j).maxAction;
 				}
 			}
+			main.menuSystem.message("Ended AI actions");
+			main.menuSystem.message("Ended turn " + main.civilizationSystem.turnsPassed);
+			turnsPassed++;
+			main.menuSystem.message("Began turn " + main.civilizationSystem.turnsPassed);
 		}
 	}	
 

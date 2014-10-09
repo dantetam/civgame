@@ -331,6 +331,34 @@ public class RenderSystem extends BaseSystem {
 			main.pushMatrix();
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
+			if (sampleSize == 1)
+			{
+				if (t.shape == 1)
+				{
+					main.pushMatrix();
+					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
+					main.box(widthBlock/2*sampleSize);
+					main.popMatrix();
+				}
+				else if (t.shape == 2)
+				{
+					main.pushMatrix();
+					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
+					main.translate(0, widthBlock*sampleSize/4, 0);
+					main.box(widthBlock/2*sampleSize, widthBlock*sampleSize*1.5F, widthBlock/2*sampleSize);
+					main.popMatrix();
+				}
+				int res = t.resource;
+				if (res != 0)
+				{
+					main.pushMatrix();
+					Color resColor = EntityData.get(res);
+					main.fill((float)resColor.r*125F, (float)resColor.g*125F, (float)resColor.b*125F);
+					main.translate(0, 15, 0);
+					main.box(5);
+					main.popMatrix();
+				}
+			}
 			main.popMatrix();
 		}
 	}

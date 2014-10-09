@@ -280,6 +280,7 @@ public class InputSystem extends BaseSystem {
 					{
 						main.menuSystem.settlerChoices = null;
 					}
+					main.menuSystem.message(en.name + " needs orders.");
 					return;
 				}
 			}
