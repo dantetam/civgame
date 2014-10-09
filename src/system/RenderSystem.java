@@ -382,8 +382,8 @@ public class RenderSystem extends BaseSystem {
 			main.strokeWeight(1);
 		}
 		
-		if (main.menuSystem.selected != null)
-			if (en.equals(main.menuSystem.selected))
+		if (main.menuSystem.getSelected() != null)
+			if (en.equals(main.menuSystem.getSelected()))
 			{
 				main.stroke(0,0,255);
 				main.strokeWeight(5);

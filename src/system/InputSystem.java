@@ -175,38 +175,37 @@ public class InputSystem extends BaseSystem {
 				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
 				if (main.menuSystem.highlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
 				{
-					if (main.menuSystem.selected != null)
+					if (main.menuSystem.getSelected() != null)
 					{
-						if (!main.menuSystem.selected.equals(main.menuSystem.highlighted.occupants.get(r)))
+						if (!main.menuSystem.getSelected().equals(main.menuSystem.highlighted.occupants.get(r)))
 						{
-							main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
+							main.menuSystem.select(main.menuSystem.highlighted.occupants.get(r));
 							return;
 						}
 					}
 					else
 					{
-						main.menuSystem.selected = main.menuSystem.highlighted.occupants.get(r);
+						main.menuSystem.select(main.menuSystem.highlighted.occupants.get(r));
 						//continue on to the next if statement
 					}
 				}
 			}
 			else
 			{
-				main.menuSystem.selected = null;
+				main.menuSystem.select(null);
 				main.resetCamera();
 			}
 			if (main.menuSystem.highlighted.improvement != null)
 				if (main.grid.civs[0].cities.contains(main.menuSystem.highlighted.improvement))
 				{
 					City c = (City)main.menuSystem.highlighted.improvement;
-					main.menuSystem.selected = c;
-					main.menuSystem.updateCity(c);
+					main.menuSystem.select(c);
 					//return;
 				}
 		}
-		if (main.menuSystem.selected instanceof Settler)
+		if (main.menuSystem.getSelected() instanceof Settler)
 		{
-			main.menuSystem.settlerChoices = main.grid.returnBestCityScores(main.menuSystem.selected.location.row, main.menuSystem.selected.location.col);
+			main.menuSystem.settlerChoices = main.grid.returnBestCityScores(main.menuSystem.getSelected().location.row, main.menuSystem.getSelected().location.col);
 		}
 		else
 		{
@@ -216,9 +215,9 @@ public class InputSystem extends BaseSystem {
 
 	public void passRightMouseClick(float mouseX, float mouseY)
 	{
-		if (main.menuSystem.selected instanceof GameEntity)
+		if (main.menuSystem.getSelected() instanceof GameEntity)
 		{
-			GameEntity en = (GameEntity)main.menuSystem.selected;
+			GameEntity en = (GameEntity)main.menuSystem.getSelected();
 			Tile t = main.menuSystem.highlighted;
 			if (en != null && t != null)
 			{
@@ -271,15 +270,7 @@ public class InputSystem extends BaseSystem {
 				{
 					main.fixCamera(en.location.row, en.location.col);
 					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
-					main.menuSystem.selected = en;
-					if (main.menuSystem.selected instanceof Settler)
-					{
-						main.menuSystem.settlerChoices = main.grid.returnBestCityScores(main.menuSystem.selected.location.row, main.menuSystem.selected.location.col);
-					}
-					else
-					{
-						main.menuSystem.settlerChoices = null;
-					}
+					main.menuSystem.select(en);
 					main.menuSystem.message(en.name + " needs orders.");
 					return;
 				}
@@ -291,7 +282,7 @@ public class InputSystem extends BaseSystem {
 				{
 					main.fixCamera(c.location.row, c.location.col);
 					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
-					main.menuSystem.selected = c;
+					main.menuSystem.select(c);
 					main.menuSystem.updateCity(c);
 					return;
 				}

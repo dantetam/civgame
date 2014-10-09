@@ -31,7 +31,7 @@ public class MenuSystem extends BaseSystem {
 	public Tile target;
 	public ArrayList<String> hintText;
 	public Tile highlighted; //Under the player's crosshair
-	public BaseEntity selected; //Selected by the player with the mouse explicitly
+	private BaseEntity selected; //Selected by the player with the mouse explicitly
 	public Tile[] settlerChoices;
 	public String typeOfLastSelected = "";
 	//public City citySelected;
@@ -511,6 +511,29 @@ public class MenuSystem extends BaseSystem {
 		menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 100, 100);
 		menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 110, (float)main.height*5F/6F, 100, 100);
 		menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 220, (float)main.height*5F/6F, 100, 100);
+	}
+	
+	//Encapsulation for selected
+	public BaseEntity getSelected()
+	{
+		return selected;
+	}
+	
+	public void select(BaseEntity en)
+	{
+		selected = en;
+		if (en instanceof Settler)
+		{
+			settlerChoices = main.grid.returnBestCityScores(en.location.row, en.location.col);
+		}
+		else
+		{
+			settlerChoices = null;
+		}
+		if (en instanceof City)
+		{
+			updateCity((City)en);
+		}
 	}
 
 
