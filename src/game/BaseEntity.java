@@ -39,7 +39,7 @@ public abstract class BaseEntity {
 				}
 			}
 		}
-		System.out.println(name + " reveal");
+		//System.out.println(name + " reveal");
 	}
 	
 	public void tick() {}

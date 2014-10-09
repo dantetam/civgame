@@ -63,6 +63,7 @@ public class Grid {
 			civ.r = (float)(Math.random()*255);
 			civ.g = (float)(Math.random()*255);
 			civ.b = (float)(Math.random()*255);
+			civ.revealed = new boolean[terrain.length][terrain[0].length];
 			civs[i] = civ;
 
 			int r,c;
@@ -84,9 +85,8 @@ public class Grid {
 				}
 			}
 			addUnit(en,civs[i],r,c);
-			
-			civ.revealed = new boolean[terrain.length][terrain[0].length];
-			en.reveal();
+		
+			//en.reveal();
 		}
 		//makeRivers(terrain);
 		pathFinder = new Pathfinder(this);
@@ -125,6 +125,7 @@ public class Grid {
 			if (civ.improvements.contains(en))
 				civ.improvements.add((TileEntity)en);
 		tiles[r][c].addUnit(en);
+		en.reveal();
 	}
 
 	public void removeUnit(BaseEntity en)

@@ -22,7 +22,7 @@ public class MenuSystem extends BaseSystem {
 	public ArrayList<Menu> menus;
 	private ArrayList<Click> clicks;
 
-	public boolean minimap = false;
+	public boolean minimap, info = false;
 	public int multiplier = 1;
 
 	public Tile target;
@@ -48,7 +48,8 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu0);
 		menu0.addButton("exitgame", "Exit", 0, 0, 100, 30);
 		menu0.addButton("minimap", "Minimap", 0, 100, 100, 30);
-
+		menu0.addButton("info", "Information", 0, 130, 100, 30);
+		
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
 
@@ -119,6 +120,15 @@ public class MenuSystem extends BaseSystem {
 					main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,widthX*con/main.grid.rows,widthY*con/main.grid.cols);
 				}
 			}
+		}
+		
+		if (info)
+		{
+			main.fill(0);
+			main.rect(100,130,200,100);
+			main.fill(255);
+			main.textAlign(PApplet.LEFT);
+			main.text("Work in progress", 115, 150);
 		}
 
 		//Render the cursor
@@ -363,6 +373,11 @@ public class MenuSystem extends BaseSystem {
 						if (command.equals("exitgame"))
 						{
 							System.exit(0);
+							continue;
+						}
+						else if (command.equals("info"))
+						{
+							info = !info;
 							continue;
 						}
 						else if (command.equals("minimap"))

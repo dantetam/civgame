@@ -99,6 +99,7 @@ public class Settler extends GameEntity {
 			City city = (City)EntityData.get("City");
 			city.owner = en.owner;
 			city.owner.cities.add(city);
+			city.owner.improvements.add(city);
 			location.grid.addUnit(city, en.owner, en.location.row, en.location.col);
 			if (owner.cities.size() == 1)
 			{
