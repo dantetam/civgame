@@ -79,11 +79,11 @@ public class Civilization {
 			parent = parent.requisite;
 		}
 		beeline.add(tech.name);
-		for (int i = 0; i < beeline.size(); i++)
+		/*for (int i = 0; i < beeline.size(); i++)
 		{
 			System.out.println(beeline.get(i));
 		}
-		System.out.println("-----");
+		System.out.println("-----");*/
 	}
 	
 }
