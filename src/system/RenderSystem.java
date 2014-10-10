@@ -1,6 +1,7 @@
 package system;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -20,12 +21,15 @@ public class RenderSystem extends BaseSystem {
 	public GridModel terrain;
 	public Player player;
 	public boolean requestUpdate = false;
-
+	public String[] pictures = {"pickaxe","sword"};
+	
 	public RenderSystem(CivGame civGame)
 	{
 		super(civGame);
 		player = main.player;
 		blankTile = getBlock(32,32,150,150,150);
+		imageMap(pictures);
+		//System.out.println(imageMap.get("pickaxe"));
 	}
 
 	private PImage[] tileTemplates;
@@ -44,7 +48,8 @@ public class RenderSystem extends BaseSystem {
 						r*(main.width/main.grid.rows),
 						c*(main.height/main.grid.cols)
 						);*/
-					Civilization civ = main.grid.getTile(r,c).owner;
+					Tile t = main.grid.getTile(r,c);
+					Civilization civ = t.owner;
 					if (civ != null)
 					{
 						PImage temp = tileTemplates[civ.id];
@@ -61,6 +66,17 @@ public class RenderSystem extends BaseSystem {
 								c*32
 								);
 					}
+					if (t.occupants.size() > 0)
+					{
+						if (t.occupants.get(0).name.equals("Worker"))
+						{
+							main.image(imageMap.get("pickaxe"), r*32, c*32);
+						}
+						else if (t.occupants.get(0).offensiveStr > 0)
+						{
+							main.image(imageMap.get("sword"), r*32, c*32);
+						}
+					}
 					//main.fill((float)(Math.random()*255));
 					//main.rect(r*32, c*32, 32, 32);
 				}
@@ -70,12 +86,24 @@ public class RenderSystem extends BaseSystem {
 
 	//Calculate the images before so that we have them
 	int tileWidth = 32, tileHeight = 32;
+
 	public void getTileTemplates(Civilization[] civs)
 	{
 		tileTemplates = new PImage[civs.length];
 		for (int i = 0; i < civs.length; i++)
 		{
 			tileTemplates[i] = getBlock(tileWidth, tileHeight, civs[i].r, civs[i].g, civs[i].b);
+		}
+	}
+
+	//Load all the image objects so we have them
+	public HashMap<String,PImage> imageMap;
+	public void imageMap(String[] pictures)
+	{
+		imageMap = new HashMap<String,PImage>();
+		for (int i = 0; i < pictures.length; i++)
+		{
+			imageMap.put(pictures[i], main.loadImage("/pictures/"+pictures[i]+".png"));
 		}
 	}
 

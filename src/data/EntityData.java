@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import entity.Entity;
 import game.*;
 import units.*;
@@ -15,7 +16,8 @@ public class EntityData {
 	public static HashMap<String, TileEntity> tileEntityMap;
 	public static HashMap<Integer, Integer> groundColorMap; //Defines color of ground of certain biomes
 	private static HashMap<String, float[][]> unitModelMap;
-
+	public static HashMap<String,PImage> imageMap;
+	
 	public EntityData()
 	{
 
@@ -28,9 +30,11 @@ public class EntityData {
 		tileEntityMap = new HashMap<String, TileEntity>();
 		groundColorMap = new HashMap<Integer, Integer>();
 		unitModelMap = new HashMap<String, float[][]>();
-
+		imageMap = new HashMap<String, PImage>();
+		
 		setupColors();
 		setupEntityMap();
+		setupImageMap();
 		groundColorMap();
 		//setModels();
 	}
@@ -168,6 +172,11 @@ public class EntityData {
 		tileEntityMap.put("Trading Post",new TileEntity("Trading Post"));
 		tileEntityMap.put("Pasture",new TileEntity("Pasture"));
 		tileEntityMap.put("Fishing Boats",new TileEntity("Fishing Boats"));
+	}
+	
+	private static void setupImageMap()
+	{
+		
 	}
 
 	public static Color get(int res)
