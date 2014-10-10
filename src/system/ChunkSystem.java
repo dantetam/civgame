@@ -1,4 +1,4 @@
-package system;
+/*package system;
 
 import processing.core.PApplet;
 import render.CivGame;
@@ -14,7 +14,7 @@ public class ChunkSystem extends BaseSystem {
 	{
 		super(civGame);
 		chunkMap = new int[civGame.grid.rows][civGame.grid.cols];
-		/*for (int r = 0; r < chunkMap.length; r++)
+		for (int r = 0; r < chunkMap.length; r++)
 		{
 			for (int c = 0; c < chunkMap[0].length; c++)
 			{
@@ -32,7 +32,7 @@ public class ChunkSystem extends BaseSystem {
 				System.out.print((int)chunkMap[r][c] + " ");
 			}
 			System.out.println();
-		}*/
+		}
 		//int width = (int)Math.ceil(Math.sqrt(chunkMap.length*chunkMap[0].length));
 		int width = 16;
 		int chunkNum = 0;
@@ -55,7 +55,7 @@ public class ChunkSystem extends BaseSystem {
 		}
 		dist = new float[chunkNum];
 		angle = new double[chunkNum];
-		/*int last = 1000;
+		int last = 1000;
 		for (int r = 0; r < chunkMap.length; r++)
 		{
 			for (int c = 0; c < chunkMap[0].length; c++)
@@ -65,7 +65,7 @@ public class ChunkSystem extends BaseSystem {
 				last = (int)chunkMap[r][c];
 			}
 			System.out.println();
-		}*/
+		}
 	}
 
 	public int chunkFromLocation(int posX, int posY)
@@ -128,4 +128,4 @@ public class ChunkSystem extends BaseSystem {
 		}
 	}
 
-}
+}*/

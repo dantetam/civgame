@@ -43,7 +43,7 @@ public class CivGame extends PApplet {
 
 	private InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
-	public ChunkSystem chunkSystem;
+	//public ChunkSystem chunkSystem;
 
 	public CivGame(Game game, int numCivs, String challengeType, String terrainType, long seed)
 	{
@@ -81,16 +81,15 @@ public class CivGame extends PApplet {
 			}
 			println();
 		}*/
-		chunkSystem = new ChunkSystem(this);
-		systems.add(chunkSystem);
+		//chunkSystem = new ChunkSystem(this);
+		//systems.add(chunkSystem);
 		erosion = new Erosion(terrain,1);
 		erode();
-		chunkSystem.tick();
+		//chunkSystem.tick();
 		
 		//Set it manually
 		player.civ = grid.civs[0];
 		player.civ.name = "Player";
-		player.orient(grid);
 		inputSystem.on = false;
 	}
 
@@ -149,22 +148,6 @@ public class CivGame extends PApplet {
 		println("hi");
 		game.exit();
 		//super.stop();
-	}
-	
-	public void fixCamera(int r, int c)
-	{
-		player.posX = r*renderSystem.widthBlock;
-		player.posY = 80;
-		player.posZ = c*renderSystem.widthBlock;
-		//player.rotY = 0;
-		//player.rotVertical = 0;
-		//player.update();
-	}
-	
-	public void resetCamera()
-	{
-		centerX = mouseX/(1 - player.rotY/(float)Math.PI);
-		centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
 	}
 
 	//Use the appropriate terrain to make a table and then render it by making some entities

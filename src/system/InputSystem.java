@@ -43,47 +43,27 @@ public class InputSystem extends BaseSystem {
 				//System.out.println(i+97);
 				if (i == 97 - 97) //a
 				{
-					//Limit movement to an axis
-					main.player.posX += dist*Math.cos(main.player.rotY + Math.PI/2);
-					main.player.tarX += dist*Math.cos(main.player.rotY + Math.PI/2);
-					main.player.posZ += dist*Math.sin(main.player.rotY + Math.PI/2);
-					main.player.tarZ += dist*Math.sin(main.player.rotY + Math.PI/2);
+
 				}
 				else if (i == 100 - 97) //d
 				{
-					//Limit movement to an axis
-					main.player.posX += dist*Math.cos(main.player.rotY - Math.PI/2);
-					main.player.tarX += dist*Math.cos(main.player.rotY - Math.PI/2);
-					main.player.posZ += dist*Math.sin(main.player.rotY - Math.PI/2);
-					main.player.tarZ += dist*Math.sin(main.player.rotY - Math.PI/2);
+
 				}
 				else if (i == 115 - 97) //s
 				{
-					//Limit movement to an axis
-					main.player.posX -= dist*Math.cos(main.player.rotY);
-					main.player.tarX -= dist*Math.cos(main.player.rotY);
-					main.player.posZ -= dist*Math.sin(main.player.rotY);
-					main.player.tarZ -= dist*Math.sin(main.player.rotY);
+
 				}
 				else if (i == 119 - 97) //w
 				{
-					//Limit movement to an axis
-					main.player.posX += dist*Math.cos(main.player.rotY);
-					main.player.tarX += dist*Math.cos(main.player.rotY);
-					main.player.posZ += dist*Math.sin(main.player.rotY);
-					main.player.tarZ += dist*Math.sin(main.player.rotY);
+
 				}
 				else if (i == 113 - 97) //q
 				{
-					//Limit movement to an axis
-					main.player.posY -= dist;
-					main.player.tarY -= dist;
+					
 				}
 				else if (i == 101 - 97) //e
 				{
-					//Limit movement to an axis
-					main.player.posY += dist;
-					main.player.tarY += dist;
+
 				}
 				if (i == 0 || i == 3 || i == 4 || i == 16 || i == 18 || i == 22)
 				{
@@ -97,7 +77,8 @@ public class InputSystem extends BaseSystem {
 		}
 		if (moving == false && lastMoving)
 		{
-			main.chunkSystem.update();
+			//main.chunkSystem.update();
+			main.requestUpdate(true);
 			//System.out.println("Update");
 		}
 		lastMoving = moving;
@@ -142,11 +123,8 @@ public class InputSystem extends BaseSystem {
 		{
 			float dX = (mouseX - main.centerX)/(main.centerX);
 			float dY = (mouseY - main.centerY)/(main.centerY);
-			main.player.rotY = -(float)Math.PI*dX; //Axis is weird, oh well
-			main.player.rotVertical = (float)Math.PI/4*dY;
 			if (Math.abs(dX) <= 20)
 			{
-				main.chunkSystem.update();
 				main.requestUpdate(true);
 			}
 		}

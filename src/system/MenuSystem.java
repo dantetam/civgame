@@ -485,6 +485,7 @@ public class MenuSystem extends BaseSystem {
 		if (messages.size() == 0) messages.add(message);
 		if (!messages.get(messages.size()-1).equals(message))
 			messages.add(message);
+		main.requestUpdate(true);
 	}
 
 	//Choose which buttons to show depending on unit (e.g. only settler can settle)

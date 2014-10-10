@@ -22,18 +22,19 @@ public class RenderSystem extends BaseSystem {
 	public Player player;
 	public boolean requestUpdate = false;
 	public String[] pictures = {"pickaxe","sword"};
-	
+
 	public RenderSystem(CivGame civGame)
 	{
 		super(civGame);
 		player = main.player;
-		blankTile = getBlock(32,32,150,150,150);
+		blankLandTile = getBlock(32,32,150,150,150);
+		blankSeaTile = getBlock(32,32,150,225,255);
 		imageMap(pictures);
 		//System.out.println(imageMap.get("pickaxe"));
 	}
 
 	private PImage[] tileTemplates;
-	private PImage blankTile;
+	private PImage blankLandTile, blankSeaTile;
 	public void tick()
 	{
 		if (requestUpdate)
@@ -54,27 +55,35 @@ public class RenderSystem extends BaseSystem {
 					{
 						PImage temp = tileTemplates[civ.id];
 						//temp = getBlock(r,c,32,32);
-						main.image(temp,
-								r*32,
-								c*32
-								);
+						main.image(temp,r*32,c*32);
 					}
 					else
 					{
-						main.image(blankTile,
-								r*32,
-								c*32
-								);
+						if (main.terrain[r][c] >= 0)
+						{
+							main.image(blankLandTile,r*32,c*32);
+						}
+						else
+						{
+							main.image(blankSeaTile,r*32,c*32);
+						}
 					}
 					if (t.occupants.size() > 0)
 					{
-						if (t.occupants.get(0).name.equals("Worker"))
+						for (int i = 0; i < t.occupants.size(); i++)
 						{
-							main.image(imageMap.get("pickaxe"), r*32, c*32);
-						}
-						else if (t.occupants.get(0).offensiveStr > 0)
-						{
-							main.image(imageMap.get("sword"), r*32, c*32);
+							BaseEntity en = t.occupants.get(i);
+							main.pushStyle();
+							main.tint(en.owner.r, en.owner.g, en.owner.b);
+							if (en.name.equals("Worker"))
+							{
+								main.image(imageMap.get("pickaxe"), r*32, c*32);
+							}
+							else if (en.offensiveStr > 0)
+							{
+								main.image(imageMap.get("sword"), r*32, c*32);
+							}
+							main.popStyle();
 						}
 					}
 					//main.fill((float)(Math.random()*255));
