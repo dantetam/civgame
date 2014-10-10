@@ -7,6 +7,7 @@ import units.City;
 public class Civilization {
 
 	public String name;
+	public int id;
 	public float r,g,b;
 	
 	public ArrayList<City> cities;
@@ -23,8 +24,9 @@ public class Civilization {
 	
 	public boolean[][] revealed;
 	
-	public Civilization(String name)
+	public Civilization(String name, int id)
 	{
+		this.id = id;
 		cities = new ArrayList<City>();
 		//capital = null;
 		units = new ArrayList<GameEntity>();

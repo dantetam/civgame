@@ -59,7 +59,7 @@ public class Grid {
 		{
 			Civilization civ = new Civilization("Civilization " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*Math.random()))
-					));
+					),i);
 			civ.r = (float)(Math.random()*255);
 			civ.g = (float)(Math.random()*255);
 			civ.b = (float)(Math.random()*255);
@@ -76,6 +76,7 @@ public class Grid {
 			//with proper encapsulation
 			//addTile(civs[i], tiles[r][c]);
 
+			if (i == 0) continue;
 			BaseEntity en = EntityData.get("Settler");
 			if (i == 1)
 			{

@@ -51,7 +51,7 @@ public class Settler extends GameEntity {
 		{
 			Tile t = settleLocation();
 			//System.out.println(t.owner);
-			waddleTo(t.row,t.col);
+			waddleToExact(t.row,t.col);
 		}
 		if (queueTiles.size() > 0)
 		{	
@@ -74,7 +74,7 @@ public class Settler extends GameEntity {
 				{
 					queueTiles.clear();
 					Tile t = settleLocation();
-					waddleTo(t.row,t.col);
+					waddleToExact(t.row,t.col);
 				}
 			}
 			/*else if (queueTiles.get(0).owner != null)

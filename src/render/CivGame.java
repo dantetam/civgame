@@ -243,6 +243,7 @@ public class CivGame extends PApplet {
 		//grid.setupTiles(terrain);
 		//grid.setupCivs();
 		//renderSystem.addTerrain(terrain, con, cutoff);
+		renderSystem.getTileTemplates(grid.civs);
 	}
 
 	public int[][] assignBiome(double[][] terrain)

@@ -25,14 +25,17 @@ public class RenderSystem extends BaseSystem {
 	{
 		super(civGame);
 		player = main.player;
+		blankTile = getBlock(32,32,150,150,150);
 	}
 
+	private PImage[] tileTemplates;
+	private PImage blankTile;
 	public void tick()
 	{
 		if (requestUpdate)
 		{
 			main.background(255);
-			PImage temp = getBlock(0,0,32,32);
+			//PImage temp = getBlock(0,0,32,32);
 			for (int r = 0; r < main.terrain.length; r++)
 			{
 				for (int c = 0; c < main.terrain[0].length; c++)
@@ -41,11 +44,23 @@ public class RenderSystem extends BaseSystem {
 						r*(main.width/main.grid.rows),
 						c*(main.height/main.grid.cols)
 						);*/
-					temp = getBlock(r,c,32,32);
-					main.image(temp,
-							r*32,
-							c*32
-							);
+					Civilization civ = main.grid.getTile(r,c).owner;
+					if (civ != null)
+					{
+						PImage temp = tileTemplates[civ.id];
+						//temp = getBlock(r,c,32,32);
+						main.image(temp,
+								r*32,
+								c*32
+								);
+					}
+					else
+					{
+						main.image(blankTile,
+								r*32,
+								c*32
+								);
+					}
 					//main.fill((float)(Math.random()*255));
 					//main.rect(r*32, c*32, 32, 32);
 				}
@@ -53,13 +68,21 @@ public class RenderSystem extends BaseSystem {
 		}
 	}
 
-	public PImage getBlock(int terrainRow, int terrainCol, int w, int h)
+	//Calculate the images before so that we have them
+	int tileWidth = 32, tileHeight = 32;
+	public void getTileTemplates(Civilization[] civs)
+	{
+		tileTemplates = new PImage[civs.length];
+		for (int i = 0; i < civs.length; i++)
+		{
+			tileTemplates[i] = getBlock(tileWidth, tileHeight, civs[i].r, civs[i].g, civs[i].b);
+		}
+	}
+
+	public PImage getBlock(int w, int h, float red, float green, float blue)
 	{
 		PImage temp = main.createImage(w, h, main.ARGB);
-		main.pushStyle();
-		float red = (float)(150*Math.random());
-		float green = (float)(225*Math.random());
-		float blue = (float)(255*Math.random());
+		//main.pushStyle();
 		for (int r = 0; r < w; r++)
 		{
 			for (int c = 0; c < h; c++)
@@ -87,7 +110,7 @@ public class RenderSystem extends BaseSystem {
 			}
 		}
 		temp.updatePixels();
-		main.popStyle();
+		//main.popStyle();
 		return temp;
 	}
 
