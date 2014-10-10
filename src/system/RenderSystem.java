@@ -19,6 +19,7 @@ public class RenderSystem extends BaseSystem {
 
 	public GridModel terrain;
 	public Player player;
+	public boolean requestUpdate = false;
 
 	public RenderSystem(CivGame civGame)
 	{
@@ -28,20 +29,26 @@ public class RenderSystem extends BaseSystem {
 
 	public void tick()
 	{
-		for (int r = 0; r < main.terrain.length; r++)
+		if (requestUpdate)
 		{
-			for (int c = 0; c < main.terrain[0].length; c++)
+			main.background(255);
+			PImage temp = getBlock(0,0,32,32);
+			for (int r = 0; r < main.terrain.length; r++)
 			{
-				/*main.image(getBlock(r,c,(int)(main.width/main.grid.rows),(int)(main.height/main.grid.cols)),
+				for (int c = 0; c < main.terrain[0].length; c++)
+				{
+					/*main.image(getBlock(r,c,(int)(main.width/main.grid.rows),(int)(main.height/main.grid.cols)),
 						r*(main.width/main.grid.rows),
 						c*(main.height/main.grid.cols)
 						);*/
-				PImage temp = getBlock(r,c,32,32);
-				main.image(temp,
-						r*32,
-						c*32
-						);
-				temp = null;
+					temp = getBlock(r,c,32,32);
+					main.image(temp,
+							r*32,
+							c*32
+							);
+					//main.fill((float)(Math.random()*255));
+					//main.rect(r*32, c*32, 32, 32);
+				}
 			}
 		}
 	}

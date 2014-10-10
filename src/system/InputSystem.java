@@ -147,6 +147,7 @@ public class InputSystem extends BaseSystem {
 			if (Math.abs(dX) <= 20)
 			{
 				main.chunkSystem.update();
+				main.requestUpdate(true);
 			}
 		}
 		main.player.update();
@@ -211,6 +212,7 @@ public class InputSystem extends BaseSystem {
 		{
 			main.menuSystem.settlerChoices = null;
 		}
+		main.requestUpdate(true);
 	}
 
 	public void passRightMouseClick(float mouseX, float mouseY)
@@ -238,6 +240,7 @@ public class InputSystem extends BaseSystem {
 				}
 			}
 		}
+		main.requestUpdate(true);
 	}
 
 	/*public void test()
@@ -308,6 +311,7 @@ public class InputSystem extends BaseSystem {
 		{
 			main.showAll = !main.showAll;
 		}
+		main.requestUpdate(true);
 	}
 
 }

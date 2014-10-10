@@ -96,7 +96,7 @@ public class CivGame extends PApplet {
 
 	public void draw()
 	{
-		background(255);
+		//background(255);
 		inputSystem.passMouse(mouseX, mouseY);
 		for (int i = 0; i < systems.size(); i++)
 		{
@@ -135,6 +135,14 @@ public class CivGame extends PApplet {
 	{
 		fill((float)c.r*255F,(float)c.g*255F,(float)c.b*255F);
 	}
+	
+	//Update a certain tile
+	public void requestUpdate(boolean status)
+	{
+		renderSystem.requestUpdate = status;
+	}
+	
+	public boolean requestedUpdate() {return renderSystem.requestUpdate;}
 
 	public void stop()
 	{
