@@ -3,6 +3,7 @@ package system;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import render.Button;
 import render.CivGame;
 import entity.*;
@@ -18,22 +19,69 @@ public class RenderSystem extends BaseSystem {
 
 	public GridModel terrain;
 	public Player player;
-	
+
 	public RenderSystem(CivGame civGame)
 	{
 		super(civGame);
 		player = main.player;
 	}
-	
+
 	public void tick()
 	{
 		for (int r = 0; r < main.terrain.length; r++)
 		{
 			for (int c = 0; c < main.terrain[0].length; c++)
 			{
-				
+				/*main.image(getBlock(r,c,(int)(main.width/main.grid.rows),(int)(main.height/main.grid.cols)),
+						r*(main.width/main.grid.rows),
+						c*(main.height/main.grid.cols)
+						);*/
+				PImage temp = getBlock(r,c,32,32);
+				main.image(temp,
+						r*32,
+						c*32
+						);
+				temp = null;
 			}
 		}
+	}
+
+	public PImage getBlock(int terrainRow, int terrainCol, int w, int h)
+	{
+		PImage temp = main.createImage(w, h, main.ARGB);
+		main.pushStyle();
+		float red = (float)(150*Math.random());
+		float green = (float)(225*Math.random());
+		float blue = (float)(255*Math.random());
+		for (int r = 0; r < w; r++)
+		{
+			for (int c = 0; c < h; c++)
+			{
+				temp.pixels[r*w + c] = main.color(red,green,blue,((float)(h-r)/(float)h)*255);
+			}
+		}
+
+		int borderWidth = 2;
+		for (int i = borderWidth; i >= 0; i--)
+		{
+			red = 150; green = 150; blue = 150;
+			float a = Math.min(i,w-i-1)/(float)borderWidth*255F - 50F;
+			//float a = 255;
+			for (int row = 0; row < h; row++)
+			{
+				temp.pixels[row*h + i] = main.color(red,green,blue,a);
+				temp.pixels[row*h + (w-i-1)] = main.color(red,green,blue,a);
+				//temp.pixels[(w-i)*h + row] = color(0,0,0,a);
+			}
+			for (int col = 0; col < w; col++)
+			{
+				temp.pixels[i*w + col] = main.color(red,green,blue,a);
+				temp.pixels[(w-i-1)*h + col] = main.color(red,green,blue,a);
+			}
+		}
+		temp.updatePixels();
+		main.popStyle();
+		return temp;
 	}
 
 	//Render a block by accessing main's P3D abilities
@@ -71,10 +119,10 @@ public class RenderSystem extends BaseSystem {
 					return;
 				}
 			}*/
-			
+
 			sampleSize = 1;
 			main.pushMatrix();
-			
+
 			Entity temp = new Entity();
 			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 1, widthBlock*sampleSize);
 			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
@@ -159,7 +207,7 @@ public class RenderSystem extends BaseSystem {
 			main.popMatrix();
 		}
 	}
-	
+
 	public void renderHiddenBlock(float dist, int r, int c)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
@@ -170,7 +218,7 @@ public class RenderSystem extends BaseSystem {
 			main.fill((float)color.r*125F,(float)color.g*125F,(float)color.b*125F);
 			main.noStroke();
 			Tile t = main.grid.getTile(r,c);
-			
+
 			if (dist > dist2)
 			{
 				sampleSize = 4;
@@ -249,7 +297,7 @@ public class RenderSystem extends BaseSystem {
 		main.noStroke();
 		float sizeY = widthBlock*3F;
 		main.pushMatrix();
-		
+
 		if (en.location.harvest)
 		{
 			main.strokeWeight(5);
@@ -259,7 +307,7 @@ public class RenderSystem extends BaseSystem {
 		{
 			main.strokeWeight(1);
 		}
-		
+
 		if (main.menuSystem.getSelected() != null)
 			if (en.equals(main.menuSystem.getSelected()))
 			{
