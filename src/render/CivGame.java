@@ -228,6 +228,11 @@ public class CivGame extends PApplet {
 		//renderSystem.addTerrain(terrain, con, cutoff);
 		renderSystem.getTileTemplates(grid.civs);
 	}
+	
+	public void resetCamera()
+	{
+		
+	}
 
 	public int[][] assignBiome(double[][] terrain)
 	{
@@ -518,6 +523,10 @@ public class CivGame extends PApplet {
 	}
 
 	public float widthBlock() {return renderSystem.widthBlock;}
-	public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
+	//public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
+
+	public void fixCamera(int row, int col) {
+
+	}
 
 }

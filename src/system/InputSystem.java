@@ -43,19 +43,19 @@ public class InputSystem extends BaseSystem {
 				//System.out.println(i+97);
 				if (i == 97 - 97) //a
 				{
-
+					main.player.cornerX--;
 				}
 				else if (i == 100 - 97) //d
 				{
-
+					main.player.cornerX++;
 				}
 				else if (i == 115 - 97) //s
 				{
-
+					main.player.cornerY++;
 				}
 				else if (i == 119 - 97) //w
 				{
-
+					main.player.cornerY--;
 				}
 				else if (i == 113 - 97) //q
 				{
@@ -71,6 +71,7 @@ public class InputSystem extends BaseSystem {
 					//if (moving) main.setUpdateFrame(10);
 					moving = true;
 				}
+				main.requestUpdate(true);
 				//System.out.println(moving);
 				//main.redraw();
 			}
@@ -172,7 +173,6 @@ public class InputSystem extends BaseSystem {
 			else
 			{
 				main.menuSystem.select(null);
-				main.resetCamera();
 			}
 			if (main.menuSystem.highlighted.improvement != null)
 				if (main.grid.civs[0].cities.contains(main.menuSystem.highlighted.improvement))
