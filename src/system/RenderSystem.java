@@ -56,26 +56,21 @@ public class RenderSystem extends BaseSystem {
 					{
 						continue;
 					}*/
+					
 					if (main.grid.civs[0].revealed[r][c] || main.showAll)
 					{
-						renderBlock(dist,r,c);
+						renderBlock(dist,r,c,false);
 					}
 					else
 					{
-						renderHiddenBlock(dist,r,c);
+						renderBlock(dist,r,c,true);
 						continue;
 					}
+					
 					Tile t = main.grid.getTile(r,c);
 					if (t.improvement != null)
 					{
 						renderGameEntity(t.improvement,dist,r,c);
-					}
-					if (t.forest)
-					{
-						main.pushMatrix();
-						//main.translate(r*widthBlock, (float)main.terrain[r][c]*con/2F, c*widthBlock);
-						renderModel("Forest",r,c,0,0,0);
-						main.popMatrix();
 					}
 					if (r < main.terrain.length - 1)
 					{
@@ -163,39 +158,20 @@ public class RenderSystem extends BaseSystem {
 	private final int dist0 = 300;
 	private final int dist1 = 1000; private final int dist2 = 1350;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
-	public void renderBlock(float dist, int r, int c)
+	public void renderBlock(float dist, int r, int c, boolean hidden)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
 		if (main.terrain[r][c] >= 0)
 		{
-			float sampleSize;
-			//float dist = (float)Math.sqrt(Math.pow(player.posX - en.posX, 2) + Math.pow(player.posY - en.posY, 2) + Math.pow(player.posZ - en.posZ, 2));
-			//main.fill(135, 206, 235);
+			float sampleSize = 1;
 			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
-			main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
+			if (hidden)
+				main.fill((float)color.r*150F,(float)color.g*150F,(float)color.b*150F);
+			else
+				main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
 			main.noStroke();
-			/*if (main.grid.irrigated(r, c))
-				main.fill(0,0,0);*/
 			Tile t = main.grid.getTile(r,c);
-			/*if (dist > dist2)
-			{
-				sampleSize = 4;
-				if (!((r) % sampleSize == 0 && (c) % sampleSize == 0))
-				{
-					return;
-				}
-			}
-			else if (dist > dist1)
-			{	
-				sampleSize = 2;
-				if (!((r+1) % sampleSize == 0 && (c+1) % sampleSize == 0))
-				{
-					return;
-				}
-			}*/
 			
-			sampleSize = 1;
-			main.pushMatrix();
 			
 			Entity temp = new Entity();
 			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 1, widthBlock*sampleSize);
@@ -215,7 +191,7 @@ public class RenderSystem extends BaseSystem {
 					main.menuSystem.highlighted = null;
 				}
 			}
-			else
+			else if (!hidden)
 			{
 				if (main.grid.getTile(r,c).owner != null)
 				{
@@ -244,13 +220,14 @@ public class RenderSystem extends BaseSystem {
 					}
 				}
 			}
+			
+			main.pushMatrix();
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
-
+			
 			//Render a hill or mountain
-
 			if (sampleSize == 1)
 			{
 				if (t.shape == 1)
@@ -277,86 +254,9 @@ public class RenderSystem extends BaseSystem {
 					main.box(5);
 					main.popMatrix();
 				}
-			}
-			main.popMatrix();
-		}
-	}
-	
-	public void renderHiddenBlock(float dist, int r, int c)
-	{
-		//if (dist < 1000 && en.sizeY >= cutoff)
-		if (main.terrain[r][c] >= 0)
-		{
-			float sampleSize = 1;
-			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
-			main.fill((float)color.r*125F,(float)color.g*125F,(float)color.b*125F);
-			main.noStroke();
-			Tile t = main.grid.getTile(r,c);
-			
-			if (dist > dist2)
-			{
-				sampleSize = 4;
-				if (!((r) % sampleSize == 0 && (c) % sampleSize == 0))
+				if (t.forest)
 				{
-					return;
-				}
-			}
-			else if (dist > dist1)
-			{	
-				sampleSize = 2;
-				if (!((r+1) % sampleSize == 0 && (c+1) % sampleSize == 0))
-				{
-					return;
-				}
-			}
-			Entity temp = new Entity();
-			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 1, widthBlock*sampleSize);
-			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
-			if (main.player.lookingAtEntity(temp))
-			{
-				main.menuSystem.target = main.grid.getTile(r, c);
-				//main.fill(0);
-				main.stroke(0,0,255);
-				main.strokeWeight(8);
-				if (main.grid.getTile(r,c) != null)
-				{
-					main.menuSystem.highlighted = main.grid.getTile(r,c);
-				}
-				else
-				{
-					main.menuSystem.highlighted = null;
-				}
-			}
-			//sampleSize = 1;
-			main.pushMatrix();
-			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
-			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
-			if (sampleSize == 1)
-			{
-				if (t.shape == 1)
-				{
-					main.pushMatrix();
-					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
-					main.box(widthBlock/2*sampleSize);
-					main.popMatrix();
-				}
-				else if (t.shape == 2)
-				{
-					main.pushMatrix();
-					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
-					main.translate(0, widthBlock*sampleSize/4, 0);
-					main.box(widthBlock/2*sampleSize, widthBlock*sampleSize*1.5F, widthBlock/2*sampleSize);
-					main.popMatrix();
-				}
-				int res = t.resource;
-				if (res != 0)
-				{
-					main.pushMatrix();
-					Color resColor = EntityData.get(res);
-					main.fill((float)resColor.r*125F, (float)resColor.g*125F, (float)resColor.b*125F);
-					main.translate(0, 15, 0);
-					main.box(5);
-					main.popMatrix();
+					renderModel("Forest",0,0,0);
 				}
 			}
 			main.popMatrix();
@@ -448,15 +348,13 @@ public class RenderSystem extends BaseSystem {
 		}*/
 		main.popMatrix();
 	}
-
-	public void renderModel(String name, int r, int c, float red, float green, float blue)
+	
+	public void renderModel(String name, float red, float green, float blue)
 	{
-		//System.out.println(name);
+		main.pushMatrix();
 		float[][] model = EntityData.getModel(name);
 		if (model != null)
 		{
-			main.translate(r*widthBlock, (float)(main.terrain[r][c])*con, c*widthBlock);
-			main.pushMatrix();
 			for (int i = 0; i < model.length; i++)
 			{
 				main.pushMatrix();
@@ -474,8 +372,16 @@ public class RenderSystem extends BaseSystem {
 				main.box(t[7],t[8],t[9]);
 				main.popMatrix();
 			}
-			main.popMatrix();
 		}
+		main.popMatrix();
+	}
+
+	public void renderModel(String name, int r, int c, float red, float green, float blue)
+	{
+		main.pushMatrix();
+		main.translate(r*widthBlock, (float)(main.terrain[r][c])*con, c*widthBlock);
+		renderModel(name, red, green, blue);
+		main.popMatrix();
 	}
 
 	public void renderRiver(int r1, int c1, int r2, int c2)
