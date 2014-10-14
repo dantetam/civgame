@@ -5,7 +5,7 @@ import render.CivGame;
 
 public class ChunkSystem extends BaseSystem {
 
-	public int[][] chunkMap;
+	public int[][] chunkMap; //stores the chunk number of each tile
 	public float[] dist;
 	public double[] angle;
 	public double playerAngle;
@@ -36,10 +36,12 @@ public class ChunkSystem extends BaseSystem {
 		//int width = (int)Math.ceil(Math.sqrt(chunkMap.length*chunkMap[0].length));
 		int width = 16;
 		int chunkNum = 0;
+		//Find the corners of a chunk
 		for (int r = 0; r < chunkMap.length + width; r += width)
 		{
 			for (int c = 0; c < chunkMap[0].length + width; c += width)
 			{
+				//Assign the chunk number to the section
 				for (int i = 0; i < width; i++)
 				{
 					for (int j = 0; j < width; j++)
@@ -106,6 +108,7 @@ public class ChunkSystem extends BaseSystem {
 
 	public void update()
 	{
+		//System.out.print("Updating...");
 		for (int i = 0; i < dist.length; i++)
 		{
 			int[] dists = locationFromChunk(i);
@@ -126,6 +129,8 @@ public class ChunkSystem extends BaseSystem {
 			else
 				angle[i] = -10;
 		}
+		//System.out.print("updated.");
+		//System.out.println();
 	}
 
 }

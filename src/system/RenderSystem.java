@@ -48,9 +48,17 @@ public class RenderSystem extends BaseSystem {
 			{
 				int chunk = main.chunkSystem.chunkFromLocation(r*(int)widthBlock,c*(int)widthBlock);
 				float dist = main.chunkSystem.dist[chunk];
+				if (dist == -1F) continue;
 				//TODO: The center of the player's view is the right bound of the viewing angle
-				if ((main.player.posY <= 100 && dist < dist2 && dist != -1F && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
-						(dist < dist1 && dist != -1F))
+				if (main.player.posY > 100 
+						&& dist < dist2 && dist != -1F 
+						&& angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) 
+						&& main.chunkSystem.angle[chunk] != -10)
+				{
+					renderBlock(dist,r,c,true,true);
+				}
+				else if ((main.player.posY <= 100 && dist < dist0 && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
+						(dist < dist1))
 				{
 					/*if (!main.grid.civs[0].revealed[r][c] || main.showAll)
 					{
@@ -59,11 +67,11 @@ public class RenderSystem extends BaseSystem {
 					
 					if (main.grid.civs[0].revealed[r][c] || main.showAll)
 					{
-						renderBlock(dist,r,c,false);
+						renderBlock(dist,r,c,false,false);
 					}
 					else
 					{
-						renderBlock(dist,r,c,true);
+						renderBlock(dist,r,c,true,false);
 						continue;
 					}
 					
@@ -92,26 +100,6 @@ public class RenderSystem extends BaseSystem {
 							renderGameEntity(en,dist,r,c);
 						}
 					}
-				}
-				else
-				{
-					/*if (dist < dist1 && dist != -1F)
-					{
-						renderBlock(dist,r,c);
-						Tile t = main.grid.getTile(r,c);
-						if (t.improvement != null)
-						{
-							renderGameEntity(t.improvement,dist,r,c);
-						}
-						if (t.occupants.size() > 0)
-						{
-							for (int i = 0; i < t.occupants.size(); i++)
-							{
-								GameEntity en = t.occupants.get(i);
-								renderGameEntity(en,dist,r,c);
-							}
-						}
-					}*/
 				}
 			}
 		}
@@ -156,22 +144,21 @@ public class RenderSystem extends BaseSystem {
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
 	private final int dist0 = 300;
-	private final int dist1 = 1000; private final int dist2 = 1350;
+	private final int dist1 = 500; private final int dist2 = 850;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
-	public void renderBlock(float dist, int r, int c, boolean hidden)
+	public void renderBlock(float dist, int r, int c, boolean hidden, boolean lazy)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
 		if (main.terrain[r][c] >= 0)
 		{
 			float sampleSize = 1;
 			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
-			if (hidden)
-				main.fill((float)color.r*150F,(float)color.g*150F,(float)color.b*150F);
-			else
+			if (!hidden)
 				main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
+			else if (hidden || lazy)
+				main.fill((float)color.r*150F,(float)color.g*150F,(float)color.b*150F);
 			main.noStroke();
 			Tile t = main.grid.getTile(r,c);
-			
 			
 			Entity temp = new Entity();
 			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 1, widthBlock*sampleSize);
@@ -191,7 +178,7 @@ public class RenderSystem extends BaseSystem {
 					main.menuSystem.highlighted = null;
 				}
 			}
-			else if (!hidden)
+			else
 			{
 				if (main.grid.getTile(r,c).owner != null)
 				{
@@ -228,35 +215,38 @@ public class RenderSystem extends BaseSystem {
 			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 			
 			//Render a hill or mountain
-			if (sampleSize == 1)
+			if (!lazy)
 			{
-				if (t.shape == 1)
+				if (sampleSize == 1)
 				{
-					main.pushMatrix();
-					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
-					main.box(widthBlock/2*sampleSize);
-					main.popMatrix();
-				}
-				else if (t.shape == 2)
-				{
-					main.pushMatrix();
-					main.translate(0, (float)main.terrain[r][c]*con/2, 0);
-					main.translate(0, widthBlock*sampleSize/4, 0);
-					main.box(widthBlock/2*sampleSize, widthBlock*sampleSize*1.5F, widthBlock/2*sampleSize);
-					main.popMatrix();
-				}
-				int res = t.resource;
-				if (res != 0)
-				{
-					main.pushMatrix();
-					main.fill(EntityData.get(res));
-					main.translate(0, 15, 0);
-					main.box(5);
-					main.popMatrix();
-				}
-				if (t.forest)
-				{
-					renderModel("Forest",0,0,0);
+					if (t.shape == 1)
+					{
+						main.pushMatrix();
+						main.translate(0, (float)main.terrain[r][c]*con/2, 0);
+						main.box(widthBlock/2*sampleSize);
+						main.popMatrix();
+					}
+					else if (t.shape == 2)
+					{
+						main.pushMatrix();
+						main.translate(0, (float)main.terrain[r][c]*con/2, 0);
+						main.translate(0, widthBlock*sampleSize/4, 0);
+						main.box(widthBlock/2*sampleSize, widthBlock*sampleSize*1.5F, widthBlock/2*sampleSize);
+						main.popMatrix();
+					}
+					int res = t.resource;
+					if (res != 0)
+					{
+						main.pushMatrix();
+						main.fill(EntityData.get(res));
+						main.translate(0, 15, 0);
+						main.box(5);
+						main.popMatrix();
+					}
+					if (t.forest)
+					{
+						renderModel("Forest",0,0,0);
+					}
 				}
 			}
 			main.popMatrix();

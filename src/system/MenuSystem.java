@@ -93,7 +93,7 @@ public class MenuSystem extends BaseSystem {
 		if (minimap)
 		{
 			//main.rect(0, 700, 50, 50);
-			int con = 2;
+			int con = 1;
 			float sX = 0; float sY = 400; float widthX = 400; float widthY = 400; 
 			for (int r = 0; r < main.grid.rows; r += con)
 			{
