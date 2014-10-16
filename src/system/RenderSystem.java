@@ -103,6 +103,31 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
+		/*main.strokeWeight(5);
+		for (int r = 0; r < main.terrain.length; r++)
+		{
+			for (int c = 0; c < main.terrain[0].length; c++)
+			{
+				main.pushMatrix();
+				main.translate(r*widthBlock, (float)main.terrain[r][c]*con/2F, c*widthBlock);
+				main.translate(-widthBlock/2F, 0, -widthBlock/2F);
+				float m = 3;
+				System.out.println("*");
+				for (int nr = r; nr < r + m; nr++)
+				{
+					for (int nc = c; nc < c + m; nc++)
+					{
+						main.pushMatrix();
+						main.translate((float)(nr - nr%3)*-widthBlock/3F, 0, (float)(nc - nc%3)*-widthBlock/3F);
+						main.point((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
+						main.point((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
+						main.point((float)(nr+1)/m*widthBlock,(float)vertices[nr][nc+1],(float)nc/m*widthBlock);
+						main.popMatrix();
+					}
+				}
+				main.popMatrix();
+			}
+		}*/
 		/*for (int r = 0; r < main.verticalRivers.length; r++)
 		{
 			for (int c = 0; c < main.verticalRivers[0].length; c++)
@@ -218,23 +243,18 @@ public class RenderSystem extends BaseSystem {
 			main.pushMatrix();
 			main.translate(-widthBlock/2F, 0, -widthBlock/2F);
 			float m = 3;
+			//System.out.println("*");
 			for (int nr = r; nr < r + m; nr++)
 			{
 				for (int nc = c; nc < c + m; nc++)
 				{
-					/*float rt = nr*(int)-widthBlock/3F, ct = nc*-widthBlock/3F;
-					main.vertex((float)nr/m*widthBlock + rt,(float)vertices[nr][nc],(float)nc/m*widthBlock + ct);
-					main.vertex((float)nr/m*widthBlock + rt,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock + ct);
-					main.vertex((float)(nr+1)/m*widthBlock + rt,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock + ct);
-					main.vertex((float)nr/m*widthBlock + rt,(float)vertices[nr][nc],(float)nc/m*widthBlock + ct);
-					main.vertex((float)(nr+1)/m*widthBlock + rt,(float)vertices[nr+1][nc],(float)nc/m*widthBlock + ct);
-					main.vertex((float)(nr+1)/m*widthBlock + rt,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock + ct);*/
 					main.pushMatrix();
 					main.translate((float)(nr - nr%3)*-widthBlock/3F, 0, (float)(nc - nc%3)*-widthBlock/3F);
 					main.beginShape(main.TRIANGLES);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
+					//System.out.println(nr + " " + nc + " " + (float)vertices[nr][nc] + " " + (float)vertices[nr][nc+1] + " " + (float)vertices[nr+1][nc+1]);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
