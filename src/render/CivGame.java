@@ -232,6 +232,7 @@ public class CivGame extends PApplet {
 		//player = new Player(grid.civs[0]);
 		makeRivers(biomes); 
 		
+		renderSystem.generateRoughTerrain(terrain, 3);
 		//grid.setupTiles(terrain);
 		//grid.setupCivs();
 		//renderSystem.addTerrain(terrain, con, cutoff);

@@ -146,6 +146,7 @@ public class RenderSystem extends BaseSystem {
 	private final int dist0 = 300;
 	private final int dist1 = 500; private final int dist2 = 850;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
+	private double[][] vertices;
 	public void renderBlock(float dist, int r, int c, boolean hidden, boolean lazy)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
@@ -212,7 +213,36 @@ public class RenderSystem extends BaseSystem {
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
-			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
+			//main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
+			
+			main.pushMatrix();
+			main.translate(-widthBlock/2F, 0, -widthBlock/2F);
+			float m = 3;
+			for (int nr = r; nr < r + m; nr++)
+			{
+				for (int nc = c; nc < c + m; nc++)
+				{
+					/*float rt = nr*(int)-widthBlock/3F, ct = nc*-widthBlock/3F;
+					main.vertex((float)nr/m*widthBlock + rt,(float)vertices[nr][nc],(float)nc/m*widthBlock + ct);
+					main.vertex((float)nr/m*widthBlock + rt,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock + ct);
+					main.vertex((float)(nr+1)/m*widthBlock + rt,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock + ct);
+					main.vertex((float)nr/m*widthBlock + rt,(float)vertices[nr][nc],(float)nc/m*widthBlock + ct);
+					main.vertex((float)(nr+1)/m*widthBlock + rt,(float)vertices[nr+1][nc],(float)nc/m*widthBlock + ct);
+					main.vertex((float)(nr+1)/m*widthBlock + rt,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock + ct);*/
+					main.pushMatrix();
+					main.translate((float)(nr - nr%3)*-widthBlock/3F, 0, (float)(nc - nc%3)*-widthBlock/3F);
+					main.beginShape(main.TRIANGLES);
+					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
+					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
+					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
+					main.endShape();
+					main.popMatrix();
+				}
+			}
+			main.popMatrix();
 			
 			//Render a hill or mountain
 			if (!lazy)
@@ -339,6 +369,26 @@ public class RenderSystem extends BaseSystem {
 		main.popMatrix();
 	}
 	
+	public void generateRoughTerrain(double[][] terrain, int multiply)
+	{
+		vertices = new double[terrain.length*multiply][terrain.length*multiply];
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+				{
+					for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+					{
+						double height = 4;
+						//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
+						vertices[nr][nc] = Math.random()*height;
+					}
+				}
+			}
+		}
+	}
+	
 	public void renderModel(String name, float red, float green, float blue)
 	{
 		main.pushMatrix();
@@ -403,7 +453,7 @@ public class RenderSystem extends BaseSystem {
 	}
 
 	//Make a model of entities with a height map
-	public static float widthBlock = 20;
+	public static float widthBlock = 21;
 	/*public void addTerrain(double[][] t, float con, float cutoff)
 	{
 		terrain = new GridModel(t.length, t[0].length);
