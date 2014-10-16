@@ -244,9 +244,10 @@ public class RenderSystem extends BaseSystem {
 			main.translate(-widthBlock/2F, 0, -widthBlock/2F);
 			float m = 3;
 			//System.out.println("*");
-			for (int nr = r; nr < r + m; nr++)
+			
+			for (int nr = r*3; nr < r*3 + m; nr++)
 			{
-				for (int nc = c; nc < c + m; nc++)
+				for (int nc = c*3; nc < c*3 + m; nc++)
 				{
 					main.pushMatrix();
 					main.translate((float)(nr - nr%3)*-widthBlock/3F, 0, (float)(nc - nc%3)*-widthBlock/3F);
@@ -254,6 +255,7 @@ public class RenderSystem extends BaseSystem {
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
+					//System.out.println(nr + " " + nc);
 					//System.out.println(nr + " " + nc + " " + (float)vertices[nr][nc] + " " + (float)vertices[nr][nc+1] + " " + (float)vertices[nr+1][nc+1]);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
@@ -389,9 +391,10 @@ public class RenderSystem extends BaseSystem {
 		main.popMatrix();
 	}
 	
+	//this is terrible math
 	public void generateRoughTerrain(double[][] terrain, int multiply)
 	{
-		vertices = new double[terrain.length*multiply][terrain.length*multiply];
+		vertices = new double[terrain.length*multiply + 1][terrain.length*multiply + 1];
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
@@ -407,6 +410,20 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
+		//Make the top left border zero
+		for (int i = 0; i < vertices.length; i++)
+		{
+			vertices[i][0] = 0;
+			vertices[0][i] = 0;
+		}
+		/*for (int r = 0; r < vertices.length; r++)
+		{
+			for (int c = 0; c < vertices[0].length; c++)
+			{
+				System.out.print((int)vertices[r][c] + " ");
+			}
+			System.out.println();
+		}*/
 	}
 	
 	public void renderModel(String name, float red, float green, float blue)
