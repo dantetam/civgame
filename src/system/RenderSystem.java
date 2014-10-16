@@ -240,6 +240,13 @@ public class RenderSystem extends BaseSystem {
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			//main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 			
+			if (main.grid.getTile(r, c).biome == -1)
+			{
+				main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
+				main.popMatrix();
+				return;
+			}
+			
 			main.pushMatrix();
 			main.translate(-widthBlock/2F, 0, -widthBlock/2F);
 			float m = 3;
@@ -410,7 +417,7 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
-		//Make the top left border zero
+		//Make the top & left border zero
 		for (int i = 0; i < vertices.length; i++)
 		{
 			vertices[i][0] = 0;
