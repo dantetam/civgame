@@ -258,7 +258,7 @@ public abstract class GameEntity extends BaseEntity {
 					city.owner = owner;
 					city.takeover = 5;
 					owner.cities.add(city);
-					System.out.println("_________");
+					System.out.println("razing city---------");
 					System.out.println(city.owner);
 					System.out.println(owner);
 					return true;

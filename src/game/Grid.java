@@ -77,7 +77,7 @@ public class Grid {
 			//addTile(civs[i], tiles[r][c]);
 
 			BaseEntity en = EntityData.get("Settler");
-			if (i == 1)
+			if (i == 1 || i == 2)
 			{
 				for (int j = 0; j < 4; j++)
 				{

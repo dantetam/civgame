@@ -50,14 +50,14 @@ public class RenderSystem extends BaseSystem {
 				float dist = main.chunkSystem.dist[chunk];
 				if (dist == -1F) continue;
 				//TODO: The center of the player's view is the right bound of the viewing angle
-				if (main.player.posY > 100 
+				if (main.player.posY > 150 
 						&& dist < dist2 && dist != -1F 
 						&& angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) 
 						&& main.chunkSystem.angle[chunk] != -10)
 				{
 					renderBlock(dist,r,c,true,true);
 				}
-				else if ((main.player.posY <= 100 && dist < dist0 && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
+				else if ((main.player.posY <= 150 && dist < dist0 && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
 						(dist < dist1))
 				{
 					/*if (!main.grid.civs[0].revealed[r][c] || main.showAll)
@@ -168,8 +168,8 @@ public class RenderSystem extends BaseSystem {
 
 	//Render a block by accessing main's P3D abilities
 	public float con; public float cutoff;
-	private final int dist0 = 300;
-	private final int dist1 = 500; private final int dist2 = 850;
+	private final int dist0 = 500;
+	private final int dist1 = 800; private final int dist2 = 1250;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
 	private double[][] vertices;
 	public void renderBlock(float dist, int r, int c, boolean hidden, boolean lazy)
