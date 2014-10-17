@@ -18,7 +18,7 @@ public class RenderSystem extends BaseSystem {
 
 	public GridModel terrain;
 	public Player player;
-	
+
 	public RenderSystem(CivGame civGame)
 	{
 		super(civGame);
@@ -64,7 +64,7 @@ public class RenderSystem extends BaseSystem {
 					{
 						continue;
 					}*/
-					
+
 					if (main.grid.civs[0].revealed[r][c] || main.showAll)
 					{
 						renderBlock(dist,r,c,false,false);
@@ -74,7 +74,7 @@ public class RenderSystem extends BaseSystem {
 						renderBlock(dist,r,c,true,false);
 						continue;
 					}
-					
+
 					Tile t = main.grid.getTile(r,c);
 					if (t.improvement != null)
 					{
@@ -175,7 +175,8 @@ public class RenderSystem extends BaseSystem {
 	public void renderBlock(float dist, int r, int c, boolean hidden, boolean lazy)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
-		if (main.terrain[r][c] >= 0)
+		//if (main.terrain[r][c] >= 0)
+		//if (main.grid.getTile(r,c).biome)
 		{
 			float sampleSize = 1;
 			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
@@ -185,7 +186,7 @@ public class RenderSystem extends BaseSystem {
 				main.fill((float)color.r*150F,(float)color.g*150F,(float)color.b*150F);
 			main.noStroke();
 			Tile t = main.grid.getTile(r,c);
-			
+
 			Entity temp = new Entity();
 			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 1, widthBlock*sampleSize);
 			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
@@ -206,7 +207,7 @@ public class RenderSystem extends BaseSystem {
 			}
 			else
 			{
-				if (main.grid.getTile(r,c).owner != null)
+				if (main.grid.getTile(r,c).owner != null && !hidden && !lazy)
 				{
 					Civilization civ = t.owner;
 					main.stroke(civ.r, civ.g, civ.b);
@@ -233,25 +234,25 @@ public class RenderSystem extends BaseSystem {
 					}
 				}
 			}
-			
+
 			main.pushMatrix();
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			//main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
-			
+
 			if (main.grid.getTile(r, c).biome == -1)
 			{
 				main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 				main.popMatrix();
 				return;
 			}
-			
+
 			main.pushMatrix();
 			main.translate(-widthBlock/2F, 0, -widthBlock/2F);
 			float m = 3;
 			//System.out.println("*");
-			
+
 			for (int nr = r*3; nr < r*3 + m; nr++)
 			{
 				for (int nc = c*3; nc < c*3 + m; nc++)
@@ -272,7 +273,7 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 			main.popMatrix();
-			
+
 			//Render a hill or mountain
 			if (!lazy)
 			{
@@ -320,7 +321,7 @@ public class RenderSystem extends BaseSystem {
 		main.noStroke();
 		float sizeY = widthBlock*3F;
 		main.pushMatrix();
-		
+
 		if (en.location.harvest)
 		{
 			main.strokeWeight(5);
@@ -330,7 +331,7 @@ public class RenderSystem extends BaseSystem {
 		{
 			main.strokeWeight(1);
 		}
-		
+
 		if (main.menuSystem.getSelected() != null)
 			if (en.equals(main.menuSystem.getSelected()))
 			{
@@ -397,7 +398,8 @@ public class RenderSystem extends BaseSystem {
 		}*/
 		main.popMatrix();
 	}
-	
+
+	//Generate vertices to be shown in the world
 	//this is terrible math
 	public void generateRoughTerrain(double[][] terrain, int multiply)
 	{
@@ -406,13 +408,25 @@ public class RenderSystem extends BaseSystem {
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
-				for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+				Tile t = main.grid.getTile(r,c);
+				if (t.shape == 2)
 				{
-					for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+
+				}
+				else if (t.shape == 1)
+				{
+
+				}
+				else
+				{
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
-						double height = 4;
-						//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
-						vertices[nr][nc] = Math.random()*height;
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+						{
+							double height = 4;
+							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
+							vertices[nr][nc] = Math.random()*height;
+						}
 					}
 				}
 			}
@@ -432,7 +446,7 @@ public class RenderSystem extends BaseSystem {
 			System.out.println();
 		}*/
 	}
-	
+
 	public void renderModel(String name, float red, float green, float blue)
 	{
 		main.pushMatrix();

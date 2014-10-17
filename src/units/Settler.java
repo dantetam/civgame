@@ -51,16 +51,16 @@ public class Settler extends GameEntity {
 		{
 			Tile t = settleLocation();
 			//System.out.println(t.owner);
-			waddleTo(t.row,t.col);
+			waddleToExact(t.row,t.col);
 		}
-		if (queueTiles.size() > 0)
+		else
 		{	
 			if (queueTiles.get(0).equals(location))
 			{
 				settle();
 				return;
 			}
-			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			location.grid.move(this,queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
 			queueTiles.remove(queueTiles.size()-1);
 			//If it reaches the destination
 			if (queueTiles.size() == 0)
@@ -74,14 +74,18 @@ public class Settler extends GameEntity {
 				{
 					queueTiles.clear();
 					Tile t = settleLocation();
-					waddleTo(t.row,t.col);
+					waddleToExact(t.row,t.col);
 				}
 			}
-			/*else if (queueTiles.get(0).owner != null)
+			else if (queueTiles.get(0).owner != null)
 			{
-				queueTiles.clear();
-			}*/
+				if (!queueTiles.get(0).owner.equals(owner))
+				{
+					queueTiles.clear();
+				}
+			}
 		}
+		/**/
 	}
 
 	public Tile settleLocation()
@@ -91,7 +95,7 @@ public class Settler extends GameEntity {
 		//return candidates[0];
 	}
 
-	public void settle()
+	public boolean settle()
 	{
 		if (location.owner == null)
 		{
@@ -131,8 +135,9 @@ public class Settler extends GameEntity {
 			}
 			//Remove the settler
 			location.grid.removeUnit(this);
-			return;
+			return true;
 		}
+		return false;
 	}
 
 	public String getName() {return "Settler";}

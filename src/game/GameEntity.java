@@ -92,6 +92,22 @@ public abstract class GameEntity extends BaseEntity {
 			}
 		}
 	}
+	
+	public void waddleToExact(int r, int c)
+	{
+		queueTiles.clear();
+		if (location.grid.getTile(r,c) != null)
+		{
+			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(location.row,location.col,r,c);
+			if (tiles != null)
+			{
+				if (tiles.size() > 0)
+				{
+					queueTiles = tiles;
+				}
+			}
+		}
+	}
 
 	public void passiveWaddle(int r, int c)
 	{
