@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import render.Button;
 import render.CivGame;
+import terrain.DiamondSquare;
 import entity.*;
 import game.BaseEntity;
 import game.Civilization;
@@ -27,16 +28,16 @@ public class RenderSystem extends BaseSystem {
 
 	public void tick()
 	{
-		main.shader(main.shader);
 		main.background(150,225,255);
 		//main.smooth(4);
 		//background(background);
 		main.noStroke();
 		//main.lights();
-		main.directionalLight(20, 20, 20, (float)0.5, -1, 0);
+		main.directionalLight(40, 40, 40, (float)0.5, -1, 0);
 		//stroke(0);
 		main.fill(135, 206, 235);
 		main.perspective(3.14F/2,15F/9F,1,10000);
+		main.shader(main.shader);
 		//System.out.println(player);
 		setCamera();
 		/*for (int i = 0; i < terrain.entities.size(); i++)
@@ -105,6 +106,8 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
+		
+		main.resetShader();
 		/*main.strokeWeight(5);
 		for (int r = 0; r < main.terrain.length; r++)
 		{
@@ -209,7 +212,7 @@ public class RenderSystem extends BaseSystem {
 			}
 			else
 			{
-				if (main.grid.getTile(r,c).owner != null && !hidden && !lazy)
+				if (main.grid.getTile(r,c).owner != null && !hidden)
 				{
 					Civilization civ = t.owner;
 					main.stroke(civ.r, civ.g, civ.b);
@@ -259,6 +262,13 @@ public class RenderSystem extends BaseSystem {
 			{
 				for (int nc = c*3; nc < c*3 + m; nc++)
 				{
+					/*if (nr == r*3 + 1 && nc == c*3 + 1)
+					{
+						if (vertices[nr][nc] > 5) 
+						{
+							main.fill(255);
+						}
+					}*/
 					main.pushMatrix();
 					main.translate((float)(nr - nr%3)*-widthBlock/3F, 0, (float)(nc - nc%3)*-widthBlock/3F);
 					main.beginShape(main.TRIANGLES);
@@ -281,7 +291,7 @@ public class RenderSystem extends BaseSystem {
 			{
 				if (sampleSize == 1)
 				{
-					if (t.shape == 1)
+					/*if (t.shape == 1)
 					{
 						main.pushMatrix();
 						main.translate(0, (float)main.terrain[r][c]*con/2, 0);
@@ -295,7 +305,7 @@ public class RenderSystem extends BaseSystem {
 						main.translate(0, widthBlock*sampleSize/4, 0);
 						main.box(widthBlock/2*sampleSize, widthBlock*sampleSize*1.5F, widthBlock/2*sampleSize);
 						main.popMatrix();
-					}
+					}*/
 					int res = t.resource;
 					if (res != 0)
 					{
@@ -406,18 +416,40 @@ public class RenderSystem extends BaseSystem {
 	public void generateRoughTerrain(double[][] terrain, int multiply)
 	{
 		vertices = new double[terrain.length*multiply + 1][terrain.length*multiply + 1];
+		double[][] temp1 = DiamondSquare.makeTable(3,3,3,3,3);
+		double[][] temp2 = DiamondSquare.makeTable(6,6,6,6,3);
+		DiamondSquare map;
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
 				Tile t = main.grid.getTile(r,c);
+
 				if (t.shape == 2)
 				{
-
+					map = new DiamondSquare(temp2);
+					map.seed(870L);
+					double[][] renderHill = map.generate(new double[]{0, 0, 2, 24, 0.7});
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					{
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+						{
+							vertices[nr][nc] = renderHill[nr - r*multiply][nc - c*multiply];
+						}
+					}
 				}
 				else if (t.shape == 1)
 				{
-
+					map = new DiamondSquare(temp1);
+					map.seed(870L);
+					double[][] renderHill = map.generate(new double[]{0, 0, 2, 8, 0.7});
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					{
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+						{
+							vertices[nr][nc] = renderHill[nr - r*multiply][nc - c*multiply];
+						}
+					}
 				}
 				else
 				{
@@ -425,9 +457,10 @@ public class RenderSystem extends BaseSystem {
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
-							double height = 4;
+							//double height = 2;
 							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
-							vertices[nr][nc] = Math.random()*height;
+							vertices[nr][nc] = Math.random()*2;
+							//vertices[nr][nc] = 1;
 						}
 					}
 				}
