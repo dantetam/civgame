@@ -54,6 +54,7 @@ public abstract class GameEntity extends BaseEntity {
 		else
 		{
 			int r,c;
+			int trials = 0;
 			while (true)
 			{
 				r = (int)(Math.random()*3) - 1;
@@ -62,6 +63,13 @@ public abstract class GameEntity extends BaseEntity {
 				if (t != null)
 					if (owner.equals(t.owner)) 
 						break;
+				trials++;
+				if (trials >= 10)
+				{
+					r = (int)(Math.random()*3) - 1;
+					c = (int)(Math.random()*3) - 1;
+					break;
+				}
 			}
 			passiveWaddle(r,c);
 		}
@@ -92,7 +100,7 @@ public abstract class GameEntity extends BaseEntity {
 			}
 		}
 	}
-	
+
 	public void waddleToExact(int r, int c)
 	{
 		queueTiles.clear();

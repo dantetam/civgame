@@ -2,6 +2,7 @@ package render;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.opengl.PShader;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -40,6 +41,7 @@ public class CivGame extends PApplet {
 	public float centerX = width/2, centerY = height/2; //for rendering purposes, to determine how the position of the mouse affects the camera
 	//public PGraphics pg;
 	public MenuSystem menuSystem = new MenuSystem(this);
+	public PShader shader;
 
 	private InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
@@ -66,6 +68,7 @@ public class CivGame extends PApplet {
 	{
 		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
 		//pg = createGraphics(1500,900,P2D);
+		shader = loadShader("fragtest.glsl", "verttest.glsl");
 		frameRate(25);
 		background(0,225,255);
 		camera(500,500,500,0,0,0,0,-1,0);

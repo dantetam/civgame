@@ -43,10 +43,14 @@ public class Warrior extends GameEntity {
 		if (queueTiles.size() > 0)
 		{
 			if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
+			{
+				queueTiles.remove(queueTiles.size()-1);
 				return;
-			//raze();
-			if (raze()) return;
+			}
 			queueTiles.remove(queueTiles.size()-1);
+		
+			//raze();
+			if (raze()) {System.out.println("razed"); return;}
 			/*if (queueTiles.size() > 0)
 				if (queueTiles.get(0).owner.equals(owner) || queueTiles.get(0).equals(location))
 				{
@@ -64,7 +68,7 @@ public class Warrior extends GameEntity {
 					}
 				}*/
 			Tile t = adjacentEnemy();
-			//System.out.println("pathfinding");
+			System.out.println("pathfinding");
 			if (t != null)
 			{
 				queueTiles.clear();
@@ -78,20 +82,20 @@ public class Warrior extends GameEntity {
 		}
 		else //if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
 		{
-			//Tile nearestE = nearestEnemyCity();
+			Tile nearestE = nearestEnemyCity();
 			System.out.println("to new location---------");
 			//System.out.println(nearest);
 			//System.out.println(location);
-			/*if (nearestE != null)
+			if (nearestE != null)
 			{
 				//waddleTo(nearest.row, nearest.col);
-				int r = nearestE.row - location.row;
-				int c = nearestE.col - location.col;
+				//int r = nearestE.row - location.row;
+				//int c = nearestE.col - location.col;
 				//queueTiles.clear(); //just in case
-				super.waddleTo(r,c);
+				super.waddleToExact(nearestE.row, nearestE.col);
 				//System.out.println("pathfinding start " + queueTiles.size());
-			}*/
-			if (nearestA != null)
+			}
+			else if (nearestA != null)
 			{
 				//waddleTo(nearest.row, nearest.col);
 				int r = nearestA.row - location.row;
@@ -101,6 +105,7 @@ public class Warrior extends GameEntity {
 				//System.out.println("pathfinding start " + queueTiles.size());
 			}
 			//else
+			else
 			{
 				int r = (int)(Math.random()*3) - 1;
 				int c = (int)(Math.random()*3) - 1;
