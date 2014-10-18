@@ -51,7 +51,7 @@ public class Warrior extends GameEntity {
 		
 			//raze();
 			if (raze()) {System.out.println("razed"); return;}
-			/*if (queueTiles.size() > 0)
+			if (queueTiles.size() > 0)
 				if (queueTiles.get(0).owner.equals(owner) || queueTiles.get(0).equals(location))
 				{
 					nearestA = nearestAlliedCity();
@@ -66,7 +66,7 @@ public class Warrior extends GameEntity {
 						super.waddleToExact(nearestA.row,nearestA.col);
 						//System.out.println("pathfinding start " + queueTiles.size());
 					}
-				}*/
+				}
 			Tile t = adjacentEnemy();
 			System.out.println("pathfinding");
 			if (t != null)

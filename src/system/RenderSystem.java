@@ -33,11 +33,11 @@ public class RenderSystem extends BaseSystem {
 		//background(background);
 		main.noStroke();
 		//main.lights();
-		main.directionalLight(40, 40, 40, (float)0.5, -1, 0);
+		main.directionalLight(200, 200, 200, (float)0.5, -1, 0);
 		//stroke(0);
 		main.fill(135, 206, 235);
 		main.perspective(3.14F/2,15F/9F,1,10000);
-		main.shader(main.shader);
+		main.shader(main.shader, main.TRIANGLES);
 		//System.out.println(player);
 		setCamera();
 		/*for (int i = 0; i < terrain.entities.size(); i++)

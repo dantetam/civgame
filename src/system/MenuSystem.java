@@ -72,7 +72,8 @@ public class MenuSystem extends BaseSystem {
 		//main.background(255,255,255,0);
 		main.camera();
 		main.perspective();
-		//main.noLights();
+		main.resetShader();
+		main.noLights();
 		main.noStroke();
 		main.textSize(12);
 		for (int menu = 0; menu < menus.size(); menu++)
