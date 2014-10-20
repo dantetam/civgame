@@ -22,7 +22,7 @@ public class MenuSystem extends BaseSystem {
 
 	public ArrayList<Menu> menus;
 	public ArrayList<TextBox> textboxes;
-	
+
 	private ArrayList<Click> clicks;
 
 	public boolean minimap, info = false;
@@ -35,7 +35,7 @@ public class MenuSystem extends BaseSystem {
 	public Tile[] settlerChoices;
 	public String typeOfLastSelected = "";
 	//public City citySelected;
-	
+
 	private ArrayList<String> messages;
 
 	public MenuSystem(CivGame civGame) {
@@ -53,7 +53,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("exitgame", "Exit", 0, 0, 100, 30);
 		menu0.addButton("minimap", "Minimap", 0, 100, 100, 30);
 		menu0.addButton("info", "Information", 0, 130, 100, 30);
-		
+
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
 
@@ -127,7 +127,7 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
-		
+
 		if (info)
 		{
 			main.fill(0);
@@ -144,7 +144,7 @@ public class MenuSystem extends BaseSystem {
 		main.rect((main.width - width)/2, (main.height - width)/2, width, width);
 
 		main.noStroke();
-		
+
 		hintText.clear();
 		if (target != null)
 		{
@@ -210,12 +210,12 @@ public class MenuSystem extends BaseSystem {
 					main.textAlign(PApplet.LEFT);
 					main.text(temp.get(i), main.width*4/6 + 15, 15*(i+1));
 				}
-				
+
 				/*main.fill(0);
 				main.rect(main.width*3/6 - 75,470 - 30,150,60);
 				main.fill(255);
 				main.textSize(12);
-				
+
 				main.textAlign(PApplet.LEFT);
 				main.text(selected.name,main.width*3/6 - 75,470 - 30);*/
 
@@ -237,64 +237,25 @@ public class MenuSystem extends BaseSystem {
 		}
 
 		menus.get(2).active = false;
+
 		if (selected != null)
+		{
 			if (selected.owner != null)
 				if (selected.owner.equals(main.grid.civs[0]) && selected instanceof City)
 				{
 					City citySelected = (City)selected; //to work with old code
-					menus.get(2).active = true;
-
-					//main.stroke(255);
-					main.fill(0);
-					main.rect(main.width*4/6,0,200,150);
-					main.fill(255);
-					main.textSize(12);
-
-					ArrayList<String> temp = new ArrayList<String>();
-					temp.add(citySelected.name + "; Population: " + citySelected.population);
-					temp.add("Health: " + citySelected.health + ", Happiness: " + citySelected.happiness);
-					if (citySelected.queueFood > 0 || citySelected.queueMetal > 0)
-					{
-						int[] t = citySelected.quickEval();
-						//Division by zero errors
-						if (t[0] == 0 && t[2] != 0 && citySelected.queueFood > 0)
-						{
-							temp.add("No food production, will not finish.");
-						}
-						else if (t[0] != 0 && t[2] == 0 && citySelected.queueMetal > 0)
-						{
-							temp.add("No metal production, will not finish.");
-						}
-						else if (t[0] == 0 && t[2] == 0)
-						{
-							temp.add("Neither food nor metal production");
-							temp.add("will not finish.");
-						}
-						else
-						{
-							//System.out.println(t[0] + " " + t[2]);
-							int turns = Math.max(
-									citySelected.queueFood/(t[0]) + 1,
-									citySelected.queueMetal/(t[2]) + 1
-									);
-							//English grammar...
-							if (turns == 1)
-								temp.add("Queued " + citySelected.queue + " for " + turns + " turn.");
-							else
-								temp.add("Queued " + citySelected.queue + " for " + turns + " turns.");
-						}
-					}
-					else
-					{
-						temp.add("Nothing queued.");
-					}
-
-					for (int i = 0; i < temp.size(); i++)
-					{
-						main.textAlign(PApplet.LEFT);
-						main.text(temp.get(i), main.width*4/6 + 15, 15*(i+1));
-					}
+					displayCity(citySelected);
 				}
+		}
+		else if (highlighted != null)
+		{
+			if (highlighted.improvement != null)
+				if (highlighted.improvement instanceof City)
+				{
+					City citySelected = (City)highlighted.improvement;
+					displayCity(citySelected);
+				}
+		}
 
 		main.fill(0);
 		main.rect(main.width*5/6,200,main.width*1/6,100);
@@ -317,7 +278,7 @@ public class MenuSystem extends BaseSystem {
 				}
 			}*/
 		}
-		
+
 		if (hintText.size() > 0)
 		{
 			//main.stroke(255);
@@ -356,7 +317,7 @@ public class MenuSystem extends BaseSystem {
 		main.lights();
 		main.pg.endDraw();
 		main.image(main.pg, 1500, 900);*/
-		
+
 		main.noStroke();
 		main.fill(0);
 		main.rect(main.width/6,0,300,50);
@@ -364,7 +325,7 @@ public class MenuSystem extends BaseSystem {
 		Civilization c = main.grid.civs[0];
 		main.textAlign(main.LEFT);
 		main.text(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research, main.width/6 + 15, 15);
-		
+
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
@@ -459,6 +420,43 @@ public class MenuSystem extends BaseSystem {
 							((City)selected).queue = "Worker";
 							((City)selected).queueFood = 25;
 						}
+						//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 
+						else if (command.equals("addAdmin"))
+						{
+							City s = ((City)selected);
+							if (s.adm + s.art + s.sci + 1 <= s.population - 1)
+								s.adm++;
+						}
+						else if (command.equals("addArtist"))
+						{
+							City s = ((City)selected);
+							if (s.adm + s.art + s.sci + 1 <= s.population - 1)
+								s.art++;
+						}
+						else if (command.equals("addSci"))
+						{
+							City s = ((City)selected);
+							if (s.adm + s.art + s.sci + 1 <= s.population - 1)
+								s.sci++;
+						}
+						else if (command.equals("subAdmin"))
+						{
+							City s = ((City)selected);
+							if (s.adm > 0)
+								s.adm--;
+						}
+						else if (command.equals("subArtist"))
+						{
+							City s = ((City)selected);
+							if (s.art > 0)
+								s.art--;
+						}
+						else if (command.equals("subSci"))
+						{
+							City s = ((City)selected);
+							if (s.sci > 0)
+								s.sci--;
+						}
 						main.menuSystem.selected = null;
 						//below was derived from the original expression to calculate rotY & rotVertical
 						//main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
@@ -476,13 +474,75 @@ public class MenuSystem extends BaseSystem {
 	{
 		clicks.add(0, new Click(mouseX, mouseY));
 	}
-	
+
 	//Send a message, checking for repeats
 	public void message(String message)
 	{
 		if (messages.size() == 0) messages.add(message);
-			if (!messages.get(messages.size()-1).equals(message))
-				messages.add(message);
+		if (!messages.get(messages.size()-1).equals(message))
+			messages.add(message);
+	}
+
+	public void displayCity(City citySelected)
+	{
+		menus.get(2).active = true;
+
+		//main.stroke(255);
+		main.fill(0);
+		main.rect(main.width*4/6,0,200,150);
+		main.fill(255);
+		main.textSize(12);
+
+		ArrayList<String> temp = new ArrayList<String>();
+		temp.add(citySelected.name + "; Population: " + citySelected.population);
+		if (citySelected.takeover > 0)
+		{
+			temp.add("RESISTANCE FOR " + citySelected.takeover + " TURNS.");
+		}
+		temp.add("Health: " + citySelected.health + ", Happiness: " + citySelected.happiness);
+		temp.add("Administrators: " + citySelected.adm + ", Artists: " + citySelected.art);
+		temp.add("Scientists: " + citySelected.sci);
+		if (citySelected.queueFood > 0 || citySelected.queueMetal > 0)
+		{
+			int[] t = citySelected.quickEval();
+			//Division by zero errors
+			if (t[0] == 0 && citySelected.queueFood > 0)
+			{
+				temp.add("No food production, will not finish.");
+			}
+			else if (t[2] == 0 && citySelected.queueMetal > 0)
+			{
+				temp.add("No metal production, will not finish.");
+			}
+			else if (t[0] == 0 && t[2] == 0)
+			{
+				temp.add("Neither food nor metal production");
+				temp.add("will not finish.");
+			}
+			else
+			{
+				//System.out.println(t[0] + " " + t[2]);
+				int turns = Math.max(
+						citySelected.queueFood/(t[0]) + 1,
+						citySelected.queueMetal/(t[2]) + 1
+						);
+				//English grammar...
+				if (turns == 1)
+					temp.add("Queued " + citySelected.queue + " for " + turns + " turn.");
+				else
+					temp.add("Queued " + citySelected.queue + " for " + turns + " turns.");
+			}
+		}
+		else
+		{
+			temp.add("Nothing queued.");
+		}
+
+		for (int i = 0; i < temp.size(); i++)
+		{
+			main.textAlign(PApplet.LEFT);
+			main.text(temp.get(i), main.width*4/6 + 15, 15*(i+1));
+		}
 	}
 
 	//Choose which buttons to show depending on unit (e.g. only settler can settle)
@@ -513,14 +573,21 @@ public class MenuSystem extends BaseSystem {
 		menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 100, 100);
 		menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 110, (float)main.height*5F/6F, 100, 100);
 		menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 220, (float)main.height*5F/6F, 100, 100);
+
+		menus.get(2).addButton("addAdmin", "Admin+", main.width/6F, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("subAdmin", "Admin-", main.width/6F, (float)main.height*5F/6F + 60, 50, 50);
+		menus.get(2).addButton("addArtist", "Artist+", main.width/6F + 60, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("subArtist", "Artist-", main.width/6F + 60, (float)main.height*5F/6F + 60, 50, 50);
+		menus.get(2).addButton("addSci", "Sci+", main.width/6F + 120, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("subSci", "Sci-", main.width/6F + 120, (float)main.height*5F/6F + 60, 50, 50);
 	}
-	
+
 	//Encapsulation for selected
 	public BaseEntity getSelected()
 	{
 		return selected;
 	}
-	
+
 	public void select(BaseEntity en)
 	{
 		selected = en;

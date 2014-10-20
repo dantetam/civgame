@@ -441,6 +441,7 @@ public class RenderSystem extends BaseSystem {
 				else if (t.shape == 1)
 				{
 					map = new DiamondSquare(temp1);
+					//map.seed((long)(System.currentTimeMillis()*Math.random()));
 					map.seed(870L);
 					double[][] renderHill = map.generate(new double[]{0, 0, 2, 8, 0.7});
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)

@@ -21,6 +21,12 @@ public class City extends TileEntity {
 	public ArrayList<String> buildings;
 	public int takeover;
 	//public int sight = 4;
+	
+	public int adm, art, sci;
+	//Administrator: 25% of tax base per each
+	//Artist: 25% of tax base converted into culture
+	//Scientist: +2 per each
+	public int culture;
 
 	//Store how many of a copy of a resource (improved) that the city holds
 	public int[] resources = new int[41]; //as of 9/28/2014 resources go up to 40 so 40+1 spaces
@@ -43,6 +49,8 @@ public class City extends TileEntity {
 		offensiveStr = 0; rangedStr = 3; defensiveStr = 6;
 		takeover = 0;
 		sight = 4;
+		art = 0; sci = 0; adm = 0;
+		culture = 0;
 	}
 
 	/*public City(TileEntity other) {

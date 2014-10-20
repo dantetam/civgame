@@ -1,0 +1,35 @@
+(Planned 10/19/2014 ->)
+
+- : English description
+* : Implementation detail
+> : Completed
+/ : In progress
+X : Abandoned
++ : Addition (not planned)
+
+Major additions:
+Ability to raze conquered land to reduce stress and monotony of late game seen in Civ4, particularly with large maps;
+Ability to craft certain tools and loadouts for units that cost a fixed price in resources (a Pandora feature);
+Menu to set custom loadout for a unit that details the cost and benefit of that certain setup;
+City improvements that add fixed bonuses that require techs (as seen in the Civ series);
+Civilizations that have different personalities and bonuses (as seen in the Civ series);
+
+Minor additions:
+Addition of city-states/one province minors, that can be spawned in the beginning or spawn as a nationalist/patriot movement
+	- City states that fragment of a civilization can defect to another friendly civ
+	- City states can be diplo-annexed (a EU feature)
+	* Possible extension of Civilization class?
+Ability to save games
+	* Text file or serialization
+Water transports and other units, ability to embark
+> Cities have specialized workers that take one extra population, do not harvest, and contribute a flat bonus (a Civ4 feature)
+
+Changes:
+Civilization have distinct, certain names
+Expanding cities by culture level instead of the default square
+
+Fixes:
+Better rendering system
+	- only render the civ's color at the edge of their territory
+	* Use processing's line() function and call noStroke() on the generated vertices
+>+ Fixed cities in resistance not reverting to normal status 

@@ -54,6 +54,7 @@ public class CivilizationSystem extends BaseSystem {
 
 						if (c.takeover > 0)
 						{
+							c.takeover--;
 							continue;
 						}
 
@@ -114,11 +115,28 @@ public class CivilizationSystem extends BaseSystem {
 						 * (shape 2) mountain -2,0,2,2
 						 *
 						 */
+						if (i != 0)
+						{
+							//Assign specialized workers, prioritize scientists
+							if (c.population >= 5)
+							{
+								int idle = c.population - 4;
+								c.sci = Math.min(4, idle);
+								idle -= c.sci;
+								if (idle > 0)
+								{
+									c.art += idle;
+									idle = 0;
+								}
+							}
+						}
+
 						c.happiness = 4 - c.population;
+						int sumCityWorkers = c.adm + c.art + c.sci;
 						if (c.happiness < 0)
-							c.workTiles(c.population - c.happiness);
+							c.workTiles(c.population - c.happiness - sumCityWorkers);
 						else
-							c.workTiles(c.population);
+							c.workTiles(c.population - sumCityWorkers);
 						c.health = 7 - c.population + Math.min(0,c.happiness);
 						for (int k = 0; k < c.land.size(); k++)
 							c.land.get(k).harvest = false;
@@ -136,6 +154,10 @@ public class CivilizationSystem extends BaseSystem {
 							tf += f; tg += g; tm += m; tr += r;
 							c.workedLand.get(k).harvest = true;
 						}
+						double taxBase = tg;
+						tr += c.sci*2;
+						tg += Math.floor(c.adm*0.25*taxBase);
+						c.culture += Math.floor(c.art*0.25*taxBase);
 						//System.out.println(tf + " " + c.owner.food);
 						if (c.queue == null && i != 0)
 						{
@@ -427,20 +449,16 @@ public class CivilizationSystem extends BaseSystem {
 			for (int i = 1; i < main.grid.civs.length; i++)
 			{
 				Civilization civ = main.grid.civs[i];
-				System.out.println("start ticking " + civ.name + " " + i);
 				for (int j = 0; j < civ.improvements.size(); j++)
 				{
 					civ.improvements.get(j).tick();
 				}
 				for (int j = 0; j < civ.units.size(); j++)
 				{
-					System.out.println("tick through " + civ.units.get(j).name + " " + civ.units.get(j).location.improvement);
 					civ.units.get(j).tick();
 				}
-				System.out.println("done ticking " + civ.name + " " + i);
 			}
 			//}
-			System.out.println("done ticking civs");
 			/*for (int r = 0; r < main.grid.rows; r++)
 			{
 				for (int c = 0; c < main.grid.cols; c++)
