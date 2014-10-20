@@ -109,30 +109,7 @@ public class Settler extends GameEntity {
 			{
 				owner.capital = city;
 			}
-			for (int i = en.location.row - 2; i <= en.location.row + 2; i++)
-			{
-				for (int j = en.location.col - 2; j <= en.location.col + 2; j++)
-				{
-					if (i >= 0 && i < location.grid.rows && j >= 0 && j < location.grid.cols)
-					{
-						Tile t = location.grid.getTile(i,j);
-						if (t != null)
-						{
-							if (t.owner == null)
-							{
-								t.city = city;
-								city.land.add(t);
-								location.grid.addTile(en.owner, t);
-							}
-							else if (t.owner == city.owner && t.city == null)
-							{
-								t.city = city;
-								city.land.add(t);
-							}
-						}
-					}
-				}
-			}
+			city.expand(1);
 			//Remove the settler
 			location.grid.removeUnit(this);
 			return true;

@@ -497,9 +497,13 @@ public class MenuSystem extends BaseSystem {
 		temp.add(citySelected.name + "; Population: " + citySelected.population);
 		if (citySelected.takeover > 0)
 		{
-			temp.add("RESISTANCE FOR " + citySelected.takeover + " TURNS.");
+			if (citySelected.takeover == 1)
+				temp.add("IN RESISTANCE FOR 1 TURN.");
+			else
+				temp.add("IN RESISTANCE FOR " + citySelected.takeover + " TURNS.");
 		}
 		temp.add("Health: " + citySelected.health + ", Happiness: " + citySelected.happiness);
+		temp.add("Culture: " + citySelected.culture);
 		temp.add("Administrators: " + citySelected.adm + ", Artists: " + citySelected.art);
 		temp.add("Scientists: " + citySelected.sci);
 		if (citySelected.queueFood > 0 || citySelected.queueMetal > 0)

@@ -141,6 +141,7 @@ public class CivilizationSystem extends BaseSystem {
 						for (int k = 0; k < c.land.size(); k++)
 							c.land.get(k).harvest = false;
 
+						//Work tiles and harvest their numerical yields
 						for (int k = 0; k < c.workedLand.size(); k++)
 						{
 							Tile t = c.workedLand.get(k);
@@ -154,10 +155,25 @@ public class CivilizationSystem extends BaseSystem {
 							tf += f; tg += g; tm += m; tr += r;
 							c.workedLand.get(k).harvest = true;
 						}
+						//Factor in specialized workers
 						double taxBase = tg;
 						tr += c.sci*2;
 						tg += Math.floor(c.adm*0.25*taxBase);
 						c.culture += Math.floor(c.art*0.25*taxBase);
+						if (civ.capital.equals(c))
+						{
+							c.culture++;
+						}
+						System.out.println(c.culture + " " + c.expanded);
+						if (c.culture >= 20 && c.expanded == 1)
+						{
+							//c.culture -= 20;
+							c.expand(2);
+						}
+						else if (c.culture >= 100 && c.expanded == 2 && c.population > 6)
+						{
+							c.expand(3);
+						}
 						//System.out.println(tf + " " + c.owner.food);
 						if (c.queue == null && i != 0)
 						{
@@ -479,11 +495,10 @@ public class CivilizationSystem extends BaseSystem {
 					civ.units.get(j).action = civ.units.get(j).maxAction;
 				}
 			}
-			/*main.menuSystem.message("Ended AI actions");
+			main.menuSystem.message("Ended AI actions");
 			main.menuSystem.message("Ended turn " + main.civilizationSystem.turnsPassed);
 			turnsPassed++;
-			main.menuSystem.message("Began turn " + main.civilizationSystem.turnsPassed);*/
-			System.out.println("end of tick");
+			main.menuSystem.message("Began turn " + main.civilizationSystem.turnsPassed);
 		}
 	}	
 

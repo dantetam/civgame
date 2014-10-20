@@ -50,7 +50,7 @@ public class Warrior extends GameEntity {
 			queueTiles.remove(queueTiles.size()-1);
 		
 			//raze();
-			if (raze()) {System.out.println("razed"); return;}
+			if (raze()) return;
 			if (queueTiles.size() > 0)
 				if (queueTiles.get(0).owner.equals(owner) || queueTiles.get(0).equals(location))
 				{
@@ -62,13 +62,11 @@ public class Warrior extends GameEntity {
 						//int r = nearestA.row - location.row;
 						//int c = nearestA.col - location.col;
 						//queueTiles.clear(); //just in case
-						System.out.println("to allied city---------");
 						super.waddleToExact(nearestA.row,nearestA.col);
 						//System.out.println("pathfinding start " + queueTiles.size());
 					}
 				}
 			Tile t = adjacentEnemy();
-			System.out.println("pathfinding");
 			if (t != null)
 			{
 				queueTiles.clear();
@@ -83,7 +81,6 @@ public class Warrior extends GameEntity {
 		else //if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
 		{
 			Tile nearestE = nearestEnemyCity();
-			System.out.println("to new location---------");
 			//System.out.println(nearest);
 			//System.out.println(location);
 			if (nearestE != null)
@@ -113,7 +110,6 @@ public class Warrior extends GameEntity {
 				aggressiveWaddle(r,c);
 			}
 		}
-		System.out.println("endofmethod");
 	}
 
 	public void waddle()

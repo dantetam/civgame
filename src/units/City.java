@@ -27,7 +27,8 @@ public class City extends TileEntity {
 	//Artist: 25% of tax base converted into culture
 	//Scientist: +2 per each
 	public int culture;
-
+	public int expanded; //Stage of expansion: 0, does not exist; 1, 3 by 3; 2, 5 by 5; 3, large cross;
+	
 	//Store how many of a copy of a resource (improved) that the city holds
 	public int[] resources = new int[41]; //as of 9/28/2014 resources go up to 40 so 40+1 spaces
 
@@ -50,7 +51,7 @@ public class City extends TileEntity {
 		takeover = 0;
 		sight = 4;
 		art = 0; sci = 0; adm = 0;
-		culture = 0;
+		culture = 0; expanded = 0;
 	}
 
 	/*public City(TileEntity other) {
@@ -498,6 +499,36 @@ public class City extends TileEntity {
 				System.err.println("Invalid city focus");
 			}
 			return new double[]{score,f,g,m,r};
+		}
+	}
+	
+	//Expands the city to a square of size 2*n + 1
+	public void expand(int n)
+	{
+		expanded++;
+		for (int i = location.row - n; i <= location.row + n; i++)
+		{
+			for (int j = location.col - n; j <= location.col + n; j++)
+			{
+				if (i >= 0 && i < location.grid.rows && j >= 0 && j < location.grid.cols)
+				{
+					Tile t = location.grid.getTile(i,j);
+					if (t != null)
+					{
+						if (t.owner == null)
+						{
+							t.city = this;
+							land.add(t);
+							location.grid.addTile(owner, t);
+						}
+						else if (t.owner == owner && t.city == null)
+						{
+							t.city = this;
+							land.add(t);
+						}
+					}
+				}
+			}
 		}
 	}
 
