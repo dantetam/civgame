@@ -64,7 +64,9 @@ public class Grid {
 			civ.g = (float)(Math.random()*255);
 			civ.b = (float)(Math.random()*255);
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
+			civ.opinions = new int[numCivs + numCityStates];
 			civs[i] = civ;
+			civ.id = i;
 
 			int r,c;
 			do
@@ -95,7 +97,9 @@ public class Grid {
 			civ.g = (float)(Math.random()*255);
 			civ.b = (float)(Math.random()*255);
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
+			civ.opinions = new int[numCivs + numCityStates];
 			civs[i] = civ;
+			civ.id = i;
 
 			int r,c;
 			do
@@ -213,19 +217,30 @@ public class Grid {
 		return temp;
 	}
 
+	public ArrayList<Tile> adjacent(int r, int c)
+	{
+		ArrayList<Tile> temp = new ArrayList<Tile>();
+		if (getTile(r+1,c) != null) {temp.add(getTile(r+1,c));} 
+		if (getTile(r-1,c) != null) {temp.add(getTile(r-1,c));} 
+		if (getTile(r,c-1) != null) {temp.add(getTile(r,c-1));} 
+		if (getTile(r,c+1) != null) {temp.add(getTile(r,c+1));} 
+		if (getTile(r+1,c+1) != null) {temp.add(getTile(r+1,c+1));} 
+		if (getTile(r+1,c-1) != null) {temp.add(getTile(r+1,c-1));} 
+		if (getTile(r-1,c+1) != null) {temp.add(getTile(r-1,c+1));} 
+		if (getTile(r-1,c-1) != null) {temp.add(getTile(r-1,c-1));} 
+		return temp;
+	}
+	
 	//Check if a tile borders the sea
 	public boolean coastal(int r, int c)
 	{
-		boolean temp = false;
-		if (getTile(r+1,c) != null) {temp = temp || getTile(r+1,c).biome == -1;} 
-		if (getTile(r-1,c) != null) {temp = temp || getTile(r-1,c).biome == -1;} 
-		if (getTile(r,c-1) != null) {temp = temp || getTile(r,c-1).biome == -1;} 
-		if (getTile(r,c+1) != null) {temp = temp || getTile(r,c+1).biome == -1;} 
-		if (getTile(r+1,c+1) != null) {temp = temp || getTile(r+1,c+1).biome == -1;} 
-		if (getTile(r+1,c-1) != null) {temp = temp || getTile(r+1,c-1).biome == -1;} 
-		if (getTile(r-1,c+1) != null) {temp = temp || getTile(r-1,c+1).biome == -1;} 
-		if (getTile(r-1,c-1) != null) {temp = temp || getTile(r-1,c-1).biome == -1;} 
-		return temp;
+		ArrayList<Tile> candidates = new ArrayList<Tile>();
+		for (int i = 0; i < candidates.size(); i++)
+		{
+			if (candidates.get(i).biome == -1)
+				return true;
+		}
+		return false;
 	}
 
 	public Tile getTile(int r, int c)

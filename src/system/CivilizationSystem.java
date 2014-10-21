@@ -402,13 +402,41 @@ public class CivilizationSystem extends BaseSystem {
 					civ.food = Math.min(civ.food, population*5);
 					civ.metal = Math.min(civ.metal, population*5);
 				}
+				//Update civilization's opinions of each other
+				for (int j = 0; j < main.grid.civs.length; j++)
+				{
+					int baseOpinion = 0;
+					Civilization oCiv = main.grid.civs[j];
+					if (i != j)
+					{
+						if (main.grid.civs[j].capital != null && civ.capital != null)
+						{
+							if (civ.capital.location.dist(oCiv.capital.location) < 30)
+							{
+								//baseOpinion -= 50;
+							}
+							int borderTiles = civ.bordering(oCiv);
+							if (borderTiles > 0)
+							{
+								baseOpinion -= borderTiles*10;
+							}
+						}
+					}
+					else
+					{
+						baseOpinion = 200;
+					}
+					//These correspond to the indices of the civs within the grid
+					civ.opinions[j] = baseOpinion;
+					oCiv.opinions[i] = baseOpinion;
+				}
 				//Declare war on other civilizations
 				if (!(civ instanceof CityState))
 				{
 					for (int j = 0; j < main.grid.civs.length; j++)
 					{
 						if (j == 0 || main.grid.civs[j] instanceof CityState) continue;
-						if (true)//main.grid.civs[j].cities.size() > 2)
+						if (civ.opinions[j] < -10)//main.grid.civs[j].cities.size() > 2)
 						{
 							if (main.grid.civs[j].capital != null && civ.capital != null)
 							{

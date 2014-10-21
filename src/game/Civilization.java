@@ -7,6 +7,7 @@ import units.City;
 public class Civilization {
 
 	public String name;
+	public int id;
 	public float r,g,b;
 	
 	public ArrayList<City> cities;
@@ -22,6 +23,7 @@ public class Civilization {
 	public int food, gold, metal, research;
 	
 	public boolean[][] revealed;
+	public int[] opinions;
 	
 	public Civilization(String name)
 	{
@@ -38,6 +40,14 @@ public class Civilization {
 		beelineTo("Metal Working");
 		beelineTo("Fletching");
 		//System.out.println(techTree.researched("Agriculture"));
+	}
+	
+	public int bordering(Civilization other)
+	{
+		int temp = 0;
+		for (int i = 0; i < cities.size(); i++)
+			temp += cities.get(i).tilesBorderingCiv(other);
+		return temp;
 	}
 	
 	public boolean equals(Civilization other)

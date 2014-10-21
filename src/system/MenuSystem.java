@@ -175,7 +175,12 @@ public class MenuSystem extends BaseSystem {
 				double[] data = target.city.evaluate(target, null);
 				hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
 			}
-
+			//Same check as above, really
+			if (target.owner != null)
+			{
+				hintText.add("Relations: " + target.owner.opinions[0]);
+			}
+			
 			if (target.freshWater)
 				hintText.add("Fresh Water");
 

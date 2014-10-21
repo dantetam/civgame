@@ -72,7 +72,49 @@ public class City extends TileEntity {
 			takeover--;
 		}
 	}
+	
+	//Return all the tiles that are not completely surrounded by the civ's own land
+	public ArrayList<Tile> returnFrontier()
+	{
+		ArrayList<Tile> temp = new ArrayList<Tile>();
+		for (int i = 0; i < land.size(); i++)
+		{
+			Tile t = land.get(i);
+			ArrayList<Tile> adjacent = t.grid.adjacent(t.row, t.col);
+			for (int j = 0; j < adjacent.size(); j++)
+			{
+				if (!owner.equals(adjacent.get(j).owner))
+				{
+					temp.add(t);
+					break;
+				}
+			}
+		}
+		return temp;
+	}
 
+	
+	public int tilesBorderingCiv(Civilization other)
+	{
+		int temp = 0;
+		for (int i = 0; i < land.size(); i++)
+		{
+			Tile t = land.get(i);
+			ArrayList<Tile> adjacent = t.grid.adjacent(t.row, t.col);
+			for (int j = 0; j < adjacent.size(); j++)
+			{
+				//System.out.println(owner + " " + other);
+				if (other.equals(adjacent.get(j).owner))
+				{
+					temp++;
+					break;
+				}
+			}
+		}
+		System.out.println(temp);
+		return temp;
+	}
+	
 	public void workTiles(int num)
 	{
 		if (num > land.size()) num = land.size();
