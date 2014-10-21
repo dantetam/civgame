@@ -172,11 +172,13 @@ public class RenderSystem extends BaseSystem {
 	}
 
 	//Render a block by accessing main's P3D abilities
+	//Hidden means not within the player's sight/revealed fog of war
+	//
 	public float con; public float cutoff;
 	private final int dist0 = 500;
 	private final int dist1 = 800; private final int dist2 = 1250;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
-	private double[][] vertices;
+	private float[][] vertices;
 	public void renderBlock(float dist, int r, int c, boolean hidden, boolean lazy)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
@@ -258,6 +260,29 @@ public class RenderSystem extends BaseSystem {
 			float m = 3;
 			//System.out.println("*");
 
+			main.pushMatrix();
+			main.translate((float)(r*3 - r*3%3)*-widthBlock/3F, 0, (float)(c*3 - c*3%3)*-widthBlock/3F);
+			main.strokeWeight(1);
+			
+			//Custom borders for 
+			main.line(r*widthBlock, (float)vertices[r*3][c*3], c*widthBlock, (r+(1F/3F))*widthBlock, (float)vertices[r*3 + 1][c*3], c*widthBlock);
+			main.line((r+(1F/3F))*widthBlock, (float)vertices[r*3 + 1][c*3], c*widthBlock, (r+(2F/3F))*widthBlock, (float)vertices[r*3 + 2][c*3], c*widthBlock);
+			main.line((r+(2F/3F))*widthBlock, (float)vertices[r*3 + 2][c*3], c*widthBlock, (r+(3F/3F))*widthBlock, (float)vertices[r*3 + 3][c*3], c*widthBlock);
+			
+			main.line(r*widthBlock, (float)vertices[r*3][(c+1)*3], (c+1)*widthBlock, (r+(1F/3F))*widthBlock, (float)vertices[r*3 + 1][(c+1)*3], (c+1)*widthBlock);
+			main.line((r+(1F/3F))*widthBlock, (float)vertices[r*3 + 1][(c+1)*3], (c+1)*widthBlock, (r+(2F/3F))*widthBlock, (float)vertices[r*3 + 2][(c+1)*3], (c+1)*widthBlock);
+			main.line((r+(2F/3F))*widthBlock, (float)vertices[r*3 + 2][(c+1)*3], (c+1)*widthBlock, (r+(3F/3F))*widthBlock, (float)vertices[r*3 + 3][(c+1)*3], (c+1)*widthBlock);
+			
+			main.line(r*widthBlock, (float)vertices[r*3][c*3], c*widthBlock, r*widthBlock, (float)vertices[r*3][c*3 + 1], (c+(1F/3F))*widthBlock);
+			main.line(r*widthBlock, (float)vertices[r*3][c*3 + 1], (c+(1F/3F))*widthBlock, r*widthBlock, (float)vertices[r*3][c*3 + 2], (c+(2F/3F))*widthBlock);
+			main.line(r*widthBlock, (float)vertices[r*3][c*3 + 2], (c+(2F/3F))*widthBlock, r*widthBlock, (float)vertices[r*3][c*3 + 3], (c+(3F/3F))*widthBlock);
+			
+			main.line((r+1)*widthBlock, (float)vertices[(r+1)*3][c*3], c*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 1], (c+(1F/3F))*widthBlock);
+			main.line((r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 1], (c+(1F/3F))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 2], (c+(2F/3F))*widthBlock);
+			main.line((r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 2], (c+(2F/3F))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 3], (c+(3F/3F))*widthBlock);
+			
+			main.popMatrix();
+			
 			for (int nr = r*3; nr < r*3 + m; nr++)
 			{
 				for (int nc = c*3; nc < c*3 + m; nc++)
@@ -270,6 +295,7 @@ public class RenderSystem extends BaseSystem {
 						}
 					}*/
 					main.pushMatrix();
+					main.noStroke();
 					main.translate((float)(nr - nr%3)*-widthBlock/3F, 0, (float)(nc - nc%3)*-widthBlock/3F);
 					main.beginShape(main.TRIANGLES);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
@@ -415,7 +441,7 @@ public class RenderSystem extends BaseSystem {
 	//this is terrible math
 	public void generateRoughTerrain(double[][] terrain, int multiply)
 	{
-		vertices = new double[terrain.length*multiply + 1][terrain.length*multiply + 1];
+		vertices = new float[terrain.length*multiply + 1][terrain.length*multiply + 1];
 		double[][] temp1 = DiamondSquare.makeTable(3,3,3,3,3);
 		double[][] temp2 = DiamondSquare.makeTable(6,6,6,6,3);
 		DiamondSquare map;
@@ -434,7 +460,7 @@ public class RenderSystem extends BaseSystem {
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
-							vertices[nr][nc] = renderHill[nr - r*multiply][nc - c*multiply];
+							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
 						}
 					}
 				}
@@ -448,7 +474,7 @@ public class RenderSystem extends BaseSystem {
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
-							vertices[nr][nc] = renderHill[nr - r*multiply][nc - c*multiply];
+							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
 						}
 					}
 				}
@@ -460,7 +486,7 @@ public class RenderSystem extends BaseSystem {
 						{
 							//double height = 2;
 							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
-							vertices[nr][nc] = Math.random()*2;
+							vertices[nr][nc] = (float)(Math.random()*2);
 							//vertices[nr][nc] = 1;
 						}
 					}

@@ -15,7 +15,7 @@ City improvements that add fixed bonuses that require techs (as seen in the Civ 
 Civilizations that have different personalities and bonuses (as seen in the Civ series);
 
 Minor additions:
-Addition of city-states/one province minors, that can be spawned in the beginning or spawn as a nationalist/patriot movement
+> Addition of city-states/one province minors, that can be spawned in the beginning or spawn as a nationalist/patriot movement
 	- City states that fragment of a civilization can defect to another friendly civ
 	- City states can be diplo-annexed (a EU feature)
 	* Possible extension of Civilization class?
@@ -25,7 +25,7 @@ Water transports and other units, ability to embark
 > Cities have specialized workers that take one extra population, do not harvest, and contribute a flat bonus (a Civ4 feature)
 
 Changes:
-Civilization have distinct, certain names
+Civilizations have distinct, certain names
 > Expanding cities by culture level instead of the default square
 
 Fixes:
