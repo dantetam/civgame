@@ -181,15 +181,13 @@ public class CivilizationSystem extends BaseSystem {
 							{
 								if (civ.units.size() == 0)
 								{
-									c.queue = "Worker";
-									c.queueFood = 25;
+									EntityData.queue(c, "Worker");
 								}
 								else if (numWorkers < civ.cities.size())
 								{
 									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
 									{
-										c.queue = "Work Boat";
-										c.queueFood = 15;
+										EntityData.queue(c, "Work Boat");
 									}
 									else
 									{
@@ -415,6 +413,10 @@ public class CivilizationSystem extends BaseSystem {
 							{
 								//baseOpinion -= 50;
 							}
+							if (civ.war(oCiv))
+							{
+								baseOpinion -= 50;
+							}
 							int borderTiles = civ.bordering(oCiv);
 							if (borderTiles > 0)
 							{
@@ -426,6 +428,8 @@ public class CivilizationSystem extends BaseSystem {
 					{
 						baseOpinion = 200;
 					}
+					if (baseOpinion < -200) baseOpinion = -200;
+					else if (baseOpinion > 200) baseOpinion = 200;
 					//These correspond to the indices of the civs within the grid
 					civ.opinions[j] = baseOpinion;
 					oCiv.opinions[i] = baseOpinion;

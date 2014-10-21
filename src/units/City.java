@@ -111,7 +111,6 @@ public class City extends TileEntity {
 				}
 			}
 		}
-		System.out.println(temp);
 		return temp;
 	}
 	

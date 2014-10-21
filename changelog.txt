@@ -9,10 +9,12 @@ X : Abandoned
 
 Major additions:
 Ability to raze conquered land to reduce stress and monotony of late game seen in Civ4, particularly with large maps;
-Ability to craft certain tools and loadouts for units that cost a fixed price in resources (a Pandora feature);
+/ Ability to craft certain tools and loadouts for units that cost a fixed price in resources (a Pandora feature);
 Menu to set custom loadout for a unit that details the cost and benefit of that certain setup;
 City improvements that add fixed bonuses that require techs (as seen in the Civ series);
 Civilizations that have different personalities and bonuses (as seen in the Civ series);
+>+ Civilizations have relationships with each other
+Fully functioning combat system
 
 Minor additions:
 > Addition of city-states/one province minors, that can be spawned in the beginning or spawn as a nationalist/patriot movement

@@ -409,7 +409,11 @@ public class MenuSystem extends BaseSystem {
 							((Settler)selected).settle();
 						}
 
-						else if (command.equals("queueSettler"))
+						else if (command.contains("queue"))
+						{
+							EntityData.queue((City)selected, command.substring(5));
+						}
+						/*else if (command.equals("queueSettler"))
 						{
 							((City)selected).queue = "Settler";
 							((City)selected).queueFood = 35;
@@ -424,7 +428,7 @@ public class MenuSystem extends BaseSystem {
 						{
 							((City)selected).queue = "Worker";
 							((City)selected).queueFood = 25;
-						}
+						}*/
 						//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 
 						else if (command.equals("addAdmin"))
 						{
