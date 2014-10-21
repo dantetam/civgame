@@ -164,7 +164,7 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							c.culture++;
 						}
-						System.out.println(c.culture + " " + c.expanded);
+						//System.out.println(c.culture + " " + c.expanded);
 						if (c.culture >= 20 && c.expanded == 1)
 						{
 							//c.culture -= 20;

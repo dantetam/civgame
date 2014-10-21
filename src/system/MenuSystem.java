@@ -485,7 +485,11 @@ public class MenuSystem extends BaseSystem {
 
 	public void displayCity(City citySelected)
 	{
-		menus.get(2).active = true;
+		//Selection vs highlight
+		if (citySelected.equals(selected))
+		{
+			menus.get(2).active = true;
+		}
 
 		//main.stroke(255);
 		main.fill(0);

@@ -262,7 +262,6 @@ public class RenderSystem extends BaseSystem {
 
 			main.pushMatrix();
 			main.translate((float)(r*3 - r*3%3)*-widthBlock/3F, 0, (float)(c*3 - c*3%3)*-widthBlock/3F);
-			main.strokeWeight(1);
 			
 			//Custom borders for 
 			main.line(r*widthBlock, (float)vertices[r*3][c*3], c*widthBlock, (r+(1F/3F))*widthBlock, (float)vertices[r*3 + 1][c*3], c*widthBlock);
