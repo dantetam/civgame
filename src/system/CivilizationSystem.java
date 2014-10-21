@@ -175,6 +175,53 @@ public class CivilizationSystem extends BaseSystem {
 							c.expand(3);
 						}
 						//System.out.println(tf + " " + c.owner.food);
+						if (civ instanceof CityState)
+						{
+							if (c.focus.equals("Growth"))
+							{
+								if (civ.units.size() == 0)
+								{
+									c.queue = "Worker";
+									c.queueFood = 25;
+								}
+								else if (numWorkers < civ.cities.size())
+								{
+									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
+									{
+										c.queue = "Work Boat";
+										c.queueFood = 15;
+									}
+									else
+									{
+										c.queue = "Worker";
+										c.queueFood = 25;
+									}
+								}
+								else if (civ.units.size() <= civ.cities.size()*3)
+								{
+									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
+									{
+										c.queue = "Work Boat";
+										c.queueFood = 15;
+									}
+									else
+									{
+										c.queue = "Warrior";
+										c.queueFood = 5;
+										c.queueMetal = 5;
+									}
+								}
+							}
+							else if (c.focus.equals("Production"))
+							{
+								if (civ.units.size() <= 5)
+								{
+									c.queue = "Warrior";
+									c.queueFood = 5;
+									c.queueMetal = 5;
+								}
+							}
+						}
 						if (c.queue == null && i != 0)
 						{
 							//System.out.println(civ.units.size());
@@ -197,8 +244,11 @@ public class CivilizationSystem extends BaseSystem {
 										c.queue = "Work Boat";
 										c.queueFood = 15;
 									}
-									c.queue = "Worker";
-									c.queueFood = 25;
+									else
+									{
+										c.queue = "Worker";
+										c.queueFood = 25;
+									}
 								}
 								else if (civ.units.size() <= civ.cities.size()*3)
 								{
@@ -226,7 +276,7 @@ public class CivilizationSystem extends BaseSystem {
 							}
 							else if (c.focus.equals("Production"))
 							{
-								if (civ.units.size() <= civ.cities.size()*2)
+								if (civ.units.size() <= 7)
 								{
 									c.queue = "Warrior";
 									c.queueFood = 5;
@@ -353,33 +403,36 @@ public class CivilizationSystem extends BaseSystem {
 					civ.metal = Math.min(civ.metal, population*5);
 				}
 				//Declare war on other civilizations
-				for (int j = 0; j < main.grid.civs.length; j++)
+				if (!(civ instanceof CityState))
 				{
-					if (j == 0) continue;
-					if (true)//main.grid.civs[j].cities.size() > 2)
+					for (int j = 0; j < main.grid.civs.length; j++)
 					{
-						if (main.grid.civs[j].capital != null && civ.capital != null)
+						if (j == 0 || main.grid.civs[j] instanceof CityState) continue;
+						if (true)//main.grid.civs[j].cities.size() > 2)
 						{
-							/*System.out.println("----");
+							if (main.grid.civs[j].capital != null && civ.capital != null)
+							{
+								/*System.out.println("----");
 							System.out.println(!civ.equals(main.grid.civs[j]));
 							System.out.println(civ.capital.location.dist(main.grid.civs[j].capital.location) < main.grid.aggroDistance);
 							System.out.println(!civ.enemies.contains(main.grid.civs[j]));*/
-							if (//civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
-									//Math.random() < 0.03 &&
-									!civ.equals(main.grid.civs[j]) &&
-									//civ.capital.location.dist(main.grid.civs[j].capital.location) < main.grid.aggroDistance &&
-									!civ.enemies.contains(main.grid.civs[j]))
-							{
-								System.out.println("war");
-								civ.enemies.add(main.grid.civs[j]);
-								main.grid.civs[j].enemies.add(civ);
+								if (//civ.cities.size() > 1.25*main.grid.civs[j].cities.size() &&
+										//Math.random() < 0.03 &&
+										!civ.equals(main.grid.civs[j]) &&
+										//civ.capital.location.dist(main.grid.civs[j].capital.location) < main.grid.aggroDistance &&
+										!civ.enemies.contains(main.grid.civs[j]))
+								{
+									System.out.println("war");
+									civ.enemies.add(main.grid.civs[j]);
+									main.grid.civs[j].enemies.add(civ);
+								}
 							}
 						}
-					}
-					else
-					{
-						//main.grid.civs[j].enemies.remove(civ);
-						//civ.enemies.remove(main.grid.civs[j]);
+						else
+						{
+							//main.grid.civs[j].enemies.remove(civ);
+							//civ.enemies.remove(main.grid.civs[j]);
+						}
 					}
 				}
 				//Begin starvation if there is lack of food

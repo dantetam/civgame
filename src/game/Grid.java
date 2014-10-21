@@ -20,9 +20,9 @@ public class Grid {
 	
 	public final int aggroDistance = 500;
 
-	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int cutoff)
+	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff)
 	{
-		civs = new Civilization[numCivs];
+		civs = new Civilization[numCivs+numCityStates];
 		tiles = new Tile[terrain.length][terrain[0].length];
 		rows = tiles.length; cols = tiles[0].length;
 		for (int r = 0; r < terrain.length; r++)
@@ -55,7 +55,7 @@ public class Grid {
 					tiles[r][c] = new Tile(this,"Sea",(int)terrain[r][c],-1,0,resources[r][c],forest,r,c);
 			}
 		}
-		for (int i = 0; i < civs.length; i++)
+		for (int i = 0; i < numCivs; i++)
 		{
 			Civilization civ = new Civilization("Civilization " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*Math.random()))
@@ -85,8 +85,26 @@ public class Grid {
 				}
 			}
 			addUnit(en,civs[i],r,c);
-		
-			//en.reveal();
+		}
+		for (int i = numCivs; i < numCivs + numCityStates; i++)
+		{
+			CityState civ = new CityState("City State " + Double.toString(
+					Math.floor(Math.sqrt(System.currentTimeMillis()*Math.random()))
+					));
+			civ.r = (float)(Math.random()*255);
+			civ.g = (float)(Math.random()*255);
+			civ.b = (float)(Math.random()*255);
+			civ.revealed = new boolean[terrain.length][terrain[0].length];
+			civs[i] = civ;
+
+			int r,c;
+			do
+			{
+				r = (int)(Math.random()*tiles.length);
+				c = (int)(Math.random()*tiles[0].length);
+			} while (tiles[r][c].type.equals("Sea"));
+
+			addUnit(EntityData.get("Settler"),civs[i],r,c);
 		}
 		//makeRivers(terrain);
 		pathFinder = new Pathfinder(this);
