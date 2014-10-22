@@ -191,22 +191,18 @@ public class CivilizationSystem extends BaseSystem {
 									}
 									else
 									{
-										c.queue = "Worker";
-										c.queueFood = 25;
+										EntityData.queue(c, "Worker");
 									}
 								}
 								else if (civ.units.size() <= civ.cities.size()*3)
 								{
 									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
 									{
-										c.queue = "Work Boat";
-										c.queueFood = 15;
+										EntityData.queue(c, "Work Boat");
 									}
 									else
 									{
-										c.queue = "Warrior";
-										c.queueFood = 5;
-										c.queueMetal = 5;
+										EntityData.queue(c, "Warrior");
 									}
 								}
 							}
@@ -214,9 +210,7 @@ public class CivilizationSystem extends BaseSystem {
 							{
 								if (civ.units.size() <= 5)
 								{
-									c.queue = "Warrior";
-									c.queueFood = 5;
-									c.queueMetal = 5;
+									EntityData.queue(c, "Warrior");
 								}
 							}
 						}
@@ -227,39 +221,32 @@ public class CivilizationSystem extends BaseSystem {
 							{
 								if (civ.units.size() == 0)
 								{
-									c.queue = "Worker";
-									c.queueFood = 25;
+									EntityData.queue(c, "Worker");
 								}
 								else if (numSettlers < 3)
 								{
-									c.queue = "Settler";
-									c.queueFood = 35;
+									EntityData.queue(c, "Settler");
 								}
 								else if (numWorkers < civ.cities.size())
 								{
 									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
 									{
-										c.queue = "Work Boat";
-										c.queueFood = 15;
+										EntityData.queue(c, "Work Boat");
 									}
 									else
 									{
-										c.queue = "Worker";
-										c.queueFood = 25;
+										EntityData.queue(c, "Worker");
 									}
 								}
 								else if (civ.units.size() <= civ.cities.size()*3)
 								{
 									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
 									{
-										c.queue = "Work Boat";
-										c.queueFood = 15;
+										EntityData.queue(c, "Work Boat");
 									}
 									else
 									{
-										c.queue = "Warrior";
-										c.queueFood = 5;
-										c.queueMetal = 5;
+										EntityData.queue(c, "Warrior");
 									}
 								}
 								/*else if (civ.units.size() <= civ.cities.size()*3)
@@ -276,9 +263,7 @@ public class CivilizationSystem extends BaseSystem {
 							{
 								if (civ.units.size() <= 7)
 								{
-									c.queue = "Warrior";
-									c.queueFood = 5;
-									c.queueMetal = 5;
+									EntityData.queue(c, "Warrior");
 								}
 							}
 						}
@@ -372,6 +357,18 @@ public class CivilizationSystem extends BaseSystem {
 						if (c.population > 4)
 						{
 							c.focus = "Growth";
+						}
+						for (int k = 0; k < c.land.size(); k++)
+						{
+							Tile t = c.land.get(k);
+							t.turnsSettled++;
+							if (t.turnsSettled % 50 == 0)
+							{
+								if (t.biome >= 3 && t.biome <= 6)
+								{
+									t.biome--;
+								}
+							}
 						}
 					}
 					/*for (int j = 0; j < civ.cities.size(); j++)

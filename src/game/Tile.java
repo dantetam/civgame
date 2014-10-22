@@ -20,6 +20,7 @@ public class Tile {
 	public int shape;
 	public int resource;
 	public boolean forest, freshWater, road;
+	public int turnsSettled = 0;
 	
 	public Tile(Grid grid, String type, int height, int biome, int shape, int resource, boolean forest, int row, int col)
 	{
