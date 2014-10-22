@@ -32,7 +32,7 @@ Civilizations have distinct, certain names
 > Expanding cities by culture level instead of the default square
 
 Fixes:
-> Better rendering system
+>/ Better rendering system
 	- only render the civ's color at the edge of their territory
 	* Use processing's line() function and call noStroke() on the generated vertices
 >+ Fixed cities in resistance not reverting to normal status 

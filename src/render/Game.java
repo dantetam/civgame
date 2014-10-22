@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import data.EntityData;
 import processing.core.PApplet;
+import processing.core.PFont;
 
 public class Game extends PApplet {
 
@@ -15,6 +16,7 @@ public class Game extends PApplet {
 	public int numCivs = 2, numCityStates = 0;
 	public ArrayList<Menu> menus;
 	public Menu activeMenu;
+	public PFont arial;
 	
 	public long seed = 87069200L;
 
@@ -26,6 +28,7 @@ public class Game extends PApplet {
 	public void setup()
 	{
 		size(400,800);
+		arial = createFont("ArialMT-48.vlw", 48);
 		EntityData.init();
 		setModels();
 		frame.setTitle("Survival: Civilization");
@@ -71,6 +74,8 @@ public class Game extends PApplet {
 	public void draw()
 	{
 		background(255);
+		textFont(arial);
+		textSize(14);
 		activeMenu = menus.get(0);
 		if (gameMode.equals("mainMenu"))
 		{

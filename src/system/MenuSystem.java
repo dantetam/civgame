@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import data.EntityData;
 import processing.core.PApplet;
+import processing.core.PFont;
 import render.Button;
 import render.CivGame;
 import render.Menu;
@@ -61,11 +62,16 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu2);
 
 		menu0.active = true;
+	
+		//arial = main.loadFont("ArialMT-48.vlw");
 	}
+	
+	public PFont arial;
 
 	public boolean menuActivated = false;
 	public void tick()
 	{
+		//main.textFont(arial);
 		//main.resetShader();
 		main.hint(PApplet.DISABLE_DEPTH_TEST);
 		//main.textSize(20);
@@ -200,8 +206,8 @@ public class MenuSystem extends BaseSystem {
 					for (int i = 0; i < highlighted.occupants.size(); i++)
 					{
 						stringy += highlighted.occupants.get(i).name + "; ";
-						hintText.add(stringy);
 					}
+					hintText.add(stringy);
 				}
 		}
 		if (selected != null)

@@ -1,6 +1,7 @@
 package render;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
@@ -42,6 +43,7 @@ public class CivGame extends PApplet {
 	//public PGraphics pg;
 	public MenuSystem menuSystem = new MenuSystem(this);
 	public PShader shader;
+	public PFont arial;
 
 	private InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
@@ -68,6 +70,8 @@ public class CivGame extends PApplet {
 	public void setup()
 	{
 		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
+		arial = createFont("ArialMT-48.vlw", 48);
+		textFont(arial);
 		//pg = createGraphics(1500,900,P2D);
 		shader = loadShader("fragtest.glsl", "verttest.glsl");
 		frameRate(25);
