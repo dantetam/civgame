@@ -241,6 +241,7 @@ public abstract class GameEntity extends BaseEntity {
 				{
 					//System.out.println("takeovercity");
 					City city = (City)location.improvement;
+					city.queue = null;
 					city.queueFood = 0;
 					city.queueMetal = 0;
 					city.adm = 0; city.art = 0; city.sci = 0;

@@ -15,7 +15,7 @@ public class EntityData {
 	public static HashMap<String, TileEntity> tileEntityMap;
 	public static HashMap<Integer, Integer> groundColorMap; //Defines color of ground of certain biomes
 	private static HashMap<String, float[][]> unitModelMap;
-	
+
 	//Terrible short hand names
 	private static HashMap<String, Integer> f;
 	private static HashMap<String, Integer> m;
@@ -37,7 +37,7 @@ public class EntityData {
 		f = new HashMap<String, Integer>();
 		m = new HashMap<String, Integer>();
 		g = new HashMap<String, Integer>();
-		
+
 		setupColors();
 		setupEntityMap();
 		groundColorMap();
@@ -179,21 +179,21 @@ public class EntityData {
 		tileEntityMap.put("Pasture",new TileEntity("Pasture"));
 		tileEntityMap.put("Fishing Boats",new TileEntity("Fishing Boats"));
 	}
-	
+
 	private static void setupUnitCosts()
 	{
 		f.put("Settler", 35);
 		m.put("Settler", 0);
 		g.put("Settler", 0);
-		
+
 		f.put("Warrior", 5);
 		m.put("Warrior", 5);
 		g.put("Warrior", 0);
-		
+
 		f.put("Work Boat", 15);
 		m.put("Work Boat", 0);
 		g.put("Work Boat", 0);
-		
+
 		f.put("Worker", 25);
 		m.put("Worker", 0);
 		g.put("Worker", 0);
@@ -201,11 +201,14 @@ public class EntityData {
 
 	public static void queue(City c, String queue)
 	{
-		c.queue = queue;
-		c.queueFood = f.get(queue);
-		c.queueMetal = m.get(queue);
+		if (c.takeover <= 0)
+		{
+			c.queue = queue;
+			c.queueFood = f.get(queue);
+			c.queueMetal = m.get(queue);
+		}
 	}
-	
+
 	public static Color get(int res)
 	{
 		switch (res)

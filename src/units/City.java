@@ -22,12 +22,14 @@ public class City extends TileEntity {
 	public int takeover;
 	//public int sight = 4;
 	
-	public int adm, art, sci;
+	public int adm, art, sci; 
+	//Specialized workers:
 	//Administrator: 25% of tax base per each
 	//Artist: 25% of tax base converted into culture
 	//Scientist: +2 per each
 	public int culture;
 	public int expanded; //Stage of expansion: 0, does not exist; 1, 3 by 3; 2, 5 by 5; 3, large cross;
+	public boolean raze;
 	
 	//Store how many of a copy of a resource (improved) that the city holds
 	public int[] resources = new int[41]; //as of 9/28/2014 resources go up to 40 so 40+1 spaces
@@ -52,6 +54,7 @@ public class City extends TileEntity {
 		sight = 4;
 		art = 0; sci = 0; adm = 0;
 		culture = 0; expanded = 0;
+		raze = false;
 	}
 
 	/*public City(TileEntity other) {

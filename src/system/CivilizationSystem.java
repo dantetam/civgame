@@ -360,11 +360,22 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							c.focus = "Growth";
 						}
-						for (int k = 0; k < c.land.size(); k++)
+						for (int k = 0; k < c.workedLand.size(); k++)
 						{
-							Tile t = c.land.get(k);
+							Tile t = c.workedLand.get(k);
 							if (t.turnsSettled % 50 == 0 && t.turnsSettled > 0 && !t.forest)
 							{
+								if (t.biome >= 3 && t.biome <= 6)
+								{
+									t.biome--;
+								}
+							}
+						}
+						if (c.raze)
+						{
+							for (int k = 0; k < c.land.size(); k++)
+							{
+								Tile t = c.land.get(k);
 								if (t.biome >= 3 && t.biome <= 6)
 								{
 									t.biome--;

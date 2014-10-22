@@ -222,7 +222,7 @@ public class MenuSystem extends BaseSystem {
 
 				ArrayList<String> temp = new ArrayList<String>();
 				temp.add(selected.name + " " + ((GameEntity)selected).action + "/" + ((GameEntity)selected).maxAction);
-				temp.add(selected.offensiveStr + " offensive / " + selected.rangedStr + " ranged");
+				temp.add(selected.offensiveStr + " offensive, " + selected.rangedStr + " ranged");
 				temp.add(selected.defensiveStr + " defensive");
 
 				for (int i = 0; i < temp.size(); i++)
@@ -428,6 +428,10 @@ public class MenuSystem extends BaseSystem {
 						{
 							EntityData.queue((City)selected, command.substring(5));
 						}
+						else if (command.equals("razeCity"))
+						{
+							((City)selected).raze = true;
+						}
 						/*else if (command.equals("queueSettler"))
 						{
 							((City)selected).queue = "Settler";
@@ -481,6 +485,10 @@ public class MenuSystem extends BaseSystem {
 							if (s.sci > 0)
 								s.sci--;
 						}
+						else
+						{
+							System.out.println("Invalid or non-functioning command: " + command);
+						}
 						main.menuSystem.selected = null;
 						//below was derived from the original expression to calculate rotY & rotVertical
 						//main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
@@ -525,10 +533,12 @@ public class MenuSystem extends BaseSystem {
 		temp.add(citySelected.name + "; Population: " + citySelected.population);
 		if (citySelected.takeover > 0)
 		{
+			main.fill(255,0,0);
 			if (citySelected.takeover == 1)
 				temp.add("IN RESISTANCE FOR 1 TURN.");
 			else
 				temp.add("IN RESISTANCE FOR " + citySelected.takeover + " TURNS.");
+			main.fill(255);
 		}
 		temp.add("Health: " + citySelected.health + ", Happiness: " + citySelected.happiness);
 		temp.add("Culture: " + citySelected.culture);
@@ -602,9 +612,15 @@ public class MenuSystem extends BaseSystem {
 	public void updateCity(City c)
 	{
 		menus.get(2).buttons.clear();
-		menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 100, 100);
-		menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 110, (float)main.height*5F/6F, 100, 100);
-		menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 220, (float)main.height*5F/6F, 100, 100);
+		
+		if (c.takeover > 0)
+		{
+			menus.get(2).addButton("razeCity", "Raze", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
+		}
+		
+		menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
 
 		menus.get(2).addButton("addAdmin", "Admin+", main.width/6F, (float)main.height*5F/6F, 50, 50);
 		menus.get(2).addButton("subAdmin", "Admin-", main.width/6F, (float)main.height*5F/6F + 60, 50, 50);
