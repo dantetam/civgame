@@ -381,6 +381,27 @@ public class CivilizationSystem extends BaseSystem {
 									t.biome--;
 								}
 							}
+							c.population--;
+							System.out.println(c.population);
+							if (c.population <= 0)
+							{
+								c.queue = null;
+								c.queueFood = 0;
+								c.queueMetal = 0;
+								if (c.owner.capital != null)
+									if (c.equals(c.owner.capital))
+										c.owner.capital = null;
+								for (int k = c.land.size() - 1; k >= 0; k--)
+								{
+									c.land.get(k).owner = null;
+									c.land.get(k).city = null;
+								}
+								c.owner.cities.remove(c);
+								if (c.owner.cities.size() > 0)
+									c.owner.capital = c.owner.cities.get(0);
+								c.owner = null;
+								main.grid.removeUnit(c);
+							}
 						}
 					}
 					/*for (int j = 0; j < civ.cities.size(); j++)

@@ -199,14 +199,17 @@ public class EntityData {
 		g.put("Worker", 0);
 	}
 
-	public static void queue(City c, String queue)
+	//Return true if successfully queued in a city not undergoing hostile takeover
+	public static boolean queue(City c, String queue)
 	{
-		if (c.takeover <= 0)
+		if (c.takeover <= 0 || c.raze)
 		{
 			c.queue = queue;
 			c.queueFood = f.get(queue);
 			c.queueMetal = m.get(queue);
+			return true;
 		}
+		return false;
 	}
 
 	public static Color get(int res)

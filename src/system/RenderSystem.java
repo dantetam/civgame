@@ -297,6 +297,13 @@ public class RenderSystem extends BaseSystem {
 				main.line((r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 1], (c+(1F/m))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 2], (c+(2F/m))*widthBlock);
 				main.line((r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 2], (c+(2F/m))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + m], (c+(m/m))*widthBlock);*/
 				main.noStroke();
+				if (t.city != null)
+				{
+					if (t.city.raze)
+					{
+						main.stroke(255,0,0);
+					}
+				}
 			}
 
 			main.popMatrix();

@@ -278,7 +278,7 @@ public class InputSystem extends BaseSystem {
 			for (int i = 0; i < civ.cities.size(); i++)
 			{
 				City c = civ.cities.get(i);
-				if (c.queue == null || c.takeover > 0)
+				if (c.queue == null && c.takeover <= 0 && !c.raze)
 				{
 					main.fixCamera(c.location.row, c.location.col);
 					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;

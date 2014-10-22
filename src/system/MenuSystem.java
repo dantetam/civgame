@@ -62,10 +62,10 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu2);
 
 		menu0.active = true;
-	
+
 		//arial = main.loadFont("ArialMT-48.vlw");
 	}
-	
+
 	public PFont arial;
 
 	public boolean menuActivated = false;
@@ -176,7 +176,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				hintText.add("Mountain");
 			}
-			
+
 			if (target.improvement != null)
 			{
 				hintText.add(target.improvement.name);
@@ -187,15 +187,18 @@ public class MenuSystem extends BaseSystem {
 
 			if (target.city != null)
 			{
-				double[] data = target.city.evaluate(target, null);
-				hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
+				if (target.city.owner != null)
+				{
+					double[] data = target.city.evaluate(target, null);
+					hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
+				}
 			}
 			//Same check as above, really
 			if (target.owner != null)
 			{
 				hintText.add("Relations: " + target.owner.opinions[0]);
 			}
-			
+
 			if (target.freshWater)
 				hintText.add("Fresh Water");
 
@@ -426,7 +429,14 @@ public class MenuSystem extends BaseSystem {
 
 						else if (command.contains("queue"))
 						{
-							EntityData.queue((City)selected, command.substring(5));
+							if (EntityData.queue((City)selected, command.substring(5)))
+							{
+								message("Succesfully queued " + command.substring(5));
+							}
+							else
+							{
+								message("Cannot queue units in a city being recently captured or razed");
+							}
 						}
 						else if (command.equals("razeCity"))
 						{
@@ -612,12 +622,12 @@ public class MenuSystem extends BaseSystem {
 	public void updateCity(City c)
 	{
 		menus.get(2).buttons.clear();
-		
+
 		if (c.takeover > 0)
 		{
 			menus.get(2).addButton("razeCity", "Raze", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
 		}
-		
+
 		menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
 		menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
