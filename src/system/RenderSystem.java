@@ -106,7 +106,7 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}
-		
+
 		main.resetShader();
 		/*main.strokeWeight(5);
 		for (int r = 0; r < main.terrain.length; r++)
@@ -257,36 +257,55 @@ public class RenderSystem extends BaseSystem {
 
 			main.pushMatrix();
 			main.translate(-widthBlock/2F, 0, -widthBlock/2F);
-			float m = 3;
+			int m = multiply;
 			//System.out.println("*");
 
 			main.pushMatrix();
-			main.translate((float)(r*3 - r*3%3)*-widthBlock/3F, 0, (float)(c*3 - c*3%3)*-widthBlock/3F);
-			
-			//Custom borders for 
-			main.line(r*widthBlock, (float)vertices[r*3][c*3], c*widthBlock, (r+(1F/3F))*widthBlock, (float)vertices[r*3 + 1][c*3], c*widthBlock);
-			main.line((r+(1F/3F))*widthBlock, (float)vertices[r*3 + 1][c*3], c*widthBlock, (r+(2F/3F))*widthBlock, (float)vertices[r*3 + 2][c*3], c*widthBlock);
-			main.line((r+(2F/3F))*widthBlock, (float)vertices[r*3 + 2][c*3], c*widthBlock, (r+(3F/3F))*widthBlock, (float)vertices[r*3 + 3][c*3], c*widthBlock);
-			
-			main.line(r*widthBlock, (float)vertices[r*3][(c+1)*3], (c+1)*widthBlock, (r+(1F/3F))*widthBlock, (float)vertices[r*3 + 1][(c+1)*3], (c+1)*widthBlock);
-			main.line((r+(1F/3F))*widthBlock, (float)vertices[r*3 + 1][(c+1)*3], (c+1)*widthBlock, (r+(2F/3F))*widthBlock, (float)vertices[r*3 + 2][(c+1)*3], (c+1)*widthBlock);
-			main.line((r+(2F/3F))*widthBlock, (float)vertices[r*3 + 2][(c+1)*3], (c+1)*widthBlock, (r+(3F/3F))*widthBlock, (float)vertices[r*3 + 3][(c+1)*3], (c+1)*widthBlock);
-			
-			main.line(r*widthBlock, (float)vertices[r*3][c*3], c*widthBlock, r*widthBlock, (float)vertices[r*3][c*3 + 1], (c+(1F/3F))*widthBlock);
-			main.line(r*widthBlock, (float)vertices[r*3][c*3 + 1], (c+(1F/3F))*widthBlock, r*widthBlock, (float)vertices[r*3][c*3 + 2], (c+(2F/3F))*widthBlock);
-			main.line(r*widthBlock, (float)vertices[r*3][c*3 + 2], (c+(2F/3F))*widthBlock, r*widthBlock, (float)vertices[r*3][c*3 + 3], (c+(3F/3F))*widthBlock);
-			
-			main.line((r+1)*widthBlock, (float)vertices[(r+1)*3][c*3], c*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 1], (c+(1F/3F))*widthBlock);
-			main.line((r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 1], (c+(1F/3F))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 2], (c+(2F/3F))*widthBlock);
-			main.line((r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 2], (c+(2F/3F))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*3][c*3 + 3], (c+(3F/3F))*widthBlock);
-			
-			main.popMatrix();
-			
-			for (int nr = r*3; nr < r*3 + m; nr++)
+			main.translate((float)(r*m - r*m%m)*-widthBlock/m, 0, (float)(c*m - c*m%m)*-widthBlock/m);
+
+			//Custom borders for certain tiles, only outline edge
+			if (t.harvest)
 			{
-				for (int nc = c*3; nc < c*3 + m; nc++)
+				
+			}
+			else
+			{
+				//Replace with 4 loops later
+				for (float i = 0; i < m; i++)
 				{
-					/*if (nr == r*3 + 1 && nc == c*3 + 1)
+					main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m], c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m], c*widthBlock);
+					main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m], (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m], (c+1)*widthBlock);
+					main.line(r*widthBlock, vertices[r*m][c*m + (int)i], (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1], (c+(((float)i+1)/m))*widthBlock);
+					main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i], (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1], (c+(((float)i+1)/m))*widthBlock);
+					//main.line((r+1)*widthBlock, vertices[r*m + (int)i][c*m], (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1], (c+(((float)i+1)/m))*widthBlock);
+					//main.line((r+(i/m))*widthBlock, (float)vertices[r*m + i][(c+1)*m], (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, (float)vertices[r*m + i + 1][(c+1)*m], (c+1)*widthBlock);
+				}
+				//only for case 3
+				/*main.line(r*widthBlock, (float)vertices[r*m][c*m], c*widthBlock, (r+(1F/m))*widthBlock, (float)vertices[r*m + 1][c*m], c*widthBlock);
+				main.line((r+(1F/m))*widthBlock, (float)vertices[r*m + 1][c*m], c*widthBlock, (r+(2F/m))*widthBlock, (float)vertices[r*m + 2][c*m], c*widthBlock);
+				main.line((r+(2F/m))*widthBlock, (float)vertices[r*m + 2][c*m], c*widthBlock, (r+(m/m))*widthBlock, (float)vertices[r*m + m][c*m], c*widthBlock);
+
+				main.line(r*widthBlock, (float)vertices[r*m][(c+1)*m], (c+1)*widthBlock, (r+(1F/m))*widthBlock, (float)vertices[r*m + 1][(c+1)*m], (c+1)*widthBlock);
+				main.line((r+(1F/m))*widthBlock, (float)vertices[r*m + 1][(c+1)*m], (c+1)*widthBlock, (r+(2F/m))*widthBlock, (float)vertices[r*m + 2][(c+1)*m], (c+1)*widthBlock);
+				main.line((r+(2F/m))*widthBlock, (float)vertices[r*m + 2][(c+1)*m], (c+1)*widthBlock, (r+(m/m))*widthBlock, (float)vertices[r*m + m][(c+1)*m], (c+1)*widthBlock);
+
+				main.line(r*widthBlock, (float)vertices[r*m][c*m], c*widthBlock, r*widthBlock, (float)vertices[r*m][c*m + 1], (c+(1F/m))*widthBlock);
+				main.line(r*widthBlock, (float)vertices[r*m][c*m + 1], (c+(1F/m))*widthBlock, r*widthBlock, (float)vertices[r*m][c*m + 2], (c+(2F/m))*widthBlock);
+				main.line(r*widthBlock, (float)vertices[r*m][c*m + 2], (c+(2F/m))*widthBlock, r*widthBlock, (float)vertices[r*m][c*m + m], (c+(m/m))*widthBlock);
+
+				main.line((r+1)*widthBlock, (float)vertices[(r+1)*m][c*m], c*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 1], (c+(1F/m))*widthBlock);
+				main.line((r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 1], (c+(1F/m))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 2], (c+(2F/m))*widthBlock);
+				main.line((r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 2], (c+(2F/m))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + m], (c+(m/m))*widthBlock);*/
+				main.noStroke();
+			}
+
+			main.popMatrix();
+
+			for (int nr = r*m; nr < r*m + m; nr++)
+			{
+				for (int nc = c*m; nc < c*m + m; nc++)
+				{
+					/*if (nr == r*m + 1 && nc == c*m + 1)
 					{
 						if (vertices[nr][nc] > 5) 
 						{
@@ -294,8 +313,7 @@ public class RenderSystem extends BaseSystem {
 						}
 					}*/
 					main.pushMatrix();
-					main.noStroke();
-					main.translate((float)(nr - nr%3)*-widthBlock/3F, 0, (float)(nc - nc%3)*-widthBlock/3F);
+					main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
 					main.beginShape(main.TRIANGLES);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
@@ -438,18 +456,21 @@ public class RenderSystem extends BaseSystem {
 
 	//Generate vertices to be shown in the world
 	//this is terrible math
+	private int multiply;
 	public void generateRoughTerrain(double[][] terrain, int multiply)
 	{
 		vertices = new float[terrain.length*multiply + 1][terrain.length*multiply + 1];
-		double[][] temp1 = DiamondSquare.makeTable(3,3,3,3,3);
-		double[][] temp2 = DiamondSquare.makeTable(6,6,6,6,3);
+		double[][] temp1 = DiamondSquare.makeTable(2,2,2,2,multiply);
+		temp1[temp1.length/2][temp1.length/2] = 8;
+		double[][] temp2 = DiamondSquare.makeTable(2,2,2,2,multiply);
+		temp2[temp1.length/2][temp1.length/2] = 24;
 		DiamondSquare map;
 		for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
 				Tile t = main.grid.getTile(r,c);
-
+				map = null;
 				if (t.shape == 2)
 				{
 					map = new DiamondSquare(temp2);
@@ -466,9 +487,11 @@ public class RenderSystem extends BaseSystem {
 				else if (t.shape == 1)
 				{
 					map = new DiamondSquare(temp1);
-					//map.seed((long)(System.currentTimeMillis()*Math.random()));
-					map.seed(870L);
-					double[][] renderHill = map.generate(new double[]{0, 0, 2, 8, 0.7});
+					long seed = (long)(System.currentTimeMillis()*Math.random());
+					map.seed(seed);
+					//System.out.println(seed);
+					//map.seed(870L);
+					double[][] renderHill = map.generate(new double[]{0, 0, 2, 6, 0.5});
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
@@ -506,6 +529,7 @@ public class RenderSystem extends BaseSystem {
 			}
 			System.out.println();
 		}*/
+		this.multiply = multiply;
 	}
 
 	public void renderModel(String name, float red, float green, float blue)

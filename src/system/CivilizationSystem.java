@@ -145,6 +145,8 @@ public class CivilizationSystem extends BaseSystem {
 						for (int k = 0; k < c.workedLand.size(); k++)
 						{
 							Tile t = c.workedLand.get(k);
+							t.turnsSettled++;
+							//System.out.println(t.row + " " + t.col + " " + t.turnsSettled);
 							double[] eval = c.evaluate(t,null);
 							double f=eval[0],g=eval[1],m=eval[2],r=eval[3];
 
@@ -361,8 +363,7 @@ public class CivilizationSystem extends BaseSystem {
 						for (int k = 0; k < c.land.size(); k++)
 						{
 							Tile t = c.land.get(k);
-							t.turnsSettled++;
-							if (t.turnsSettled % 50 == 0)
+							if (t.turnsSettled % 50 == 0 && t.turnsSettled > 0 && !t.forest)
 							{
 								if (t.biome >= 3 && t.biome <= 6)
 								{

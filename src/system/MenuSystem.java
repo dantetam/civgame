@@ -162,6 +162,15 @@ public class MenuSystem extends BaseSystem {
 			else
 				hintText.add(EntityData.getBiome(target.biome));
 
+			if (target.shape == 1)
+			{
+				hintText.add("Hill");
+			}
+			else if (target.shape == 2)
+			{
+				hintText.add("Mountain");
+			}
+			
 			if (target.improvement != null)
 			{
 				hintText.add(target.improvement.name);
