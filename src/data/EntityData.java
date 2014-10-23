@@ -20,6 +20,28 @@ public class EntityData {
 	private static HashMap<String, Integer> f;
 	private static HashMap<String, Integer> m;
 	private static HashMap<String, Integer> g;
+	
+	private static HashMap<String, Improvement> unitImprovementMap;
+	
+	public class Improvement
+	{
+		//The types of units it can be applied to
+		public String[] units;
+		//The proportion of the unit of which it will cost
+		public double foodPercent, metalPercent, goldPercent;
+		
+		public double offensivePercent, defensivePercent, rangedPercent; //proportional bonuses
+		public double offensiveFlat, defensiveFlat, rangedFlat; //fixed bonuses
+		public double workerImprovementTime;
+		
+		public void cost(double a, double b, double c) {foodPercent = a; metalPercent = b; goldPercent = c;}
+		public void set(double a, double b, double c, double d, double e, double f, double g) 
+		{
+			offensivePercent = a; defensivePercent = b; rangedPercent = c;
+			offensiveFlat = d; defensiveFlat = e; rangedFlat = f;
+			workerImprovementTime = g;
+		}
+	}
 
 	public EntityData()
 	{
@@ -33,7 +55,8 @@ public class EntityData {
 		tileEntityMap = new HashMap<String, TileEntity>();
 		groundColorMap = new HashMap<Integer, Integer>();
 		unitModelMap = new HashMap<String, float[][]>();
-
+		unitImprovementMap = new HashMap<String, Improvement>();
+		
 		f = new HashMap<String, Integer>();
 		m = new HashMap<String, Integer>();
 		g = new HashMap<String, Integer>();
@@ -42,6 +65,7 @@ public class EntityData {
 		setupEntityMap();
 		groundColorMap();
 		setupUnitCosts();
+		setupUnitImprovementCosts(); //longest name yet
 		//setModels();
 	}
 
@@ -197,6 +221,12 @@ public class EntityData {
 		f.put("Worker", 25);
 		m.put("Worker", 0);
 		g.put("Worker", 0);
+	}
+	
+	private static void setupUnitImprovementCosts()
+	{
+		
+		unitImprovementMap
 	}
 
 	//Return true if successfully queued in a city not undergoing hostile takeover

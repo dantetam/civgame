@@ -608,7 +608,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		else if (name.equals("Warrior"))
 		{
-			menus.get(1).addButton("raze", "Raze", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("raze", "Attack", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
 		else if (name.equals("Worker"))
 		{
