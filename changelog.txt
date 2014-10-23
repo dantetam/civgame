@@ -40,3 +40,4 @@ Fixes:
 >+ Fixed cities in resistance not reverting to normal status 
 >+ Fixed player workers not letting game advance
 >+ Fixed highlighted city's queue/menu being accessed incorrectly
+>+ Stop buttons from deselecting objects

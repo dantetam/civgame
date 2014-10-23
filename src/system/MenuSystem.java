@@ -8,6 +8,7 @@ import game.Tile;
 import java.util.ArrayList;
 
 import data.EntityData;
+import data.Improvement;
 import processing.core.PApplet;
 import processing.core.PFont;
 import render.Button;
@@ -26,7 +27,7 @@ public class MenuSystem extends BaseSystem {
 
 	private ArrayList<Click> clicks;
 
-	public boolean minimap, info = false;
+	public boolean minimap, info, loadout, loadoutDisplay = false;
 	public int multiplier = 1;
 
 	public Tile target;
@@ -54,12 +55,24 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("exitgame", "Exit", 0, 0, 100, 30);
 		menu0.addButton("minimap", "Minimap", 0, 100, 100, 30);
 		menu0.addButton("info", "Information", 0, 130, 100, 30);
+		menu0.addButton("loadout", "Loadout", 0, 160, 100, 30);
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
 
 		Menu menu2 = new Menu("CityMenu");
 		menus.add(menu2);
+
+		Menu menu3 = new Menu("LoadoutMenu");
+		menus.add(menu3);
+		String[] names = EntityData.allUnitNames();
+		for (int i = 0; i < names.length; i++)
+		{
+			menu3.addButton("loadoutDisplay" + names[i], names[i], 100, 160 + 30*i, 200, 30);
+		}
+
+		Menu menu4 = new Menu("LoadoutDisplay");
+		menus.add(menu4);
 
 		menu0.active = true;
 
@@ -86,6 +99,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			if (menus.get(menu).active)
 			{
+				//System.out.println(menu + " " + menus.get(menu).active);
 				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
 					main.fill(0);
@@ -142,6 +156,10 @@ public class MenuSystem extends BaseSystem {
 			main.textAlign(PApplet.LEFT);
 			main.text("Work in progress", 115, 150);
 		}
+
+		menus.get(3).active = loadout;
+		menus.get(4).active = loadoutDisplay;
+		//System.out.println(loadout + " " + loadoutDisplay);
 
 		//Render the cursor
 		int width = 6;
@@ -373,6 +391,22 @@ public class MenuSystem extends BaseSystem {
 						else if (command.equals("minimap"))
 						{
 							minimap = !minimap;
+							continue;
+						}
+						else if (command.equals("loadout"))
+						{
+							if (loadoutDisplay)
+							{
+								loadoutDisplay = false;
+							}
+							loadout = !loadout;
+							continue;
+						}
+						else if (command.contains("loadoutDisplay"))
+						{
+							//loadout = false;
+							updateLoadoutDisplay(command.substring(14));
+							loadoutDisplay = true;
 							continue;
 						}
 
@@ -638,6 +672,18 @@ public class MenuSystem extends BaseSystem {
 		menus.get(2).addButton("subArtist", "Artist-", main.width/6F + 60, (float)main.height*5F/6F + 60, 50, 50);
 		menus.get(2).addButton("addSci", "Sci+", main.width/6F + 120, (float)main.height*5F/6F, 50, 50);
 		menus.get(2).addButton("subSci", "Sci-", main.width/6F + 120, (float)main.height*5F/6F + 60, 50, 50);
+	}
+
+	public void updateLoadoutDisplay(String name)
+	{
+		menus.get(4).buttons.clear();
+		BaseEntity en = EntityData.get(name);
+		ArrayList<Improvement> valid = EntityData.getValidImprovements(en);
+		for (int i = 0; i < valid.size(); i++)
+		{
+			Improvement temp = valid.get(i);
+			menus.get(4).addButton("", temp.name, main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
+		}
 	}
 
 	//Encapsulation for selected

@@ -1,5 +1,6 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -20,28 +21,8 @@ public class EntityData {
 	private static HashMap<String, Integer> f;
 	private static HashMap<String, Integer> m;
 	private static HashMap<String, Integer> g;
-	
+
 	private static HashMap<String, Improvement> unitImprovementMap;
-	
-	public class Improvement
-	{
-		//The types of units it can be applied to
-		public String[] units;
-		//The proportion of the unit of which it will cost
-		public double foodPercent, metalPercent, goldPercent;
-		
-		public double offensivePercent, defensivePercent, rangedPercent; //proportional bonuses
-		public double offensiveFlat, defensiveFlat, rangedFlat; //fixed bonuses
-		public double workerImprovementTime;
-		
-		public void cost(double a, double b, double c) {foodPercent = a; metalPercent = b; goldPercent = c;}
-		public void set(double a, double b, double c, double d, double e, double f, double g) 
-		{
-			offensivePercent = a; defensivePercent = b; rangedPercent = c;
-			offensiveFlat = d; defensiveFlat = e; rangedFlat = f;
-			workerImprovementTime = g;
-		}
-	}
 
 	public EntityData()
 	{
@@ -56,7 +37,7 @@ public class EntityData {
 		groundColorMap = new HashMap<Integer, Integer>();
 		unitModelMap = new HashMap<String, float[][]>();
 		unitImprovementMap = new HashMap<String, Improvement>();
-		
+
 		f = new HashMap<String, Integer>();
 		m = new HashMap<String, Integer>();
 		g = new HashMap<String, Integer>();
@@ -222,11 +203,61 @@ public class EntityData {
 		m.put("Worker", 0);
 		g.put("Worker", 0);
 	}
-	
+
 	private static void setupUnitImprovementCosts()
 	{
-		
-		unitImprovementMap
+		Improvement temp;
+		temp = new Improvement("CopperTools");
+		temp.cost(1.25,1.25,0);
+		temp.set(0,0,0,0,0,0,0.8);
+		temp.fit("Worker");
+		unitImprovementMap.put(temp.name, temp);
+
+		temp = new Improvement("CopperWeapons");
+		temp.cost(1.25,1.5,0);
+		temp.set(1.25,1.4,0,0,0,0,0);
+		temp.fit("allmelee");
+		unitImprovementMap.put(temp.name, temp);
+		temp = new Improvement("IronWeapons");
+		temp.cost(1.25,2,0);
+		temp.set(1.5,1.5,0,0,0,0,0);
+		temp.fit("allmelee");
+		unitImprovementMap.put(temp.name, temp);
+		temp = new Improvement("CopperArrows");
+		temp.cost(1.25,1.25,0);
+		temp.set(0,0,1.25,0,0,0,0);
+		temp.fit("allranged");
+		unitImprovementMap.put(temp.name, temp);
+		temp = new Improvement("IronArrows");
+		temp.cost(1.25,1.5,0);
+		temp.set(0,0,1.5,0,0,0,0);
+		temp.fit("allranged");
+		unitImprovementMap.put(temp.name, temp);
+	}
+
+	public static ArrayList<Improvement> getValidImprovements(BaseEntity en)
+	{
+		ArrayList<Improvement> temp = new ArrayList<Improvement>();
+		for (Entry<String, Improvement> entry: unitImprovementMap.entrySet())
+		{
+			String name = entry.getKey();
+			Improvement i = entry.getValue();
+			//Split into many if statements for special improvement conditions later
+			if (i.isFit(en.name))
+			{
+				temp.add(i);
+			}
+			else if (i.units[0].equals("allmelee") && en.offensiveStr > 0)
+			{
+				temp.add(i);
+			}
+			else if (i.units[0].equals("allranged") && en.rangedStr > 0)
+			{
+				temp.add(i);
+			}
+		}
+		//System.out.println(temp.size());
+		return temp;
 	}
 
 	//Return true if successfully queued in a city not undergoing hostile takeover
@@ -297,6 +328,18 @@ public class EntityData {
 			}
 		}
 		unitModelMap.put(name, temp);
+	}
+
+	public static String[] allUnitNames()
+	{
+		return new String[]
+				{
+				"Galley",
+				"Settler",
+				"Warrior",
+				"Work Boat",
+				"Worker"
+				};
 	}
 
 	public static BaseEntity get(String name)
