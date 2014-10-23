@@ -1,7 +1,10 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import data.EntityData;
+import data.Improvement;
 import units.City;
 
 public class Civilization {
@@ -14,6 +17,7 @@ public class Civilization {
 	public City capital;
 	public ArrayList<GameEntity> units;
 	public ArrayList<TileEntity> improvements;
+	public HashMap<String, Improvement> unitImprovements; //one chosen improvement for each future unit of a certain name
 	public ArrayList<Civilization> enemies;
 	
 	public TechTree techTree;
@@ -31,6 +35,12 @@ public class Civilization {
 		//capital = null;
 		units = new ArrayList<GameEntity>();
 		improvements = new ArrayList<TileEntity>();
+		unitImprovements = new HashMap<String, Improvement>();
+		String[] names = EntityData.allUnitNames();
+		for (int i = 0; i < names.length; i++)
+		{
+			unitImprovements.put(names[i], null);
+		}
 		enemies = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		this.name = name;

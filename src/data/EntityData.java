@@ -22,7 +22,7 @@ public class EntityData {
 	private static HashMap<String, Integer> m;
 	private static HashMap<String, Integer> g;
 
-	private static HashMap<String, Improvement> unitImprovementMap;
+	public static HashMap<String, Improvement> unitImprovementMap;
 
 	public EntityData()
 	{
@@ -208,6 +208,11 @@ public class EntityData {
 	private static void setupUnitImprovementCosts()
 	{
 		Improvement temp;
+		temp = new Improvement("Neutral");
+		temp.cost(1,1,1);
+		temp.set(1,1,1,0,0,0,1);
+		unitImprovementMap.put(temp.name, temp);
+		
 		temp = new Improvement("CopperTools");
 		temp.cost(1.25,1.25,0);
 		temp.set(0,0,0,0,0,0,0.8);
@@ -262,16 +267,29 @@ public class EntityData {
 	}
 
 	//Return true if successfully queued in a city not undergoing hostile takeover
-	public static boolean queue(City c, String queue)
+	//Edit: Returns an improvement (could be neutral) if successfully queued
+	public static Improvement queue(City c, String queue)
 	{
 		if (c.takeover <= 0 || c.raze)
 		{
 			c.queue = queue;
-			c.queueFood = f.get(queue);
-			c.queueMetal = m.get(queue);
-			return true;
+			Improvement i = c.owner.unitImprovements.get(queue);
+			if (i == null)
+			{
+				c.queueFood = f.get(queue);
+				c.queueMetal = m.get(queue);
+				return unitImprovementMap.get("Neutral");
+			}
+			else
+			{
+				c.queueFood = (int)(f.get(queue)*i.foodPercent);
+				c.queueMetal = (int)(m.get(queue)*i.metalPercent);
+				return i;
+			}
+			//return true;
 		}
-		return false;
+		return null;
+		//return false;
 	}
 
 	public static Color get(int res)

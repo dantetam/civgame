@@ -1,5 +1,7 @@
 package game;
 
+import data.Improvement;
+
 //Base class for all objects in the world, living or not living
 
 public abstract class BaseEntity {
@@ -14,6 +16,8 @@ public abstract class BaseEntity {
 	
 	public int health;
 	public float offensiveStr, rangedStr, defensiveStr;
+	
+	public Improvement unitImprovement;
 	
 	public BaseEntity(String name)
 	{

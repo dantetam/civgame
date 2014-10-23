@@ -50,12 +50,16 @@ public class Grid {
 					forest = Math.random() < 0.15;
 				}
 				if (terrain[r][c] >= cutoff)
-					tiles[r][c] = new Tile(this,"Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],forest,r,c);
-				else
-					tiles[r][c] = new Tile(this,"Sea",(int)terrain[r][c],-1,0,resources[r][c],forest,r,c);
-				if (random > 0.99)
 				{
-					addUnit(EntityData.get("Ruins"), null, r, c);
+					tiles[r][c] = new Tile(this,"Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],forest,r,c);
+					if (random > 0.98)
+						addUnit(EntityData.get("Ruins"), null, r, c);
+				}
+				else
+				{
+					tiles[r][c] = new Tile(this,"Sea",(int)terrain[r][c],-1,0,resources[r][c],forest,r,c);
+					if (random > 0.995)
+						addUnit(EntityData.get("Ruins"), null, r, c);
 				}
 			}
 		}

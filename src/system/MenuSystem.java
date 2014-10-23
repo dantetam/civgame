@@ -409,6 +409,11 @@ public class MenuSystem extends BaseSystem {
 							loadoutDisplay = true;
 							continue;
 						}
+						else if (command.contains("/")) //if it is a entity-improvement command
+						{
+							int index = command.indexOf("/");
+							main.grid.civs[0].unitImprovements.put(command.substring(0,index),EntityData.unitImprovementMap.get(command.substring(index+1)));
+						}
 
 						else if (command.equals("buildfarm"))
 						{
@@ -463,7 +468,8 @@ public class MenuSystem extends BaseSystem {
 
 						else if (command.contains("queue"))
 						{
-							if (EntityData.queue((City)selected, command.substring(5)))
+							//if (EntityData.queue((City)selected, command.substring(5)))
+							if (EntityData.queue((City)selected, command.substring(5)) != null)
 							{
 								message("Succesfully queued " + command.substring(5));
 							}
@@ -682,7 +688,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < valid.size(); i++)
 		{
 			Improvement temp = valid.get(i);
-			menus.get(4).addButton("", temp.name, main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
+			menus.get(4).addButton(en.name + "/" + temp.name, temp.name, main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
 	}
 
