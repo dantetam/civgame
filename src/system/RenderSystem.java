@@ -378,7 +378,8 @@ public class RenderSystem extends BaseSystem {
 	//Render a game entity
 	public void renderGameEntity(BaseEntity en, float dist, int r, int c)
 	{
-		main.fill(en.owner.r,en.owner.g,en.owner.b);
+		if (en.owner != null)
+			main.fill(en.owner.r,en.owner.g,en.owner.b);
 		//float dist = (float)Math.sqrt(Math.pow(player.posX - r*widthBlock, 2) + Math.pow(player.posY - main.terrain[r][c], 2) + Math.pow(player.posZ - c*widthBlock, 2));
 		main.noStroke();
 		float sizeY = widthBlock*3F;
@@ -426,7 +427,10 @@ public class RenderSystem extends BaseSystem {
 			}*/
 		//System.out.println(en.name);
 		//System.out.println(EntityData.getModel(en.name));
-		renderModel(en.getName(),r,c,en.owner.r,en.owner.g,en.owner.b);
+		if (en.owner != null)
+			renderModel(en.getName(),r,c,en.owner.r,en.owner.g,en.owner.b);
+		else
+			renderModel(en.getName(),r,c,0,0,0);
 		main.noStroke();
 		/*else
 		{

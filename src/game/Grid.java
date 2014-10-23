@@ -17,7 +17,7 @@ public class Grid {
 	public Pathfinder pathFinder;
 	//public Civilization playerCiv;
 	//Player's civilization will always be the first
-	
+
 	public final int aggroDistance = 500;
 
 	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff)
@@ -53,6 +53,10 @@ public class Grid {
 					tiles[r][c] = new Tile(this,"Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],forest,r,c);
 				else
 					tiles[r][c] = new Tile(this,"Sea",(int)terrain[r][c],-1,0,resources[r][c],forest,r,c);
+				if (random > 0.99)
+				{
+					addUnit(EntityData.get("Ruins"), null, r, c);
+				}
 			}
 		}
 		for (int i = 0; i < numCivs; i++)
@@ -140,14 +144,17 @@ public class Grid {
 	{
 		en.owner = civ;
 		en.location = tiles[r][c];
-		if (en instanceof GameEntity)
-			if (!civ.units.contains(en))
-				civ.units.add((GameEntity)en);
-		else if (en instanceof TileEntity)
-			if (civ.improvements.contains(en))
-				civ.improvements.add((TileEntity)en);
 		tiles[r][c].addUnit(en);
-		en.reveal();
+		if (civ != null)
+		{
+			if (en instanceof GameEntity)
+				if (!civ.units.contains(en))
+					civ.units.add((GameEntity)en);
+				else if (en instanceof TileEntity)
+					if (civ.improvements.contains(en))
+						civ.improvements.add((TileEntity)en);
+			en.reveal();
+		}
 	}
 
 	public void removeUnit(BaseEntity en)
@@ -230,7 +237,7 @@ public class Grid {
 		if (getTile(r-1,c-1) != null) {temp.add(getTile(r-1,c-1));} 
 		return temp;
 	}
-	
+
 	//Check if a tile borders the sea
 	public boolean coastal(int r, int c)
 	{
@@ -268,10 +275,10 @@ public class Grid {
 			}
 		}
 		Tile[] temp = new Tile[10];
-		
+
 		//There will be a more efficient algorithm here,
 		//currently the number of calculations is 10*r*c
-		
+
 		//Find the ten most productive tiles in the game
 		for (int i = 0; i < 10; i++)
 		{
@@ -290,10 +297,10 @@ public class Grid {
 			cityScores[maxTile.row][maxTile.col] = 0;
 			temp[i] = maxTile;
 		}
-		
+
 		return temp;
 	}
-	
+
 	//Get all the scores of all the tiles so they only have to be evaluated once
 	private int[][] tileScores;
 	private void evalBefore()
@@ -309,7 +316,7 @@ public class Grid {
 			}
 		}	
 	}
-	
+
 	//Returns the composite of a city and its surrounding tiles,
 	//not including tiles claimed by other cities
 	private int returnCityScoreNoOwner(int r, int c)
@@ -329,7 +336,7 @@ public class Grid {
 		}
 		return score;
 	}
-	
+
 	//public Tile[][] getTiles() {return tiles;}
 
 }

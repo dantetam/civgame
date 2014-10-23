@@ -11,7 +11,7 @@ Major additions:
 > Ability to raze conquered land to reduce stress and monotony of late game seen in Civ4, particularly with large maps;
 	>+ Terrain degrades if a city owns it
 / Ability to craft certain tools and loadouts for units that cost a fixed price in resources (a Pandora feature);
-Menu to set custom loadout for a unit that details the cost and benefit of that certain setup;
+> Menu to set custom loadout for a unit that details the cost and benefit of that certain setup;
 City improvements that add fixed bonuses that require techs (as seen in the Civ series);
 Civilizations that have different personalities and bonuses (as seen in the Civ series);
 >+ Civilizations have relationships with each other
@@ -27,7 +27,7 @@ Ability to save games
 Water transports and other units, ability to embark
 > Cities have specialized workers that take one extra population, do not harvest, and contribute a flat bonus (a Civ4 feature)
 + Random events (like in the EU series)
-+ Spawned in treasure and rewards in the beginning of the map for civilizations to collect (like in AoE, Civ series, etc.)
+/+ Spawned in treasure and rewards in the beginning of the map for civilizations to collect (like in AoE, Civ series, etc.)
 
 Changes:
 Civilizations have distinct, certain names

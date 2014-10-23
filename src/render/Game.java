@@ -167,7 +167,7 @@ public class Game extends PApplet {
 		}
 	}
 	
-	private String[] models = {"City","Farm","Fishing Boats","Forest","Galley","Lumbermill","Mine","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
+	private String[] models = {"City","Farm","Fishing Boats","Forest","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
 	private void setModels()
 	{
 		for (int i = 0; i < models.length; i++)

@@ -183,6 +183,7 @@ public class EntityData {
 		tileEntityMap.put("Trading Post",new TileEntity("Trading Post"));
 		tileEntityMap.put("Pasture",new TileEntity("Pasture"));
 		tileEntityMap.put("Fishing Boats",new TileEntity("Fishing Boats"));
+		tileEntityMap.put("Ruins",new TileEntity("Ruins"));
 	}
 
 	private static void setupUnitCosts()
