@@ -508,7 +508,7 @@ public class CivilizationSystem extends BaseSystem {
 					}
 				}
 				//Begin researching techs (enemy AI only)
-				if (i == 0)
+				if (i != 0)
 				{
 					if (civ.researchTech == null)
 					{

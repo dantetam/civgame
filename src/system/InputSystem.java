@@ -291,6 +291,8 @@ public class InputSystem extends BaseSystem {
 			{
 				main.menuSystem.displayTechMenu(civ);
 				main.menuSystem.techMenu = true;
+				main.menuSystem.message("A tech is needed to research.");
+				return;
 			}
 			main.civilizationSystem.requestTurn = true;
 		}

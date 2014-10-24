@@ -66,6 +66,7 @@ public class TechTree {
 	public ArrayList<String> findCandidates()
 	{
 		ArrayList<String> temp = new ArrayList<String>();
+		this.temp.clear();
 		ArrayList<Tech> techs = findCandidates(first);
 		for (int i = 0; i < techs.size(); i++)
 		{

@@ -75,7 +75,7 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu4 = new Menu("LoadoutDisplay");
 		menus.add(menu4);
-		
+
 		Menu menu5 = new Menu("TechMenu");
 		menus.add(menu5);
 
@@ -372,7 +372,10 @@ public class MenuSystem extends BaseSystem {
 		Civilization c = main.grid.civs[0];
 		main.textAlign(main.LEFT);
 		main.text(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research, main.width/6 + 15, 15);
-		main.text("Researching " + c.researchTech, main.width/6 + 15, 30);
+		if (c.researchTech == null)
+			main.text("No research", main.width/6 + 15, 30);
+		else
+			main.text("Researching " + c.researchTech, main.width/6 + 15, 30);
 
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
@@ -422,11 +425,14 @@ public class MenuSystem extends BaseSystem {
 							String unit = command.substring(0,index);
 							for (int j = 0; j < main.grid.civs[0].cities.size(); j++)
 							{
-								City city = main.grid.civs[0].cities.get(i);
-								if (city.queue.equals(unit))
+								City city = main.grid.civs[0].cities.get(j);
+								if (city.queue != null)
 								{
-									message("Cannot change production method of queued unit");
-									return;
+									if (city.queue.equals(unit))
+									{
+										message("Cannot change production method of queued unit");
+										return;
+									}
 								}
 							}
 							message("Changed production method of " + unit);
@@ -593,13 +599,13 @@ public class MenuSystem extends BaseSystem {
 		if (!messages.get(messages.size()-1).equals(message))
 			messages.add(message);
 	}
-	
+
 	//Will always refer to the player's tech tree
 	public void displayTechMenu(Civilization civ)
 	{
 		menus.get(5).active = true;
 		menus.get(5).buttons.clear();
-		
+
 		ArrayList<String> techNames = civ.techTree.findCandidates();
 		for (int i = 0; i < techNames.size(); i++)
 		{
