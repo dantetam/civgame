@@ -2,6 +2,7 @@ package units;
 
 import java.util.ArrayList;
 
+import data.Improvement;
 import game.*;
 
 public class City extends TileEntity {
@@ -18,7 +19,7 @@ public class City extends TileEntity {
 	public int queueFood, queueMetal;
 	public Civilization owner;
 	public String focus;
-	public ArrayList<String> buildings;
+	public ArrayList<Improvement> buildings;
 	public int takeover;
 	//public int sight = 4;
 	
@@ -47,7 +48,7 @@ public class City extends TileEntity {
 		queueTurns = 0; queueFood = 0; queueMetal = 0;
 		//owner = null;
 		focus = "Growth";
-		buildings = new ArrayList<String>();
+		buildings = new ArrayList<Improvement>();
 		health = 20;
 		offensiveStr = 0; rangedStr = 3; defensiveStr = 6;
 		takeover = 0;
@@ -55,6 +56,7 @@ public class City extends TileEntity {
 		art = 0; sci = 0; adm = 0;
 		culture = 0; expanded = 0;
 		raze = false;
+		buildings = new ArrayList<Improvement>();
 	}
 
 	/*public City(TileEntity other) {
@@ -279,7 +281,7 @@ public class City extends TileEntity {
 			m += 1;
 			if (t.improvement != null)
 				if (t.improvement.name.equals("Mine"))
-					m+=2;
+					m += 2;
 		}
 		//Record tiles with harvested resources as extra yield and record the number of these special tiles
 		if (t.improvement != null)
@@ -414,7 +416,7 @@ public class City extends TileEntity {
 			m += 1;
 			if (t.improvement != null)
 				if (t.improvement.name.equals("Mine"))
-					m+=2;
+					m += 2;
 		}
 		//Record tiles with harvested resources as extra yield and record the number of these special tiles
 		if (t.improvement != null)
@@ -592,6 +594,13 @@ public class City extends TileEntity {
 	public boolean equals(City other)
 	{
 		return location.equals(other.location);
+	}
+
+	public boolean hasImprovement(String impr) {
+		for (int i = 0; i < buildings.size(); i++)
+			if (buildings.get(i).equals(impr))
+				return true;
+		return false;
 	}
 
 }

@@ -494,6 +494,20 @@ public class MenuSystem extends BaseSystem {
 							((Settler)selected).settle();
 						}
 
+						else if (command.contains("queueBuilding"))
+						{
+							City city = ((City)selected);
+							String impr = command.substring(13);
+							//No need to check if the player's tech is appropriate
+							if (EntityData.queueCityImprovement(city,impr))
+							{
+								message("Succesfully queued " + impr);
+							}
+							else
+							{
+								message("Could not queue " + impr);
+							}
+						}
 						else if (command.contains("queue"))
 						{
 							//if (EntityData.queue((City)selected, command.substring(5)))
@@ -643,6 +657,18 @@ public class MenuSystem extends BaseSystem {
 		temp.add("Culture: " + citySelected.culture);
 		temp.add("Administrators: " + citySelected.adm + ", Artists: " + citySelected.art);
 		temp.add("Scientists: " + citySelected.sci);
+		String buildingString = "";
+		if (citySelected.buildings.size() > 0)
+		{
+			for (int i = 0; i < citySelected.buildings.size(); i++)
+				buildingString += citySelected.buildings.get(i) + ", ";
+		}
+		else
+		{
+			buildingString = "No buildings.";
+		}
+		buildingString = buildingString.substring(0,buildingString.length()-2); //Remove a trailing comma
+		temp.add(buildingString);
 		if (citySelected.queueFood > 0 || citySelected.queueMetal > 0)
 		{
 			int[] t = citySelected.quickEval();
@@ -726,6 +752,12 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < units.size(); i++)
 		{
 			menus.get(2).addButton("queue" + units.get(i), units.get(i), main.width/3F + 60*i, (float)main.height*5F/6F, 50, 50);
+		}
+		
+		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements;
+		for (int i = 0; i < buildings.size(); i++)
+		{
+			menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), main.width/3F + 60*i, (float)main.height*5F/6F + 60, 50, 50);
 		}
 		//menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);

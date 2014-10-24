@@ -1,6 +1,7 @@
 package data;
 
 //Wrapper class for improvement data
+//Catch all class for flat/proportional bonuses to objects
 
 public class Improvement
 {
@@ -9,6 +10,8 @@ public class Improvement
 	public String[] units = new String[0];
 	//The proportion of the unit of which it will cost
 	public double foodPercent, metalPercent, goldPercent;
+	//Flat resource "fees"
+	public double foodFlat, metalFlat, goldFlat;
 	
 	public double offensivePercent, defensivePercent, rangedPercent; //proportional bonuses
 	public double offensiveFlat, defensiveFlat, rangedFlat; //fixed bonuses
@@ -26,7 +29,11 @@ public class Improvement
 				return true;
 		return false;
 	}
-	public void cost(double a, double b, double c) {foodPercent = a; metalPercent = b; goldPercent = c;}
+	public void cost(double a, double b, double c, double d, double e, double f) 
+	{
+		foodPercent = a; metalPercent = b; goldPercent = c;
+		foodFlat = d; metalFlat = e; goldFlat = f;
+	}
 	public void set(double a, double b, double c, double d, double e, double f, double g) 
 	{
 		offensivePercent = a; defensivePercent = b; rangedPercent = c;

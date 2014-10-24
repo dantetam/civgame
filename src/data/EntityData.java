@@ -23,6 +23,7 @@ public class EntityData {
 	private static HashMap<String, Integer> g;
 
 	public static HashMap<String, Improvement> unitImprovementMap;
+	public static HashMap<String, Improvement> cityImprovementMap;
 
 	public EntityData()
 	{
@@ -37,6 +38,7 @@ public class EntityData {
 		groundColorMap = new HashMap<Integer, Integer>();
 		unitModelMap = new HashMap<String, float[][]>();
 		unitImprovementMap = new HashMap<String, Improvement>();
+		cityImprovementMap = new HashMap<String, Improvement>();
 
 		f = new HashMap<String, Integer>();
 		m = new HashMap<String, Integer>();
@@ -47,6 +49,7 @@ public class EntityData {
 		groundColorMap();
 		setupUnitCosts();
 		setupUnitImprovementCosts(); //longest name yet
+		setupCityImprovementCosts();
 		//setModels();
 	}
 
@@ -209,40 +212,49 @@ public class EntityData {
 	{
 		Improvement temp;
 		temp = new Improvement("Neutral");
-		temp.cost(1,1,1);
+		temp.cost(1,1,1,0,0,0);
 		temp.set(1,1,1,0,0,0,1);
 		unitImprovementMap.put(temp.name, temp);
 		
 		temp = new Improvement("CopperTools");
-		temp.cost(1.25,1.25,0);
+		temp.cost(1.25,1.25,0,0,0,0);
 		temp.set(0,0,0,0,0,0,0.8);
 		temp.fit("Worker");
 		unitImprovementMap.put(temp.name, temp);
 		temp = new Improvement("Test");
-		temp.cost(2,0,0);
+		temp.cost(2,0,0,0,0,0);
 		temp.set(0,0,0,0,0,0,0.2);
 		temp.fit("Worker");
 		unitImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("CopperWeapons");
-		temp.cost(1.25,1.5,0);
+		temp.cost(1.25,1.5,0,0,0,0);
 		temp.set(1.25,1.4,0,0,0,0,0);
 		temp.fit("allmelee");
 		unitImprovementMap.put(temp.name, temp);
 		temp = new Improvement("IronWeapons");
-		temp.cost(1.25,2,0);
+		temp.cost(1.25,2,0,0,0,0);
 		temp.set(1.5,1.5,0,0,0,0,0);
 		temp.fit("allmelee");
 		unitImprovementMap.put(temp.name, temp);
 		temp = new Improvement("CopperArrows");
-		temp.cost(1.25,1.25,0);
+		temp.cost(1.25,1.25,0,0,0,0);
 		temp.set(0,0,1.25,0,0,0,0);
 		temp.fit("allranged");
 		unitImprovementMap.put(temp.name, temp);
 		temp = new Improvement("IronArrows");
-		temp.cost(1.25,1.5,0);
+		temp.cost(1.25,1.5,0,0,0,0);
 		temp.set(0,0,1.5,0,0,0,0);
 		temp.fit("allranged");
+		unitImprovementMap.put(temp.name, temp);
+	}
+	
+	private static void setupCityImprovementCosts()
+	{
+		Improvement temp;
+		temp = new Improvement("Granary");
+		temp.cost(0,0,0,20,0,0);
+		//temp.set();
 		unitImprovementMap.put(temp.name, temp);
 	}
 
@@ -301,6 +313,19 @@ public class EntityData {
 		}
 		return null;
 		//return false;
+	}
+	
+	public static boolean queueCityImprovement(City city, String impr)
+	{
+		if (!city.hasImprovement(impr))
+		{
+			Improvement i = cityImprovementMap.get(impr);
+			city.queue = i.name;
+			city.queueFood = (int)i.foodFlat;
+			city.queueMetal = (int)i.metalFlat;
+			return true;
+		}
+		return false;
 	}
 
 	public static Color get(int res)
