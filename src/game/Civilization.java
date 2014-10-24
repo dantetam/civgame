@@ -12,23 +12,23 @@ public class Civilization {
 	public String name;
 	public int id;
 	public float r,g,b;
-	
+
 	public ArrayList<City> cities;
 	public City capital;
 	public ArrayList<GameEntity> units;
 	public ArrayList<TileEntity> improvements;
 	public HashMap<String, Improvement> unitImprovements; //one chosen improvement for each future unit of a certain name
 	public ArrayList<Civilization> enemies;
-	
+
 	public TechTree techTree;
 	public String researchTech;
 	//public ArrayList<Tile> tiles;
-	
+
 	public int food, gold, metal, research;
-	
+
 	public boolean[][] revealed;
 	public int[] opinions;
-	
+
 	public Civilization(String name)
 	{
 		cities = new ArrayList<City>();
@@ -47,11 +47,14 @@ public class Civilization {
 		food = 17; gold = 0; metal = 0; research = 0;
 		techTree = new TechTree();
 		beeline = new ArrayList<String>();
-		beelineTo("Metal Working");
-		beelineTo("Fletching");
+		if (!name.equals("Player"))
+		{
+			beelineTo("Metal Working");
+			beelineTo("Fletching");
+		}
 		//System.out.println(techTree.researched("Agriculture"));
 	}
-	
+
 	public int bordering(Civilization other)
 	{
 		int temp = 0;
@@ -59,7 +62,7 @@ public class Civilization {
 			temp += cities.get(i).tilesBorderingCiv(other);
 		return temp;
 	}
-	
+
 	public boolean equals(Civilization other)
 	{
 		if (other == null)
@@ -68,17 +71,17 @@ public class Civilization {
 		}
 		return name.equals(other.name);
 	}
-	
+
 	public boolean war(Civilization other)
 	{
 		return enemies.contains(other);
 	}
-	
+
 	public String toString()
 	{
 		return name;
 	}
-	
+
 	//Find the list of techs leading up to and including a certain target tech
 	//Queue up techs to research below, zero is first
 	public ArrayList<String> beeline;
@@ -105,5 +108,5 @@ public class Civilization {
 		}
 		System.out.println("-----");*/
 	}
-	
+
 }

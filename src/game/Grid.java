@@ -174,7 +174,8 @@ public class Grid {
 		else if (en instanceof TileEntity)
 		{
 			tiles[en.location.row][en.location.col].improvement = null;
-			en.owner.improvements.remove((TileEntity)en);
+			if (en.owner != null) //In the case that the unit being removed is ruins
+				en.owner.improvements.remove((TileEntity)en);
 		}
 		en.location = null;
 		en.owner = null;

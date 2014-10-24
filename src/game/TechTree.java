@@ -56,9 +56,42 @@ public class TechTree {
 		
 		t = researched("Agriculture");
 		t.tImpr("Farm");
+		t.cImpr("Granary");
 		
 		t = researched("Mining");
 		t.tImpr("Mine");
+	}
+	
+	//Syntax shortcut for later, no need to pass first argument
+	public ArrayList<String> findCandidates()
+	{
+		ArrayList<String> temp = new ArrayList<String>();
+		ArrayList<Tech> techs = findCandidates(first);
+		for (int i = 0; i < techs.size(); i++)
+		{
+			temp.add(techs.get(i).name);
+		}
+		return temp;
+	}
+	
+	//Find techs to research
+	//It's better practice to pass around the table
+	ArrayList<Tech> temp = new ArrayList<Tech>();
+	private ArrayList<Tech> findCandidates(Tech tech)
+	{
+		for (int i = 0; i < tech.techs.length; i++)
+		{
+			Tech t = tech.techs[i];
+			if (t.researched())
+			{
+				findCandidates(t);
+			}
+			else
+			{
+				temp.add(t);
+			}
+		}
+		return temp;
 	}
 	
 	/*public void printOut()

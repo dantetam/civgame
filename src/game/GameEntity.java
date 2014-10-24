@@ -234,7 +234,12 @@ public abstract class GameEntity extends BaseEntity {
 		if (location.improvement != null)
 		{
 			//System.out.println(owner + " " + location.improvement.owner + " Name: " + location.improvement.id);
-			if (!owner.equals(location.owner))
+			if (location.improvement.owner == null && location.improvement.name.equals("Ruins"))
+			{
+				location.grid.removeUnit(location.improvement);
+				owner.food += 10;
+			}
+			else if (!owner.equals(location.owner))
 			{
 				//System.out.println("takeover");
 				if (location.improvement.name.equals("City"))

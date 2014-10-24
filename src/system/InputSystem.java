@@ -287,6 +287,11 @@ public class InputSystem extends BaseSystem {
 					return;
 				}
 			}
+			if (civ.researchTech == null || civ.researchTech == "")
+			{
+				main.menuSystem.displayTechMenu(civ);
+				main.menuSystem.techMenu = true;
+			}
 			main.civilizationSystem.requestTurn = true;
 		}
 		else if (key == 'c')

@@ -3,6 +3,7 @@ package system;
 import game.BaseEntity;
 import game.Civilization;
 import game.GameEntity;
+import game.Tech;
 import game.Tile;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class MenuSystem extends BaseSystem {
 
 	private ArrayList<Click> clicks;
 
-	public boolean minimap, info, loadout, loadoutDisplay = false;
+	public boolean minimap, info, loadout, loadoutDisplay, techMenu = false;
 	public int multiplier = 1;
 
 	public Tile target;
@@ -74,6 +75,9 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu4 = new Menu("LoadoutDisplay");
 		menus.add(menu4);
+		
+		Menu menu5 = new Menu("TechMenu");
+		menus.add(menu5);
 
 		menu0.active = true;
 
@@ -160,6 +164,7 @@ public class MenuSystem extends BaseSystem {
 
 		menus.get(3).active = loadout;
 		menus.get(4).active = loadoutDisplay;
+		menus.get(5).active = techMenu;
 		//System.out.println(loadout + " " + loadoutDisplay);
 
 		//Render the cursor
@@ -367,6 +372,7 @@ public class MenuSystem extends BaseSystem {
 		Civilization c = main.grid.civs[0];
 		main.textAlign(main.LEFT);
 		main.text(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research, main.width/6 + 15, 15);
+		main.text("Researching " + c.researchTech, main.width/6 + 15, 30);
 
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
@@ -514,7 +520,14 @@ public class MenuSystem extends BaseSystem {
 							((City)selected).queue = "Worker";
 							((City)selected).queueFood = 25;
 						}*/
-						//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 
+						//Researching tech commands
+						else if (command.contains("research"))
+						{
+							//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
+							main.grid.civs[0].researchTech = command.substring(8);
+							techMenu = false;
+						}
+						//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 					
 						else if (command.equals("addAdmin"))
 						{
 							City s = ((City)selected);
@@ -579,6 +592,20 @@ public class MenuSystem extends BaseSystem {
 		if (messages.size() == 0) messages.add(message);
 		if (!messages.get(messages.size()-1).equals(message))
 			messages.add(message);
+	}
+	
+	//Will always refer to the player's tech tree
+	public void displayTechMenu(Civilization civ)
+	{
+		menus.get(5).active = true;
+		menus.get(5).buttons.clear();
+		
+		ArrayList<String> techNames = civ.techTree.findCandidates();
+		for (int i = 0; i < techNames.size(); i++)
+		{
+			String s = techNames.get(i);
+			menus.get(5).addButton("research" + s, s, main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
+		}
 	}
 
 	public void displayCity(City citySelected)
