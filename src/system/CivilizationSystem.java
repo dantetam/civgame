@@ -293,7 +293,9 @@ public class CivilizationSystem extends BaseSystem {
 							if (c.queueFood <= 0 && c.queueMetal <= 0)
 							{
 								//System.out.println(c.queue);
-								main.grid.addUnit(EntityData.get(c.queue),civ,c.location.row,c.location.col);
+								BaseEntity en = main.grid.addUnit(EntityData.get(c.queue),civ,c.location.row,c.location.col);
+								en.unitImprovement = civ.unitImprovements.get(c.queue);
+								System.out.println(en.unitImprovement.name);
 								c.queueFood = 0;
 								c.queueMetal = 0;
 								c.queue = null;

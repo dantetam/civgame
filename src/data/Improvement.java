@@ -6,7 +6,7 @@ public class Improvement
 {
 	public String name;
 	//The types of units it can be applied to
-	public String[] units;
+	public String[] units = new String[0];
 	//The proportion of the unit of which it will cost
 	public double foodPercent, metalPercent, goldPercent;
 	
@@ -33,4 +33,5 @@ public class Improvement
 		offensiveFlat = d; defensiveFlat = e; rangedFlat = f;
 		workerImprovementTime = g;
 	}
+	public boolean equals(String name) {return this.name.equals(name);}
 }

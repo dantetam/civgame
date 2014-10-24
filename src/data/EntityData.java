@@ -249,6 +249,10 @@ public class EntityData {
 			String name = entry.getKey();
 			Improvement i = entry.getValue();
 			//Split into many if statements for special improvement conditions later
+			if (i.equals("Neutral"))
+			{
+				continue;
+			}
 			if (i.isFit(en.name))
 			{
 				temp.add(i);

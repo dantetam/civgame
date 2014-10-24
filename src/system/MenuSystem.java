@@ -412,7 +412,18 @@ public class MenuSystem extends BaseSystem {
 						else if (command.contains("/")) //if it is a entity-improvement command
 						{
 							int index = command.indexOf("/");
-							main.grid.civs[0].unitImprovements.put(command.substring(0,index),EntityData.unitImprovementMap.get(command.substring(index+1)));
+							String unit = command.substring(0,index);
+							for (int j = 0; j < main.grid.civs[0].cities.size(); j++)
+							{
+								City city = main.grid.civs[0].cities.get(i);
+								if (city.queue.equals(unit))
+								{
+									message("Cannot change production method of queued unit");
+									return;
+								}
+							}
+							message("Changed production method of " + unit);
+							main.grid.civs[0].unitImprovements.put(unit,EntityData.unitImprovementMap.get(command.substring(index+1)));
 						}
 
 						else if (command.equals("buildfarm"))

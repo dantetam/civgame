@@ -144,7 +144,7 @@ public class Grid {
 		addUnit(en, en.owner, r, c);
 	}
 
-	public void addUnit(BaseEntity en, Civilization civ, int r, int c)
+	public BaseEntity addUnit(BaseEntity en, Civilization civ, int r, int c)
 	{
 		en.owner = civ;
 		en.location = tiles[r][c];
@@ -159,6 +159,7 @@ public class Grid {
 						civ.improvements.add((TileEntity)en);
 			en.reveal();
 		}
+		return en;
 	}
 
 	public void removeUnit(BaseEntity en)
