@@ -218,6 +218,11 @@ public class EntityData {
 		temp.set(0,0,0,0,0,0,0.8);
 		temp.fit("Worker");
 		unitImprovementMap.put(temp.name, temp);
+		temp = new Improvement("Test");
+		temp.cost(2,0,0);
+		temp.set(0,0,0,0,0,0,0.2);
+		temp.fit("Worker");
+		unitImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("CopperWeapons");
 		temp.cost(1.25,1.5,0);
@@ -286,8 +291,10 @@ public class EntityData {
 			}
 			else
 			{
-				c.queueFood = (int)(f.get(queue)*i.foodPercent);
-				c.queueMetal = (int)(m.get(queue)*i.metalPercent);
+				if (i.foodPercent != 0)
+					c.queueFood = (int)(f.get(queue)*i.foodPercent);
+				if (i.metalPercent != 0)
+					c.queueMetal = (int)(m.get(queue)*i.metalPercent);
 				return i;
 			}
 			//return true;

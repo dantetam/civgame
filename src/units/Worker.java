@@ -5,15 +5,17 @@ import game.GameEntity;
 
 public class Worker extends GameEntity {
 
+	public double workTime = 1;
+	
 	public Worker(String name) {
 		super(name);
-		health = 10;
+		health = 5;
 		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public Worker(GameEntity en) {
 		super(en);
-		health = 10;
+		health = 5;
 		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 	
@@ -109,6 +111,7 @@ public class Worker extends GameEntity {
 						en.queue = "Mine";
 					}
 				}
+				en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 			}
 		}
 		if (queue == null)

@@ -19,6 +19,7 @@ import render.TextBox;
 import units.City;
 import units.Settler;
 import units.Warrior;
+import units.Worker;
 
 public class MenuSystem extends BaseSystem {
 
@@ -424,9 +425,11 @@ public class MenuSystem extends BaseSystem {
 							}
 							message("Changed production method of " + unit);
 							main.grid.civs[0].unitImprovements.put(unit,EntityData.unitImprovementMap.get(command.substring(index+1)));
+							loadoutDisplay = false; //Allow player to stay in menu?
+							continue;
 						}
 
-						else if (command.equals("buildfarm"))
+						else if (command.equals("buildFarm"))
 						{
 							//Recycled code
 							BaseEntity en = selected;
@@ -440,8 +443,9 @@ public class MenuSystem extends BaseSystem {
 								en.queueTurns = 6;
 								en.queue = "Farm";
 							}
+							en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 						}
-						else if (command.equals("buildmine"))
+						else if (command.equals("buildMine"))
 						{
 							BaseEntity en = selected;
 							if (en.location.shape == 2)
@@ -462,6 +466,7 @@ public class MenuSystem extends BaseSystem {
 									en.queue = "Mine";
 								}
 							}
+							en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 						}
 						else if (command.equals("kill"))
 						{
@@ -663,8 +668,13 @@ public class MenuSystem extends BaseSystem {
 		}
 		else if (name.equals("Worker"))
 		{
-			menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
-			menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
+			ArrayList<String> units = main.grid.civs[0].techTree.allowedTileImprovements;
+			for (int i = 0; i < units.size(); i++)
+			{
+				menus.get(1).addButton("build"+units.get(i), units.get(i), (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			}
+			//menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			//menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
 		}
 		//System.out.println(menus.get(1).buttons.size());
 	}
@@ -679,9 +689,14 @@ public class MenuSystem extends BaseSystem {
 			menus.get(2).addButton("razeCity", "Raze", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
 		}
 
-		menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
+		ArrayList<String> units = c.owner.techTree.allowedUnits;
+		for (int i = 0; i < units.size(); i++)
+		{
+			menus.get(2).addButton("queue" + units.get(i), units.get(i), main.width/3F + 60*i, (float)main.height*5F/6F, 50, 50);
+		}
+		//menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
+		//menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+		//menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
 
 		menus.get(2).addButton("addAdmin", "Admin+", main.width/6F, (float)main.height*5F/6F, 50, 50);
 		menus.get(2).addButton("subAdmin", "Admin-", main.width/6F, (float)main.height*5F/6F + 60, 50, 50);

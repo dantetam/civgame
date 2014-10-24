@@ -95,6 +95,7 @@ public class Grid {
 				}
 			}
 			addUnit(en,civs[i],r,c);
+			civ.techTree.researched("Civilization").unlockForCiv(civ);
 		}
 		for (int i = numCivs; i < numCivs + numCityStates; i++)
 		{
@@ -117,6 +118,7 @@ public class Grid {
 			} while (tiles[r][c].type.equals("Sea"));
 
 			addUnit(EntityData.get("Settler"),civs[i],r,c);
+			civ.techTree.researched("Civilization").unlockForCiv(civ);
 		}
 		//makeRivers(terrain);
 		pathFinder = new Pathfinder(this);

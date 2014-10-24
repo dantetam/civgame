@@ -295,7 +295,7 @@ public class CivilizationSystem extends BaseSystem {
 								//System.out.println(c.queue);
 								BaseEntity en = main.grid.addUnit(EntityData.get(c.queue),civ,c.location.row,c.location.col);
 								en.unitImprovement = civ.unitImprovements.get(c.queue);
-								System.out.println(en.unitImprovement.name);
+								en.improve();
 								c.queueFood = 0;
 								c.queueMetal = 0;
 								c.queue = null;
@@ -525,6 +525,7 @@ public class CivilizationSystem extends BaseSystem {
 						civ.research = 0;
 						if (tech.researched())
 						{
+							tech.unlockForCiv(civ);
 							civ.researchTech = null;
 						}
 					}

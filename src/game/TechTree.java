@@ -1,13 +1,25 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 //the following may or may not actually be a "tree"
 
 public class TechTree {
 
 	public Tech first;
+	//All the valid things that the player can queue
+	public ArrayList<String> allowedUnits, allowedTileImprovements, allowedCityImprovements;
+	//public HashMap<String, String> unlockUnits, unlockTileImprovements, unlockCityImprovements;
 	
 	public TechTree()
 	{
+		allowedUnits = new ArrayList<String>();
+		allowedTileImprovements = new ArrayList<String>();
+		allowedCityImprovements = new ArrayList<String>();
+		//unlockUnits = new HashMap<String, String>();
+		//unlockTileImprovements = new HashMap<String, String>();
+		//unlockCityImprovements = new HashMap<String, String>();
 		first = 
 				new Tech("Civilization", 0,
 					new Tech("Agriculture", 30,
@@ -32,6 +44,21 @@ public class TechTree {
 						)
 					)
 				);
+		setupTechs();
+	}
+	
+	private void setupTechs()
+	{
+		Tech t; 
+		
+		t = researched("Civilization");
+		t.units("Settler", "Warrior", "Worker");
+		
+		t = researched("Agriculture");
+		t.tImpr("Farm");
+		
+		t = researched("Mining");
+		t.tImpr("Mine");
 	}
 	
 	/*public void printOut()

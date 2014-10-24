@@ -1,5 +1,6 @@
 package game;
 
+import units.Worker;
 import data.Improvement;
 
 //Base class for all objects in the world, living or not living
@@ -10,26 +11,26 @@ public abstract class BaseEntity {
 	public String name;
 	public String id;
 	public Civilization owner;
-	
+
 	public String queue;
 	public int queueTurns;
-	
+
 	public int health;
 	public float offensiveStr, rangedStr, defensiveStr;
-	
+
 	public Improvement unitImprovement;
-	
+
 	public BaseEntity(String name)
 	{
 		this.name = name;
 		id = Double.toString(Math.random()*System.currentTimeMillis());
 	}
-	
+
 	public BaseEntity(BaseEntity other)
 	{
 		name = other.name; 
 	}
-	
+
 	public int sight = 2;
 	public void reveal()
 	{
@@ -45,10 +46,35 @@ public abstract class BaseEntity {
 		}
 		//System.out.println(name + " reveal");
 	}
-	
+
 	public void tick() {}
 	public void playerTick() {};
-	
+
+	//Do not send the improvement to the function
+	//It must be stored at queue time
+	public void improve()
+	{
+		if (unitImprovement != null)
+		{
+			if (unitImprovement.equals("Neutral"))
+			{
+				if (unitImprovement.offensivePercent != 0)
+					offensiveStr *= unitImprovement.offensivePercent;
+				if (unitImprovement.defensivePercent != 0)
+					defensiveStr *= unitImprovement.defensivePercent;
+				if (unitImprovement.rangedPercent != 0)
+					rangedStr *= unitImprovement.rangedPercent;
+				offensiveStr += unitImprovement.offensiveFlat;
+				defensiveStr += unitImprovement.defensiveFlat;
+				rangedStr += unitImprovement.rangedFlat;
+				if (this instanceof Worker)
+				{
+					((Worker)this).workTime = unitImprovement.workerImprovementTime;
+				}
+			}
+		}
+	}
+
 	public abstract String getName();
-	
+
 }
