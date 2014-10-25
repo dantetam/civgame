@@ -499,6 +499,7 @@ public class MenuSystem extends BaseSystem {
 							City city = ((City)selected);
 							String impr = command.substring(13);
 							//No need to check if the player's tech is appropriate
+							System.out.println(impr);
 							if (EntityData.queueCityImprovement(city,impr))
 							{
 								message("Succesfully queued " + impr);
@@ -661,7 +662,7 @@ public class MenuSystem extends BaseSystem {
 		if (citySelected.buildings.size() > 0)
 		{
 			for (int i = 0; i < citySelected.buildings.size(); i++)
-				buildingString += citySelected.buildings.get(i) + ", ";
+				buildingString += citySelected.buildings.get(i).name + ", ";
 		}
 		else
 		{
@@ -689,10 +690,22 @@ public class MenuSystem extends BaseSystem {
 			else
 			{
 				//System.out.println(t[0] + " " + t[2]);
-				int turns = Math.max(
-						citySelected.queueFood/(t[0]) + 1,
-						citySelected.queueMetal/(t[2]) + 1
-						);
+				int turns;
+				if (t[0] == 0)
+				{
+					turns = citySelected.queueMetal/(t[2]) + 1;
+				}
+				else if (t[2] == 0)
+				{
+					turns = citySelected.queueFood/(t[0]) + 1;
+				}
+				else
+				{
+					turns = Math.max(
+							citySelected.queueFood/(t[0]) + 1,
+							citySelected.queueMetal/(t[2]) + 1
+							);
+				}
 				//English grammar...
 				if (turns == 1)
 					temp.add("Queued " + citySelected.queue + " for " + turns + " turn.");
@@ -753,7 +766,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(2).addButton("queue" + units.get(i), units.get(i), main.width/3F + 60*i, (float)main.height*5F/6F, 50, 50);
 		}
-		
+
 		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements;
 		for (int i = 0; i < buildings.size(); i++)
 		{

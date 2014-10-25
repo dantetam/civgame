@@ -22,7 +22,7 @@ public class TechTree {
 		//unlockCityImprovements = new HashMap<String, String>();
 		first = 
 				new Tech("Civilization", 0,
-					new Tech("Agriculture", 30,
+					new Tech("Agriculture", 5,
 						new Tech("Forestry", 60, 
 							new Tech("Architecture", 100, null),
 							new Tech("Silviculture", 100, 

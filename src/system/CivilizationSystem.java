@@ -293,9 +293,18 @@ public class CivilizationSystem extends BaseSystem {
 							if (c.queueFood <= 0 && c.queueMetal <= 0)
 							{
 								//System.out.println(c.queue);
-								BaseEntity en = main.grid.addUnit(EntityData.get(c.queue),civ,c.location.row,c.location.col);
-								en.unitImprovement = civ.unitImprovements.get(c.queue);
-								en.improve();
+								BaseEntity en = EntityData.get(c.queue);
+								//Check if it's an actual unit or a building
+								if (en != null)
+								{
+									main.grid.addUnit(en,civ,c.location.row,c.location.col);
+									en.unitImprovement = civ.unitImprovements.get(c.queue);
+									en.improve();
+								}
+								else
+								{
+									c.buildings.add(EntityData.cityImprovementMap.get(c.queue));
+								}
 								c.queueFood = 0;
 								c.queueMetal = 0;
 								c.queue = null;
@@ -508,9 +517,9 @@ public class CivilizationSystem extends BaseSystem {
 					}
 				}
 				//Begin researching techs (enemy AI only)
-				if (i != 0)
+				if (true)
 				{
-					if (civ.researchTech == null)
+					if (civ.researchTech == null && i != 0)
 					{
 						if (civ.beeline.size() > 0)
 						{

@@ -255,7 +255,7 @@ public class EntityData {
 		temp = new Improvement("Granary");
 		temp.cost(0,0,0,20,0,0);
 		//temp.set();
-		unitImprovementMap.put(temp.name, temp);
+		cityImprovementMap.put(temp.name, temp);
 	}
 
 	public static ArrayList<Improvement> getValidImprovements(BaseEntity en)
