@@ -384,148 +384,150 @@ public class MenuSystem extends BaseSystem {
 			{
 				for (int i = clicks.size() - 1; i >= 0; i--)
 				{
-					String command = menus.get(menu).click(clicks.get(i).mouseX, clicks.get(i).mouseY);
-					if (command != null && !command.equals(""))
+					if (clicks.get(i).click)
 					{
-						menuActivated = true;
-						if (command.equals("exitgame"))
+						String command = menus.get(menu).click(clicks.get(i).mouseX, clicks.get(i).mouseY);
+						if (command != null && !command.equals(""))
 						{
-							System.exit(0);
-							continue;
-						}
-						else if (command.equals("info"))
-						{
-							info = !info;
-							continue;
-						}
-						else if (command.equals("minimap"))
-						{
-							minimap = !minimap;
-							continue;
-						}
-						else if (command.equals("loadout"))
-						{
-							if (loadoutDisplay)
+							menuActivated = true;
+							if (command.equals("exitgame"))
 							{
-								loadoutDisplay = false;
+								System.exit(0);
+								continue;
 							}
-							loadout = !loadout;
-							continue;
-						}
-						else if (command.contains("loadoutDisplay"))
-						{
-							//loadout = false;
-							updateLoadoutDisplay(command.substring(14));
-							loadoutDisplay = true;
-							continue;
-						}
-						else if (command.contains("/")) //if it is a entity-improvement command
-						{
-							int index = command.indexOf("/");
-							String unit = command.substring(0,index);
-							for (int j = 0; j < main.grid.civs[0].cities.size(); j++)
+							else if (command.equals("info"))
 							{
-								City city = main.grid.civs[0].cities.get(j);
-								if (city.queue != null)
+								info = !info;
+								continue;
+							}
+							else if (command.equals("minimap"))
+							{
+								minimap = !minimap;
+								continue;
+							}
+							else if (command.equals("loadout"))
+							{
+								if (loadoutDisplay)
 								{
-									if (city.queue.equals(unit))
+									loadoutDisplay = false;
+								}
+								loadout = !loadout;
+								continue;
+							}
+							else if (command.contains("loadoutDisplay"))
+							{
+								//loadout = false;
+								updateLoadoutDisplay(command.substring(14));
+								loadoutDisplay = true;
+								continue;
+							}
+							else if (command.contains("/")) //if it is a entity-improvement command
+							{
+								int index = command.indexOf("/");
+								String unit = command.substring(0,index);
+								for (int j = 0; j < main.grid.civs[0].cities.size(); j++)
+								{
+									City city = main.grid.civs[0].cities.get(j);
+									if (city.queue != null)
 									{
-										message("Cannot change production method of queued unit");
-										return;
+										if (city.queue.equals(unit))
+										{
+											message("Cannot change production method of queued unit");
+											return;
+										}
 									}
 								}
+								message("Changed production method of " + unit);
+								main.grid.civs[0].unitImprovements.put(unit,EntityData.unitImprovementMap.get(command.substring(index+1)));
+								loadoutDisplay = false; //Allow player to stay in menu?
+								continue;
 							}
-							message("Changed production method of " + unit);
-							main.grid.civs[0].unitImprovements.put(unit,EntityData.unitImprovementMap.get(command.substring(index+1)));
-							loadoutDisplay = false; //Allow player to stay in menu?
-							continue;
-						}
 
-						else if (command.equals("buildFarm"))
-						{
-							//Recycled code
-							BaseEntity en = selected;
-							if (en.location.resource == 1 || en.location.resource == 2)
+							else if (command.equals("buildFarm"))
 							{
-								en.queueTurns = 6;
-								en.queue = "Farm";
+								//Recycled code
+								BaseEntity en = selected;
+								if (en.location.resource == 1 || en.location.resource == 2)
+								{
+									en.queueTurns = 6;
+									en.queue = "Farm";
+								}
+								else if (en.location.biome >= 3 && en.location.biome <= 6 && en.location.grid.irrigated(en.location.row, en.location.col))
+								{
+									en.queueTurns = 6;
+									en.queue = "Farm";
+								}
+								en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 							}
-							else if (en.location.biome >= 3 && en.location.biome <= 6 && en.location.grid.irrigated(en.location.row, en.location.col))
+							else if (command.equals("buildMine"))
 							{
-								en.queueTurns = 6;
-								en.queue = "Farm";
-							}
-							en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
-						}
-						else if (command.equals("buildMine"))
-						{
-							BaseEntity en = selected;
-							if (en.location.shape == 2)
-							{
-								en.queueTurns = 6;
-								en.queue = "Mine";
-							}
-							else if (en.location.resource >= 20 && en.location.resource <= 22)
-							{
-								en.queueTurns = 6;
-								en.queue = "Mine";
-							}
-							else if (en.location.shape == 1)
-							{
-								if (en.location.biome >= 0 && en.location.biome <= 3)
+								BaseEntity en = selected;
+								if (en.location.shape == 2)
 								{
 									en.queueTurns = 6;
 									en.queue = "Mine";
 								}
+								else if (en.location.resource >= 20 && en.location.resource <= 22)
+								{
+									en.queueTurns = 6;
+									en.queue = "Mine";
+								}
+								else if (en.location.shape == 1)
+								{
+									if (en.location.biome >= 0 && en.location.biome <= 3)
+									{
+										en.queueTurns = 6;
+										en.queue = "Mine";
+									}
+								}
+								en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 							}
-							en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
-						}
-						else if (command.equals("kill"))
-						{
-							main.grid.removeUnit(selected);
-						}
-						else if (command.equals("raze"))
-						{
-							((Warrior)selected).raze();
-							((Warrior)selected).action = 0;
-						}
-						else if (command.equals("settle"))
-						{
-							((Settler)selected).settle();
-						}
+							else if (command.equals("kill"))
+							{
+								main.grid.removeUnit(selected);
+							}
+							else if (command.equals("raze"))
+							{
+								((Warrior)selected).raze();
+								((Warrior)selected).action = 0;
+							}
+							else if (command.equals("settle"))
+							{
+								((Settler)selected).settle();
+							}
 
-						else if (command.contains("queueBuilding"))
-						{
-							City city = ((City)selected);
-							String impr = command.substring(13);
-							//No need to check if the player's tech is appropriate
-							System.out.println(impr);
-							if (EntityData.queueCityImprovement(city,impr))
+							else if (command.contains("queueBuilding"))
 							{
-								message("Succesfully queued " + impr);
+								City city = ((City)selected);
+								String impr = command.substring(13);
+								//No need to check if the player's tech is appropriate
+								System.out.println(impr);
+								if (EntityData.queueCityImprovement(city,impr))
+								{
+									message("Succesfully queued " + impr);
+								}
+								else
+								{
+									message("Could not queue " + impr);
+								}
 							}
-							else
+							else if (command.contains("queue"))
 							{
-								message("Could not queue " + impr);
+								//if (EntityData.queue((City)selected, command.substring(5)))
+								if (EntityData.queue((City)selected, command.substring(5)) != null)
+								{
+									message("Succesfully queued " + command.substring(5));
+								}
+								else
+								{
+									message("Cannot queue units in a city being recently captured or razed");
+								}
 							}
-						}
-						else if (command.contains("queue"))
-						{
-							//if (EntityData.queue((City)selected, command.substring(5)))
-							if (EntityData.queue((City)selected, command.substring(5)) != null)
+							else if (command.equals("razeCity"))
 							{
-								message("Succesfully queued " + command.substring(5));
+								((City)selected).raze = true;
 							}
-							else
-							{
-								message("Cannot queue units in a city being recently captured or razed");
-							}
-						}
-						else if (command.equals("razeCity"))
-						{
-							((City)selected).raze = true;
-						}
-						/*else if (command.equals("queueSettler"))
+							/*else if (command.equals("queueSettler"))
 						{
 							((City)selected).queue = "Settler";
 							((City)selected).queueFood = 35;
@@ -541,70 +543,86 @@ public class MenuSystem extends BaseSystem {
 							((City)selected).queue = "Worker";
 							((City)selected).queueFood = 25;
 						}*/
-						//Researching tech commands
-						else if (command.contains("research"))
-						{
-							//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
-							main.grid.civs[0].researchTech = command.substring(8);
-							techMenu = false;
+							//Researching tech commands
+							else if (command.contains("research"))
+							{
+								//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
+								main.grid.civs[0].researchTech = command.substring(8);
+								techMenu = false;
+							}
+							//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 					
+							else if (command.equals("addAdmin"))
+							{
+								City s = ((City)selected);
+								if (s.adm + s.art + s.sci + 1 <= s.population - 1)
+									s.adm++;
+							}
+							else if (command.equals("addArtist"))
+							{
+								City s = ((City)selected);
+								if (s.adm + s.art + s.sci + 1 <= s.population - 1)
+									s.art++;
+							}
+							else if (command.equals("addSci"))
+							{
+								City s = ((City)selected);
+								if (s.adm + s.art + s.sci + 1 <= s.population - 1)
+									s.sci++;
+							}
+							else if (command.equals("subAdmin"))
+							{
+								City s = ((City)selected);
+								if (s.adm > 0)
+									s.adm--;
+							}
+							else if (command.equals("subArtist"))
+							{
+								City s = ((City)selected);
+								if (s.art > 0)
+									s.art--;
+							}
+							else if (command.equals("subSci"))
+							{
+								City s = ((City)selected);
+								if (s.sci > 0)
+									s.sci--;
+							}
+							else
+							{
+								System.out.println("Invalid or non-functioning command: " + command);
+							}
+							main.menuSystem.selected = null;
+							//below was derived from the original expression to calculate rotY & rotVertical
+							//main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
+							//main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
+							main.resetCamera();
 						}
-						//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 					
-						else if (command.equals("addAdmin"))
-						{
-							City s = ((City)selected);
-							if (s.adm + s.art + s.sci + 1 <= s.population - 1)
-								s.adm++;
-						}
-						else if (command.equals("addArtist"))
-						{
-							City s = ((City)selected);
-							if (s.adm + s.art + s.sci + 1 <= s.population - 1)
-								s.art++;
-						}
-						else if (command.equals("addSci"))
-						{
-							City s = ((City)selected);
-							if (s.adm + s.art + s.sci + 1 <= s.population - 1)
-								s.sci++;
-						}
-						else if (command.equals("subAdmin"))
-						{
-							City s = ((City)selected);
-							if (s.adm > 0)
-								s.adm--;
-						}
-						else if (command.equals("subArtist"))
-						{
-							City s = ((City)selected);
-							if (s.art > 0)
-								s.art--;
-						}
-						else if (command.equals("subSci"))
-						{
-							City s = ((City)selected);
-							if (s.sci > 0)
-								s.sci--;
-						}
-						else
-						{
-							System.out.println("Invalid or non-functioning command: " + command);
-						}
-						main.menuSystem.selected = null;
-						//below was derived from the original expression to calculate rotY & rotVertical
-						//main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
-						//main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
-						main.resetCamera();
 					}
+					else
+					{
+						menus.get(menu).pass(clicks.get(i).mouseX, clicks.get(i).mouseY);
+					}
+				}
+				menus.get(menu).origPosIfNoMouse();
+				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+				{
+					Button b = menus.get(menu).buttons.get(i);
+					b.tick();
 				}
 			}
 		}
 		clicks.clear();
 	}
 
-	public class Click {float mouseX, mouseY; Click(float x, float y) {mouseX = x; mouseY = y;}}
+	public class Click {float mouseX, mouseY; boolean click; Click(boolean click, float x, float y) {this.click = click; mouseX = x; mouseY = y;}}
 	public void queueClick(float mouseX, float mouseY)
 	{
-		clicks.add(0, new Click(mouseX, mouseY));
+		clicks.add(0, new Click(true,mouseX, mouseY));
+	}
+
+	public void queueMousePass(float mouseX, float mouseY)
+	{
+		clicks.add(0, new Click(false,mouseX, mouseY));
 	}
 
 	//Send a message, checking for repeats

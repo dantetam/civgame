@@ -106,6 +106,7 @@ public class CivGame extends PApplet {
 	{
 		background(255);
 		inputSystem.passMouse(mouseX, mouseY);
+		menuSystem.queueMousePass(mouseX, mouseY);
 		for (int i = 0; i < systems.size(); i++)
 		{
 			systems.get(i).tick();
@@ -127,6 +128,11 @@ public class CivGame extends PApplet {
 			inputSystem.queueRightClick(mouseX, mouseY);
 		}
 	}
+	
+	/*public void mouseMoved()
+	{
+		
+	}*/
 
 	public void keyPressed()
 	{

@@ -11,13 +11,14 @@
 Major additions:
 Select civilizations with certain names, attributes, bonuses, and units
 Functioning combat system based off of health and relative strengths and possibly dice rolls (Civ5/EU4 hybrid)
-Fluid menu style with animations and tweens
+/ Fluid menu style with animations and tweens
 Content
 	Techs
 	Units
 	Improvements
 
 Minor additions:
+Ledger/comparative menu to compare stats of all civs (EU4/Civ)
 
 Changes:
 Ability to select any tile with the mouse

@@ -33,9 +33,32 @@ public class Menu {
 		return null;
 	}
 	
+	public void pass(float mouseX, float mouseY)
+	{
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			Button b = buttons.get(i);
+			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && !b.orderOfType("expand") && !b.expanded)
+			{
+				b.expand(b.sizeX*2, b.sizeY, 50);
+			}
+		}
+	}
+	
 	public boolean equals(Menu other)
 	{
 		return name.equals(other.name);
+	}
+	
+	//Returns the buttons to their original positions if there is no tween order
+	public void origPosIfNoMouse()
+	{
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			Button b = buttons.get(i);
+			//if (b.orders.size() == 0)
+				//buttons.get(i).setOriginal();
+		}
 	}
 	
 	/*public void on()
