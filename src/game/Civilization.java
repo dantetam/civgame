@@ -108,5 +108,11 @@ public class Civilization {
 		}
 		System.out.println("-----");*/
 	}
+	
+	public float researchProgress()
+	{
+		Tech t = techTree.researched(researchTech);
+		return (float)t.totalR/(float)t.requiredR;
+	}
 
 }

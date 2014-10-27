@@ -534,6 +534,10 @@ public class CivilizationSystem extends BaseSystem {
 						civ.research = 0;
 						if (tech.researched())
 						{
+							if (i == 0)
+							{
+								main.menuSystem.message("Finished researching " + civ.researchTech);
+							}
 							tech.unlockForCiv(civ);
 							civ.researchTech = null;
 						}
@@ -622,8 +626,8 @@ public class CivilizationSystem extends BaseSystem {
 					civ.units.get(j).action = civ.units.get(j).maxAction;
 				}
 			}
-			main.menuSystem.message("Ended AI actions");
-			main.menuSystem.message("Ended turn " + main.civilizationSystem.turnsPassed);
+			main.menuSystem.message("Ended processing and AI actions");
+			//main.menuSystem.message("Ended turn " + main.civilizationSystem.turnsPassed);
 			turnsPassed++;
 			main.menuSystem.message("Began turn " + main.civilizationSystem.turnsPassed);
 		}

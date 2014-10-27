@@ -375,7 +375,7 @@ public class MenuSystem extends BaseSystem {
 		if (c.researchTech == null)
 			main.text("No research", main.width/6 + 15, 30);
 		else
-			main.text("Researching " + c.researchTech, main.width/6 + 15, 30);
+			main.text("Researching " + c.researchTech + " at " + c.researchProgress()*1000/1000, main.width/6 + 15, 30);
 
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
