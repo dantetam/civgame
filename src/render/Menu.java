@@ -38,9 +38,9 @@ public class Menu {
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			Button b = buttons.get(i);
-			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && !b.orderOfType("expand") && !b.expanded)
+			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && !b.orderOfType("expand"))
 			{
-				b.expand(b.sizeX*2, b.sizeY, 50);
+				b.expand(b.origSizeX*2, b.origSizeY, 50);
 			}
 		}
 	}
@@ -56,8 +56,8 @@ public class Menu {
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			Button b = buttons.get(i);
-			//if (b.orders.size() == 0)
-				//buttons.get(i).setOriginal();
+			if (b.orders.size() == 0)
+				buttons.get(i).setOriginal();
 		}
 	}
 	

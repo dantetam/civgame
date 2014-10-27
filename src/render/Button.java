@@ -11,7 +11,7 @@ public class Button {
 	//public boolean enabled;
 	public ArrayList<Order> orders;
 	
-	private float origX, origY, origSizeX, origSizeY;
+	public float origX, origY, origSizeX, origSizeY; //Public or private?
 	public boolean expanded = false;
 	
 	public Button(String command, String display, float a, float b, float c, float d)
@@ -41,8 +41,10 @@ public class Button {
 
 	private void executeOrder(int n)
 	{
+		//System.out.println(orders.size());
 		if (n < orders.size())
 		{
+			//System.out.println("Executed button tick");
 			Order o = orders.get(n);
 			if (n == 0 || o.parallel)
 			{
@@ -62,6 +64,7 @@ public class Button {
 		Order temp = new Order(this,"move");
 		temp.dirX = (x-posX)/frames;
 		temp.dirY = (y-posY)/frames;
+		temp.frames = (int)frames;
 		orders.add(temp);
 	}
 
@@ -72,8 +75,9 @@ public class Button {
 		Order temp = new Order(this,"expand");
 		temp.expX = (x-sizeX)/frames;
 		temp.expY = (y-sizeY)/frames;
+		temp.frames = (int)frames;
 		orders.add(temp);
-		System.out.println(temp.expX + " " + temp.expY);
+		//System.out.println(temp.expX + " " + temp.expY);
 	}
 
 	public void setOriginal()
@@ -82,6 +86,7 @@ public class Button {
 		posY = origY;
 		sizeX = origSizeX;
 		sizeY = origSizeY;
+		expanded = false;
 	}
 	
 	public boolean orderOfType(String type)
@@ -113,7 +118,7 @@ public class Button {
 			button.posX += dirX; button.posY += dirY;
 			button.sizeX += expX; button.sizeY += expY;
 			frames--;
-			System.out.println("executed");
+			//System.out.println("Frames: " + frames);
 		}
 	}
 
