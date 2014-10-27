@@ -19,6 +19,11 @@ public class Menu {
 	{
 		buttons.add(new Button(command,display,a,b,c,d));
 	}
+	
+	public void addButton(String command, String display, float a, float b, float c, float d, int... n)
+	{
+		buttons.add(new Button(command,display,a,b,c,d,n));
+	}
 
 	public String click(float mouseX, float mouseY)
 	{
@@ -33,15 +38,24 @@ public class Menu {
 		return null;
 	}
 	
-	public void pass(float mouseX, float mouseY)
+	public void pass(boolean[] activeMenus, float mouseX, float mouseY)
 	{
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			Button b = buttons.get(i);
-			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && !b.orderOfType("expand"))
-			{
-				b.expand(b.origSizeX*2, b.origSizeY, 50);
-			}
+			boolean skip = false;
+			if (b.noOrdersIfMenu != null)
+				for (int j = 0; j < b.noOrdersIfMenu.length; j++)
+					if (activeMenus[b.noOrdersIfMenu[j]])
+					{
+						skip = true;
+						break;
+					}
+			if (!skip)
+				if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && !b.orderOfType("expand"))
+				{
+					b.expand(b.origSizeX*2, b.origSizeY, 20);
+				}
 		}
 	}
 	

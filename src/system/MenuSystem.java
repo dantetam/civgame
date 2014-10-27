@@ -57,7 +57,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("exitgame", "Exit", 0, 0, 100, 30);
 		menu0.addButton("minimap", "Minimap", 0, 100, 100, 30);
 		menu0.addButton("info", "Information", 0, 130, 100, 30);
-		menu0.addButton("loadout", "Loadout", 0, 160, 100, 30);
+		menu0.addButton("loadout", "Loadout", 0, 160, 100, 30, 3, 4);
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -600,7 +600,15 @@ public class MenuSystem extends BaseSystem {
 					}
 					else
 					{
-						menus.get(menu).pass(clicks.get(i).mouseX, clicks.get(i).mouseY);
+						if (menu == 0 || menu == 5)
+						{	
+							boolean[] activeMenus = new boolean[menus.size()];
+							for (int j = 0; j < activeMenus.length; j++)
+							{
+								activeMenus[j] = menus.get(j).active;
+							}
+							menus.get(menu).pass(activeMenus, clicks.get(i).mouseX, clicks.get(i).mouseY);
+						}
 					}
 				}
 				menus.get(menu).origPosIfNoMouse();

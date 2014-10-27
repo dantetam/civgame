@@ -13,11 +13,30 @@ public class Button {
 	
 	public float origX, origY, origSizeX, origSizeY; //Public or private?
 	public boolean expanded = false;
+	public int[] noOrdersIfMenu = null;
 	
 	public Button(String command, String display, float a, float b, float c, float d)
 	{
 		this.command = command;
 		this.display = display;
+		posX = a;
+		posY = b;
+		sizeX = c;
+		sizeY = d;
+		origX = a;
+		origY = b;
+		origSizeX = c;
+		origSizeY = d;
+		//enabled = false;
+		orders = new ArrayList<Order>();
+	}
+
+	
+	public Button(String command, String display, float a, float b, float c, float d, int[] n)
+	{
+		this.command = command;
+		this.display = display;
+		noOrdersIfMenu = n;
 		posX = a;
 		posY = b;
 		sizeX = c;
