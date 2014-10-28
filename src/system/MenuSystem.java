@@ -84,16 +84,16 @@ public class MenuSystem extends BaseSystem {
 
 		menu0.active = true;
 
-		TextBox text0 = new TextBox("HintText",main.width*5/6,0,200,150);
+		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),main.width*5/6,0,200,150);
 		textboxes.add(text0);
 
-		TextBox text1 = new TextBox("SelectedText",main.width*4/6,0,200,150);
+		TextBox text1 = new TextBox("SelectedText",new ArrayList<String>(),main.width*4/6,0,200,150);
 		textboxes.add(text1);
 
-		TextBox text2 = new TextBox("Messages",main.width*5/6,200,main.width*1/6,100);
+		TextBox text2 = new TextBox("Messages",new ArrayList<String>(),main.width*5/6,200,main.width*1/6,100);
 		textboxes.add(text2);
 		
-		TextBox text3 = new TextBox("PlayerStatus",main.width/6,0,300,50);
+		TextBox text3 = new TextBox("PlayerStatus",new ArrayList<String>(),main.width/6,0,300,50);
 		textboxes.add(text3);
 		
 		//arial = main.loadFont("ArialMT-48.vlw");
@@ -174,7 +174,7 @@ public class MenuSystem extends BaseSystem {
 
 		main.noStroke();
 
-		ArrayList<String> hintText = textboxes.get(0).text;
+		ArrayList<String> hintText = textboxes.get(0).display;
 		//hintText.clear();
 		if (target != null)
 		{
@@ -247,7 +247,7 @@ public class MenuSystem extends BaseSystem {
 				main.fill(255);
 				main.textSize(12);
 
-				ArrayList<String> temp = textboxes.get(1).text;
+				ArrayList<String> temp = textboxes.get(1).display;
 				//temp.clear();
 				temp.add(selected.name + " " + ((GameEntity)selected).action + "/" + ((GameEntity)selected).maxAction);
 				temp.add(selected.offensiveStr + " offensive, " + selected.rangedStr + " ranged");
@@ -296,17 +296,17 @@ public class MenuSystem extends BaseSystem {
 			int len = Math.min(4,messages.size());
 			for (int i = 0; i < len; i++)
 			{
-				textboxes.get(2).text.add(messages.get(i));
+				textboxes.get(2).display.add(messages.get(i));
 			}
 		}
 
 		main.noStroke();
 		Civilization c = main.grid.civs[0];
-		textboxes.get(3).text.add(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research);
+		textboxes.get(3).display.add(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research);
 		if (c.researchTech == null)
-			textboxes.get(3).text.add("No research");
+			textboxes.get(3).display.add("No research");
 		else
-			textboxes.get(3).text.add("Researching " + c.researchTech + " at " + c.researchProgress()*1000/1000);
+			textboxes.get(3).display.add("Researching " + c.researchTech + " at " + c.researchProgress()*1000/1000);
 
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
@@ -320,7 +320,8 @@ public class MenuSystem extends BaseSystem {
 					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
 					main.textAlign(PApplet.CENTER, PApplet.CENTER);
 					main.fill(255);
-					main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+					for (int j = 0; j < b.display.size(); j++)
+						main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2 + j*15);
 				}
 			}
 		}
@@ -333,15 +334,15 @@ public class MenuSystem extends BaseSystem {
 				main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
 				main.textAlign(PApplet.LEFT, PApplet.UP);
 				main.fill(255);
-				for (int j = 0; j < b.text.size(); j++)
+				for (int j = 0; j < b.display.size(); j++)
 				{
-					if (b.text.get(j) != null)
+					if (b.display.get(j) != null)
 					{
 						//System.out.println(b.text + " " + b.text.get(j) + " " + b.posX);
-						main.text(b.text.get(j), b.posX + 15, b.posY + 15*(j+1));
+						main.text(b.display.get(j), b.posX + 15, b.posY + 15*(j+1));
 					}
 				}
-				b.text.clear(); //Clear them to be refilled next frame
+				b.display.clear(); //Clear them to be refilled next frame
 			}
 		}
 		main.hint(PApplet.ENABLE_DEPTH_TEST);
@@ -367,11 +368,17 @@ public class MenuSystem extends BaseSystem {
 							else if (command.equals("info"))
 							{
 								info = !info;
+								minimap = false;
+								loadoutDisplay = false;
+								loadout = false;
 								continue;
 							}
 							else if (command.equals("minimap"))
 							{
 								minimap = !minimap;
+								info = false;
+								loadoutDisplay = false;
+								loadout = false;
 								continue;
 							}
 							else if (command.equals("loadout"))
@@ -381,6 +388,8 @@ public class MenuSystem extends BaseSystem {
 									loadoutDisplay = false;
 								}
 								loadout = !loadout;
+								minimap = false;
+								info = false;
 								continue;
 							}
 							else if (command.contains("loadoutDisplay"))
@@ -581,7 +590,7 @@ public class MenuSystem extends BaseSystem {
 					}
 				}
 				menus.get(menu).origPosIfNoMouse();
-				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+				/*for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
 					main.fill(0);
 					Button b = menus.get(menu).buttons.get(i);
@@ -594,7 +603,7 @@ public class MenuSystem extends BaseSystem {
 				{
 					Button b = menus.get(menu).buttons.get(i);
 					b.tick();
-				}
+				}*/
 			}
 		}
 		clicks.clear();

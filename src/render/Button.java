@@ -7,7 +7,7 @@ public class Button {
 	public float posX, posY;
 	public float sizeX, sizeY;
 	public String command;
-	public String display;
+	public ArrayList<String> display;
 	//public boolean enabled;
 	public ArrayList<Order> orders;
 	
@@ -15,7 +15,24 @@ public class Button {
 	public boolean expanded = false;
 	public int[] noOrdersIfMenu = null;
 	
-	public Button(String command, String display, float a, float b, float c, float d)
+	public Button(String command, String displayString, float a, float b, float c, float d)
+	{
+		this.command = command;
+		display = new ArrayList<String>();
+		display.add(displayString);
+		posX = a;
+		posY = b;
+		sizeX = c;
+		sizeY = d;
+		origX = a;
+		origY = b;
+		origSizeX = c;
+		origSizeY = d;
+		//enabled = false;
+		orders = new ArrayList<Order>();
+	}
+	
+	public Button(String command, ArrayList<String> display, float a, float b, float c, float d)
 	{
 		this.command = command;
 		this.display = display;
@@ -30,9 +47,8 @@ public class Button {
 		//enabled = false;
 		orders = new ArrayList<Order>();
 	}
-
 	
-	public Button(String command, String display, float a, float b, float c, float d, int[] n)
+	public Button(String command, ArrayList<String> display, float a, float b, float c, float d, int[] n)
 	{
 		this.command = command;
 		this.display = display;
@@ -49,6 +65,24 @@ public class Button {
 		orders = new ArrayList<Order>();
 	}
 
+	public Button(String command, String displayString, float a, float b, float c, float d, int[] n)
+	{
+		this.command = command;
+		display = new ArrayList<String>();
+		display.add(displayString);
+		noOrdersIfMenu = n;
+		posX = a;
+		posY = b;
+		sizeX = c;
+		sizeY = d;
+		origX = a;
+		origY = b;
+		origSizeX = c;
+		origSizeY = d;
+		//enabled = false;
+		orders = new ArrayList<Order>();
+	}
+	
 	public void tick()
 	{
 		executeOrder(0);

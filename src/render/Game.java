@@ -100,7 +100,8 @@ public class Game extends PApplet {
 			rect(b.posX, b.posY, b.sizeX, b.sizeY);
 			textAlign(CENTER, CENTER);
 			fill(255);
-			text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+			for (int j = 0; j < b.display.size(); j++)
+				text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
 	}
 	

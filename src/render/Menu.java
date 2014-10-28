@@ -22,6 +22,7 @@ public class Menu {
 	
 	public void addButton(String command, String display, float a, float b, float c, float d, int... n)
 	{
+		ArrayList<String> temp = new ArrayList<String>();
 		buttons.add(new Button(command,display,a,b,c,d,n));
 	}
 
