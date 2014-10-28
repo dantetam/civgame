@@ -157,6 +157,12 @@ public class Button {
 				return true;
 		return false;
 	}
+	
+	public void move(float x, float y)
+	{
+		posX = x;
+		posY = y;
+	}
 
 	public class Order
 	{

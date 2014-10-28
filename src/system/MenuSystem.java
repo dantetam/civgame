@@ -92,10 +92,10 @@ public class MenuSystem extends BaseSystem {
 
 		TextBox text2 = new TextBox("Messages",new ArrayList<String>(),main.width*5/6,200,main.width*1/6,100);
 		textboxes.add(text2);
-		
+
 		TextBox text3 = new TextBox("PlayerStatus",new ArrayList<String>(),main.width/6,0,300,50);
 		textboxes.add(text3);
-		
+
 		//arial = main.loadFont("ArialMT-48.vlw");
 	}
 
@@ -569,7 +569,7 @@ public class MenuSystem extends BaseSystem {
 							{
 								System.out.println("Invalid or non-functioning command: " + command);
 							}
-							main.menuSystem.selected = null;
+							main.menuSystem.select(null);
 							//below was derived from the original expression to calculate rotY & rotVertical
 							//main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
 							//main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
@@ -599,7 +599,7 @@ public class MenuSystem extends BaseSystem {
 					main.fill(255);
 					main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 				}
-				*/
+				 */
 				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
 					Button b = menus.get(menu).buttons.get(i);
@@ -823,17 +823,28 @@ public class MenuSystem extends BaseSystem {
 	public void select(BaseEntity en)
 	{
 		selected = en;
-		if (en instanceof Settler)
+		if (en != null)
 		{
-			settlerChoices = main.grid.returnBestCityScores(en.location.row, en.location.col);
+			if (en instanceof Settler)
+			{
+				settlerChoices = main.grid.returnBestCityScores(en.location.row, en.location.col);
+			}
+			else
+			{
+				settlerChoices = null;
+			}
+			if (en instanceof City)
+			{
+				updateCity((City)en);
+			}
+			textboxes.get(1).active = true;
+			textboxes.get(1).move(main.width*4/6,-150);
+			textboxes.get(1).moveTo(main.width*4/6,0,20);
 		}
 		else
 		{
-			settlerChoices = null;
-		}
-		if (en instanceof City)
-		{
-			updateCity((City)en);
+			textboxes.get(1).active = false;
+			textboxes.get(1).move(main.width*4/6,-150);
 		}
 	}
 
