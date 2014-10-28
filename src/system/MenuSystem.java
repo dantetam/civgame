@@ -39,7 +39,7 @@ public class MenuSystem extends BaseSystem {
 	public Tile[] settlerChoices;
 	public String typeOfLastSelected = "";
 	//public City citySelected;
-	
+
 	//public TextBox hintTextBox;
 	//public TextBox selectedTextBox;
 
@@ -86,12 +86,15 @@ public class MenuSystem extends BaseSystem {
 
 		TextBox text0 = new TextBox("HintText",main.width*5/6,0,200,150);
 		textboxes.add(text0);
-		
+
 		TextBox text1 = new TextBox("SelectedText",main.width*4/6,0,200,150);
 		textboxes.add(text1);
-		
+
 		TextBox text2 = new TextBox("Messages",main.width*5/6,200,main.width*1/6,100);
 		textboxes.add(text2);
+		
+		TextBox text3 = new TextBox("PlayerStatus",main.width/6,0,300,50);
+		textboxes.add(text3);
 		
 		//arial = main.loadFont("ArialMT-48.vlw");
 	}
@@ -172,7 +175,7 @@ public class MenuSystem extends BaseSystem {
 		main.noStroke();
 
 		ArrayList<String> hintText = textboxes.get(0).text;
-		hintText.clear();
+		//hintText.clear();
 		if (target != null)
 		{
 			hintText.add(target.row + " " + target.col);
@@ -240,29 +243,15 @@ public class MenuSystem extends BaseSystem {
 			{
 				//main.stroke(255);
 				main.fill(0);
-				main.rect(main.width*4/6,0,200,150);
+				//main.rect(main.width*4/6,0,200,150);
 				main.fill(255);
 				main.textSize(12);
 
 				ArrayList<String> temp = textboxes.get(1).text;
-				temp.clear();
+				//temp.clear();
 				temp.add(selected.name + " " + ((GameEntity)selected).action + "/" + ((GameEntity)selected).maxAction);
 				temp.add(selected.offensiveStr + " offensive, " + selected.rangedStr + " ranged");
 				temp.add(selected.defensiveStr + " defensive");
-
-				for (int i = 0; i < temp.size(); i++)
-				{
-					main.textAlign(PApplet.LEFT);
-					main.text(temp.get(i), main.width*4/6 + 15, 15*(i+1));
-				}
-
-				/*main.fill(0);
-				main.rect(main.width*3/6 - 75,470 - 30,150,60);
-				main.fill(255);
-				main.textSize(12);
-
-				main.textAlign(PApplet.LEFT);
-				main.text(selected.name,main.width*3/6 - 75,470 - 30);*/
 
 				if (!typeOfLastSelected.equals(selected.name))
 				{
@@ -302,28 +291,6 @@ public class MenuSystem extends BaseSystem {
 				}
 		}
 
-		main.fill(0);
-		main.rect(main.width*5/6,200,main.width*1/6,100);
-		main.fill(255);
-		main.textSize(12);
-		main.textAlign(PApplet.LEFT);
-		/*if (messages.size() > 0)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				if (i >= messages.size()) break;
-				main.text(messages.get(messages.size() - i - 1), main.width*5/6, 200 + 15*(i+1));
-			}
-			for (int i = messages.size() - 1; i >= 0; i--)
-			{
-				main.text(messages.get(i), main.width*5/6, 200 + 15*(i+1));
-				if (messages.size() - i >= 4)
-				{
-					break;
-				}
-			}
-		}*/
-		textboxes.get(2).text.clear();
 		if (messages.size() > 0)
 		{
 			int len = Math.min(4,messages.size());
@@ -333,56 +300,13 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 
-		/*if (hintText.size() > 0)
-		{
-			//main.stroke(255);
-			main.fill(0);
-			main.rect(main.width*5/6,0,200,150);
-			main.fill(255);
-			main.textSize(12);
-			for (int i = 0; i < hintText.size(); i++)
-			{
-				main.textAlign(main.LEFT);
-				if (hintText.get(i) != null)
-					main.text(hintText.get(i), main.width*5/6 + 15, 15*(i+1));
-			}
-		}*/
-
-		main.hint(PApplet.ENABLE_DEPTH_TEST);
-		/*main.pg.beginDraw();
-		//main.perspective();
-		main.pg.textSize(20);
-		main.pg.background(255,255,255,0);
-		main.hint(PApplet.DISABLE_DEPTH_TEST);
-		main.pg.hint(PApplet.DISABLE_DEPTH_TEST);
-		main.camera();
-		main.noLights();
-		for (int i = 0; i < activeMenu.buttons.size(); i++)
-		{
-			main.pg.fill(0);
-			Button b = activeMenu.buttons.get(i);
-			main.pg.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-			main.pg.textAlign(main.pg.CENTER, main.pg.CENTER);
-			main.pg.fill(255);
-			main.pg.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
-		}
-		main.hint(PApplet.ENABLE_DEPTH_TEST);
-		main.pg.hint(PApplet.ENABLE_DEPTH_TEST);
-		main.lights();
-		main.pg.endDraw();
-		main.image(main.pg, 1500, 900);*/
-
 		main.noStroke();
-		main.fill(0);
-		main.rect(main.width/6,0,300,50);
-		main.fill(255);
 		Civilization c = main.grid.civs[0];
-		main.textAlign(main.LEFT);
-		main.text(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research, main.width/6 + 15, 15);
+		textboxes.get(3).text.add(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research);
 		if (c.researchTech == null)
-			main.text("No research", main.width/6 + 15, 30);
+			textboxes.get(3).text.add("No research");
 		else
-			main.text("Researching " + c.researchTech + " at " + c.researchProgress()*1000/1000, main.width/6 + 15, 30);
+			textboxes.get(3).text.add("Researching " + c.researchTech + " at " + c.researchProgress()*1000/1000);
 
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
@@ -410,10 +334,18 @@ public class MenuSystem extends BaseSystem {
 				main.textAlign(PApplet.LEFT, PApplet.UP);
 				main.fill(255);
 				for (int j = 0; j < b.text.size(); j++)
-					main.text(b.text.get(j), b.posX, b.posY);
+				{
+					if (b.text.get(j) != null)
+					{
+						//System.out.println(b.text + " " + b.text.get(j) + " " + b.posX);
+						main.text(b.text.get(j), b.posX + 15, b.posY + 15*(j+1));
+					}
+				}
+				b.text.clear(); //Clear them to be refilled next frame
 			}
 		}
-		
+		main.hint(PApplet.ENABLE_DEPTH_TEST);
+
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
