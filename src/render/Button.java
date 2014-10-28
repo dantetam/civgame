@@ -10,11 +10,11 @@ public class Button {
 	public ArrayList<String> display;
 	//public boolean enabled;
 	public ArrayList<Order> orders;
-	
+
 	public float origX, origY, origSizeX, origSizeY; //Public or private?
 	public boolean expanded = false;
 	public int[] noOrdersIfMenu = null;
-	
+
 	public Button(String command, String displayString, float a, float b, float c, float d)
 	{
 		this.command = command;
@@ -31,7 +31,7 @@ public class Button {
 		//enabled = false;
 		orders = new ArrayList<Order>();
 	}
-	
+
 	public Button(String command, ArrayList<String> display, float a, float b, float c, float d)
 	{
 		this.command = command;
@@ -47,7 +47,7 @@ public class Button {
 		//enabled = false;
 		orders = new ArrayList<Order>();
 	}
-	
+
 	public Button(String command, ArrayList<String> display, float a, float b, float c, float d, int[] n)
 	{
 		this.command = command;
@@ -82,10 +82,9 @@ public class Button {
 		//enabled = false;
 		orders = new ArrayList<Order>();
 	}
-	
+
 	public void tick()
 	{
-		executeOrder(0);
 		for (int i = 0; i < orders.size(); i++)
 		{
 			executeOrder(i);
@@ -95,6 +94,7 @@ public class Button {
 	private void executeOrder(int n)
 	{
 		//System.out.println(orders.size());
+		if (n < 0) return;
 		if (n < orders.size())
 		{
 			//System.out.println("Executed button tick");
@@ -132,16 +132,24 @@ public class Button {
 		orders.add(temp);
 		//System.out.println(temp.expX + " " + temp.expY);
 	}
+	
+	public void orderOriginal()
+	{
+		Order temp = new Order(this,"setOriginal");
+		temp.frames = 2;
+		orders.add(temp);
+	}
 
-	public void setOriginal()
+	private void setOriginal()
 	{
 		posX = origX;
 		posY = origY;
 		sizeX = origSizeX;
 		sizeY = origSizeY;
 		expanded = false;
+		orders.clear(); //To be sure
 	}
-	
+
 	public boolean orderOfType(String type)
 	{
 		for (int i = 0; i < orders.size(); i++)
@@ -149,7 +157,7 @@ public class Button {
 				return true;
 		return false;
 	}
-	
+
 	public class Order
 	{
 		public Button button;
@@ -158,7 +166,7 @@ public class Button {
 		public int frames;
 		public boolean parallel; //Executed even if not the first element in the "queue"
 		public String name;
-		
+
 		public Order(Button button, String name)
 		{
 			this.button = button;
@@ -168,8 +176,18 @@ public class Button {
 
 		public void execute()
 		{
-			button.posX += dirX; button.posY += dirY;
-			button.sizeX += expX; button.sizeY += expY;
+			if (name.equals("move"))
+			{
+				button.posX += dirX; button.posY += dirY;
+			}
+			else if (name.equals("expand"))
+			{
+				button.sizeX += expX; button.sizeY += expY;
+			}
+			else if (name.equals("setOriginal"))
+			{
+				setOriginal();
+			}
 			frames--;
 			//System.out.println("Frames: " + frames);
 		}

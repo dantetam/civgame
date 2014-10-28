@@ -19,7 +19,7 @@ public class Menu {
 	{
 		buttons.add(new Button(command,display,a,b,c,d));
 	}
-	
+
 	public void addButton(String command, String display, float a, float b, float c, float d, int... n)
 	{
 		ArrayList<String> temp = new ArrayList<String>();
@@ -38,7 +38,7 @@ public class Menu {
 		}
 		return null;
 	}
-	
+
 	public void pass(boolean[] activeMenus, float mouseX, float mouseY)
 	{
 		for (int i = 0; i < buttons.size(); i++)
@@ -57,12 +57,12 @@ public class Menu {
 					b.expand(b.origSizeX*2, b.origSizeY, 20);
 		}
 	}
-	
+
 	public boolean equals(Menu other)
 	{
 		return name.equals(other.name);
 	}
-	
+
 	//Returns the buttons to their original positions if there is no tween order
 	public void origPosIfNoMouse()
 	{
@@ -70,10 +70,13 @@ public class Menu {
 		{
 			Button b = buttons.get(i);
 			if (b.orders.size() == 0)
-				buttons.get(i).setOriginal();
+			{
+				buttons.get(i).orderOriginal();
+				//buttons.get(i).setOriginal();
+			}
 		}
 	}
-	
+
 	/*public void on()
 	{
 		for (int i = 0; i < buttons.size(); i++)
@@ -81,7 +84,7 @@ public class Menu {
 			buttons.get(i).enabled = true;
 		}
 	}
-	
+
 	public void off()
 	{
 		for (int i = 0; i < buttons.size(); i++)

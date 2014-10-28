@@ -599,11 +599,16 @@ public class MenuSystem extends BaseSystem {
 					main.fill(255);
 					main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 				}
+				*/
 				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
 					Button b = menus.get(menu).buttons.get(i);
 					b.tick();
-				}*/
+				}
+				for (int i = 0; i < textboxes.size(); i++)
+				{
+					textboxes.get(i).tick();
+				}
 			}
 		}
 		clicks.clear();
