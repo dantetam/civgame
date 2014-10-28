@@ -33,12 +33,15 @@ public class MenuSystem extends BaseSystem {
 	public int multiplier = 1;
 
 	public Tile target;
-	public ArrayList<String> hintText;
+	//public ArrayList<String> hintText;
 	public Tile highlighted; //Under the player's crosshair
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
 	public Tile[] settlerChoices;
 	public String typeOfLastSelected = "";
 	//public City citySelected;
+	
+	//public TextBox hintTextBox;
+	//public TextBox selectedTextBox;
 
 	private ArrayList<String> messages;
 
@@ -48,7 +51,7 @@ public class MenuSystem extends BaseSystem {
 		textboxes = new ArrayList<TextBox>();
 		clicks = new ArrayList<Click>();
 
-		hintText = new ArrayList<String>();
+		//hintText = new ArrayList<String>();
 		messages = new ArrayList<String>();
 		//highlighted = null;
 
@@ -81,6 +84,15 @@ public class MenuSystem extends BaseSystem {
 
 		menu0.active = true;
 
+		TextBox text0 = new TextBox("HintText",main.width*5/6,0,200,150);
+		textboxes.add(text0);
+		
+		TextBox text1 = new TextBox("SelectedText",main.width*4/6,0,200,150);
+		textboxes.add(text1);
+		
+		TextBox text2 = new TextBox("Messages",main.width*5/6,200,main.width*1/6,100);
+		textboxes.add(text2);
+		
 		//arial = main.loadFont("ArialMT-48.vlw");
 	}
 
@@ -100,22 +112,6 @@ public class MenuSystem extends BaseSystem {
 		main.noLights();
 		main.noStroke();
 		main.textSize(12);
-		for (int menu = 0; menu < menus.size(); menu++)
-		{
-			if (menus.get(menu).active)
-			{
-				//System.out.println(menu + " " + menus.get(menu).active);
-				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
-				{
-					main.fill(0);
-					Button b = menus.get(menu).buttons.get(i);
-					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-					main.textAlign(PApplet.CENTER, PApplet.CENTER);
-					main.fill(255);
-					main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
-				}
-			}
-		}
 
 		if (minimap)
 		{
@@ -175,6 +171,7 @@ public class MenuSystem extends BaseSystem {
 
 		main.noStroke();
 
+		ArrayList<String> hintText = textboxes.get(0).text;
 		hintText.clear();
 		if (target != null)
 		{
@@ -247,7 +244,8 @@ public class MenuSystem extends BaseSystem {
 				main.fill(255);
 				main.textSize(12);
 
-				ArrayList<String> temp = new ArrayList<String>();
+				ArrayList<String> temp = textboxes.get(1).text;
+				temp.clear();
 				temp.add(selected.name + " " + ((GameEntity)selected).action + "/" + ((GameEntity)selected).maxAction);
 				temp.add(selected.offensiveStr + " offensive, " + selected.rangedStr + " ranged");
 				temp.add(selected.defensiveStr + " defensive");
@@ -309,24 +307,33 @@ public class MenuSystem extends BaseSystem {
 		main.fill(255);
 		main.textSize(12);
 		main.textAlign(PApplet.LEFT);
-		if (messages.size() > 0)
+		/*if (messages.size() > 0)
 		{
 			for (int i = 0; i < 4; i++)
 			{
 				if (i >= messages.size()) break;
 				main.text(messages.get(messages.size() - i - 1), main.width*5/6, 200 + 15*(i+1));
 			}
-			/*for (int i = messages.size() - 1; i >= 0; i--)
+			for (int i = messages.size() - 1; i >= 0; i--)
 			{
 				main.text(messages.get(i), main.width*5/6, 200 + 15*(i+1));
 				if (messages.size() - i >= 4)
 				{
 					break;
 				}
-			}*/
+			}
+		}*/
+		textboxes.get(2).text.clear();
+		if (messages.size() > 0)
+		{
+			int len = Math.min(4,messages.size());
+			for (int i = 0; i < len; i++)
+			{
+				textboxes.get(2).text.add(messages.get(i));
+			}
 		}
 
-		if (hintText.size() > 0)
+		/*if (hintText.size() > 0)
 		{
 			//main.stroke(255);
 			main.fill(0);
@@ -339,7 +346,7 @@ public class MenuSystem extends BaseSystem {
 				if (hintText.get(i) != null)
 					main.text(hintText.get(i), main.width*5/6 + 15, 15*(i+1));
 			}
-		}
+		}*/
 
 		main.hint(PApplet.ENABLE_DEPTH_TEST);
 		/*main.pg.beginDraw();
@@ -377,6 +384,36 @@ public class MenuSystem extends BaseSystem {
 		else
 			main.text("Researching " + c.researchTech + " at " + c.researchProgress()*1000/1000, main.width/6 + 15, 30);
 
+		for (int menu = 0; menu < menus.size(); menu++)
+		{
+			if (menus.get(menu).active)
+			{
+				//System.out.println(menu + " " + menus.get(menu).active);
+				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+				{
+					main.fill(0);
+					Button b = menus.get(menu).buttons.get(i);
+					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+					main.textAlign(PApplet.CENTER, PApplet.CENTER);
+					main.fill(255);
+					main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+				}
+			}
+		}
+		for (int i = 0; i < textboxes.size(); i++)
+		{
+			TextBox b = textboxes.get(i);
+			if (b.active)
+			{
+				main.fill(0);
+				main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+				main.textAlign(PApplet.LEFT, PApplet.UP);
+				main.fill(255);
+				for (int j = 0; j < b.text.size(); j++)
+					main.text(b.text.get(j), b.posX, b.posY);
+			}
+		}
+		
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
@@ -612,6 +649,15 @@ public class MenuSystem extends BaseSystem {
 					}
 				}
 				menus.get(menu).origPosIfNoMouse();
+				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+				{
+					main.fill(0);
+					Button b = menus.get(menu).buttons.get(i);
+					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+					main.textAlign(PApplet.CENTER, PApplet.CENTER);
+					main.fill(255);
+					main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+				}
 				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
 					Button b = menus.get(menu).buttons.get(i);

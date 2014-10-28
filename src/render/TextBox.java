@@ -4,13 +4,16 @@ import java.util.ArrayList;
 
 public class TextBox {
 
+	public String name;
 	public float posX, posY;
 	public float sizeX, sizeY;
-	public ArrayList<String> strings;
+	public ArrayList<String> text;
+	public boolean active = true;
 	
-	public TextBox(float x, float y, float sX, float sY)
+	public TextBox(String name, float x, float y, float sX, float sY)
 	{
-		strings = new ArrayList<String>();
+		this.name = name;
+		text = new ArrayList<String>();
 		posX = x; posY = y;
 		sizeX = sX; sizeY = sY;
 	}

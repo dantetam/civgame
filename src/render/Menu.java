@@ -44,7 +44,7 @@ public class Menu {
 		{
 			Button b = buttons.get(i);
 			boolean skip = false;
-			if (b.noOrdersIfMenu != null)
+			if (b.noOrdersIfMenu != null) //Check if all the menus that can stop the button from acting are not active
 				for (int j = 0; j < b.noOrdersIfMenu.length; j++)
 					if (activeMenus[b.noOrdersIfMenu[j]])
 					{
@@ -53,9 +53,7 @@ public class Menu {
 					}
 			if (!skip)
 				if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && !b.orderOfType("expand"))
-				{
 					b.expand(b.origSizeX*2, b.origSizeY, 20);
-				}
 		}
 	}
 	
