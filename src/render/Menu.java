@@ -26,6 +26,16 @@ public class Menu {
 		buttons.add(new Button(command,display,a,b,c,d,n));
 	}
 
+	public Button findButtonByCommand(String name)
+	{
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			if (buttons.get(i).command.equals(name))
+				return buttons.get(i);
+		}
+		return null;
+	}
+	
 	public String click(float mouseX, float mouseY)
 	{
 		for (int i = 0; i < buttons.size(); i++)

@@ -14,7 +14,9 @@ public class Button {
 	public float origX, origY, origSizeX, origSizeY; //Public or private?
 	public boolean expanded = false;
 	public int[] noOrdersIfMenu = null;
-
+	public boolean lock = false;
+	public boolean active = true;
+	
 	public Button(String command, String displayString, float a, float b, float c, float d)
 	{
 		this.command = command;
@@ -111,33 +113,57 @@ public class Button {
 		}
 	}
 
-	public void moveTo(float x, float y, float frames)
+	public Order moveTo(float x, float y, float frames)
 	{
-		if (frames == 0) return;
+		if (frames == 0) return null;
 		Order temp = new Order(this,"move");
 		temp.dirX = (x-posX)/frames;
 		temp.dirY = (y-posY)/frames;
 		temp.frames = (int)frames;
 		orders.add(temp);
+		return temp;
 	}
 
-	public void expand(float x, float y, float frames)
+	public Order moveDis(float x, float y, float frames)
 	{
-		if (frames == 0) return;
+		if (frames == 0) return null;
+		Order temp = new Order(this,"move");
+		temp.dirX = x/frames;
+		temp.dirY = y/frames;
+		temp.frames = (int)frames;
+		orders.add(temp);
+		return temp;
+	}
+
+	public Order expand(float x, float y, float frames)
+	{
+		if (frames == 0) return null;
 		expanded = true;
 		Order temp = new Order(this,"expand");
 		temp.expX = (x-sizeX)/frames;
 		temp.expY = (y-sizeY)/frames;
 		temp.frames = (int)frames;
 		orders.add(temp);
+		return temp;
 		//System.out.println(temp.expX + " " + temp.expY);
 	}
-	
-	public void orderOriginal()
+
+	/*public void shake(float x, float y)
 	{
-		Order temp = new Order(this,"setOriginal");
+		Order temp = new Order(this,"move");
+		temp.expX = x;
+		temp.expY = y;
 		temp.frames = 2;
 		orders.add(temp);
+	}*/
+
+	public Order orderOriginal()
+	{
+		Order temp = new Order(this,"setOriginal");
+		temp.parallel = true;
+		temp.frames = 2;
+		orders.add(temp);
+		return temp;
 	}
 
 	private void setOriginal()
@@ -157,7 +183,7 @@ public class Button {
 				return true;
 		return false;
 	}
-	
+
 	public void move(float x, float y)
 	{
 		posX = x;
@@ -182,19 +208,26 @@ public class Button {
 
 		public void execute()
 		{
-			if (name.equals("move"))
+			if (!button.lock)
 			{
-				button.posX += dirX; button.posY += dirY;
+				if (name.equals("move"))
+				{
+					button.posX += dirX; button.posY += dirY;
+				}
+				else if (name.equals("expand"))
+				{
+					button.sizeX += expX; button.sizeY += expY;
+				}
+				else if (name.equals("setOriginal"))
+				{
+					setOriginal();
+				}
+				frames--;
 			}
-			else if (name.equals("expand"))
-			{
-				button.sizeX += expX; button.sizeY += expY;
-			}
-			else if (name.equals("setOriginal"))
+			else
 			{
 				setOriginal();
 			}
-			frames--;
 			//System.out.println("Frames: " + frames);
 		}
 	}

@@ -7,7 +7,6 @@ public class TextBox extends Button {
 	public String name;
 	//public float posX, posY;
 	//public float sizeX, sizeY;
-	public boolean active = true;
 	
 	public TextBox(String name, ArrayList<String> display, float a, float b,
 			float c, float d) {

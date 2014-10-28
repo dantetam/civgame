@@ -29,7 +29,7 @@ public class MenuSystem extends BaseSystem {
 
 	private ArrayList<Click> clicks;
 
-	public boolean minimap, info, loadout, loadoutDisplay, techMenu = false;
+	public boolean minimap, info, loadout, loadoutDisplay, techMenu; //Access the menu's active property instead
 	public int multiplier = 1;
 
 	public Tile target;
@@ -61,6 +61,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("minimap", "Minimap", 0, 100, 100, 30);
 		menu0.addButton("info", "Information", 0, 130, 100, 30);
 		menu0.addButton("loadout", "Loadout", 0, 160, 100, 30, 3, 4);
+		menu0.addButton("stats", "Statistics", 0, 190, 100, 30);
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -95,6 +96,10 @@ public class MenuSystem extends BaseSystem {
 
 		TextBox text3 = new TextBox("PlayerStatus",new ArrayList<String>(),main.width/6,0,300,50);
 		textboxes.add(text3);
+
+		TextBox text4 = new TextBox("LedgerText",new ArrayList<String>(),100,190,500,250);
+		textboxes.add(text4);
+		text4.active = false;
 
 		//arial = main.loadFont("ArialMT-48.vlw");
 	}
@@ -164,6 +169,11 @@ public class MenuSystem extends BaseSystem {
 		menus.get(3).active = loadout;
 		menus.get(4).active = loadoutDisplay;
 		menus.get(5).active = techMenu;
+		if (textboxes.get(4).active)
+		{
+			updateCivStats();
+		}
+		//menus.get(6).active = ledgerMenu;
 		//System.out.println(loadout + " " + loadoutDisplay);
 
 		//Render the cursor
@@ -365,40 +375,46 @@ public class MenuSystem extends BaseSystem {
 								System.exit(0);
 								continue;
 							}
-							else if (command.equals("info"))
+							else if (command.equals("info") || command.equals("minimap") || command.equals("loadout") || command.equals("loadoutDisplay") || command.equals("stats"))
 							{
-								info = !info;
+								info = false;
 								minimap = false;
 								loadoutDisplay = false;
 								loadout = false;
-								continue;
-							}
-							else if (command.equals("minimap"))
-							{
-								minimap = !minimap;
-								info = false;
-								loadoutDisplay = false;
-								loadout = false;
-								continue;
-							}
-							else if (command.equals("loadout"))
-							{
-								if (loadoutDisplay)
+								textboxes.get(4).active = false;
+								if (command.equals("info"))
 								{
-									loadoutDisplay = false;
+									info = !info;
 								}
-								loadout = !loadout;
-								minimap = false;
-								info = false;
+								else if (command.equals("minimap"))
+								{
+									minimap = !minimap;
+								}
+								else if (command.equals("loadout"))
+								{
+									if (loadoutDisplay)
+									{
+										loadoutDisplay = false;
+									}
+									loadout = !loadout;
+								}
+								else if (command.contains("loadoutDisplay"))
+								{
+									//loadout = false;
+									updateLoadoutDisplay(command.substring(14));
+									loadoutDisplay = true;
+								}
+								else if (command.equals("stats"))
+								{
+									updateCivStats();
+									//ledgerMenu = true;
+									menus.get(0).findButtonByCommand("stats").lock = !textboxes.get(4).active;
+									textboxes.get(4).active = !textboxes.get(4).active;
+								}
+								resetAllButtons();
 								continue;
 							}
-							else if (command.contains("loadoutDisplay"))
-							{
-								//loadout = false;
-								updateLoadoutDisplay(command.substring(14));
-								loadoutDisplay = true;
-								continue;
-							}
+
 							else if (command.contains("/")) //if it is a entity-improvement command
 							{
 								int index = command.indexOf("/");
@@ -631,6 +647,20 @@ public class MenuSystem extends BaseSystem {
 		if (messages.size() == 0) messages.add(message);
 		if (!messages.get(messages.size()-1).equals(message))
 			messages.add(message);
+		for (int i = 0; i < 10; i++)
+			textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
+		textboxes.get(2).orderOriginal();
+	}
+	
+	public void resetAllButtons()
+	{
+		for (int i = 0; i < menus.size(); i++)
+		{
+			for (int j = 0; j < menus.get(i).buttons.size(); j++)
+			{
+				menus.get(i).buttons.get(j).orderOriginal();
+			}
+		}
 	}
 
 	//Will always refer to the player's tech tree
@@ -655,13 +685,7 @@ public class MenuSystem extends BaseSystem {
 			menus.get(2).active = true;
 		}
 
-		//main.stroke(255);
-		main.fill(0);
-		main.rect(main.width*4/6,0,200,150);
-		main.fill(255);
-		main.textSize(12);
-
-		ArrayList<String> temp = new ArrayList<String>();
+		ArrayList<String> temp = textboxes.get(1).display;
 		temp.add(citySelected.name + "; Population: " + citySelected.population);
 		if (citySelected.takeover > 0)
 		{
@@ -735,11 +759,18 @@ public class MenuSystem extends BaseSystem {
 		{
 			temp.add("Nothing queued.");
 		}
+	}
 
-		for (int i = 0; i < temp.size(); i++)
+	//Update the ledger
+	public void updateCivStats()
+	{
+		textboxes.get(4).display.clear();
+
+		for (int i = 0; i < main.grid.civs.length; i++)
 		{
-			main.textAlign(PApplet.LEFT);
-			main.text(temp.get(i), main.width*4/6 + 15, 15*(i+1));
+			Civilization c = main.grid.civs[i];
+			String s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research;
+			textboxes.get(4).display.add(s);
 		}
 	}
 

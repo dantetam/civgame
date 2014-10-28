@@ -100,6 +100,7 @@ public class CivGame extends PApplet {
 		player.civ.name = "Player";
 		player.orient(grid);
 		inputSystem.on = false;
+		menuSystem.select(null); //Fix the selection menu
 	}
 
 	public void draw()
