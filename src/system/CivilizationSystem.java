@@ -480,8 +480,8 @@ public class CivilizationSystem extends BaseSystem {
 					civ.research += tr;
 
 					//Resource caps
-					civ.food = Math.min(civ.food, population*5);
-					civ.metal = Math.min(civ.metal, population*5);
+					civ.food = Math.min(civ.food, population*3);
+					civ.metal = Math.min(civ.metal, population*3);
 				}
 				//Update civilization's opinions of each other
 				for (int j = 0; j < main.grid.civs.length; j++)
@@ -658,6 +658,35 @@ public class CivilizationSystem extends BaseSystem {
 				theCiv.units.get(j).barbarianTick();
 			}
 			//}
+			
+			//Spawn barbarians in unrevealed tiles (do not include tiles revealed by barbarians)
+			boolean[][] revealedByCivs = new boolean[main.grid.rows][main.grid.cols];
+			for (int i = 0; i < main.grid.civs.length - 1; i++)
+			{
+				Civilization civ = main.grid.civs[i];
+				for (int r = 0; r < civ.revealed.length; r++)
+				{
+					for (int c = 0; c < civ.revealed[0].length; c++)
+					{
+						revealedByCivs[r][c] = revealedByCivs[r][c] || civ.revealed[r][c];
+					}
+				}
+			}
+			for (int r = 0; r < revealedByCivs.length; r++)
+			{
+				for (int c = 0; c < revealedByCivs[0].length; c++)
+				{
+					if (main.grid.getTile(r, c).biome != -1)
+						if (Math.random() < 0.01)
+							if (main.grid.civs[main.grid.civs.length-1].cities.size()*3 +
+									main.grid.civs[main.grid.civs.length-1].units.size() < 12)
+							{
+								main.grid.addUnit(EntityData.get("Settler"),main.grid.civs[main.grid.civs.length-1],r,c);
+								//System.out.println("Spawned barbarian: " + r + ", " + c);
+							}
+				}
+			}
+			
 			/*for (int r = 0; r < main.grid.rows; r++)
 			{
 				for (int c = 0; c < main.grid.cols; c++)

@@ -18,13 +18,15 @@ Content
 	Techs
 	Units
 	Improvements
-/+ Barbarians (can be civilized)
-
+>+ Barbarians (can be civilized)
+	- Is always at war with all other civs and city states
 Minor additions:
 > Ledger/comparative menu to compare stats of all civs (EU4/Civ)
+>+ Barbarian units and cities spawn in tiles not revealed
 
 Changes:
 Ability to select any tile with the mouse
+> Tile border rendering changes
 
 Fixes:
 

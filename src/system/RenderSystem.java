@@ -228,7 +228,7 @@ public class RenderSystem extends BaseSystem {
 					{
 						main.strokeWeight(1);
 					}
-					strokedColor = true;
+					//strokedColor = true;
 				}
 				else if (main.menuSystem.settlerChoices != null)
 				{
@@ -244,6 +244,10 @@ public class RenderSystem extends BaseSystem {
 						}
 					}
 				}
+			}
+			if (hidden)
+			{
+				main.strokeWeight(1);
 			}
 
 			main.pushMatrix();
@@ -280,7 +284,7 @@ public class RenderSystem extends BaseSystem {
 				{
 					if (!strokedColor && civ != null)
 					{
-						if (i % 2 != 0)
+						if (i % 2 == 0)
 						{
 							main.stroke(civ.r, civ.g, civ.b);
 						}

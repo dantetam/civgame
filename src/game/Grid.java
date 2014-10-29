@@ -103,9 +103,9 @@ public class Grid {
 			CityState civ = new CityState("City State " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*Math.random()))
 					));
-			civ.r = (float)(Math.random()*255); civ.sR = civ.r;
-			civ.g = (float)(Math.random()*255); civ.sG = civ.g;
-			civ.b = (float)(Math.random()*255); civ.sB = civ.b;
+			civ.r = (float)(Math.random()*255); civ.sR = 255;
+			civ.g = (float)(Math.random()*255); civ.sG = 255;
+			civ.b = (float)(Math.random()*255); civ.sB = 255;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + 1];
 			civs[i] = civ;
