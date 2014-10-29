@@ -643,9 +643,10 @@ public class CivilizationSystem extends BaseSystem {
 			for (int i = 0; i < main.grid.civs.length; i++)
 			{
 				Civilization civ = main.grid.civs[i];
-				if (civLand[i] == 0)
+				if (civLand[i] == 0 && civ.units.size() == 0 && !civ.observe)
 				{
 					main.menuSystem.message(civ.name + " has been destroyed!");
+					civ.observe = true;
 				}
 				else if (civLand[i]/sum > 0.6 && civLand[i] > 50 && !main.grid.won)
 				{

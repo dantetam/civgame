@@ -249,7 +249,8 @@ public class MenuSystem extends BaseSystem {
 					{
 						stringy += highlighted.occupants.get(i).name + "; ";
 					}
-					hintText.add(stringy);
+					if (!stringy.equals(""))
+						hintText.add(stringy.substring(0,stringy.length()-2));
 				}
 		}
 		if (selected != null)
@@ -661,8 +662,8 @@ public class MenuSystem extends BaseSystem {
 	public void message(String message)
 	{
 		if (messages.size() == 0) messages.add(message);
-		if (!messages.get(messages.size()-1).equals(message))
-			messages.add(message);
+		if (!messages.get(0).equals(message))
+			messages.add(0,message);
 		if (!main.grid.civs[0].observe) //Do not shake the GUI if player is not alive
 		{
 			textboxes.get(2).moveDis(0,-5,2);
