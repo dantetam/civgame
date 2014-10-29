@@ -294,7 +294,13 @@ public class InputSystem extends BaseSystem {
 				main.menuSystem.message("A tech is needed to research.");
 				return;
 			}
-			main.civilizationSystem.requestTurn = true;
+			if (civ.observe || civ.units.size() > 0 || civ.cities.size() > 0)
+				main.civilizationSystem.requestTurn = true;
+			else
+			{
+				main.menuSystem.continueMenu = true;
+				main.menuSystem.message("You have no cities or units!");
+			}
 		}
 		else if (key == 'c')
 		{

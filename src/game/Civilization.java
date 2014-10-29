@@ -28,6 +28,8 @@ public class Civilization {
 
 	public boolean[][] revealed;
 	public int[] opinions;
+	
+	public boolean observe = false;
 
 	public Civilization(String name)
 	{

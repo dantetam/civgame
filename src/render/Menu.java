@@ -81,7 +81,7 @@ public class Menu {
 			Button b = buttons.get(i);
 			if (b.orders.size() == 0)
 			{
-				buttons.get(i).orderOriginal();
+				buttons.get(i).orderOriginal(false);
 				//buttons.get(i).setOriginal();
 			}
 		}

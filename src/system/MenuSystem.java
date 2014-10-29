@@ -29,7 +29,7 @@ public class MenuSystem extends BaseSystem {
 
 	private ArrayList<Click> clicks;
 
-	public boolean minimap, info, loadout, loadoutDisplay, techMenu; //Access the menu's active property instead
+	public boolean minimap, info, loadout, loadoutDisplay, techMenu, continueMenu; //Access the menu's active property instead
 	public int multiplier = 1;
 
 	public Tile target;
@@ -82,6 +82,10 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu5 = new Menu("TechMenu");
 		menus.add(menu5);
+
+		Menu menu6 = new Menu("ContinueMenu"); //Menu when player loses the game
+		menu6.addButton("continue", "You have lost the game. Continue?", main.width*2/6, 100, main.width*2/6, 200);
+		menus.add(menu6);
 
 		menu0.active = true;
 
@@ -169,6 +173,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(3).active = loadout;
 		menus.get(4).active = loadoutDisplay;
 		menus.get(5).active = techMenu;
+		menus.get(6).active = continueMenu;
 		if (textboxes.get(4).active)
 		{
 			updateCivStats();
@@ -375,7 +380,13 @@ public class MenuSystem extends BaseSystem {
 								System.exit(0);
 								continue;
 							}
-							else if (command.equals("info") || command.equals("minimap") || command.equals("loadout") || command.equals("loadoutDisplay") || command.equals("stats"))
+							else if (command.equals("info") || 
+									command.equals("minimap") || 
+									command.equals("loadout") || 
+									command.equals("loadoutDisplay") || 
+									command.equals("stats") ||
+									command.equals("continue")
+									)
 							{
 								info = false;
 								minimap = false;
@@ -410,6 +421,11 @@ public class MenuSystem extends BaseSystem {
 									//ledgerMenu = true;
 									menus.get(0).findButtonByCommand("stats").lock = !textboxes.get(4).active;
 									textboxes.get(4).active = !textboxes.get(4).active;
+								}
+								else if (command.equals("continue"))
+								{
+									main.grid.civs[0].observe = true;
+									continueMenu = false;
 								}
 								resetAllButtons();
 								continue;
@@ -647,18 +663,22 @@ public class MenuSystem extends BaseSystem {
 		if (messages.size() == 0) messages.add(message);
 		if (!messages.get(messages.size()-1).equals(message))
 			messages.add(message);
-		for (int i = 0; i < 10; i++)
-			textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
-		textboxes.get(2).orderOriginal();
+		if (!main.grid.civs[0].observe) //Do not shake the GUI if player is not alive
+		{
+			textboxes.get(2).moveDis(0,-5,2);
+			for (int i = 0; i < 10; i++)
+				textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
+			textboxes.get(2).orderOriginal(false);
+		}
 	}
-	
+
 	public void resetAllButtons()
 	{
 		for (int i = 0; i < menus.size(); i++)
 		{
 			for (int j = 0; j < menus.get(i).buttons.size(); j++)
 			{
-				menus.get(i).buttons.get(j).orderOriginal();
+				menus.get(i).buttons.get(j).orderOriginal(true);
 			}
 		}
 	}

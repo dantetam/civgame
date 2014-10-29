@@ -281,7 +281,6 @@ public abstract class GameEntity extends BaseEntity {
 				//The first condition is not needed
 				else if (!(location.improvement instanceof City))//owner.enemies.contains(en.location.improvement.owner)) 
 				{
-					System.out.println("raze");
 					location.grid.removeUnit(location.improvement);
 					return true;
 					//en.location.improvement = null;

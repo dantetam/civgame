@@ -266,7 +266,7 @@ public class RenderSystem extends BaseSystem {
 			//Custom borders for certain tiles, only outline edge
 			if (t.harvest)
 			{
-				
+
 			}
 			else
 			{
@@ -385,14 +385,14 @@ public class RenderSystem extends BaseSystem {
 		float sizeY = widthBlock*3F;
 		main.pushMatrix();
 
-		if (en.location.harvest)
+		main.strokeWeight(1);
+		if (en.owner != null)
 		{
-			main.strokeWeight(5);
-			main.stroke(en.owner.r,en.owner.g,en.owner.b);
-		}
-		else
-		{
-			main.strokeWeight(1);
+			if (en.location.harvest)
+			{
+				main.strokeWeight(5);
+				main.stroke(en.owner.r,en.owner.g,en.owner.b);
+			}
 		}
 
 		if (main.menuSystem.getSelected() != null)

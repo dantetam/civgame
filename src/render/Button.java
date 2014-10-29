@@ -157,10 +157,10 @@ public class Button {
 		orders.add(temp);
 	}*/
 
-	public Order orderOriginal()
+	public Order orderOriginal(boolean yn)
 	{
 		Order temp = new Order(this,"setOriginal");
-		temp.parallel = true;
+		temp.parallel = yn;
 		temp.frames = 2;
 		orders.add(temp);
 		return temp;
