@@ -78,6 +78,19 @@ public class Civilization {
 	{
 		return enemies.contains(other);
 	}
+	
+	public ArrayList<Tile> land()
+	{
+		ArrayList<Tile> temp = new ArrayList<Tile>();
+		for (int i = 0; i < cities.size(); i++)
+		{
+			for (int j = 0; j < cities.get(i).land.size(); j++)
+			{
+				temp.add(cities.get(i).land.get(j));
+			}
+		}
+		return temp;
+	}
 
 	public String toString()
 	{

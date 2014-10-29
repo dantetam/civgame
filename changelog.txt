@@ -18,6 +18,7 @@ Content
 	Techs
 	Units
 	Improvements
++ Barbarians (can be civilized)
 
 Minor additions:
 > Ledger/comparative menu to compare stats of all civs (EU4/Civ)

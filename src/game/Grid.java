@@ -19,7 +19,8 @@ public class Grid {
 	//Player's civilization will always be the first
 
 	public final int aggroDistance = 500;
-
+	public boolean won = false;
+	
 	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff)
 	{
 		civs = new Civilization[numCivs+numCityStates];
@@ -87,7 +88,7 @@ public class Grid {
 			//addTile(civs[i], tiles[r][c]);
 
 			BaseEntity en = EntityData.get("Settler");
-			if (i == 1 || i == 2)
+			if (i == 1)
 			{
 				for (int j = 0; j < 4; j++)
 				{

@@ -626,10 +626,33 @@ public class CivilizationSystem extends BaseSystem {
 					civ.units.get(j).action = civ.units.get(j).maxAction;
 				}
 			}
-			main.menuSystem.message("Ended processing and AI actions");
+			//main.menuSystem.message("Ended processing and AI actions");
 			//main.menuSystem.message("Ended turn " + main.civilizationSystem.turnsPassed);
 			turnsPassed++;
 			main.menuSystem.message("Began turn " + main.civilizationSystem.turnsPassed);
+			
+			//Check to see if any civilizations lost or won
+			double[] civLand = new double[main.grid.civs.length];
+			double sum = 0;
+			for (int i = 0; i < main.grid.civs.length; i++)
+			{
+				Civilization civ = main.grid.civs[i];
+				civLand[i] = civ.land().size();
+				sum += civLand[i];
+			}
+			for (int i = 0; i < main.grid.civs.length; i++)
+			{
+				Civilization civ = main.grid.civs[i];
+				if (civLand[i] == 0)
+				{
+					main.menuSystem.message(civ.name + " has been destroyed!");
+				}
+				else if (civLand[i]/sum > 0.6 && civLand[i] > 50 && !main.grid.won)
+				{
+					main.grid.won = true;
+					main.menuSystem.message(civ.name + " has conquered 60% of the civilized world!");
+				}
+			}
 		}
 	}	
 

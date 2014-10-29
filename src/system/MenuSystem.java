@@ -668,6 +668,7 @@ public class MenuSystem extends BaseSystem {
 			textboxes.get(2).moveDis(0,-5,2);
 			for (int i = 0; i < 10; i++)
 				textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
+			textboxes.get(2).moveDis(0,5,2);
 			textboxes.get(2).orderOriginal(false);
 		}
 	}
