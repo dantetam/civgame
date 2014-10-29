@@ -39,6 +39,11 @@ public class Worker extends GameEntity {
 			queueTiles.remove(queueTiles.size()-1);
 		}
 	}
+	
+	public void barbarianTick()
+	{
+		tick();
+	}
 
 	public void tick()
 	{

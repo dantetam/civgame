@@ -26,6 +26,7 @@ public abstract class GameEntity extends BaseEntity {
 
 	public abstract void tick();
 	public abstract void playerTick();
+	public abstract void barbarianTick();
 
 	public void waddle()
 	{

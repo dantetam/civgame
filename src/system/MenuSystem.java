@@ -238,7 +238,7 @@ public class MenuSystem extends BaseSystem {
 				hintText.add("Relations: " + target.owner.opinions[0]);
 			}
 
-			if (target.freshWater)
+			if (main.grid.irrigated(target.row, target.col))
 				hintText.add("Fresh Water");
 
 			if (highlighted != null)

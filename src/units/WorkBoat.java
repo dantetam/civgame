@@ -26,6 +26,11 @@ public class WorkBoat extends GameEntity {
 			queueTiles.remove(queueTiles.size()-1);
 		}
 	}
+	
+	public void barbarianTick()
+	{
+		tick();
+	}
 
 	public String getName()
 	{

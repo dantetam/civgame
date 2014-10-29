@@ -13,12 +13,12 @@ Select civilizations with certain names, attributes, bonuses, and units
 Functioning combat system based off of health and relative strengths and possibly dice rolls (Civ5/EU4 hybrid)
 > Fluid menu style with animations and tweens
 + Graphical UIs + colorful menus + set color scheme/style
-+/ Win and loss conditions corresponding to gamemode (w/ sandbox mode)
+>+ Win and loss conditions corresponding to gamemode (w/ sandbox mode)
 Content
 	Techs
 	Units
 	Improvements
-+ Barbarians (can be civilized)
+/+ Barbarians (can be civilized)
 
 Minor additions:
 > Ledger/comparative menu to compare stats of all civs (EU4/Civ)

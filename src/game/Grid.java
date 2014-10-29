@@ -23,7 +23,7 @@ public class Grid {
 	
 	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff)
 	{
-		civs = new Civilization[numCivs+numCityStates];
+		civs = new Civilization[numCivs+numCityStates+1];
 		tiles = new Tile[terrain.length][terrain[0].length];
 		rows = tiles.length; cols = tiles[0].length;
 		for (int r = 0; r < terrain.length; r++)
@@ -73,7 +73,7 @@ public class Grid {
 			civ.g = (float)(Math.random()*255);
 			civ.b = (float)(Math.random()*255);
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
-			civ.opinions = new int[numCivs + numCityStates];
+			civ.opinions = new int[numCivs + numCityStates + 1];
 			civs[i] = civ;
 			civ.id = i;
 
@@ -107,7 +107,7 @@ public class Grid {
 			civ.g = (float)(Math.random()*255);
 			civ.b = (float)(Math.random()*255);
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
-			civ.opinions = new int[numCivs + numCityStates];
+			civ.opinions = new int[numCivs + numCityStates + 1];
 			civs[i] = civ;
 			civ.id = i;
 
@@ -119,6 +119,31 @@ public class Grid {
 			} while (tiles[r][c].type.equals("Sea"));
 
 			addUnit(EntityData.get("Settler"),civs[i],r,c);
+			civ.techTree.researched("Civilization").unlockForCiv(civ);
+		}
+		//Barbarian states
+		//for (int i = 0; i < 1; i++)
+		{
+			Civilization civ = new Civilization("Barbarians");
+			civ.r = 0;
+			civ.g = 0;
+			civ.b = 0;
+			civ.revealed = new boolean[terrain.length][terrain[0].length];
+			civ.opinions = new int[numCivs + numCityStates + 1];
+			civs[civs.length - 1] = civ;
+			civ.id = numCivs + numCityStates;
+
+			int r,c;
+			do
+			{
+				r = (int)(Math.random()*tiles.length);
+				c = (int)(Math.random()*tiles[0].length);
+			} while (tiles[r][c].type.equals("Sea"));
+
+			for (int j = 0; j < 3; j++)
+			{
+				addUnit(EntityData.get("Settler"),civ,r,c);
+			}
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 		}
 		//makeRivers(terrain);

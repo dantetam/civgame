@@ -219,39 +219,41 @@ public class CivilizationSystem extends BaseSystem {
 						if (c.queue == null && i != 0)
 						{
 							//System.out.println(civ.units.size());
-							if (c.focus.equals("Growth"))
+							if (i != main.grid.civs.length - 1)
 							{
-								if (civ.units.size() == 0)
+								if (c.focus.equals("Growth"))
 								{
-									EntityData.queue(c, "Worker");
-								}
-								else if (numSettlers < 3)
-								{
-									EntityData.queue(c, "Settler");
-								}
-								else if (numWorkers < civ.cities.size())
-								{
-									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
-									{
-										EntityData.queue(c, "Work Boat");
-									}
-									else
+									if (civ.units.size() == 0)
 									{
 										EntityData.queue(c, "Worker");
 									}
-								}
-								else if (civ.units.size() <= civ.cities.size()*3)
-								{
-									if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
+									else if (numSettlers < 3)
 									{
-										EntityData.queue(c, "Work Boat");
+										EntityData.queue(c, "Settler");
 									}
-									else
+									else if (numWorkers < civ.cities.size())
 									{
-										EntityData.queue(c, "Warrior");
+										if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
+										{
+											EntityData.queue(c, "Work Boat");
+										}
+										else
+										{
+											EntityData.queue(c, "Worker");
+										}
 									}
-								}
-								/*else if (civ.units.size() <= civ.cities.size()*3)
+									else if (civ.units.size() <= civ.cities.size()*3)
+									{
+										if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
+										{
+											EntityData.queue(c, "Work Boat");
+										}
+										else
+										{
+											EntityData.queue(c, "Warrior");
+										}
+									}
+									/*else if (civ.units.size() <= civ.cities.size()*3)
 								{
 									if (main.grid.coastal(c.location.row, c.location.col))
 									{
@@ -260,12 +262,52 @@ public class CivilizationSystem extends BaseSystem {
 										c.queueMetal = 15;
 									}
 								}*/
-							}
-							else if (c.focus.equals("Production"))
-							{
-								if (civ.units.size() <= 7)
+								}
+								else if (c.focus.equals("Production"))
 								{
-									EntityData.queue(c, "Warrior");
+									if (civ.units.size() <= 20)
+									{
+										EntityData.queue(c, "Warrior");
+									}
+								}
+							}
+							else
+							{
+								if (c.focus.equals("Growth"))
+								{
+									if (civ.units.size() == 0)
+									{
+										EntityData.queue(c, "Worker");
+									}
+									else if (numWorkers < civ.cities.size())
+									{
+										if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
+										{
+											EntityData.queue(c, "Work Boat");
+										}
+										else
+										{
+											EntityData.queue(c, "Worker");
+										}
+									}
+									else if (civ.units.size() <= civ.cities.size()*3)
+									{
+										if (main.grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
+										{
+											EntityData.queue(c, "Work Boat");
+										}
+										else
+										{
+											EntityData.queue(c, "Warrior");
+										}
+									}
+								}
+								else if (c.focus.equals("Production"))
+								{
+									if (civ.units.size() <= 25)
+									{
+										EntityData.queue(c, "Warrior");
+									}
 								}
 							}
 						}
@@ -583,17 +625,17 @@ public class CivilizationSystem extends BaseSystem {
 			//if (main.grid.civs.length > 1)
 			//{
 			//loop through player units
-			Civilization player = main.grid.civs[0];
-			for (int j = 0; j < player.improvements.size(); j++)
+			Civilization theCiv = main.grid.civs[0];
+			for (int j = 0; j < theCiv.improvements.size(); j++)
 			{
-				player.improvements.get(j).playerTick();
+				theCiv.improvements.get(j).playerTick();
 			}
-			for (int j = 0; j < player.units.size(); j++)
+			for (int j = 0; j < theCiv.units.size(); j++)
 			{
-				player.units.get(j).playerTick();
+				theCiv.units.get(j).playerTick();
 			}
 			//loop through enemy units
-			for (int i = 1; i < main.grid.civs.length; i++)
+			for (int i = 1; i < main.grid.civs.length - 1; i++)
 			{
 				Civilization civ = main.grid.civs[i];
 				for (int j = 0; j < civ.improvements.size(); j++)
@@ -604,6 +646,16 @@ public class CivilizationSystem extends BaseSystem {
 				{
 					civ.units.get(j).tick();
 				}
+			}
+			//loop through barbarians
+			theCiv = main.grid.civs[main.grid.civs.length-1];
+			for (int j = 0; j < theCiv.improvements.size(); j++)
+			{
+				theCiv.improvements.get(j).tick();
+			}
+			for (int j = 0; j < theCiv.units.size(); j++)
+			{
+				theCiv.units.get(j).barbarianTick();
 			}
 			//}
 			/*for (int r = 0; r < main.grid.rows; r++)
@@ -630,7 +682,7 @@ public class CivilizationSystem extends BaseSystem {
 			//main.menuSystem.message("Ended turn " + main.civilizationSystem.turnsPassed);
 			turnsPassed++;
 			main.menuSystem.message("Began turn " + main.civilizationSystem.turnsPassed);
-			
+
 			//Check to see if any civilizations lost or won
 			double[] civLand = new double[main.grid.civs.length];
 			double sum = 0;

@@ -30,6 +30,11 @@ public class Warrior extends GameEntity {
 		}
 	}
 
+	public void barbarianTick()
+	{
+		tick();
+	}
+	
 	/*public boolean raze()
 	{
 		System.out.println(super.raze());

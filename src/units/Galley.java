@@ -26,6 +26,11 @@ public class Galley extends GameEntity {
 		}
 	}
 	
+	public void barbarianTick()
+	{
+		tick();
+	}
+	
 	public void tick()
 	{
 		GameEntity en = this;

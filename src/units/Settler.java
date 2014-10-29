@@ -32,6 +32,16 @@ public class Settler extends GameEntity {
 			queueTiles.remove(queueTiles.size()-1);
 		}
 	}
+	
+	public void barbarianTick()
+	{
+		if (settle())
+			return;
+		else
+		{
+			waddle();
+		}
+	}
 
 	/*public void tick()
 	{
