@@ -185,6 +185,7 @@ public class RenderSystem extends BaseSystem {
 		//if (main.terrain[r][c] >= 0)
 		//if (main.grid.getTile(r,c).biome)
 		{
+			boolean strokedColor = false; 
 			float sampleSize = 1;
 			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
 			if (!hidden)
@@ -193,7 +194,8 @@ public class RenderSystem extends BaseSystem {
 				main.fill((float)color.r*150F,(float)color.g*150F,(float)color.b*150F);
 			main.noStroke();
 			Tile t = main.grid.getTile(r,c);
-
+			Civilization civ = t.owner;
+			
 			Entity temp = new Entity();
 			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 1, widthBlock*sampleSize);
 			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
@@ -203,6 +205,7 @@ public class RenderSystem extends BaseSystem {
 				//main.fill(0);
 				main.stroke(0,0,255);
 				main.strokeWeight(8);
+				strokedColor = true;
 				if (main.grid.getTile(r,c) != null)
 				{
 					main.menuSystem.highlighted = main.grid.getTile(r,c);
@@ -216,7 +219,6 @@ public class RenderSystem extends BaseSystem {
 			{
 				if (main.grid.getTile(r,c).owner != null && !hidden)
 				{
-					Civilization civ = t.owner;
 					main.stroke(civ.r, civ.g, civ.b);
 					if (t.harvest)
 					{
@@ -226,6 +228,7 @@ public class RenderSystem extends BaseSystem {
 					{
 						main.strokeWeight(1);
 					}
+					strokedColor = true;
 				}
 				else if (main.menuSystem.settlerChoices != null)
 				{
@@ -236,6 +239,7 @@ public class RenderSystem extends BaseSystem {
 						{
 							main.stroke(200,0,255);
 							main.strokeWeight(5);
+							strokedColor = true;
 							break;
 						}
 					}
@@ -271,8 +275,20 @@ public class RenderSystem extends BaseSystem {
 			else
 			{
 				//Replace with 4 loops later
+				//done
 				for (float i = 0; i < m; i++)
 				{
+					if (!strokedColor && civ != null)
+					{
+						if (i % 2 != 0)
+						{
+							main.stroke(civ.r, civ.g, civ.b);
+						}
+						else
+						{
+							main.stroke(civ.sR, civ.sG, civ.sB);
+						}
+					}
 					main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m], c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m], c*widthBlock);
 					main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m], (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m], (c+1)*widthBlock);
 					main.line(r*widthBlock, vertices[r*m][c*m + (int)i], (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1], (c+(((float)i+1)/m))*widthBlock);

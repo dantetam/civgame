@@ -11,7 +11,8 @@ public class Civilization {
 
 	public String name;
 	public int id;
-	public float r,g,b;
+	public float r,g,b; //primary colors
+	public float sR,sG,sB; //secondary colors
 
 	public ArrayList<City> cities;
 	public City capital;

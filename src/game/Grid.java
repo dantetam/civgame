@@ -69,9 +69,9 @@ public class Grid {
 			Civilization civ = new Civilization("Civilization " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*Math.random()))
 					));
-			civ.r = (float)(Math.random()*255);
-			civ.g = (float)(Math.random()*255);
-			civ.b = (float)(Math.random()*255);
+			civ.r = (float)(Math.random()*255); civ.sR = civ.r;
+			civ.g = (float)(Math.random()*255); civ.sG = civ.g;
+			civ.b = (float)(Math.random()*255); civ.sB = civ.b;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + 1];
 			civs[i] = civ;
@@ -103,9 +103,9 @@ public class Grid {
 			CityState civ = new CityState("City State " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*Math.random()))
 					));
-			civ.r = (float)(Math.random()*255);
-			civ.g = (float)(Math.random()*255);
-			civ.b = (float)(Math.random()*255);
+			civ.r = (float)(Math.random()*255); civ.sR = civ.r;
+			civ.g = (float)(Math.random()*255); civ.sG = civ.g;
+			civ.b = (float)(Math.random()*255); civ.sB = civ.b;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + 1];
 			civs[i] = civ;
@@ -125,9 +125,9 @@ public class Grid {
 		//for (int i = 0; i < 1; i++)
 		{
 			Civilization civ = new Civilization("Barbarians");
-			civ.r = 0;
-			civ.g = 0;
-			civ.b = 0;
+			civ.r = 0; civ.sR = 0;
+			civ.g = 0; civ.sG = 255;
+			civ.b = 0; civ.sB = 0;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + 1];
 			civs[civs.length - 1] = civ;
