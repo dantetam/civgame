@@ -791,11 +791,17 @@ public class MenuSystem extends BaseSystem {
 	public void updateCivStats()
 	{
 		textboxes.get(4).display.clear();
-
-		for (int i = 0; i < main.grid.civs.length; i++)
+		textboxes.get(4).display.add("You:");
+		Civilization c = main.grid.civs[0];
+		String s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research;
+		textboxes.get(4).display.add(s);
+		textboxes.get(4).display.add("");
+		
+		textboxes.get(4).display.add("Civilizations:");
+		for (int i = 1; i < main.grid.civs.length; i++)
 		{
-			Civilization c = main.grid.civs[i];
-			String s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research;
+			c = main.grid.civs[i];
+			s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
 			textboxes.get(4).display.add(s);
 		}
 	}

@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import units.City;
 import data.EntityData;
@@ -21,8 +22,12 @@ public class Grid {
 	public final int aggroDistance = 500;
 	public boolean won = false;
 	
-	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff)
+	//Ensure that random numbers are the same
+	public Random rand;
+	
+	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff, long seed)
 	{
+		rand = new Random(seed);
 		civs = new Civilization[numCivs+numCityStates+1];
 		tiles = new Tile[terrain.length][terrain[0].length];
 		rows = tiles.length; cols = tiles[0].length;
@@ -31,7 +36,7 @@ public class Grid {
 			for (int c = 0; c < terrain[0].length; c++)
 			{
 				int hill = 0;
-				double random = Math.random();
+				double random = rand.nextDouble();
 				//Assign a shape
 				if (random < 0.025)
 				{
@@ -44,11 +49,11 @@ public class Grid {
 				boolean forest = false;
 				if (biomes[r][c] == 3)
 				{
-					forest = Math.random() < 0.02;
+					forest = rand.nextDouble() < 0.02;
 				}
 				else if (biomes[r][c] >= 4 && biomes[r][c] <= 6)
 				{
-					forest = Math.random() < 0.15;
+					forest = rand.nextDouble() < 0.15;
 				}
 				if (terrain[r][c] >= cutoff)
 				{
@@ -67,11 +72,11 @@ public class Grid {
 		for (int i = 0; i < numCivs; i++)
 		{
 			Civilization civ = new Civilization("Civilization " + Double.toString(
-					Math.floor(Math.sqrt(System.currentTimeMillis()*Math.random()))
+					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
 					));
-			civ.r = (float)(Math.random()*255); civ.sR = civ.r;
-			civ.g = (float)(Math.random()*255); civ.sG = civ.g;
-			civ.b = (float)(Math.random()*255); civ.sB = civ.b;
+			civ.r = (float)(rand.nextDouble()*255); civ.sR = civ.r;
+			civ.g = (float)(rand.nextDouble()*255); civ.sG = civ.g;
+			civ.b = (float)(rand.nextDouble()*255); civ.sB = civ.b;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + 1];
 			civs[i] = civ;
@@ -80,8 +85,8 @@ public class Grid {
 			int r,c;
 			do
 			{
-				r = (int)(Math.random()*tiles.length);
-				c = (int)(Math.random()*tiles[0].length);
+				r = (int)(rand.nextDouble()*tiles.length);
+				c = (int)(rand.nextDouble()*tiles[0].length);
 			} while (tiles[r][c].type.equals("Sea"));
 			//Test out giving a civilization land and a unit 
 			//with proper encapsulation
@@ -101,11 +106,11 @@ public class Grid {
 		for (int i = numCivs; i < numCivs + numCityStates; i++)
 		{
 			CityState civ = new CityState("City State " + Double.toString(
-					Math.floor(Math.sqrt(System.currentTimeMillis()*Math.random()))
+					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
 					));
-			civ.r = (float)(Math.random()*255); civ.sR = 255;
-			civ.g = (float)(Math.random()*255); civ.sG = 255;
-			civ.b = (float)(Math.random()*255); civ.sB = 255;
+			civ.r = (float)(rand.nextDouble()*255); civ.sR = 255;
+			civ.g = (float)(rand.nextDouble()*255); civ.sG = 255;
+			civ.b = (float)(rand.nextDouble()*255); civ.sB = 255;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + 1];
 			civs[i] = civ;
@@ -114,8 +119,8 @@ public class Grid {
 			int r,c;
 			do
 			{
-				r = (int)(Math.random()*tiles.length);
-				c = (int)(Math.random()*tiles[0].length);
+				r = (int)(rand.nextDouble()*tiles.length);
+				c = (int)(rand.nextDouble()*tiles[0].length);
 			} while (tiles[r][c].type.equals("Sea"));
 
 			addUnit(EntityData.get("Settler"),civs[i],r,c);
@@ -136,8 +141,8 @@ public class Grid {
 			int r,c;
 			do
 			{
-				r = (int)(Math.random()*tiles.length);
-				c = (int)(Math.random()*tiles[0].length);
+				r = (int)(rand.nextDouble()*tiles.length);
+				c = (int)(rand.nextDouble()*tiles[0].length);
 			} while (tiles[r][c].type.equals("Sea"));
 
 			/*for (int j = 0; j < 3; j++)

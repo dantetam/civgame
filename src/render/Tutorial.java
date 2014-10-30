@@ -11,7 +11,7 @@ public class Tutorial extends CivGame {
 	
 	public Tutorial(Game game, float width, float height)
 	{
-		super(game, 2, 1, "survival", "terrain10", 870L);
+		super(game, 2, 1, "survival", "terrain11", 8700L);
 	}
 	
 	public void setup()
