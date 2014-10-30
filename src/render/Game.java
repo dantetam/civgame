@@ -18,7 +18,8 @@ public class Game extends PApplet {
 	public Menu activeMenu;
 	public PFont arial;
 	
-	public long seed = 87069200L;
+	//public long seed = 87069200L;
+	public String seed = "87069200";
 
 	public static void main(String[] args)
 	{
@@ -38,6 +39,7 @@ public class Game extends PApplet {
 		menus.add(menu0);
 		menu0.addButton("newgame", "New Game", 100, 100, 210, 50);
 		menu0.addButton("tutorial", "Tutorial", 100, 160, 210, 50);
+		menu0.addButton("options", "Options", 100, 220, 210, 50);
 		menu0.addButton("exitgame", "Exit", 100, 630, 210, 70);
 		//menu1.on();
 
@@ -45,7 +47,7 @@ public class Game extends PApplet {
 		menus.add(menu1);
 		menu1.addButton("conquestgame", "Conquest", 100, 100, 210, 50);
 		menu1.addButton("survivalgame", "Survival", 100, 160, 210, 50);
-		menu1.addButton("backMenu0", "Back", 100, 630, 210, 50);
+		menu1.addButton("backMenu0", "Back", 100, 630, 210, 70);
 		
 		Menu menu2 = new Menu("OpponentMenu");
 		menus.add(menu2);
@@ -70,6 +72,11 @@ public class Game extends PApplet {
 		menu3.addButton("terrain5", "Testing", 100, 400, 210, 50);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
 		menu3.addButton("backMenu2", "Back", 100, 630, 210, 70);
+		
+		Menu menu4 = new Menu("OptionsMenu");
+		
+		menu4.addButton("setSeedAndBack", "Back", 100, 630, 210, 70);
+		menus.add(menu4);
 		
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });
@@ -107,6 +114,31 @@ public class Game extends PApplet {
 			fill(255);
 			for (int j = 0; j < b.display.size(); j++)
 				text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+		}
+		//Display the seed being typed
+		if (menus.get(4).equals(activeMenu))
+		{
+			fill(0);
+			rect(100, 160, 210, 50);
+			fill(255);
+			text("Seed: " + seed, 205, 185);
+		}
+	}
+	
+	public void keyPressed()
+	{
+		if (activeMenu.equals(menus.get(4)))
+		{
+			if (Character.isDigit(key))
+			{
+				if (seed.length() <= 18)
+					seed += key;
+			}
+			else if (key == BACKSPACE)
+			{
+				if (seed.length() > 0)
+					seed = seed.substring(0,seed.length()-1);
+			}
 		}
 	}
 	
@@ -155,6 +187,11 @@ public class Game extends PApplet {
 						background(255);
 						noLoop();
 					}
+					else if (command.equals("options"))
+					{
+						activeMenu = menus.get(4);
+						redraw();
+					}
 					else if (command.equals("exitgame"))
 					{
 						System.exit(0);
@@ -180,7 +217,7 @@ public class Game extends PApplet {
 					}
 					else if (command.contains("terrain"))
 					{
-						PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,challengeType,command,seed);
+						PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,challengeType,command,Long.parseLong(seed));
 						f.setTitle("Survival: Civilization");
 						setVisible(false);
 						background(255);
@@ -190,6 +227,14 @@ public class Game extends PApplet {
 					{
 						activeMenu = menus.get(Integer.parseInt(command.substring(8)));
 						redraw();
+					}
+					else if (command.equals("setSeedAndBack"))
+					{
+						if (seed.length() == 0)
+						{
+							seed = "87069200";
+						}
+						activeMenu = menus.get(0);
 					}
 					//println("Executed " + command);
 					return;
