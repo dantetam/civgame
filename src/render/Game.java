@@ -37,6 +37,7 @@ public class Game extends PApplet {
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
 		menu0.addButton("newgame", "New Game", 100, 100, 210, 70);
+		menu0.addButton("tutorial", "Tutorial", 100, 200, 210, 70);
 		menu0.addButton("exitgame", "Exit", 100, 630, 210, 70);
 		//menu1.on();
 
@@ -106,6 +107,7 @@ public class Game extends PApplet {
 	}
 	
 	private CivGame renderer;
+	private Tutorial tutorial;
 	//Taken from stack overflow
 	public class PFrame extends JFrame {
 		public PFrame(Game game, int width, int height, int numCivs, int numCityStates, String challengeType, String terrainType, long seed) {
@@ -116,6 +118,14 @@ public class Game extends PApplet {
 			renderer.init();
 			//setTitle("Survival: Civilization");
 			show();
+		}
+		public PFrame(Game game, int width, int height)
+		{
+			setBounds(0, 0, width, height);
+			tutorial = new Tutorial(game);
+			add(tutorial);
+			setResizable(false);
+			tutorial.init();
 		}
 	}
 

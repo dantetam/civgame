@@ -162,10 +162,9 @@ public class CivilizationSystem extends BaseSystem {
 						tr += c.sci*2;
 						tg += Math.floor(c.adm*0.25*taxBase);
 						c.culture += Math.floor(c.art*0.25*taxBase);
-						if (civ.capital.equals(c))
-						{
+						if (civ.capital != null)
+							if (civ.capital.equals(c))
 							c.culture++;
-						}
 						//System.out.println(c.culture + " " + c.expanded);
 						if (c.culture >= 20 && c.expanded == 1)
 						{
@@ -177,7 +176,7 @@ public class CivilizationSystem extends BaseSystem {
 							c.expand(3);
 						}
 						//System.out.println(tf + " " + c.owner.food);
-						if (civ instanceof CityState)
+						if (civ instanceof CityState || civ.name.contains("Barbarians"))
 						{
 							if (c.focus.equals("Growth"))
 							{
@@ -537,7 +536,7 @@ public class CivilizationSystem extends BaseSystem {
 										//civ.capital.location.dist(main.grid.civs[j].capital.location) < main.grid.aggroDistance &&
 										!civ.enemies.contains(main.grid.civs[j]))
 								{
-									System.out.println("war");
+									//System.out.println("war");
 									civ.enemies.add(main.grid.civs[j]);
 									main.grid.civs[j].enemies.add(civ);
 								}
@@ -658,7 +657,7 @@ public class CivilizationSystem extends BaseSystem {
 				theCiv.units.get(j).barbarianTick();
 			}
 			//}
-			
+
 			//Spawn barbarians in unrevealed tiles (do not include tiles revealed by barbarians)
 			boolean[][] revealedByCivs = new boolean[main.grid.rows][main.grid.cols];
 			for (int i = 0; i < main.grid.civs.length - 1; i++)
@@ -672,21 +671,30 @@ public class CivilizationSystem extends BaseSystem {
 					}
 				}
 			}
-			for (int r = 0; r < revealedByCivs.length; r++)
+			if (main.civilizationSystem.turnsPassed >= 10)
 			{
-				for (int c = 0; c < revealedByCivs[0].length; c++)
+				for (int r = 0; r < revealedByCivs.length; r++)
 				{
-					if (main.grid.getTile(r, c).biome != -1)
-						if (Math.random() < 0.01)
-							if (main.grid.civs[main.grid.civs.length-1].cities.size()*3 +
-									main.grid.civs[main.grid.civs.length-1].units.size() < 12)
-							{
-								main.grid.addUnit(EntityData.get("Settler"),main.grid.civs[main.grid.civs.length-1],r,c);
-								//System.out.println("Spawned barbarian: " + r + ", " + c);
-							}
+					for (int c = 0; c < revealedByCivs[0].length; c++)
+					{
+						if (main.grid.getTile(r, c).biome != -1)
+							if (Math.random() < 0.01)
+								if (main.grid.civs[main.grid.civs.length-1].cities.size()*4 +
+										main.grid.civs[main.grid.civs.length-1].units.size() < main.civilizationSystem.turnsPassed/10)
+								{
+									if (main.grid.civs[main.grid.civs.length-1].cities.size() == 0)
+										main.grid.addUnit(EntityData.get("Settler"),main.grid.civs[main.grid.civs.length-1],r,c);
+									double rand = Math.random();
+									if (rand < 0.02)
+										main.grid.addUnit(EntityData.get("Settler"),main.grid.civs[main.grid.civs.length-1],r,c);
+									else
+										main.grid.addUnit(EntityData.get("Warrior"),main.grid.civs[main.grid.civs.length-1],r,c);
+									//System.out.println("Spawned barbarian: " + r + ", " + c);
+								}
+					}
 				}
 			}
-			
+
 			/*for (int r = 0; r < main.grid.rows; r++)
 			{
 				for (int c = 0; c < main.grid.cols; c++)

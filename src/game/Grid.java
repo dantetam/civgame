@@ -121,7 +121,7 @@ public class Grid {
 			addUnit(EntityData.get("Settler"),civs[i],r,c);
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 		}
-		//Barbarian states
+		//Barbarian state(s)
 		//for (int i = 0; i < 1; i++)
 		{
 			Civilization civ = new Civilization("Barbarians");
@@ -140,11 +140,18 @@ public class Grid {
 				c = (int)(Math.random()*tiles[0].length);
 			} while (tiles[r][c].type.equals("Sea"));
 
-			for (int j = 0; j < 3; j++)
+			/*for (int j = 0; j < 3; j++)
 			{
 				addUnit(EntityData.get("Settler"),civ,r,c);
-			}
+			}*/
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
+			
+			//Declare war on everyone
+			for (int i = 0; i < civs.length - 1; i++)
+			{
+				civ.enemies.add(civs[i]);
+				civs[i].enemies.add(civ);
+			}
 		}
 		//makeRivers(terrain);
 		pathFinder = new Pathfinder(this);
