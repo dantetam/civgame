@@ -659,11 +659,15 @@ public class MenuSystem extends BaseSystem {
 	}
 
 	//Send a message, checking for repeats
-	public void message(String message)
+	public void message(String... newMessages)
 	{
-		if (messages.size() == 0) messages.add(message);
-		if (!messages.get(0).equals(message))
-			messages.add(0,message);
+		for (int i = 0; i < newMessages.length; i++)
+		{
+			String message = newMessages[i];
+			if (messages.size() == 0) messages.add(message);
+			if (!messages.get(0).equals(message))
+				messages.add(0,message);
+		}
 		if (!main.grid.civs[0].observe) //Do not shake the GUI if player is not alive
 		{
 			textboxes.get(2).moveDis(0,-5,2);

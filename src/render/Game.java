@@ -122,10 +122,11 @@ public class Game extends PApplet {
 		public PFrame(Game game, int width, int height)
 		{
 			setBounds(0, 0, width, height);
-			tutorial = new Tutorial(game);
+			tutorial = new Tutorial(game,width,height);
 			add(tutorial);
 			setResizable(false);
 			tutorial.init();
+			show();
 		}
 	}
 
@@ -141,6 +142,13 @@ public class Game extends PApplet {
 					if (command.equals("newgame"))
 					{
 						gameMode = "challengeTypeMenu";
+					}
+					else if (command.equals("tutorial"))
+					{
+						PFrame f = new PFrame(this,1500,900);
+						f.setTitle("Tutorial");
+						background(255);
+						noLoop();
 					}
 					else if (command.equals("exitgame"))
 					{

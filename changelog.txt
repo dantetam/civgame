@@ -2,7 +2,7 @@
 * : Implementation detail
 > : Completed
 / : In progress
-- : Abandoned
+X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
@@ -20,6 +20,8 @@ Content
 	Improvements
 >+ Barbarians (can be civilized)
 	- Is always at war with all other civs and city states
+/+ Step by step tutorial
+
 Minor additions:
 > Ledger/comparative menu to compare stats of all civs (EU4/Civ)
 >+ Barbarian units and cities spawn in tiles not revealed
