@@ -62,6 +62,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("info", "Information", 0, 130, 100, 30);
 		menu0.addButton("loadout", "Loadout", 0, 160, 100, 30, 3, 4);
 		menu0.addButton("stats", "Statistics", 0, 190, 100, 30);
+		menu0.addButton("techs", "Techs", 0, 220, 100, 30);
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -381,12 +382,14 @@ public class MenuSystem extends BaseSystem {
 								System.exit(0);
 								continue;
 							}
-							else if (command.equals("info") || 
+							else if (
+									command.equals("info") || 
 									command.equals("minimap") || 
 									command.equals("loadout") || 
 									command.equals("loadoutDisplay") || 
 									command.equals("stats") ||
-									command.equals("continue")
+									command.equals("continue") ||
+									command.equals("techs")
 									)
 							{
 								info = false;
@@ -394,6 +397,7 @@ public class MenuSystem extends BaseSystem {
 								loadoutDisplay = false;
 								loadout = false;
 								textboxes.get(4).active = false;
+								menus.get(5).active = false;
 								if (command.equals("info"))
 								{
 									info = !info;
@@ -427,6 +431,12 @@ public class MenuSystem extends BaseSystem {
 								{
 									main.grid.civs[0].observe = true;
 									continueMenu = false;
+								}
+								else if (command.equals("techs"))
+								{
+									displayTechMenu(main.grid.civs[0]);
+									techMenu = !techMenu;
+									//menus.get(5).active = !menus.get(5).active;
 								}
 								resetAllButtons();
 								continue;

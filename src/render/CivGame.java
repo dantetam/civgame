@@ -198,7 +198,7 @@ public class CivGame extends PApplet {
 			int len = 128;
 			double[][] temp = DiamondSquare.makeTable(50,50,50,50,len+1);
 			map = new DiamondSquare(temp);
-			map.seed(870L);
+			map.seed(seed);
 			//ds.diamond(0, 0, 4);
 			//displayTables = ds.dS(0, 0, len, 40, 0.7)
 			//map.seed(seed);
@@ -217,7 +217,7 @@ public class CivGame extends PApplet {
 			temp[temp[0].length/2][0] = 50;
 			temp[temp[0].length/2][temp.length-1] = 50;
 			map = new DiamondSquare(temp);
-			map.seed(870L);
+			map.seed(seed);
 			//ds.diamond(0, 0, 4);
 			//displayTables = ds.dS(0, 0, len, 40, 0.7)
 			//map.seed(seed);

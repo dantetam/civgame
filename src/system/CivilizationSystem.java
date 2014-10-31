@@ -729,7 +729,7 @@ public class CivilizationSystem extends BaseSystem {
 				civLand[i] = civ.land().size();
 				sum += civLand[i];
 			}
-			for (int i = 0; i < main.grid.civs.length; i++)
+			for (int i = 0; i < main.grid.civs.length - 1; i++)
 			{
 				Civilization civ = main.grid.civs[i];
 				if (civLand[i] == 0 && civ.units.size() == 0 && !civ.observe)
