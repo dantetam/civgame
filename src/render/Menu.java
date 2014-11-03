@@ -15,15 +15,15 @@ public class Menu {
 		active = false;
 	}
 
-	public void addButton(String command, String display, float a, float b, float c, float d)
+	public void addButton(String command, String display, String tooltip, float a, float b, float c, float d)
 	{
-		buttons.add(new Button(command,display,a,b,c,d));
+		buttons.add(new Button(command,display,tooltip,a,b,c,d));
 	}
 
-	public void addButton(String command, String display, float a, float b, float c, float d, int... n)
+	public void addButton(String command, String display, String tooltip, float a, float b, float c, float d, int... n)
 	{
 		ArrayList<String> temp = new ArrayList<String>();
-		buttons.add(new Button(command,display,a,b,c,d,n));
+		buttons.add(new Button(command,display,tooltip,a,b,c,d,n));
 	}
 
 	public Button findButtonByCommand(String name)

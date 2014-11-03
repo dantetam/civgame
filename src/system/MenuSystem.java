@@ -57,12 +57,12 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		menu0.addButton("exitgame", "Exit", 0, 0, 100, 30);
-		menu0.addButton("minimap", "Minimap", 0, 100, 100, 30);
-		menu0.addButton("info", "Information", 0, 130, 100, 30);
-		menu0.addButton("loadout", "Loadout", 0, 160, 100, 30, 3, 4);
-		menu0.addButton("stats", "Statistics", 0, 190, 100, 30);
-		menu0.addButton("techs", "Techs", 0, 220, 100, 30);
+		menu0.addButton("exitgame", "Exit", "", 0, 0, 100, 30);
+		menu0.addButton("minimap", "Minimap", "", 0, 100, 100, 30);
+		menu0.addButton("info", "Information", "", 0, 130, 100, 30);
+		menu0.addButton("loadout", "Loadout", "", 0, 160, 100, 30, 3, 4);
+		menu0.addButton("stats", "Statistics", "", 0, 190, 100, 30);
+		menu0.addButton("techs", "Techs", "", 0, 220, 100, 30);
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -75,7 +75,7 @@ public class MenuSystem extends BaseSystem {
 		String[] names = EntityData.allUnitNames();
 		for (int i = 0; i < names.length; i++)
 		{
-			menu3.addButton("loadoutDisplay" + names[i], names[i], 100, 160 + 30*i, 200, 30);
+			menu3.addButton("loadoutDisplay" + names[i], names[i], "", 100, 160 + 30*i, 200, 30);
 		}
 
 		Menu menu4 = new Menu("LoadoutDisplay");
@@ -85,24 +85,24 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu5);
 
 		Menu menu6 = new Menu("ContinueMenu"); //Menu when player loses the game
-		menu6.addButton("continue", "You have lost the game. Continue?", main.width*2/6, 100, main.width*2/6, 200);
+		menu6.addButton("continue", "You have lost the game. Continue?", "", main.width*2/6, 100, main.width*2/6, 200);
 		menus.add(menu6);
 
 		menu0.active = true;
 
-		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),main.width*5/6,0,200,150);
+		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*5/6,0,200,150);
 		textboxes.add(text0);
 
-		TextBox text1 = new TextBox("SelectedText",new ArrayList<String>(),main.width*4/6,0,200,150);
+		TextBox text1 = new TextBox("SelectedText",new ArrayList<String>(),"",main.width*4/6,0,200,150);
 		textboxes.add(text1);
 
-		TextBox text2 = new TextBox("Messages",new ArrayList<String>(),main.width*5/6,200,main.width*1/6,100);
+		TextBox text2 = new TextBox("Messages",new ArrayList<String>(),"",main.width*5/6,200,main.width*1/6,100);
 		textboxes.add(text2);
 
-		TextBox text3 = new TextBox("PlayerStatus",new ArrayList<String>(),main.width/6,0,300,50);
+		TextBox text3 = new TextBox("PlayerStatus",new ArrayList<String>(),"",main.width/6,0,300,50);
 		textboxes.add(text3);
 
-		TextBox text4 = new TextBox("LedgerText",new ArrayList<String>(),100,190,500,250);
+		TextBox text4 = new TextBox("LedgerText",new ArrayList<String>(),"",100,190,500,250);
 		textboxes.add(text4);
 		text4.active = false;
 
@@ -709,7 +709,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < techNames.size(); i++)
 		{
 			String s = techNames.get(i);
-			menus.get(5).addButton("research" + s, s, main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
+			menus.get(5).addButton("research" + s, s, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
 	}
 
@@ -820,21 +820,21 @@ public class MenuSystem extends BaseSystem {
 	public void updateUnitMenu(String name)
 	{
 		menus.get(1).buttons.clear();
-		menus.get(1).addButton("kill", "Destroy", (float)main.width/3F, (float)main.height*5F/6F, 50, 50);
+		menus.get(1).addButton("kill", "Destroy", "", (float)main.width/3F, (float)main.height*5F/6F, 50, 50);
 		if (name.equals("Settler"))
 		{
-			menus.get(1).addButton("settle", "Settle", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("settle", "Settle", "", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
 		else if (name.equals("Warrior"))
 		{
-			menus.get(1).addButton("raze", "Attack", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("raze", "Attack", "", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
 		else if (name.equals("Worker"))
 		{
 			ArrayList<String> units = main.grid.civs[0].techTree.allowedTileImprovements;
 			for (int i = 0; i < units.size(); i++)
 			{
-				menus.get(1).addButton("build"+units.get(i), units.get(i), (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+				menus.get(1).addButton("build"+units.get(i), units.get(i), "", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			}
 			//menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			//menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
@@ -849,30 +849,30 @@ public class MenuSystem extends BaseSystem {
 
 		if (c.takeover > 0)
 		{
-			menus.get(2).addButton("razeCity", "Raze", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
+			menus.get(2).addButton("razeCity", "Raze", "", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
 		}
 
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		for (int i = 0; i < units.size(); i++)
 		{
-			menus.get(2).addButton("queue" + units.get(i), units.get(i), main.width/3F + 60*i, (float)main.height*5F/6F, 50, 50);
+			menus.get(2).addButton("queue" + units.get(i), units.get(i), "", main.width/3F + 60*i, (float)main.height*5F/6F, 50, 50);
 		}
 
 		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements;
 		for (int i = 0; i < buildings.size(); i++)
 		{
-			menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), main.width/3F + 60*i, (float)main.height*5F/6F + 60, 50, 50);
+			menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "", main.width/3F + 60*i, (float)main.height*5F/6F + 60, 50, 50);
 		}
 		//menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
 
-		menus.get(2).addButton("addAdmin", "Admin+", main.width/6F, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("subAdmin", "Admin-", main.width/6F, (float)main.height*5F/6F + 60, 50, 50);
-		menus.get(2).addButton("addArtist", "Artist+", main.width/6F + 60, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("subArtist", "Artist-", main.width/6F + 60, (float)main.height*5F/6F + 60, 50, 50);
-		menus.get(2).addButton("addSci", "Sci+", main.width/6F + 120, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("subSci", "Sci-", main.width/6F + 120, (float)main.height*5F/6F + 60, 50, 50);
+		menus.get(2).addButton("addAdmin", "Admin+", "", main.width/6F, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("subAdmin", "Admin-", "", main.width/6F, (float)main.height*5F/6F + 60, 50, 50);
+		menus.get(2).addButton("addArtist", "Artist+", "", main.width/6F + 60, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("subArtist", "Artist-", "", main.width/6F + 60, (float)main.height*5F/6F + 60, 50, 50);
+		menus.get(2).addButton("addSci", "Sci+", "", main.width/6F + 120, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("subSci", "Sci-", "", main.width/6F + 120, (float)main.height*5F/6F + 60, 50, 50);
 	}
 
 	public void updateLoadoutDisplay(String name)
@@ -883,7 +883,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < valid.size(); i++)
 		{
 			Improvement temp = valid.get(i);
-			menus.get(4).addButton(en.name + "/" + temp.name, temp.name, main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
+			menus.get(4).addButton(en.name + "/" + temp.name, temp.name, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
 	}
 

@@ -8,9 +8,8 @@ public class TextBox extends Button {
 	//public float posX, posY;
 	//public float sizeX, sizeY;
 	
-	public TextBox(String name, ArrayList<String> display, float a, float b,
-			float c, float d) {
-		super("", display, a, b, c, d);
+	public TextBox(String name, ArrayList<String> display, String tooltip, float a, float b, float c, float d) {
+		super("", display, tooltip, a, b, c, d);
 		this.name = name;
 	}
 	

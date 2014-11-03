@@ -17,11 +17,12 @@ public class Button {
 	public boolean lock = false;
 	public boolean active = true;
 	
-	public Button(String command, String displayString, float a, float b, float c, float d)
+	public Button(String command, String displayString, String tooltip, float a, float b, float c, float d)
 	{
 		this.command = command;
 		display = new ArrayList<String>();
 		display.add(displayString);
+		this.tooltip = tooltip;
 		posX = a;
 		posY = b;
 		sizeX = c;
@@ -34,10 +35,11 @@ public class Button {
 		orders = new ArrayList<Order>();
 	}
 
-	public Button(String command, ArrayList<String> display, float a, float b, float c, float d)
+	public Button(String command, ArrayList<String> display, String tooltip, float a, float b, float c, float d)
 	{
 		this.command = command;
 		this.display = display;
+		this.tooltip = tooltip;
 		posX = a;
 		posY = b;
 		sizeX = c;
@@ -50,10 +52,11 @@ public class Button {
 		orders = new ArrayList<Order>();
 	}
 
-	public Button(String command, ArrayList<String> display, float a, float b, float c, float d, int[] n)
+	public Button(String command, ArrayList<String> display, String tooltip, float a, float b, float c, float d, int[] n)
 	{
 		this.command = command;
 		this.display = display;
+		this.tooltip = tooltip;
 		noOrdersIfMenu = n;
 		posX = a;
 		posY = b;
@@ -67,11 +70,12 @@ public class Button {
 		orders = new ArrayList<Order>();
 	}
 
-	public Button(String command, String displayString, float a, float b, float c, float d, int[] n)
+	public Button(String command, String displayString, String tooltip, float a, float b, float c, float d, int[] n)
 	{
 		this.command = command;
 		display = new ArrayList<String>();
 		display.add(displayString);
+		this.tooltip = tooltip;
 		noOrdersIfMenu = n;
 		posX = a;
 		posY = b;

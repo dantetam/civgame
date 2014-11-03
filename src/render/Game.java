@@ -18,15 +18,15 @@ public class Game extends PApplet {
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public Menu activeMenu;
 	public PFont arial;
-	
+
 	//public long seed = 87069200L;
-	public String seed = "87069200";
+	public String seed = "87069200"; //for easy modification (not by modulo)
 
 	public static void main(String[] args)
 	{
 		PApplet.main(new String[] { Game.class.getName() });
 	}
-	
+
 	public void setup()
 	{
 		size(400,800);
@@ -38,47 +38,47 @@ public class Game extends PApplet {
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		menu0.addButton("newgame", "New Game", 100, 100, 210, 50);
-		menu0.addButton("tutorial", "Tutorial", 100, 160, 210, 50);
-		menu0.addButton("options", "Options", 100, 220, 210, 50);
-		menu0.addButton("exitgame", "Exit", 100, 630, 210, 70);
+		menu0.addButton("newgame", "New Game", "", 100, 100, 210, 50);
+		menu0.addButton("tutorial", "Tutorial", "", 100, 160, 210, 50);
+		menu0.addButton("options", "Options", "", 100, 220, 210, 50);
+		menu0.addButton("exitgame", "Exit", "", 100, 630, 210, 70);
 		//menu1.on();
 
 		Menu menu1 = new Menu("ChallengeTypeMenu");
 		menus.add(menu1);
-		menu1.addButton("conquestgame", "Conquest", 100, 100, 210, 50);
-		menu1.addButton("survivalgame", "Survival", 100, 160, 210, 50);
-		menu1.addButton("backMenu0", "Back", 100, 630, 210, 70);
-		
+		menu1.addButton("conquestgame", "Conquest", "", 100, 100, 210, 50);
+		menu1.addButton("survivalgame", "Survival", "", 100, 160, 210, 50);
+		menu1.addButton("backMenu0", "Back", "", 100, 630, 210, 70);
+
 		Menu menu2 = new Menu("OpponentMenu");
 		menus.add(menu2);
-		menu2.addButton("civs2", "Duel", 100, 100, 210, 50);
-		menu2.addButton("civs3", "Tiny", 100, 160, 210, 50);
-		menu2.addButton("civs5", "Small", 100, 220, 210, 50);
-		menu2.addButton("civs8", "Standard", 100, 280, 210, 50);
-		menu2.addButton("civs12", "Large", 100, 340, 210, 50);
+		menu2.addButton("civs2", "Duel", "", 100, 100, 210, 50);
+		menu2.addButton("civs3", "Tiny", "", 100, 160, 210, 50);
+		menu2.addButton("civs5", "Small", "", 100, 220, 210, 50);
+		menu2.addButton("civs8", "Standard", "", 100, 280, 210, 50);
+		menu2.addButton("civs12", "Large", "", 100, 340, 210, 50);
 		//menu2.addButton("civs16", "Huge", 100, 600, 210, 70);
 		//menu2.addButton("civs64", "Testing", 100, 700, 210, 70);
-		menu2.addButton("backMenu1", "Back", 100, 630, 210, 70);
-		
+		menu2.addButton("backMenu1", "Back", "", 100, 630, 210, 70);
+
 		Menu menu3 = new Menu("TerrainMenu");
 		menus.add(menu3);
-		menu3.addButton("terrain1", "Archipelago", 100, 100, 210, 50);
-		menu3.addButton("terrain2", "Fractal", 100, 160, 210, 50);
-		menu3.addButton("terrain4", "Fractal+", 100, 220, 210, 50);
-		
-		menu3.addButton("terrain10", "Rolling Hills", 100, 280, 210, 50);
-		menu3.addButton("terrain11", "Pangaea", 100, 340, 210, 50);
-		
-		menu3.addButton("terrain5", "Testing", 100, 400, 210, 50);
+		menu3.addButton("terrain1", "Archipelago", "", 100, 100, 210, 50);
+		menu3.addButton("terrain2", "Fractal", "", 100, 160, 210, 50);
+		menu3.addButton("terrain4", "Fractal+", "", 100, 220, 210, 50);
+
+		menu3.addButton("terrain10", "Rolling Hills", "", 100, 280, 210, 50);
+		menu3.addButton("terrain11", "Pangaea", "", 100, 340, 210, 50);
+
+		menu3.addButton("terrain5", "Testing", "", 100, 400, 210, 50);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
-		menu3.addButton("backMenu2", "Back", 100, 630, 210, 70);
-		
+		menu3.addButton("backMenu2", "Back", "", 100, 630, 210, 70);
+
 		Menu menu4 = new Menu("OptionsMenu");
-		
-		menu4.addButton("setSeedAndBack", "Back", 100, 630, 210, 70);
+
+		menu4.addButton("setSeedAndBack", "Back", "", 100, 630, 210, 70);
 		menus.add(menu4);
-		
+
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });
 		activeMenu = menus.get(0);
@@ -116,22 +116,25 @@ public class Game extends PApplet {
 			for (int j = 0; j < b.display.size(); j++)
 				text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
+
+		tooltip.active = false;
 		Button hover = activeMenu.within(mouseX, mouseY);
 		if (hover != null)
-		{
-			tooltip.active = true;
-			tooltip.posX = mouseX;
-			tooltip.posY = mouseY;
-			fill(0);
-			stroke(255);
-			rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
-			fill(255);
-			noStroke();
-			text(tooltip.display, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2);
-		}
-		else
-			tooltip.active = false;
-		//Display the seed being typed
+			if (hover.tooltip != null)
+				if (hover.tooltip.equals(""))
+				{
+					tooltip.active = true;
+					tooltip.posX = mouseX;
+					tooltip.posY = mouseY;
+					fill(0);
+					stroke(255);
+					rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
+					fill(255);
+					noStroke();
+					text(tooltip.display, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2);
+				}
+
+		//Display the seed being typed if in the options menu
 		if (menus.get(4).equals(activeMenu))
 		{
 			fill(0);
@@ -140,7 +143,7 @@ public class Game extends PApplet {
 			text("Seed: " + seed, 205, 185);
 		}
 	}
-	
+
 	public void keyPressed()
 	{
 		if (activeMenu.equals(menus.get(4)))
@@ -157,7 +160,7 @@ public class Game extends PApplet {
 			}
 		}
 	}
-	
+
 	private CivGame renderer;
 	private Tutorial tutorial;
 	//Taken from stack overflow
@@ -258,7 +261,7 @@ public class Game extends PApplet {
 			}
 		}
 	}
-	
+
 	private String[] models = {"City","Farm","Fishing Boats","Forest","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
 	private void setModels()
 	{

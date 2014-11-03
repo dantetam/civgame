@@ -12,7 +12,7 @@ public class Tutorial extends CivGame {
 	public int step = -1;
 	public ArrayList<ArrayList<Character>> path;
 	public ArrayList<String> cond;
-	public boolean[] keysAllowed = new boolean[200];
+	public boolean[] keysAllowed = new boolean[256];
 
 	public Tutorial(Game game, float width, float height)
 	{
@@ -24,7 +24,7 @@ public class Tutorial extends CivGame {
 		path.add(list(32));
 		cond.add("");
 		
-		path.add(list(200));
+		path.add(list(200)); //not a "key"
 		cond.add("");
 	}
 
@@ -72,7 +72,6 @@ public class Tutorial extends CivGame {
 		for (int i = 0; i < keys.length; i++)
 			keysAllowed[(int)keys[i]] = false;
 	}
-
 
 	public void step()
 	{
