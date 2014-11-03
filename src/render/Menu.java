@@ -48,6 +48,19 @@ public class Menu {
 		}
 		return null;
 	}
+	
+	public Button within(float mouseX, float mouseY)
+	{
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			Button b = buttons.get(i);
+			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY)
+			{
+				return b;
+			}
+		}
+		return null;
+	}
 
 	public void pass(boolean[] activeMenus, float mouseX, float mouseY)
 	{

@@ -15,6 +15,7 @@ public class Game extends PApplet {
 	public String challengeType = "";
 	public int numCivs = 2, numCityStates = 0;
 	public ArrayList<Menu> menus;
+	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public Menu activeMenu;
 	public PFont arial;
 	
@@ -115,6 +116,21 @@ public class Game extends PApplet {
 			for (int j = 0; j < b.display.size(); j++)
 				text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
+		Button hover = activeMenu.within(mouseX, mouseY);
+		if (hover != null)
+		{
+			tooltip.active = true;
+			tooltip.posX = mouseX;
+			tooltip.posY = mouseY;
+			fill(0);
+			stroke(255);
+			rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
+			fill(255);
+			noStroke();
+			text(tooltip.display, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2);
+		}
+		else
+			tooltip.active = false;
 		//Display the seed being typed
 		if (menus.get(4).equals(activeMenu))
 		{
