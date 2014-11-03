@@ -6,7 +6,7 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
-(Planned 10/26/2014 ->)
+(Planned 10/26/2014 -> 11/7/2014)
 
 Major additions:
 ... Select civilizations with certain names, attributes, bonuses, and units
@@ -32,7 +32,7 @@ Changes:
 
 Fixes:
 
-(Planned 10/19/2014 ->)
+(Planned 10/19/2014 -> 10/26/2014)
 
 Major additions:
 > Ability to raze conquered land to reduce stress and monotony of late game seen in Civ4, particularly with large maps;

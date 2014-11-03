@@ -38,45 +38,45 @@ public class Game extends PApplet {
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		menu0.addButton("newgame", "New Game", "", 100, 100, 210, 50);
-		menu0.addButton("tutorial", "Tutorial", "", 100, 160, 210, 50);
-		menu0.addButton("options", "Options", "", 100, 220, 210, 50);
-		menu0.addButton("exitgame", "Exit", "", 100, 630, 210, 70);
+		menu0.addButton("newgame", "New Game", "Start a new game.", 100, 100, 210, 50);
+		menu0.addButton("tutorial", "Tutorial", "Start a tutorial level.", 100, 160, 210, 50);
+		menu0.addButton("options", "Options", "Change options such as the level seed.", 100, 220, 210, 50);
+		menu0.addButton("exitgame", "Exit", "Exit the game.", 100, 630, 210, 70);
 		//menu1.on();
 
 		Menu menu1 = new Menu("ChallengeTypeMenu");
 		menus.add(menu1);
-		menu1.addButton("conquestgame", "Conquest", "", 100, 100, 210, 50);
-		menu1.addButton("survivalgame", "Survival", "", 100, 160, 210, 50);
-		menu1.addButton("backMenu0", "Back", "", 100, 630, 210, 70);
+		menu1.addButton("conquestgame", "Conquest", "Destroy all other nations.", 100, 100, 210, 50);
+		menu1.addButton("survivalgame", "Survival", "Survive to be the most powerful.", 100, 160, 210, 50);
+		menu1.addButton("backMenu0", "Back", "Back to the main menu.", 100, 630, 210, 70);
 
 		Menu menu2 = new Menu("OpponentMenu");
 		menus.add(menu2);
-		menu2.addButton("civs2", "Duel", "", 100, 100, 210, 50);
-		menu2.addButton("civs3", "Tiny", "", 100, 160, 210, 50);
-		menu2.addButton("civs5", "Small", "", 100, 220, 210, 50);
-		menu2.addButton("civs8", "Standard", "", 100, 280, 210, 50);
-		menu2.addButton("civs12", "Large", "", 100, 340, 210, 50);
+		menu2.addButton("civs2", "Duel", "2 civs, 4 city states", 100, 100, 210, 50);
+		menu2.addButton("civs3", "Tiny", "3 civs, 6 city states", 100, 160, 210, 50);
+		menu2.addButton("civs5", "Small", "5 civs, 10 city states", 100, 220, 210, 50);
+		menu2.addButton("civs8", "Standard", "8 civs, 16 city states", 100, 280, 210, 50);
+		menu2.addButton("civs12", "Large", "12 civs, 24 city states", 100, 340, 210, 50);
 		//menu2.addButton("civs16", "Huge", 100, 600, 210, 70);
 		//menu2.addButton("civs64", "Testing", 100, 700, 210, 70);
-		menu2.addButton("backMenu1", "Back", "", 100, 630, 210, 70);
+		menu2.addButton("backMenu1", "Back", "Back to the game mode menu.", 100, 630, 210, 70);
 
 		Menu menu3 = new Menu("TerrainMenu");
 		menus.add(menu3);
-		menu3.addButton("terrain1", "Archipelago", "", 100, 100, 210, 50);
-		menu3.addButton("terrain2", "Fractal", "", 100, 160, 210, 50);
-		menu3.addButton("terrain4", "Fractal+", "", 100, 220, 210, 50);
+		menu3.addButton("terrain1", "Archipelago", "A set of small islands.", 100, 100, 210, 50);
+		menu3.addButton("terrain2", "Fractal", "Unpredictable as always.", 100, 160, 210, 50);
+		menu3.addButton("terrain4", "Fractal+", "A true fractal.", 100, 220, 210, 50);
 
-		menu3.addButton("terrain10", "Rolling Hills", "", 100, 280, 210, 50);
-		menu3.addButton("terrain11", "Pangaea", "", 100, 340, 210, 50);
+		menu3.addButton("terrain10", "Rolling Hills", "A set of large islands.", 100, 280, 210, 50);
+		menu3.addButton("terrain11", "Pangaea", "One large landmass and satellite islands.", 100, 340, 210, 50);
 
 		menu3.addButton("terrain5", "Testing", "", 100, 400, 210, 50);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
-		menu3.addButton("backMenu2", "Back", "", 100, 630, 210, 70);
+		menu3.addButton("backMenu2", "Back", "Back to the size menu.", 100, 630, 210, 70);
 
 		Menu menu4 = new Menu("OptionsMenu");
 
-		menu4.addButton("setSeedAndBack", "Back", "", 100, 630, 210, 70);
+		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 100, 630, 210, 70);
 		menus.add(menu4);
 
 		//Main main = new Main();
@@ -121,17 +121,18 @@ public class Game extends PApplet {
 		Button hover = activeMenu.within(mouseX, mouseY);
 		if (hover != null)
 			if (hover.tooltip != null)
-				if (hover.tooltip.equals(""))
+				if (!hover.tooltip.equals(""))
 				{
 					tooltip.active = true;
 					tooltip.posX = mouseX;
 					tooltip.posY = mouseY;
+					tooltip.sizeX = 7*hover.tooltip.length();
 					fill(0);
 					stroke(255);
 					rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
 					fill(255);
 					noStroke();
-					text(tooltip.display, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2);
+					text(hover.tooltip, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2);
 				}
 
 		//Display the seed being typed if in the options menu
