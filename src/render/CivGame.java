@@ -264,6 +264,7 @@ public class CivGame extends PApplet {
 		}
 		int[][] biomes = assignBiome(terrain);
 		grid = new Grid(terrain, biomes, assignResources(biomes), numCivs, numCityStates, (int)cutoff, seed);
+		civilizationSystem.theGrid = grid;
 		//player = new Player(grid.civs[0]);
 		makeRivers(biomes); 
 		

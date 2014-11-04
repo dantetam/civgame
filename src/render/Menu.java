@@ -77,7 +77,7 @@ public class Menu {
 					}
 			if (!skip)
 				if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && !b.orderOfType("expand"))
-					b.expand(b.origSizeX*2, b.origSizeY, 20);
+					b.expand(b.origSizeX*2, b.origSizeY, 10);
 		}
 	}
 

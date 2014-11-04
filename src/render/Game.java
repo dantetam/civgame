@@ -9,6 +9,8 @@ import data.EntityData;
 import processing.core.PApplet;
 import processing.core.PFont;
 
+import menugame.MenuGame;
+
 public class Game extends PApplet {
 
 	//public String gameMode = "MainMenu";
@@ -18,6 +20,8 @@ public class Game extends PApplet {
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public Menu activeMenu;
 	public PFont arial;
+	
+	public MenuGame menuGame;
 
 	//public long seed = 87069200L;
 	public String seed = "87069200"; //for easy modification (not by modulo)
@@ -29,7 +33,7 @@ public class Game extends PApplet {
 
 	public void setup()
 	{
-		size(400,800);
+		size(800,800);
 		arial = createFont("ArialMT-48.vlw", 48);
 		EntityData.init();
 		setModels();
@@ -123,10 +127,11 @@ public class Game extends PApplet {
 			if (hover.tooltip != null)
 				if (!hover.tooltip.equals(""))
 				{
+					//TODO: Word wrap if the text goes off the screen
 					tooltip.active = true;
+					tooltip.sizeX = 7*hover.tooltip.length();
 					tooltip.posX = mouseX;
 					tooltip.posY = mouseY;
-					tooltip.sizeX = 7*hover.tooltip.length();
 					fill(0);
 					stroke(255);
 					rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
