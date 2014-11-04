@@ -100,11 +100,10 @@ public class Game extends PApplet {
 		textFont(arial);
 		textSize(14);
 		
-		if (frameCount % 7 == 0)
+		if (frameCount % 3 == 0)
 		{
 			menuGame.civSystem.requestTurn = true;
 			menuGame.tick();
-			println("tick");
 		}
 		for (int r = 0; r < menuGame.grid.rows; r++)
 		{
