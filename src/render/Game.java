@@ -1,5 +1,8 @@
 package render;
 
+import game.Civilization;
+import game.Tile;
+
 import java.awt.Frame;
 import java.util.ArrayList;
 
@@ -8,7 +11,6 @@ import javax.swing.JFrame;
 import data.EntityData;
 import processing.core.PApplet;
 import processing.core.PFont;
-
 import menugame.MenuGame;
 
 public class Game extends PApplet {
@@ -86,30 +88,40 @@ public class Game extends PApplet {
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });
 		activeMenu = menus.get(0);
+		
+		//Make the "fake" game to be displayed in the menu
+		menuGame = new MenuGame((long)(System.currentTimeMillis()*Math.random()));
 	}
 
 	public void draw()
 	{
 		background(255);
+		noStroke();
 		textFont(arial);
 		textSize(14);
-		//activeMenu = menus.get(0);
-		/*if (gameMode.equals("mainMenu"))
+		
+		if (frameCount % 7 == 0)
 		{
-			activeMenu = menus.get(0);
-		} 
-		else if (gameMode.equals("challengeTypeMenu"))
-		{
-			activeMenu = menus.get(1);
+			menuGame.civSystem.requestTurn = true;
+			menuGame.tick();
+			println("tick");
 		}
-		else if (gameMode.equals("opponentMenu"))
+		for (int r = 0; r < menuGame.grid.rows; r++)
 		{
-			activeMenu = menus.get(2);
+			for (int c = 0; c < menuGame.grid.cols; c++)
+			{
+				Tile t = menuGame.grid.getTile(r, c);
+				Civilization civ = t.owner;
+				if (t.biome == -1)
+					fill(150,225,255);
+				else if (civ != null)
+					fill(civ.r,civ.g,civ.b);
+				else
+					fill(150);
+				rect(400 + 2*r,2*c,2,2);
+			}
 		}
-		else if (gameMode.equals("terrainMenu"))
-		{
-			activeMenu = menus.get(3);
-		}*/
+		
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
 		{
 			fill(0);

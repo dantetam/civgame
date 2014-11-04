@@ -15,18 +15,33 @@ public class MenuGame {
 	public MenuGame(long seed)
 	{
 		this.seed = seed;
-		BaseTerrain map = new PerlinNoise(seed);
+		
+		/*BaseTerrain map = new PerlinNoise(seed);
 		double[][] terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,64,-100});
 		//float con = 1F;
-		float cutoff = -100;
+		float cutoff = -100;*/
+		
+		int len = 128;
+		double[][] temp = DiamondSquare.makeTable(50,50,50,50,len+1);
+		temp[temp.length/2][temp[0].length/2] = 200;
+		temp[0][temp[0].length/2] = 50;
+		temp[temp.length-1][temp[0].length/2] = 50;
+		temp[temp[0].length/2][0] = 50;
+		temp[temp[0].length/2][temp.length-1] = 50;
+		BaseTerrain map = new DiamondSquare(temp);
+		map.seed(seed);
+		double[][] terrain = map.generate(new double[]{0, 0, len, 40, 0.7});
+		float cutoff = 100;
+		
 		int[][] biomes = assignBiome(terrain, (int)cutoff);
-		grid = new Grid(terrain, biomes, assignResources(biomes), 8, 16, (int)cutoff, seed);
+		grid = new Grid(terrain, biomes, assignResources(biomes), 4, 8, (int)cutoff, seed);
 		civSystem = new CivilizationSystem(this);
+		civSystem.theGrid = grid;
 	}
 	
 	public void tick()
 	{
-		civSystem.tick();
+		civSystem.tickNoGame(grid);
 	}
 
 	public int[][] assignResources(int[][] biomes)

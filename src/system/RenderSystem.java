@@ -85,11 +85,11 @@ public class RenderSystem extends BaseSystem {
 					}
 					if (r < main.terrain.length - 1)
 					{
-						if (main.horizontalRivers[r][c]) renderRiver(r+1,c,r,c);
+						if (main.grid.horizontalRivers[r][c]) renderRiver(r+1,c,r,c);
 					}
 					if (c < main.terrain[0].length - 1)
 					{
-						if (main.verticalRivers[r][c]) renderRiver(r,c,r,c+1);
+						if (main.grid.verticalRivers[r][c]) renderRiver(r,c,r,c+1);
 					}
 					/*if (!main.grid.civs[0].revealed[r][c] || main.showAll)
 					{

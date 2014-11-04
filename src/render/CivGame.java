@@ -26,8 +26,6 @@ public class CivGame extends PApplet {
 	public int numCivs, numCityStates;
 	public double[][] terrain;
 	//public boolean[][] rivers;
-	public boolean[][] verticalRivers;
-	public boolean[][] horizontalRivers;
 	public Erosion erosion;
 
 	public Grid grid;
@@ -313,36 +311,37 @@ public class CivGame extends PApplet {
 
 	public void makeRivers(int[][] biomes)
 	{
-		verticalRivers = new boolean[biomes.length][biomes.length - 1];
-		horizontalRivers = new boolean[biomes.length - 1][biomes.length];
-		for (int r = 0; r < verticalRivers.length; r++)
+		grid.verticalRivers = new boolean[biomes.length][biomes.length - 1];
+		grid.horizontalRivers = new boolean[biomes.length - 1][biomes.length];
+		for (int r = 0; r < grid.verticalRivers.length; r++)
 		{
-			for (int c = 0; c < verticalRivers[0].length; c++)
+			for (int c = 0; c < grid.verticalRivers[0].length; c++)
 			{
 				if (biomes[r][c] >= 1 && biomes[r][c+1] >= 1)
 				{
 					if (Math.random() < 0.02*biomes[r][c])
 					{
-						verticalRivers[r][c] = true;
+						grid.verticalRivers[r][c] = true;
 					}
 				}
 			}
 		}
-		for (int r = 0; r < horizontalRivers.length; r++)
+		for (int r = 0; r < grid.horizontalRivers.length; r++)
 		{
-			for (int c = 0; c < horizontalRivers[0].length; c++)
+			for (int c = 0; c < grid.horizontalRivers[0].length; c++)
 			{
 				if (biomes[r][c] >= 1 && biomes[r+1][c] >= 1)
 				{
 					if (Math.random() < 0.02*biomes[r][c])
 					{
-						horizontalRivers[r][c] = true;
+						grid.horizontalRivers[r][c] = true;
 					}
 				}
 			}
 		}
-		grid.verticalRivers = verticalRivers;
-		grid.horizontalRivers = horizontalRivers;
+		//^ Set them directly from here
+		//grid.verticalRivers = verticalRivers;
+		//grid.horizontalRivers = horizontalRivers;
 	}
 
 	public int[][] assignResources(int[][] biomes)
