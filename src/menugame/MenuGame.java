@@ -16,12 +16,12 @@ public class MenuGame {
 	{
 		this.seed = seed;
 		
-		/*BaseTerrain map = new PerlinNoise(seed);
-		double[][] terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,64,-100});
+		BaseTerrain map;
+		double[][] terrain = null; 
 		//float con = 1F;
-		float cutoff = -100;*/
+		float cutoff;
 		
-		int len = 128;
+		/*int len = 64;
 		double[][] temp = DiamondSquare.makeTable(50,50,50,50,len+1);
 		temp[temp.length/2][temp[0].length/2] = 200;
 		temp[0][temp[0].length/2] = 50;
@@ -31,10 +31,76 @@ public class MenuGame {
 		BaseTerrain map = new DiamondSquare(temp);
 		map.seed(seed);
 		double[][] terrain = map.generate(new double[]{0, 0, len, 40, 0.7});
-		float cutoff = 100;
+		float cutoff = 100;*/
+		
+		int[] choices = {1,5,10,11};
+		String terrainType = "terrain" + choices[(int)(Math.random()*choices.length)];
+		System.out.println(terrainType);
+		
+		if (terrainType.equals("terrain1"))
+		{
+			map = new PerlinNoise(seed);
+			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,64,55});
+			cutoff = 55;
+		}
+		else if (terrainType.equals("terrain2"))
+		{
+			map = new RecursiveBlock(seed);
+			terrain = map.generate(new double[]{10,0});
+			cutoff = 1;
+		}
+		else if (terrainType.equals("terrain10"))
+		{
+			int len = 64;
+			double[][] temp = DiamondSquare.makeTable(50,50,50,50,len+1);
+			map = new DiamondSquare(temp);
+			map.seed(seed);
+			//ds.diamond(0, 0, 4);
+			//displayTables = ds.dS(0, 0, len, 40, 0.7)
+			//map.seed(seed);
+			terrain = map.generate(new double[]{0, 0, len, 40, 0.7});
+			//System.out.println(terrain);
+			cutoff = 60;
+		}
+		else if (terrainType.equals("terrain11"))
+		{
+			int len = 64;
+			double[][] temp = DiamondSquare.makeTable(50,50,50,50,len+1);
+			temp[temp.length/2][temp[0].length/2] = 200;
+			temp[0][temp[0].length/2] = 50;
+			temp[temp.length-1][temp[0].length/2] = 50;
+			temp[temp[0].length/2][0] = 50;
+			temp[temp[0].length/2][temp.length-1] = 50;
+			map = new DiamondSquare(temp);
+			map.seed(seed);
+			//ds.diamond(0, 0, 4);
+			//displayTables = ds.dS(0, 0, len, 40, 0.7)
+			//map.seed(seed);
+			terrain = map.generate(new double[]{0, 0, len, 40, 0.7});
+			//System.out.println(terrain);
+			cutoff = 100;
+		}
+		else if (terrainType.equals("terrain4"))
+		{
+			map = new RecursiveBlock(seed);
+			terrain = map.generate(new double[]{10,1});
+			cutoff = 1;
+		}
+		else if (terrainType.equals("terrain5"))
+		{
+			map = new PerlinNoise(seed);
+			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,32,-100});
+			cutoff = -100;
+		}
+		else
+		{
+			System.err.println("No map!");
+			int[] err = new int[5]; err[10] = 0;
+			cutoff = 0;
+		}
 		
 		int[][] biomes = assignBiome(terrain, (int)cutoff);
-		grid = new Grid(terrain, biomes, assignResources(biomes), 4, 8, (int)cutoff, seed);
+		grid = new Grid(terrain, biomes, assignResources(biomes), 4, 0, (int)cutoff, seed);
 		makeRivers(biomes);
 		civSystem = new CivilizationSystem(this);
 		civSystem.theGrid = grid;

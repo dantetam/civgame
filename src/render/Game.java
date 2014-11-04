@@ -24,7 +24,8 @@ public class Game extends PApplet {
 	public PFont arial;
 	
 	public MenuGame menuGame;
-
+	public int tickEvery = 5;
+	
 	//public long seed = 87069200L;
 	public String seed = "87069200"; //for easy modification (not by modulo)
 
@@ -44,45 +45,45 @@ public class Game extends PApplet {
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		menu0.addButton("newgame", "New Game", "Start a new game.", 100, 100, 210, 50);
-		menu0.addButton("tutorial", "Tutorial", "Start a tutorial level.", 100, 160, 210, 50);
-		menu0.addButton("options", "Options", "Change options such as the level seed.", 100, 220, 210, 50);
-		menu0.addButton("exitgame", "Exit", "Exit the game.", 100, 630, 210, 70);
+		menu0.addButton("newgame", "New Game", "Start a new game.", 0, 100, 210, 50);
+		menu0.addButton("tutorial", "Tutorial", "Start a tutorial level.", 0, 160, 210, 50);
+		menu0.addButton("options", "Options", "Change options such as the level seed.", 0, 220, 210, 50);
+		menu0.addButton("exitgame", "Exit", "Exit the game.", 0, 630, 210, 70);
 		//menu1.on();
 
 		Menu menu1 = new Menu("ChallengeTypeMenu");
 		menus.add(menu1);
-		menu1.addButton("conquestgame", "Conquest", "Destroy all other nations.", 100, 100, 210, 50);
-		menu1.addButton("survivalgame", "Survival", "Survive to be the most powerful.", 100, 160, 210, 50);
-		menu1.addButton("backMenu0", "Back", "Back to the main menu.", 100, 630, 210, 70);
+		menu1.addButton("conquestgame", "Conquest", "Destroy all other nations.", 0, 100, 210, 50);
+		menu1.addButton("survivalgame", "Survival", "Survive to be the most powerful.", 0, 160, 210, 50);
+		menu1.addButton("backMenu0", "Back", "Back to the main menu.", 0, 630, 210, 70);
 
 		Menu menu2 = new Menu("OpponentMenu");
 		menus.add(menu2);
-		menu2.addButton("civs2", "Duel", "2 civs, 4 city states", 100, 100, 210, 50);
-		menu2.addButton("civs3", "Tiny", "3 civs, 6 city states", 100, 160, 210, 50);
-		menu2.addButton("civs5", "Small", "5 civs, 10 city states", 100, 220, 210, 50);
-		menu2.addButton("civs8", "Standard", "8 civs, 16 city states", 100, 280, 210, 50);
-		menu2.addButton("civs12", "Large", "12 civs, 24 city states", 100, 340, 210, 50);
+		menu2.addButton("civs2", "Duel", "2 civs, 4 city states", 0, 100, 210, 50);
+		menu2.addButton("civs3", "Tiny", "3 civs, 6 city states", 0, 160, 210, 50);
+		menu2.addButton("civs5", "Small", "5 civs, 10 city states", 0, 220, 210, 50);
+		menu2.addButton("civs8", "Standard", "8 civs, 16 city states", 0, 280, 210, 50);
+		menu2.addButton("civs12", "Large", "12 civs, 24 city states", 0, 340, 210, 50);
 		//menu2.addButton("civs16", "Huge", 100, 600, 210, 70);
 		//menu2.addButton("civs64", "Testing", 100, 700, 210, 70);
-		menu2.addButton("backMenu1", "Back", "Back to the game mode menu.", 100, 630, 210, 70);
+		menu2.addButton("backMenu1", "Back", "Back to the game mode menu.", 0, 630, 210, 70);
 
 		Menu menu3 = new Menu("TerrainMenu");
 		menus.add(menu3);
-		menu3.addButton("terrain1", "Archipelago", "A set of small islands.", 100, 100, 210, 50);
-		menu3.addButton("terrain2", "Fractal", "Unpredictable as always.", 100, 160, 210, 50);
-		menu3.addButton("terrain4", "Fractal+", "A true fractal.", 100, 220, 210, 50);
+		menu3.addButton("terrain1", "Archipelago", "A set of small islands.", 0, 100, 210, 50);
+		menu3.addButton("terrain2", "Fractal", "Unpredictable as always.", 0, 160, 210, 50);
+		menu3.addButton("terrain4", "Fractal+", "A true fractal.", 0, 220, 210, 50);
 
-		menu3.addButton("terrain10", "Rolling Hills", "A set of large islands.", 100, 280, 210, 50);
-		menu3.addButton("terrain11", "Pangaea", "One large landmass and satellite islands.", 100, 340, 210, 50);
+		menu3.addButton("terrain10", "Rolling Hills", "A set of large islands.", 0, 280, 210, 50);
+		menu3.addButton("terrain11", "Pangaea", "One large landmass and satellite islands.", 0, 340, 210, 50);
 
-		menu3.addButton("terrain5", "Testing", "", 100, 400, 210, 50);
+		menu3.addButton("terrain5", "Testing", "", 0, 400, 210, 50);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
-		menu3.addButton("backMenu2", "Back", "Back to the size menu.", 100, 630, 210, 70);
+		menu3.addButton("backMenu2", "Back", "Back to the size menu.", 0, 630, 210, 70);
 
 		Menu menu4 = new Menu("OptionsMenu");
 
-		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 100, 630, 210, 70);
+		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 0, 630, 210, 70);
 		menus.add(menu4);
 
 		//Main main = new Main();
@@ -90,7 +91,8 @@ public class Game extends PApplet {
 		activeMenu = menus.get(0);
 		
 		//Make the "fake" game to be displayed in the menu
-		menuGame = new MenuGame((long)(System.currentTimeMillis()*Math.random()));
+		//menuGame = new MenuGame((long)(System.currentTimeMillis()*Math.random()));
+		newMenuGame((long)(System.currentTimeMillis()*Math.random()));
 	}
 
 	public void draw()
@@ -100,7 +102,7 @@ public class Game extends PApplet {
 		textFont(arial);
 		textSize(14);
 		
-		if (frameCount % 3 == 0)
+		if (frameCount % tickEvery == 0)
 		{
 			menuGame.civSystem.requestTurn = true;
 			menuGame.tick();
@@ -117,7 +119,8 @@ public class Game extends PApplet {
 					fill(civ.r,civ.g,civ.b);
 				else
 					fill(150);
-				rect(400 + 2*r,2*c,2,2);
+				int len = 500/menuGame.grid.rows;
+				rect(250 + len*r,150 + len*c,len,len);
 			}
 		}
 		
@@ -159,6 +162,11 @@ public class Game extends PApplet {
 			fill(255);
 			text("Seed: " + seed, 205, 185);
 		}
+	}
+	
+	public void newMenuGame(long seed)
+	{
+		menuGame = new MenuGame(seed);
 	}
 
 	public void keyPressed()
@@ -204,78 +212,86 @@ public class Game extends PApplet {
 
 	public void mousePressed()
 	{
-		for (int i = 0; i < menus.size(); i++)
+		if (mouseButton == LEFT)
 		{
-			if (menus.get(i).equals(activeMenu))
+			for (int i = 0; i < menus.size(); i++)
 			{
-				String command = menus.get(i).click(mouseX, mouseY);
-				if (command != null && !command.equals(""))
+				if (menus.get(i).equals(activeMenu))
 				{
-					if (command.equals("newgame"))
+					String command = menus.get(i).click(mouseX, mouseY);
+					if (command != null && !command.equals(""))
 					{
-						//gameMode = "challengeTypeMenu";
-						activeMenu = menus.get(1);
-					}
-					else if (command.equals("tutorial"))
-					{
-						PFrame f = new PFrame(this,1500,900);
-						f.setTitle("Tutorial");
-						background(255);
-						noLoop();
-					}
-					else if (command.equals("options"))
-					{
-						activeMenu = menus.get(4);
-						redraw();
-					}
-					else if (command.equals("exitgame"))
-					{
-						System.exit(0);
-					}
-					else if (command.equals("conquestgame"))
-					{
-						challengeType = "conquest";
-						activeMenu = menus.get(2);
-						redraw();
-					}
-					else if (command.equals("survivalgame"))
-					{
-						challengeType = "survival";
-						activeMenu = menus.get(2);
-						redraw();
-					}
-					else if (command.contains("civs"))
-					{
-						numCivs = Integer.parseInt(command.substring(4));
-						numCityStates = (int)Math.floor(numCivs*1.5);
-						activeMenu = menus.get(3);
-						redraw();
-					}
-					else if (command.contains("terrain"))
-					{
-						PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,challengeType,command,Long.parseLong(seed));
-						f.setTitle("Survival: Civilization");
-						setVisible(false);
-						background(255);
-						noLoop();
-					}
-					else if (command.contains("backMenu"))
-					{
-						activeMenu = menus.get(Integer.parseInt(command.substring(8)));
-						redraw();
-					}
-					else if (command.equals("setSeedAndBack"))
-					{
-						if (seed.length() == 0)
+						tickEvery = 20;
+						if (command.equals("newgame"))
 						{
-							seed = "87069200";
+							//gameMode = "challengeTypeMenu";
+							activeMenu = menus.get(1);
 						}
-						activeMenu = menus.get(0);
+						else if (command.equals("tutorial"))
+						{
+							PFrame f = new PFrame(this,1500,900);
+							f.setTitle("Tutorial");
+							background(255);
+							noLoop();
+						}
+						else if (command.equals("options"))
+						{
+							activeMenu = menus.get(4);
+							redraw();
+						}
+						else if (command.equals("exitgame"))
+						{
+							System.exit(0);
+						}
+						else if (command.equals("conquestgame"))
+						{
+							challengeType = "conquest";
+							activeMenu = menus.get(2);
+							redraw();
+						}
+						else if (command.equals("survivalgame"))
+						{
+							challengeType = "survival";
+							activeMenu = menus.get(2);
+							redraw();
+						}
+						else if (command.contains("civs"))
+						{
+							numCivs = Integer.parseInt(command.substring(4));
+							numCityStates = (int)Math.floor(numCivs*1.5);
+							activeMenu = menus.get(3);
+							redraw();
+						}
+						else if (command.contains("terrain"))
+						{
+							PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,challengeType,command,Long.parseLong(seed));
+							f.setTitle("Survival: Civilization");
+							setVisible(false);
+							background(255);
+							noLoop();
+						}
+						else if (command.contains("backMenu"))
+						{
+							activeMenu = menus.get(Integer.parseInt(command.substring(8)));
+							redraw();
+						}
+						else if (command.equals("setSeedAndBack"))
+						{
+							if (seed.length() == 0)
+							{
+								seed = "87069200";
+							}
+							activeMenu = menus.get(0);
+						}
+						//println("Executed " + command);
+						return;
 					}
-					//println("Executed " + command);
-					return;
 				}
 			}
+		}
+		else if (mouseButton == RIGHT)
+		{
+			newMenuGame((long)(System.currentTimeMillis()*Math.random()));
 		}
 	}
 
