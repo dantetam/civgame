@@ -36,7 +36,7 @@ public class Game extends PApplet {
 
 	public void setup()
 	{
-		size(800,800);
+		size(1200,800);
 		arial = createFont("ArialMT-48.vlw", 48);
 		EntityData.init();
 		setModels();
@@ -45,45 +45,45 @@ public class Game extends PApplet {
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		menu0.addButton("newgame", "New Game", "Start a new game.", 0, 100, 210, 50);
-		menu0.addButton("tutorial", "Tutorial", "Start a tutorial level.", 0, 160, 210, 50);
-		menu0.addButton("options", "Options", "Change options such as the level seed.", 0, 220, 210, 50);
-		menu0.addButton("exitgame", "Exit", "Exit the game.", 0, 630, 210, 70);
+		menu0.addButton("newgame", "New Game", "Start a new game.", 70, 100, 210, 50);
+		menu0.addButton("tutorial", "Tutorial", "Start a tutorial level.", 70, 160, 210, 50);
+		menu0.addButton("options", "Options", "Change options such as the level seed.", 70, 220, 210, 50);
+		menu0.addButton("exitgame", "Exit", "Exit the game.", 70, 630, 210, 70);
 		//menu1.on();
 
 		Menu menu1 = new Menu("ChallengeTypeMenu");
 		menus.add(menu1);
-		menu1.addButton("conquestgame", "Conquest", "Destroy all other nations.", 0, 100, 210, 50);
-		menu1.addButton("survivalgame", "Survival", "Survive to be the most powerful.", 0, 160, 210, 50);
-		menu1.addButton("backMenu0", "Back", "Back to the main menu.", 0, 630, 210, 70);
+		menu1.addButton("conquestgame", "Conquest", "Destroy all other nations.", 70, 100, 210, 50);
+		menu1.addButton("survivalgame", "Survival", "Survive to be the most powerful.", 70, 160, 210, 50);
+		menu1.addButton("backMenu0", "Back", "Back to the main menu.", 70, 630, 210, 70);
 
 		Menu menu2 = new Menu("OpponentMenu");
 		menus.add(menu2);
-		menu2.addButton("civs2", "Duel", "2 civs, 4 city states", 0, 100, 210, 50);
-		menu2.addButton("civs3", "Tiny", "3 civs, 6 city states", 0, 160, 210, 50);
-		menu2.addButton("civs5", "Small", "5 civs, 10 city states", 0, 220, 210, 50);
-		menu2.addButton("civs8", "Standard", "8 civs, 16 city states", 0, 280, 210, 50);
-		menu2.addButton("civs12", "Large", "12 civs, 24 city states", 0, 340, 210, 50);
+		menu2.addButton("civs2", "Duel", "2 civs, 4 city states", 70, 100, 210, 50);
+		menu2.addButton("civs3", "Tiny", "3 civs, 6 city states", 70, 160, 210, 50);
+		menu2.addButton("civs5", "Small", "5 civs, 10 city states", 70, 220, 210, 50);
+		menu2.addButton("civs8", "Standard", "8 civs, 16 city states", 70, 280, 210, 50);
+		menu2.addButton("civs12", "Large", "12 civs, 24 city states", 70, 340, 210, 50);
 		//menu2.addButton("civs16", "Huge", 100, 600, 210, 70);
 		//menu2.addButton("civs64", "Testing", 100, 700, 210, 70);
-		menu2.addButton("backMenu1", "Back", "Back to the game mode menu.", 0, 630, 210, 70);
+		menu2.addButton("backMenu1", "Back", "Back to the game mode menu.", 70, 630, 210, 70);
 
 		Menu menu3 = new Menu("TerrainMenu");
 		menus.add(menu3);
-		menu3.addButton("terrain1", "Archipelago", "A set of small islands.", 0, 100, 210, 50);
-		menu3.addButton("terrain2", "Fractal", "Unpredictable as always.", 0, 160, 210, 50);
-		menu3.addButton("terrain4", "Fractal+", "A true fractal.", 0, 220, 210, 50);
+		menu3.addButton("terrain1", "Archipelago", "A set of small islands.", 70, 100, 210, 50);
+		menu3.addButton("terrain2", "Fractal", "Unpredictable as always.", 70, 160, 210, 50);
+		menu3.addButton("terrain4", "Fractal+", "A true fractal.", 70, 220, 210, 50);
 
-		menu3.addButton("terrain10", "Rolling Hills", "A set of large islands.", 0, 280, 210, 50);
-		menu3.addButton("terrain11", "Pangaea", "One large landmass and satellite islands.", 0, 340, 210, 50);
+		menu3.addButton("terrain10", "Rolling Hills", "A set of large islands.", 70, 280, 210, 50);
+		menu3.addButton("terrain11", "Pangaea", "One large landmass and satellite islands.", 70, 340, 210, 50);
 
-		menu3.addButton("terrain5", "Testing", "", 0, 400, 210, 50);
+		menu3.addButton("terrain5", "Testing", "", 70, 400, 210, 50);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
-		menu3.addButton("backMenu2", "Back", "Back to the size menu.", 0, 630, 210, 70);
+		menu3.addButton("backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
 
 		Menu menu4 = new Menu("OptionsMenu");
 
-		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 0, 630, 210, 70);
+		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 70, 630, 210, 70);
 		menus.add(menu4);
 
 		//Main main = new Main();
@@ -119,8 +119,8 @@ public class Game extends PApplet {
 					fill(civ.r,civ.g,civ.b);
 				else
 					fill(150);
-				int len = 500/menuGame.grid.rows;
-				rect(250 + len*r,150 + len*c,len,len);
+				float len = 800F/(float)menuGame.grid.rows;
+				rect(350 + len*r,len*c,len,len);
 			}
 		}
 		

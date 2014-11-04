@@ -25,6 +25,7 @@ Major additions:
 Minor additions:
 > Ledger/comparative menu to compare stats of all civs (EU4/Civ)
 >+ Barbarian units and cities spawn in tiles not revealed
+>+ Menu has simulations of actual games
 
 Changes:
 / Ability to select any tile with the mouse
