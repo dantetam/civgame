@@ -22,10 +22,10 @@ public class Game extends PApplet {
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public Menu activeMenu;
 	public PFont arial;
-	
+
 	public MenuGame menuGame;
-	public int tickEvery = 15;
-	
+	public int tickEvery = 16;
+
 	//public long seed = 87069200L;
 	public String seed = "87069200"; //for easy modification (not by modulo)
 
@@ -89,7 +89,7 @@ public class Game extends PApplet {
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });
 		activeMenu = menus.get(0);
-		
+
 		//Make the "fake" game to be displayed in the menu
 		//menuGame = new MenuGame((long)(System.currentTimeMillis()*Math.random()));
 		newMenuGame((long)(System.currentTimeMillis()*Math.random()));
@@ -101,15 +101,14 @@ public class Game extends PApplet {
 		noStroke();
 		textFont(arial);
 		textSize(14);
-		
+
 		if (frameCount % tickEvery == 0)
 		{
-			menuGame.civSystem.requestTurn = true;
 			menuGame.tick();
 		}
 		else
 		{
-			
+
 		}
 		for (int r = 0; r < menuGame.grid.rows; r++)
 		{
@@ -119,30 +118,11 @@ public class Game extends PApplet {
 				Civilization civ = t.owner;
 				Civilization civ2 = menuGame.civRecord[r][c];
 				float frames = frameCount % tickEvery;
-				if (civ == null && civ2 == null) //No owner
+				if (t.biome == -1)
+					fill(150,225,255);
+				else if (civ == null && civ2 == null) //No owner
 				{
-					if (t.biome == -1)
-						fill(150,225,255);
-					else
-						fill(150);
-				}
-				else if (civ != null && civ2 != null) //Same owner
-				{
-					if (civ.equals(civ2))
-					{
-						if (t.biome == -1)
-							fill(150,225,255);
-						else
-							fill(civ.r,civ.g,civ.b);
-					}
-					else
-					{
-						//Code repeat
-						if (t.biome == -1)
-							fill(150,225,255);
-						else
-							fill(civ.r,civ.g,civ.b);
-					}
+					fill(150);
 				}
 				else if (civ == null && civ2 != null) //Owner was destroyed
 				{
@@ -152,16 +132,39 @@ public class Game extends PApplet {
 				{
 					fill(civ.r*(frames/(float)tickEvery),civ.g*(frames/(float)tickEvery),civ.b*(frames/(float)tickEvery));
 				}
+				else if (civ.equals(civ2)) //Same owner
+				{
+					if (t.biome == -1)
+						fill(150,225,255);
+					else
+						fill(civ.r,civ.g,civ.b);
+				}
 				else //A new owner
 				{
 					fill(255,0,0);
+					if (frames <= tickEvery/2)
+					{
+						fill(
+								civ2.r*(1 - frames*2/(float)tickEvery),
+								civ2.g*(1 - frames*2/(float)tickEvery),
+								civ2.b*(1 - frames*2/(float)tickEvery)
+								);
+					}
+					else
+					{
+						fill(
+								civ.r*(frames*2/(float)tickEvery),
+								civ.g*(frames*2/(float)tickEvery),
+								civ.b*(frames*2/(float)tickEvery)
+								);
+					}
 				}
-				
+
 				float len = 800F/(float)menuGame.grid.rows;
 				rect(350 + len*r,len*c,len,len);
 			}
 		}
-		
+
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
 		{
 			fill(0);
@@ -201,7 +204,7 @@ public class Game extends PApplet {
 			text("Seed: " + seed, 175, 185);
 		}
 	}
-	
+
 	public void newMenuGame(long seed)
 	{
 		menuGame = new MenuGame(seed);

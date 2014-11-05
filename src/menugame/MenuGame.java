@@ -111,13 +111,14 @@ public class MenuGame {
 	
 	public void tick()
 	{
+		civSystem.requestTurn = true;
 		//Record the current owners of tiles
 		for (int r = 0; r < civRecord.length; r++)
 		{
 			for (int c = 0; c < civRecord[0].length; c++)
 			{
 				Civilization civ = grid.getTile(r, c).owner;
-				civRecord[r][c] = null;
+				//civRecord[r][c] = null;
 				if (civ != null)
 					civRecord[r][c] = civ;
 			}
