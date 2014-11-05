@@ -11,6 +11,7 @@ public class MenuGame {
 	public Grid grid;
 	public long seed;
 	public CivilizationSystem civSystem;
+	public String terrainString;
 	
 	public Civilization[][] civRecord;
 	
@@ -37,6 +38,7 @@ public class MenuGame {
 		
 		int[] choices = {1,10,11};
 		String terrainType = "terrain" + choices[(int)(Math.random()*choices.length)];
+		terrainString = terrainType;
 		//System.out.println(terrainType);
 		
 		if (terrainType.equals("terrain1"))
@@ -102,7 +104,7 @@ public class MenuGame {
 		}
 		
 		int[][] biomes = assignBiome(terrain, (int)cutoff);
-		grid = new Grid(terrain, biomes, assignResources(biomes), 4, 0, (int)cutoff, seed);
+		grid = new Grid(terrain, biomes, assignResources(biomes), 4, 8, (int)cutoff, seed);
 		civRecord = new Civilization[terrain.length][terrain[0].length];
 		makeRivers(biomes);
 		civSystem = new CivilizationSystem(this);
@@ -124,7 +126,12 @@ public class MenuGame {
 			}
 		}
 		//Tick the game one turn forward
-		civSystem.tickNoGame(grid);
+		civSystem.tick();
+	}
+	
+	public String[] gameParameters()
+	{
+		return new String[]{terrainString, "4", "8"};
 	}
 
 	public void makeRivers(int[][] biomes)

@@ -24,7 +24,7 @@ public class Game extends PApplet {
 	public PFont arial;
 
 	public MenuGame menuGame;
-	public int tickEvery = 16;
+	public int tickEvery = 8;
 
 	//public long seed = 87069200L;
 	public String seed = "87069200"; //for easy modification (not by modulo)
@@ -83,7 +83,10 @@ public class Game extends PApplet {
 
 		Menu menu4 = new Menu("OptionsMenu");
 
+		menu4.addButton("randomSeed", "Random Seed", "Get a new random number.", 70, 160, 210, 50);
+		menu4.addButton("useCurrentSeed", "Use Current Seed", "Use the seed of the simulation (must choose terrain).", 70, 220, 210, 50);
 		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 70, 630, 210, 70);
+		
 		menus.add(menu4);
 
 		//Main main = new Main();
@@ -164,6 +167,10 @@ public class Game extends PApplet {
 				rect(350 + len*r,len*c,len,len);
 			}
 		}
+		fill(0);
+		text("Seed: " + menuGame.seed,450,25);
+		if (menuGame.civSystem.turnsPassed >= 100)
+			newMenuGame((long)(System.currentTimeMillis()*Math.random()));
 
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
 		{
@@ -199,9 +206,9 @@ public class Game extends PApplet {
 		if (menus.get(4).equals(activeMenu))
 		{
 			fill(0);
-			rect(70, 160, 210, 50);
+			rect(70, 100, 210, 50);
 			fill(255);
-			text("Seed: " + seed, 175, 185);
+			text("Seed: " + seed, 175, 125);
 		}
 	}
 
@@ -326,6 +333,14 @@ public class Game extends PApplet {
 								seed = "87069200";
 							}
 							activeMenu = menus.get(0);
+						}
+						else if (command.equals("randomSeed"))
+						{
+							seed = Long.toString((long)(System.currentTimeMillis()*Math.random()));
+						}
+						else if (command.equals("useCurrentSeed"))
+						{
+							seed = Long.toString(menuGame.seed);
 						}
 						//println("Executed " + command);
 						return;
