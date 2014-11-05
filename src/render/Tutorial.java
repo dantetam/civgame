@@ -85,7 +85,7 @@ public class Tutorial extends CivGame {
 			break;
 		case 1:
 			menuSystem.message("End test");
-			enable('w','a','s','d');
+			enable('w','a','s','d','q','e',(char)32);
 			break;
 		default:
 			break;

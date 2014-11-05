@@ -67,7 +67,8 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("loadout", "Loadout", "Change loadouts of certain units.", 0, 160, 100, 30, 3, 4);
 		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", 0, 190, 100, 30);
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
-
+		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
+		
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
 
@@ -91,7 +92,13 @@ public class MenuSystem extends BaseSystem {
 		Menu menu6 = new Menu("ContinueMenu"); //Menu when player loses the game
 		menu6.addButton("continue", "You have lost the game. Continue?", "", main.width*2/6, 100, main.width*2/6, 200);
 		menus.add(menu6);
-
+		
+		Menu menu7 = new Menu("EncyclopediaMenu");
+		TextBox temp = new TextBox("EncyclopediaText",new ArrayList<String>(),"",100,190,1000,500);
+		menu7.buttons.add(temp);
+		
+		menus.add(menu7);
+		
 		menu0.active = true;
 
 		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*5/6,0,200,150);
@@ -108,6 +115,7 @@ public class MenuSystem extends BaseSystem {
 
 		TextBox text4 = new TextBox("LedgerText",new ArrayList<String>(),"",100,190,500,250);
 		textboxes.add(text4);
+
 		text4.active = false;
 
 		//arial = main.loadFont("ArialMT-48.vlw");
@@ -935,6 +943,12 @@ public class MenuSystem extends BaseSystem {
 			Improvement temp = valid.get(i);
 			menus.get(4).addButton(en.name + "/" + temp.name, temp.name, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
+	}
+	
+	//Only done once
+	public void updateEncyclopedia()
+	{
+		
 	}
 
 	//Encapsulation for selected

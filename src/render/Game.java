@@ -40,6 +40,7 @@ public class Game extends PApplet {
 		arial = createFont("ArialMT-48.vlw", 48);
 		EntityData.init();
 		setModels();
+		getEncyclopedia();
 		frame.setTitle("Survival: Civilization");
 		menus = new ArrayList<Menu>();
 
@@ -361,6 +362,21 @@ public class Game extends PApplet {
 		{
 			String[] data = loadStrings("/models/"+models[i]);
 			EntityData.passModelData(models[i],data);
+		}
+	}
+	
+	private static String[] entries = {};
+	private void getEncyclopedia()
+	{
+		for (int i = 0; i < entries.length; i++)
+		{
+			String[] data = loadStrings("/encyclopedia/"+entries[i]);
+			ArrayList<String> temp = new ArrayList<String>();
+			for (int j = 0; j < data.length; j++)
+			{
+				temp.add(data[j]);
+			}
+			EntityData.encyclopediaEntries.put(entries[i], temp);
 		}
 	}
 

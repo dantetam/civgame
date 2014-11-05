@@ -24,7 +24,9 @@ public class EntityData {
 
 	public static HashMap<String, Improvement> unitImprovementMap;
 	public static HashMap<String, Improvement> cityImprovementMap;
-
+	
+	public static HashMap<String,ArrayList<String>> encyclopediaEntries;
+	
 	public EntityData()
 	{
 
@@ -50,6 +52,8 @@ public class EntityData {
 		setupUnitCosts();
 		setupUnitImprovementCosts(); //longest name yet
 		setupCityImprovementCosts();
+		
+		encyclopediaEntries = new HashMap<String,ArrayList<String>>();
 		//setModels();
 	}
 
