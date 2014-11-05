@@ -17,6 +17,7 @@ import render.CivGame;
 import render.Menu;
 import render.Game.PFrame;
 import render.TextBox;
+import render.Tooltip;
 import units.City;
 import units.Settler;
 import units.Warrior;
@@ -38,6 +39,8 @@ public class MenuSystem extends BaseSystem {
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
 	public Tile[] settlerChoices;
 	public String typeOfLastSelected = "";
+
+	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	//public City citySelected;
 
 	//public TextBox hintTextBox;
@@ -57,12 +60,13 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		menu0.addButton("exitgame", "Exit", "", 0, 0, 100, 30);
-		menu0.addButton("minimap", "Minimap", "", 0, 100, 100, 30);
+		menu0.addButton("exitgame", "Exit", "Exit this session of the game.", 0, 0, 100, 30);
+		menu0.addButton("close", "Close", "Close all open menus.", 0, 70, 100, 30);
+		menu0.addButton("minimap", "Minimap", "Open the minimap of the world.", 0, 100, 100, 30);
 		menu0.addButton("info", "Information", "", 0, 130, 100, 30);
-		menu0.addButton("loadout", "Loadout", "", 0, 160, 100, 30, 3, 4);
-		menu0.addButton("stats", "Statistics", "", 0, 190, 100, 30);
-		menu0.addButton("techs", "Techs", "", 0, 220, 100, 30);
+		menu0.addButton("loadout", "Loadout", "Change loadouts of certain units.", 0, 160, 100, 30, 3, 4);
+		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", 0, 190, 100, 30);
+		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -362,6 +366,27 @@ public class MenuSystem extends BaseSystem {
 				b.display.clear(); //Clear them to be refilled next frame
 			}
 		}
+		
+		tooltip.active = false;
+		Button hover = findButtonWithin(main.mouseX, main.mouseY);
+		if (hover != null)
+			if (hover.tooltip != null)
+				if (!hover.tooltip.equals(""))
+				{
+					//TODO: Word wrap if the text goes off the screen
+					tooltip.active = true;
+					tooltip.sizeX = 7*hover.tooltip.length();
+					tooltip.posX = main.mouseX;
+					tooltip.posY = main.mouseY;
+					main.fill(0);
+					main.stroke(255);
+					main.rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
+					main.fill(255);
+					main.noStroke();
+					main.textAlign(main.CENTER);
+					main.text(hover.tooltip, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 5);
+				}
+		
 		main.hint(PApplet.ENABLE_DEPTH_TEST);
 
 		menuActivated = false;
@@ -381,6 +406,15 @@ public class MenuSystem extends BaseSystem {
 							{
 								System.exit(0);
 								continue;
+							}
+							else if (command.equals("close"))
+							{
+								info = false;
+								minimap = false;
+								loadoutDisplay = false;
+								loadout = false;
+								textboxes.get(4).active = false;
+								menus.get(5).active = false;
 							}
 							else if (
 									command.equals("info") || 
@@ -424,8 +458,8 @@ public class MenuSystem extends BaseSystem {
 								{
 									updateCivStats();
 									//ledgerMenu = true;
-									menus.get(0).findButtonByCommand("stats").lock = !textboxes.get(4).active;
-									textboxes.get(4).active = !textboxes.get(4).active;
+									textboxes.get(4).active = true;
+									menus.get(0).findButtonByCommand("stats").lock = textboxes.get(4).active;
 								}
 								else if (command.equals("continue"))
 								{
@@ -660,14 +694,30 @@ public class MenuSystem extends BaseSystem {
 	public class Click {float mouseX, mouseY; boolean click; Click(boolean click, float x, float y) {this.click = click; mouseX = x; mouseY = y;}}
 	public void queueClick(float mouseX, float mouseY)
 	{
-		clicks.add(0, new Click(true,mouseX, mouseY));
+		clicks.add(0, new Click(true, mouseX, mouseY));
 	}
 
 	public void queueMousePass(float mouseX, float mouseY)
 	{
-		clicks.add(0, new Click(false,mouseX, mouseY));
+		clicks.add(0, new Click(false, mouseX, mouseY));
 	}
 
+	public Button findButtonWithin(float mouseX, float mouseY)
+	{
+		for (int i = 0; i < menus.size(); i++)
+		{
+			for (int j = 0; j < menus.get(i).buttons.size(); j++)
+			{
+				Button b = menus.get(i).within(mouseX, mouseY);
+				if (b != null)
+				{
+					return b;
+				}
+			}
+		}
+		return null;
+	}
+	
 	//Send a message, checking for repeats
 	public void message(String... newMessages)
 	{
@@ -820,21 +870,21 @@ public class MenuSystem extends BaseSystem {
 	public void updateUnitMenu(String name)
 	{
 		menus.get(1).buttons.clear();
-		menus.get(1).addButton("kill", "Destroy", "", (float)main.width/3F, (float)main.height*5F/6F, 50, 50);
+		menus.get(1).addButton("kill", "Destroy", "Destroy this unit.", (float)main.width/3F, (float)main.height*5F/6F, 50, 50);
 		if (name.equals("Settler"))
 		{
-			menus.get(1).addButton("settle", "Settle", "", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("settle", "Settle", "Settle a city here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
 		else if (name.equals("Warrior"))
 		{
-			menus.get(1).addButton("raze", "Attack", "", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("raze", "Attack", "Attack the improvement here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
 		else if (name.equals("Worker"))
 		{
 			ArrayList<String> units = main.grid.civs[0].techTree.allowedTileImprovements;
 			for (int i = 0; i < units.size(); i++)
 			{
-				menus.get(1).addButton("build"+units.get(i), units.get(i), "", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+				menus.get(1).addButton("build"+units.get(i), units.get(i), "Construct " + units.get(i) + " here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			}
 			//menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			//menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
@@ -849,30 +899,30 @@ public class MenuSystem extends BaseSystem {
 
 		if (c.takeover > 0)
 		{
-			menus.get(2).addButton("razeCity", "Raze", "", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
+			menus.get(2).addButton("razeCity", "Raze", "Destroy the city, one citizen at a time.", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
 		}
 
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		for (int i = 0; i < units.size(); i++)
 		{
-			menus.get(2).addButton("queue" + units.get(i), units.get(i), "", main.width/3F + 60*i, (float)main.height*5F/6F, 50, 50);
+			menus.get(2).addButton("queue" + units.get(i), units.get(i), "Queue a " + units.get(i) + ".", main.width/3F + 60*i, (float)main.height*5F/6F, 50, 50);
 		}
 
 		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements;
 		for (int i = 0; i < buildings.size(); i++)
 		{
-			menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "", main.width/3F + 60*i, (float)main.height*5F/6F + 60, 50, 50);
+			menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "Queue a " + buildings.get(i) + ".", main.width/3F + 60*i, (float)main.height*5F/6F + 60, 50, 50);
 		}
 		//menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
 
-		menus.get(2).addButton("addAdmin", "Admin+", "", main.width/6F, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("subAdmin", "Admin-", "", main.width/6F, (float)main.height*5F/6F + 60, 50, 50);
-		menus.get(2).addButton("addArtist", "Artist+", "", main.width/6F + 60, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("subArtist", "Artist-", "", main.width/6F + 60, (float)main.height*5F/6F + 60, 50, 50);
-		menus.get(2).addButton("addSci", "Sci+", "", main.width/6F + 120, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("subSci", "Sci-", "", main.width/6F + 120, (float)main.height*5F/6F + 60, 50, 50);
+		menus.get(2).addButton("addAdmin", "Admin+", "Convert one citizen to admin.", main.width/6F, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("subAdmin", "Admin-", "Revert one admin to citizen.", main.width/6F, (float)main.height*5F/6F + 60, 50, 50);
+		menus.get(2).addButton("addArtist", "Artist+", "Convert one citizen to artist.", main.width/6F + 60, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("subArtist", "Artist-", "Revert one artist to citizen.", main.width/6F + 60, (float)main.height*5F/6F + 60, 50, 50);
+		menus.get(2).addButton("addSci", "Sci+", "Convert one citizen to scientist.", main.width/6F + 120, (float)main.height*5F/6F, 50, 50);
+		menus.get(2).addButton("subSci", "Sci-", "Revert one scientist to citizen.", main.width/6F + 120, (float)main.height*5F/6F + 60, 50, 50);
 	}
 
 	public void updateLoadoutDisplay(String name)
