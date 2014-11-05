@@ -12,6 +12,8 @@ public class MenuGame {
 	public long seed;
 	public CivilizationSystem civSystem;
 	
+	public Civilization[][] civRecord;
+	
 	public MenuGame(long seed)
 	{
 		this.seed = seed;
@@ -33,9 +35,9 @@ public class MenuGame {
 		double[][] terrain = map.generate(new double[]{0, 0, len, 40, 0.7});
 		float cutoff = 100;*/
 		
-		int[] choices = {1,5,10,11};
+		int[] choices = {1,10,11};
 		String terrainType = "terrain" + choices[(int)(Math.random()*choices.length)];
-		System.out.println(terrainType);
+		//System.out.println(terrainType);
 		
 		if (terrainType.equals("terrain1"))
 		{
@@ -89,7 +91,7 @@ public class MenuGame {
 		else if (terrainType.equals("terrain5"))
 		{
 			map = new PerlinNoise(seed);
-			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,32,-100});
+			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,32,-150});
 			cutoff = -100;
 		}
 		else
@@ -101,6 +103,7 @@ public class MenuGame {
 		
 		int[][] biomes = assignBiome(terrain, (int)cutoff);
 		grid = new Grid(terrain, biomes, assignResources(biomes), 4, 0, (int)cutoff, seed);
+		civRecord = new Civilization[terrain.length][terrain[0].length];
 		makeRivers(biomes);
 		civSystem = new CivilizationSystem(this);
 		civSystem.theGrid = grid;
@@ -108,6 +111,18 @@ public class MenuGame {
 	
 	public void tick()
 	{
+		//Record the current owners of tiles
+		for (int r = 0; r < civRecord.length; r++)
+		{
+			for (int c = 0; c < civRecord[0].length; c++)
+			{
+				Civilization civ = grid.getTile(r, c).owner;
+				civRecord[r][c] = null;
+				if (civ != null)
+					civRecord[r][c] = civ;
+			}
+		}
+		//Tick the game one turn forward
 		civSystem.tickNoGame(grid);
 	}
 

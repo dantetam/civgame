@@ -168,7 +168,7 @@ public class MenuSystem extends BaseSystem {
 			main.rect(100,130,200,100);
 			main.fill(255);
 			main.textAlign(PApplet.LEFT);
-			main.text("Work in progress", 115, 150);
+			main.text("Seed: " + main.seed, 115, 150);
 		}
 
 		menus.get(3).active = loadout;

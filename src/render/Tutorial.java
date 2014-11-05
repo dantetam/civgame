@@ -17,7 +17,7 @@ public class Tutorial extends CivGame {
 	public Tutorial(Game game, float width, float height)
 	{
 		super(game, 2, 1, "survival", "terrain11", 8700L);
-		keysAllowed[97] = true;
+		//keysAllowed[97] = true;
 		path = new ArrayList<ArrayList<Character>>();
 		cond = new ArrayList<String>();
 

@@ -24,7 +24,7 @@ public class Game extends PApplet {
 	public PFont arial;
 	
 	public MenuGame menuGame;
-	public int tickEvery = 5;
+	public int tickEvery = 15;
 	
 	//public long seed = 87069200L;
 	public String seed = "87069200"; //for easy modification (not by modulo)
@@ -36,7 +36,7 @@ public class Game extends PApplet {
 
 	public void setup()
 	{
-		size(1200,800);
+		size(1150,800);
 		arial = createFont("ArialMT-48.vlw", 48);
 		EntityData.init();
 		setModels();
@@ -107,18 +107,56 @@ public class Game extends PApplet {
 			menuGame.civSystem.requestTurn = true;
 			menuGame.tick();
 		}
+		else
+		{
+			
+		}
 		for (int r = 0; r < menuGame.grid.rows; r++)
 		{
 			for (int c = 0; c < menuGame.grid.cols; c++)
 			{
 				Tile t = menuGame.grid.getTile(r, c);
 				Civilization civ = t.owner;
-				if (t.biome == -1)
-					fill(150,225,255);
-				else if (civ != null)
-					fill(civ.r,civ.g,civ.b);
-				else
-					fill(150);
+				Civilization civ2 = menuGame.civRecord[r][c];
+				float frames = frameCount % tickEvery;
+				if (civ == null && civ2 == null) //No owner
+				{
+					if (t.biome == -1)
+						fill(150,225,255);
+					else
+						fill(150);
+				}
+				else if (civ != null && civ2 != null) //Same owner
+				{
+					if (civ.equals(civ2))
+					{
+						if (t.biome == -1)
+							fill(150,225,255);
+						else
+							fill(civ.r,civ.g,civ.b);
+					}
+					else
+					{
+						//Code repeat
+						if (t.biome == -1)
+							fill(150,225,255);
+						else
+							fill(civ.r,civ.g,civ.b);
+					}
+				}
+				else if (civ == null && civ2 != null) //Owner was destroyed
+				{
+					fill(civ2.r*(1 - frames/(float)tickEvery),civ2.g*(1 - frames/(float)tickEvery),civ2.b*(1 - frames/(float)tickEvery));
+				}
+				else if (civ != null && civ2 == null) //Terra nullius gets owner
+				{
+					fill(civ.r*(frames/(float)tickEvery),civ.g*(frames/(float)tickEvery),civ.b*(frames/(float)tickEvery));
+				}
+				else //A new owner
+				{
+					fill(255,0,0);
+				}
+				
 				float len = 800F/(float)menuGame.grid.rows;
 				rect(350 + len*r,len*c,len,len);
 			}
@@ -158,9 +196,9 @@ public class Game extends PApplet {
 		if (menus.get(4).equals(activeMenu))
 		{
 			fill(0);
-			rect(100, 160, 210, 50);
+			rect(70, 160, 210, 50);
 			fill(255);
-			text("Seed: " + seed, 205, 185);
+			text("Seed: " + seed, 175, 185);
 		}
 	}
 	
@@ -231,7 +269,9 @@ public class Game extends PApplet {
 						{
 							PFrame f = new PFrame(this,1500,900);
 							f.setTitle("Tutorial");
+							//setVisible(false);
 							background(255);
+							//redraw();
 							noLoop();
 						}
 						else if (command.equals("options"))
@@ -266,8 +306,9 @@ public class Game extends PApplet {
 						{
 							PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,challengeType,command,Long.parseLong(seed));
 							f.setTitle("Survival: Civilization");
-							setVisible(false);
+							//setVisible(false);
 							background(255);
+							//redraw();
 							noLoop();
 						}
 						else if (command.contains("backMenu"))
