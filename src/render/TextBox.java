@@ -3,8 +3,7 @@ package render;
 import java.util.ArrayList;
 
 public class TextBox extends Button {
-	
-	public String name;
+
 	//public float posX, posY;
 	//public float sizeX, sizeY;
 	

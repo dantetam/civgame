@@ -6,7 +6,7 @@ public class Button {
 
 	public float posX, posY;
 	public float sizeX, sizeY;
-	public String command, tooltip;
+	public String name, command, tooltip;
 	public ArrayList<String> display;
 	//public boolean enabled;
 	public ArrayList<Order> orders;

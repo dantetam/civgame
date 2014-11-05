@@ -29,10 +29,16 @@ public class Menu {
 	public Button findButtonByCommand(String name)
 	{
 		for (int i = 0; i < buttons.size(); i++)
-		{
 			if (buttons.get(i).command.equals(name))
 				return buttons.get(i);
-		}
+		return null;
+	}
+	
+	public Button findButtonByName(String name)
+	{
+		for (int i = 0; i < buttons.size(); i++)
+			if (buttons.get(i).name.equals(name))
+				return buttons.get(i);
 		return null;
 	}
 	

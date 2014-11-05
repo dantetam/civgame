@@ -7,6 +7,8 @@ import game.Tech;
 import game.Tile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import data.EntityData;
 import data.Improvement;
@@ -68,7 +70,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", 0, 190, 100, 30);
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
-		
+
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
 
@@ -92,13 +94,14 @@ public class MenuSystem extends BaseSystem {
 		Menu menu6 = new Menu("ContinueMenu"); //Menu when player loses the game
 		menu6.addButton("continue", "You have lost the game. Continue?", "", main.width*2/6, 100, main.width*2/6, 200);
 		menus.add(menu6);
-		
+
 		Menu menu7 = new Menu("EncyclopediaMenu");
-		TextBox temp = new TextBox("EncyclopediaText",new ArrayList<String>(),"",100,190,1000,500);
+		TextBox temp = new TextBox("EncyclopediaText",new ArrayList<String>(),"",100,190,700,500);
+		//System.out.println("Found " + menu7.findButtonByCommand("EncyclopediaText"));
+		temp.name = "EncyclopediaText";
 		menu7.buttons.add(temp);
-		
 		menus.add(menu7);
-		
+
 		menu0.active = true;
 
 		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*5/6,0,200,150);
@@ -118,6 +121,7 @@ public class MenuSystem extends BaseSystem {
 
 		text4.active = false;
 
+		updateEncyclopedia();
 		//arial = main.loadFont("ArialMT-48.vlw");
 	}
 
@@ -187,6 +191,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(4).active = loadoutDisplay;
 		menus.get(5).active = techMenu;
 		menus.get(6).active = continueMenu;
+
 		if (textboxes.get(4).active)
 		{
 			updateCivStats();
@@ -195,10 +200,13 @@ public class MenuSystem extends BaseSystem {
 		//System.out.println(loadout + " " + loadoutDisplay);
 
 		//Render the cursor
-		int width = 6;
-		main.stroke(255);
-		main.fill(0);
-		main.rect((main.width - width)/2, (main.height - width)/2, width, width);
+		if (!menus.get(7).active)
+		{
+			int width = 6;
+			main.stroke(255);
+			main.fill(0);
+			main.rect((main.width - width)/2, (main.height - width)/2, width, width);
+		}
 
 		main.noStroke();
 
@@ -374,7 +382,7 @@ public class MenuSystem extends BaseSystem {
 				b.display.clear(); //Clear them to be refilled next frame
 			}
 		}
-		
+
 		tooltip.active = false;
 		Button hover = findButtonWithin(main.mouseX, main.mouseY);
 		if (hover != null)
@@ -394,7 +402,7 @@ public class MenuSystem extends BaseSystem {
 					main.textAlign(main.CENTER);
 					main.text(hover.tooltip, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 5);
 				}
-		
+
 		main.hint(PApplet.ENABLE_DEPTH_TEST);
 
 		menuActivated = false;
@@ -423,6 +431,7 @@ public class MenuSystem extends BaseSystem {
 								loadout = false;
 								textboxes.get(4).active = false;
 								menus.get(5).active = false;
+								menus.get(7).active = false;
 							}
 							else if (
 									command.equals("info") || 
@@ -431,7 +440,8 @@ public class MenuSystem extends BaseSystem {
 									command.equals("loadoutDisplay") || 
 									command.equals("stats") ||
 									command.equals("continue") ||
-									command.equals("techs")
+									command.equals("techs") ||
+									command.equals("encyclopedia")
 									)
 							{
 								info = false;
@@ -440,6 +450,7 @@ public class MenuSystem extends BaseSystem {
 								loadout = false;
 								textboxes.get(4).active = false;
 								menus.get(5).active = false;
+								menus.get(7).active = false;
 								if (command.equals("info"))
 								{
 									info = !info;
@@ -480,8 +491,23 @@ public class MenuSystem extends BaseSystem {
 									techMenu = !techMenu;
 									//menus.get(5).active = !menus.get(5).active;
 								}
+								else if (command.equals("encyclopedia"))
+								{
+									menus.get(7).active = true;
+								}
 								resetAllButtons();
 								continue;
+							}
+							
+							else if (command.contains("encyclopedia")) //accessing an encyclopedia entry
+							{
+								ArrayList<String> text = EntityData.encyclopediaEntries.get(command.substring(12));
+								TextBox textBox = (TextBox)menus.get(7).findButtonByName("EncyclopediaText");
+								textBox.display.clear();
+								for (int j = 0; j < text.size(); j++)
+								{
+									textBox.display.add(text.get(j));
+								}
 							}
 
 							else if (command.contains("/")) //if it is a entity-improvement command
@@ -725,7 +751,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		return null;
 	}
-	
+
 	//Send a message, checking for repeats
 	public void message(String... newMessages)
 	{
@@ -864,7 +890,7 @@ public class MenuSystem extends BaseSystem {
 		String s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research;
 		textboxes.get(4).display.add(s);
 		textboxes.get(4).display.add("");
-		
+
 		textboxes.get(4).display.add("Civilizations:");
 		for (int i = 1; i < main.grid.civs.length; i++)
 		{
@@ -944,11 +970,17 @@ public class MenuSystem extends BaseSystem {
 			menus.get(4).addButton(en.name + "/" + temp.name, temp.name, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
 	}
-	
+
 	//Only done once
 	public void updateEncyclopedia()
 	{
-		
+		int n = 0;
+		for (Entry<String, ArrayList<String>> i: EntityData.encyclopediaEntries.entrySet())
+		{
+			String key = i.getKey();
+			menus.get(7).addButton("encyclopedia" + key, key, "", 830, 190 + 30*n, 100, 30);
+			n++;
+		}
 	}
 
 	//Encapsulation for selected

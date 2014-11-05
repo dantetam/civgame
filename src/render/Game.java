@@ -365,7 +365,7 @@ public class Game extends PApplet {
 		}
 	}
 	
-	private static String[] entries = {};
+	private static String[] entries = {"City"};
 	private void getEncyclopedia()
 	{
 		for (int i = 0; i < entries.length; i++)
