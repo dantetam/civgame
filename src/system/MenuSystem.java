@@ -101,6 +101,9 @@ public class MenuSystem extends BaseSystem {
 		temp.name = "EncyclopediaText";
 		menu7.buttons.add(temp);
 		menus.add(menu7);
+		
+		Menu menu8 = new Menu("DiplomacyMenu");
+		menus.add(menu8);
 
 		menu0.active = true;
 
@@ -432,6 +435,7 @@ public class MenuSystem extends BaseSystem {
 								textboxes.get(4).active = false;
 								menus.get(5).active = false;
 								menus.get(7).active = false;
+								menus.get(8).active = false;
 							}
 							else if (
 									command.equals("info") || 
@@ -451,6 +455,7 @@ public class MenuSystem extends BaseSystem {
 								textboxes.get(4).active = false;
 								menus.get(5).active = false;
 								menus.get(7).active = false;
+								menus.get(8).active = false;
 								if (command.equals("info"))
 								{
 									info = !info;
@@ -508,6 +513,10 @@ public class MenuSystem extends BaseSystem {
 								{
 									textBox.display.add(text.get(j));
 								}
+							}
+							else if (command.contains("diplomacy"))
+							{
+								
 							}
 
 							else if (command.contains("/")) //if it is a entity-improvement command
@@ -897,7 +906,11 @@ public class MenuSystem extends BaseSystem {
 			c = main.grid.civs[i];
 			s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
 			textboxes.get(4).display.add(s);
+			menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with this nation.", 600, 190+60+15*(i-1), 90, 15);
 		}
+		textboxes.get(4).sizeY = (main.grid.civs.length - 1 + 4)*15 + 15;
+		menus.get(8).active = true;
+		//100,190,500,250
 	}
 
 	//Choose which buttons to show depending on unit (e.g. only settler can settle)
