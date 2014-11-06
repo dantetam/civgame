@@ -104,7 +104,10 @@ public class MenuSystem extends BaseSystem {
 		
 		Menu menu8 = new Menu("DiplomacyMenu");
 		menus.add(menu8);
-
+		
+		Menu menu9 = new Menu("TalkToCivMenu"); //For lack of a better name...
+		menus.add(menu9);
+		
 		menu0.active = true;
 
 		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*5/6,0,200,150);
@@ -428,6 +431,7 @@ public class MenuSystem extends BaseSystem {
 							}
 							else if (command.equals("close"))
 							{
+								//TODO: Replace with a loop later
 								info = false;
 								minimap = false;
 								loadoutDisplay = false;
@@ -436,6 +440,7 @@ public class MenuSystem extends BaseSystem {
 								menus.get(5).active = false;
 								menus.get(7).active = false;
 								menus.get(8).active = false;
+								menus.get(9).active = false;
 							}
 							else if (
 									command.equals("info") || 
@@ -445,7 +450,8 @@ public class MenuSystem extends BaseSystem {
 									command.equals("stats") ||
 									command.equals("continue") ||
 									command.equals("techs") ||
-									command.equals("encyclopedia")
+									command.equals("encyclopedia") ||
+									command.contains("diplomacy")
 									)
 							{
 								info = false;
@@ -456,6 +462,7 @@ public class MenuSystem extends BaseSystem {
 								menus.get(5).active = false;
 								menus.get(7).active = false;
 								menus.get(8).active = false;
+								menus.get(9).active = false;
 								if (command.equals("info"))
 								{
 									info = !info;
@@ -500,6 +507,13 @@ public class MenuSystem extends BaseSystem {
 								{
 									menus.get(7).active = true;
 								}
+								else if (command.contains("diplomacy"))
+								{
+									menus.get(8).active = false;
+									menus.get(9).active = true;
+									Civilization civ = main.grid.civs[Integer.parseInt(command.substring(9))];
+									updateDiplomacyMenu(civ);
+								}
 								resetAllButtons();
 								continue;
 							}
@@ -513,10 +527,6 @@ public class MenuSystem extends BaseSystem {
 								{
 									textBox.display.add(text.get(j));
 								}
-							}
-							else if (command.contains("diplomacy"))
-							{
-								
 							}
 
 							else if (command.contains("/")) //if it is a entity-improvement command
@@ -901,6 +911,7 @@ public class MenuSystem extends BaseSystem {
 		textboxes.get(4).display.add("");
 
 		textboxes.get(4).display.add("Civilizations:");
+		menus.get(8).active = false;
 		for (int i = 1; i < main.grid.civs.length; i++)
 		{
 			c = main.grid.civs[i];
@@ -982,6 +993,15 @@ public class MenuSystem extends BaseSystem {
 			Improvement temp = valid.get(i);
 			menus.get(4).addButton(en.name + "/" + temp.name, temp.name, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
+	}
+	
+	public void updateDiplomacyMenu(Civilization civ)
+	{
+		menus.get(9).buttons.clear();
+		
+		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height*2/6);
+		text0.display.add(civ.name);
+		menus.get(9).buttons.add(text0);
 	}
 
 	//Only done once
