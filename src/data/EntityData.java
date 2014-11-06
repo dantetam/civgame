@@ -27,6 +27,8 @@ public class EntityData {
 	
 	public static HashMap<String,ArrayList<String>> encyclopediaEntries;
 	
+	public static HashMap<String,Civilization> civs;
+	
 	public EntityData()
 	{
 
@@ -41,7 +43,10 @@ public class EntityData {
 		unitModelMap = new HashMap<String, float[][]>();
 		unitImprovementMap = new HashMap<String, Improvement>();
 		cityImprovementMap = new HashMap<String, Improvement>();
-
+		
+		encyclopediaEntries = new HashMap<String,ArrayList<String>>();
+		civs = new HashMap<String,Civilization>();
+		
 		f = new HashMap<String, Integer>();
 		m = new HashMap<String, Integer>();
 		g = new HashMap<String, Integer>();
@@ -52,8 +57,8 @@ public class EntityData {
 		setupUnitCosts();
 		setupUnitImprovementCosts(); //longest name yet
 		setupCityImprovementCosts();
+		setupCivBonuses();
 		
-		encyclopediaEntries = new HashMap<String,ArrayList<String>>();
 		//setModels();
 	}
 
@@ -125,6 +130,31 @@ public class EntityData {
 		brickColorMap.put(1032,new Color(1,0,0.74901962280273));
 	}
 
+	public static void setupCivBonuses()
+	{
+		civs.put("Achaea", new Civilization("Achaea",list(),0,0,255));
+		civs.put("Athens", new Civilization("Athens",list(),255,255,255));
+		civs.put("Corinth", new Civilization("Corinth",list(),0,255,255));
+		civs.put("Crete", new Civilization("Crete",list(),0,150,0));
+		civs.put("Ephesus", new Civilization("Ephesus",list(),150,150,150));
+		civs.put("Epirus", new Civilization("Epirus",list(),150,150,150));
+		civs.put("Illyria", new Civilization("Illyria",list(),0,255,0));
+		civs.put("Lydia", new Civilization("Lydia",list(),150,150,150));
+		civs.put("Macedonia", new Civilization("Macedonia",list(),0,0,0));
+		civs.put("Rhodes", new Civilization("Rhodes",list(),150,150,150));
+		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0));
+		civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
+		civs.put("Thrace", new Civilization("Thrace",list(),150,225,255));
+	}
+	
+	public static ArrayList<String> list(String... strings)
+	{
+		ArrayList<String> temp = new ArrayList<String>();
+		for (int i = 0; i < strings.length; i++)
+			temp.add(strings[i]);
+		return temp;
+	}
+	
 	public static float[][] getModel(String name)
 	{
 		return unitModelMap.get(name);

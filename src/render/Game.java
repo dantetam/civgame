@@ -5,6 +5,7 @@ import game.Tile;
 
 import java.awt.Frame;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 
@@ -16,7 +17,7 @@ import menugame.MenuGame;
 public class Game extends PApplet {
 
 	//public String gameMode = "MainMenu";
-	public String challengeType = "";
+	public String challengeType = "", civChoice = "";
 	public int numCivs = 2, numCityStates = 0;
 	public ArrayList<Menu> menus;
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
@@ -90,6 +91,18 @@ public class Game extends PApplet {
 		
 		menus.add(menu4);
 
+		Menu menu5 = new Menu("CivMenu");
+		menus.add(menu5);
+		int n = 0;
+		for (Entry<String, Civilization> i : EntityData.civs.entrySet())
+		{
+			menu5.addButton("civ"+i.getKey(), i.getKey(), "", 70, 100+30*n, 210, 30);
+			n++;
+		}
+		
+		menu2.addButton("backMenu1", "Back", "Back to the game mode menu.", 70, 630, 210, 70);
+
+		
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });
 		activeMenu = menus.get(0);
@@ -306,10 +319,18 @@ public class Game extends PApplet {
 							activeMenu = menus.get(2);
 							redraw();
 						}
+						//Picking the number of civs to play with
 						else if (command.contains("civs"))
 						{
 							numCivs = Integer.parseInt(command.substring(4));
 							numCityStates = (int)Math.floor(numCivs*1.5);
+							activeMenu = menus.get(5);
+							redraw();
+						}
+						//Picking the civ to play as
+						else if (command.contains("civ"))
+						{
+							civChoice = command.substring(3);
 							activeMenu = menus.get(3);
 							redraw();
 						}

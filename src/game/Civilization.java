@@ -23,6 +23,7 @@ public class Civilization {
 
 	public TechTree techTree;
 	public String researchTech;
+	public ArrayList<String> bonuses;
 	//public ArrayList<Tile> tiles;
 
 	public int food, gold, metal, research;
@@ -32,7 +33,7 @@ public class Civilization {
 	
 	public boolean observe = false;
 
-	public Civilization(String name)
+	public Civilization(String name, ArrayList<String> bonuses, float r, float g, float b)
 	{
 		cities = new ArrayList<City>();
 		//capital = null;
@@ -56,6 +57,33 @@ public class Civilization {
 			beelineTo("Fletching");
 		}
 		//System.out.println(techTree.researched("Agriculture"));
+		this.r = r; this.g = g; this.b = b;
+		this.bonuses = bonuses;
+	}
+	
+	public Civilization(Civilization c)
+	{
+		cities = new ArrayList<City>();
+		//capital = null;
+		units = new ArrayList<GameEntity>();
+		improvements = new ArrayList<TileEntity>();
+		unitImprovements = new HashMap<String, Improvement>();
+		String[] names = EntityData.allUnitNames();
+		for (int i = 0; i < names.length; i++)
+		{
+			unitImprovements.put(names[i], null);
+		}
+		enemies = new ArrayList<Civilization>();
+		//tiles = new ArrayList<Tile>();
+		name = c.name;
+		food = 17; gold = 0; metal = 0; research = 0;
+		techTree = new TechTree();
+		beeline = new ArrayList<String>();
+		if (!name.equals("Player"))
+		{
+			beelineTo("Metal Working");
+			beelineTo("Fletching");
+		}
 	}
 
 	public int bordering(Civilization other)

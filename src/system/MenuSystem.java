@@ -206,7 +206,7 @@ public class MenuSystem extends BaseSystem {
 		//System.out.println(loadout + " " + loadoutDisplay);
 
 		//Render the cursor
-		if (!menus.get(7).active)
+		if (!menus.get(7).active && !menus.get(9).active)
 		{
 			int width = 6;
 			main.stroke(255);
@@ -999,7 +999,7 @@ public class MenuSystem extends BaseSystem {
 	{
 		menus.get(9).buttons.clear();
 		
-		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height*2/6);
+		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height/24);
 		text0.display.add(civ.name);
 		menus.get(9).buttons.add(text0);
 	}

@@ -71,9 +71,12 @@ public class Grid {
 		}
 		for (int i = 0; i < numCivs; i++)
 		{
+			/*Civilization civ = new Civilization("Civilization " + Double.toString(
+					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
+					));*/
 			Civilization civ = new Civilization("Civilization " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
-					));
+					),new ArrayList<String>(),255,255,255);
 			civ.r = (float)(rand.nextDouble()*255); civ.sR = civ.r;
 			civ.g = (float)(rand.nextDouble()*255); civ.sG = civ.g;
 			civ.b = (float)(rand.nextDouble()*255); civ.sB = civ.b;
@@ -105,9 +108,12 @@ public class Grid {
 		}
 		for (int i = numCivs; i < numCivs + numCityStates; i++)
 		{
-			CityState civ = new CityState("City State " + Double.toString(
+			/*CityState civ = new CityState("City State " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
-					));
+					));*/
+			CityState civ = new CityState("Civilization " + Double.toString(
+					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
+					),new ArrayList<String>(),255,255,255);
 			civ.r = (float)(rand.nextDouble()*255); civ.sR = 255;
 			civ.g = (float)(rand.nextDouble()*255); civ.sG = 255;
 			civ.b = (float)(rand.nextDouble()*255); civ.sB = 255;
@@ -129,7 +135,8 @@ public class Grid {
 		//Barbarian state(s)
 		//for (int i = 0; i < 1; i++)
 		{
-			Civilization civ = new Civilization("Barbarians");
+			//Civilization civ = new Civilization("Barbarians");
+			Civilization civ = new Civilization("Barbarians",new ArrayList<String>(),255,255,255);
 			civ.r = 0; civ.sR = 0;
 			civ.g = 0; civ.sG = 255;
 			civ.b = 0; civ.sB = 0;
