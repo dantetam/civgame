@@ -37,7 +37,7 @@ public class Game extends PApplet {
 
 	public void setup()
 	{
-		size(1150,800);
+		size(800,800);
 		arial = createFont("ArialMT-48.vlw", 48);
 		EntityData.init();
 		setModels();
@@ -81,7 +81,7 @@ public class Game extends PApplet {
 
 		menu3.addButton("terrain5", "Testing", "", 70, 400, 210, 50);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
-		menu3.addButton("backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
+		menu3.addButton("backMenu5", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
 
 		Menu menu4 = new Menu("OptionsMenu");
 
@@ -96,13 +96,13 @@ public class Game extends PApplet {
 		int n = 0;
 		for (Entry<String, Civilization> i : EntityData.civs.entrySet())
 		{
-			menu5.addButton("civ"+i.getKey(), i.getKey(), "", 70, 100+30*n, 210, 30);
+			menu5.addButton("civ"+i.getKey(), i.getKey(), "", 70, 100+40*n, 210, 30);
 			n++;
 		}
+		menu5.addButton("backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
 		
 		menu2.addButton("backMenu1", "Back", "Back to the game mode menu.", 70, 630, 210, 70);
 
-		
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });
 		activeMenu = menus.get(0);
@@ -178,7 +178,7 @@ public class Game extends PApplet {
 				}
 
 				float len = 800F/(float)menuGame.grid.rows;
-				rect(350 + len*r,len*c,len,len);
+				rect(len*r,len*c,len,len);
 			}
 		}
 		fill(255,0,0);

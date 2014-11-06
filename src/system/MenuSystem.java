@@ -70,7 +70,8 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", 0, 190, 100, 30);
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
-
+		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 300, main.width*1/6, 50).lock = true;
+		
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
 
@@ -349,7 +350,7 @@ public class MenuSystem extends BaseSystem {
 		if (c.researchTech == null)
 			textboxes.get(3).display.add("No research");
 		else
-			textboxes.get(3).display.add("Researching " + c.researchTech + " at " + c.researchProgress()*1000/1000);
+			textboxes.get(3).display.add("Researching " + c.researchTech + " at " + (int)((c.researchProgress()*1000/1000)*100) + "%");
 
 		for (int menu = 0; menu < menus.size(); menu++)
 		{

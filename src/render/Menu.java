@@ -15,9 +15,11 @@ public class Menu {
 		active = false;
 	}
 
-	public void addButton(String command, String display, String tooltip, float a, float b, float c, float d)
+	public Button addButton(String command, String display, String tooltip, float a, float b, float c, float d)
 	{
-		buttons.add(new Button(command,display,tooltip,a,b,c,d));
+		Button temp = new Button(command,display,tooltip,a,b,c,d);
+		buttons.add(temp);
+		return temp;
 	}
 
 	public void addButton(String command, String display, String tooltip, float a, float b, float c, float d, int... n)

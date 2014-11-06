@@ -29,6 +29,7 @@ public class RenderSystem extends BaseSystem {
 	public void tick()
 	{
 		main.background(150,225,255);
+		//main.background(0);
 		//main.smooth(4);
 		//background(background);
 		main.noStroke();

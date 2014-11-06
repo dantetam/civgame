@@ -9,7 +9,8 @@ X : Abandoned
 (Planned 10/26/2014 -> 11/7/2014)
 
 Major additions:
-/+ Select civilizations with certain names, attributes, bonuses, and units
+>+ Select civilizations 
+	/+ with certain names, attributes, bonuses, and units
 ... Functioning combat system based off of health and relative strengths and possibly dice rolls (Civ5/EU4 hybrid)
 > Fluid menu style with animations and tweens
 ...+ Graphical UIs + colorful menus + set color scheme/style
