@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
 
 import units.City;
 import data.EntityData;
@@ -21,11 +22,11 @@ public class Grid {
 
 	public final int aggroDistance = 500;
 	public boolean won = false;
-	
+
 	//Ensure that random numbers are the same
 	public Random rand;
-	
-	public Grid(double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff, long seed)
+
+	public Grid(String playerCiv, double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff, long seed)
 	{
 		rand = new Random(seed);
 		civs = new Civilization[numCivs+numCityStates+1];
@@ -74,9 +75,24 @@ public class Grid {
 			/*Civilization civ = new Civilization("Civilization " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
 					));*/
-			Civilization civ = new Civilization("Civilization " + Double.toString(
+			Civilization civ;
+			if (i == 0)
+			{
+				civ = new Civilization(EntityData.civs.get(playerCiv));
+				EntityData.civs.remove(playerCiv);
+			}
+			else
+			{
+				//Get another random civ
+				Set<String> keys = EntityData.civs.keySet();
+				String key = (String)keys.toArray()[(int)(Math.random()*keys.size())];
+				civ = new Civilization(EntityData.civs.get(key));
+				//Remove it from the available list
+				EntityData.civs.remove(key);
+			}
+			/*Civilization civ = new Civilization("Civilization " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
-					),new ArrayList<String>(),255,255,255);
+					),new ArrayList<String>(),255,255,255);*/
 			civ.r = (float)(rand.nextDouble()*255); civ.sR = civ.r;
 			civ.g = (float)(rand.nextDouble()*255); civ.sG = civ.g;
 			civ.b = (float)(rand.nextDouble()*255); civ.sB = civ.b;
@@ -105,15 +121,21 @@ public class Grid {
 			}*/
 			addUnit(en,civs[i],r,c);
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
+			
+			if (i == numCivs - 1) break;
 		}
 		for (int i = numCivs; i < numCivs + numCityStates; i++)
 		{
 			/*CityState civ = new CityState("City State " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
 					));*/
-			CityState civ = new CityState("Civilization " + Double.toString(
-					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
-					),new ArrayList<String>(),255,255,255);
+			//Get another random civ
+			Set<String> keys = EntityData.cityStates.keySet();
+			String key = (String)keys.toArray()[(int)(Math.random()*keys.size())];
+			CityState civ = new CityState(EntityData.cityStates.get(key));
+			//Remove it from the available list
+			EntityData.civs.remove(key);
+
 			civ.r = (float)(rand.nextDouble()*255); civ.sR = 255;
 			civ.g = (float)(rand.nextDouble()*255); civ.sG = 255;
 			civ.b = (float)(rand.nextDouble()*255); civ.sB = 255;
@@ -136,7 +158,7 @@ public class Grid {
 		//for (int i = 0; i < 1; i++)
 		{
 			//Civilization civ = new Civilization("Barbarians");
-			Civilization civ = new Civilization("Barbarians",new ArrayList<String>(),255,255,255);
+			Civilization civ = new Civilization("Barbarians",new ArrayList<String>(),0,0,0);
 			civ.r = 0; civ.sR = 0;
 			civ.g = 0; civ.sG = 255;
 			civ.b = 0; civ.sB = 0;
@@ -157,7 +179,7 @@ public class Grid {
 				addUnit(EntityData.get("Settler"),civ,r,c);
 			}*/
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
-			
+
 			//Declare war on everyone
 			for (int i = 0; i < civs.length - 1; i++)
 			{
@@ -165,6 +187,8 @@ public class Grid {
 				civs[i].enemies.add(civ);
 			}
 		}
+		//Reset civilizations
+		EntityData.setupCivBonuses();
 		//makeRivers(terrain);
 		pathFinder = new Pathfinder(this);
 	}

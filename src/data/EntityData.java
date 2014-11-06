@@ -24,11 +24,12 @@ public class EntityData {
 
 	public static HashMap<String, Improvement> unitImprovementMap;
 	public static HashMap<String, Improvement> cityImprovementMap;
-	
+
 	public static HashMap<String,ArrayList<String>> encyclopediaEntries;
-	
+
 	public static HashMap<String,Civilization> civs;
-	
+	public static HashMap<String,CityState> cityStates;
+
 	public EntityData()
 	{
 
@@ -43,10 +44,11 @@ public class EntityData {
 		unitModelMap = new HashMap<String, float[][]>();
 		unitImprovementMap = new HashMap<String, Improvement>();
 		cityImprovementMap = new HashMap<String, Improvement>();
-		
+
 		encyclopediaEntries = new HashMap<String,ArrayList<String>>();
 		civs = new HashMap<String,Civilization>();
-		
+		cityStates = new HashMap<String,CityState>();
+
 		f = new HashMap<String, Integer>();
 		m = new HashMap<String, Integer>();
 		g = new HashMap<String, Integer>();
@@ -58,7 +60,7 @@ public class EntityData {
 		setupUnitImprovementCosts(); //longest name yet
 		setupCityImprovementCosts();
 		setupCivBonuses();
-		
+
 		//setModels();
 	}
 
@@ -132,6 +134,7 @@ public class EntityData {
 
 	public static void setupCivBonuses()
 	{
+		civs.clear();
 		civs.put("Achaea", new Civilization("Achaea",list(),0,0,255));
 		civs.put("Athens", new Civilization("Athens",list(),255,255,255));
 		civs.put("Corinth", new Civilization("Corinth",list(),0,255,255));
@@ -140,13 +143,19 @@ public class EntityData {
 		civs.put("Epirus", new Civilization("Epirus",list(),150,150,150));
 		civs.put("Illyria", new Civilization("Illyria",list(),0,255,0));
 		civs.put("Lydia", new Civilization("Lydia",list(),150,150,150));
-		civs.put("Macedonia", new Civilization("Macedonia",list(),0,0,0));
+		civs.put("Macedonia", new Civilization("Macedonia",list(),255,150,0));
 		civs.put("Rhodes", new Civilization("Rhodes",list(),150,150,150));
 		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0));
 		civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
 		civs.put("Thrace", new Civilization("Thrace",list(),150,225,255));
+
+		for (int i = 0; i < 30; i++)
+		{
+			cityStates.put(""+i, new CityState(""+i,list(),(float)(Math.random()*255),(float)(Math.random()*255),(float)(Math.random()*255)));
+		}
+
 	}
-	
+
 	public static ArrayList<String> list(String... strings)
 	{
 		ArrayList<String> temp = new ArrayList<String>();
@@ -154,7 +163,7 @@ public class EntityData {
 			temp.add(strings[i]);
 		return temp;
 	}
-	
+
 	public static float[][] getModel(String name)
 	{
 		return unitModelMap.get(name);
@@ -249,7 +258,7 @@ public class EntityData {
 		temp.cost(1,1,1,0,0,0);
 		temp.set(1,1,1,0,0,0,1);
 		unitImprovementMap.put(temp.name, temp);
-		
+
 		temp = new Improvement("CopperTools");
 		temp.cost(1.25,1.25,0,0,0,0);
 		temp.set(0,0,0,0,0,0,0.8);
@@ -282,7 +291,7 @@ public class EntityData {
 		temp.fit("allranged");
 		unitImprovementMap.put(temp.name, temp);
 	}
-	
+
 	private static void setupCityImprovementCosts()
 	{
 		Improvement temp;
@@ -348,7 +357,7 @@ public class EntityData {
 		return null;
 		//return false;
 	}
-	
+
 	public static boolean queueCityImprovement(City city, String impr)
 	{
 		if (!city.hasImprovement(impr))

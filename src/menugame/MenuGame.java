@@ -104,7 +104,7 @@ public class MenuGame {
 		}
 		
 		int[][] biomes = assignBiome(terrain, (int)cutoff);
-		grid = new Grid(terrain, biomes, assignResources(biomes), 4, 8, (int)cutoff, seed);
+		grid = new Grid("Athens", terrain, biomes, assignResources(biomes), 4, 8, (int)cutoff, seed);
 		civRecord = new Civilization[terrain.length][terrain[0].length];
 		makeRivers(biomes);
 		civSystem = new CivilizationSystem(this);

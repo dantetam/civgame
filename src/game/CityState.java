@@ -8,4 +8,8 @@ public class CityState extends Civilization {
 		super(name, bonuses, r, g, b);
 	}
 
+	public CityState(CityState cityState) {
+		super(cityState);
+	}
+
 }

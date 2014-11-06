@@ -252,9 +252,9 @@ public class Game extends PApplet {
 	private Tutorial tutorial;
 	//Taken from stack overflow
 	public class PFrame extends JFrame {
-		public PFrame(Game game, int width, int height, int numCivs, int numCityStates, String challengeType, String terrainType, long seed) {
+		public PFrame(Game game, int width, int height, int numCivs, int numCityStates, String challengeType, String terrainType, String civChoice, long seed) {
 			setBounds(0, 0, width, height);
-			renderer = new CivGame(game, numCivs, numCityStates, challengeType, terrainType, seed);
+			renderer = new CivGame(game, numCivs, numCityStates, challengeType, terrainType, civChoice, seed);
 			add(renderer);
 			setResizable(false);
 			renderer.init();
@@ -336,7 +336,7 @@ public class Game extends PApplet {
 						}
 						else if (command.contains("terrain"))
 						{
-							PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,challengeType,command,Long.parseLong(seed));
+							PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,challengeType,command,civChoice,Long.parseLong(seed));
 							f.setTitle("Survival: Civilization");
 							//setVisible(false);
 							background(255);

@@ -21,8 +21,7 @@ public class CivGame extends PApplet {
 	public Game game;
 
 	public BaseTerrain map;
-	public String challengeType;
-	public String terrainType;
+	public String challengeType, terrainType, civChoice;
 	public int numCivs, numCityStates;
 	public double[][] terrain;
 	//public boolean[][] rivers;
@@ -47,13 +46,14 @@ public class CivGame extends PApplet {
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
 
-	public CivGame(Game game, int numCivs, int numCityStates, String challengeType, String terrainType, long seed)
+	public CivGame(Game game, int numCivs, int numCityStates, String challengeType, String terrainType, String civChoice, long seed)
 	{
 		this.game = game;
 		this.numCivs = numCivs;
 		this.numCityStates = numCityStates;
 		this.challengeType = challengeType;
 		this.terrainType = terrainType;
+		this.civChoice = civChoice;
 
 		this.seed = seed;
 
@@ -261,7 +261,7 @@ public class CivGame extends PApplet {
 			//Don't sample and downsize it
 		}
 		int[][] biomes = assignBiome(terrain);
-		grid = new Grid(terrain, biomes, assignResources(biomes), numCivs, numCityStates, (int)cutoff, seed);
+		grid = new Grid(civChoice, terrain, biomes, assignResources(biomes), numCivs, numCityStates, (int)cutoff, seed);
 		civilizationSystem.theGrid = grid;
 		//player = new Player(grid.civs[0]);
 		makeRivers(biomes); 
