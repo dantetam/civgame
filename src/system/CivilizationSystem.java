@@ -694,21 +694,25 @@ public class CivilizationSystem extends BaseSystem {
 				{
 					for (int c = 0; c < revealedByCivs[0].length; c++)
 					{
-						if (grid.getTile(r, c).biome != -1)
-							if (Math.random() < 0.01)
-								if (grid.civs[grid.civs.length-1].cities.size()*4 +
-										grid.civs[grid.civs.length-1].units.size() < turnsPassed/10)
-								{
-									if (grid.civs[grid.civs.length-1].cities.size() == 0)
-										grid.addUnit(EntityData.get("Settler"),grid.civs[grid.civs.length-1],r,c);
-									double rand = Math.random();
-									if (rand < 0.02)
-										grid.addUnit(EntityData.get("Settler"),grid.civs[grid.civs.length-1],r,c);
-									else
-										grid.addUnit(EntityData.get("Warrior"),grid.civs[grid.civs.length-1],r,c);
-									//System.out.println("Spawned barbarian: " + r + ", " + c);
-								}
+						//String test = revealedByCivs[r][c] ? "T" : "F";
+						//System.out.print(test + " ");
+						if (!revealedByCivs[r][c])
+							if (grid.getTile(r, c).biome != -1)
+								if (Math.random() < 0.01)
+									if (grid.civs[grid.civs.length-1].cities.size()*4 +
+											grid.civs[grid.civs.length-1].units.size() < turnsPassed/10)
+									{
+										if (grid.civs[grid.civs.length-1].cities.size() == 0)
+											grid.addUnit(EntityData.get("Settler"),grid.civs[grid.civs.length-1],r,c);
+										double rand = Math.random();
+										if (rand < 0.02)
+											grid.addUnit(EntityData.get("Settler"),grid.civs[grid.civs.length-1],r,c);
+										else
+											grid.addUnit(EntityData.get("Warrior"),grid.civs[grid.civs.length-1],r,c);
+										//System.out.println("Spawned barbarian: " + r + ", " + c);
+									}
 					}
+					//System.out.println();
 				}
 			}
 
