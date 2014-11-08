@@ -20,6 +20,7 @@ public class Civilization {
 	public ArrayList<TileEntity> improvements;
 	public HashMap<String, Improvement> unitImprovements; //one chosen improvement for each future unit of a certain name
 	public ArrayList<Civilization> enemies;
+	public ArrayList<Civilization> openBorders;
 
 	public TechTree techTree;
 	public String researchTech;
@@ -46,6 +47,7 @@ public class Civilization {
 			unitImprovements.put(names[i], null);
 		}
 		enemies = new ArrayList<Civilization>();
+		openBorders = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		this.name = name;
 		food = 17; gold = 0; metal = 0; research = 0;
@@ -74,6 +76,7 @@ public class Civilization {
 			unitImprovements.put(names[i], null);
 		}
 		enemies = new ArrayList<Civilization>();
+		openBorders = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		name = c.name;
 		food = 17; gold = 0; metal = 0; research = 0;
@@ -83,6 +86,14 @@ public class Civilization {
 		{
 			beelineTo("Metal Working");
 			beelineTo("Fletching");
+		}
+	}
+	
+	public void cancelDeals(Civilization other)
+	{
+		if (openBorders.contains(other))
+		{
+			openBorders.remove(other);
 		}
 	}
 

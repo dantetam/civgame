@@ -28,19 +28,20 @@ Resource mechanics improvement
 	- Small but constant maintenance for certain resources e.g. iron
 	
 Minor additions:
-Changes to diplomacy menu
-	- Declare war, alliance
+/ Changes to diplomacy menu
+	/ - Declare war, alliance
 	- Trade gold, culture, research
-	- Request open borders
+	> - Request open borders
+>+ Players move in their respective turns
 
 Changes:
 New GUI library
 	* Fix bad inheritances
 	- Allow for non-square elements such as circle bars
-Player must declare war on a civ to enter its territory
+> Player must declare war on a civ to enter its territory
 	
 Fixes:
-Fix barbarians spawning in revealed tiles
+> Fix barbarians spawning in revealed tiles
 
 (Planned 10/26/2014 -> 11/7/2014)
 

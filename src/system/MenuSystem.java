@@ -709,6 +709,25 @@ public class MenuSystem extends BaseSystem {
 								if (s.sci > 0)
 									s.sci--;
 							}
+							
+							else if (command.contains("openBorders"))
+							{
+								Civilization a = main.grid.civs[0];
+								Civilization b = main.grid.civs[Integer.parseInt(command.substring(11))];
+								a.openBorders.add(b);
+								b.openBorders.add(a);
+								main.menuSystem.message("Requested open borders from " + b.name + ".");
+							}
+							else if (command.contains("declareWar"))
+							{
+								Civilization a = main.grid.civs[0];
+								Civilization b = main.grid.civs[Integer.parseInt(command.substring(11))];
+								a.cancelDeals(b);
+								a.enemies.add(b);
+								b.enemies.add(a);
+								main.menuSystem.message("Declared war on " + b.name + "!");
+							}
+							
 							else
 							{
 								System.out.println("Invalid or non-functioning command: " + command);
@@ -1027,8 +1046,19 @@ public class MenuSystem extends BaseSystem {
 	{
 		menus.get(9).buttons.clear();
 		
-		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height/24);
+		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height/12);
 		text0.display.add(civ.name);
+		
+		menus.get(9).addButton("openBorders"+civ.id, 
+				"Request open borders.",
+				"Allow unrestricted travel between you and this nation.", 
+				main.width*2/6,main.height*2/6 + main.height/12 + 10,main.width*2/6,main.height/24);
+		
+		menus.get(9).addButton("declareWar"+civ.id,
+				"Declare war.",
+				"Declare war on this civilization (and cancel all deals).",
+				main.width*2/6,main.height*2/6 + main.height/12 + main.height/24 + 20,main.width*2/6,main.height/24);
+		
 		menus.get(9).buttons.add(text0);
 	}
 

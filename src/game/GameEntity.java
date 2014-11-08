@@ -141,7 +141,7 @@ public abstract class GameEntity extends BaseEntity {
 			else
 			{
 				//Allow the operation if they're at war
-				if (owner.war(t.owner))
+				if (owner.war(t.owner) || owner.openBorders.contains(t.owner))
 					return waddleToExact(r,c);	
 				else 
 					return false;
@@ -234,7 +234,7 @@ public abstract class GameEntity extends BaseEntity {
 				location.grid.removeUnit(location.improvement);
 				owner.food += 10;
 			}
-			else if (!owner.equals(location.owner))
+			else if (owner.war(location.owner))
 			{
 				//System.out.println("takeover");
 				if (location.improvement.name.equals("City"))
