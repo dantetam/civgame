@@ -108,7 +108,7 @@ public abstract class GameEntity extends BaseEntity {
 		}
 	}
 
-	public void waddleToExact(int r, int c)
+	public boolean waddleToExact(int r, int c)
 	{
 		queueTiles.clear();
 		if (location.grid.getTile(r,c) != null)
@@ -119,9 +119,35 @@ public abstract class GameEntity extends BaseEntity {
 				if (tiles.size() > 0)
 				{
 					queueTiles = tiles;
+					return true;
 				}
 			}
 		}
+		return false;
+	}
+	
+	//Try to queue a certain set of tiles
+	//If it works, return true
+	public boolean playerWaddleToExact(int r, int c)
+	{
+		queueTiles.clear();
+		Tile t = location.grid.getTile(r,c);
+		if (t != null)
+		{
+			if (t.owner == null)
+			{
+				return waddleToExact(r,c);	
+			}
+			else
+			{
+				//Allow the operation if they're at war
+				if (owner.war(t.owner))
+					return waddleToExact(r,c);	
+				else 
+					return false;
+			}
+		}
+		return false;
 	}
 
 	public void passiveWaddle(int r, int c)

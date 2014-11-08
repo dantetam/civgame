@@ -223,19 +223,10 @@ public class InputSystem extends BaseSystem {
 			{
 				if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
 				{
-					//System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
-					int r = t.row - en.location.row;
-					int c = t.col - en.location.col;
-					//System.out.println(en.location.row + " " + en.location.col + " to " + t.row + " " + t.col);
-					//System.out.println(r + " " + c);
-					en.queueTiles.clear();
-					en.waddleTo(r,c);
-					en.playerTick();
-					/*while (en.action > 0)
-					{
+					if (en.playerWaddleToExact(t.row, t.col))
 						en.playerTick();
-						en.action--;
-					}*/
+					else
+						main.menuSystem.message("Your unit cannot go to this tile.");
 				}
 			}
 		}
