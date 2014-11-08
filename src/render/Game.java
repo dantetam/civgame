@@ -100,8 +100,6 @@ public class Game extends PApplet {
 			n++;
 		}
 		menu5.addButton("backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
-		
-		menu2.addButton("backMenu1", "Back", "Back to the game mode menu.", 70, 630, 210, 70);
 
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });

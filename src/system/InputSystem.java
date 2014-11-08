@@ -230,6 +230,7 @@ public class InputSystem extends BaseSystem {
 					//System.out.println(r + " " + c);
 					en.queueTiles.clear();
 					en.waddleTo(r,c);
+					en.playerTick();
 					/*while (en.action > 0)
 					{
 						en.playerTick();

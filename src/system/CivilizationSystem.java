@@ -640,25 +640,20 @@ public class CivilizationSystem extends BaseSystem {
 			//if (grid.civs.length > 1)
 			//{
 			//loop through player units
-			Civilization theCiv = grid.civs[0];
-			for (int j = 0; j < theCiv.improvements.size(); j++)
+			if (guiExists)
 			{
-				if (guiExists)
-					theCiv.improvements.get(j).playerTick();
-				else
-					theCiv.improvements.get(j).tick();
-			}
-			for (int j = 0; j < theCiv.units.size(); j++)
-			{
-				if (guiExists)
+				Civilization theCiv = grid.civs[0];
+				for (int j = 0; j < theCiv.units.size(); j++)
+				{
 					theCiv.units.get(j).playerTick();
-				else
-					theCiv.units.get(j).tick();
+				}
 			}
+
+			int iter = guiExists ? 1 : 0; //iterate through the "player" civilization if it's a menu simulation
 			//loop through enemy units
-			for (int i = 1; i < grid.civs.length - 1; i++)
+			for (; iter < grid.civs.length - 1; iter++)
 			{
-				Civilization civ = grid.civs[i];
+				Civilization civ = grid.civs[iter];
 				for (int j = 0; j < civ.improvements.size(); j++)
 				{
 					civ.improvements.get(j).tick();
@@ -669,14 +664,14 @@ public class CivilizationSystem extends BaseSystem {
 				}
 			}
 			//loop through barbarians
-			theCiv = grid.civs[grid.civs.length-1];
-			for (int j = 0; j < theCiv.improvements.size(); j++)
+			Civilization bar = grid.civs[grid.civs.length-1];
+			for (int j = 0; j < bar.improvements.size(); j++)
 			{
-				theCiv.improvements.get(j).tick();
+				bar.improvements.get(j).tick();
 			}
-			for (int j = 0; j < theCiv.units.size(); j++)
+			for (int j = 0; j < bar.units.size(); j++)
 			{
-				theCiv.units.get(j).barbarianTick();
+				bar.units.get(j).barbarianTick();
 			}
 			//}
 

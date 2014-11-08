@@ -6,19 +6,57 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
+(Planned 11/8/2014 -> 11/9/2014 with 10/26/2014 -> 11/7/2014)
+
+Major additions:
+Balance game
+	- Fix barbarians spawning and attacking too aggressively
+	- Fix civilizations getting early game warriors too early
+	- Fix food distribution (return to city by city basis)
+	- Fix metal distribution i.e. do not store metal
+	- Store extra food when too much food (limited), and take extra food when starving
+	- Cities can raise temporary garrisons if enemy units on land
+Improve graphics
+	- Custom (certain) or generated textures for land and sea tiles
+	- Decrease graphics lag on slower computers
+		* On unit selection
+	- Better unit models
+	- Unit animations when moving
+Resource mechanics improvement
+	- Each resource harvested in a tile has a certain flow of resource
+	- The resource can be "spent" on units to build
+	- Small but constant maintenance for certain resources e.g. iron
+	
+Minor additions:
+Changes to diplomacy menu
+	- Declare war, alliance
+	- Trade gold, culture, research
+	- Request open borders
+
+Changes:
+New GUI library
+	* Fix bad inheritances
+	- Allow for non-square elements such as circle bars
+Player must declare war on a civ to enter its territory
+	
+Fixes:
+Fix barbarians spawning in revealed tiles
+
 (Planned 10/26/2014 -> 11/7/2014)
 
 Major additions:
 >+ Select civilizations 
 	/+ with certain names, attributes, bonuses, and units
 ... Functioning combat system based off of health and relative strengths and possibly dice rolls (Civ5/EU4 hybrid)
+	- Defense bonus on hills, mountain, forest, city, and offensive bonus on plains
+	- Health based (not Civ4 style)
 > Fluid menu style with animations and tweens
 ...+ Graphical UIs + colorful menus + set color scheme/style
 >+ Win and loss conditions corresponding to gamemode (w/ sandbox mode)
 ... Content
 	... Techs
 	... Units
-	... Improvements
+	... City and Tile improvements
 >+ Barbarians (can be civilized)
 	- Is always at war with all other civs and city states
 /+ Step by step tutorial

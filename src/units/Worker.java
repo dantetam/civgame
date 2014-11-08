@@ -6,7 +6,7 @@ import game.GameEntity;
 public class Worker extends GameEntity {
 
 	public double workTime = 1;
-	
+
 	public Worker(String name) {
 		super(name);
 		health = 5;
@@ -18,28 +18,31 @@ public class Worker extends GameEntity {
 		health = 5;
 		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
-	
+
 	public void playerTick()
 	{
-		if (queue != null)
+		while (action > 0)
 		{
-			//System.out.println(queue);
-			queueTurns--;
-			if (queueTurns <= 0)
+			if (queue != null)
 			{
-				location.grid.addUnit(EntityData.get(queue), owner, location.row, location.col);
-				queueTurns = 0; //just to be sure
-				queue = null;
+				//System.out.println(queue);
+				queueTurns--;
+				if (queueTurns <= 0)
+				{
+					location.grid.addUnit(EntityData.get(queue), owner, location.row, location.col);
+					queueTurns = 0; //just to be sure
+					queue = null;
+				}
+			}
+			else if (queueTiles.size() > 0)
+			{
+				//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
+				passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+				queueTiles.remove(queueTiles.size()-1);
 			}
 		}
-		else if (queueTiles.size() > 0)
-		{
-			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
-			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
-			queueTiles.remove(queueTiles.size()-1);
-		}
 	}
-	
+
 	public void barbarianTick()
 	{
 		tick();

@@ -30,17 +30,20 @@ public abstract class GameEntity extends BaseEntity {
 
 	public void waddle()
 	{
-		if (queueTiles.size() > 0)
+		while (action > 0)
 		{
-			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
-			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
-			queueTiles.remove(queueTiles.size()-1);
-		}
-		else
-		{
-			int r = (int)(Math.random()*3) - 1;
-			int c = (int)(Math.random()*3) - 1;
-			passiveWaddle(r,c);
+			if (queueTiles.size() > 0)
+			{
+				//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
+				passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+				queueTiles.remove(queueTiles.size()-1);
+			}
+			else
+			{
+				int r = (int)(Math.random()*3) - 1;
+				int c = (int)(Math.random()*3) - 1;
+				passiveWaddle(r,c);
+			}
 		}
 	}
 
@@ -54,25 +57,28 @@ public abstract class GameEntity extends BaseEntity {
 		}
 		else
 		{
-			int r,c;
-			int trials = 0;
-			while (true)
+			while (action > 0)
 			{
-				r = (int)(Math.random()*3) - 1;
-				c = (int)(Math.random()*3) - 1;
-				Tile t = location.grid.getTile(location.row + r, location.col + c);
-				if (t != null)
-					if (owner.equals(t.owner)) 
-						break;
-				trials++;
-				if (trials >= 10)
+				int r,c;
+				int trials = 0;
+				while (true)
 				{
 					r = (int)(Math.random()*3) - 1;
 					c = (int)(Math.random()*3) - 1;
-					break;
+					Tile t = location.grid.getTile(location.row + r, location.col + c);
+					if (t != null)
+						if (owner.equals(t.owner)) 
+							break;
+					trials++;
+					if (trials >= 10)
+					{
+						r = (int)(Math.random()*3) - 1;
+						c = (int)(Math.random()*3) - 1;
+						break;
+					}
 				}
+				passiveWaddle(r,c);
 			}
-			passiveWaddle(r,c);
 		}
 	}
 
@@ -129,6 +135,7 @@ public abstract class GameEntity extends BaseEntity {
 				if (enemy == null)
 				{
 					location.grid.move(this, r, c);
+					action--;
 				}
 			}
 		}
@@ -147,53 +154,12 @@ public abstract class GameEntity extends BaseEntity {
 				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 				if (enemy == null)
 				{
-					/*if (en.location.improvement != null && !owner.equals(location.improvement.owner))//owner.enemies.contains(en.location.owner))
-					{
-						System.out.println("takeover2");
-						if (en.location.improvement.name.equals("City"))
-						{
-							System.out.println("takeover");
-							City city = (City)en.location.improvement;
-							if (city.owner.capital != null)
-							{
-								if (city.equals(city.owner.capital))
-								{
-									city.owner.capital = null;
-								}
-							}
-							for (int k = city.land.size() - 1; k >= 0; k--)
-							{
-								Tile t = city.land.get(k);
-								if (t.improvement != null)
-								{
-									t.improvement.owner = owner;
-								}
-								t.owner = owner;
-							}
-							city.owner.cities.remove(city);
-							if (city.owner.cities.size() > 0)
-							{
-								city.owner.capital = city.owner.cities.get(0);
-							}
-							city.owner = owner;
-							city.takeover = 5;
-							owner.cities.add(city);
-							System.out.println("_________");
-							System.out.println(city.owner);
-							System.out.println(owner);
-						}
-						//Just in case
-						//The first condition is not needed
-						else if (!(en.location.improvement instanceof City) && !owner.equals(location.improvement.owner))//owner.enemies.contains(en.location.improvement.owner)) 
-						{
-							//System.out.println("raze");
-							location.grid.removeUnit(en.location.improvement);
-							//en.location.improvement = null;
-						}
-					}*/
 					if (owner.enemies.contains(location.grid.getTile(en.location.row+r,en.location.col+c).owner) ||
 							location.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
+					{
 						location.grid.move(this, r, c);
+						action--;
+					}
 				}
 				if (enemy != null)
 				{
@@ -203,6 +169,7 @@ public abstract class GameEntity extends BaseEntity {
 						{
 							location.grid.removeUnit(enemy);
 							location.grid.move(en,r,c);
+							action--;
 						}
 						else
 						{
@@ -216,6 +183,7 @@ public abstract class GameEntity extends BaseEntity {
 						{
 							location.grid.removeUnit(enemy);
 							location.grid.move(en,r,c);
+							action--;
 						}
 						else
 						{

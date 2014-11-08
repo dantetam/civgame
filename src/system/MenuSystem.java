@@ -70,7 +70,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", 0, 190, 100, 30);
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
-		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 300, main.width*1/6, 50).lock = true;
+		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 300, main.width*1/6, 30).lock = true;
 		
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -108,6 +108,9 @@ public class MenuSystem extends BaseSystem {
 		
 		Menu menu9 = new Menu("TalkToCivMenu"); //For lack of a better name...
 		menus.add(menu9);
+		
+		Menu menu10 = new Menu("Logs"); //For lack of a better name...
+		menus.add(menu10);
 		
 		menu0.active = true;
 
@@ -352,6 +355,7 @@ public class MenuSystem extends BaseSystem {
 		else
 			textboxes.get(3).display.add("Researching " + c.researchTech + " at " + (int)((c.researchProgress()*1000/1000)*100) + "%");
 
+		updateMessages();
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
 			if (menus.get(menu).active)
@@ -409,7 +413,7 @@ public class MenuSystem extends BaseSystem {
 					main.textAlign(main.CENTER);
 					main.text(hover.tooltip, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 5);
 				}
-
+		
 		main.hint(PApplet.ENABLE_DEPTH_TEST);
 
 		menuActivated = false;
@@ -442,6 +446,7 @@ public class MenuSystem extends BaseSystem {
 								menus.get(7).active = false;
 								menus.get(8).active = false;
 								menus.get(9).active = false;
+								menus.get(10).active = false;
 							}
 							else if (
 									command.equals("info") || 
@@ -452,7 +457,8 @@ public class MenuSystem extends BaseSystem {
 									command.equals("continue") ||
 									command.equals("techs") ||
 									command.equals("encyclopedia") ||
-									command.contains("diplomacy")
+									command.contains("diplomacy") ||
+									command.equals("log")
 									)
 							{
 								info = false;
@@ -464,6 +470,7 @@ public class MenuSystem extends BaseSystem {
 								menus.get(7).active = false;
 								menus.get(8).active = false;
 								menus.get(9).active = false;
+								menus.get(10).active = false;
 								if (command.equals("info"))
 								{
 									info = !info;
@@ -514,6 +521,11 @@ public class MenuSystem extends BaseSystem {
 									menus.get(9).active = true;
 									Civilization civ = main.grid.civs[Integer.parseInt(command.substring(9))];
 									updateDiplomacyMenu(civ);
+								}
+								else if (command.equals("log"))
+								{
+									menus.get(10).active = true;
+									updateMessages();
 								}
 								resetAllButtons();
 								continue;
@@ -599,6 +611,7 @@ public class MenuSystem extends BaseSystem {
 							{
 								((Warrior)selected).raze();
 								((Warrior)selected).action = 0;
+								//selected.playerTick();
 							}
 							else if (command.equals("settle"))
 							{
@@ -789,6 +802,20 @@ public class MenuSystem extends BaseSystem {
 				textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
 			textboxes.get(2).moveDis(0,5,2);
 			textboxes.get(2).orderOriginal(false);
+		}
+	}
+	
+	//Show all the messages on the menu with index 10
+	public void updateMessages()
+	{
+		menus.get(10).buttons.clear();
+		for (int i = 0; i < messages.size(); i++)
+		{
+			ArrayList<String> stringy = new ArrayList<String>();
+			stringy.add(messages.get(i));
+			TextBox msg = new TextBox("Message", stringy, "", main.width*5/6, 360 + 20*i, main.width*1/6, 20);
+			menus.get(10).buttons.add(msg);
+			if (i == 19) break;
 		}
 	}
 
