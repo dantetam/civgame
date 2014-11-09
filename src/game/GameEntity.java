@@ -197,13 +197,47 @@ public abstract class GameEntity extends BaseEntity {
 					if (owner.enemies.contains(location.grid.getTile(en.location.row+r,en.location.col+c).owner) ||
 							location.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
 					{
-						location.grid.move(this, r, c);
-						action--;
+						passiveWaddle(r,c);
 					}
 				}
 				if (enemy != null)
 				{
-					//if ()
+					queueTiles.clear(); //Solve some complex problems
+					int[] damages = location.grid.conflictSystem.attack(this, enemy);
+					if (enemy.health - damages[0] <= 0 && health - damages[1] <= 0) //Both may kill each other
+					{
+						if (health >= enemy.health)
+						{
+							location.grid.removeUnit(enemy);
+							passiveWaddle(r,c);
+							health = 1;
+							return true;
+						}
+						else
+						{
+							enemy.health = 1;
+							location.grid.removeUnit(this);
+							return false;
+						}
+					}
+					else if (enemy.health - damages[0] <= 0) //Killed the enemy
+					{
+						location.grid.removeUnit(enemy);
+						passiveWaddle(r,c);
+						health -= damages[1];
+						return true;
+					}
+					else if (health - damages[1] <= 0) //Killed in an attack
+					{
+						location.grid.removeUnit(this);
+						return false;
+					}
+					else //Damage to each other
+					{
+						enemy.health -= damages[0];
+						health -= damages[1];
+						return true;
+					}
 				}
 			}
 		}

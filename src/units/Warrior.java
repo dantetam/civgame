@@ -24,7 +24,7 @@ public class Warrior extends GameEntity {
 		if (queueTiles.size() > 0)
 		{
 			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
-			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
 			queueTiles.remove(queueTiles.size()-1);
 			//System.out.println("okigenyo");
 		}
@@ -51,11 +51,15 @@ public class Warrior extends GameEntity {
 			{
 				while (action > 0)
 				{
-					if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
+					if (queueTiles.size() == 0) return;
+					Tile q = queueTiles.get(queueTiles.size()-1);
+					if (!aggressiveWaddle(q.row - location.row, q.col - location.col))
 					{
-						queueTiles.remove(queueTiles.size()-1);
+						//queueTiles.remove(queueTiles.size()-1);
 						return;
 					}
+					if (queueTiles.size() == 0) return;
+					
 					queueTiles.remove(queueTiles.size()-1);
 
 					//raze();
@@ -132,7 +136,7 @@ public class Warrior extends GameEntity {
 			}
 			else
 			{
-				int r,c;
+				int r,c,trials = 0;
 				while (true)
 				{
 					r = (int)(Math.random()*location.grid.rows);
@@ -141,8 +145,14 @@ public class Warrior extends GameEntity {
 					if (t.biome != -1)
 						if (t.owner == null)
 							break;
+					trials++;
+					if (trials > 10) break;
 				}
-				waddleToExact(r,c);
+				Tile t = location.grid.getTile(r,c);
+				if (t.biome != -1)
+					waddleToExact(r,c);
+				else
+					return;
 			}
 		}
 	}
