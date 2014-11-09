@@ -13,7 +13,8 @@ public class MenuGame {
 	public CivilizationSystem civSystem;
 	public String terrainString;
 	
-	public Civilization[][] civRecord;
+	public Civilization[][] civRecord; //A record of the owners of the respective tiles
+	public Civilization[][] civUnitRecord; //A record of the units present at those tiles
 	
 	public MenuGame(long seed)
 	{
@@ -106,6 +107,7 @@ public class MenuGame {
 		int[][] biomes = assignBiome(terrain, (int)cutoff);
 		grid = new Grid("Athens", terrain, biomes, assignResources(biomes), 4, 8, (int)cutoff, seed);
 		civRecord = new Civilization[terrain.length][terrain[0].length];
+		civUnitRecord = new Civilization[terrain.length][terrain[0].length];
 		makeRivers(biomes);
 		civSystem = new CivilizationSystem(this);
 		civSystem.theGrid = grid;
@@ -119,10 +121,18 @@ public class MenuGame {
 		{
 			for (int c = 0; c < civRecord[0].length; c++)
 			{
-				Civilization civ = grid.getTile(r, c).owner;
+				Tile t = grid.getTile(r,c);
+				Civilization civ = t.owner;
 				//civRecord[r][c] = null;
-				if (civ != null)
-					civRecord[r][c] = civ;
+				civRecord[r][c] = civ;
+				if (t.occupants.size() > 0)
+				{
+					civUnitRecord[r][c] = t.occupants.get(0).owner; //Get the first unit's owner
+				}
+				else
+				{
+					civUnitRecord[r][c] = null;
+				}
 			}
 		}
 		//Tick the game one turn forward

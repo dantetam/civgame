@@ -1,6 +1,7 @@
 package render;
 
 import game.Civilization;
+import game.GameEntity;
 import game.Tile;
 
 import java.awt.Frame;
@@ -88,7 +89,7 @@ public class Game extends PApplet {
 		menu4.addButton("randomSeed", "Random Seed", "Get a new random number.", 70, 160, 210, 50);
 		menu4.addButton("useCurrentSeed", "Use Current Seed", "Use the seed of the simulation (must choose terrain).", 70, 220, 210, 50);
 		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 70, 630, 210, 70);
-		
+
 		menus.add(menu4);
 
 		Menu menu5 = new Menu("CivMenu");
@@ -132,46 +133,56 @@ public class Game extends PApplet {
 				Tile t = menuGame.grid.getTile(r, c);
 				Civilization civ = t.owner;
 				Civilization civ2 = menuGame.civRecord[r][c];
+				Civilization enCiv = t.occupants.size() > 0 ? t.occupants.get(0).owner : null;
+				Civilization enCiv2 = menuGame.civUnitRecord[r][c];
 				float frames = frameCount % tickEvery;
-				if (t.biome == -1)
-					fill(150,225,255);
-				else if (civ == null && civ2 == null) //No owner
+				//Give priority to showing units and then 
+				if (enCiv != null)
 				{
-					fill(150);
+					fill(enCiv.r, enCiv.g, enCiv.b);
 				}
-				else if (civ == null && civ2 != null) //Owner was destroyed
-				{
-					fill(civ2.r*(1 - frames/(float)tickEvery),civ2.g*(1 - frames/(float)tickEvery),civ2.b*(1 - frames/(float)tickEvery));
-				}
-				else if (civ != null && civ2 == null) //Terra nullius gets owner
-				{
-					fill(civ.r*(frames/(float)tickEvery),civ.g*(frames/(float)tickEvery),civ.b*(frames/(float)tickEvery));
-				}
-				else if (civ.equals(civ2)) //Same owner
+				else
 				{
 					if (t.biome == -1)
 						fill(150,225,255);
-					else
-						fill(civ.r,civ.g,civ.b);
-				}
-				else //A new owner
-				{
-					fill(255,0,0);
-					if (frames <= tickEvery/2)
+					else if (civ == null && civ2 == null) //No owner
 					{
-						fill(
-								civ2.r*(1 - frames*2/(float)tickEvery),
-								civ2.g*(1 - frames*2/(float)tickEvery),
-								civ2.b*(1 - frames*2/(float)tickEvery)
-								);
+						fill(150);
 					}
-					else
+					else if (civ == null && civ2 != null) //Owner was destroyed
 					{
-						fill(
-								civ.r*(frames*2/(float)tickEvery),
-								civ.g*(frames*2/(float)tickEvery),
-								civ.b*(frames*2/(float)tickEvery)
-								);
+						fill(civ2.r*(1 - frames/(float)tickEvery),civ2.g*(1 - frames/(float)tickEvery),civ2.b*(1 - frames/(float)tickEvery));
+					}
+					else if (civ != null && civ2 == null) //Terra nullius gets owner
+					{
+						fill(civ.r*(frames/(float)tickEvery),civ.g*(frames/(float)tickEvery),civ.b*(frames/(float)tickEvery));
+					}
+					else if (civ.equals(civ2)) //Same owner
+					{
+						if (t.biome == -1)
+							fill(150,225,255);
+						else
+							fill(civ.r,civ.g,civ.b);
+					}
+					else //A new owner
+					{
+						fill(255,0,0);
+						if (frames <= tickEvery/2)
+						{
+							fill(
+									civ2.r*(1 - frames*2/(float)tickEvery),
+									civ2.g*(1 - frames*2/(float)tickEvery),
+									civ2.b*(1 - frames*2/(float)tickEvery)
+									);
+						}
+						else
+						{
+							fill(
+									civ.r*(frames*2/(float)tickEvery),
+									civ.g*(frames*2/(float)tickEvery),
+									civ.b*(frames*2/(float)tickEvery)
+									);
+						}
 					}
 				}
 
@@ -383,7 +394,7 @@ public class Game extends PApplet {
 			EntityData.passModelData(models[i],data);
 		}
 	}
-	
+
 	private static String[] entries = {"City"};
 	private void getEncyclopedia()
 	{
