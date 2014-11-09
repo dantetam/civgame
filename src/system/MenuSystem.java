@@ -196,7 +196,7 @@ public class MenuSystem extends BaseSystem {
 			main.textAlign(PApplet.LEFT);
 			main.text("Seed: " + main.seed, 115, 150);
 		}
-		
+
 		if (textboxes.get(4).active)
 		{
 			updateCivStats();
@@ -815,9 +815,17 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < newMessages.length; i++)
 		{
 			String message = newMessages[i];
-			if (messages.size() == 0) messages.add(message);
-			if (!messages.get(0).equals(message))
-				messages.add(0,message);
+			if (message.length() < 40)
+			{
+				if (messages.size() == 0) messages.add(message);
+				if (!messages.get(0).equals(message))
+					messages.add(0,message);
+			}
+			else
+			{
+				messages.add(0,message.substring(40));
+				messages.add(0,message.substring(0,40));
+			}
 		}
 		if (!main.grid.civs[0].observe) //Do not shake the GUI if player is not alive
 		{
@@ -835,9 +843,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(10).buttons.clear();
 		for (int i = 0; i < messages.size(); i++)
 		{
-			ArrayList<String> stringy = new ArrayList<String>();
-			stringy.add(messages.get(i));
-			TextBox msg = new TextBox("Message", stringy, "", main.width*5/6, 360 + 20*i, main.width*1/6, 20);
+			TextBox msg = new TextBox("Message", messages.get(i), "", main.width*5/6, 360 + 20*i, main.width*1/6, 20);
 			menus.get(10).buttons.add(msg);
 			if (i == 19) break;
 		}

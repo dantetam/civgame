@@ -223,10 +223,11 @@ public class InputSystem extends BaseSystem {
 			{
 				if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
 				{
-					if (en.playerWaddleToExact(t.row, t.col))
+					String msg = en.playerWaddleToExact(t.row, t.col);
+					if (msg == null)
 						en.playerTick();
 					else
-						main.menuSystem.message("Your unit cannot go to this tile.");
+						main.menuSystem.message(msg);
 				}
 			}
 		}

@@ -335,6 +335,26 @@ public class Grid {
 		}
 		return null;
 	}
+	
+	//Return the percentage of the world explored (do not count sea tiles)
+	public double explored(Civilization civ)
+	{
+		double n = 0, land = 0;
+		for (int r = 0; r < civ.revealed.length; r++)
+		{
+			for (int c = 0; c < civ.revealed[0].length; c++)
+			{
+				Tile t = getTile(r,c);
+				if (t.biome != -1)
+				{
+					land++;
+					if (civ.revealed[r][c])
+						n++;
+				}
+			}
+		}
+		return n/land;
+	}
 
 	public Tile[] returnBestCityScores(int settlerR, int settlerC, double distBias)
 	{

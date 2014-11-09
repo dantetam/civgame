@@ -12,6 +12,12 @@ public class TextBox extends Button {
 		this.name = name;
 	}
 	
+	public TextBox(String name, String display, String tooltip, float a, float b, float c, float d) {
+		super("", new ArrayList<String>(), tooltip, a, b, c, d);
+		this.display.add(display);
+		this.name = name;
+	}
+	
 	/*public TextBox(String name, ArrayList<String> text, float x, float y, float sX, float sY)
 	{
 		super("", text, x, y, sX, sY);

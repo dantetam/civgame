@@ -11,6 +11,7 @@ public abstract class GameEntity extends BaseEntity {
 
 	public ArrayList<Tile> queueTiles = new ArrayList<Tile>();
 	public int action = 1, maxAction = 1;
+	public boolean explorer = false; //For the AI only
 
 	public GameEntity(String name)
 	{
@@ -125,29 +126,42 @@ public abstract class GameEntity extends BaseEntity {
 		}
 		return false;
 	}
-	
+
 	//Try to queue a certain set of tiles
-	//If it works, return true
-	public boolean playerWaddleToExact(int r, int c)
+	//If it works, return null, otherwise, return the "problem"
+	public String playerWaddleToExact(int r, int c)
 	{
 		queueTiles.clear();
 		Tile t = location.grid.getTile(r,c);
+		if (sortie != null)
+		{
+			if (!sortie.land.contains(t))
+			{
+				return "You cannot use a sortie outside its city.";
+			}
+		}
 		if (t != null)
 		{
 			if (t.owner == null)
 			{
-				return waddleToExact(r,c);	
+				waddleToExact(r,c);	
+				return null;
 			}
 			else
 			{
 				//Allow the operation if they're at war
 				if (owner.war(t.owner) || owner.openBorders.contains(t.owner))
-					return waddleToExact(r,c);	
+				{
+					waddleToExact(r,c);	
+					return null;
+				}
 				else 
-					return false;
+				{
+					return "You do not have access. Declare war or request open borders.";
+				}
 			}
 		}
-		return false;
+		return "You cannot go to this tile.";
 	}
 
 	public void passiveWaddle(int r, int c)
@@ -313,9 +327,14 @@ public abstract class GameEntity extends BaseEntity {
 				for (int j = 0; j < owner.enemies.get(i).cities.size(); j++)
 				{
 					City candidate = owner.enemies.get(i).cities.get(j);
+					if (!owner.revealed[candidate.location.row][candidate.location.col])
+					{
+						continue;
+					}
 					if (nearest != null)
 					{
-						if (candidate.location.dist(location) < nearest.location.dist(location)) nearest = candidate;
+						if (candidate.location.dist(location) < nearest.location.dist(location)) 
+							nearest = candidate;
 					}
 					else
 					{

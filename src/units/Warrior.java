@@ -34,7 +34,7 @@ public class Warrior extends GameEntity {
 	{
 		tick();
 	}
-	
+
 	/*public boolean raze()
 	{
 		System.out.println(super.raze());
@@ -44,75 +44,105 @@ public class Warrior extends GameEntity {
 
 	public void tick()
 	{
-		Tile nearestA = nearestAlliedCity();
-		if (queueTiles.size() > 0)
+		if (!explorer)
 		{
-			if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
-			{
-				queueTiles.remove(queueTiles.size()-1);
-				return;
-			}
-			queueTiles.remove(queueTiles.size()-1);
-		
-			//raze();
-			if (raze()) return;
+			Tile nearestA = nearestAlliedCity();
 			if (queueTiles.size() > 0)
-				if (queueTiles.get(0).owner.equals(owner) || queueTiles.get(0).equals(location))
+			{
+				while (action > 0)
 				{
-					nearestA = nearestAlliedCity();
-					if (nearestA != null)
+					if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
 					{
-						//queueTiles.clear(); queueTiles = new ArrayList<Tile>();
-						//waddleTo(nearest.row, nearest.col);
-						//int r = nearestA.row - location.row;
-						//int c = nearestA.col - location.col;
-						//queueTiles.clear(); //just in case
-						super.waddleToExact(nearestA.row,nearestA.col);
-						//System.out.println("pathfinding start " + queueTiles.size());
+						queueTiles.remove(queueTiles.size()-1);
+						return;
+					}
+					queueTiles.remove(queueTiles.size()-1);
+
+					//raze();
+					if (raze()) return;
+					if (queueTiles.size() > 0)
+						if (queueTiles.get(0).owner.equals(owner) || queueTiles.get(0).equals(location))
+						{
+							nearestA = nearestAlliedCity();
+							if (nearestA != null)
+							{
+								//queueTiles.clear(); queueTiles = new ArrayList<Tile>();
+								//waddleTo(nearest.row, nearest.col);
+								//int r = nearestA.row - location.row;
+								//int c = nearestA.col - location.col;
+								//queueTiles.clear(); //just in case
+								super.waddleToExact(nearestA.row,nearestA.col);
+								//System.out.println("pathfinding start " + queueTiles.size());
+							}
+						}
+					Tile t = adjacentEnemy();
+					if (t != null)
+					{
+						queueTiles.clear();
+						if (!aggressiveWaddle(t.row - location.row, t.col - location.col))
+							return;
+					}
+					else
+					{
+						return;
 					}
 				}
-			Tile t = adjacentEnemy();
-			if (t != null)
-			{
-				queueTiles.clear();
-				if (!aggressiveWaddle(t.row - location.row, t.col - location.col))
-					return;
 			}
-			else
+			else //if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
 			{
-				return;
+				Tile nearestE = nearestEnemyCity();
+				//System.out.println(nearest);
+				//System.out.println(location);
+				if (nearestE != null)
+				{
+					//waddleTo(nearest.row, nearest.col);
+					//int r = nearestE.row - location.row;
+					//int c = nearestE.col - location.col;
+					//queueTiles.clear(); //just in case
+					super.waddleToExact(nearestE.row, nearestE.col);
+					//System.out.println("pathfinding start " + queueTiles.size());
+				}
+				else if (nearestA != null)
+				{
+					//waddleTo(nearest.row, nearest.col);
+					int r = nearestA.row - location.row;
+					int c = nearestA.col - location.col;
+					//queueTiles.clear(); //just in case
+					super.waddleTo(r,c);
+					//System.out.println("pathfinding start " + queueTiles.size());
+				}
+				//else
+				else
+				{
+					int r = (int)(Math.random()*3) - 1;
+					int c = (int)(Math.random()*3) - 1;
+					//if (!aggressiveWaddle(r,c)) return;
+					aggressiveWaddle(r,c);
+				}
 			}
 		}
-		else //if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
+		else
 		{
-			Tile nearestE = nearestEnemyCity();
-			//System.out.println(nearest);
-			//System.out.println(location);
-			if (nearestE != null)
+			if (queueTiles.size() > 0)
 			{
-				//waddleTo(nearest.row, nearest.col);
-				//int r = nearestE.row - location.row;
-				//int c = nearestE.col - location.col;
-				//queueTiles.clear(); //just in case
-				super.waddleToExact(nearestE.row, nearestE.col);
-				//System.out.println("pathfinding start " + queueTiles.size());
+				while (action > 0)
+				{
+					aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+				}
 			}
-			else if (nearestA != null)
-			{
-				//waddleTo(nearest.row, nearest.col);
-				int r = nearestA.row - location.row;
-				int c = nearestA.col - location.col;
-				//queueTiles.clear(); //just in case
-				super.waddleTo(r,c);
-				//System.out.println("pathfinding start " + queueTiles.size());
-			}
-			//else
 			else
 			{
-				int r = (int)(Math.random()*3) - 1;
-				int c = (int)(Math.random()*3) - 1;
-				//if (!aggressiveWaddle(r,c)) return;
-				aggressiveWaddle(r,c);
+				int r,c;
+				while (true)
+				{
+					r = (int)(Math.random()*location.grid.rows);
+					c = (int)(Math.random()*location.grid.cols);
+					Tile t = location.grid.getTile(r,c); //guaranteed to exist. i think.
+					if (t.biome != -1)
+						if (t.owner == null)
+							break;
+				}
+				waddleToExact(r,c);
 			}
 		}
 	}

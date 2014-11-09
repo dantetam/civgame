@@ -1,5 +1,6 @@
 package game;
 
+import units.City;
 import units.Worker;
 import data.Improvement;
 
@@ -18,7 +19,7 @@ public abstract class BaseEntity {
 	public int health;
 	public float offensiveStr, rangedStr, defensiveStr;
 
-	public boolean sortie = false; //If this unit was raised by a sortie order
+	public City sortie = null; //If this unit was raised by a sortie order, this will hold the city it "belongs" to
 	
 	public Improvement unitImprovement;
 

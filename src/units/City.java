@@ -638,7 +638,7 @@ public class City extends TileEntity {
 					}
 				}
 				//Add a unit and denote it as a sortie
-				location.grid.addUnit(en,owner,t.row,t.col).sortie = true;
+				location.grid.addUnit(en,owner,t.row,t.col).sortie = this;
 				//en.unitImprovement = owner.unitImprovements.get(c.queue);
 				//en.improve();
 			}
@@ -651,7 +651,7 @@ public class City extends TileEntity {
 		for (int i = 0; i < owner.units.size(); i++)
 		{
 			GameEntity unit = owner.units.get(i);
-			if (unit.sortie)
+			if (unit.sortie.equals(this))
 			{
 				location.grid.removeUnit(unit);
 			}

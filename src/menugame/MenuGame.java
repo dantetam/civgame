@@ -94,7 +94,7 @@ public class MenuGame {
 		{
 			map = new PerlinNoise(seed);
 			terrain = map.generate(new double[]{32,32,150,8,1,0.8,6,32,-150});
-			cutoff = -100;
+			cutoff = -150;
 		}
 		else
 		{

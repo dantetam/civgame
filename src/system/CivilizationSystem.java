@@ -357,6 +357,10 @@ public class CivilizationSystem extends BaseSystem {
 									grid.addUnit(en,civ,c.location.row,c.location.col);
 									en.unitImprovement = civ.unitImprovements.get(c.queue);
 									en.improve();
+									if (civ.name.contains("Barbarians"))
+										if (en instanceof GameEntity && !(en instanceof Settler) && !(en instanceof Worker))
+											if (grid.explored(civ) < 0.2)
+												((GameEntity)en).explorer = true;
 								}
 								else
 								{
@@ -473,8 +477,6 @@ public class CivilizationSystem extends BaseSystem {
 						}
 						if (c.enemiesInTerritory() && c.sortie == 0)
 						{
-							if (c.owner.id == 0)
-								System.out.println("enemy -> sortie");
 							c.sortie = 1;
 						}
 						else if (!c.enemiesInTerritory() && c.sortie == 1)

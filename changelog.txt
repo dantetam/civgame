@@ -10,6 +10,7 @@ X : Abandoned
 
 Major additions:
 Balance game
+	> Fix civs being omnipotent i.e. being able to find the player without a challenge
 	- Fix barbarians spawning and attacking too aggressively
 	- Fix civilizations getting early game warriors too early
 		- New unit archer, bonus defending cities and bonus versus warriors
