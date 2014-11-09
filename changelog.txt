@@ -11,7 +11,7 @@ X : Abandoned
 Major additions:
 Balance game
 	> Fix civs being omnipotent i.e. being able to find the player without a challenge
-	- Fix barbarians spawning and attacking too aggressively
+	/ Fix barbarians spawning and attacking too aggressively
 	- Fix civilizations getting early game warriors too early
 		- New unit archer, bonus defending cities and bonus versus warriors
 	- Fix food distribution (return to city by city basis)
@@ -33,11 +33,13 @@ Resource mechanics improvement
 Minor additions:
 / Changes to diplomacy menu
 	>- Declare war
+	>- Declare peace
 	>- Alliances
 		- Allies called to war automatically
 	- Trade gold, culture, research
 	>- Request open borders
 >+ Relations menu
+	>+ Improved so that it can be used to view each's civilization's status
 >+ Players move in their respective turns
 
 Changes:
