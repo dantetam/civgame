@@ -586,16 +586,36 @@ public class City extends TileEntity {
 					Tile t = location.grid.getTile(i,j);
 					if (t != null)
 					{
-						if (t.owner == null)
+						if (t.culture == 0)
 						{
-							t.city = this;
-							land.add(t);
-							location.grid.addTile(owner, t);
+							if (t.owner == null)
+							{
+								t.city = this;
+								land.add(t);
+								location.grid.addTile(owner, t);
+								t.culture++;
+							}
+							else if (t.owner == owner && t.city == null)
+							{
+								t.city = this;
+								land.add(t);
+								t.culture += 4 - Math.min(3, t.city.location.manhattan(t.city.location)/2);
+							}
 						}
-						else if (t.owner == owner && t.city == null)
+						else 
 						{
-							t.city = this;
-							land.add(t);
+							t.culture--;
+							if (t.culture < 0)
+							{
+								t.city.land.remove(t);
+								t.city = this;
+								t.owner = owner;
+								if (t.improvement != null)
+									t.improvement.owner = owner;
+								land.add(t);
+								location.grid.addTile(owner, t);
+								t.culture = 1;
+							}
 						}
 					}
 				}

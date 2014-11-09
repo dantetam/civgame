@@ -29,7 +29,7 @@ Resource mechanics improvement
 	- Each resource harvested in a tile has a certain flow of resource
 	- The resource can be "spent" on units to build
 	- Small but constant maintenance for certain resources e.g. iron
-Increase "playability"
+/ Increase "playability"
 	...+ Tutorial walkthrough
 	
 Minor additions:
@@ -43,14 +43,15 @@ Minor additions:
 >+ Relations menu
 	>+ Improved so that it can be used to view each's civilization's status
 >+ Players move in their respective turns
+/+ Tiles can defect to other civilizations based on culture
 
 Changes:
 / New GUI library
-	* Fix bad inheritances
+	/* Fix bad inheritances
 	- Allow for non-square elements such as circle bars
 	+* Convert menus
 > Player must declare war on a civ to enter its territory
-/+ Encapsulate declaring war and alliances to let civs handle the logic
+>+ Encapsulate declaring war and alliances to let civs handle the logic
 	
 Fixes:
 > Fix barbarians spawning in revealed tiles

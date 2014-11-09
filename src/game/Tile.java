@@ -22,6 +22,10 @@ public class Tile {
 	public boolean forest, freshWater, road;
 	public int turnsSettled = 0;
 	
+	//Amount of culture currently in this tile from the owner
+	//When it reaches zero, it can be taken
+	public int culture; 
+	
 	public Tile(Grid grid, String type, int height, int biome, int shape, int resource, boolean forest, int row, int col)
 	{
 		this.grid = grid;
@@ -64,6 +68,11 @@ public class Tile {
 	public double dist(Tile t)
 	{
 		return Math.sqrt((row-t.row)^2 + (col-t.col)^2);
+	}
+	
+	public int manhattan(Tile t)
+	{
+		return Math.abs(t.row - row) + Math.abs(t.col - col);
 	}
 	
 	public String toString() {return "[" + row + "," + col + "]";}

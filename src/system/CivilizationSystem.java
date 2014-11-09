@@ -181,6 +181,7 @@ public class CivilizationSystem extends BaseSystem {
 						if (civ.capital != null)
 							if (civ.capital.equals(c))
 								c.culture++;
+						c.culture++;
 						//System.out.println(c.culture + " " + c.expanded);
 						if (c.culture >= 20 && c.expanded == 1)
 						{
