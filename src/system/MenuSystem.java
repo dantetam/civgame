@@ -511,6 +511,7 @@ public class MenuSystem extends BaseSystem {
 								else if (command.equals("relations"))
 								{
 									menus.get(11).active = true;
+									pivot = main.grid.civs[0];
 									updateRelations();
 								}
 								resetAllButtons();
@@ -742,7 +743,12 @@ public class MenuSystem extends BaseSystem {
 									main.menuSystem.message("Your relations with this nation do not allow for an alliance.");
 								}
 							}
-
+							else if (command.contains("pivot"))
+							{
+								pivot = main.grid.civs[Integer.parseInt(command.substring(5))]; 
+								updateRelations();
+							}
+							
 							else
 							{
 								System.out.println("Invalid or non-functioning command: " + command);
@@ -1118,12 +1124,12 @@ public class MenuSystem extends BaseSystem {
 		menus.get(9).buttons.add(text0);
 	}
 
+	private Civilization pivot;
 	public void updateRelations()
 	{
 		menus.get(11).buttons.clear();
 		
-		Civilization plr = main.grid.civs[0];
-		
+		//Top set
 		TextBox text = new TextBox("","Relations","Your relations with this nation (-200 to 200).",200,255,100,20);
 		menus.get(11).buttons.add(text);
 		text = new TextBox("","Open Borders","Your ability to access this nation's lands.",300,255,100,20);
@@ -1133,28 +1139,48 @@ public class MenuSystem extends BaseSystem {
 		text = new TextBox("","Alliance","The existence of a formal alliance between you and this nation.",500,255,100,20);
 		menus.get(11).buttons.add(text);
 		
-		for (int i = 1; i < main.grid.civs.length; i++)
+		for (int i = 0; i < main.grid.civs.length; i++)
+		{
+			Civilization civ = main.grid.civs[i];
+				
+			Button b = new Button("pivot"+i,civ.name,"Select to view " + civ.name + "'s diplomatic situation.",100,280 + 25*(i),100,20);
+			menus.get(11).buttons.add(b);
+			
+			if (civ.equals(pivot)) continue;
+			
+			text = new TextBox("","" + pivot.opinions[i],"",200,280 + 25*(i),100,20);
+			menus.get(11).buttons.add(text);
+			
+			String temp = pivot.openBorders.contains(civ) ? "Yes" : "No";
+			text = new TextBox("",temp,"",300,280 + 25*(i),100,20);
+			menus.get(11).buttons.add(text);
+			
+			temp = pivot.enemies.contains(civ) ? "Yes" : "No";
+			text = new TextBox("",temp,"",400,280 + 25*(i),100,20);
+			menus.get(11).buttons.add(text);
+			
+			temp = pivot.allies.contains(civ) ? "Yes" : "No";
+			text = new TextBox("",temp,"",500,280 + 25*(i),100,20);
+			menus.get(11).buttons.add(text);
+		}
+		
+		//Bottom set
+		/*text = new TextBox("","In war","The list of nations that this nation is currently fighting.",
+				200,280 + 25*main.grid.civs.length,200,20);
+		menus.get(11).buttons.add(text);
+		
+		for (int i = 0; i < main.grid.civs.length; i++)
 		{
 			Civilization civ = main.grid.civs[i];
 			
-			text = new TextBox("",civ.name,"",100,280 + 25*(i-1),100,20);
+			text = new TextBox("",civ.name,"",100,280 + 25*(i+1+main.grid.civs.length),100,20);
 			menus.get(11).buttons.add(text);
 			
-			text = new TextBox("","" + plr.opinions[i],"",200,280 + 25*(i-1),100,20);
-			menus.get(11).buttons.add(text);
-			
-			String temp = plr.openBorders.contains(civ) ? "Yes" : "No";
+			String temp = "At Peace";
+			if (civ.enemies.size() > 1)
 			text = new TextBox("",temp,"",300,280 + 25*(i-1),100,20);
 			menus.get(11).buttons.add(text);
-			
-			temp = plr.enemies.contains(civ) ? "Yes" : "No";
-			text = new TextBox("",temp,"",400,280 + 25*(i-1),100,20);
-			menus.get(11).buttons.add(text);
-			
-			temp = plr.allies.contains(civ) ? "Yes" : "No";
-			text = new TextBox("",temp,"",500,280 + 25*(i-1),100,20);
-			menus.get(11).buttons.add(text);
-		}
+		}*/
 	}
 	
 	//Only done once
