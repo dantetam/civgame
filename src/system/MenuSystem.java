@@ -71,7 +71,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
 		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 300, main.width*1/6, 30).lock = true;
-		
+
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
 
@@ -102,16 +102,16 @@ public class MenuSystem extends BaseSystem {
 		temp.name = "EncyclopediaText";
 		menu7.buttons.add(temp);
 		menus.add(menu7);
-		
+
 		Menu menu8 = new Menu("DiplomacyMenu");
 		menus.add(menu8);
-		
+
 		Menu menu9 = new Menu("TalkToCivMenu"); //For lack of a better name...
 		menus.add(menu9);
-		
+
 		Menu menu10 = new Menu("Logs"); //For lack of a better name...
 		menus.add(menu10);
-		
+
 		menu0.active = true;
 
 		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*5/6,0,200,150);
@@ -413,7 +413,7 @@ public class MenuSystem extends BaseSystem {
 					main.textAlign(main.CENTER);
 					main.text(hover.tooltip, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 5);
 				}
-		
+
 		main.hint(PApplet.ENABLE_DEPTH_TEST);
 
 		menuActivated = false;
@@ -530,7 +530,7 @@ public class MenuSystem extends BaseSystem {
 								resetAllButtons();
 								continue;
 							}
-							
+
 							else if (command.contains("encyclopedia")) //accessing an encyclopedia entry
 							{
 								ArrayList<String> text = EntityData.encyclopediaEntries.get(command.substring(12));
@@ -709,7 +709,17 @@ public class MenuSystem extends BaseSystem {
 								if (s.sci > 0)
 									s.sci--;
 							}
-							
+							else if (command.equals("sortie"))
+							{
+								City s = ((City)selected);
+								s.sortie();
+							}
+							else if (command.equals("endSortie"))
+							{
+								City s = ((City)selected);
+								s.endSortie();
+							}
+
 							else if (command.contains("openBorders"))
 							{
 								Civilization a = main.grid.civs[0];
@@ -725,9 +735,9 @@ public class MenuSystem extends BaseSystem {
 								a.cancelDeals(b);
 								a.enemies.add(b);
 								b.enemies.add(a);
-								main.menuSystem.message("Declared war on " + b.name + "!");
+								main.menuSystem.message("You declared war on " + b.name + "!");
 							}
-							
+
 							else
 							{
 								System.out.println("Invalid or non-functioning command: " + command);
@@ -823,7 +833,7 @@ public class MenuSystem extends BaseSystem {
 			textboxes.get(2).orderOriginal(false);
 		}
 	}
-	
+
 	//Show all the messages on the menu with index 10
 	public void updateMessages()
 	{
@@ -1028,6 +1038,15 @@ public class MenuSystem extends BaseSystem {
 		menus.get(2).addButton("subArtist", "Artist-", "Revert one artist to citizen.", main.width/6F + 60, (float)main.height*5F/6F + 60, 50, 50);
 		menus.get(2).addButton("addSci", "Sci+", "Convert one citizen to scientist.", main.width/6F + 120, (float)main.height*5F/6F, 50, 50);
 		menus.get(2).addButton("subSci", "Sci-", "Revert one scientist to citizen.", main.width/6F + 120, (float)main.height*5F/6F + 60, 50, 50);
+
+		if (c.sortie == 1)
+		{
+			menus.get(2).addButton("sortie", "Sortie", "Raise a temporary garrison (cannot leave borders).", main.width/6F - 60, (float)main.height*5F/6F, 50, 50);
+		}
+		else if (c.sortie == 2)
+		{
+			menus.get(2).addButton("endSortie", "End sortie", "End the sortie and return troops to city.", main.width/6F - 60, (float)main.height*5F/6F, 50, 50);
+		}
 	}
 
 	public void updateLoadoutDisplay(String name)
@@ -1041,24 +1060,24 @@ public class MenuSystem extends BaseSystem {
 			menus.get(4).addButton(en.name + "/" + temp.name, temp.name, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
 	}
-	
+
 	public void updateDiplomacyMenu(Civilization civ)
 	{
 		menus.get(9).buttons.clear();
-		
+
 		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height/12);
 		text0.display.add(civ.name);
-		
+
 		menus.get(9).addButton("openBorders"+civ.id, 
 				"Request open borders.",
 				"Allow unrestricted travel between you and this nation.", 
 				main.width*2/6,main.height*2/6 + main.height/12 + 10,main.width*2/6,main.height/24);
-		
+
 		menus.get(9).addButton("declareWar"+civ.id,
 				"Declare war.",
 				"Declare war on this civilization (and cancel all deals).",
 				main.width*2/6,main.height*2/6 + main.height/12 + main.height/24 + 20,main.width*2/6,main.height/24);
-		
+
 		menus.get(9).buttons.add(text0);
 	}
 
@@ -1105,6 +1124,8 @@ public class MenuSystem extends BaseSystem {
 		{
 			textboxes.get(1).active = false;
 			textboxes.get(1).move(main.width*4/6,-150);
+			
+			menus.get(1).buttons.clear();
 		}
 	}
 

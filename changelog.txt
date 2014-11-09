@@ -15,7 +15,7 @@ Balance game
 	- Fix food distribution (return to city by city basis)
 	- Fix metal distribution i.e. do not store metal
 	- Store extra food when too much food (limited), and take extra food when starving
-	- Cities can raise temporary garrisons if enemy units on land
+	/- Cities can raise temporary garrisons if enemy units on land
 Improve graphics
 	- Custom (certain) or generated textures for land and sea tiles
 	- Decrease graphics lag on slower computers

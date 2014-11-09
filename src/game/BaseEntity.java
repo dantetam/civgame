@@ -18,6 +18,8 @@ public abstract class BaseEntity {
 	public int health;
 	public float offensiveStr, rangedStr, defensiveStr;
 
+	public boolean sortie = false; //If this unit was raised by a sortie order
+	
 	public Improvement unitImprovement;
 
 	public BaseEntity(String name)

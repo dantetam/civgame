@@ -2,6 +2,7 @@ package units;
 
 import java.util.ArrayList;
 
+import data.EntityData;
 import data.Improvement;
 import game.*;
 
@@ -9,6 +10,8 @@ public class City extends TileEntity {
 
 	public int population;
 	public double percentGrowth; 
+
+	public int id;
 
 	public ArrayList<Tile> land;
 	public ArrayList<Tile> workedLand;
@@ -22,7 +25,7 @@ public class City extends TileEntity {
 	public ArrayList<Improvement> buildings;
 	public int takeover;
 	//public int sight = 4;
-	
+
 	public int adm, art, sci; 
 	//Specialized workers:
 	//Administrator: 25% of tax base per each
@@ -31,9 +34,14 @@ public class City extends TileEntity {
 	public int culture;
 	public int expanded; //Stage of expansion: 0, does not exist; 1, 3 by 3; 2, 5 by 5; 3, large cross;
 	public boolean raze;
-	
+
 	//Store how many of a copy of a resource (improved) that the city holds
 	public int[] resources = new int[41]; //as of 9/28/2014 resources go up to 40 so 40+1 spaces
+
+	//0: cannot sortie, has no sortie
+	//1: can sortie, has no sortie
+	//2: sortie has been deployed
+	public int sortie = 0;
 
 	public City(String name)
 	{
@@ -77,7 +85,24 @@ public class City extends TileEntity {
 			takeover--;
 		}
 	}
-	
+
+	//Returns true if an enemy is in the city's land
+	public boolean enemiesInTerritory()
+	{
+		for (int i = 0; i < land.size(); i++)
+		{
+			Tile t = land.get(i);
+			for (int j = 0; j < t.occupants.size(); j++)
+			{
+				if (owner.enemies.contains(t.occupants.get(j).owner))//; <- this damn semicolon
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	//Return all the tiles that are not completely surrounded by the civ's own land
 	public ArrayList<Tile> returnFrontier()
 	{
@@ -98,7 +123,7 @@ public class City extends TileEntity {
 		return temp;
 	}
 
-	
+
 	public int tilesBorderingCiv(Civilization other)
 	{
 		int temp = 0;
@@ -118,7 +143,7 @@ public class City extends TileEntity {
 		}
 		return temp;
 	}
-	
+
 	public void workTiles(int num)
 	{
 		if (num > land.size()) num = land.size();
@@ -354,7 +379,7 @@ public class City extends TileEntity {
 		}
 		return new double[]{f,g,m,r};
 	}
-	
+
 	//Returns a score
 	public double[] evaluate(Tile t, String focus)
 	{
@@ -547,7 +572,7 @@ public class City extends TileEntity {
 			return new double[]{score,f,g,m,r};
 		}
 	}
-	
+
 	//Expands the city to a square of size 2*n + 1
 	public void expand(int n)
 	{
@@ -587,6 +612,50 @@ public class City extends TileEntity {
 		}
 		//System.out.println(scores.get(index));
 		return index;
+	}
+
+	public void sortie()
+	{
+		sortie = 2;
+		for (int i = 0; i < 3; i++)
+		{
+			BaseEntity en = EntityData.get("Warrior");
+			//Check if it's an actual unit or a building
+			if (en != null)
+			{
+				Tile t = null;
+				while (t == null)
+				{
+					t = land.get((int)(Math.random()*land.size()));
+					//Check if the tile is empty to deploy sortie units
+					if (t.occupants.size() == 0)
+					{
+						break;
+					}
+					else
+					{
+						t = null;
+					}
+				}
+				//Add a unit and denote it as a sortie
+				location.grid.addUnit(en,owner,t.row,t.col).sortie = true;
+				//en.unitImprovement = owner.unitImprovements.get(c.queue);
+				//en.improve();
+			}
+		}
+	}
+
+	public void endSortie()
+	{
+		sortie = enemiesInTerritory() ? 1 : 0;
+		for (int i = 0; i < owner.units.size(); i++)
+		{
+			GameEntity unit = owner.units.get(i);
+			if (unit.sortie)
+			{
+				location.grid.removeUnit(unit);
+			}
+		}
 	}
 
 	public String getName() {return "City";}

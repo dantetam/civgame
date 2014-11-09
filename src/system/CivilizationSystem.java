@@ -471,6 +471,16 @@ public class CivilizationSystem extends BaseSystem {
 								grid.removeUnit(c);
 							}
 						}
+						if (c.enemiesInTerritory() && c.sortie == 0)
+						{
+							if (c.owner.id == 0)
+								System.out.println("enemy -> sortie");
+							c.sortie = 1;
+						}
+						else if (!c.enemiesInTerritory() && c.sortie == 1)
+						{
+							c.sortie = 0;
+						}
 					}
 					/*for (int j = 0; j < civ.cities.size(); j++)
 					{
@@ -552,9 +562,10 @@ public class CivilizationSystem extends BaseSystem {
 										//civ.capital.location.dist(grid.civs[j].capital.location) < grid.aggroDistance &&
 										!civ.enemies.contains(grid.civs[j]))
 								{
-									//System.out.println("war");
+									//System.out.println("war between " + civ.name + " and " + grid.civs[j]);
 									civ.enemies.add(grid.civs[j]);
 									grid.civs[j].enemies.add(civ);
+									main.menuSystem.message(civ.name + " has declared war on " + grid.civs[j].name + "!");
 								}
 							}
 						}
