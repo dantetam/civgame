@@ -712,10 +712,9 @@ public class MenuSystem extends BaseSystem {
 							{
 								Civilization a = main.grid.civs[0];
 								Civilization b = main.grid.civs[Integer.parseInt(command.substring(11))];
-								if (!a.openBorders.contains(b))
+								if (!a.isOpenBorder(b))
 								{
-									a.openBorders.add(b);
-									b.openBorders.add(a);
+									a.openBorder(b);
 									main.menuSystem.message("Requested open borders from " + b.name + ".");
 								}
 							}
@@ -724,8 +723,7 @@ public class MenuSystem extends BaseSystem {
 								Civilization a = main.grid.civs[0];
 								Civilization b = main.grid.civs[Integer.parseInt(command.substring(10))];
 								a.cancelDeals(b);
-								a.enemies.add(b);
-								b.enemies.add(a);
+								a.war(b);
 								main.menuSystem.message("You declared war on " + b.name + "!");
 								closeMenus();
 							}
@@ -733,8 +731,7 @@ public class MenuSystem extends BaseSystem {
 							{
 								Civilization a = main.grid.civs[0];
 								Civilization b = main.grid.civs[Integer.parseInt(command.substring(12))];
-								a.enemies.remove(b);
-								b.enemies.remove(a);
+								a.peace(b);
 								main.menuSystem.message("You made peace with " + b.name + "!");
 								updateDiplomacyMenu(b);
 							}
@@ -742,10 +739,9 @@ public class MenuSystem extends BaseSystem {
 							{
 								Civilization a = main.grid.civs[0];
 								Civilization b = main.grid.civs[Integer.parseInt(command.substring(11))];
-								if (a.opinions[b.id] >= 0 && !a.war(b) && !a.allies.contains(b))
+								if (a.opinions[b.id] >= 0 && !a.isWar(b) && !a.isAlly(b))
 								{
-									a.allies.add(b);
-									b.allies.add(a);
+									a.ally(b);
 									main.menuSystem.message("You have allied with " + b.name);
 								}
 								else
@@ -1122,7 +1118,7 @@ public class MenuSystem extends BaseSystem {
 				"Allow unrestricted travel between you and this nation.", 
 				main.width*2/6,main.height*2/6 + main.height/12 + 10,main.width*2/6,main.height/24);
 
-		if (!plr.war(civ))
+		if (!plr.isWar(civ))
 		{
 			menus.get(9).addButton("declareWar"+civ.id,
 					"Declare war.",
@@ -1137,7 +1133,7 @@ public class MenuSystem extends BaseSystem {
 					main.width*2/6,main.height*2/6 + main.height/12 + main.height/24 + 20,main.width*2/6,main.height/24);
 		}
 		
-		if (!plr.ally(civ))
+		if (!plr.isAlly(civ))
 			menus.get(9).addButton("ally"+civ.id,
 					"Request an alliance.",
 					"Request a mutual protection and aggression between you and this nation.",
@@ -1173,15 +1169,15 @@ public class MenuSystem extends BaseSystem {
 			text = new TextBox("","" + pivot.opinions[i],"",200,280 + 25*(i),100,20);
 			menus.get(11).buttons.add(text);
 
-			String temp = pivot.openBorders.contains(civ) ? "Yes" : "No";
+			String temp = pivot.isOpenBorder(civ) ? "Yes" : "No";
 			text = new TextBox("",temp,"",300,280 + 25*(i),100,20);
 			menus.get(11).buttons.add(text);
 
-			temp = pivot.enemies.contains(civ) ? "Yes" : "No";
+			temp = pivot.isWar(civ) ? "Yes" : "No";
 			text = new TextBox("",temp,"",400,280 + 25*(i),100,20);
 			menus.get(11).buttons.add(text);
 
-			temp = pivot.allies.contains(civ) ? "Yes" : "No";
+			temp = pivot.isAlly(civ) ? "Yes" : "No";
 			text = new TextBox("",temp,"",500,280 + 25*(i),100,20);
 			menus.get(11).buttons.add(text);
 		}

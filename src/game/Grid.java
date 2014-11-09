@@ -187,8 +187,7 @@ public class Grid {
 			//Declare war on everyone
 			for (int i = 0; i < civs.length - 1; i++)
 			{
-				civ.enemies.add(civs[i]);
-				civs[i].enemies.add(civ);
+				civ.war(civs[i]);
 			}
 		}
 		//Reset civilizations
@@ -268,7 +267,7 @@ public class Grid {
 			for (int i = 0; i < tiles[r][c].occupants.size(); i++)
 			{
 				GameEntity occupant = tiles[r][c].occupants.get(i);
-				if (occupant.owner.war(attacker.owner))
+				if (occupant.owner.isWar(attacker.owner))
 				{
 					return occupant;
 				}

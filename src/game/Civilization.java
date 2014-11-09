@@ -19,7 +19,7 @@ public class Civilization {
 	public ArrayList<GameEntity> units;
 	public ArrayList<TileEntity> improvements;
 	public HashMap<String, Improvement> unitImprovements; //one chosen improvement for each future unit of a certain name
-	public ArrayList<Civilization> enemies, openBorders, allies;
+	private ArrayList<Civilization> enemies, openBorders, allies;
 
 	public TechTree techTree;
 	public String researchTech;
@@ -115,14 +115,94 @@ public class Civilization {
 		return name.equals(other.name);
 	}
 
-	public boolean war(Civilization other)
+	public void war(Civilization c)
+	{
+		if (!isWar(c))
+		{
+			enemies.add(c);
+			c.enemies.add(this);
+		}
+	}
+
+	public ArrayList<Civilization> enemies() {return enemies;}
+	public ArrayList<Civilization> allies() {return allies;}
+	
+	public void peace(Civilization c)
+	{
+		if (isWar(c))
+		{
+			enemies.remove(c);
+			c.enemies.remove(this);
+		}
+	}
+	
+	public void ally(Civilization c)
+	{
+		if (!isAlly(c))
+		{
+			allies.add(c);
+			c.allies.add(this);
+		}
+	}
+	
+	public void openBorder(Civilization c)
+	{
+		if (!isOpenBorder(c))
+		{
+			openBorders.add(c);
+			c.openBorders.add(this);
+		}
+	}
+	
+	/*public boolean war(Civilization c)
+	{
+		if (!isWar(c))
+		{
+			enemies.add(c);
+			c.enemies.add(this);
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean ally(Civilization c)
+	{
+		if (!isAlly(c))
+		{
+			allies.add(c);
+			c.allies.add(this);
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean openBorder(Civilization c)
+	{
+		if (!isOpenBorder(c))
+		{
+			openBorders.add(c);
+			c.openBorders.add(this);
+			return true;
+		}
+		else
+			return false;
+	}*/
+	
+	public boolean isWar(Civilization other)
 	{
 		return enemies.contains(other);
 	}
 	
-	public boolean ally(Civilization other)
+	public boolean isAlly(Civilization other)
 	{
 		return allies.contains(other);
+	}
+	
+	public boolean isOpenBorder(Civilization other)
+	{
+		return openBorders.contains(other);
 	}
 	
 	public ArrayList<Tile> land()

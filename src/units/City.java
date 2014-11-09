@@ -94,7 +94,7 @@ public class City extends TileEntity {
 			Tile t = land.get(i);
 			for (int j = 0; j < t.occupants.size(); j++)
 			{
-				if (owner.enemies.contains(t.occupants.get(j).owner))//; <- this damn semicolon
+				if (owner.isWar(t.occupants.get(j).owner))//; <- this damn semicolon
 				{
 					return true;
 				}

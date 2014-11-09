@@ -523,7 +523,7 @@ public class CivilizationSystem extends BaseSystem {
 							{
 								//baseOpinion -= 50;
 							}
-							if (civ.war(oCiv))
+							if (civ.isWar(oCiv))
 							{
 								baseOpinion -= 50;
 							}
@@ -563,38 +563,37 @@ public class CivilizationSystem extends BaseSystem {
 										//Math.random() < 0.03 &&
 										!civ.equals(civ2) &&
 										//civ.capital.location.dist(grid.civs[j].capital.location) < grid.aggroDistance &&
-										!civ.enemies.contains(civ2))
+										!civ.isWar(civ2))
 								{
 									//System.out.println("war between " + civ.name + " and " + grid.civs[j]);
-									civ.enemies.add(civ2);
-									civ2.enemies.add(civ);
+									civ.war(civ2);
 									//Call in allies
-									for (int k = 0; k < civ.allies.size(); k++)
+									ArrayList<Civilization> allies = civ.allies();
+									for (int k = 0; k < allies.size(); k++)
 									{
 										//Don't call in people allied to both
-										Civilization a = civ.allies.get(k);
-										if (a.ally(civ) && a.ally(civ2))
+										Civilization a = allies.get(k);
+										if (a.isAlly(civ) && a.isAlly(civ2))
 										{
 											continue;
 										}
 										else //Implies not allied to civ2
 										{
-											a.enemies.add(civ2);
-											civ2.enemies.add(a);
+											a.war(civ2);
 											main.menuSystem.message(a.name + " has been called to war against " + civ2 + "!");
 										}
 									}
-									for (int k = 0; k < civ2.allies.size(); k++)
+									allies = civ2.allies();
+									for (int k = 0; k < allies.size(); k++)
 									{
-										Civilization a = civ.allies.get(k);
-										if (a.ally(civ) && a.ally(civ2))
+										Civilization a = allies.get(k);
+										if (a.isAlly(civ) && a.isAlly(civ2))
 										{
 											continue;
 										}
 										else //Implies not allied to civ
 										{
-											a.enemies.add(civ);
-											civ.enemies.add(a);
+											a.war(civ);
 											main.menuSystem.message(a.name + " has been called to war against " + civ + "!");
 										}
 									}
@@ -617,11 +616,10 @@ public class CivilizationSystem extends BaseSystem {
 					{
 						if (grid.civs[j].capital != null && civ.capital != null)
 						{
-							if (!civ.equals(grid.civs[j]) && !civ.allies.contains(grid.civs[j]) &&
+							if (!civ.equals(grid.civs[j]) && !civ.isAlly(grid.civs[j]) &&
 									civ.capital.location.dist(grid.civs[j].capital.location) < 20)
 							{
-								civ.allies.add(grid.civs[j]);
-								grid.civs[j].allies.add(civ);
+								civ.ally(grid.civs[j]);
 								if (guiExists)
 									main.menuSystem.message(civ.name + " has allied " + grid.civs[j].name + "!");
 							}

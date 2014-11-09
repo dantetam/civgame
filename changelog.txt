@@ -29,13 +29,15 @@ Resource mechanics improvement
 	- Each resource harvested in a tile has a certain flow of resource
 	- The resource can be "spent" on units to build
 	- Small but constant maintenance for certain resources e.g. iron
+Increase "playability"
+	...+ Tutorial walkthrough
 	
 Minor additions:
 / Changes to diplomacy menu
 	>- Declare war
 	>- Declare peace
 	>- Alliances
-		- Allies called to war automatically
+		>- Allies called to war automatically
 	- Trade gold, culture, research
 	>- Request open borders
 >+ Relations menu
@@ -43,12 +45,12 @@ Minor additions:
 >+ Players move in their respective turns
 
 Changes:
-New GUI library
+/ New GUI library
 	* Fix bad inheritances
 	- Allow for non-square elements such as circle bars
 	+* Convert menus
 > Player must declare war on a civ to enter its territory
-+ Encapsulate declaring war and alliances to let civs handle the logic
+/+ Encapsulate declaring war and alliances to let civs handle the logic
 	
 Fixes:
 > Fix barbarians spawning in revealed tiles
@@ -71,9 +73,9 @@ Major additions:
 	... City and Tile improvements
 >+ Barbarians (can be civilized)
 	- Is always at war with all other civs and city states
-/+ Step by step tutorial
+...+ Step by step tutorial
 + Sea units, embarking
-/+ Diplomacy menu
+...+ Diplomacy menu
 >+ In game encyclopedia
 + Governments forms on a spectrum (automony, indirect deomcracy, ..., dictatorship)
 + Government civics unlocked by techs

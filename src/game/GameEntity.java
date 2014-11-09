@@ -150,7 +150,7 @@ public abstract class GameEntity extends BaseEntity {
 			else
 			{
 				//Allow the operation if they're at war
-				if (owner.war(t.owner) || owner.openBorders.contains(t.owner))
+				if (owner.isWar(t.owner) || owner.isOpenBorder(t.owner))
 				{
 					waddleToExact(r,c);	
 					return null;
@@ -194,7 +194,7 @@ public abstract class GameEntity extends BaseEntity {
 				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 				if (enemy == null)
 				{
-					if (owner.enemies.contains(location.grid.getTile(en.location.row+r,en.location.col+c).owner) ||
+					if (owner.isWar(location.grid.getTile(en.location.row+r,en.location.col+c).owner) ||
 							location.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
 					{
 						passiveWaddle(r,c);
@@ -255,7 +255,7 @@ public abstract class GameEntity extends BaseEntity {
 				location.grid.removeUnit(location.improvement);
 				owner.food += 10;
 			}
-			else if (owner.war(location.owner))
+			else if (owner.isWar(location.owner))
 			{
 				//System.out.println("takeover");
 				if (location.improvement.name.equals("City"))
@@ -327,13 +327,14 @@ public abstract class GameEntity extends BaseEntity {
 		/*System.out.println("********");
 		System.out.println(owner);
 		System.out.println(owner.enemies.size());*/
-		if (owner.enemies.size() > 0)
+		ArrayList<Civilization> e = owner.enemies();
+		if (e.size() > 0)
 		{
-			for (int i = 0; i < owner.enemies.size(); i++)
+			for (int i = 0; i < e.size(); i++)
 			{
-				for (int j = 0; j < owner.enemies.get(i).cities.size(); j++)
+				for (int j = 0; j < e.get(i).cities.size(); j++)
 				{
-					City candidate = owner.enemies.get(i).cities.get(j);
+					City candidate = e.get(i).cities.get(j);
 					if (!owner.revealed[candidate.location.row][candidate.location.col])
 					{
 						continue;

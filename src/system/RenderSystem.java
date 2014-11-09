@@ -186,15 +186,16 @@ public class RenderSystem extends BaseSystem {
 		//if (main.terrain[r][c] >= 0)
 		//if (main.grid.getTile(r,c).biome)
 		{
+			Tile t = main.grid.getTile(r,c);
 			boolean strokedColor = false; 
 			float sampleSize = 1;
-			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(main.grid.getTile(r, c).biome));
+			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(t.biome));
+			if (t.shape == 2) color = new Color(1,1,1);
 			if (!hidden)
 				main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
 			else if (hidden || lazy)
 				main.fill((float)color.r*150F,(float)color.g*150F,(float)color.b*150F);
 			main.noStroke();
-			Tile t = main.grid.getTile(r,c);
 			Civilization civ = t.owner;
 			
 			Entity temp = new Entity();
