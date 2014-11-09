@@ -47,6 +47,10 @@ public class CivilizationSystem extends BaseSystem {
 				//Automatically move the computer players' units
 				if (true)
 				{
+					if (i >= grid.barbarians) //Barbarian reset
+					{
+						civ.revealed = new boolean[civ.revealed.length][civ.revealed[0].length];
+					}
 					for (int j = 0; j < civ.units.size(); j++)
 					{
 						//Reveal all tiles within sight
@@ -235,7 +239,7 @@ public class CivilizationSystem extends BaseSystem {
 						if (c.queue == null && i != 0)
 						{
 							//System.out.println(civ.units.size());
-							if (i != grid.civs.length - 1)
+							if (i >= grid.barbarians)
 							{
 								if (c.focus.equals("Growth"))
 								{
@@ -627,7 +631,7 @@ public class CivilizationSystem extends BaseSystem {
 						}
 					}
 				}
-				
+
 				//Begin starvation if there is lack of food
 				if (civ.food <= -10)
 				{
@@ -714,7 +718,7 @@ public class CivilizationSystem extends BaseSystem {
 
 			int iter = guiExists ? 1 : 0; //iterate through the "player" civilization if it's a menu simulation
 			//loop through enemy units
-			for (; iter < grid.civs.length - 1; iter++)
+			for (; iter < grid.barbarians; iter++)
 			{
 				Civilization civ = grid.civs[iter];
 				for (int j = 0; j < civ.improvements.size(); j++)
@@ -727,20 +731,23 @@ public class CivilizationSystem extends BaseSystem {
 				}
 			}
 			//loop through barbarians
-			Civilization bar = grid.civs[grid.civs.length-1];
-			for (int j = 0; j < bar.improvements.size(); j++)
+			for (int i = grid.barbarians; i < grid.civs.length; i++)
 			{
-				bar.improvements.get(j).tick();
-			}
-			for (int j = 0; j < bar.units.size(); j++)
-			{
-				bar.units.get(j).barbarianTick();
+				Civilization bar = grid.civs[i];
+				for (int j = 0; j < bar.improvements.size(); j++)
+				{
+					bar.improvements.get(j).tick();
+				}
+				for (int j = 0; j < bar.units.size(); j++)
+				{
+					bar.units.get(j).barbarianTick();
+				}
 			}
 			//}
 
 			//Spawn barbarians in unrevealed tiles (do not include tiles revealed by barbarians)
 			boolean[][] revealedByCivs = new boolean[grid.rows][grid.cols];
-			for (int i = 0; i < grid.civs.length - 1; i++)
+			for (int i = 0; i < grid.barbarians; i++)
 			{
 				Civilization civ = grid.civs[i];
 				for (int r = 0; r < civ.revealed.length; r++)
@@ -753,29 +760,23 @@ public class CivilizationSystem extends BaseSystem {
 			}
 			if (turnsPassed >= 10)
 			{
-				for (int r = 0; r < revealedByCivs.length; r++)
+				for (int civNumber = grid.barbarians; civNumber < grid.civs.length; civNumber++)
 				{
-					for (int c = 0; c < revealedByCivs[0].length; c++)
+					for (int r = 0; r < revealedByCivs.length; r++)
 					{
-						//String test = revealedByCivs[r][c] ? "T" : "F";
-						//System.out.print(test + " ");
-						if (!revealedByCivs[r][c])
-							if (grid.getTile(r, c).biome != -1)
-								if (Math.random() < 0.01)
-									if (grid.civs[grid.civs.length-1].cities.size()*4 +
-											grid.civs[grid.civs.length-1].units.size() < turnsPassed/10)
+						for (int c = 0; c < revealedByCivs[0].length; c++)
+						{
+							//String test = revealedByCivs[r][c] ? "T" : "F";
+							//System.out.print(test + " ");
+							if (!revealedByCivs[r][c])
+								if (grid.getTile(r, c).biome != -1)
+									if (Math.random() < 0.01)
 									{
-										if (grid.civs[grid.civs.length-1].cities.size() == 0)
-											grid.addUnit(EntityData.get("Settler"),grid.civs[grid.civs.length-1],r,c);
-										double rand = Math.random();
-										if (rand < 0.02)
-											grid.addUnit(EntityData.get("Settler"),grid.civs[grid.civs.length-1],r,c);
-										else
-											grid.addUnit(EntityData.get("Warrior"),grid.civs[grid.civs.length-1],r,c);
-										//System.out.println("Spawned barbarian: " + r + ", " + c);
+										spawnBarbarians(grid, civNumber, r, c);
 									}
+						}
+						//System.out.println();
 					}
-					//System.out.println();
 				}
 			}
 
@@ -815,7 +816,7 @@ public class CivilizationSystem extends BaseSystem {
 					civLand[i] = civ.land().size();
 					sum += civLand[i];
 				}
-				for (int i = 0; i < grid.civs.length - 1; i++)
+				for (int i = 0; i < grid.barbarians; i++)
 				{
 					Civilization civ = grid.civs[i];
 					if (civLand[i] == 0 && civ.units.size() == 0 && !civ.observe)
@@ -834,6 +835,22 @@ public class CivilizationSystem extends BaseSystem {
 		}
 	}	
 
+	public void spawnBarbarians(Grid grid, int index, int r, int c)
+	{
+		if (grid.civs[index].cities.size()*4 +
+				grid.civs[index].units.size() < turnsPassed/10)
+		{
+			if (grid.civs[index].cities.size() == 0)
+				grid.addUnit(EntityData.get("Settler"),grid.civs[index],r,c);
+			double rand = Math.random();
+			if (rand < 0.02)
+				grid.addUnit(EntityData.get("Settler"),grid.civs[index],r,c);
+			else
+				grid.addUnit(EntityData.get("Warrior"),grid.civs[index],r,c);
+			//System.out.println("Spawned barbarian: " + r + ", " + c);
+		}
+	}
+	
 	/*public void sacrifice(GameEntity en)
 	{
 		if (en instanceof Settler)

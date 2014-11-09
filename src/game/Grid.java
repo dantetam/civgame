@@ -23,17 +23,21 @@ public class Grid {
 	public final int aggroDistance = 500;
 	public boolean won = false;
 
+	//Keep track of barbarian civs
+	public int barbarians;
+	
 	//Ensure that random numbers are the same (i.e. seeded)
 	public Random rand;
 	
 	//Handle combat scenarios in the context of this grid
 	public ConflictSystem conflictSystem;
 
-	public Grid(String playerCiv, double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff, long seed)
+	public Grid(String playerCiv, double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int numBarbarians, int cutoff, long seed)
 	{
 		rand = new Random(seed);
 		conflictSystem = new ConflictSystem(this);
-		civs = new Civilization[numCivs+numCityStates+1];
+		civs = new Civilization[numCivs+numCityStates+numBarbarians];
+		barbarians = numCivs + numCityStates;
 		tiles = new Tile[terrain.length][terrain[0].length];
 		rows = tiles.length; cols = tiles[0].length;
 		for (int r = 0; r < terrain.length; r++)
@@ -102,10 +106,11 @@ public class Grid {
 			civ.g = (float)(rand.nextDouble()*255); civ.sG = civ.g;
 			civ.b = (float)(rand.nextDouble()*255); civ.sB = civ.b;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
-			civ.opinions = new int[numCivs + numCityStates + 1];
+			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;
 			civ.id = i;
 
+			//This will bias but not force settlers to stay away from each other
 			int r,c; float dist = 30;
 			while (true)
 			{
@@ -120,18 +125,12 @@ public class Grid {
 					{
 						GameEntity s = settlers.get(j); 
 						if (t.dist(s.location) > dist)
-						{
 							continue;
-						}
 						else
-						{
 							valid = false; break;
-						}
 					}
 					if (valid)
-					{
 						break;
-					}
 					dist -= 3;
 				}
 			}
@@ -169,7 +168,7 @@ public class Grid {
 			civ.g = (float)(rand.nextDouble()*255); civ.sG = 255;
 			civ.b = (float)(rand.nextDouble()*255); civ.sB = 255;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
-			civ.opinions = new int[numCivs + numCityStates + 1];
+			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;
 			civ.id = i;
 
@@ -184,17 +183,17 @@ public class Grid {
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 		}
 		//Barbarian state(s)
-		//for (int i = 0; i < 1; i++)
+		for (int i = numCivs + numCityStates; i < civs.length; i++)
 		{
 			//Civilization civ = new Civilization("Barbarians");
-			Civilization civ = new Civilization("Barbarians",new ArrayList<String>(),0,0,0);
+			Civilization civ = new Civilization("Barbarians"+(i-numCivs-numCityStates+1),new ArrayList<String>(),0,0,0);
 			civ.r = 0; civ.sR = 0;
 			civ.g = 0; civ.sG = 255;
 			civ.b = 0; civ.sB = 0;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
-			civ.opinions = new int[numCivs + numCityStates + 1];
-			civs[civs.length - 1] = civ;
-			civ.id = numCivs + numCityStates;
+			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
+			civs[i] = civ;
+			civ.id = i;
 
 			int r,c;
 			do
@@ -210,9 +209,10 @@ public class Grid {
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 
 			//Declare war on everyone
-			for (int i = 0; i < civs.length - 1; i++)
+			//Civilization class handles multiple declarations
+			for (int j = 0; j < i; j++)
 			{
-				civ.war(civs[i]);
+				civ.war(civs[j]);
 			}
 		}
 		//Reset civilizations

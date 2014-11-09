@@ -117,7 +117,7 @@ public class Civilization {
 
 	public void war(Civilization c)
 	{
-		if (!isWar(c))
+		if (!isWar(c) && !equals(c))
 		{
 			enemies.add(c);
 			c.enemies.add(this);
@@ -129,7 +129,7 @@ public class Civilization {
 	
 	public void peace(Civilization c)
 	{
-		if (isWar(c))
+		if (isWar(c) && !equals(c))
 		{
 			enemies.remove(c);
 			c.enemies.remove(this);
@@ -138,7 +138,7 @@ public class Civilization {
 	
 	public void ally(Civilization c)
 	{
-		if (!isAlly(c))
+		if (!isAlly(c) && !equals(c))
 		{
 			allies.add(c);
 			c.allies.add(this);
@@ -147,7 +147,7 @@ public class Civilization {
 	
 	public void openBorder(Civilization c)
 	{
-		if (!isOpenBorder(c))
+		if (!isOpenBorder(c) && !equals(c))
 		{
 			openBorders.add(c);
 			c.openBorders.add(this);
