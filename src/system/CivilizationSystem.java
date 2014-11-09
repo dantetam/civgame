@@ -549,7 +549,8 @@ public class CivilizationSystem extends BaseSystem {
 				{
 					for (int j = 0; j < grid.civs.length; j++)
 					{
-						if (j == 0 || grid.civs[j] instanceof CityState) continue;
+						Civilization civ2 = grid.civs[j];
+						if (j == 0 || civ2 instanceof CityState) continue;
 						if (civ.opinions[j] < -10)//grid.civs[j].cities.size() > 2)
 						{
 							if (grid.civs[j].capital != null && civ.capital != null)
@@ -560,15 +561,45 @@ public class CivilizationSystem extends BaseSystem {
 							System.out.println(!civ.enemies.contains(grid.civs[j]));*/
 								if (//civ.cities.size() > 1.25*grid.civs[j].cities.size() &&
 										//Math.random() < 0.03 &&
-										!civ.equals(grid.civs[j]) &&
+										!civ.equals(civ2) &&
 										//civ.capital.location.dist(grid.civs[j].capital.location) < grid.aggroDistance &&
-										!civ.enemies.contains(grid.civs[j]))
+										!civ.enemies.contains(civ2))
 								{
 									//System.out.println("war between " + civ.name + " and " + grid.civs[j]);
-									civ.enemies.add(grid.civs[j]);
-									grid.civs[j].enemies.add(civ);
+									civ.enemies.add(civ2);
+									civ2.enemies.add(civ);
+									//Call in allies
+									for (int k = 0; k < civ.allies.size(); k++)
+									{
+										//Don't call in people allied to both
+										Civilization a = civ.allies.get(k);
+										if (a.ally(civ) && a.ally(civ2))
+										{
+											continue;
+										}
+										else //Implies not allied to civ2
+										{
+											a.enemies.add(civ2);
+											civ2.enemies.add(a);
+											main.menuSystem.message(a.name + " has been called to war against " + civ2 + "!");
+										}
+									}
+									for (int k = 0; k < civ2.allies.size(); k++)
+									{
+										Civilization a = civ.allies.get(k);
+										if (a.ally(civ) && a.ally(civ2))
+										{
+											continue;
+										}
+										else //Implies not allied to civ
+										{
+											a.enemies.add(civ);
+											civ.enemies.add(a);
+											main.menuSystem.message(a.name + " has been called to war against " + civ + "!");
+										}
+									}
 									if (guiExists)
-										main.menuSystem.message(civ.name + " has declared war on " + grid.civs[j].name + "!");
+										main.menuSystem.message(civ.name + " has declared war on " + civ2.name + "!");
 								}
 							}
 						}
@@ -579,6 +610,25 @@ public class CivilizationSystem extends BaseSystem {
 						}
 					}
 				}
+				//Ally with others
+				for (int j = 0; j < grid.civs.length; j++)
+				{
+					if (civ.opinions[j] > 0)
+					{
+						if (grid.civs[j].capital != null && civ.capital != null)
+						{
+							if (!civ.equals(grid.civs[j]) && !civ.allies.contains(grid.civs[j]) &&
+									civ.capital.location.dist(grid.civs[j].capital.location) < 20)
+							{
+								civ.allies.add(grid.civs[j]);
+								grid.civs[j].allies.add(civ);
+								if (guiExists)
+									main.menuSystem.message(civ.name + " has allied " + grid.civs[j].name + "!");
+							}
+						}
+					}
+				}
+				
 				//Begin starvation if there is lack of food
 				if (civ.food <= -10)
 				{

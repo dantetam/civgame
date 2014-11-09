@@ -19,7 +19,7 @@ Balance game
 	- Store extra food when too much food (limited), and take extra food when starving
 	> Cities can raise temporary garrisons if enemy units on land
 Improve graphics
-	- Custom (certain) or generated textures for land and sea tiles
+	/ Custom (certain) or generated textures for land and sea tiles
 	- Decrease graphics lag on slower computers
 		* On unit selection
 	- Better unit models
@@ -33,16 +33,20 @@ Resource mechanics improvement
 Minor additions:
 / Changes to diplomacy menu
 	>- Declare war
-	- Alliances
+	>- Alliances
+		- Allies called to war automatically
 	- Trade gold, culture, research
 	>- Request open borders
+>+ Relations menu
 >+ Players move in their respective turns
 
 Changes:
 New GUI library
 	* Fix bad inheritances
 	- Allow for non-square elements such as circle bars
+	+* Convert menus
 > Player must declare war on a civ to enter its territory
++ Encapsulate declaring war and alliances to let civs handle the logic
 	
 Fixes:
 > Fix barbarians spawning in revealed tiles

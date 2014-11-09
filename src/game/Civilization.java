@@ -19,8 +19,7 @@ public class Civilization {
 	public ArrayList<GameEntity> units;
 	public ArrayList<TileEntity> improvements;
 	public HashMap<String, Improvement> unitImprovements; //one chosen improvement for each future unit of a certain name
-	public ArrayList<Civilization> enemies;
-	public ArrayList<Civilization> openBorders;
+	public ArrayList<Civilization> enemies, openBorders, allies;
 
 	public TechTree techTree;
 	public String researchTech;
@@ -48,6 +47,7 @@ public class Civilization {
 		}
 		enemies = new ArrayList<Civilization>();
 		openBorders = new ArrayList<Civilization>();
+		allies = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		this.name = name;
 		food = 17; gold = 0; research = 0; //metal = 0;
@@ -77,6 +77,7 @@ public class Civilization {
 		}
 		enemies = new ArrayList<Civilization>();
 		openBorders = new ArrayList<Civilization>();
+		allies = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		name = c.name;
 		food = 17; gold = 0; research = 0; //metal = 0; 
@@ -117,6 +118,11 @@ public class Civilization {
 	public boolean war(Civilization other)
 	{
 		return enemies.contains(other);
+	}
+	
+	public boolean ally(Civilization other)
+	{
+		return allies.contains(other);
 	}
 	
 	public ArrayList<Tile> land()

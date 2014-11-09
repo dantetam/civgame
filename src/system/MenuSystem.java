@@ -60,6 +60,7 @@ public class MenuSystem extends BaseSystem {
 		messages = new ArrayList<String>();
 		//highlighted = null;
 
+		//Keep track of the menu's indices in list
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
 		menu0.addButton("exitgame", "Exit", "Exit this session of the game.", 0, 0, 100, 30);
@@ -70,6 +71,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", 0, 190, 100, 30);
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
+		menu0.addButton("relations", "Relations", "The wars and alliances of this world.", 0, 280, 100, 30);
 		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 300, main.width*1/6, 30).lock = true;
 
 		Menu menu1 = new Menu("UnitMenu");
@@ -111,6 +113,9 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu10 = new Menu("Logs"); //For lack of a better name...
 		menus.add(menu10);
+		
+		Menu menu11 = new Menu("RelationsMenu"); 
+		menus.add(menu11);
 
 		menu0.active = true;
 
@@ -441,7 +446,8 @@ public class MenuSystem extends BaseSystem {
 									command.equals("techs") ||
 									command.equals("encyclopedia") ||
 									command.contains("diplomacy") ||
-									command.equals("log")
+									command.equals("log") ||
+									command.equals("relations")
 									)
 							{
 								closeMenus();
@@ -501,6 +507,11 @@ public class MenuSystem extends BaseSystem {
 								{
 									menus.get(10).active = true;
 									updateMessages();
+								}
+								else if (command.equals("relations"))
+								{
+									menus.get(11).active = true;
+									updateRelations();
 								}
 								resetAllButtons();
 								continue;
@@ -695,13 +706,17 @@ public class MenuSystem extends BaseSystem {
 								s.endSortie();
 							}
 
+							//Diplomatic commands
 							else if (command.contains("openBorders"))
 							{
 								Civilization a = main.grid.civs[0];
 								Civilization b = main.grid.civs[Integer.parseInt(command.substring(11))];
-								a.openBorders.add(b);
-								b.openBorders.add(a);
-								main.menuSystem.message("Requested open borders from " + b.name + ".");
+								if (!a.openBorders.contains(b))
+								{
+									a.openBorders.add(b);
+									b.openBorders.add(a);
+									main.menuSystem.message("Requested open borders from " + b.name + ".");
+								}
 							}
 							else if (command.contains("declareWar"))
 							{
@@ -711,6 +726,21 @@ public class MenuSystem extends BaseSystem {
 								a.enemies.add(b);
 								b.enemies.add(a);
 								main.menuSystem.message("You declared war on " + b.name + "!");
+							}
+							else if (command.contains("ally"))
+							{
+								Civilization a = main.grid.civs[0];
+								Civilization b = main.grid.civs[Integer.parseInt(command.substring(11))];
+								if (a.opinions[b.id] >= 0 && !a.war(b) && !a.allies.contains(b))
+								{
+									a.allies.add(b);
+									b.allies.add(a);
+									main.menuSystem.message("You have allied with " + b.name);
+								}
+								else
+								{
+									main.menuSystem.message("Your relations with this nation do not allow for an alliance.");
+								}
 							}
 
 							else
@@ -785,6 +815,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(8).active = false;
 		menus.get(9).active = false;
 		menus.get(10).active = false;
+		menus.get(11).active = false;
 		//Clear all but the main menu and encyclopedia
 		//for (int i = 1; i < menus.size(); i++)
 	}
@@ -1079,9 +1110,53 @@ public class MenuSystem extends BaseSystem {
 				"Declare war on this civilization (and cancel all deals).",
 				main.width*2/6,main.height*2/6 + main.height/12 + main.height/24 + 20,main.width*2/6,main.height/24);
 
+		menus.get(9).addButton("ally"+civ.id,
+				"Request an alliance.",
+				"Request a mutual protection and aggression between you and this nation.",
+				main.width*2/6,main.height*2/6 + main.height/12 + 2*main.height/24 + 30,main.width*2/6,main.height/24);
+
 		menus.get(9).buttons.add(text0);
 	}
 
+	public void updateRelations()
+	{
+		menus.get(11).buttons.clear();
+		
+		Civilization plr = main.grid.civs[0];
+		
+		TextBox text = new TextBox("","Relations","Your relations with this nation (-200 to 200).",200,255,100,20);
+		menus.get(11).buttons.add(text);
+		text = new TextBox("","Open Borders","Your ability to access this nation's lands.",300,255,100,20);
+		menus.get(11).buttons.add(text);
+		text = new TextBox("","War","",400,255,100,20);
+		menus.get(11).buttons.add(text);
+		text = new TextBox("","Alliance","The existence of a formal alliance between you and this nation.",500,255,100,20);
+		menus.get(11).buttons.add(text);
+		
+		for (int i = 1; i < main.grid.civs.length; i++)
+		{
+			Civilization civ = main.grid.civs[i];
+			
+			text = new TextBox("",civ.name,"",100,280 + 25*(i-1),100,20);
+			menus.get(11).buttons.add(text);
+			
+			text = new TextBox("","" + plr.opinions[i],"",200,280 + 25*(i-1),100,20);
+			menus.get(11).buttons.add(text);
+			
+			String temp = plr.openBorders.contains(civ) ? "Yes" : "No";
+			text = new TextBox("",temp,"",300,280 + 25*(i-1),100,20);
+			menus.get(11).buttons.add(text);
+			
+			temp = plr.enemies.contains(civ) ? "Yes" : "No";
+			text = new TextBox("",temp,"",400,280 + 25*(i-1),100,20);
+			menus.get(11).buttons.add(text);
+			
+			temp = plr.allies.contains(civ) ? "Yes" : "No";
+			text = new TextBox("",temp,"",500,280 + 25*(i-1),100,20);
+			menus.get(11).buttons.add(text);
+		}
+	}
+	
 	//Only done once
 	public void updateEncyclopedia()
 	{
