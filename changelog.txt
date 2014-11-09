@@ -53,9 +53,9 @@ Fixes:
 Major additions:
 >+ Select civilizations 
 	/+ with certain names, attributes, bonuses, and units
-> Functioning combat system based off of health and relative strengths and possibly dice rolls (Civ5/EU4 hybrid)
+>+ Functioning combat system based off of health and relative strengths and possibly dice rolls (Civ5/EU4 hybrid)
 	- Defense bonus on hills, mountain, forest, city, and offensive bonus on plains
-	- Health based (not Civ4 style)
+	>- Health based (not Civ4 style)
 > Fluid menu style with animations and tweens
 ...+ Graphical UIs + colorful menus + set color scheme/style
 >+ Win and loss conditions corresponding to gamemode (w/ sandbox mode)

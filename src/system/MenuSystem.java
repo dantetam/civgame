@@ -975,7 +975,7 @@ public class MenuSystem extends BaseSystem {
 			c = main.grid.civs[i];
 			s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
 			textboxes.get(4).display.add(s);
-			menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with this nation.", 600, 190+60+15*(i-1), 90, 15);
+			menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + c.name + ".", 600, 190+60+15*(i-1), 90, 15);
 		}
 		textboxes.get(4).sizeY = (main.grid.civs.length - 1 + 4)*15 + 15;
 		menus.get(8).active = true;
