@@ -437,16 +437,7 @@ public class MenuSystem extends BaseSystem {
 							else if (command.equals("close"))
 							{
 								//TODO: Replace with a loop later
-								info = false;
-								minimap = false;
-								loadoutDisplay = false;
-								loadout = false;
-								textboxes.get(4).active = false;
-								menus.get(5).active = false;
-								menus.get(7).active = false;
-								menus.get(8).active = false;
-								menus.get(9).active = false;
-								menus.get(10).active = false;
+								closeMenus();
 							}
 							else if (
 									command.equals("info") || 
@@ -461,16 +452,7 @@ public class MenuSystem extends BaseSystem {
 									command.equals("log")
 									)
 							{
-								info = false;
-								minimap = false;
-								loadoutDisplay = false;
-								loadout = false;
-								textboxes.get(4).active = false;
-								menus.get(5).active = false;
-								menus.get(7).active = false;
-								menus.get(8).active = false;
-								menus.get(9).active = false;
-								menus.get(10).active = false;
+								closeMenus();
 								if (command.equals("info"))
 								{
 									info = !info;
@@ -798,16 +780,36 @@ public class MenuSystem extends BaseSystem {
 		clicks.add(0, new Click(false, mouseX, mouseY));
 	}
 
+	public void closeMenus()
+	{
+		info = false;
+		minimap = false;
+		loadoutDisplay = false;
+		loadout = false;
+		textboxes.get(4).active = false;
+		menus.get(5).active = false;
+		menus.get(7).active = false;
+		menus.get(8).active = false;
+		menus.get(9).active = false;
+		menus.get(10).active = false;
+		//Clear all but the main menu and encyclopedia
+		//for (int i = 1; i < menus.size(); i++)
+	}
+
 	public Button findButtonWithin(float mouseX, float mouseY)
 	{
 		for (int i = 0; i < menus.size(); i++)
 		{
-			for (int j = 0; j < menus.get(i).buttons.size(); j++)
+			Menu m = menus.get(i);
+			if (m.active)
 			{
-				Button b = menus.get(i).within(mouseX, mouseY);
-				if (b != null)
+				for (int j = 0; j < m.buttons.size(); j++)
 				{
-					return b;
+					Button b = m.within(mouseX, mouseY);
+					if (b != null)
+					{
+						return b;
+					}
 				}
 			}
 		}
@@ -1124,7 +1126,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			textboxes.get(1).active = false;
 			textboxes.get(1).move(main.width*4/6,-150);
-			
+
 			menus.get(1).buttons.clear();
 		}
 	}
