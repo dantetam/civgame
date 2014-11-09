@@ -501,12 +501,12 @@ public class CivilizationSystem extends BaseSystem {
 					}*/
 					civ.food += tf;
 					civ.gold += tg;
-					civ.metal += tm;
+					//civ.metal += tm;
 					civ.research += tr;
 
 					//Resource caps
 					civ.food = Math.min(civ.food, population*3);
-					civ.metal = Math.min(civ.metal, population*3);
+					//civ.metal = Math.min(civ.metal, population*3);
 				}
 				//Update civilization's opinions of each other
 				for (int j = 0; j < grid.civs.length; j++)
@@ -565,7 +565,8 @@ public class CivilizationSystem extends BaseSystem {
 									//System.out.println("war between " + civ.name + " and " + grid.civs[j]);
 									civ.enemies.add(grid.civs[j]);
 									grid.civs[j].enemies.add(civ);
-									main.menuSystem.message(civ.name + " has declared war on " + grid.civs[j].name + "!");
+									if (guiExists)
+										main.menuSystem.message(civ.name + " has declared war on " + grid.civs[j].name + "!");
 								}
 							}
 						}

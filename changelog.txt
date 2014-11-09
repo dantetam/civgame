@@ -12,8 +12,9 @@ Major additions:
 Balance game
 	- Fix barbarians spawning and attacking too aggressively
 	- Fix civilizations getting early game warriors too early
+		- New unit archer, bonus defending cities and bonus versus warriors
 	- Fix food distribution (return to city by city basis)
-	- Fix metal distribution i.e. do not store metal
+	> Fix metal distribution i.e. do not store metal
 	- Store extra food when too much food (limited), and take extra food when starving
 	> Cities can raise temporary garrisons if enemy units on land
 Improve graphics
@@ -29,9 +30,10 @@ Resource mechanics improvement
 	
 Minor additions:
 / Changes to diplomacy menu
-	/ - Declare war, alliance
+	>- Declare war
+	- Alliances
 	- Trade gold, culture, research
-	> - Request open borders
+	>- Request open borders
 >+ Players move in their respective turns
 
 Changes:
@@ -42,6 +44,7 @@ New GUI library
 	
 Fixes:
 > Fix barbarians spawning in revealed tiles
+>+ Fixed "phantom" tooltips
 
 (Planned 10/26/2014 -> 11/7/2014)
 

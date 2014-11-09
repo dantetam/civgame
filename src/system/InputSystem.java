@@ -205,7 +205,7 @@ public class InputSystem extends BaseSystem {
 		}
 		if (main.menuSystem.getSelected() instanceof Settler)
 		{
-			main.menuSystem.settlerChoices = main.grid.returnBestCityScores(main.menuSystem.getSelected().location.row, main.menuSystem.getSelected().location.col);
+			main.menuSystem.settlerChoices = main.grid.returnBestCityScores(main.menuSystem.getSelected().location.row, main.menuSystem.getSelected().location.col,0.25);
 		}
 		else
 		{
@@ -282,7 +282,7 @@ public class InputSystem extends BaseSystem {
 			if (civ.researchTech == null || civ.researchTech == "")
 			{
 				main.menuSystem.displayTechMenu(civ);
-				main.menuSystem.techMenu = true;
+				main.menuSystem.menus.get(5).active = true;
 				main.menuSystem.message("A tech is needed to research.");
 				return;
 			}
@@ -290,7 +290,7 @@ public class InputSystem extends BaseSystem {
 				main.civilizationSystem.requestTurn = true;
 			else
 			{
-				main.menuSystem.continueMenu = true;
+				main.menuSystem.menus.get(6).active = true;
 				main.menuSystem.message("You have no cities or units!");
 			}
 		}

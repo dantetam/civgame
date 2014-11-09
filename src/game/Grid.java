@@ -336,7 +336,7 @@ public class Grid {
 		return null;
 	}
 
-	public Tile[] returnBestCityScores(int settlerR, int settlerC)
+	public Tile[] returnBestCityScores(int settlerR, int settlerC, double distBias)
 	{
 		evalBefore();
 		int[][] cityScores = new int[rows][cols];
@@ -348,7 +348,7 @@ public class Grid {
 				if (dist > 10 || getTile(r,c).owner != null || getTile(r,c).biome == -1)
 					cityScores[r][c] = 0;
 				else
-					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(0.25*dist);
+					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(distBias*dist);
 			}
 		}
 		Tile[] temp = new Tile[10];

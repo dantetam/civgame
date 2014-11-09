@@ -27,7 +27,7 @@ public class Civilization {
 	public ArrayList<String> bonuses;
 	//public ArrayList<Tile> tiles;
 
-	public int food, gold, metal, research;
+	public int food, gold, research; //,metal;
 
 	public boolean[][] revealed;
 	public int[] opinions;
@@ -50,7 +50,7 @@ public class Civilization {
 		openBorders = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		this.name = name;
-		food = 17; gold = 0; metal = 0; research = 0;
+		food = 17; gold = 0; research = 0; //metal = 0;
 		techTree = new TechTree();
 		beeline = new ArrayList<String>();
 		if (!name.equals("Player"))
@@ -79,7 +79,7 @@ public class Civilization {
 		openBorders = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		name = c.name;
-		food = 17; gold = 0; metal = 0; research = 0;
+		food = 17; gold = 0; research = 0; //metal = 0; 
 		techTree = new TechTree();
 		beeline = new ArrayList<String>();
 		if (!name.equals("Player"))

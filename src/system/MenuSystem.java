@@ -32,7 +32,7 @@ public class MenuSystem extends BaseSystem {
 
 	private ArrayList<Click> clicks;
 
-	public boolean minimap, info, loadout, loadoutDisplay, techMenu, continueMenu; //Access the menu's active property instead
+	public boolean minimap, info; //loadout, loadoutDisplay, techMenu, continueMenu; //Access the menu's active property instead
 	public int multiplier = 1;
 
 	public Tile target;
@@ -196,12 +196,7 @@ public class MenuSystem extends BaseSystem {
 			main.textAlign(PApplet.LEFT);
 			main.text("Seed: " + main.seed, 115, 150);
 		}
-
-		menus.get(3).active = loadout;
-		menus.get(4).active = loadoutDisplay;
-		menus.get(5).active = techMenu;
-		menus.get(6).active = continueMenu;
-
+		
 		if (textboxes.get(4).active)
 		{
 			updateCivStats();
@@ -288,11 +283,8 @@ public class MenuSystem extends BaseSystem {
 		{
 			if (selected.owner != null && !(selected instanceof City))
 			{
-				//main.stroke(255);
-				main.fill(0);
-				//main.rect(main.width*4/6,0,200,150);
 				main.fill(255);
-				main.textSize(12);
+				//main.textSize(14);
 
 				ArrayList<String> temp = textboxes.get(1).display;
 				//temp.clear();
@@ -349,7 +341,7 @@ public class MenuSystem extends BaseSystem {
 
 		main.noStroke();
 		Civilization c = main.grid.civs[0];
-		textboxes.get(3).display.add(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research);
+		textboxes.get(3).display.add(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Research: " + c.research);
 		if (c.researchTech == null)
 			textboxes.get(3).display.add("No research");
 		else
@@ -443,7 +435,7 @@ public class MenuSystem extends BaseSystem {
 									command.equals("info") || 
 									command.equals("minimap") || 
 									command.equals("loadout") || 
-									command.equals("loadoutDisplay") || 
+									command.contains("loadoutDisplay") || 
 									command.equals("stats") ||
 									command.equals("continue") ||
 									command.equals("techs") ||
@@ -463,17 +455,18 @@ public class MenuSystem extends BaseSystem {
 								}
 								else if (command.equals("loadout"))
 								{
-									if (loadoutDisplay)
+									/*if (menus.get(3).active)
 									{
-										loadoutDisplay = false;
+										menus.get(3).active = false;
 									}
-									loadout = !loadout;
+									menus.get(4).active = !menus.get(4).active;*/
+									menus.get(3).active = true;
 								}
 								else if (command.contains("loadoutDisplay"))
 								{
 									//loadout = false;
 									updateLoadoutDisplay(command.substring(14));
-									loadoutDisplay = true;
+									menus.get(4).active = true;
 								}
 								else if (command.equals("stats"))
 								{
@@ -485,12 +478,12 @@ public class MenuSystem extends BaseSystem {
 								else if (command.equals("continue"))
 								{
 									main.grid.civs[0].observe = true;
-									continueMenu = false;
+									menus.get(6).active = false;
 								}
 								else if (command.equals("techs"))
 								{
 									displayTechMenu(main.grid.civs[0]);
-									techMenu = !techMenu;
+									menus.get(5).active = !menus.get(5).active;
 									//menus.get(5).active = !menus.get(5).active;
 								}
 								else if (command.equals("encyclopedia"))
@@ -542,7 +535,7 @@ public class MenuSystem extends BaseSystem {
 								}
 								message("Changed production method of " + unit);
 								main.grid.civs[0].unitImprovements.put(unit,EntityData.unitImprovementMap.get(command.substring(index+1)));
-								loadoutDisplay = false; //Allow player to stay in menu?
+								menus.get(4).active = false; //Allow player to stay in menu?
 								continue;
 							}
 
@@ -652,7 +645,7 @@ public class MenuSystem extends BaseSystem {
 							{
 								//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
 								main.grid.civs[0].researchTech = command.substring(8);
-								techMenu = false;
+								menus.get(5).active = false;
 							}
 							//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 					
 							else if (command.equals("addAdmin"))
@@ -784,8 +777,8 @@ public class MenuSystem extends BaseSystem {
 	{
 		info = false;
 		minimap = false;
-		loadoutDisplay = false;
-		loadout = false;
+		menus.get(3).active = false;
+		menus.get(4).active = false;
 		textboxes.get(4).active = false;
 		menus.get(5).active = false;
 		menus.get(7).active = false;
@@ -965,7 +958,7 @@ public class MenuSystem extends BaseSystem {
 		textboxes.get(4).display.clear();
 		textboxes.get(4).display.add("You:");
 		Civilization c = main.grid.civs[0];
-		String s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research;
+		String s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Research: " + c.research;
 		textboxes.get(4).display.add(s);
 		textboxes.get(4).display.add("");
 
@@ -974,7 +967,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 1; i < main.grid.civs.length; i++)
 		{
 			c = main.grid.civs[i];
-			s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Metal: " + c.metal + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
+			s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
 			textboxes.get(4).display.add(s);
 			menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with this nation.", 600, 190+60+15*(i-1), 90, 15);
 		}
@@ -1108,7 +1101,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			if (en instanceof Settler)
 			{
-				settlerChoices = main.grid.returnBestCityScores(en.location.row, en.location.col);
+				settlerChoices = main.grid.returnBestCityScores(en.location.row, en.location.col, 0.25);
 			}
 			else
 			{
