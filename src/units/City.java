@@ -595,14 +595,13 @@ public class City extends TileEntity {
 								location.grid.addTile(owner, t);
 								t.culture++;
 							}
-							else if (t.owner == owner && t.city == null)
-							{
-								t.city = this;
-								land.add(t);
-								t.culture += 4 - Math.min(3, t.city.location.manhattan(t.city.location)/2);
-							}
+							//There are no more cases?
 						}
-						else 
+						else if (t.owner.equals(owner))
+						{
+							t.culture += 4 - Math.min(3, t.city.location.manhattan(t.city.location)/2);
+						}
+						else if (!(t.improvement instanceof City)) //Implied that someone else owns it 
 						{
 							t.culture--;
 							if (t.culture < 0)

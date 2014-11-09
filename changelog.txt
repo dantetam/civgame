@@ -43,8 +43,10 @@ Minor additions:
 >+ Relations menu
 	>+ Improved so that it can be used to view each's civilization's status
 >+ Players move in their respective turns
-/+ Tiles can defect to other civilizations based on culture
-
+>+ Tiles can defect to other civilizations based on culture
++ Barbarian unification events
+	- Requires separate barbarian tribes
+	
 Changes:
 / New GUI library
 	/* Fix bad inheritances
@@ -52,7 +54,8 @@ Changes:
 	+* Convert menus
 > Player must declare war on a civ to enter its territory
 >+ Encapsulate declaring war and alliances to let civs handle the logic
-	
+/+ Better settler spawns
+
 Fixes:
 > Fix barbarians spawning in revealed tiles
 >+ Fixed "phantom" tooltips

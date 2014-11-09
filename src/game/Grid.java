@@ -74,6 +74,7 @@ public class Grid {
 				}
 			}
 		}
+		ArrayList<GameEntity> settlers = new ArrayList<GameEntity>();
 		for (int i = 0; i < numCivs; i++)
 		{
 			/*Civilization civ = new Civilization("Civilization " + Double.toString(
@@ -105,17 +106,41 @@ public class Grid {
 			civs[i] = civ;
 			civ.id = i;
 
-			int r,c;
-			do
+			int r,c; float dist = 30;
+			while (true)
 			{
 				r = (int)(rand.nextDouble()*tiles.length);
 				c = (int)(rand.nextDouble()*tiles[0].length);
-			} while (tiles[r][c].type.equals("Sea"));
+				Tile t = getTile(r,c);
+				if (t.biome != -1)
+				{
+					//4:33 AM, there's probably a better way to do this
+					boolean valid = true;
+					for (int j = 0; j < settlers.size(); j++)
+					{
+						GameEntity s = settlers.get(j); 
+						if (t.dist(s.location) > dist)
+						{
+							continue;
+						}
+						else
+						{
+							valid = false; break;
+						}
+					}
+					if (valid)
+					{
+						break;
+					}
+					dist -= 3;
+				}
+			}
 			//Test out giving a civilization land and a unit 
 			//with proper encapsulation
 			//addTile(civs[i], tiles[r][c]);
 
 			BaseEntity en = EntityData.get("Settler");
+			settlers.add((GameEntity)en);
 			/*if (i == 1)
 			{
 				for (int j = 0; j < 4; j++)
