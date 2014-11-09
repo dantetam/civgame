@@ -24,6 +24,7 @@ Improve graphics
 		* On unit selection
 	- Better unit models
 	- Unit animations when moving
+	>- Show units on menu simulation
 Resource mechanics improvement
 	- Each resource harvested in a tile has a certain flow of resource
 	- The resource can be "spent" on units to build
@@ -52,7 +53,7 @@ Fixes:
 Major additions:
 >+ Select civilizations 
 	/+ with certain names, attributes, bonuses, and units
-... Functioning combat system based off of health and relative strengths and possibly dice rolls (Civ5/EU4 hybrid)
+> Functioning combat system based off of health and relative strengths and possibly dice rolls (Civ5/EU4 hybrid)
 	- Defense bonus on hills, mountain, forest, city, and offensive bonus on plains
 	- Health based (not Civ4 style)
 > Fluid menu style with animations and tweens

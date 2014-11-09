@@ -137,7 +137,7 @@ public abstract class GameEntity extends BaseEntity {
 		{
 			if (!sortie.land.contains(t))
 			{
-				return "You cannot use a sortie outside its city.";
+				return "You cannot use a sortie unit outside its city.";
 			}
 		}
 		if (t != null)
@@ -203,34 +203,7 @@ public abstract class GameEntity extends BaseEntity {
 				}
 				if (enemy != null)
 				{
-					if (owner.cities.size() > 5 && enemy.owner.cities.size() < 6)
-					{
-						if (Math.random() < 0.75)
-						{
-							location.grid.removeUnit(enemy);
-							location.grid.move(en,r,c);
-							action--;
-						}
-						else
-						{
-							location.grid.removeUnit(en);
-							return false;
-						}
-					}
-					else
-					{
-						if (Math.random() < 0.5)
-						{
-							location.grid.removeUnit(enemy);
-							location.grid.move(en,r,c);
-							action--;
-						}
-						else
-						{
-							location.grid.removeUnit(en);
-							return false;
-						}
-					}
+					//if ()
 				}
 			}
 		}

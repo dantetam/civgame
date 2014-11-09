@@ -23,12 +23,16 @@ public class Grid {
 	public final int aggroDistance = 500;
 	public boolean won = false;
 
-	//Ensure that random numbers are the same
+	//Ensure that random numbers are the same (i.e. seeded)
 	public Random rand;
+	
+	//Handle combat scenarios in the context of this grid
+	public ConflictSystem conflictSystem;
 
 	public Grid(String playerCiv, double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int cutoff, long seed)
 	{
 		rand = new Random(seed);
+		conflictSystem = new ConflictSystem(this);
 		civs = new Civilization[numCivs+numCityStates+1];
 		tiles = new Tile[terrain.length][terrain[0].length];
 		rows = tiles.length; cols = tiles[0].length;
