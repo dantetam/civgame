@@ -9,12 +9,12 @@ X : Abandoned
 (Planned 11/8/2014 -> 11/9/2014 with 10/26/2014 -> 11/7/2014)
 
 Major additions:
-Balance game
+/ Balance game
 	> Fix civs being omnipotent i.e. being able to find the player without a challenge
 	> Fix barbarians spawning and attacking too aggressively
 		> Barbarians have no memory of what they reveal
 	- Fix civilizations getting early game warriors too early
-		- New unit archer, bonus defending cities and bonus versus warriors
+		- New unit, archer, bonus defending cities and bonus versus warriors
 	- Fix food distribution (return to city by city basis)
 	> Fix metal distribution i.e. do not store metal
 	- Store extra food when too much food (limited), and take extra food when starving
@@ -46,7 +46,7 @@ Minor additions:
 >+ Players move in their respective turns
 >+ Tiles can defect to other civilizations based on culture
 + Barbarian unification events
-	- Requires separate barbarian tribes
+	>- Requires separate barbarian tribes
 	
 Changes:
 / New GUI library

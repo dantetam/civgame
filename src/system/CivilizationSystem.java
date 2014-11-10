@@ -712,7 +712,9 @@ public class CivilizationSystem extends BaseSystem {
 				Civilization theCiv = grid.civs[0];
 				for (int j = 0; j < theCiv.units.size(); j++)
 				{
-					theCiv.units.get(j).playerTick();
+					GameEntity u = theCiv.units.get(j);
+					if (u.action > 0)
+						theCiv.units.get(j).playerTick();
 				}
 			}
 

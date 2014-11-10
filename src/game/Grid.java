@@ -200,7 +200,7 @@ public class Grid {
 			{
 				r = (int)(rand.nextDouble()*tiles.length);
 				c = (int)(rand.nextDouble()*tiles[0].length);
-			} while (tiles[r][c].type.equals("Sea"));
+			} while (tiles[r][c].biome == -1);
 
 			/*for (int j = 0; j < 3; j++)
 			{
@@ -209,7 +209,7 @@ public class Grid {
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 
 			//Declare war on everyone
-			//Civilization class handles multiple declarations
+			//Civilization class takes care of multiple declarations of war
 			for (int j = 0; j < i; j++)
 			{
 				civ.war(civs[j]);
