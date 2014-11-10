@@ -9,13 +9,13 @@ public class Warrior extends GameEntity {
 
 	public Warrior(String name) {
 		super(name);
-		health = 10;
+		health = 10; maxHealth = 10;
 		offensiveStr = 2; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public Warrior(GameEntity en) {
 		super(en);
-		health = 10;
+		health = 10; maxHealth = 10;
 		offensiveStr = 2; rangedStr = 0; defensiveStr = 2;
 	}
 
@@ -90,6 +90,13 @@ public class Warrior extends GameEntity {
 					{
 						return;
 					}
+				}
+			}
+			else if (health < maxHealth)
+			{
+				while (action > 0)
+				{
+					heal();
 				}
 			}
 			else //if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 

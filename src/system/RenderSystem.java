@@ -108,6 +108,16 @@ public class RenderSystem extends BaseSystem {
 			}
 		}
 
+		//Rough approximation of where the mouse is
+		Tile h = main.menuSystem.lastHighlighted;
+		Tile m = main.menuSystem.mouseHighlighted;
+		if (h != null)
+		{
+			int dX = (int)(main.mouseX - main.centerX);
+			int dY = (int)(main.mouseY - main.centerY);
+			m = main.grid.getTile(h.row + dX/30, h.col);
+		}
+
 		main.resetShader();
 		/*main.strokeWeight(5);
 		for (int r = 0; r < main.terrain.length; r++)
@@ -197,7 +207,7 @@ public class RenderSystem extends BaseSystem {
 				main.fill((float)color.r*150F,(float)color.g*150F,(float)color.b*150F);
 			main.noStroke();
 			Civilization civ = t.owner;
-			
+
 			Entity temp = new Entity();
 			temp.size(widthBlock*sampleSize, (float)main.terrain[r][c]*con + 1, widthBlock*sampleSize);
 			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
@@ -215,6 +225,14 @@ public class RenderSystem extends BaseSystem {
 				else
 				{
 					main.menuSystem.highlighted = null;
+				}
+			}
+			else if (main.menuSystem.mouseHighlighted != null)
+			{
+				if (main.menuSystem.mouseHighlighted.equals(main.grid.getTile(r, c)))
+				{
+					main.stroke(255,0,0);
+					main.strokeWeight(8);
 				}
 			}
 			else
@@ -454,6 +472,12 @@ public class RenderSystem extends BaseSystem {
 		else
 			renderModel(en.getName(),r,c,0,0,0);
 		main.noStroke();
+
+		main.pushMatrix();
+		main.translate(r*widthBlock, 25, c*widthBlock);
+		main.fill(255,0,0);
+		main.box(5,5,5);
+		main.popMatrix();
 		/*else
 		{
 			main.fill(0);

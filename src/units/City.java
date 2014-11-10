@@ -57,14 +57,13 @@ public class City extends TileEntity {
 		//owner = null;
 		focus = "Growth";
 		buildings = new ArrayList<Improvement>();
-		health = 20;
+		health = 20; maxHealth = 20;
 		offensiveStr = 0; rangedStr = 3; defensiveStr = 6;
 		takeover = 0;
 		sight = 4;
 		art = 0; sci = 0; adm = 0;
 		culture = 0; expanded = 0;
 		raze = false;
-		buildings = new ArrayList<Improvement>();
 	}
 
 	/*public City(TileEntity other) {

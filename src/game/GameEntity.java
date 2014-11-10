@@ -379,6 +379,15 @@ public abstract class GameEntity extends BaseEntity {
 		return null;
 	}
 
+	public void heal()
+	{
+		if (health < maxHealth)
+		{
+			health++;
+			action--;
+		}
+	}
+	
 	//public void tick()
 	{
 		/*GameEntity en = this;

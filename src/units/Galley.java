@@ -12,7 +12,7 @@ public class Galley extends GameEntity {
 
 	public Galley(GameEntity en) {
 		super(en);
-		health = 10;
+		health = 10; maxHealth = 10;
 		offensiveStr = 3; rangedStr = 3; defensiveStr = 2;
 	}
 

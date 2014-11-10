@@ -7,13 +7,13 @@ public class WorkBoat extends GameEntity {
 
 	public WorkBoat(String name) {
 		super(name);
-		health = 10;
+		health = 10; maxHealth = 10;
 		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public WorkBoat(GameEntity en) {
 		super(en);
-		health = 10;
+		health = 10; maxHealth = 10;
 		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 	

@@ -25,7 +25,7 @@ public class Player {
 		//this.civ = civ;
 		//moved = new ArrayList<GameEntity>();
 		posX = 1000;
-		posY = 300;
+		posY = 60;
 		posZ = 1000;
 		update();
 	}
@@ -53,9 +53,9 @@ public class Player {
 	public void orient(Grid grid)
 	{
 		posX = grid.rows/2*RenderSystem.widthBlock;
-		posY = 50;
+		posY = 60;
 		posZ = grid.cols/2*RenderSystem.widthBlock;
-		rotY = 0;
+		rotY = (float)Math.PI/2;
 		rotVertical = (float)Math.PI/8F;
 	}
 	

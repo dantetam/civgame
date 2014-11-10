@@ -9,13 +9,13 @@ public class Worker extends GameEntity {
 
 	public Worker(String name) {
 		super(name);
-		health = 5;
+		health = 5; maxHealth = 5;
 		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public Worker(GameEntity en) {
 		super(en);
-		health = 5;
+		health = 5; maxHealth = 5;
 		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 

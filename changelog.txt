@@ -26,6 +26,7 @@ Improve graphics
 	- Better unit models
 	- Unit animations when moving
 	>- Show units on menu simulation
+	/ Health bar display
 Resource mechanics improvement
 	- Each resource harvested in a tile has a certain flow of resource
 	- The resource can be "spent" on units to build

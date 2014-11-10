@@ -16,11 +16,11 @@ public abstract class BaseEntity {
 	public String queue;
 	public int queueTurns;
 
-	public int health;
+	public int health, maxHealth;
 	public float offensiveStr, rangedStr, defensiveStr;
 
 	public City sortie = null; //If this unit was raised by a sortie order, this will hold the city it "belongs" to
-	
+
 	public Improvement unitImprovement;
 
 	public BaseEntity(String name)
