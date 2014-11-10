@@ -37,7 +37,8 @@ public class MenuSystem extends BaseSystem {
 
 	public Tile target;
 	//public ArrayList<String> hintText;
-	public Tile highlighted, mouseHighlighted; //Under the player's crosshair versus under the player's mouse
+	public Tile highlighted;
+	public Tile mouseHighlighted; //Under the player's crosshair versus under the player's mouse
 	public Tile lastHighlighted;
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
 	public Tile[] settlerChoices;
@@ -159,6 +160,14 @@ public class MenuSystem extends BaseSystem {
 		main.textSize(12);
 
 		lastHighlighted = highlighted;
+		
+		//Approximate tile lines
+		main.strokeWeight(5);
+		main.stroke(255,0,0);
+		main.line(705,437,698,483);
+		main.line(775,435,781,482);
+		main.line(840,425,854,471);
+		main.noStroke();
 		
 		if (minimap)
 		{

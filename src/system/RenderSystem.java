@@ -110,12 +110,11 @@ public class RenderSystem extends BaseSystem {
 
 		//Rough approximation of where the mouse is
 		Tile h = main.menuSystem.lastHighlighted;
-		Tile m = main.menuSystem.mouseHighlighted;
 		if (h != null)
 		{
 			int dX = (int)(main.mouseX - main.centerX);
 			int dY = (int)(main.mouseY - main.centerY);
-			m = main.grid.getTile(h.row + dX/30, h.col);
+			main.menuSystem.mouseHighlighted = main.grid.getTile(h.row + dX/70, h.col);
 		}
 
 		main.resetShader();
