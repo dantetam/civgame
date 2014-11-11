@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import render.Button;
 import render.CivGame;
+import render.MouseHelper;
 import terrain.DiamondSquare;
 import entity.*;
 import game.BaseEntity;
@@ -19,11 +20,13 @@ public class RenderSystem extends BaseSystem {
 
 	public GridModel terrain;
 	public Player player;
-
+	public MouseHelper mouseHelper;
+	
 	public RenderSystem(CivGame civGame)
 	{
 		super(civGame);
 		player = main.player;
+		mouseHelper = new MouseHelper(main.width, main.height);
 	}
 
 	public void tick()
@@ -110,6 +113,7 @@ public class RenderSystem extends BaseSystem {
 
 		//Rough approximation of where the mouse is
 		Tile h = main.menuSystem.lastHighlighted;
+		
 		if (h != null)
 		{
 			int dX = (int)(main.mouseX - main.centerX);

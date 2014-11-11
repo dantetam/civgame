@@ -112,9 +112,18 @@ public class CivGame extends PApplet {
 		}
 	}
 
+	//public boolean newLine = false;
 	public void mousePressed()
 	{
-		println("Mouse pressed: " + mouseX + " " + mouseY);
+		/*if (!newLine)
+		{
+			print("main.line("+(int)mouseX+","+(int)mouseY);
+		}
+		else
+		{
+			println(","+mouseX+","+mouseY+")");
+		}
+		newLine = !newLine;*/
 		//println(player.toString());
 		menuSystem.queueClick(mouseX, mouseY);
 		if (mouseButton == LEFT)
