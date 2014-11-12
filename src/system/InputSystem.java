@@ -156,6 +156,16 @@ public class InputSystem extends BaseSystem {
 		}
 		main.player.update();
 		int[] tile = mouseHelper.findTile(mouseX, mouseY);
+		if (tile == null)
+		{
+			main.menuSystem.mouseHighlighted = null;
+		}
+		else
+		{
+			Tile h = main.menuSystem.highlighted;
+			if (h != null)
+				main.menuSystem.mouseHighlighted = main.grid.getTile(h.row + tile[1], h.col - tile[0]);
+		}
 	}
 
 	public ArrayList<Click> clicks = new ArrayList<Click>();
@@ -174,24 +184,24 @@ public class InputSystem extends BaseSystem {
 	//private int num = 0;
 	public void passLeftMouseClick(float mouseX, float mouseY)
 	{
-		if (main.menuSystem.highlighted != null && !main.menuSystem.menuActivated)
+		if (main.menuSystem.mouseHighlighted != null && !main.menuSystem.menuActivated)
 		{
-			if (main.menuSystem.highlighted.occupants.size() > 0)
+			if (main.menuSystem.mouseHighlighted.occupants.size() > 0)
 			{
-				int r = (int)(main.menuSystem.highlighted.occupants.size()*Math.random()); 
-				if (main.menuSystem.highlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
+				int r = (int)(main.menuSystem.mouseHighlighted.occupants.size()*Math.random()); 
+				if (main.menuSystem.mouseHighlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
 				{
 					if (main.menuSystem.getSelected() != null)
 					{
-						if (!main.menuSystem.getSelected().equals(main.menuSystem.highlighted.occupants.get(r)))
+						if (!main.menuSystem.getSelected().equals(main.menuSystem.mouseHighlighted.occupants.get(r)))
 						{
-							main.menuSystem.select(main.menuSystem.highlighted.occupants.get(r));
+							main.menuSystem.select(main.menuSystem.mouseHighlighted.occupants.get(r));
 							return;
 						}
 					}
 					else
 					{
-						main.menuSystem.select(main.menuSystem.highlighted.occupants.get(r));
+						main.menuSystem.select(main.menuSystem.mouseHighlighted.occupants.get(r));
 						//continue on to the next if statement
 					}
 				}
@@ -201,10 +211,10 @@ public class InputSystem extends BaseSystem {
 				main.menuSystem.select(null);
 				main.resetCamera();
 			}
-			if (main.menuSystem.highlighted.improvement != null)
-				if (main.grid.civs[0].cities.contains(main.menuSystem.highlighted.improvement))
+			if (main.menuSystem.mouseHighlighted.improvement != null)
+				if (main.grid.civs[0].cities.contains(main.menuSystem.mouseHighlighted.improvement))
 				{
-					City c = (City)main.menuSystem.highlighted.improvement;
+					City c = (City)main.menuSystem.mouseHighlighted.improvement;
 					main.menuSystem.select(c);
 					//return;
 				}
@@ -224,7 +234,7 @@ public class InputSystem extends BaseSystem {
 		if (main.menuSystem.getSelected() instanceof GameEntity)
 		{
 			GameEntity en = (GameEntity)main.menuSystem.getSelected();
-			Tile t = main.menuSystem.highlighted;
+			Tile t = main.menuSystem.mouseHighlighted;
 			if (en != null && t != null)
 			{
 				if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then

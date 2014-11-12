@@ -94,12 +94,12 @@ public class MouseHelper {
 		{
 			for (int c = 0; c < shapes[0].length; c++)
 			{
-				System.out.println("*");
+				/*System.out.println("*");
 				System.out.println(shapes[r][c].x.toString());
-				System.out.println(shapes[r][c].y.toString());
+				System.out.println(shapes[r][c].y.toString());*/
 				if (within(x, y, shapes[r][c].x, shapes[r][c].y))
 				{
-					return new int[]{r-3,c-5}; //Adjust for pivot
+					return new int[]{r - (horizonLines.size()-1)/2,c - (vertLines.size()-1)/2}; //Adjust for pivot
 				}
 			}
 		}

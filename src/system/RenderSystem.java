@@ -110,14 +110,14 @@ public class RenderSystem extends BaseSystem {
 		}
 
 		//Rough approximation of where the mouse is
-		Tile h = main.menuSystem.lastHighlighted;
+		//Tile h = main.menuSystem.lastHighlighted;
 		
-		if (h != null)
+		/*if (h != null)
 		{
 			int dX = (int)(main.mouseX - main.centerX);
 			int dY = (int)(main.mouseY - main.centerY);
 			//main.menuSystem.mouseHighlighted = main.grid.getTile(h.row + dX/70, h.col);
-		}
+		}*/
 
 		main.resetShader();
 		/*main.strokeWeight(5);
@@ -214,11 +214,11 @@ public class RenderSystem extends BaseSystem {
 			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			if (main.player.lookingAtEntity(temp))
 			{
-				main.menuSystem.target = main.grid.getTile(r, c);
+				/*main.menuSystem.target = main.grid.getTile(r, c);
 				//main.fill(0);
 				main.stroke(0,0,255);
 				main.strokeWeight(8);
-				strokedColor = true;
+				strokedColor = true;*/
 				if (main.grid.getTile(r,c) != null)
 				{
 					main.menuSystem.highlighted = main.grid.getTile(r,c);
@@ -228,14 +228,15 @@ public class RenderSystem extends BaseSystem {
 					main.menuSystem.highlighted = null;
 				}
 			}
-			/*else if (main.menuSystem.mouseHighlighted != null)
+			if (main.menuSystem.mouseHighlighted != null)
 			{
 				if (main.menuSystem.mouseHighlighted.equals(main.grid.getTile(r, c)))
 				{
 					main.stroke(255,0,0);
 					main.strokeWeight(8);
+					strokedColor = true;
 				}
-			}*/
+			}
 			else
 			{
 				if (main.grid.getTile(r,c).owner != null && !hidden)

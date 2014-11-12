@@ -38,7 +38,7 @@ public class MenuSystem extends BaseSystem {
 	public Tile target;
 	//public ArrayList<String> hintText;
 	public Tile highlighted;
-	//public Tile mouseHighlighted; //Under the player's crosshair versus under the player's mouse
+	public Tile mouseHighlighted; //Under the player's crosshair versus under the player's mouse
 	public Tile lastHighlighted;
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
 	public Tile[] settlerChoices;
@@ -305,13 +305,13 @@ public class MenuSystem extends BaseSystem {
 			if (main.grid.irrigated(target.row, target.col))
 				hintText.add("Fresh Water");
 
-			if (highlighted != null)
-				if (highlighted.occupants.size() > 0)
+			if (mouseHighlighted != null)
+				if (mouseHighlighted.occupants.size() > 0)
 				{
 					String stringy = "";
-					for (int i = 0; i < highlighted.occupants.size(); i++)
+					for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
 					{
-						stringy += highlighted.occupants.get(i).name + "; ";
+						stringy += mouseHighlighted.occupants.get(i).name + "; ";
 					}
 					if (!stringy.equals(""))
 						hintText.add(stringy.substring(0,stringy.length()-2));
@@ -359,12 +359,12 @@ public class MenuSystem extends BaseSystem {
 					displayCity(citySelected);
 				}
 		}
-		else if (highlighted != null)
+		else if (mouseHighlighted != null)
 		{
-			if (highlighted.improvement != null)
-				if (highlighted.improvement instanceof City)
+			if (mouseHighlighted.improvement != null)
+				if (mouseHighlighted.improvement instanceof City)
 				{
-					City citySelected = (City)highlighted.improvement;
+					City citySelected = (City)mouseHighlighted.improvement;
 					displayCity(citySelected);
 				}
 		}
