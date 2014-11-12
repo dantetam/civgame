@@ -255,67 +255,66 @@ public class MenuSystem extends BaseSystem {
 
 		ArrayList<String> hintText = textboxes.get(0).display;
 		//hintText.clear();
-		if (target != null)
+		if (mouseHighlighted != null)
 		{
-			hintText.add(target.row + " " + target.col);
-			if (target.owner != null)
-				hintText.add("Owner: " + target.owner.name);
+			hintText.add(mouseHighlighted.row + " " + mouseHighlighted.col);
+			if (mouseHighlighted.owner != null)
+				hintText.add("Owner: " + mouseHighlighted.owner.name);
 			else
 				hintText.add("Terra nullius");
 
-			if (target.biome >= 4 && target.biome <= 6)
-				if (target.forest)
-					hintText.add(EntityData.getBiome(target.biome) + " (forested)");
+			if (mouseHighlighted.biome >= 4 && mouseHighlighted.biome <= 6)
+				if (mouseHighlighted.forest)
+					hintText.add(EntityData.getBiome(mouseHighlighted.biome) + " (forested)");
 				else
-					hintText.add(EntityData.getBiome(target.biome) + " (unforested)");
+					hintText.add(EntityData.getBiome(mouseHighlighted.biome) + " (unforested)");
 			else
-				hintText.add(EntityData.getBiome(target.biome));
+				hintText.add(EntityData.getBiome(mouseHighlighted.biome));
 
-			if (target.shape == 1)
+			if (mouseHighlighted.shape == 1)
 			{
 				hintText.add("Hill");
 			}
-			else if (target.shape == 2)
+			else if (mouseHighlighted.shape == 2)
 			{
 				hintText.add("Mountain");
 			}
 
-			if (target.improvement != null)
+			if (mouseHighlighted.improvement != null)
 			{
-				hintText.add(target.improvement.name);
-				hintText.add(target.improvement.id);
+				hintText.add(mouseHighlighted.improvement.name);
+				hintText.add(mouseHighlighted.improvement.id);
 			}
 			else
 				hintText.add("Pristine");
 
-			if (target.city != null)
+			if (mouseHighlighted.city != null)
 			{
-				if (target.city.owner != null)
+				if (mouseHighlighted.city.owner != null)
 				{
-					double[] data = target.city.evaluate(target, null);
+					double[] data = mouseHighlighted.city.evaluate(mouseHighlighted, null);
 					hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
 				}
 			}
 			//Same check as above, really
-			if (target.owner != null)
+			if (mouseHighlighted.owner != null)
 			{
-				hintText.add("Relations: " + target.owner.opinions[0]);
+				hintText.add("Relations: " + mouseHighlighted.owner.opinions[0]);
 			}
 
-			if (main.grid.irrigated(target.row, target.col))
+			if (main.grid.irrigated(mouseHighlighted.row, mouseHighlighted.col))
 				hintText.add("Fresh Water");
 
-			if (mouseHighlighted != null)
-				if (mouseHighlighted.occupants.size() > 0)
+			if (mouseHighlighted.occupants.size() > 0)
+			{
+				String stringy = "";
+				for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
 				{
-					String stringy = "";
-					for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
-					{
-						stringy += mouseHighlighted.occupants.get(i).name + "; ";
-					}
-					if (!stringy.equals(""))
-						hintText.add(stringy.substring(0,stringy.length()-2));
+					stringy += mouseHighlighted.occupants.get(i).name + "; ";
 				}
+				if (!stringy.equals(""))
+					hintText.add(stringy.substring(0,stringy.length()-2));
+			}
 		}
 		if (selected != null)
 		{

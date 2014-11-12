@@ -248,7 +248,8 @@ public abstract class GameEntity extends BaseEntity {
 	{
 		//System.out.println(location + " " + location.improvement);
 		if (location.improvement != null)
-		{
+		{		
+			action--;
 			//System.out.println(owner + " " + location.improvement.owner + " Name: " + location.improvement.id);
 			if (location.improvement.owner == null && location.improvement.name.equals("Ruins"))
 			{
@@ -353,10 +354,10 @@ public abstract class GameEntity extends BaseEntity {
 				for (int j = 0; j < e.get(i).cities.size(); j++)
 				{
 					City candidate = e.get(i).cities.get(j);
-					if (!owner.revealed[candidate.location.row][candidate.location.col])
+					/*if (!owner.revealed[candidate.location.row][candidate.location.col])
 					{
 						continue;
-					}
+					}*/
 					if (nearest != null)
 					{
 						if (candidate.location.dist(location) < nearest.location.dist(location)) 

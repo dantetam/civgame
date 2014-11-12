@@ -46,25 +46,26 @@ public class Warrior extends GameEntity {
 	{
 		if (!explorer)
 		{
+			//System.out.println("beginning");
 			Tile nearestA = nearestAlliedCity();
 			if (queueTiles.size() > 0)
 			{
 				while (action > 0)
 				{
 					if (queueTiles.size() == 0)
-					{
-						break;
-					}
-					Tile q = queueTiles.get(queueTiles.size()-1);
-					queueTiles.remove(queueTiles.size()-1);
-					if (!aggressiveWaddle(q.row - location.row, q.col - location.col))
-					{
 						return;
-					}
+
+					Tile q = queueTiles.get(queueTiles.size()-1);
+					if (!aggressiveWaddle(q.row - location.row, q.col - location.col))
+						return;
+					if (queueTiles.size() == 0)
+						return;
+
+					queueTiles.remove(queueTiles.size()-1);
 
 					//raze();
 					if (raze()) return;
-					if (queueTiles.size() > 0)
+					/*if (queueTiles.size() > 0)
 						if (queueTiles.get(0).owner.equals(owner) || queueTiles.get(0).equals(location))
 						{
 							nearestA = nearestAlliedCity();
@@ -78,8 +79,9 @@ public class Warrior extends GameEntity {
 								super.waddleToExact(nearestA.row,nearestA.col);
 								//System.out.println("pathfinding start " + queueTiles.size());
 							}
-						}
-					Tile t = adjacentEnemy();
+						}*/
+					
+					/*Tile t = adjacentEnemy();
 					if (t != null)
 					{
 						queueTiles.clear();
@@ -92,7 +94,7 @@ public class Warrior extends GameEntity {
 					else
 					{
 						return;
-					}
+					}*/
 				}
 			}
 			else if (health < maxHealth)
@@ -100,6 +102,7 @@ public class Warrior extends GameEntity {
 				while (action > 0)
 				{
 					heal();
+					if (health == maxHealth) break;
 				}
 			}
 			else //if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
@@ -128,10 +131,13 @@ public class Warrior extends GameEntity {
 				//else
 				else
 				{
-					int r = (int)(Math.random()*3) - 1;
-					int c = (int)(Math.random()*3) - 1;
-					//if (!aggressiveWaddle(r,c)) return;
-					aggressiveWaddle(r,c);
+					while (action > 0)
+					{
+						int r = (int)(Math.random()*3) - 1;
+						int c = (int)(Math.random()*3) - 1;
+						//if (!aggressiveWaddle(r,c)) return;
+						aggressiveWaddle(r,c);
+					}
 				}
 			}
 		}
@@ -141,13 +147,15 @@ public class Warrior extends GameEntity {
 			{
 				while (action > 0)
 				{
+					if (queueTiles.size() == 0)
+						break;
 					if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
 					{
 						return;
 					}
-					queueTiles.remove(queueTiles.size()-1);
 					if (queueTiles.size() == 0)
-						explore();
+						break;
+					queueTiles.remove(queueTiles.size()-1);
 				}
 				for (int i = 0; i < queueTiles.size(); i++)
 				{
@@ -163,6 +171,7 @@ public class Warrior extends GameEntity {
 				explore();
 			}
 		}
+		//System.out.println("end");
 	}
 
 	public void waddle()

@@ -85,13 +85,13 @@ public class Settler extends GameEntity {
 					waddleToExact(t.row,t.col);
 				}
 			}
-			else if (queueTiles.get(0).owner != null)
+			/*else if (queueTiles.get(0).owner != null)
 			{
 				if (!queueTiles.get(0).owner.equals(owner))
 				{
 					queueTiles.clear();
 				}
-			}
+			}*/
 		}
 		/**/
 	}
