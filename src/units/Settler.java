@@ -37,10 +37,7 @@ public class Settler extends GameEntity {
 	{
 		if (settle())
 			return;
-		else
-		{
-			waddle();
-		}
+		waddle();
 	}
 
 	/*public void tick()
@@ -70,7 +67,8 @@ public class Settler extends GameEntity {
 				settle();
 				return;
 			}
-			location.grid.move(this,queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			//location.grid.move(this,queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
 			queueTiles.remove(queueTiles.size()-1);
 			//If it reaches the destination
 			if (queueTiles.size() == 0)

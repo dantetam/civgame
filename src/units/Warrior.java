@@ -51,16 +51,16 @@ public class Warrior extends GameEntity {
 			{
 				while (action > 0)
 				{
-					if (queueTiles.size() == 0) return;
+					if (queueTiles.size() == 0)
+					{
+						break;
+					}
 					Tile q = queueTiles.get(queueTiles.size()-1);
+					queueTiles.remove(queueTiles.size()-1);
 					if (!aggressiveWaddle(q.row - location.row, q.col - location.col))
 					{
-						//queueTiles.remove(queueTiles.size()-1);
 						return;
 					}
-					if (queueTiles.size() == 0) return;
-					
-					queueTiles.remove(queueTiles.size()-1);
 
 					//raze();
 					if (raze()) return;
@@ -84,7 +84,10 @@ public class Warrior extends GameEntity {
 					{
 						queueTiles.clear();
 						if (!aggressiveWaddle(t.row - location.row, t.col - location.col))
+						{
+							queueTiles.remove(queueTiles.size()-1);
 							return;
+						}
 					}
 					else
 					{
@@ -138,28 +141,26 @@ public class Warrior extends GameEntity {
 			{
 				while (action > 0)
 				{
-					aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+					if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
+					{
+						return;
+					}
+					queueTiles.remove(queueTiles.size()-1);
+					if (queueTiles.size() == 0)
+						explore();
+				}
+				for (int i = 0; i < queueTiles.size(); i++)
+				{
+					if (!owner.isOpenBorder(queueTiles.get(i).owner))
+					{
+						explore();
+						break;
+					}
 				}
 			}
 			else
 			{
-				int r,c,trials = 0;
-				while (true)
-				{
-					r = (int)(Math.random()*location.grid.rows);
-					c = (int)(Math.random()*location.grid.cols);
-					Tile t = location.grid.getTile(r,c); //guaranteed to exist. i think.
-					if (t.biome != -1)
-						if (t.owner == null)
-							break;
-					trials++;
-					if (trials > 10) break;
-				}
-				Tile t = location.grid.getTile(r,c);
-				if (t.biome != -1)
-					waddleToExact(r,c);
-				else
-					return;
+				explore();
 			}
 		}
 	}

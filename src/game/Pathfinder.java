@@ -26,7 +26,8 @@ public class Pathfinder {
 		//System.out.println(x1 + "," + y1 + "," + x2 + "," + y2);
 	}
 
-	public ArrayList<Tile> findPath(int x1, int y1, int x2, int y2, boolean diagonal)
+	//http://theory.stanford.edu/~amitp/GameProgramming/
+	public ArrayList<Tile> findPath(Civilization civ, int x1, int y1, int x2, int y2, boolean diagonal)
 	{
 		for (int r = 0; r < grid.rows; r++)
 		{
@@ -55,7 +56,7 @@ public class Pathfinder {
 			Node current = openSet.get(findLowestQueueIndex(openSet));
 			openSet.remove(findLowestQueueIndex(openSet));
 			closedSet.add(current);
-			ArrayList<Node> ns = findValidNeighbors(current,diagonal);
+			ArrayList<Node> ns = findValidNeighbors(current,civ,diagonal);
 			for (int i = 0; i < ns.size(); i++)
 			{
 				double cost;
@@ -113,9 +114,9 @@ public class Pathfinder {
 		return temp;
 	}
 
-	public ArrayList<Tile> findAdjustedPath(int x1, int y1, int x2, int y2)
+	public ArrayList<Tile> findAdjustedPath(Civilization civ, int x1, int y1, int x2, int y2)
 	{
-		ArrayList<Tile> temp = findPath(x1,y1,x2,y2,true);
+		ArrayList<Tile> temp = findPath(civ,x1,y1,x2,y2,true);
 		if (temp == null) return null;
 		if (!temp.get(0).equals(grid.getTile(end.r,end.c)))
 		{
@@ -162,7 +163,7 @@ public class Pathfinder {
 		}
 	}
 
-	public ArrayList<Node> findValidNeighbors(Node node, boolean diagonal)
+	public ArrayList<Node> findValidNeighbors(Node node, Civilization civ, boolean diagonal)
 	{
 		ArrayList<Node> temp = new ArrayList<Node>();
 		int r = node.r;
@@ -205,6 +206,13 @@ public class Pathfinder {
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {}
+		for (int i = temp.size() - 1; i >= 0; i--)
+		{
+			Civilization civ2 = grid.getTile(temp.get(i).r, temp.get(i).c).owner;
+			if (civ2 != null && !civ.equals(civ2))
+				if (!civ.isOpenBorder(civ2))
+					temp.remove(i);
+		}
 		return temp;
 	}
 

@@ -112,10 +112,10 @@ public class CivGame extends PApplet {
 		}
 	}
 
-	public boolean newLine = false;
+	//public boolean newLine = false;
 	public void mousePressed()
 	{
-		if (!newLine)
+		/*if (!newLine)
 		{
 			print("main.line("+(int)mouseX+","+(int)mouseY);
 		}
@@ -123,7 +123,7 @@ public class CivGame extends PApplet {
 		{
 			println(","+mouseX+","+mouseY+")");
 		}
-		newLine = !newLine;
+		newLine = !newLine;*/
 		//println(player.toString());
 		menuSystem.queueClick(mouseX, mouseY);
 		if (mouseButton == LEFT)
@@ -466,9 +466,9 @@ public class CivGame extends PApplet {
 
 	//Returns an interpolated map which gives each chunk a level of rain, based on temperature
 	//Arctic climates do not have rain, tropical climates can have any level
-	Random rainRandom = new Random(seed);
 	public double[][] assignRain(double[][] temperature)
 	{
+		Random rainRandom = new Random(seed);
 		double[][] returnThis = new double[temperature.length][temperature[0].length];
 		for (int i = 0; i < temperature.length; i++)
 		{

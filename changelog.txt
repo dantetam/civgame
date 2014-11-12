@@ -92,7 +92,7 @@ Minor additions:
 >+ Menu has simulations of actual games
 
 Changes:
-... Ability to select any tile with the mouse
+> Ability to select any tile with the mouse
 > Tile border rendering changes
 
 Fixes:

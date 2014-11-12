@@ -185,7 +185,7 @@ public class CivilizationSystem extends BaseSystem {
 						if (civ.capital != null)
 							if (civ.capital.equals(c))
 								c.culture++;
-						c.culture++;
+						//c.culture++;
 						//System.out.println(c.culture + " " + c.expanded);
 						if (c.culture >= 20 && c.expanded == 1)
 						{
@@ -362,7 +362,7 @@ public class CivilizationSystem extends BaseSystem {
 									grid.addUnit(en,civ,c.location.row,c.location.col);
 									en.unitImprovement = civ.unitImprovements.get(c.queue);
 									en.improve();
-									if (civ.name.contains("Barbarians"))
+									if (!civ.name.contains("Barbarians"))
 										if (en instanceof GameEntity && !(en instanceof Settler) && !(en instanceof Worker))
 											if (grid.explored(civ) < 0.2)
 												((GameEntity)en).explorer = true;
@@ -615,7 +615,7 @@ public class CivilizationSystem extends BaseSystem {
 					}
 				}
 				//Ally with others
-				for (int j = 0; j < grid.civs.length; j++)
+				/*for (int j = 0; j < grid.civs.length; j++)
 				{
 					if (civ.opinions[j] > 0)
 					{
@@ -630,7 +630,7 @@ public class CivilizationSystem extends BaseSystem {
 							}
 						}
 					}
-				}
+				}*/
 
 				//Begin starvation if there is lack of food
 				if (civ.food <= -10)
@@ -852,7 +852,7 @@ public class CivilizationSystem extends BaseSystem {
 			//System.out.println("Spawned barbarian: " + r + ", " + c);
 		}
 	}
-	
+
 	/*public void sacrifice(GameEntity en)
 	{
 		if (en instanceof Settler)

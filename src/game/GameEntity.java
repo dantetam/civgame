@@ -91,7 +91,7 @@ public abstract class GameEntity extends BaseEntity {
 		queueTiles.clear();
 		if (location.grid.getTile(location.row+r,location.col+c) != null)
 		{
-			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(location.row,location.col,location.row+r,location.col+c);
+			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(owner,location.row,location.col,location.row+r,location.col+c);
 			/*if (owner.name.equals("Player"))
 			{
 				for (int i = 0; i < tiles.size(); i++)
@@ -114,7 +114,7 @@ public abstract class GameEntity extends BaseEntity {
 		queueTiles.clear();
 		if (location.grid.getTile(r,c) != null)
 		{
-			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(location.row,location.col,r,c);
+			ArrayList<Tile> tiles = location.grid.pathFinder.findAdjustedPath(owner,location.row,location.col,r,c);
 			if (tiles != null)
 			{
 				if (tiles.size() > 0)
@@ -306,6 +306,24 @@ public abstract class GameEntity extends BaseEntity {
 		return false;
 	}
 
+	public void explore()
+	{
+		queueTiles.clear();
+		int r,c; //,trials = 0;
+		while (true)
+		{
+			r = (int)(Math.random()*location.grid.rows);
+			c = (int)(Math.random()*location.grid.cols);
+			Tile t = location.grid.getTile(r,c); //guaranteed to exist. i think.
+			if (t.biome != -1)
+				if (t.owner == null)
+					break;
+			/*trials++;
+			if (trials > 10) break;*/
+		}
+		waddleToExact(r,c);
+	}
+	
 	public Tile adjacentEnemy()
 	{
 		if (owner == null || location == null) return null;

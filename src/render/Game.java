@@ -26,7 +26,7 @@ public class Game extends PApplet {
 	public PFont arial;
 
 	public MenuGame menuGame;
-	public int tickEvery = 8;
+	public int tickEvery = 6;
 
 	//public long seed = 87069200L;
 	public String seed = "87069200"; //for easy modification (not by modulo)
@@ -292,7 +292,7 @@ public class Game extends PApplet {
 					String command = menus.get(i).click(mouseX, mouseY);
 					if (command != null && !command.equals(""))
 					{
-						tickEvery = 20;
+						//tickEvery = 20;
 						if (command.equals("newgame"))
 						{
 							//gameMode = "challengeTypeMenu";
