@@ -33,13 +33,13 @@ public class MouseHelper {
 		horizontal(0,602,width,602);
 		horizontal(0,720,width,720);
 		
-		intersections = new Point[vertLines.size()][horizonLines.size()];
+		intersections = new Point[horizonLines.size()][vertLines.size()];
 		for (int i = 0; i < horizonLines.size(); i++)
 		{
 			Line h = horizonLines.get(i);
 			for (int j = 0; j < vertLines.size(); j++)
 			{
-				Line v = vertLines.get(i);
+				Line v = vertLines.get(j);
 				intersections[i][j] = h.intersect(v);
 			}
 		}
@@ -85,7 +85,7 @@ public class MouseHelper {
 		{
 			slope = (b.y-a.y)/(b.x-a.x);
 			xPoint = a.x;
-			yPoint = b.x;
+			yPoint = a.y;
 		}
 		
 		public Point intersect(Line l)
