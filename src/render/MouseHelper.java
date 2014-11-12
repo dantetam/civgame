@@ -6,6 +6,7 @@ public class MouseHelper {
 
 	public ArrayList<Line> vertLines, horizonLines;
 	public Point[][] intersections;
+	public Shape[][] shapes;
 	
 	public MouseHelper(float width, float height)
 	{
@@ -23,6 +24,7 @@ public class MouseHelper {
 		vertical(581,426,556,468);
 		vertical(513,424,479,464);
 		vertical(445,426,402,469);
+		vertical(328,469,379,426);
 
 		horizontal(0,340,width,340);
 		horizontal(0,364,width,364);
@@ -41,6 +43,15 @@ public class MouseHelper {
 			{
 				Line v = vertLines.get(j);
 				intersections[i][j] = h.intersect(v);
+			}
+		}
+		
+		shapes = new Shape[(horizonLines.size()-1)][(vertLines.size()-1)];
+		for (int i = 0; i < intersections.length - 1; i++)
+		{
+			for (int j = 0; j < intersections[0].length - 1; j++)
+			{
+				shapes[i][j] = new Shape(intersections[i][j],intersections[i+1][j],intersections[i+1][j+1],intersections[i][j+1]);
 			}
 		}
 	}
@@ -77,6 +88,24 @@ public class MouseHelper {
 		return oddNodes; 
 	}
 	
+	public int[] findTile(float x, float y)
+	{
+		for (int r = 0; r < shapes.length; r++)
+		{
+			for (int c = 0; c < shapes[0].length; c++)
+			{
+				System.out.println("*");
+				System.out.println(shapes[r][c].x.toString());
+				System.out.println(shapes[r][c].y.toString());
+				if (within(x, y, shapes[r][c].x, shapes[r][c].y))
+				{
+					return new int[]{r,c};
+				}
+			}
+		}
+		return null;
+	}
+	
 	public class Line
 	{
 		public float slope, xPoint, yPoint;
@@ -103,5 +132,15 @@ public class MouseHelper {
 	}
 	
 	public class Point {public float x,y; public Point(float a, float b) {x = a; y = b;}}
+	public class Shape 
+	{
+		public float[] x,y; 
+		public Shape(float[] a, float[] b) {x = a; y = b;}
+		public Shape(Point... points)
+		{
+			x = new float[points.length]; y = new float[points.length];
+			for (int i = 0; i < points.length; i++) {x[i] = points[i].x; y[i] = points[i].y;}
+		}
+	}
 	
 }

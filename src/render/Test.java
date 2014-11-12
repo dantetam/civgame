@@ -1,6 +1,7 @@
 package render;
 
 import processing.core.PApplet;
+import render.MouseHelper.Shape;
 
 public class Test extends PApplet {
 
@@ -14,9 +15,9 @@ public class Test extends PApplet {
 		{
 			for (int c = 0; c < mouseHelper.intersections[0].length; c++)
 			{
-				print(mouseHelper.intersections[r][c].x + "," + mouseHelper.intersections[r][c].y + " ");
+				//print(mouseHelper.intersections[r][c].x + "," + mouseHelper.intersections[r][c].y + " ");
 			}
-			println();
+			//println();
 		}
 	}
 	
@@ -30,9 +31,35 @@ public class Test extends PApplet {
 				strokeWeight(5);
 				fill(255,0,0);
 				stroke(255,0,0);
-				println(mouseHelper.intersections[r][c].x + "," + mouseHelper.intersections[r][c].y);
+				//println(mouseHelper.intersections[r][c].x + "," + mouseHelper.intersections[r][c].y);
 				point(mouseHelper.intersections[r][c].x,mouseHelper.intersections[r][c].y);
 			}
+		}
+		//println(mouseHelper.shapes.length + " " + mouseHelper.shapes[0].length);
+		for (int r = 0; r < mouseHelper.shapes.length; r++)
+		{
+			for (int c = 0; c < mouseHelper.shapes[0].length; c++)
+			{
+				Shape s = mouseHelper.shapes[r][c];
+				//if (s == null) continue;
+				fill(150*c/15,225*r/15,255*r/15);
+				beginShape(QUADS);
+				for (int i = 0; i < s.x.length; i++)
+				{
+					vertex(s.x[i],s.y[i]);
+				}
+				vertex(s.x[0],s.y[0]);
+				endShape();
+			}
+		}
+	}
+	
+	public void mousePressed()
+	{
+		int[] s = mouseHelper.findTile(mouseX, mouseY);
+		if (s != null)
+		{
+			println(s[0] + "," + s[1]);
 		}
 	}
 	
