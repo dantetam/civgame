@@ -20,13 +20,11 @@ public class RenderSystem extends BaseSystem {
 
 	public GridModel terrain;
 	public Player player;
-	public MouseHelper mouseHelper;
 	
 	public RenderSystem(CivGame civGame)
 	{
 		super(civGame);
 		player = main.player;
-		mouseHelper = new MouseHelper(main.width, main.height);
 	}
 
 	public void tick()
@@ -118,7 +116,7 @@ public class RenderSystem extends BaseSystem {
 		{
 			int dX = (int)(main.mouseX - main.centerX);
 			int dY = (int)(main.mouseY - main.centerY);
-			main.menuSystem.mouseHighlighted = main.grid.getTile(h.row + dX/70, h.col);
+			//main.menuSystem.mouseHighlighted = main.grid.getTile(h.row + dX/70, h.col);
 		}
 
 		main.resetShader();
@@ -230,14 +228,14 @@ public class RenderSystem extends BaseSystem {
 					main.menuSystem.highlighted = null;
 				}
 			}
-			else if (main.menuSystem.mouseHighlighted != null)
+			/*else if (main.menuSystem.mouseHighlighted != null)
 			{
 				if (main.menuSystem.mouseHighlighted.equals(main.grid.getTile(r, c)))
 				{
 					main.stroke(255,0,0);
 					main.strokeWeight(8);
 				}
-			}
+			}*/
 			else
 			{
 				if (main.grid.getTile(r,c).owner != null && !hidden)

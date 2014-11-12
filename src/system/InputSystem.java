@@ -8,6 +8,7 @@ import game.Tile;
 import java.util.ArrayList;
 
 import render.CivGame;
+import render.MouseHelper;
 import system.MenuSystem.Click;
 import units.City;
 import units.Settler;
@@ -19,11 +20,13 @@ public class InputSystem extends BaseSystem {
 	public boolean lastMoving = false;
 
 	public boolean on = true;
+	public MouseHelper mouseHelper;
 
 	public InputSystem(CivGame main)
 	{
 		super(main);
 		keyPresses = new ArrayList<Character>();
+		mouseHelper = new MouseHelper(main.width, main.height);
 	}
 
 	//Goes through keys backwards to avoid arraylist trap
@@ -152,6 +155,7 @@ public class InputSystem extends BaseSystem {
 			}
 		}
 		main.player.update();
+		int[] tile = mouseHelper.findTile(mouseX, mouseY);
 	}
 
 	public ArrayList<Click> clicks = new ArrayList<Click>();

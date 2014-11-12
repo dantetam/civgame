@@ -13,18 +13,18 @@ public class MouseHelper {
 		vertLines = new ArrayList<Line>();
 		horizonLines = new ArrayList<Line>();
 		
+		vertical(379,426,328,469);
+		vertical(445,426,402,469);
+		vertical(513,424,479,464);
+		vertical(581,426,556,468);
+		vertical(649,426,635,469);
 		vertical(717,424,711,467);
 		vertical(785,423,789,467);
 		vertical(851,425,864,467);
 		vertical(919,425,943,466);
 		vertical(988,425,1019,466);
-		vertical(1055,424,1094,471);
+		vertical(1050,424,1094,471);
 		vertical(1120,424,1174,468);
-		vertical(649,426,635,469);
-		vertical(581,426,556,468);
-		vertical(513,424,479,464);
-		vertical(445,426,402,469);
-		vertical(328,469,379,426);
 
 		horizontal(0,340,width,340);
 		horizontal(0,364,width,364);
@@ -99,7 +99,7 @@ public class MouseHelper {
 				System.out.println(shapes[r][c].y.toString());
 				if (within(x, y, shapes[r][c].x, shapes[r][c].y))
 				{
-					return new int[]{r,c};
+					return new int[]{r-3,c-5}; //Adjust for pivot
 				}
 			}
 		}
