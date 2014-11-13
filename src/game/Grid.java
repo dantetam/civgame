@@ -25,10 +25,10 @@ public class Grid {
 
 	//Keep track of barbarian civs
 	public int barbarians;
-	
+
 	//Ensure that random numbers are the same (i.e. seeded)
 	public Random rand;
-	
+
 	//Handle combat scenarios in the context of this grid
 	public ConflictSystem conflictSystem;
 
@@ -149,7 +149,7 @@ public class Grid {
 			}*/
 			addUnit(en,civs[i],r,c);
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
-			
+
 			if (i == numCivs - 1) break;
 		}
 		for (int i = numCivs; i < numCivs + numCityStates; i++)
@@ -301,6 +301,29 @@ public class Grid {
 		return null;
 	}
 
+	public Tile nearestFriendly(Civilization civ, int r0, int c0)
+	{
+		Tile candidate = null, loc = getTile(r0,c0);
+		int sight = 3;
+		for (int r = r0 - sight; r <= r0 + sight; r++)
+		{
+			for (int c = c0 - sight; c <= c0 + sight; c++)
+			{
+				Tile t = getTile(r,c);
+				if (t != null)
+					if (t.biome != -1 && (t.owner == null || civ.isWar(t.owner) || civ.isOpenBorder(t.owner)))
+					{
+						if (candidate == null) candidate = t;
+						else if (loc.dist(t) < loc.dist(candidate))
+						{
+							candidate = t;
+						}
+					}
+			}
+		}
+		return candidate;
+	}
+
 	public void setupCivs()
 	{
 
@@ -363,7 +386,7 @@ public class Grid {
 		}
 		return null;
 	}
-	
+
 	//Return the percentage of the world explored (do not count sea tiles)
 	public double explored(Civilization civ)
 	{

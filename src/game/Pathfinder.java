@@ -35,6 +35,7 @@ public class Pathfinder {
 			{
 				if (grid.getTile(r,c).biome != -1)
 				{
+					//nodes[r][c] = new Node(r,c);
 					nodes[r][c].parent = null;
 					nodes[r][c].g = 0;
 					nodes[r][c].queue = 0;

@@ -729,6 +729,15 @@ public class CivilizationSystem extends BaseSystem {
 				}
 				for (int j = 0; j < civ.units.size(); j++)
 				{
+					GameEntity u = civ.units.get(j);
+					if (!civ.isWar(u.location.owner) && !civ.isOpenBorder(u.location.owner) && !civ.equals(u.location.owner))
+					{
+						Tile t = grid.nearestFriendly(civ, u.location.row, u.location.col);
+						if (t != null)
+						{
+							grid.moveTo(u, t.row, t.col);
+						}
+					}
 					civ.units.get(j).tick();
 				}
 			}
