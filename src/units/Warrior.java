@@ -7,16 +7,14 @@ import game.Tile;
 
 public class Warrior extends GameEntity {
 
-	public Warrior(String name) {
-		super(name);
+	public Warrior(String name, float o, float d, float r) {
+		super(name,o,d,r);
 		health = 10; maxHealth = 10;
-		offensiveStr = 2; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public Warrior(GameEntity en) {
 		super(en);
 		health = 10; maxHealth = 10;
-		offensiveStr = 2; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public void playerTick()
@@ -48,6 +46,14 @@ public class Warrior extends GameEntity {
 		{
 			//System.out.println("beginning");
 			Tile nearestA = nearestAlliedCity();
+			
+			if (rangedStr > 0)
+			{
+				ArrayList<GameEntity> targets = fireAtTargets();
+				if (targets.size() > 0)
+					fire(targets.get((int)(Math.random()*targets.size())));
+			}
+			
 			if (queueTiles.size() > 0)
 			{
 				while (action > 0)
@@ -140,6 +146,7 @@ public class Warrior extends GameEntity {
 					}
 				}
 			}
+			//System.out.println("End");
 		}
 		else
 		{

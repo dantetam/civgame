@@ -13,9 +13,9 @@ public abstract class GameEntity extends BaseEntity {
 	public int action = 1, maxAction = 1;
 	public boolean explorer = false; //For the AI only
 
-	public GameEntity(String name)
+	public GameEntity(String name, float o, float d, float r)
 	{
-		super(name);
+		super(name,o,d,r);
 	}
 
 	public GameEntity(GameEntity other)
@@ -323,6 +323,46 @@ public abstract class GameEntity extends BaseEntity {
 			if (trials > 10) break;*/
 		}
 		waddleToExact(r,c);
+	}
+	
+	public ArrayList<GameEntity> fireAtTargets()
+	{
+		ArrayList<GameEntity> temp = new ArrayList<GameEntity>();
+		for (int r = location.row - range; r <= location.row + range; r++)
+		{
+			for (int c = location.col - range; c <= location.col + range; c++)
+			{
+				Tile t = location.grid.getTile(r, c);
+				if (t.occupants.size() > 0)
+				{
+					for (int i = 0; i < t.occupants.size(); i++)
+					{
+						GameEntity en = t.occupants.get(i);
+						if (owner.isWar(en.owner))
+						{
+							temp.add(en);
+						}
+					}
+				}
+			}
+		}
+		return temp;
+	}
+	
+	public void fire(GameEntity target)
+	{
+		if (action > 0)
+			action--;
+		else
+			return;
+		queueTiles.clear(); //Solve some complex problems
+		int[] damages = location.grid.conflictSystem.fire(this, target);
+		target.health -= damages[0];
+		System.out.println("Ranged damage: " + damages[0]);
+		if (target.health <= 0)
+		{
+			location.grid.removeUnit(target);
+		}
 	}
 	
 	public Tile adjacentEnemy()
@@ -654,6 +694,12 @@ public abstract class GameEntity extends BaseEntity {
 				}
 			}
 		}*/
+	}
+	
+	public GameEntity range(int n)
+	{
+		range = n;
+		return this;
 	}
 
 }

@@ -362,10 +362,10 @@ public class CivilizationSystem extends BaseSystem {
 									grid.addUnit(en,civ,c.location.row,c.location.col);
 									en.unitImprovement = civ.unitImprovements.get(c.queue);
 									en.improve();
-									/*if (!civ.name.contains("Barbarians"))
+									if (!civ.name.contains("Barbarians"))
 										if (en instanceof GameEntity && !(en instanceof Settler) && !(en instanceof Worker))
 											if (civ.units.size() < 4)
-												((GameEntity)en).explorer = true;*/
+												((GameEntity)en).explorer = true;
 								}
 								else
 								{

@@ -45,7 +45,7 @@ public class City extends TileEntity {
 
 	public City(String name)
 	{
-		super(name);
+		super(name,0,0,0);
 		population = 1;
 		percentGrowth = 0;
 		happiness = 0;

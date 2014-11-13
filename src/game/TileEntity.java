@@ -6,7 +6,13 @@ public class TileEntity extends BaseEntity {
 
 	public TileEntity(String name)
 	{
-		super(name);
+		super(name,0,0,0);
+		health = 1;
+	}
+	
+	public TileEntity(String name, float o, float d, float r)
+	{
+		super(name,o,d,r);
 		health = 1;
 	}
 	

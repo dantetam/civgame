@@ -6,16 +6,14 @@ import game.Tile;
 
 public class Settler extends GameEntity {
 
-	public Settler(String name) {
-		super(name);
+	public Settler(String name, float o, float d, float r) {
+		super(name,o,d,r);
 		health = 5; maxHealth = 5;
-		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public Settler(GameEntity en) {
 		super(en);
 		health = 5; maxHealth = 5;
-		offensiveStr = 0; rangedStr = 0; defensiveStr = 2;
 	}
 
 	public void playerTick()

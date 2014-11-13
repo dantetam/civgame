@@ -213,12 +213,25 @@ public class EntityData {
 
 	private static void setupEntityMap()
 	{
-		gameEntityMap.put("Settler",new Settler("Settler"));
-		gameEntityMap.put("Warrior",new Warrior("Warrior"));
-		gameEntityMap.put("Worker",new Worker("Worker"));
+		gameEntityMap.put("Settler",new Settler("Settler",0,2,0));
+		gameEntityMap.put("Warrior",new Warrior("Warrior",2,2,2).range(2));
+		gameEntityMap.put("Worker",new Worker("Worker",0,2,0));
 
-		gameEntityMap.put("Galley",new Galley("Galley"));
-		gameEntityMap.put("Work Boat",new WorkBoat("Work Boat"));
+		gameEntityMap.put("Axeman",new Warrior("Axeman",4,3,0));
+		gameEntityMap.put("Warband",new Warrior("Warband",2,4,1).range(1));
+		gameEntityMap.put("Swordsman",new Warrior("Swordsman",5,4,0));
+		gameEntityMap.put("Spearman",new Warrior("Spearman",2,4,0));
+		gameEntityMap.put("Axe Thrower",new Warrior("Axe Thrower",4,3,2).range(1));
+		
+		gameEntityMap.put("Chariot",new Warrior("Chariot",4,1,1).range(2));
+		gameEntityMap.put("Horseman",new Warrior("Horseman",4,1,0));
+		
+		gameEntityMap.put("Slinger",new Warrior("Slinger",0,2,2).range(2));
+		gameEntityMap.put("Archer",new Warrior("Archer",0,4,4).range(2));
+		gameEntityMap.put("Horse Archer",new Warrior("Horse Archer",0,0,4).range(2));
+		
+		gameEntityMap.put("Galley",new Galley("Galley",4,4,0));
+		gameEntityMap.put("Work Boat",new WorkBoat("Work Boat",0,2,0));
 
 		tileEntityMap.put("City",new City("City"));
 		tileEntityMap.put("Farm",new TileEntity("Farm"));
@@ -455,15 +468,15 @@ public class EntityData {
 		{
 			//TODO: Fix this so that it doesn't return a generic GameEntity
 			if (name.equals("Settler"))
-				return new Settler("Settler");
+				return new Settler((GameEntity)b);
 			else if (name.equals("Galley"))
-				return new Galley("Galley");
+				return new Galley((GameEntity)b);
 			else if (name.equals("Warrior"))
-				return new Warrior("Warrior");
+				return new Warrior((GameEntity)b);
 			else if (name.equals("Work Boat"))
-				return new WorkBoat("Work Boat");
+				return new WorkBoat((GameEntity)b);
 			else if (name.equals("Worker"))
-				return new Worker("Worker");
+				return new Worker((GameEntity)b);
 		}
 		b = tileEntityMap.get(name);
 		if (b != null)

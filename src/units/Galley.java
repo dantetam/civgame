@@ -4,16 +4,14 @@ import game.GameEntity;
 
 public class Galley extends GameEntity {
 
-	public Galley(String name) {
-		super(name);
-		health = 10;
-		offensiveStr = 3; rangedStr = 3; defensiveStr = 2;
+	public Galley(String name, float o, float d, float r) {
+		super(name,o,d,r);
+		health = 10; maxHealth = 10;
 	}
 
 	public Galley(GameEntity en) {
 		super(en);
 		health = 10; maxHealth = 10;
-		offensiveStr = 3; rangedStr = 3; defensiveStr = 2;
 	}
 
 	public void playerTick()

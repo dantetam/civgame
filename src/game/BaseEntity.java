@@ -17,21 +17,28 @@ public abstract class BaseEntity {
 	public int queueTurns;
 
 	public int health, maxHealth;
-	public float offensiveStr, rangedStr, defensiveStr;
+	public float offensiveStr, defensiveStr, rangedStr;
+	public int range = 0;
 
 	public City sortie = null; //If this unit was raised by a sortie order, this will hold the city it "belongs" to
 
 	public Improvement unitImprovement;
 
-	public BaseEntity(String name)
+	public BaseEntity(String name, float o, float d, float r)
 	{
 		this.name = name;
 		id = Double.toString(Math.random()*System.currentTimeMillis());
+		offensiveStr = o;
+		defensiveStr = d;
+		rangedStr = r;
 	}
 
 	public BaseEntity(BaseEntity other)
 	{
 		name = other.name; 
+		offensiveStr = other.offensiveStr;
+		defensiveStr = other.defensiveStr;
+		rangedStr = other.rangedStr;
 	}
 
 	public int sight = 2;
