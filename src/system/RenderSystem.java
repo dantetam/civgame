@@ -235,6 +235,7 @@ public class RenderSystem extends BaseSystem {
 					main.stroke(255,0,0);
 					main.strokeWeight(8);
 					strokedColor = true;
+					main.strokeWeight(1);
 				}
 			}
 			else
@@ -481,13 +482,13 @@ public class RenderSystem extends BaseSystem {
 			main.pushMatrix();
 			main.translate(r*widthBlock, 25, c*widthBlock);
 			main.fill(255,0,0);
-			main.box(widthBlock,4,4);
+			main.box(widthBlock,2,2);
 			main.popMatrix();
+			
 			main.pushMatrix();
-
 			main.translate(r*widthBlock - widthBlock*health/2 + widthBlock/2, 25, c*widthBlock);
 			main.fill(0,255,0);
-			main.box(widthBlock*health + 2,5,5);
+			main.box(widthBlock*health + 2,3,3);
 			main.popMatrix();
 		}
 		/*else

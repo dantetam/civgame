@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Tech {
 
 	public String name;
-	public Tech requisite;
+	public Tech requisite, alternative;
 	public Tech[] techs;
 	//public ArrayList<Tech> techs;
 	public int totalR, requiredR;
@@ -56,5 +56,7 @@ public class Tech {
 	public void units(String... t) {unlockUnits = t;}
 	public void tImpr(String... t) {unlockTileImprovements = t;}
 	public void cImpr(String... t) {unlockCityImprovements = t;}
+	
+	public Tech addAlt(TechTree tree, String name) {System.out.println(tree + " " + name); alternative = tree.researched(name); return this;}
 
 }

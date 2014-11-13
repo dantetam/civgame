@@ -13,7 +13,7 @@ Major additions:
 
 Minor additions:
 >+ Addition of ranged units and ranged strength
-/+ Units display health bar when damaged
+>+ Units display health bar when damaged
 
 Changes:
 
