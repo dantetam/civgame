@@ -47,7 +47,7 @@ public class Warrior extends GameEntity {
 			//System.out.println("beginning");
 			Tile nearestA = nearestAlliedCity();
 			
-			if (rangedStr > 0)
+			if (mode == 2)
 			{
 				ArrayList<GameEntity> targets = fireAtTargets();
 				if (targets.size() > 0)

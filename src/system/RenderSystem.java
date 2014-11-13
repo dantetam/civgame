@@ -20,7 +20,7 @@ public class RenderSystem extends BaseSystem {
 
 	public GridModel terrain;
 	public Player player;
-	
+
 	public RenderSystem(CivGame civGame)
 	{
 		super(civGame);
@@ -111,7 +111,7 @@ public class RenderSystem extends BaseSystem {
 
 		//Rough approximation of where the mouse is
 		//Tile h = main.menuSystem.lastHighlighted;
-		
+
 		/*if (h != null)
 		{
 			int dX = (int)(main.mouseX - main.centerX);
@@ -475,11 +475,21 @@ public class RenderSystem extends BaseSystem {
 			renderModel(en.getName(),r,c,0,0,0);
 		main.noStroke();
 
-		main.pushMatrix();
-		main.translate(r*widthBlock, 25, c*widthBlock);
-		main.fill(255,0,0);
-		main.box(5,5,5);
-		main.popMatrix();
+		float health = (float)en.health/(float)en.maxHealth;
+		if (en.owner != null && health < 1)
+		{
+			main.pushMatrix();
+			main.translate(r*widthBlock, 25, c*widthBlock);
+			main.fill(255,0,0);
+			main.box(widthBlock,4,4);
+			main.popMatrix();
+			main.pushMatrix();
+
+			main.translate(r*widthBlock - widthBlock*health/2 + widthBlock/2, 25, c*widthBlock);
+			main.fill(0,255,0);
+			main.box(widthBlock*health + 2,5,5);
+			main.popMatrix();
+		}
 		/*else
 		{
 			main.fill(0);

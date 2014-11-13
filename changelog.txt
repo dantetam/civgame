@@ -6,6 +6,20 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
+(Planned 11/10/2014 -> 11/14/2014)
+Major additions:
+/ Improve tech tree content
+/ Link tech tree completions to units, city improvements, tile improvements, and improvements
+
+Minor additions:
+>+ Addition of ranged units and ranged strength
+/+ Units display health bar when damaged
+
+Changes:
+
+Fixes:
+>+ Quick fix to omniscience bug fix
+
 (Planned 11/8/2014 -> 11/9/2014 with 10/26/2014 -> 11/7/2014)
 
 Major additions:

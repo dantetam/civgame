@@ -243,13 +243,13 @@ public class MenuSystem extends BaseSystem {
 		//System.out.println(loadout + " " + loadoutDisplay);
 
 		//Render the cursor
-		if (!menus.get(7).active && !menus.get(9).active)
+		/*if (!menus.get(7).active && !menus.get(9).active)
 		{
 			int width = 6;
 			main.stroke(255);
 			main.fill(0);
 			main.rect((main.width - width)/2, (main.height - width)/2, width, width);
-		}
+		}*/
 
 		main.noStroke();
 
@@ -332,7 +332,7 @@ public class MenuSystem extends BaseSystem {
 
 				if (!typeOfLastSelected.equals(selected.name))
 				{
-					updateUnitMenu(selected.name);
+					updateUnitMenu((GameEntity)selected);
 				}
 				menus.get(1).active = true;
 				//main.text("Test", main.width*5/6 + 15, main.height*5/6 + 15);
@@ -626,6 +626,16 @@ public class MenuSystem extends BaseSystem {
 							else if (command.equals("kill"))
 							{
 								main.grid.removeUnit(selected);
+							}
+							else if (command.equals("meleeMode"))
+							{
+								((GameEntity)selected).mode = 1;
+								updateUnitMenu((GameEntity)selected);
+							}
+							else if (command.equals("rangedMode"))
+							{
+								((GameEntity)selected).mode = 2;
+								updateUnitMenu((GameEntity)selected);
 							}
 							else if (command.equals("raze"))
 							{
@@ -1059,19 +1069,19 @@ public class MenuSystem extends BaseSystem {
 	}
 
 	//Choose which buttons to show depending on unit (e.g. only settler can settle)
-	public void updateUnitMenu(String name)
+	public void updateUnitMenu(GameEntity en)
 	{
 		menus.get(1).buttons.clear();
 		menus.get(1).addButton("kill", "Destroy", "Destroy this unit.", (float)main.width/3F, (float)main.height*5F/6F, 50, 50);
-		if (name.equals("Settler"))
+		if (en.name.equals("Settler"))
 		{
 			menus.get(1).addButton("settle", "Settle", "Settle a city here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
-		else if (name.equals("Warrior"))
+		else if (en.name.equals("Warrior"))
 		{
 			menus.get(1).addButton("raze", "Attack", "Attack the improvement here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
-		else if (name.equals("Worker"))
+		else if (en.name.equals("Worker"))
 		{
 			ArrayList<String> units = main.grid.civs[0].techTree.allowedTileImprovements;
 			for (int i = 0; i < units.size(); i++)
@@ -1080,6 +1090,15 @@ public class MenuSystem extends BaseSystem {
 			}
 			//menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			//menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
+		}
+		
+		if (en.mode == 1 && en.rangedStr > 0)
+		{
+			menus.get(1).addButton("rangedMode", "Ranged", "Allow this unit to use ranged attacks.", (float)main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
+		}
+		else if (en.mode == 2 && en.offensiveStr > 0)
+		{
+			menus.get(1).addButton("meleeMode", "Melee", "Allow this unit to use melee attacks.", (float)main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
 		}
 		//System.out.println(menus.get(1).buttons.size());
 	}

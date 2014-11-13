@@ -12,7 +12,8 @@ public abstract class GameEntity extends BaseEntity {
 	public ArrayList<Tile> queueTiles = new ArrayList<Tile>();
 	public int action = 1, maxAction = 1;
 	public boolean explorer = false; //For the AI only
-
+	public int mode = 1; //0 non-violent, 1 melee, 2 ranged
+	
 	public GameEntity(String name, float o, float d, float r)
 	{
 		super(name,o,d,r);
@@ -203,7 +204,11 @@ public abstract class GameEntity extends BaseEntity {
 				if (enemy != null)
 				{
 					queueTiles.clear(); //Solve some complex problems
-					int[] damages = location.grid.conflictSystem.attack(this, enemy);
+					int[] damages;
+					if (mode == 1)
+						damages = location.grid.conflictSystem.attack(this, enemy);
+					else
+						damages = location.grid.conflictSystem.fire(this, enemy);
 					if (enemy.health - damages[0] <= 0 && health - damages[1] <= 0) //Both may kill each other
 					{
 						if (health >= enemy.health)
@@ -696,10 +701,7 @@ public abstract class GameEntity extends BaseEntity {
 		}*/
 	}
 	
-	public GameEntity range(int n)
-	{
-		range = n;
-		return this;
-	}
-
+	public GameEntity range(int n) {range = n; return this;}
+	public GameEntity mode(int n) {mode = n; return this;}
+	
 }
