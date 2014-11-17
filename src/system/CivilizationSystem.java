@@ -49,7 +49,7 @@ public class CivilizationSystem extends BaseSystem {
 				{
 					if (i >= grid.barbarians) //Barbarian reset
 					{
-						civ.revealed = new boolean[civ.revealed.length][civ.revealed[0].length];
+						//civ.revealed = new boolean[civ.revealed.length][civ.revealed[0].length];
 					}
 					for (int j = 0; j < civ.units.size(); j++)
 					{
@@ -555,7 +555,7 @@ public class CivilizationSystem extends BaseSystem {
 					for (int j = 0; j < grid.civs.length; j++)
 					{
 						Civilization civ2 = grid.civs[j];
-						if (j == 0 || civ2 instanceof CityState) continue;
+						//if (j == 0 || civ2 instanceof CityState) continue;
 						if (civ.opinions[j] < -10)//grid.civs[j].cities.size() > 2)
 						{
 							if (grid.civs[j].capital != null && civ.capital != null)
@@ -752,7 +752,7 @@ public class CivilizationSystem extends BaseSystem {
 				}
 				for (int j = 0; j < bar.units.size(); j++)
 				{
-					bar.units.get(j).recordPos();
+					//bar.units.get(j).recordPos();
 					bar.units.get(j).barbarianTick();
 				}
 			}

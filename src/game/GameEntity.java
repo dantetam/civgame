@@ -14,6 +14,7 @@ public abstract class GameEntity extends BaseEntity {
 	public boolean explorer = false; //For the AI only
 	public int mode = 1; //0 non-violent, 1 melee, 2 ranged
 	protected int[] previous = new int[2];
+	public int sight = 2;
 	
 	public GameEntity(String name, float o, float d, float r)
 	{
@@ -411,10 +412,10 @@ public abstract class GameEntity extends BaseEntity {
 				for (int j = 0; j < e.get(i).cities.size(); j++)
 				{
 					City candidate = e.get(i).cities.get(j);
-					/*if (!owner.revealed[candidate.location.row][candidate.location.col])
+					if (!owner.revealed[candidate.location.row][candidate.location.col])
 					{
 						continue;
-					}*/
+					}
 					if (nearest != null)
 					{
 						if (candidate.location.dist(location) < nearest.location.dist(location)) 
@@ -440,6 +441,10 @@ public abstract class GameEntity extends BaseEntity {
 			for (int i = 0; i < owner.cities.size(); i++)
 			{
 				City candidate = owner.cities.get(i);
+				if (!owner.revealed[candidate.location.row][candidate.location.col])
+				{
+					continue;
+				}
 				if (nearest != null)
 				{
 					if (candidate.location.dist(location) < nearest.location.dist(location)) nearest = candidate;

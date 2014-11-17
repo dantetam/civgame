@@ -75,7 +75,6 @@ public class TechTree {
 		t.tImpr("Mine");
 
 		t = researched("Pottery");
-		t.addAlt(this,"Civilization");
 
 		t = researched("Writing");
 		t.addAlt(this,"Polytheism");
@@ -103,11 +102,13 @@ public class TechTree {
 		{
 			Tech t = tech.techs[i];
 			if (t.alternative != null)
-				if (t.alternative.researched() && !t.researched())
+			{
+				if (t.alternative.researched() && !t.researched() && !temp.contains(t))
 				{
 					temp.add(t);
 					continue;
 				}
+			}
 			if (t.researched())
 			{
 				findCandidates(t);
@@ -115,7 +116,7 @@ public class TechTree {
 			else
 			{
 				temp.add(t);
-				findCandidates(t);
+				//findCandidates(t);
 			}
 		}
 		return temp;
