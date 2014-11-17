@@ -13,6 +13,7 @@ public abstract class GameEntity extends BaseEntity {
 	public int action = 1, maxAction = 1;
 	public boolean explorer = false; //For the AI only
 	public int mode = 1; //0 non-violent, 1 melee, 2 ranged
+	protected int[] previous = new int[2];
 	
 	public GameEntity(String name, float o, float d, float r)
 	{
@@ -84,6 +85,17 @@ public abstract class GameEntity extends BaseEntity {
 		}
 	}
 
+	public boolean moved()
+	{
+		return !(previous[0] == location.row && previous[1] == location.col);
+	}
+	
+	public void recordPos()
+	{
+		previous[0] = location.row;
+		previous[1] = location.col;
+	}
+	
 	public void waddleTo(int r, int c)
 	{
 		/*System.out.println("------");

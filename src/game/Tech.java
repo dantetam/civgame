@@ -57,6 +57,6 @@ public class Tech {
 	public void tImpr(String... t) {unlockTileImprovements = t;}
 	public void cImpr(String... t) {unlockCityImprovements = t;}
 	
-	public Tech addAlt(TechTree tree, String name) {System.out.println(tree + " " + name); alternative = tree.researched(name); return this;}
+	public Tech addAlt(TechTree tree, String name) {alternative = tree.researched(name); return this; } //System.out.println(tree + " " + name);}
 
 }

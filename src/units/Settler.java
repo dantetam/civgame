@@ -65,6 +65,7 @@ public class Settler extends GameEntity {
 				settle();
 				return;
 			}
+			//super.recordPos();
 			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
 			//location.grid.move(this,queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
 			queueTiles.remove(queueTiles.size()-1);

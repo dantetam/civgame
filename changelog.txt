@@ -6,7 +6,7 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
-(Planned 11/10/2014 -> 11/14/2014)
+(Planned 11/10/2014 -> 11/21/2014)
 Major additions:
 / Improve tech tree content
 / Link tech tree completions to units, city improvements, tile improvements, and improvements

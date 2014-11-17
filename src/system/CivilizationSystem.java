@@ -730,6 +730,7 @@ public class CivilizationSystem extends BaseSystem {
 				for (int j = 0; j < civ.units.size(); j++)
 				{
 					GameEntity u = civ.units.get(j);
+					//u.recordPos();
 					if (!civ.isWar(u.location.owner) && !civ.isOpenBorder(u.location.owner) && !civ.equals(u.location.owner))
 					{
 						Tile t = grid.nearestFriendly(civ, u.location.row, u.location.col);
@@ -738,7 +739,7 @@ public class CivilizationSystem extends BaseSystem {
 							grid.moveTo(u, t.row, t.col);
 						}
 					}
-					civ.units.get(j).tick();
+					u.tick();
 				}
 			}
 			//loop through barbarians
@@ -751,6 +752,7 @@ public class CivilizationSystem extends BaseSystem {
 				}
 				for (int j = 0; j < bar.units.size(); j++)
 				{
+					bar.units.get(j).recordPos();
 					bar.units.get(j).barbarianTick();
 				}
 			}

@@ -61,13 +61,22 @@ public class Warrior extends GameEntity {
 					if (queueTiles.size() == 0)
 						return;
 
+					//System.out.println("Start");
+					//System.out.println(previous[0] + " " + previous[1] + "; " + location.row + " " + location.col);
+					//super.recordPos();
+					
 					Tile q = queueTiles.get(queueTiles.size()-1);
 					if (!aggressiveWaddle(q.row - location.row, q.col - location.col))
 						return;
 					if (queueTiles.size() == 0)
 						return;
-
-					queueTiles.remove(queueTiles.size()-1);
+					
+					//If it moved
+					//System.out.println(previous[0] + " " + previous[1] + "; " + location.row + " " + location.col);
+					//f (moved())
+						queueTiles.remove(queueTiles.size()-1);
+					//else 
+						//queueTiles.clear();
 
 					//raze();
 					if (raze()) return;
@@ -162,7 +171,8 @@ public class Warrior extends GameEntity {
 					}
 					if (queueTiles.size() == 0)
 						break;
-					queueTiles.remove(queueTiles.size()-1);
+					if (moved())
+						queueTiles.remove(queueTiles.size()-1);
 				}
 				for (int i = 0; i < queueTiles.size(); i++)
 				{

@@ -20,7 +20,8 @@ public class Galley extends GameEntity {
 		{
 			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
 			aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
-			queueTiles.remove(queueTiles.size()-1);
+			if (!(location.row == previous[0]) || !(location.col == previous[1]))
+				queueTiles.remove(queueTiles.size()-1);
 		}
 	}
 	

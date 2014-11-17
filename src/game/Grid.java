@@ -311,7 +311,7 @@ public class Grid {
 			{
 				Tile t = getTile(r,c);
 				if (t != null)
-					if (t.biome != -1 && (t.owner == null || civ.isWar(t.owner) || civ.isOpenBorder(t.owner)))
+					if (t.biome != -1 && (t.owner == null || civ.isWar(t.owner) || civ.isOpenBorder(t.owner) || civ.equals(t.owner)))
 					{
 						if (candidate == null) candidate = t;
 						else if (loc.dist(t) < loc.dist(candidate))
