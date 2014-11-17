@@ -22,62 +22,121 @@ public class TechTree {
 		//unlockCityImprovements = new HashMap<String, String>();
 		first = 
 				new Tech("Civilization", 0,
-						new Tech("Agriculture", 30,
-								new Tech("Fishing", 60, null),
-								new Tech("Forestry", 60,
-										new Tech("Sailing", 100, null),
-										new Tech("Architecture", 100, null),
-										new Tech("Silviculture", 100, 
-												new Tech("Terraforming", 200, null)
-												)
-										),
-										new Tech("Hunting", 60, null),
-										new Tech("Milling", 60, 
-												new Tech("Fletching", 100, null)
-												)
-								),
-								new Tech("Mining", 30,
-										new Tech("Pottery", 30, null),
-										new Tech("Metal Working", 120, 
-												new Tech("Currency", 100, null),
-												new Tech("Casting", 100, null)
-												),
-												new Tech("Stone Working", 60,
-														new Tech("Monument Building", 100, null)
-														)
-										),
-										new Tech("Animal Husbandry", 60,
-												new Tech("Equestrian Practice", 100, null)
-												),
-												new Tech("Monotheism", 30,
-														new Tech("Organized Religion", 60, null),
-														new Tech("Writing", 100, null)
-														),
-														new Tech("Polytheism", 30,
-																new Tech("Sacrificial Tradition", 60, null)
-																)
-						);
+					new Tech("Agriculture", 30,
+						new Tech("Fishing", 60, null),
+						new Tech("Forestry", 60,
+							new Tech("Sailing", 100, null),
+							new Tech("Architecture", 100, null),
+								new Tech("Silviculture", 100, 
+									new Tech("Terraforming", 200, null)
+								)
+						),
+						new Tech("Hunting", 60, null),
+							new Tech("Milling", 60, 
+								new Tech("Fletching", 100, null)
+							)
+					),
+					new Tech("Mining", 30,
+						new Tech("Pottery", 30, null),
+						new Tech("Metal Working", 120, 
+							new Tech("Currency", 100, null),
+							new Tech("Casting", 100, null)
+						),
+						new Tech("Stone Working", 60,
+							new Tech("Monument Building", 100, null)
+						)
+					),
+					new Tech("Animal Husbandry", 60,
+						new Tech("Equestrian Practice", 100, null)
+					),
+					new Tech("Monotheism", 30,
+						new Tech("Organized Religion", 60, null),
+						new Tech("Writing", 100, null)
+					),
+					new Tech("Polytheism", 30,
+						new Tech("Sacrificial Tradition", 60, null)
+					)
+				);
 		setupTechs();
 	}
 
 	private void setupTechs()
 	{
 		Tech t; 
-
+		
 		t = researched("Civilization");
-		t.units("Settler", "Warrior", "Worker");
+			t.units("Settler", "Warrior", "Worker", "Slinger");
 
 		t = researched("Agriculture");
-		t.tImpr("Farm");
-		t.cImpr("Granary");
+			t.tImpr("Farm");
+			t.cImpr("Granary");
 
+		t = researched("Fishing");
+			t.units("Work Boat");
+			t.cImpr("Port");
+			
+		t = researched("Forestry");	
+			t.cImpr("Hut");
+		
+		t = researched("Hunting");
+			t.tImpr("Trading Post");
+			t.units("Scout", "Warband");
+			t.cImpr("Butcher");
+			
+		t = researched("Milling");
+			t.tImpr("Windmill");
+			
+		t = researched("Sailing");
+			t.units("Galley");
+			
+		t = researched("Architecture");
+			t.tImpr("Fort");
+			t.cImpr("Shrine");
+			
+		t = researched("Silviculture");
+			t.tImpr("Forest Yard");
+			
+		t = researched("Fletching");
+			t.units("Archer", "Horse Archer");
+			
+		t = researched("Terraforming");
+			t.tImpr("Quarry");
+			
 		t = researched("Mining");
-		t.tImpr("Mine");
+			t.tImpr("Mine");
+			t.units("Axeman");
+			t.cImpr("Warehouse");
 
 		t = researched("Pottery");
 
+		t = researched("Metal Working");
+			t.units("Swordsman", "Spearman");
+			t.cImpr("Metalworks");
+			
+		t = researched("Stone Working");
+			t.tImpr("Light Fortifications");
+			t.cImpr("Walls", "Palace");
+			
+		t = researched("Currency");
+			t.cImpr("Market");
+		
+		t = researched("Casting");
+			t.tImpr("Forge");
+			t.units("Axe Thrower");
+		
+		t = researched("Currency");
+			t.cImpr("Ziggurat");
+		
+		t = researched("Animal Husbandry");
+			t.tImpr("Pasture");
+			t.units("Chariot");
+			
+		t = researched("Equestrian Practice");
+			t.units("Horseman");
+			t.cImpr("Stables");
+			
 		t = researched("Writing");
-		t.addAlt(this,"Polytheism");
+			t.addAlt(this,"Polytheism");
 	}
 
 	//Syntax shortcut for later, no need to pass first argument
@@ -102,13 +161,11 @@ public class TechTree {
 		{
 			Tech t = tech.techs[i];
 			if (t.alternative != null)
-			{
 				if (t.alternative.researched() && !t.researched() && !temp.contains(t))
 				{
 					temp.add(t);
 					continue;
 				}
-			}
 			if (t.researched())
 			{
 				findCandidates(t);
@@ -116,7 +173,6 @@ public class TechTree {
 			else
 			{
 				temp.add(t);
-				//findCandidates(t);
 			}
 		}
 		return temp;
