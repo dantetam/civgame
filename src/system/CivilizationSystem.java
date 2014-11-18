@@ -238,8 +238,10 @@ public class CivilizationSystem extends BaseSystem {
 						}
 						if (c.queue == null && i != 0)
 						{
+							if (civ.units.size() < 15)
+								EntityData.queueAi(c);
 							//System.out.println(civ.units.size());
-							if (i >= grid.barbarians)
+							/*if (i >= grid.barbarians)
 							{
 								if (c.focus.equals("Growth"))
 								{
@@ -273,7 +275,7 @@ public class CivilizationSystem extends BaseSystem {
 											EntityData.queue(c, "Warrior");
 										}
 									}
-									/*else if (civ.units.size() <= civ.cities.size()*3)
+									else if (civ.units.size() <= civ.cities.size()*3)
 								{
 									if (grid.coastal(c.location.row, c.location.col))
 									{
@@ -281,7 +283,7 @@ public class CivilizationSystem extends BaseSystem {
 										c.queueFood = 15;
 										c.queueMetal = 15;
 									}
-								}*/
+								}
 								}
 								else if (c.focus.equals("Production"))
 								{
@@ -329,7 +331,7 @@ public class CivilizationSystem extends BaseSystem {
 										EntityData.queue(c, "Warrior");
 									}
 								}
-							}
+							}*/
 						}
 						else if (c.queue != null)
 						{
@@ -739,6 +741,7 @@ public class CivilizationSystem extends BaseSystem {
 							grid.moveTo(u, t.row, t.col);
 						}
 					}
+					if (u.owner.units.size() >= 4) u.explorer = false;
 					u.tick();
 				}
 			}
@@ -783,7 +786,7 @@ public class CivilizationSystem extends BaseSystem {
 							//System.out.print(test + " ");
 							if (!revealedByCivs[r][c])
 								if (grid.getTile(r, c).biome != -1)
-									if (Math.random() < 0.01)
+									if (Math.random() < 0.005)
 									{
 										spawnBarbarians(grid, civNumber, r, c);
 									}

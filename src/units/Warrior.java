@@ -45,7 +45,6 @@ public class Warrior extends GameEntity {
 		if (!explorer)
 		{
 			//System.out.println("beginning");
-			Tile nearestA = nearestAlliedCity();
 
 			if (mode == 2)
 			{
@@ -58,6 +57,16 @@ public class Warrior extends GameEntity {
 			{
 				while (action > 0)
 				{
+					Tile t = adjacentEnemy();
+					if (t != null)
+					{
+						queueTiles.clear();
+						if (!aggressiveWaddle(t.row - location.row, t.col - location.col))
+						{
+							return;
+						}
+					}
+					
 					if (queueTiles.size() == 0)
 						return;
 
@@ -123,6 +132,7 @@ public class Warrior extends GameEntity {
 			else //if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
 			{
 				Tile nearestE = nearestEnemyCity();
+				Tile nearestA = nearestAlliedCity();
 				//System.out.println(nearest);
 				//System.out.println(location);
 				if (nearestE != null)
@@ -143,7 +153,6 @@ public class Warrior extends GameEntity {
 					super.waddleTo(r,c);
 					//System.out.println("pathfinding start " + queueTiles.size());
 				}
-				//else
 				else
 				{
 					while (action > 0)

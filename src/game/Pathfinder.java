@@ -210,8 +210,8 @@ public class Pathfinder {
 		for (int i = temp.size() - 1; i >= 0; i--)
 		{
 			Civilization civ2 = grid.getTile(temp.get(i).r, temp.get(i).c).owner;
-			if (civ2 != null && !civ.equals(civ2))
-				if (!civ.isOpenBorder(civ2) && !civ.isWar(civ2))
+			if (civ2 != null)
+				if (!civ.isOpenBorder(civ2) && !civ.isWar(civ2) && !civ.equals(civ2))
 					temp.remove(i);
 		}
 		return temp;

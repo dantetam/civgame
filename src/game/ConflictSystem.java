@@ -22,6 +22,10 @@ public class ConflictSystem {
 	//Return the damage inflicted by a on d in an attack, and d on a in a defense
 	public int[] attack(GameEntity a, GameEntity d)
 	{
+		if (a.owner.id >= grid.barbarians)
+			a.offensiveStr /= 1.5;
+		if (d.owner.id >= grid.barbarians)
+			d.defensiveStr /= 1.5;
 		return attack(a.offensiveStr, d.defensiveStr);
 	}
 	

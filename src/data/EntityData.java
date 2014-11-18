@@ -222,14 +222,14 @@ public class EntityData {
 		gameEntityMap.put("Swordsman",new Warrior("Swordsman",5,4,0));
 		gameEntityMap.put("Spearman",new Warrior("Spearman",2,4,0));
 		gameEntityMap.put("Axe Thrower",new Warrior("Axe Thrower",4,3,2).range(1));
-		
+
 		gameEntityMap.put("Chariot",new Warrior("Chariot",4,1,1).range(2).mode(2));
 		gameEntityMap.put("Horseman",new Warrior("Horseman",4,1,0));
-		
+
 		gameEntityMap.put("Slinger",new Warrior("Slinger",0,2,2).range(2).mode(2));
 		gameEntityMap.put("Archer",new Warrior("Archer",0,4,4).range(2).mode(2));
 		gameEntityMap.put("Horse Archer",new Warrior("Horse Archer",0,0,4).range(2).mode(2));
-		
+
 		gameEntityMap.put("Galley",new Galley("Galley",4,4,0));
 		gameEntityMap.put("Work Boat",new WorkBoat("Work Boat",0,2,0).mode(0));
 
@@ -348,6 +348,7 @@ public class EntityData {
 	//Edit: Returns an improvement (could be neutral) if successfully queued
 	public static Improvement queue(City c, String queue)
 	{
+		if (queue == null) return null;
 		if (c.takeover <= 0 || c.raze)
 		{
 			c.queue = queue;
@@ -370,6 +371,35 @@ public class EntityData {
 		}
 		return null;
 		//return false;
+	}
+
+	public static Improvement queueAi(City c)
+	{
+		String queue = null;
+		if (c.owner.units.size() < 3)
+		{
+			queue = "Warrior"; 
+		}
+		else if (c.owner.cities.size() == 1)
+		{
+			if (c.expanded == 1)
+			{
+				if (Math.random() < 0.3)
+					queue = "Worker";
+				else
+					queue = "Settler";
+			}
+			else 
+				queue = "Warrior";
+		}
+		else
+		{
+			if (Math.random() < 0.1)
+				queue = "Settler";
+			else
+				queue = "Warrior";
+		}
+		return queue(c, queue);
 	}
 
 	public static boolean queueCityImprovement(City city, String impr)
