@@ -267,38 +267,38 @@ public class EntityData {
 	private static void setupUnitImprovementCosts()
 	{
 		Improvement temp;
-		temp = new Improvement("Neutral");
+		temp = new Improvement("Neutral","Civilization");
 		temp.cost(1,1,1,0,0,0);
 		temp.set(1,1,1,0,0,0,1);
 		unitImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("CopperTools");
+		temp = new Improvement("CopperTools","Metal Working");
 		temp.cost(1.25,1.25,0,0,0,0);
 		temp.set(0,0,0,0,0,0,0.8);
 		temp.fit("Worker");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("Test");
+		/*temp = new Improvement("Test","");
 		temp.cost(2,0,0,0,0,0);
 		temp.set(0,0,0,0,0,0,0.2);
 		temp.fit("Worker");
-		unitImprovementMap.put(temp.name, temp);
+		unitImprovementMap.put(temp.name, temp);*/
 
-		temp = new Improvement("CopperWeapons");
+		temp = new Improvement("CopperWeapons","Metal Working");
 		temp.cost(1.25,1.5,0,0,0,0);
 		temp.set(1.25,1.4,0,0,0,0,0);
 		temp.fit("allmelee");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("IronWeapons");
+		temp = new Improvement("IronWeapons","Metal Working");
 		temp.cost(1.25,2,0,0,0,0);
 		temp.set(1.5,1.5,0,0,0,0,0);
 		temp.fit("allmelee");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("CopperArrows");
+		temp = new Improvement("CopperArrows","Casting");
 		temp.cost(1.25,1.25,0,0,0,0);
 		temp.set(0,0,1.25,0,0,0,0);
 		temp.fit("allranged");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("IronArrows");
+		temp = new Improvement("IronArrows","Casting");
 		temp.cost(1.25,1.5,0,0,0,0);
 		temp.set(0,0,1.5,0,0,0,0);
 		temp.fit("allranged");
@@ -308,13 +308,13 @@ public class EntityData {
 	private static void setupCityImprovementCosts()
 	{
 		Improvement temp;
-		temp = new Improvement("Granary");
+		temp = new Improvement("Granary","");
 		temp.cost(0,0,0,20,0,0);
 		//temp.set();
 		cityImprovementMap.put(temp.name, temp);
 	}
 
-	public static ArrayList<Improvement> getValidImprovements(BaseEntity en)
+	public static ArrayList<Improvement> getValidImprovements(Civilization civ, BaseEntity en)
 	{
 		ArrayList<Improvement> temp = new ArrayList<Improvement>();
 		for (Entry<String, Improvement> entry: unitImprovementMap.entrySet())
@@ -322,6 +322,7 @@ public class EntityData {
 			String name = entry.getKey();
 			Improvement i = entry.getValue();
 			//Split into many if statements for special improvement conditions later
+			if (!civ.techTree.researched(i.requiredTech).researched()) continue;
 			if (i.equals("Neutral"))
 			{
 				continue;

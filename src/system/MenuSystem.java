@@ -1149,7 +1149,7 @@ public class MenuSystem extends BaseSystem {
 	{
 		menus.get(4).buttons.clear();
 		BaseEntity en = EntityData.get(name);
-		ArrayList<Improvement> valid = EntityData.getValidImprovements(en);
+		ArrayList<Improvement> valid = EntityData.getValidImprovements(main.grid.civs[0], en);
 		for (int i = 0; i < valid.size(); i++)
 		{
 			Improvement temp = valid.get(i);

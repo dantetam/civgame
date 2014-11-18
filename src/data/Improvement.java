@@ -17,9 +17,12 @@ public class Improvement
 	public double offensiveFlat, defensiveFlat, rangedFlat; //fixed bonuses
 	public double workerImprovementTime;
 	
-	public Improvement(String name)
+	public String requiredTech;
+	
+	public Improvement(String name, String tech)
 	{
 		this.name = name;
+		requiredTech = tech;
 	}
 	
 	public void fit(String... types) {units = types;}
