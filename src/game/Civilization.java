@@ -192,16 +192,19 @@ public class Civilization {
 	
 	public boolean isWar(Civilization other)
 	{
+		if (other == null) return false;
 		return enemies.contains(other);
 	}
 	
 	public boolean isAlly(Civilization other)
 	{
+		if (other == null) return false;
 		return allies.contains(other);
 	}
 	
 	public boolean isOpenBorder(Civilization other)
 	{
+		if (other == null) return true;
 		return openBorders.contains(other);
 	}
 	

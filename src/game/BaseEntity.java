@@ -36,6 +36,7 @@ public abstract class BaseEntity {
 	public BaseEntity(BaseEntity other)
 	{
 		name = other.name; 
+		id = Double.toString(Math.random()*System.currentTimeMillis());
 		offensiveStr = other.offensiveStr;
 		defensiveStr = other.defensiveStr;
 		rangedStr = other.rangedStr;

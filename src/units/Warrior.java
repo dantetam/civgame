@@ -46,14 +46,14 @@ public class Warrior extends GameEntity {
 		{
 			//System.out.println("beginning");
 			Tile nearestA = nearestAlliedCity();
-			
+
 			if (mode == 2)
 			{
 				ArrayList<GameEntity> targets = fireAtTargets();
 				if (targets.size() > 0)
 					fire(targets.get((int)(Math.random()*targets.size())));
 			}
-			
+
 			if (queueTiles.size() > 0)
 			{
 				while (action > 0)
@@ -64,19 +64,19 @@ public class Warrior extends GameEntity {
 					//System.out.println("Start");
 					//System.out.println(previous[0] + " " + previous[1] + "; " + location.row + " " + location.col);
 					//super.recordPos();
-					
+
 					Tile q = queueTiles.get(queueTiles.size()-1);
 					if (!aggressiveWaddle(q.row - location.row, q.col - location.col))
 						return;
 					if (queueTiles.size() == 0)
 						return;
-					
+
 					//If it moved
 					//System.out.println(previous[0] + " " + previous[1] + "; " + location.row + " " + location.col);
-					//f (moved())
-						queueTiles.remove(queueTiles.size()-1);
+					//if (moved())
+					queueTiles.remove(queueTiles.size()-1);
 					//else 
-						//queueTiles.clear();
+					//queueTiles.clear();
 
 					//raze();
 					if (raze()) return;
@@ -95,7 +95,7 @@ public class Warrior extends GameEntity {
 								//System.out.println("pathfinding start " + queueTiles.size());
 							}
 						}*/
-					
+
 					/*Tile t = adjacentEnemy();
 					if (t != null)
 					{
@@ -167,19 +167,23 @@ public class Warrior extends GameEntity {
 						break;
 					if (!aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col))
 					{
+						queueTiles.remove(queueTiles.size()-1);
 						return;
 					}
 					if (queueTiles.size() == 0)
 						break;
-					if (moved())
-						queueTiles.remove(queueTiles.size()-1);
+					//if (moved())
+					queueTiles.remove(queueTiles.size()-1);
 				}
 				for (int i = 0; i < queueTiles.size(); i++)
 				{
-					if (!owner.isOpenBorder(queueTiles.get(i).owner))
+					if (queueTiles.get(i).owner != null)
 					{
-						explore();
-						break;
+						if (!owner.isOpenBorder(queueTiles.get(i).owner))
+						{
+							explore();
+							return;
+						}
 					}
 				}
 			}

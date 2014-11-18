@@ -340,6 +340,7 @@ public abstract class GameEntity extends BaseEntity {
 			/*trials++;
 			if (trials > 10) break;*/
 		}
+		System.out.println("Exploring " + id);
 		waddleToExact(r,c);
 	}
 	
