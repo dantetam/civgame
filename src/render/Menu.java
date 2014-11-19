@@ -4,39 +4,42 @@ import java.util.ArrayList;
 
 public class Menu {
 
-	public ArrayList<Button> buttons;
+	public ArrayList<TextBox> buttons;
 	public String name;
 	public boolean active;
 
 	public Menu(String name)
 	{
 		this.name = name;
-		buttons = new ArrayList<Button>();
+		buttons = new ArrayList<TextBox>();
 		active = false;
 	}
 
-	public Button addButton(String command, String display, String tooltip, float a, float b, float c, float d)
+	public TextBox addButton(String command, String display, String tooltip, float a, float b, float c, float d)
 	{
 		Button temp = new Button(command,display,tooltip,a,b,c,d);
 		buttons.add(temp);
 		return temp;
 	}
 
-	public void addButton(String command, String display, String tooltip, float a, float b, float c, float d, int... n)
+	/*public void addButton(String command, ArrayList<String> display, String tooltip, float a, float b, float c, float d, int... n)
 	{
-		ArrayList<String> temp = new ArrayList<String>();
-		buttons.add(new Button(command,display,tooltip,a,b,c,d,n));
-	}
+		buttons.add(new TextBox(command,display,tooltip,a,b,c,d));
+	}*/
 
-	public Button findButtonByCommand(String name)
+	public TextBox findButtonByCommand(String name)
 	{
 		for (int i = 0; i < buttons.size(); i++)
-			if (buttons.get(i).command.equals(name))
-				return buttons.get(i);
+		{
+			TextBox b = buttons.get(i);
+			if (b instanceof Button)
+				if (((Button)b).command.equals(name))
+					return buttons.get(i);
+		}
 		return null;
 	}
 	
-	public Button findButtonByName(String name)
+	public TextBox findButtonByName(String name)
 	{
 		for (int i = 0; i < buttons.size(); i++)
 			if (buttons.get(i).name.equals(name))
@@ -48,20 +51,21 @@ public class Menu {
 	{
 		for (int i = 0; i < buttons.size(); i++)
 		{
-			Button b = buttons.get(i);
-			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY)
-			{
-				return b.command;
-			}
+			TextBox b = buttons.get(i);
+			if (b instanceof Button)
+				if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY)
+				{
+					return ((Button)b).command;
+				}
 		}
 		return null;
 	}
 	
-	public Button within(float mouseX, float mouseY)
+	public TextBox within(float mouseX, float mouseY)
 	{
 		for (int i = 0; i < buttons.size(); i++)
 		{
-			Button b = buttons.get(i);
+			TextBox b = buttons.get(i);
 			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY)
 			{
 				return b;
@@ -74,7 +78,7 @@ public class Menu {
 	{
 		for (int i = 0; i < buttons.size(); i++)
 		{
-			Button b = buttons.get(i);
+			TextBox b = buttons.get(i);
 			boolean skip = false;
 			if (b.noOrdersIfMenu != null) //Check if all the menus that can stop the button from acting are not active
 				for (int j = 0; j < b.noOrdersIfMenu.length; j++)
@@ -99,7 +103,7 @@ public class Menu {
 	{
 		for (int i = 0; i < buttons.size(); i++)
 		{
-			Button b = buttons.get(i);
+			TextBox b = buttons.get(i);
 			if (b.orders.size() == 0)
 			{
 				buttons.get(i).orderOriginal(false);

@@ -69,7 +69,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("close", "Close", "Close all open menus.", 0, 70, 100, 30);
 		menu0.addButton("minimap", "Minimap", "Open the minimap of the world.", 0, 100, 100, 30);
 		menu0.addButton("info", "Information", "", 0, 130, 100, 30);
-		menu0.addButton("loadout", "Loadout", "Change loadouts of certain units.", 0, 160, 100, 30, 3, 4);
+		menu0.buttons.add(new Button("loadout", "Loadout", "Change loadouts of certain units.", 0, 160, 100, 30, 3, 4));
 		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", 0, 190, 100, 30);
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
@@ -101,7 +101,7 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu6);
 
 		Menu menu7 = new Menu("EncyclopediaMenu");
-		TextBox temp = new TextBox("EncyclopediaText",new ArrayList<String>(),"",100,190,700,500);
+		TextBox temp = new TextBox(new ArrayList<String>(),"",100,190,700,500); //"EncyclopediaText",
 		//System.out.println("Found " + menu7.findButtonByCommand("EncyclopediaText"));
 		temp.name = "EncyclopediaText";
 		menu7.buttons.add(temp);
@@ -121,19 +121,19 @@ public class MenuSystem extends BaseSystem {
 
 		menu0.active = true;
 
-		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*5/6,0,200,150);
+		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width*5/6,0,200,150); //"HintText"
 		textboxes.add(text0);
 
-		TextBox text1 = new TextBox("SelectedText",new ArrayList<String>(),"",main.width*4/6,0,200,150);
+		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width*4/6,0,200,150); //"SelectedText"
 		textboxes.add(text1);
 
-		TextBox text2 = new TextBox("Messages",new ArrayList<String>(),"",main.width*5/6,200,main.width*1/6,100);
+		TextBox text2 = new TextBox(new ArrayList<String>(),"",main.width*5/6,200,main.width*1/6,100); //"Messages"
 		textboxes.add(text2);
 
-		TextBox text3 = new TextBox("PlayerStatus",new ArrayList<String>(),"",main.width/6,0,300,50);
+		TextBox text3 = new TextBox(new ArrayList<String>(),"",main.width/6,0,300,50); //"PlayerStatus"
 		textboxes.add(text3);
 
-		TextBox text4 = new TextBox("LedgerText",new ArrayList<String>(),"",100,190,500,250);
+		TextBox text4 = new TextBox(new ArrayList<String>(),"",100,190,500,250); //"LedgerText"
 		textboxes.add(text4);
 
 		text4.active = false;
@@ -394,7 +394,7 @@ public class MenuSystem extends BaseSystem {
 				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
 					main.fill(0);
-					Button b = menus.get(menu).buttons.get(i);
+					TextBox b = menus.get(menu).buttons.get(i);
 					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
 					main.textAlign(PApplet.CENTER, PApplet.CENTER);
 					main.fill(255);
@@ -425,7 +425,7 @@ public class MenuSystem extends BaseSystem {
 		}
 
 		tooltip.active = false;
-		Button hover = findButtonWithin(main.mouseX, main.mouseY);
+		TextBox hover = findButtonWithin(main.mouseX, main.mouseY);
 		if (hover != null)
 			if (hover.tooltip != null)
 				if (!hover.tooltip.equals(""))
@@ -443,8 +443,6 @@ public class MenuSystem extends BaseSystem {
 					main.textAlign(main.CENTER);
 					main.text(hover.tooltip, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 5);
 				}
-
-		main.hint(PApplet.ENABLE_DEPTH_TEST);
 
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
@@ -835,7 +833,7 @@ public class MenuSystem extends BaseSystem {
 				 */
 				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
-					Button b = menus.get(menu).buttons.get(i);
+					TextBox b = menus.get(menu).buttons.get(i);
 					b.tick();
 				}
 				for (int i = 0; i < textboxes.size(); i++)
@@ -875,7 +873,7 @@ public class MenuSystem extends BaseSystem {
 		//for (int i = 1; i < menus.size(); i++)
 	}
 
-	public Button findButtonWithin(float mouseX, float mouseY)
+	public TextBox findButtonWithin(float mouseX, float mouseY)
 	{
 		for (int i = 0; i < menus.size(); i++)
 		{
@@ -884,7 +882,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				for (int j = 0; j < m.buttons.size(); j++)
 				{
-					Button b = m.within(mouseX, mouseY);
+					TextBox b = m.within(mouseX, mouseY);
 					if (b != null)
 					{
 						return b;
@@ -929,7 +927,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(10).buttons.clear();
 		for (int i = 0; i < messages.size(); i++)
 		{
-			TextBox msg = new TextBox("Message", messages.get(i), "", main.width*5/6, 360 + 20*i, main.width*1/6, 20);
+			TextBox msg = new TextBox(messages.get(i), "", main.width*5/6, 360 + 20*i, main.width*1/6, 20);
 			menus.get(10).buttons.add(msg);
 			if (i == 19) break;
 		}
@@ -1162,7 +1160,7 @@ public class MenuSystem extends BaseSystem {
 		Civilization plr = main.grid.civs[0];
 		menus.get(9).buttons.clear();
 
-		TextBox text0 = new TextBox("HintText",new ArrayList<String>(),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height/12);
+		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height/12); //"HintText"
 		text0.display.add(civ.name);
 
 		menus.get(9).addButton("openBorders"+civ.id, 
@@ -1200,13 +1198,13 @@ public class MenuSystem extends BaseSystem {
 		menus.get(11).buttons.clear();
 
 		//Top set
-		TextBox text = new TextBox("","Relations","Your relations with this nation (-200 to 200).",200,255,100,20);
+		TextBox text = new TextBox("Relations","Your relations with this nation (-200 to 200).",200,255,100,20);
 		menus.get(11).buttons.add(text);
-		text = new TextBox("","Open Borders","Your ability to access this nation's lands.",300,255,100,20);
+		text = new TextBox("Open Borders","Your ability to access this nation's lands.",300,255,100,20);
 		menus.get(11).buttons.add(text);
-		text = new TextBox("","War","",400,255,100,20);
+		text = new TextBox("War","",400,255,100,20);
 		menus.get(11).buttons.add(text);
-		text = new TextBox("","Alliance","The existence of a formal alliance between you and this nation.",500,255,100,20);
+		text = new TextBox("Alliance","The existence of a formal alliance between you and this nation.",500,255,100,20);
 		menus.get(11).buttons.add(text);
 
 		for (int i = 0; i < main.grid.civs.length; i++)
@@ -1218,19 +1216,19 @@ public class MenuSystem extends BaseSystem {
 
 			if (civ.equals(pivot)) continue;
 
-			text = new TextBox("","" + pivot.opinions[i],"",200,280 + 25*(i),100,20);
+			text = new TextBox("" + pivot.opinions[i],"",200,280 + 25*(i),100,20);
 			menus.get(11).buttons.add(text);
 
 			String temp = pivot.isOpenBorder(civ) ? "Yes" : "No";
-			text = new TextBox("",temp,"",300,280 + 25*(i),100,20);
+			text = new TextBox(temp,"",300,280 + 25*(i),100,20);
 			menus.get(11).buttons.add(text);
 
 			temp = pivot.isWar(civ) ? "Yes" : "No";
-			text = new TextBox("",temp,"",400,280 + 25*(i),100,20);
+			text = new TextBox(temp,"",400,280 + 25*(i),100,20);
 			menus.get(11).buttons.add(text);
 
 			temp = pivot.isAlly(civ) ? "Yes" : "No";
-			text = new TextBox("",temp,"",500,280 + 25*(i),100,20);
+			text = new TextBox(temp,"",500,280 + 25*(i),100,20);
 			menus.get(11).buttons.add(text);
 		}
 

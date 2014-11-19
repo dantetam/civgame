@@ -198,7 +198,7 @@ public class Game extends PApplet {
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
 		{
 			fill(0);
-			Button b = activeMenu.buttons.get(i);
+			TextBox b = activeMenu.buttons.get(i);
 			rect(b.posX, b.posY, b.sizeX, b.sizeY);
 			textAlign(CENTER, CENTER);
 			fill(255);
@@ -207,7 +207,7 @@ public class Game extends PApplet {
 		}
 
 		tooltip.active = false;
-		Button hover = activeMenu.within(mouseX, mouseY);
+		TextBox hover = activeMenu.within(mouseX, mouseY);
 		if (hover != null)
 			if (hover.tooltip != null)
 				if (!hover.tooltip.equals(""))
