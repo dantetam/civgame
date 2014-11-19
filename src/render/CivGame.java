@@ -39,6 +39,7 @@ public class CivGame extends PApplet {
 	public float centerX = width/2, centerY = height/2; //for rendering purposes, to determine how the position of the mouse affects the camera
 	//public PGraphics pg;
 	public MenuSystem menuSystem = new MenuSystem(this);
+	public NewMenuSystem newMenuSystem = new NewMenuSystem(this);
 	public PShader shader;
 	public PFont arial;
 
@@ -62,6 +63,7 @@ public class CivGame extends PApplet {
 		systems.add(civilizationSystem);
 		systems.add(renderSystem);
 		systems.add(menuSystem);
+		systems.add(newMenuSystem);
 		systems.add(inputSystem);
 	}
 
@@ -110,6 +112,7 @@ public class CivGame extends PApplet {
 		{
 			systems.get(i).tick();
 		}
+		newMenuSystem.lastMouseX = mouseX; newMenuSystem.lastMouseY = mouseY;
 	}
 
 	//public boolean newLine = false;
@@ -135,6 +138,17 @@ public class CivGame extends PApplet {
 			//Pass a right click to input system
 			inputSystem.queueRightClick(mouseX, mouseY);
 		}
+	}
+	
+	public void mouseDragged()
+	{
+		//println("Dragging " + mouseX + "," + mouseY);
+		newMenuSystem.mouseDragged(mouseX, mouseY);
+	}
+	
+	public void mouseReleased()
+	{
+		newMenuSystem.mouseReleased(mouseX, mouseY);
 	}
 	
 	/*public void mouseMoved()
