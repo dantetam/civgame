@@ -6,19 +6,36 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
-(Planned 11/10/2014 -> 11/21/2014)
+(Planned 11/10/2014 -> 11/21/2014) on hiatus due to college applications
 Major additions:
-/ Improve tech tree content
+> Improve tech tree content
 / Link tech tree completions to units, city improvements, tile improvements, and improvements
-
+/+ Improve user experience
+	/+ "Spiral" menu like the one found in Sniper Elite with choices that can be "dragged" to other tiles to complete actions
+	+ Set style of menu (possible white and medium blue theme?)
+	+ Fix rendering and keep consistent stroke styles, fills, strokeweights, etc.
+	+ Allow players to "drag" improvements over units
+	+ Allow player to "drag" advisors (in the forms of squares)
+		+ Diplomat square, trader square, spy square
+	+ Replace words with symbols (food with green circle, metal with red square, research with blue triangle, gold with yellow square)
+	+ Ability to drag units quickly to get them to move or attack (LMB drag, RMB drag)
+	-+ All squares oscillate in size when held
+	
 Minor additions:
 >+ Addition of ranged units and ranged strength
 >+ Units display health bar when damaged
-
++ Damage indicator GUI (2D)
++ Allow player to "meet" civilizations
+	+ Player must either declare war or declare truce period when meeting new civs
+	+ List of "revealed" civilizations show their tiles even when in darkness
+		* Change revealed array from boolean to numbers 0 -> hidden, 1 -> discovered, 2 -> in sight
++ Remove old buttons
+	
 Changes:
 
 Fixes:
 >+ Quick fix to omniscience bug fix
+	>+ Exploration quick fix
 
 (Planned 11/8/2014 -> 11/9/2014 with 10/26/2014 -> 11/7/2014)
 
@@ -28,7 +45,7 @@ Major additions:
 	> Fix barbarians spawning and attacking too aggressively
 		> Barbarians have no memory of what they reveal
 	- Fix civilizations getting early game warriors too early
-		- New unit, archer, bonus defending cities and bonus versus warriors
+		> New unit, archer, bonus defending cities and bonus versus warriors
 	- Fix food distribution (return to city by city basis)
 	> Fix metal distribution i.e. do not store metal
 	- Store extra food when too much food (limited), and take extra food when starving
@@ -40,7 +57,7 @@ Improve graphics
 	- Better unit models
 	- Unit animations when moving
 	>- Show units on menu simulation
-	/ Health bar display
+	> Health bar display
 Resource mechanics improvement
 	- Each resource harvested in a tile has a certain flow of resource
 	- The resource can be "spent" on units to build

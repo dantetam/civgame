@@ -183,7 +183,7 @@ public class CivilizationSystem extends BaseSystem {
 						tg += Math.floor(c.adm*0.25*taxBase);
 						c.culture += Math.floor(c.art*0.25*taxBase);
 						if (civ.capital != null)
-							if (civ.capital.equals(c))
+							if (civ.capital.equals(c) && !(c.owner instanceof CityState))
 								c.culture++;
 						//c.culture++;
 						//System.out.println(c.culture + " " + c.expanded);

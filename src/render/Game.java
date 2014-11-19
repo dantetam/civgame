@@ -191,7 +191,7 @@ public class Game extends PApplet {
 			}
 		}
 		fill(255,0,0);
-		text("Seed: " + menuGame.seed,450,25);
+		text("Seed: " + menuGame.seed + "; Turn: " + (menuGame.civSystem.turnsPassed+1),450,25);
 		if (menuGame.civSystem.turnsPassed >= 400)
 			newMenuGame((long)(System.currentTimeMillis()*Math.random()));
 

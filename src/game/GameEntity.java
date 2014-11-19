@@ -328,19 +328,19 @@ public abstract class GameEntity extends BaseEntity {
 	public void explore()
 	{
 		queueTiles.clear();
-		int r,c; //,trials = 0;
+		int r,c,trials = 0;
 		while (true)
 		{
 			r = (int)(Math.random()*location.grid.rows);
 			c = (int)(Math.random()*location.grid.cols);
 			Tile t = location.grid.getTile(r,c); //guaranteed to exist. i think.
 			if (t.biome != -1)
-				if (t.owner == null)
+				if (t.owner == null && t.dist(location) > 20)
 					break;
-			/*trials++;
-			if (trials > 10) break;*/
+			trials++;
+			if (trials > 10) break;
 		}
-		System.out.println("Exploring " + id);
+		//System.out.println("Exploring " + id);
 		waddleToExact(r,c);
 	}
 	
