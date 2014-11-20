@@ -15,8 +15,8 @@ Major additions:
 	+ Set style of menu (possible white and medium blue theme?)
 	+ Fix rendering and keep consistent stroke styles, fills, strokeweights, etc.
 	+ Allow players to "drag" improvements over units
-	+ Allow player to "drag" advisors (in the forms of squares)
-		+ Diplomat square, trader square, spy square
+	/+ Allow player to "drag" advisors (in the forms of squares)
+		/+ Diplomat square, trader square, spy square
 	+ Replace words with symbols (food with green circle, metal with red square, research with blue triangle, gold with yellow square)
 	+ Ability to drag units quickly to get them to move or attack (LMB drag, RMB drag)
 	-+ All squares oscillate in size when held

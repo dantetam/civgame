@@ -438,6 +438,24 @@ public class RenderSystem extends BaseSystem {
 			}
 		}
 
+		/*if (en instanceof GameEntity && en.owner.id == 0)
+		{
+			GameEntity gameEn = (GameEntity)en;
+			if (gameEn.queueTiles.size() > 0)
+			{
+				for (int i = gameEn.queueTiles.size() - 1; i >= 0; i--)
+				{
+					Tile t = gameEn.queueTiles.get(i);
+					main.pushMatrix();
+					main.translate(t.row*widthBlock, 25, t.col*widthBlock);
+					//main.fill(((float)(i+1)/(float)gameEn.queueTiles.size())*255F);
+					main.fill((r*main.grid.rows+c)/(r*c)*255);
+					main.box(5,5,5);
+					main.popMatrix();
+				}
+			}
+		}*/
+		
 		if (main.menuSystem.getSelected() != null)
 			if (en.equals(main.menuSystem.getSelected()))
 			{

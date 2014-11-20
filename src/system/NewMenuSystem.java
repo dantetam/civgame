@@ -50,10 +50,7 @@ public class NewMenuSystem extends BaseSystem {
 		main.hint(main.ENABLE_DEPTH_TEST);
 		if (main.inputSystem.keyHeld[113-97] && main.menuSystem.getSelected() != null)
 		{
-			for (int i = 0; i < menus.get(0).buttons.size(); i++)
-			{
-				menus.get(0).buttons.get(i).active = true;
-			}
+			showMenu(0);
 		}
 		else
 		{
@@ -67,6 +64,18 @@ public class NewMenuSystem extends BaseSystem {
 				}
 			}
 		}
+	}
+
+	public void showMenu(int n)
+	{
+		for (int i = 0; i < menus.get(n).buttons.size(); i++)
+			menus.get(n).buttons.get(i).active = true;
+	}
+	
+	public void hideMenu(int n)
+	{
+		for (int i = 0; i < menus.get(n).buttons.size(); i++)
+			menus.get(n).buttons.get(i).active = false;
 	}
 
 	public void updateUnitMenu(BaseEntity en)
@@ -111,6 +120,13 @@ public class NewMenuSystem extends BaseSystem {
 		if (selectedRune != null)
 		{
 			main.menuSystem.menuActivated = true;
+			for (int i = 0; i < menus.size(); i++)
+			{
+				for (int j = 0; j < menus.get(i).buttons.size(); j++)
+				{
+					menus.get(i).buttons.get(j).setOriginal();
+				}
+			}
 			if (selectedRune.command.equals("tileMove"))
 			{
 				GameEntity en = (GameEntity)main.menuSystem.getSelected();
@@ -126,6 +142,7 @@ public class NewMenuSystem extends BaseSystem {
 							main.menuSystem.message(msg);
 					}
 				}
+				hideMenu(0);
 				main.menuSystem.select(null);
 			}
 			else if (selectedRune.command.equals("tileDiplomat"))
@@ -150,13 +167,6 @@ public class NewMenuSystem extends BaseSystem {
 			{
 				System.out.println("Invalid or non-functioning command in newMenuSystem: " + selectedRune.command);
 			}
-			for (int i = 0; i < menus.size(); i++)
-			{
-				for (int j = 0; j < menus.get(i).buttons.size(); j++)
-				{
-					menus.get(i).buttons.get(j).setOriginal();
-				}
-			}
 			selectedRune = null;
 		}
 	}
@@ -168,7 +178,7 @@ public class NewMenuSystem extends BaseSystem {
 			for (int j = 0; j < menus.get(i).buttons.size(); j++)
 			{
 				Rune r = (Rune)menus.get(i).buttons.get(j);
-				if (mouseX > r.posX && mouseX < r.posX + r.sizeX && mouseY > r.posY && mouseY < r.posY + r.sizeY)
+				if (r.active && mouseX > r.posX && mouseX < r.posX + r.sizeX && mouseY > r.posY && mouseY < r.posY + r.sizeY)
 					return r;
 			}
 		}
