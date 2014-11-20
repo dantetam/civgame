@@ -21,7 +21,13 @@ public class NewMenuSystem extends BaseSystem {
 
 		Menu menu0 = new Menu("UnitMenu");
 		menus.add(menu0);
-		menus.get(0).buttons.add(new Rune("image","tileMove",70,650,50,50));
+		menus.get(0).buttons.add(new Rune("image","tileMove",675,425,50,50).color(0,255,0));
+		
+		Menu menu1 = new Menu("AdvisorMenu");
+		menus.add(menu1);
+		menus.get(1).buttons.add(new Rune("diplomat","tileDiplomat",600,10,50,50).color(0,0,255));
+		menus.get(1).buttons.add(new Rune("war","tileWar",660,10,50,50).color(255,0,0));
+		menus.get(1).buttons.add(new Rune("trader","tileTrader",720,10,50,50).color(200,200,0));
 	}
 
 	public void tick() 
@@ -33,7 +39,7 @@ public class NewMenuSystem extends BaseSystem {
 				Rune rune = (Rune)menus.get(i).buttons.get(j);
 				if (rune.active)
 				{
-					main.fill(0);
+					main.fill(rune.r, rune.g, rune.b);
 					main.rect(rune.posX, rune.posY, rune.sizeX, rune.sizeY);
 				}
 			}

@@ -19,4 +19,6 @@ public class Rune extends Button {
 				sizeX == r.sizeX && sizeY == r.sizeY;
 	}
 	
+	
+	
 }

@@ -17,6 +17,8 @@ public class TextBox {
 	public boolean lock = false;
 	public boolean active = true;
 	
+	public float r,g,b;
+	
 	public TextBox(String displayString, String tooltip, float a, float b, float c, float d)
 	{
 		display = new ArrayList<String>();
@@ -188,6 +190,13 @@ public class TextBox {
 	{
 		posX = x;
 		posY = y;
+	}
+	
+	//Return itself for convienence
+	public TextBox color(float x, float y, float z)
+	{
+		r = x; g = y; b = z;
+		return this;
 	}
 
 	public class Order

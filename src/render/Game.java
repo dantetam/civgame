@@ -29,7 +29,7 @@ public class Game extends PApplet {
 	public int tickEvery = 6;
 
 	//public long seed = 87069200L;
-	public String seed = "87069200"; //for easy modification (not by modulo)
+	public String seed = "87069200"; //for easy modification (not by modulo, but substring)
 
 	public static void main(String[] args)
 	{

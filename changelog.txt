@@ -11,7 +11,7 @@ Major additions:
 > Improve tech tree content
 / Link tech tree completions to units, city improvements, tile improvements, and improvements
 /+ Improve user experience
-	/+ "Spiral" menu like the one found in Sniper Elite with choices that can be "dragged" to other tiles to complete actions
+	>+ "Spiral" menu like the one found in Sniper Elite with choices that can be "dragged" to other tiles to complete actions
 	+ Set style of menu (possible white and medium blue theme?)
 	+ Fix rendering and keep consistent stroke styles, fills, strokeweights, etc.
 	+ Allow players to "drag" improvements over units

@@ -121,10 +121,10 @@ public class MenuSystem extends BaseSystem {
 
 		menu0.active = true;
 
-		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width*5/6,0,200,150); //"HintText"
+		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width - 200,0,200,150); //"HintText"
 		textboxes.add(text0);
 
-		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width*4/6,0,200,150); //"SelectedText"
+		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width - 400,0,200,150); //"SelectedText"
 		textboxes.add(text1);
 
 		TextBox text2 = new TextBox(new ArrayList<String>(),"",main.width*5/6,200,main.width*1/6,100); //"Messages"
@@ -189,6 +189,8 @@ public class MenuSystem extends BaseSystem {
 		main.line(0,602,main.width,602);
 		main.line(0,720,main.width,720);
 		main.noStroke();*/
+		
+		main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
 		
 		if (minimap)
 		{
@@ -1288,8 +1290,8 @@ public class MenuSystem extends BaseSystem {
 				updateCity((City)en);
 			}
 			textboxes.get(1).active = true;
-			textboxes.get(1).move(main.width*4/6,-150);
-			textboxes.get(1).moveTo(main.width*4/6,0,20);
+			textboxes.get(1).move(main.width - 400,-150);
+			textboxes.get(1).moveTo(main.width - 400,0,20);
 		}
 		else
 		{

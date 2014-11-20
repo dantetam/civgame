@@ -128,6 +128,7 @@ public class CivGame extends PApplet {
 		}
 		newLine = !newLine;*/
 		//println(player.toString());
+		println((int)mouseX+","+(int)mouseY);
 		menuSystem.queueClick(mouseX, mouseY);
 		if (newMenuSystem.within(mouseX, mouseY) == null)
 			menuSystem.menuActivated = true;
