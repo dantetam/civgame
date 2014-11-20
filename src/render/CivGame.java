@@ -43,7 +43,7 @@ public class CivGame extends PApplet {
 	public PShader shader;
 	public PFont arial;
 
-	private InputSystem inputSystem = new InputSystem(this);
+	public InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
 

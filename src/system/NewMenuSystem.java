@@ -21,6 +21,7 @@ public class NewMenuSystem extends BaseSystem {
 
 		Menu menu0 = new Menu("UnitMenu");
 		menus.add(menu0);
+		menus.get(0).buttons.add(new Rune("image","tileMove",70,650,50,50));
 	}
 
 	public void tick() 
@@ -30,23 +31,45 @@ public class NewMenuSystem extends BaseSystem {
 			for (int j = 0; j < menus.get(i).buttons.size(); j++)
 			{
 				Rune rune = (Rune)menus.get(i).buttons.get(j);
-				main.fill(0);
-				main.rect(rune.posX, rune.posY, rune.sizeX, rune.sizeY);
+				if (rune.active)
+				{
+					main.fill(0);
+					main.rect(rune.posX, rune.posY, rune.sizeX, rune.sizeY);
+				}
 			}
 		}
 		main.menuSystem.menuActivated = false;
 		if (selectedRune != null)
 			main.menuSystem.menuActivated = true;
 		main.hint(main.ENABLE_DEPTH_TEST);
+		if (main.inputSystem.keyHeld[113-97] && main.menuSystem.getSelected() != null)
+		{
+			for (int i = 0; i < menus.get(0).buttons.size(); i++)
+			{
+				menus.get(0).buttons.get(i).active = true;
+			}
+		}
+		else
+		{
+			for (int i = 0; i < menus.get(0).buttons.size(); i++)
+			{
+				Rune rune = (Rune)menus.get(0).buttons.get(i);
+				if (!rune.equals(selectedRune))
+				{
+					menus.get(0).buttons.get(i).active = false;
+					menus.get(0).buttons.get(i).orderOriginal(false);
+				}
+			}
+		}
 	}
 
 	public void updateUnitMenu(BaseEntity en)
 	{
-		menus.get(0).buttons.clear();
-		if (en != null)
+		//menus.get(0).buttons.clear();
+		/*for (int i = 0; i < menus.get(0).buttons.size(); i++)
 		{
-			menus.get(0).buttons.add(new Rune("image","tileMove",70,650,50,50));
-		}
+			menus.get(0).buttons.get(i).orderOriginal(false);
+		}*/
 	}
 
 	public float lastMouseX, lastMouseY;
@@ -57,12 +80,16 @@ public class NewMenuSystem extends BaseSystem {
 			Rune rune = within(mouseX, mouseY);
 			if (rune != null)
 			{
-				main.menuSystem.menuActivated = true;
-				selectedRune = rune;
+				if (rune.active)
+				{
+					main.menuSystem.menuActivated = true;
+					selectedRune = rune;
+				}
 			}
 		}
 		if (selectedRune != null)
 		{
+			selectedRune.active = true;
 			//Seems like a redundant calculation
 			float dX = mouseX - lastMouseX, dY = mouseY - lastMouseY;
 			//rune.posX = 500;
@@ -77,6 +104,7 @@ public class NewMenuSystem extends BaseSystem {
 	{
 		if (selectedRune != null)
 		{
+			main.menuSystem.menuActivated = true;
 			if (selectedRune.command.equals("tileMove"))
 			{
 				GameEntity en = (GameEntity)main.menuSystem.getSelected();
@@ -86,7 +114,7 @@ public class NewMenuSystem extends BaseSystem {
 					if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
 					{
 						String msg = en.playerWaddleToExact(t.row, t.col);
-						if (msg == null)
+						if (msg == null && en.action > 0)
 							en.playerTick();
 						else
 							main.menuSystem.message(msg);

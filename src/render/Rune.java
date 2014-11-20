@@ -12,4 +12,11 @@ public class Rune extends Button {
 		this.imageName = imageName;
 	}
 	
+	public boolean equals(Rune r)
+	{
+		if (r == null) return false;
+		return posX == r.posX && posY == r.posY &&
+				sizeX == r.sizeX && sizeY == r.sizeY;
+	}
+	
 }
