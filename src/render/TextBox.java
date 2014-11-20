@@ -168,7 +168,7 @@ public class TextBox {
 		return temp;
 	}
 
-	private void setOriginal()
+	public void setOriginal()
 	{
 		posX = origX;
 		posY = origY;

@@ -63,7 +63,7 @@ public class NewMenuSystem extends BaseSystem {
 				if (!rune.equals(selectedRune))
 				{
 					menus.get(0).buttons.get(i).active = false;
-					menus.get(0).buttons.get(i).orderOriginal(false);
+					//menus.get(0).buttons.get(i).orderOriginal(false);
 				}
 			}
 		}
@@ -127,6 +127,35 @@ public class NewMenuSystem extends BaseSystem {
 					}
 				}
 				main.menuSystem.select(null);
+			}
+			else if (selectedRune.command.equals("tileDiplomat"))
+			{
+				if (main.menuSystem.mouseHighlighted != null)
+				{
+					if (main.menuSystem.mouseHighlighted.owner != null)
+					{
+						main.menuSystem.executeAction("diplomacy"+main.menuSystem.mouseHighlighted.owner.id);
+					}
+				}
+			}
+			else if (selectedRune.command.equals("tileWar"))
+			{
+
+			}
+			else if (selectedRune.command.equals("tileDiplomat"))
+			{
+
+			}
+			else
+			{
+				System.out.println("Invalid or non-functioning command in newMenuSystem: " + selectedRune.command);
+			}
+			for (int i = 0; i < menus.size(); i++)
+			{
+				for (int j = 0; j < menus.get(i).buttons.size(); j++)
+				{
+					menus.get(i).buttons.get(j).setOriginal();
+				}
 			}
 			selectedRune = null;
 		}

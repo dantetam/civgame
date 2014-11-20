@@ -189,9 +189,10 @@ public class MenuSystem extends BaseSystem {
 		main.line(0,602,main.width,602);
 		main.line(0,720,main.width,720);
 		main.noStroke();*/
-		
+
+		main.textAlign(main.CENTER);
 		main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
-		
+
 		if (minimap)
 		{
 			//main.rect(0, 700, 50, 50);
@@ -459,354 +460,15 @@ public class MenuSystem extends BaseSystem {
 						if (command != null && !command.equals(""))
 						{
 							menuActivated = true;
-							if (command.equals("exitgame"))
+							//Replace with function that returns true if the menu resetting should happen
+							if (executeAction(command))
 							{
-								System.exit(0);
-								continue;
+								main.menuSystem.select(null);
+								//below was derived from the original expression to calculate rotY & rotVertical
+								//main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
+								//main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
+								main.resetCamera();
 							}
-							else if (command.equals("close"))
-							{
-								//TODO: Replace with a loop later
-								closeMenus();
-							}
-							else if (
-									command.equals("info") || 
-									command.equals("minimap") || 
-									command.equals("loadout") || 
-									command.contains("loadoutDisplay") || 
-									command.equals("stats") ||
-									command.equals("continue") ||
-									command.equals("techs") ||
-									command.equals("encyclopedia") ||
-									command.contains("diplomacy") ||
-									command.equals("log") ||
-									command.equals("relations")
-									)
-							{
-								closeMenus();
-								if (command.equals("info"))
-								{
-									info = !info;
-								}
-								else if (command.equals("minimap"))
-								{
-									minimap = !minimap;
-								}
-								else if (command.equals("loadout"))
-								{
-									/*if (menus.get(3).active)
-									{
-										menus.get(3).active = false;
-									}
-									menus.get(4).active = !menus.get(4).active;*/
-									menus.get(3).active = true;
-								}
-								else if (command.contains("loadoutDisplay"))
-								{
-									//loadout = false;
-									updateLoadoutDisplay(command.substring(14));
-									menus.get(4).active = true;
-								}
-								else if (command.equals("stats"))
-								{
-									updateCivStats();
-									//ledgerMenu = true;
-									textboxes.get(4).active = true;
-									menus.get(0).findButtonByCommand("stats").lock = textboxes.get(4).active;
-								}
-								else if (command.equals("continue"))
-								{
-									main.grid.civs[0].observe = true;
-									menus.get(6).active = false;
-								}
-								else if (command.equals("techs"))
-								{
-									displayTechMenu(main.grid.civs[0]);
-									menus.get(5).active = !menus.get(5).active;
-									//menus.get(5).active = !menus.get(5).active;
-								}
-								else if (command.equals("encyclopedia"))
-								{
-									menus.get(7).active = true;
-								}
-								else if (command.contains("diplomacy"))
-								{
-									menus.get(8).active = false;
-									menus.get(9).active = true;
-									Civilization civ = main.grid.civs[Integer.parseInt(command.substring(9))];
-									updateDiplomacyMenu(civ);
-								}
-								else if (command.equals("log"))
-								{
-									menus.get(10).active = true;
-									updateMessages();
-								}
-								else if (command.equals("relations"))
-								{
-									menus.get(11).active = true;
-									pivot = main.grid.civs[0];
-									updateRelations();
-								}
-								resetAllButtons();
-								continue;
-							}
-
-							else if (command.contains("encyclopedia")) //accessing an encyclopedia entry
-							{
-								ArrayList<String> text = EntityData.encyclopediaEntries.get(command.substring(12));
-								TextBox textBox = (TextBox)menus.get(7).findButtonByName("EncyclopediaText");
-								textBox.display.clear();
-								for (int j = 0; j < text.size(); j++)
-								{
-									textBox.display.add(text.get(j));
-								}
-							}
-
-							else if (command.contains("/")) //if it is a entity-improvement command
-							{
-								int index = command.indexOf("/");
-								String unit = command.substring(0,index);
-								for (int j = 0; j < main.grid.civs[0].cities.size(); j++)
-								{
-									City city = main.grid.civs[0].cities.get(j);
-									if (city.queue != null)
-									{
-										if (city.queue.equals(unit))
-										{
-											message("Cannot change production method of queued unit");
-											return;
-										}
-									}
-								}
-								message("Changed production method of " + unit);
-								main.grid.civs[0].unitImprovements.put(unit,EntityData.unitImprovementMap.get(command.substring(index+1)));
-								menus.get(4).active = false; //Allow player to stay in menu?
-								continue;
-							}
-
-							else if (command.equals("buildFarm"))
-							{
-								//Recycled code
-								BaseEntity en = selected;
-								if (en.location.resource == 1 || en.location.resource == 2)
-								{
-									en.queueTurns = 6;
-									en.queue = "Farm";
-								}
-								else if (en.location.biome >= 3 && en.location.biome <= 6 && en.location.grid.irrigated(en.location.row, en.location.col))
-								{
-									en.queueTurns = 6;
-									en.queue = "Farm";
-								}
-								en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
-							}
-							else if (command.equals("buildMine"))
-							{
-								BaseEntity en = selected;
-								if (en.location.shape == 2)
-								{
-									en.queueTurns = 6;
-									en.queue = "Mine";
-								}
-								else if (en.location.resource >= 20 && en.location.resource <= 22)
-								{
-									en.queueTurns = 6;
-									en.queue = "Mine";
-								}
-								else if (en.location.shape == 1)
-								{
-									if (en.location.biome >= 0 && en.location.biome <= 3)
-									{
-										en.queueTurns = 6;
-										en.queue = "Mine";
-									}
-								}
-								en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
-							}
-							else if (command.equals("kill"))
-							{
-								main.grid.removeUnit(selected);
-							}
-							else if (command.equals("meleeMode"))
-							{
-								((GameEntity)selected).mode = 1;
-								updateUnitMenu((GameEntity)selected);
-							}
-							else if (command.equals("rangedMode"))
-							{
-								((GameEntity)selected).mode = 2;
-								updateUnitMenu((GameEntity)selected);
-							}
-							else if (command.equals("raze"))
-							{
-								((Warrior)selected).raze();
-								((Warrior)selected).action = 0;
-								//selected.playerTick();
-							}
-							else if (command.equals("settle"))
-							{
-								((Settler)selected).settle();
-							}
-
-							else if (command.contains("queueBuilding"))
-							{
-								City city = ((City)selected);
-								String impr = command.substring(13);
-								//No need to check if the player's tech is appropriate
-								System.out.println(impr);
-								if (EntityData.queueCityImprovement(city,impr))
-								{
-									message("Succesfully queued " + impr);
-								}
-								else
-								{
-									message("Could not queue " + impr);
-								}
-							}
-							else if (command.contains("queue"))
-							{
-								//if (EntityData.queue((City)selected, command.substring(5)))
-								if (EntityData.queue((City)selected, command.substring(5)) != null)
-								{
-									message("Succesfully queued " + command.substring(5));
-								}
-								else
-								{
-									message("Cannot queue units in a city being recently captured or razed");
-								}
-							}
-							else if (command.equals("razeCity"))
-							{
-								((City)selected).raze = true;
-							}
-							/*else if (command.equals("queueSettler"))
-						{
-							((City)selected).queue = "Settler";
-							((City)selected).queueFood = 35;
-						}
-						else if (command.equals("queueWarrior"))
-						{
-							((City)selected).queue = "Warrior";
-							((City)selected).queueFood = 5;
-							((City)selected).queueMetal = 5;
-						}
-						else if (command.equals("queueWorker"))
-						{
-							((City)selected).queue = "Worker";
-							((City)selected).queueFood = 25;
-						}*/
-							//Researching tech commands
-							else if (command.contains("research"))
-							{
-								//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
-								main.grid.civs[0].researchTech = command.substring(8);
-								menus.get(5).active = false;
-							}
-							//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 					
-							else if (command.equals("addAdmin"))
-							{
-								City s = ((City)selected);
-								if (s.adm + s.art + s.sci + 1 <= s.population - 1)
-									s.adm++;
-							}
-							else if (command.equals("addArtist"))
-							{
-								City s = ((City)selected);
-								if (s.adm + s.art + s.sci + 1 <= s.population - 1)
-									s.art++;
-							}
-							else if (command.equals("addSci"))
-							{
-								City s = ((City)selected);
-								if (s.adm + s.art + s.sci + 1 <= s.population - 1)
-									s.sci++;
-							}
-							else if (command.equals("subAdmin"))
-							{
-								City s = ((City)selected);
-								if (s.adm > 0)
-									s.adm--;
-							}
-							else if (command.equals("subArtist"))
-							{
-								City s = ((City)selected);
-								if (s.art > 0)
-									s.art--;
-							}
-							else if (command.equals("subSci"))
-							{
-								City s = ((City)selected);
-								if (s.sci > 0)
-									s.sci--;
-							}
-							else if (command.equals("sortie"))
-							{
-								City s = ((City)selected);
-								s.sortie();
-							}
-							else if (command.equals("endSortie"))
-							{
-								City s = ((City)selected);
-								s.endSortie();
-							}
-
-							//Diplomatic commands
-							else if (command.contains("openBorders"))
-							{
-								Civilization a = main.grid.civs[0];
-								Civilization b = main.grid.civs[Integer.parseInt(command.substring(11))];
-								if (!a.isOpenBorder(b))
-								{
-									a.openBorder(b);
-									main.menuSystem.message("Requested open borders from " + b.name + ".");
-								}
-							}
-							else if (command.contains("declareWar"))
-							{
-								Civilization a = main.grid.civs[0];
-								Civilization b = main.grid.civs[Integer.parseInt(command.substring(10))];
-								a.cancelDeals(b);
-								a.war(b);
-								main.menuSystem.message("You declared war on " + b.name + "!");
-								closeMenus();
-							}
-							else if (command.contains("declarePeace"))
-							{
-								Civilization a = main.grid.civs[0];
-								Civilization b = main.grid.civs[Integer.parseInt(command.substring(12))];
-								a.peace(b);
-								main.menuSystem.message("You made peace with " + b.name + "!");
-								updateDiplomacyMenu(b);
-							}
-							else if (command.contains("ally"))
-							{
-								Civilization a = main.grid.civs[0];
-								Civilization b = main.grid.civs[Integer.parseInt(command.substring(11))];
-								if (a.opinions[b.id] >= 0 && !a.isWar(b) && !a.isAlly(b))
-								{
-									a.ally(b);
-									main.menuSystem.message("You have allied with " + b.name);
-								}
-								else
-								{
-									main.menuSystem.message("Your relations with this nation do not allow for an alliance.");
-								}
-							}
-							else if (command.contains("pivot"))
-							{
-								pivot = main.grid.civs[Integer.parseInt(command.substring(5))]; 
-								updateRelations();
-							}
-
-							else
-							{
-								System.out.println("Invalid or non-functioning command: " + command);
-							}
-							main.menuSystem.select(null);
-							//below was derived from the original expression to calculate rotY & rotVertical
-							//main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
-							//main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
-							main.resetCamera();
 						}
 					}
 					else
@@ -856,6 +518,353 @@ public class MenuSystem extends BaseSystem {
 	public void queueMousePass(float mouseX, float mouseY)
 	{
 		clicks.add(0, new Click(false, mouseX, mouseY));
+	}
+
+	public boolean executeAction(String command)
+	{
+		if (command.equals("exitgame"))
+		{
+			System.exit(0);
+			return false;
+		}
+		else if (command.equals("close"))
+		{
+			//TODO: Replace with a loop later
+			closeMenus();
+		}
+		else if (
+				command.equals("info") || 
+				command.equals("minimap") || 
+				command.equals("loadout") || 
+				command.contains("loadoutDisplay") || 
+				command.equals("stats") ||
+				command.equals("continue") ||
+				command.equals("techs") ||
+				command.equals("encyclopedia") ||
+				command.contains("diplomacy") ||
+				command.equals("log") ||
+				command.equals("relations")
+				)
+		{
+			closeMenus();
+			if (command.equals("info"))
+			{
+				info = !info;
+			}
+			else if (command.equals("minimap"))
+			{
+				minimap = !minimap;
+			}
+			else if (command.equals("loadout"))
+			{
+				/*if (menus.get(3).active)
+				{
+					menus.get(3).active = false;
+				}
+				menus.get(4).active = !menus.get(4).active;*/
+				menus.get(3).active = true;
+			}
+			else if (command.contains("loadoutDisplay"))
+			{
+				//loadout = false;
+				updateLoadoutDisplay(command.substring(14));
+				menus.get(4).active = true;
+			}
+			else if (command.equals("stats"))
+			{
+				updateCivStats();
+				//ledgerMenu = true;
+				textboxes.get(4).active = true;
+				menus.get(0).findButtonByCommand("stats").lock = textboxes.get(4).active;
+			}
+			else if (command.equals("continue"))
+			{
+				main.grid.civs[0].observe = true;
+				menus.get(6).active = false;
+			}
+			else if (command.equals("techs"))
+			{
+				displayTechMenu(main.grid.civs[0]);
+				menus.get(5).active = !menus.get(5).active;
+				//menus.get(5).active = !menus.get(5).active;
+			}
+			else if (command.equals("encyclopedia"))
+			{
+				menus.get(7).active = true;
+			}
+			else if (command.contains("diplomacy"))
+			{
+				menus.get(8).active = false;
+				menus.get(9).active = true;
+				Civilization civ = main.grid.civs[Integer.parseInt(command.substring(9))];
+				updateDiplomacyMenu(civ);
+			}
+			else if (command.equals("log"))
+			{
+				menus.get(10).active = true;
+				updateMessages();
+			}
+			else if (command.equals("relations"))
+			{
+				menus.get(11).active = true;
+				pivot = main.grid.civs[0];
+				updateRelations();
+			}
+			resetAllButtons();
+			return false;
+		}
+
+		else if (command.contains("encyclopedia")) //accessing an encyclopedia entry
+		{
+			ArrayList<String> text = EntityData.encyclopediaEntries.get(command.substring(12));
+			TextBox textBox = (TextBox)menus.get(7).findButtonByName("EncyclopediaText");
+			textBox.display.clear();
+			for (int j = 0; j < text.size(); j++)
+			{
+				textBox.display.add(text.get(j));
+			}
+		}
+
+		else if (command.contains("/")) //if it is a entity-improvement command
+		{
+			int index = command.indexOf("/");
+			String unit = command.substring(0,index);
+			for (int j = 0; j < main.grid.civs[0].cities.size(); j++)
+			{
+				City city = main.grid.civs[0].cities.get(j);
+				if (city.queue != null)
+				{
+					if (city.queue.equals(unit))
+					{
+						message("Cannot change production method of queued unit");
+						return false;
+					}
+				}
+			}
+			message("Changed production method of " + unit);
+			main.grid.civs[0].unitImprovements.put(unit,EntityData.unitImprovementMap.get(command.substring(index+1)));
+			menus.get(4).active = false; //Allow player to stay in menu?
+			return false;
+		}
+
+		else if (command.equals("buildFarm"))
+		{
+			//Recycled code
+			BaseEntity en = selected;
+			if (en.location.resource == 1 || en.location.resource == 2)
+			{
+				en.queueTurns = 6;
+				en.queue = "Farm";
+			}
+			else if (en.location.biome >= 3 && en.location.biome <= 6 && en.location.grid.irrigated(en.location.row, en.location.col))
+			{
+				en.queueTurns = 6;
+				en.queue = "Farm";
+			}
+			en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
+		}
+		else if (command.equals("buildMine"))
+		{
+			BaseEntity en = selected;
+			if (en.location.shape == 2)
+			{
+				en.queueTurns = 6;
+				en.queue = "Mine";
+			}
+			else if (en.location.resource >= 20 && en.location.resource <= 22)
+			{
+				en.queueTurns = 6;
+				en.queue = "Mine";
+			}
+			else if (en.location.shape == 1)
+			{
+				if (en.location.biome >= 0 && en.location.biome <= 3)
+				{
+					en.queueTurns = 6;
+					en.queue = "Mine";
+				}
+			}
+			en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
+		}
+		else if (command.equals("kill"))
+		{
+			main.grid.removeUnit(selected);
+		}
+		else if (command.equals("meleeMode"))
+		{
+			((GameEntity)selected).mode = 1;
+			updateUnitMenu((GameEntity)selected);
+		}
+		else if (command.equals("rangedMode"))
+		{
+			((GameEntity)selected).mode = 2;
+			updateUnitMenu((GameEntity)selected);
+		}
+		else if (command.equals("raze"))
+		{
+			((Warrior)selected).raze();
+			((Warrior)selected).action = 0;
+			//selected.playerTick();
+		}
+		else if (command.equals("settle"))
+		{
+			((Settler)selected).settle();
+		}
+
+		else if (command.contains("queueBuilding"))
+		{
+			City city = ((City)selected);
+			String impr = command.substring(13);
+			//No need to check if the player's tech is appropriate
+			System.out.println(impr);
+			if (EntityData.queueCityImprovement(city,impr))
+			{
+				message("Succesfully queued " + impr);
+			}
+			else
+			{
+				message("Could not queue " + impr);
+			}
+		}
+		else if (command.contains("queue"))
+		{
+			//if (EntityData.queue((City)selected, command.substring(5)))
+			if (EntityData.queue((City)selected, command.substring(5)) != null)
+			{
+				message("Succesfully queued " + command.substring(5));
+			}
+			else
+			{
+				message("Cannot queue units in a city being recently captured or razed");
+			}
+		}
+		else if (command.equals("razeCity"))
+		{
+			((City)selected).raze = true;
+		}
+		/*else if (command.equals("queueSettler"))
+		{
+			((City)selected).queue = "Settler";
+			((City)selected).queueFood = 35;
+		}
+		else if (command.equals("queueWarrior"))
+		{
+			((City)selected).queue = "Warrior";
+			((City)selected).queueFood = 5;
+			((City)selected).queueMetal = 5;
+		}
+		else if (command.equals("queueWorker"))
+		{
+			((City)selected).queue = "Worker";
+			((City)selected).queueFood = 25;
+		}*/
+		//Researching tech commands
+		else if (command.contains("research"))
+		{
+			//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
+			main.grid.civs[0].researchTech = command.substring(8);
+			menus.get(5).active = false;
+		}
+		//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 					
+		else if (command.equals("addAdmin"))
+		{
+			City s = ((City)selected);
+			if (s.adm + s.art + s.sci + 1 <= s.population - 1)
+				s.adm++;
+		}
+		else if (command.equals("addArtist"))
+		{
+			City s = ((City)selected);
+			if (s.adm + s.art + s.sci + 1 <= s.population - 1)
+				s.art++;
+		}
+		else if (command.equals("addSci"))
+		{
+			City s = ((City)selected);
+			if (s.adm + s.art + s.sci + 1 <= s.population - 1)
+				s.sci++;
+		}
+		else if (command.equals("subAdmin"))
+		{
+			City s = ((City)selected);
+			if (s.adm > 0)
+				s.adm--;
+		}
+		else if (command.equals("subArtist"))
+		{
+			City s = ((City)selected);
+			if (s.art > 0)
+				s.art--;
+		}
+		else if (command.equals("subSci"))
+		{
+			City s = ((City)selected);
+			if (s.sci > 0)
+				s.sci--;
+		}
+		else if (command.equals("sortie"))
+		{
+			City s = ((City)selected);
+			s.sortie();
+		}
+		else if (command.equals("endSortie"))
+		{
+			City s = ((City)selected);
+			s.endSortie();
+		}
+
+		//Diplomatic commands
+		else if (command.contains("openBorders"))
+		{
+			Civilization a = main.grid.civs[0];
+			Civilization b = main.grid.civs[Integer.parseInt(command.substring(11))];
+			if (!a.isOpenBorder(b))
+			{
+				a.openBorder(b);
+				main.menuSystem.message("Requested open borders from " + b.name + ".");
+			}
+		}
+		else if (command.contains("declareWar"))
+		{
+			Civilization a = main.grid.civs[0];
+			Civilization b = main.grid.civs[Integer.parseInt(command.substring(10))];
+			a.cancelDeals(b);
+			a.war(b);
+			main.menuSystem.message("You declared war on " + b.name + "!");
+			closeMenus();
+		}
+		else if (command.contains("declarePeace"))
+		{
+			Civilization a = main.grid.civs[0];
+			Civilization b = main.grid.civs[Integer.parseInt(command.substring(12))];
+			a.peace(b);
+			main.menuSystem.message("You made peace with " + b.name + "!");
+			updateDiplomacyMenu(b);
+		}
+		else if (command.contains("ally"))
+		{
+			Civilization a = main.grid.civs[0];
+			Civilization b = main.grid.civs[Integer.parseInt(command.substring(4))];
+			if (a.opinions[b.id] >= 0 && !a.isWar(b) && !a.isAlly(b))
+			{
+				a.ally(b);
+				main.menuSystem.message("You have allied with " + b.name);
+			}
+			else
+			{
+				main.menuSystem.message("Your relations with this nation do not allow for an alliance.");
+			}
+		}
+		else if (command.contains("pivot"))
+		{
+			pivot = main.grid.civs[Integer.parseInt(command.substring(5))]; 
+			updateRelations();
+		}
+		else
+		{
+			System.out.println("Invalid or non-functioning command: " + command);
+		}
+		return true;
 	}
 
 	public void closeMenus()
@@ -1091,7 +1100,7 @@ public class MenuSystem extends BaseSystem {
 			//menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			//menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
 		}
-		
+
 		if (en.mode == 1 && en.rangedStr > 0)
 		{
 			menus.get(1).addButton("rangedMode", "Ranged", "Allow this unit to use ranged attacks.", (float)main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
