@@ -106,6 +106,10 @@ public class InputSystem extends BaseSystem {
 			//System.out.println("Update");
 		}
 		lastMoving = moving;
+		if (main.menuSystem.menuActivated)
+		{
+			clicks.clear(); return;
+		}
 		for (int i = clicks.size() - 1; i >= 0; i--)
 		{
 			Click c = clicks.get(i);
@@ -231,7 +235,7 @@ public class InputSystem extends BaseSystem {
 
 	public void passRightMouseClick(float mouseX, float mouseY)
 	{
-		if (main.menuSystem.getSelected() instanceof GameEntity)
+		/*if (main.menuSystem.getSelected() instanceof GameEntity && !main.menuSystem.menuActivated)
 		{
 			GameEntity en = (GameEntity)main.menuSystem.getSelected();
 			Tile t = main.menuSystem.mouseHighlighted;
@@ -246,7 +250,7 @@ public class InputSystem extends BaseSystem {
 						main.menuSystem.message(msg);
 				}
 			}
-		}
+		}*/
 	}
 
 	/*public void test()

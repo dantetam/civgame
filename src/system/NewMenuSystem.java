@@ -1,30 +1,52 @@
 package system;
 
+import game.BaseEntity;
+import game.GameEntity;
+import game.Tile;
+
 import java.util.ArrayList;
 
 import render.CivGame;
 import render.Rune;
+import render.Menu;
 
 public class NewMenuSystem extends BaseSystem {
 
-	public ArrayList<Rune> runes;
+	public ArrayList<Menu> menus;
 	public Rune selectedRune = null;
 
 	public NewMenuSystem(CivGame civGame) {
 		super(civGame);
-		runes = new ArrayList<Rune>();
-		runes.add(new Rune("","",200,200,100,100));
+		menus = new ArrayList<Menu>();
+
+		Menu menu0 = new Menu("UnitMenu");
+		menus.add(menu0);
 	}
 
 	public void tick() 
 	{
-		for (int i = 0; i < runes.size(); i++)
+		for (int i = 0; i < menus.size(); i++)
 		{
-			Rune rune = runes.get(i);
-			main.fill(0);
-			main.rect(rune.posX, rune.posY, rune.sizeX, rune.sizeY);
+			for (int j = 0; j < menus.get(i).buttons.size(); j++)
+			{
+				Rune rune = (Rune)menus.get(i).buttons.get(j);
+				main.fill(0);
+				main.rect(rune.posX, rune.posY, rune.sizeX, rune.sizeY);
+			}
 		}
+		main.menuSystem.menuActivated = false;
+		if (selectedRune != null)
+			main.menuSystem.menuActivated = true;
 		main.hint(main.ENABLE_DEPTH_TEST);
+	}
+
+	public void updateUnitMenu(BaseEntity en)
+	{
+		menus.get(0).buttons.clear();
+		if (en != null)
+		{
+			menus.get(0).buttons.add(new Rune("image","tileMove",70,650,50,50));
+		}
 	}
 
 	public float lastMouseX, lastMouseY;
@@ -35,6 +57,7 @@ public class NewMenuSystem extends BaseSystem {
 			Rune rune = within(mouseX, mouseY);
 			if (rune != null)
 			{
+				main.menuSystem.menuActivated = true;
 				selectedRune = rune;
 			}
 		}
@@ -46,21 +69,45 @@ public class NewMenuSystem extends BaseSystem {
 			selectedRune.posX += dX; selectedRune.posY += dY;
 			//rune.moveTo(mouseX - dX, mouseY - dY, 5);
 			lastMouseX = mouseX; lastMouseY = mouseY;
+			main.menuSystem.menuActivated = true;
 		}
 	}
 
 	public void mouseReleased(float mouseX, float mouseY)
 	{
-		selectedRune = null;
+		if (selectedRune != null)
+		{
+			if (selectedRune.command.equals("tileMove"))
+			{
+				GameEntity en = (GameEntity)main.menuSystem.getSelected();
+				Tile t = main.menuSystem.mouseHighlighted;
+				if (en != null && t != null)
+				{
+					if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
+					{
+						String msg = en.playerWaddleToExact(t.row, t.col);
+						if (msg == null)
+							en.playerTick();
+						else
+							main.menuSystem.message(msg);
+					}
+				}
+				main.menuSystem.select(null);
+			}
+			selectedRune = null;
+		}
 	}
 
 	public Rune within(float mouseX, float mouseY)
 	{
-		for (int i = 0; i < runes.size(); i++)
+		for (int i = 0; i < menus.size(); i++)
 		{
-			Rune r = runes.get(i);
-			if (mouseX > r.posX && mouseX < r.posX + r.sizeX && mouseY > r.posY && mouseY < r.posY + r.sizeY)
-				return r;
+			for (int j = 0; j < menus.get(i).buttons.size(); j++)
+			{
+				Rune r = (Rune)menus.get(i).buttons.get(j);
+				if (mouseX > r.posX && mouseX < r.posX + r.sizeX && mouseY > r.posY && mouseY < r.posY + r.sizeY)
+					return r;
+			}
 		}
 		return null;
 	}

@@ -32,7 +32,7 @@ public class CivGame extends PApplet {
 
 	public Player player = new Player();
 	public boolean showAll = false;
-	
+
 	public ArrayList<BaseSystem> systems;
 	private RenderSystem renderSystem = new RenderSystem(this);
 	public float width = 1500, height = 900;
@@ -94,7 +94,7 @@ public class CivGame extends PApplet {
 		erosion = new Erosion(terrain,1);
 		erode();
 		chunkSystem.tick();
-		
+
 		//Set it manually
 		player.civ = grid.civs[0];
 		player.civ.name = "Player";
@@ -129,31 +129,38 @@ public class CivGame extends PApplet {
 		newLine = !newLine;*/
 		//println(player.toString());
 		menuSystem.queueClick(mouseX, mouseY);
-		if (mouseButton == LEFT)
+		if (newMenuSystem.within(mouseX, mouseY) == null)
+			menuSystem.menuActivated = true;
+		else
 		{
-			inputSystem.queueLeftClick(mouseX, mouseY);
-		}
-		else if (mouseButton == RIGHT)
-		{
-			//Pass a right click to input system
-			inputSystem.queueRightClick(mouseX, mouseY);
+			if (mouseButton == LEFT)
+			{
+				inputSystem.queueLeftClick(mouseX, mouseY);
+			}
+			else if (mouseButton == RIGHT)
+			{
+				//Pass a right click to input system
+				inputSystem.queueRightClick(mouseX, mouseY);
+			}
 		}
 	}
-	
+
 	public void mouseDragged()
 	{
 		//println("Dragging " + mouseX + "," + mouseY);
+		menuSystem.menuActivated = true;
 		newMenuSystem.mouseDragged(mouseX, mouseY);
 	}
-	
+
 	public void mouseReleased()
 	{
+		menuSystem.menuActivated = false;
 		newMenuSystem.mouseReleased(mouseX, mouseY);
 	}
-	
+
 	/*public void mouseMoved()
 	{
-		
+
 	}*/
 
 	public void keyPressed()
@@ -177,7 +184,7 @@ public class CivGame extends PApplet {
 		game.exit();
 		//super.stop();
 	}
-	
+
 	public void fixCamera(int r, int c)
 	{
 		player.posX = r*renderSystem.widthBlock;
@@ -187,7 +194,7 @@ public class CivGame extends PApplet {
 		//player.rotVertical = 0;
 		//player.update();
 	}
-	
+
 	public void resetCamera()
 	{
 		centerX = mouseX/(1 - player.rotY/(float)Math.PI);
@@ -288,7 +295,7 @@ public class CivGame extends PApplet {
 		civilizationSystem.theGrid = grid;
 		//player = new Player(grid.civs[0]);
 		makeRivers(biomes); 
-		
+
 		//Odd numbers only
 		renderSystem.generateRoughTerrain(terrain, 3);
 		//grid.setupTiles(terrain);
@@ -565,7 +572,7 @@ public class CivGame extends PApplet {
 		}
 		return temp;
 	}
-	
+
 	public void erode()
 	{
 		for (int i = 0; i < 100; i++)
