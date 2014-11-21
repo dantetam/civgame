@@ -84,6 +84,15 @@ public class City extends TileEntity {
 			takeover--;
 		}
 	}
+	
+	public boolean built(String building)
+	{
+		for (int i = 0; i < buildings.size(); i++)
+		{
+			if (buildings.get(i).name.equals(building)) return true;
+		}
+		return true;
+	}
 
 	//Returns true if an enemy is in the city's land
 	public boolean enemiesInTerritory()
@@ -121,7 +130,7 @@ public class City extends TileEntity {
 		}
 		return temp;
 	}
-
+	
 
 	public int tilesBorderingCiv(Civilization other)
 	{

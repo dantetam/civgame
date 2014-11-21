@@ -308,8 +308,32 @@ public class EntityData {
 	private static void setupCityImprovementCosts()
 	{
 		Improvement temp;
-		temp = new Improvement("Granary","");
-		temp.cost(0,0,0,20,0,0);
+		temp = new Improvement("Warehouse","Mining");
+		temp.cost(0,0,0,5,20,0);
+		
+		temp = new Improvement("Granary","Agriculture");
+		temp.cost(0,0,0,5,20,0);
+
+		temp = new Improvement("Metalworks","Metal Working");
+		temp.cost(0,0,0,10,50,0);
+		
+		temp = new Improvement("Port","Fishing");
+		temp.cost(0,0,0,25,25,0);
+		
+		temp = new Improvement("Walls","Stone Working");
+		temp.cost(0,0,0,5,50,0);
+		
+		temp = new Improvement("Palace","Stone Working");
+		temp.cost(0,0,0,25,25,0);
+		
+		temp = new Improvement("Stables","Equestrian Practice");
+		temp.cost(0,0,0,25,25,0);
+		
+		temp = new Improvement("Market","Currency");
+		temp.cost(0,0,0,30,20,0);
+		
+		temp = new Improvement("Pyramid","Monument Building");
+		temp.cost(0,0,0,0,50,0);
 		//temp.set();
 		cityImprovementMap.put(temp.name, temp);
 	}

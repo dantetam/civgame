@@ -152,6 +152,16 @@ public class CivilizationSystem extends BaseSystem {
 						}
 
 						c.happiness = 4 - c.population;
+						
+						if (c.built("Palace"))
+						{
+							c.happiness++;
+						}
+						else if (c.built("Pyramid"))
+						{
+							c.happiness += 2;
+						}
+						
 						int sumCityWorkers = c.adm + c.art + c.sci;
 						if (c.happiness < 0)
 							c.workTiles(c.population - c.happiness - sumCityWorkers);
@@ -177,14 +187,28 @@ public class CivilizationSystem extends BaseSystem {
 							tf += f; tg += g; tm += m; tr += r;
 							c.workedLand.get(k).harvest = true;
 						}
+						if (c.built("Metalworks"))
+						{
+							tm *= 1.25;
+						}
 						//Factor in specialized workers
 						double taxBase = tg;
 						tr += c.sci*2;
 						tg += Math.floor(c.adm*0.25*taxBase);
 						c.culture += Math.floor(c.art*0.25*taxBase);
-						if (civ.capital != null)
+						/*if (civ.capital != null)
 							if (civ.capital.equals(c) && !(c.owner instanceof CityState))
-								c.culture++;
+								c.culture++;*/
+						if (c.built("Palace"))
+						{
+							tg *= 1.25;
+							c.culture++;
+						}
+						if (c.built("Market"))
+						{
+							tg *= 1.25;
+						}
+						
 						//c.culture++;
 						//System.out.println(c.culture + " " + c.expanded);
 						if (c.culture >= 20 && c.expanded == 1)
@@ -240,98 +264,6 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							if (civ.units.size() < 15)
 								EntityData.queueAi(c);
-							//System.out.println(civ.units.size());
-							/*if (i >= grid.barbarians)
-							{
-								if (c.focus.equals("Growth"))
-								{
-									if (civ.units.size() == 0)
-									{
-										EntityData.queue(c, "Worker");
-									}
-									else if (numSettlers < 3)
-									{
-										EntityData.queue(c, "Settler");
-									}
-									else if (numWorkers < civ.cities.size())
-									{
-										if (grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
-										{
-											EntityData.queue(c, "Work Boat");
-										}
-										else
-										{
-											EntityData.queue(c, "Worker");
-										}
-									}
-									else if (civ.units.size() <= civ.cities.size()*3)
-									{
-										if (grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
-										{
-											EntityData.queue(c, "Work Boat");
-										}
-										else
-										{
-											EntityData.queue(c, "Warrior");
-										}
-									}
-									else if (civ.units.size() <= civ.cities.size()*3)
-								{
-									if (grid.coastal(c.location.row, c.location.col))
-									{
-										c.queue = "Galley";
-										c.queueFood = 15;
-										c.queueMetal = 15;
-									}
-								}
-								}
-								else if (c.focus.equals("Production"))
-								{
-									if (civ.units.size() <= 20)
-									{
-										EntityData.queue(c, "Warrior");
-									}
-								}
-							}
-							else
-							{
-								if (c.focus.equals("Growth"))
-								{
-									if (civ.units.size() == 0)
-									{
-										EntityData.queue(c, "Worker");
-									}
-									else if (numWorkers < civ.cities.size())
-									{
-										if (grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
-										{
-											EntityData.queue(c, "Work Boat");
-										}
-										else
-										{
-											EntityData.queue(c, "Worker");
-										}
-									}
-									else if (civ.units.size() <= civ.cities.size()*3)
-									{
-										if (grid.coastal(c.location.row, c.location.col) && Math.random() < 0.2)
-										{
-											EntityData.queue(c, "Work Boat");
-										}
-										else
-										{
-											EntityData.queue(c, "Warrior");
-										}
-									}
-								}
-								else if (c.focus.equals("Production"))
-								{
-									if (civ.units.size() <= 25)
-									{
-										EntityData.queue(c, "Warrior");
-									}
-								}
-							}*/
 						}
 						else if (c.queue != null)
 						{
@@ -390,13 +322,14 @@ public class CivilizationSystem extends BaseSystem {
 						if (c.health >= 0)
 						{
 							c.focus = "Growth";
+							double dGrowth = 0;
 							if (tf > c.population*2)
 							{
 								if (c.population < 3)
 								{
 									double amount = Math.min(tf/2, c.population*2);
 									tf -= amount;
-									c.percentGrowth += 0.1*(amount/(c.population*2));
+									dGrowth = 0.1*(amount/(c.population*2));
 									//System.out.println(c.percentGrowth);
 								}
 							}
@@ -406,12 +339,12 @@ public class CivilizationSystem extends BaseSystem {
 								//c.percentGrowth += 0.1;
 								double amount = Math.min(civ.food/2, c.population*2);
 								civ.food -= amount;
-								c.percentGrowth += 0.1*(amount/(c.population*2));
+								dGrowth = 0.1*(amount/(c.population*2));
 								//System.out.println(c.percentGrowth);
 							}
 							else
 							{
-								c.percentGrowth -= 0.05;
+								dGrowth = 0.05;
 							}
 							if (c.percentGrowth >= 1)
 							{
@@ -429,6 +362,9 @@ public class CivilizationSystem extends BaseSystem {
 								}
 								//c.focus = "Production";
 							}
+							if (dGrowth > 0 && c.built("Granary")) 
+								dGrowth *= 1.25;
+							c.percentGrowth += dGrowth;
 						}
 						else 
 						{
