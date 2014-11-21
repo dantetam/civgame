@@ -204,6 +204,10 @@ public class CivilizationSystem extends BaseSystem {
 							tg *= 1.25;
 							c.culture++;
 						}
+						if (c.built("Pyramid"))
+						{
+							c.culture++;
+						}
 						if (c.built("Market"))
 						{
 							tg *= 1.25;

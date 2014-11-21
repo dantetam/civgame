@@ -1,5 +1,7 @@
 package game;
 
+import units.*;
+
 public class ConflictSystem {
 
 	public Grid grid;
@@ -22,17 +24,69 @@ public class ConflictSystem {
 	//Return the damage inflicted by a on d in an attack, and d on a in a defense
 	public int[] attack(GameEntity a, GameEntity d)
 	{
+		double off = 1, def = 1;
 		if (a.owner.id >= grid.barbarians)
-			a.offensiveStr /= 1.5;
+			off -= 0.5;
 		if (d.owner.id >= grid.barbarians)
-			d.defensiveStr /= 1.5;
-		return attack(a.offensiveStr, d.defensiveStr);
+			def -= 0.5;
+		//Offensive bonus
+		if (a.is("Swordsman"))
+			off += 0.25;
+		if (a.is("Axe Thrower"))
+			off += 0.35;
+		//Defensive
+		if (d.is("Spearman") || d.is("Warband"))
+			def += 0.25; 
+		//City defenses
+		if (d.location.improvement != null)
+			if (d.location.improvement instanceof City)
+			{
+				if (d.is("Warrior") || d.is("Archer"))
+					def += 0.25;
+			}
+		//Specific unit advanages
+		if (a.is("Slinger") && d.is("Warrior"))
+		{
+			off += 0.25;
+		}
+		if (a.is("Axeman"))
+		{
+			if (d.melee())
+				off += 0.25;
+			else if (d.rangedStr > 0)
+				off -= 0.25;
+		}
+		if (d.is("Axeman") && a.melee())
+		{
+			if (d.melee())
+				def += 0.25;
+			else if (d.rangedStr > 0)
+				def -= 0.25;
+		}
+		if (a.is("Spearman") && (d.name.contains("Horse") || d.is("Chariot")))
+		{
+			off += 0.5;
+		}
+		if (d.is("Spearman") && (a.name.contains("Horse") || a.is("Chariot")))
+		{
+			def += 0.5;
+		}
+		return attack((int)(a.offensiveStr*off), (int)(d.defensiveStr*def));
 	}
-	
+
 	//Return the damage inflicted by a ranged attack
 	public int[] fire(GameEntity a, GameEntity d)
 	{
-		return fire(a.rangedStr, d.defensiveStr);
+		double off = 1, def = 1;
+		if (a.is("Slinger"))
+		{
+			off -= 0.35;
+			if (d.is("Warrior"))
+			{
+				off += 0.25;
+			}
+		}
+		return fire((int)(a.rangedStr*off), (int)(d.defensiveStr*def));
 	}
 
 	//This accepts two sets of parameters: offensive str, defensive str, and possibly evasion str later
@@ -68,7 +122,7 @@ public class ConflictSystem {
 			return new int[]{(int)(Math.max(1,c1)),(int)(Math.max(1,c2/2))};
 		}
 	}
-	
+
 	public int[] fire(float a, float d)
 	{
 		float spread = 3F/3F;
@@ -80,7 +134,7 @@ public class ConflictSystem {
 		{
 			c1 = (float)(Math.floor(c1-1));
 		}
-		
+
 		return new int[]{(int)(Math.max(1,c1)),0};
 	}
 
