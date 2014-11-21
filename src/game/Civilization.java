@@ -90,6 +90,19 @@ public class Civilization {
 		}
 	}
 	
+	public int count(String unitName)
+	{
+		int n = 0;
+		for (int i = 0; i < units.size(); i++)
+			if (units.get(i).name.equals(unitName))
+				n++;
+		for (int i = 0; i < cities.size(); i++)
+			if (cities.get(i).queue != null)
+				if (cities.get(i).queue.equals(unitName))
+					n++;
+		return n;
+	}
+	
 	public void cancelDeals(Civilization other)
 	{
 		if (openBorders.contains(other))

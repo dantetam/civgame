@@ -79,43 +79,8 @@ public class CivilizationSystem extends BaseSystem {
 						}
 
 						//Make some settlers to test
-						int numSettlers = 0, numWorkers = 0, numWarriors = 0;
-						if (i != 0)
-						{
-							for (int k = 0; k < civ.cities.size(); k++)
-							{
-								if (civ.cities.get(k).queue != null)
-								{
-									if (civ.cities.get(k).queue.equals("Settler"))
-									{
-										numSettlers++;
-									}
-									else if (civ.cities.get(k).queue.equals("Worker"))
-									{
-										numWorkers++;
-									}
-									else if (civ.cities.get(k).queue.equals("Worker"))
-									{
-										numWarriors++;
-									}
-								}
-							}
-							for (int k = 0; k < civ.units.size(); k++)
-							{
-								if (civ.units.get(k) instanceof Settler)
-								{
-									numSettlers++;
-								}
-								else if (civ.units.get(k) instanceof Worker)
-								{
-									numWorkers++;
-								}
-								else if (civ.units.get(k) instanceof Warrior)
-								{
-									numWarriors++;
-								}
-							}
-						}
+						//int numSettlers = 0, numWorkers = 0, numWarriors = 0;
+						int numWorkers = c.owner.count("Worker");
 						//Loop through a city's tiles
 						/*
 						 * -2 freshwater 2,1,0,2
@@ -180,6 +145,9 @@ public class CivilizationSystem extends BaseSystem {
 							double[] eval = c.evaluate(t,null);
 							double f=eval[0],g=eval[1],m=eval[2],r=eval[3];
 
+							if (t.biome == -1 && c.built("Port"))
+								f += 2;
+							
 							//civ.food += f;
 							//civ.gold += g;
 							//civ.metal += m;

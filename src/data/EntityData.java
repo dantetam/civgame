@@ -216,19 +216,20 @@ public class EntityData {
 		gameEntityMap.put("Settler",new Settler("Settler",0,2,0).mode(0));
 		gameEntityMap.put("Warrior",new Warrior("Warrior",2,2,0));
 		gameEntityMap.put("Worker",new Worker("Worker",0,2,0).mode(0));
-
+		gameEntityMap.put("Scout",new Worker("Warrior",0,2,0).mode(0).maxAction(2));
+		
 		gameEntityMap.put("Axeman",new Warrior("Axeman",4,3,0));
-		gameEntityMap.put("Warband",new Warrior("Warband",2,4,1).range(1));
+		gameEntityMap.put("Warband",new Warrior("Warband",2,4,1).range(1).maxAction(2));
 		gameEntityMap.put("Swordsman",new Warrior("Swordsman",5,4,0));
 		gameEntityMap.put("Spearman",new Warrior("Spearman",2,4,0));
 		gameEntityMap.put("Axe Thrower",new Warrior("Axe Thrower",4,3,2).range(1));
 
-		gameEntityMap.put("Chariot",new Warrior("Chariot",4,1,1).range(2).mode(2));
-		gameEntityMap.put("Horseman",new Warrior("Horseman",4,1,0));
+		gameEntityMap.put("Chariot",new Warrior("Chariot",4,1,1).range(2).mode(2).maxAction(2));
+		gameEntityMap.put("Horseman",new Warrior("Horseman",4,1,0).maxAction(2));
 
 		gameEntityMap.put("Slinger",new Warrior("Slinger",0,2,2).range(2).mode(2));
 		gameEntityMap.put("Archer",new Warrior("Archer",0,4,4).range(2).mode(2));
-		gameEntityMap.put("Horse Archer",new Warrior("Horse Archer",0,0,4).range(2).mode(2));
+		gameEntityMap.put("Horse Archer",new Warrior("Horse Archer",0,0,4).range(2).mode(2).maxAction(2));
 
 		gameEntityMap.put("Galley",new Galley("Galley",4,4,0));
 		gameEntityMap.put("Work Boat",new WorkBoat("Work Boat",0,2,0).mode(0));

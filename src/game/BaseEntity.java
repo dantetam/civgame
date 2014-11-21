@@ -89,7 +89,7 @@ public abstract class BaseEntity {
 	public abstract String getName();
 	
 	public boolean is(String name) {return this.name.equals(name);}
-	public boolean melee() {return offensiveStr > 0 && rangedStr <= 0;}
+	//public boolean melee() {return offensiveStr > 0 && rangedStr <= 0;}
 	//public boolean ranged() {return rangedStr > 0;}
 	
 }

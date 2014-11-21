@@ -413,10 +413,10 @@ public abstract class GameEntity extends BaseEntity {
 				for (int j = 0; j < e.get(i).cities.size(); j++)
 				{
 					City candidate = e.get(i).cities.get(j);
-					if (!owner.revealed[candidate.location.row][candidate.location.col])
+					/*if (!owner.revealed[candidate.location.row][candidate.location.col])
 					{
 						continue;
-					}
+					}*/
 					if (nearest != null)
 					{
 						if (candidate.location.dist(location) < nearest.location.dist(location)) 
@@ -721,5 +721,6 @@ public abstract class GameEntity extends BaseEntity {
 	
 	public GameEntity range(int n) {range = n; return this;}
 	public GameEntity mode(int n) {mode = n; return this;}
+	public GameEntity maxAction(int n) {maxAction = n; action = n; return this;}
 	
 }

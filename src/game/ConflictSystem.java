@@ -43,6 +43,8 @@ public class ConflictSystem {
 			{
 				if (d.is("Warrior") || d.is("Archer"))
 					def += 0.25;
+				if (((City)d.location.improvement).built("Walls"))
+					def += 0.4;
 			}
 		//Specific unit advanages
 		if (a.is("Slinger") && d.is("Warrior"))
@@ -51,16 +53,16 @@ public class ConflictSystem {
 		}
 		if (a.is("Axeman"))
 		{
-			if (d.melee())
+			if (d.mode == 1)
 				off += 0.25;
 			else if (d.rangedStr > 0)
 				off -= 0.25;
 		}
-		if (d.is("Axeman") && a.melee())
+		if (d.is("Axeman") && d.mode == 1)
 		{
-			if (d.melee())
+			if (d.mode == 1)
 				def += 0.25;
-			else if (d.rangedStr > 0)
+			else if (d.mode == 2)
 				def -= 0.25;
 		}
 		if (a.is("Spearman") && (d.name.contains("Horse") || d.is("Chariot")))
