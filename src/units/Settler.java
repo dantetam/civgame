@@ -30,7 +30,7 @@ public class Settler extends GameEntity {
 			queueTiles.remove(queueTiles.size()-1);
 		}
 	}
-	
+
 	public void barbarianTick()
 	{
 		if (settle())
@@ -60,37 +60,40 @@ public class Settler extends GameEntity {
 		}
 		else
 		{	
-			if (queueTiles.get(0).equals(location))
+			while (action > 0)
 			{
-				settle();
-				return;
-			}
-			//super.recordPos();
-			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
-			//location.grid.move(this,queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
-			queueTiles.remove(queueTiles.size()-1);
-			//If it reaches the destination
-			if (queueTiles.size() == 0)
-			{
-				if (location.owner == null)
+				if (queueTiles.get(0).equals(location))
 				{
 					settle();
 					return;
 				}
-				else
+				//super.recordPos();
+				passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+				//location.grid.move(this,queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+				queueTiles.remove(queueTiles.size()-1);
+				//If it reaches the destination
+				if (queueTiles.size() == 0)
 				{
-					queueTiles.clear();
-					Tile t = settleLocation();
-					waddleToExact(t.row,t.col);
+					if (location.owner == null)
+					{
+						settle();
+						return;
+					}
+					else
+					{
+						queueTiles.clear();
+						Tile t = settleLocation();
+						waddleToExact(t.row,t.col);
+					}
 				}
+				/*else if (queueTiles.get(0).owner != null)
+				{
+					if (!queueTiles.get(0).owner.equals(owner))
+					{
+						queueTiles.clear();
+					}
+				}*/
 			}
-			/*else if (queueTiles.get(0).owner != null)
-			{
-				if (!queueTiles.get(0).owner.equals(owner))
-				{
-					queueTiles.clear();
-				}
-			}*/
 		}
 		/**/
 	}

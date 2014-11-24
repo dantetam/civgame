@@ -6,6 +6,8 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
+(11/24/2014 
+
 (Planned 11/10/2014 -> 11/21/2014) on hiatus due to college applications
 Major additions:
 > Improve tech tree content

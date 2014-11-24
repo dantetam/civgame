@@ -466,7 +466,7 @@ public class CivilizationSystem extends BaseSystem {
 					{
 						Civilization civ2 = grid.civs[j];
 						//if (j == 0 || civ2 instanceof CityState) continue;
-						if (civ.opinions[j] < -10)//grid.civs[j].cities.size() > 2)
+						if (civ.opinions[j] < -70)//grid.civs[j].cities.size() > 2)
 						{
 							if (grid.civs[j].capital != null && civ.capital != null)
 							{
@@ -509,7 +509,8 @@ public class CivilizationSystem extends BaseSystem {
 										else //Implies not allied to civ
 										{
 											a.war(civ);
-											main.menuSystem.message(a.name + " has been called to war against " + civ + "!");
+											if (guiExists)
+												main.menuSystem.message(a.name + " has been called to war against " + civ + "!");
 										}
 									}
 									if (guiExists)
@@ -517,10 +518,12 @@ public class CivilizationSystem extends BaseSystem {
 								}
 							}
 						}
-						else
+						else if (civ.opinions[j] > -20 && civ.isWar(civ2))
 						{
-							//grid.civs[j].enemies.remove(civ);
-							//civ.enemies.remove(grid.civs[j]);
+							grid.civs[j].peace(civ);
+							civ.peace(grid.civs[j]);
+							if (guiExists)
+								main.menuSystem.message(civ.name + " has made peace with " + civ2.name + "!");
 						}
 					}
 				}

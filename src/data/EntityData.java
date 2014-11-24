@@ -419,7 +419,7 @@ public class EntityData {
 		}
 		else
 		{
-			if (Math.random() < 0.1)
+			if (Math.random() < 0.2)
 				queue = "Settler";
 			else
 				queue = "Warrior";

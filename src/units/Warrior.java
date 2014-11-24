@@ -42,6 +42,7 @@ public class Warrior extends GameEntity {
 
 	public void tick()
 	{
+		calculateNewPath();
 		if (!explorer)
 		{
 			//System.out.println("beginning");
@@ -188,7 +189,7 @@ public class Warrior extends GameEntity {
 				{
 					if (queueTiles.get(i).owner != null)
 					{
-						if (!owner.isOpenBorder(queueTiles.get(i).owner))
+						if (!owner.isOpenBorder(queueTiles.get(i).owner) && !owner.equals(queueTiles.get(i).owner))
 						{
 							explore();
 							return;

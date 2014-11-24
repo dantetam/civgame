@@ -140,6 +140,25 @@ public abstract class GameEntity extends BaseEntity {
 		}
 		return false;
 	}
+	
+	//Calcualte a path to a tile that does not go through enemy territory
+	public void calculateNewPath()
+	{
+		if (queueTiles.size() == 0) return;
+		Tile t = queueTiles.get(0);
+		if (!owner.isWar(t.owner) && !owner.isOpenBorder(t.owner) && !owner.equals(t.owner))
+		{
+			queueTiles.clear();
+		}
+		for (int i = 0; i < queueTiles.size(); i++)
+		{
+			if (!owner.isWar(queueTiles.get(i).owner) && !owner.isOpenBorder(queueTiles.get(i).owner) && !owner.equals(t.owner))
+			{
+				waddleToExact(t.row, t.col);
+				return;
+			}
+		}
+	}
 
 	//Try to queue a certain set of tiles
 	//If it works, return null, otherwise, return the "problem"
@@ -164,7 +183,7 @@ public abstract class GameEntity extends BaseEntity {
 			else
 			{
 				//Allow the operation if they're at war
-				if (owner.isWar(t.owner) || owner.isOpenBorder(t.owner))
+				if (owner.isWar(t.owner) || owner.isOpenBorder(t.owner) || owner.equals(t.owner))
 				{
 					waddleToExact(r,c);	
 					return null;
@@ -199,17 +218,20 @@ public abstract class GameEntity extends BaseEntity {
 	public boolean aggressiveWaddle(int r, int c)
 	{
 		GameEntity en = this;
-		if (location.grid.getTile(en.location.row+r,en.location.col+c) != null)
+		Tile t = location.grid.getTile(en.location.row+r,en.location.col+c);
+		if (t != null)
 		{
 			//if (main.grid.getTile(en.location.row+r,en.location.col+c).owner == en.owner ||
 			//main.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
-			if (location.grid.getTile(en.location.row+r,en.location.col+c).biome != -1)
+			if (t.biome != -1)
 			{
 				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 				if (enemy == null)
 				{
-					if (owner.isWar(location.grid.getTile(en.location.row+r,en.location.col+c).owner) ||
-							location.grid.getTile(en.location.row+r,en.location.col+c).owner == null)
+					if (owner.isOpenBorder(t.owner) ||
+							owner.isWar(t.owner) ||
+							t.owner == null ||
+							owner.equals(t.owner))
 					{
 						passiveWaddle(r,c);
 					}
@@ -413,10 +435,10 @@ public abstract class GameEntity extends BaseEntity {
 				for (int j = 0; j < e.get(i).cities.size(); j++)
 				{
 					City candidate = e.get(i).cities.get(j);
-					/*if (!owner.revealed[candidate.location.row][candidate.location.col])
+					if (!owner.revealed[candidate.location.row][candidate.location.col])
 					{
 						continue;
-					}*/
+					}
 					if (nearest != null)
 					{
 						if (candidate.location.dist(location) < nearest.location.dist(location)) 
@@ -442,10 +464,10 @@ public abstract class GameEntity extends BaseEntity {
 			for (int i = 0; i < owner.cities.size(); i++)
 			{
 				City candidate = owner.cities.get(i);
-				if (!owner.revealed[candidate.location.row][candidate.location.col])
+				/*if (!owner.revealed[candidate.location.row][candidate.location.col])
 				{
 					continue;
-				}
+				}*/
 				if (nearest != null)
 				{
 					if (candidate.location.dist(location) < nearest.location.dist(location)) nearest = candidate;

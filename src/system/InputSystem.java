@@ -235,7 +235,7 @@ public class InputSystem extends BaseSystem {
 
 	public void passRightMouseClick(float mouseX, float mouseY)
 	{
-		/*if (main.menuSystem.getSelected() instanceof GameEntity && !main.menuSystem.menuActivated)
+		if (main.menuSystem.getSelected() instanceof GameEntity && !main.menuSystem.menuActivated)
 		{
 			GameEntity en = (GameEntity)main.menuSystem.getSelected();
 			Tile t = main.menuSystem.mouseHighlighted;
@@ -244,13 +244,13 @@ public class InputSystem extends BaseSystem {
 				if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
 				{
 					String msg = en.playerWaddleToExact(t.row, t.col);
-					if (msg == null)
+					if (msg == null && en.action > 0)
 						en.playerTick();
 					else
 						main.menuSystem.message(msg);
 				}
 			}
-		}*/
+		}
 	}
 
 	/*public void test()
