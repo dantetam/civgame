@@ -470,7 +470,7 @@ public class CivilizationSystem extends BaseSystem {
 					{
 						Civilization civ2 = grid.civs[j];
 						//if (j == 0 || civ2 instanceof CityState) continue;
-						if (civ.opinions[j] < -70)//grid.civs[j].cities.size() > 2)
+						if (civ.opinions[j] < -70 + 50*civ.war)//grid.civs[j].cities.size() > 2)
 						{
 							if (grid.civs[j].capital != null && civ.capital != null)
 							{

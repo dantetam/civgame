@@ -265,6 +265,7 @@ public class EntityData {
 		cost("Spearman",10,10,0);
 		cost("Chariot",10,15,0);
 		cost("Scout",10,5,0);
+		cost("Slinger",10,5,0);
 		cost("Archer",15,10,0);
 		cost("Axe Thrower",10,15,0);
 		cost("Horseman",15,5,0);
@@ -464,7 +465,7 @@ public class EntityData {
 		String queue = null;
 		if (c.owner.units.size() < 3)
 		{
-			queue = bestUnit(c.owner, c.owner.enemies());
+			queue = bestUnit(c.owner, c.location.grid.civs);
 		}
 		else if (c.owner.cities.size() == 1)
 		{
@@ -486,16 +487,17 @@ public class EntityData {
 				else if (Math.random() < 0.7)
 					queue = bestBuilding(c);
 				else
-					queue = bestUnit(c.owner, c.owner.enemies());
+					queue = bestUnit(c.owner, c.location.grid.civs);
 		}
 		else
 		{
 			if (Math.random() < 0.3*c.owner.tallwide)
 				queue = "Settler";
 			else
-				queue = bestUnit(c.owner, c.owner.enemies());
+				queue = bestUnit(c.owner, c.location.grid.civs);
 		}
-		if (queue == null) queue = bestUnit(c.owner, c.owner.enemies());
+		if (queue == null) 
+			queue = bestUnit(c.owner, c.location.grid.civs);
 		System.out.println(queue);
 		return queue(c, queue);
 	}
@@ -554,18 +556,19 @@ public class EntityData {
 	}
 
 	//Decide which unit is best unit to counter an enemy unit
-	public static String bestUnit(Civilization civ, ArrayList<Civilization> enemies)
+	public static String bestUnit(Civilization civ, Civilization[] enemies)
 	{
 		ArrayList<String> allowed = civ.techTree.allowedUnits;
 		float heavyMelee = 0, lightMelee = 0, ranged = 0, mounted = 0;
-		for (int i = 0; i < enemies.size(); i++)
+		for (int i = 0; i < enemies.length; i++)
 		{
-			heavyMelee += enemies.get(i).count("Axeman", "Spearman", "Swordsman");
-			lightMelee += enemies.get(i).count("Axe Thrower", "Warband", "Warrior");
-			ranged += enemies.get(i).count("Archer", "Slinger");
-			mounted += enemies.get(i).count("Chariot", "Horse Archer", "Horseman");
+			heavyMelee += enemies[i].count("Axeman", "Spearman", "Swordsman");
+			lightMelee += enemies[i].count("Axe Thrower", "Warband", "Warrior");
+			ranged += enemies[i].count("Archer", "Slinger");
+			mounted += enemies[i].count("Chariot", "Horse Archer", "Horseman");
 		}
 		float sum = heavyMelee + lightMelee + ranged + mounted;
+		//System.out.println(sum);
 		if (sum == 0)
 			return "Warrior";
 		ArrayList<Float> data = new ArrayList<Float>();
@@ -731,7 +734,7 @@ public class EntityData {
 		if (b != null)
 		{
 			//TODO: Fix this so that it doesn't return a generic GameEntity
-			if (b.offensiveStr > 0)
+			if (b.offensiveStr > 0 || b.rangedStr > 0)
 				return new Warrior((GameEntity)b);
 			else if (name.equals("Settler"))
 				return new Settler((GameEntity)b);

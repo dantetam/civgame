@@ -107,17 +107,26 @@ public class Civilization {
 
 	public int count(String... unitName)
 	{
+		//TODO Fix method//
+		/*for (int i = 0; i < unitName.length; i++)
+			System.out.print(unitName[i]);*/
 		int n = 0;
 		for (int index = 0; index < unitName.length; index++)
 		{
 			for (int i = 0; i < units.size(); i++)
+			{
+				//System.out.println(unitName[index] + " = " + units.get(i).name);
 				if (units.get(i).name.equals(unitName[index]))
 					n++;
+			}
 			for (int i = 0; i < cities.size(); i++)
 				if (cities.get(i).queue != null)
 					if (cities.get(i).queue.equals(unitName[index]))
 						n++;
 		}
+		//System.out.println();
+		//System.out.println(n);
+		//System.out.println("-----");
 		return n;
 	}
 

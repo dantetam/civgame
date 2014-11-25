@@ -9,11 +9,13 @@ public class Warrior extends GameEntity {
 
 	public Warrior(String name, float o, float d, float r) {
 		super(name,o,d,r);
+		this.name = name;
 		health = 10; maxHealth = 10;
 	}
 
 	public Warrior(GameEntity en) {
 		super(en);
+		this.name = en.name;
 		health = 10; maxHealth = 10;
 	}
 
