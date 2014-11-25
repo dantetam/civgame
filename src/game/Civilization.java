@@ -21,6 +21,15 @@ public class Civilization {
 	public HashMap<String, Improvement> unitImprovements; //one chosen improvement for each future unit of a certain name
 	private ArrayList<Civilization> enemies, openBorders, allies;
 
+	//Use a scale of 0 to 1
+	//: war, willingness to declare war for economic gain; 
+	//peace, willingness to peace out of a war when progress is made on either side;
+	//tallwide, civlization's style of settling - 
+	//play 0 tall (build a few large cities with many tiles) or 
+	//1 wide (build many small cities close to each other)
+	public float war, peace, tallwide;
+	public String[] civics = new String[5];
+	
 	public TechTree techTree;
 	public String researchTech;
 	public ArrayList<String> bonuses;
@@ -33,7 +42,9 @@ public class Civilization {
 	
 	public boolean observe = false;
 
-	public Civilization(String name, ArrayList<String> bonuses, float r, float g, float b)
+	public Civilization(String name, ArrayList<String> bonuses, 
+			float r, float g, float b,
+			double w, double p, double t)
 	{
 		cities = new ArrayList<City>();
 		//capital = null;
@@ -61,6 +72,7 @@ public class Civilization {
 		//System.out.println(techTree.researched("Agriculture"));
 		this.r = r; this.g = g; this.b = b;
 		this.bonuses = bonuses;
+		war = (float)w; peace = (float)p; tallwide = (float)t;
 	}
 	
 	public Civilization(Civilization c)
@@ -88,6 +100,7 @@ public class Civilization {
 			beelineTo("Metal Working");
 			beelineTo("Fletching");
 		}
+		war = c.war; peace = c.peace; tallwide = c.tallwide;
 	}
 	
 	public int count(String unitName)

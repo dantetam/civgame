@@ -6,7 +6,16 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
-(11/24/2014 
+(Planned 11/24/2014 -> 11/28/2014)
+Major additions:
+
+
+Minor additions:
+
+Changes:
+
+Fixes:
+>+ Fixed unit access bug
 
 (Planned 11/10/2014 -> 11/21/2014) on hiatus due to college applications
 Major additions:
@@ -84,9 +93,9 @@ Minor additions:
 	
 Changes:
 / New GUI library
-	/* Fix bad inheritances
+	>* Fix bad inheritances
 	- Allow for non-square elements such as circle bars
-	+* Convert menus
+	>* Convert menus
 > Player must declare war on a civ to enter its territory
 >+ Encapsulate declaring war and alliances to let civs handle the logic
 >+ Better settler spawns
@@ -101,7 +110,7 @@ Major additions:
 >+ Select civilizations 
 	/+ with certain names, attributes, bonuses, and units
 >+ Functioning combat system based off of health and relative strengths and possibly dice rolls (Civ5/EU4 hybrid)
-	- Defense bonus on hills, mountain, forest, city, and offensive bonus on plains
+	>- Defense bonus on hills, mountain, forest, city, and offensive bonus on plains
 	>- Health based (not Civ4 style)
 > Fluid menu style with animations and tweens
 ...+ Graphical UIs + colorful menus + set color scheme/style
@@ -114,10 +123,10 @@ Major additions:
 	>- Is always at war with all other civs and city states
 ...+ Step by step tutorial
 + Sea units, embarking
-...+ Diplomacy menu
+...>+ Diplomacy menu
 >+ In game encyclopedia
-...+ Governments forms on a spectrum (automony, indirect deomcracy, ..., dictatorship)
-...+ Government civics unlocked by techs
+.../+ Governments forms on a spectrum (automony, indirect deomcracy, ..., dictatorship)
+.../+ Government civics unlocked by techs
 
 Minor additions:
 > Ledger/comparative menu to compare stats of all civs (EU4/Civ)

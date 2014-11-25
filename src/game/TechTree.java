@@ -10,6 +10,7 @@ public class TechTree {
 	public Tech first;
 	//All the valid things that the player can queue
 	public ArrayList<String> allowedUnits, allowedTileImprovements, allowedCityImprovements;
+	public ArrayList<String> obsoleteUnits;
 	//public HashMap<String, String> unlockUnits, unlockTileImprovements, unlockCityImprovements;
 
 	public TechTree()
@@ -17,6 +18,7 @@ public class TechTree {
 		allowedUnits = new ArrayList<String>();
 		allowedTileImprovements = new ArrayList<String>();
 		allowedCityImprovements = new ArrayList<String>();
+		obsoleteUnits = new ArrayList<String>();
 		//unlockUnits = new HashMap<String, String>();
 		//unlockTileImprovements = new HashMap<String, String>();
 		//unlockCityImprovements = new HashMap<String, String>();
@@ -82,6 +84,7 @@ public class TechTree {
 			t.tImpr("Trading Post");
 			t.units("Scout", "Warband");
 			t.cImpr("Butcher");
+			t.obsUnits("Warrior");
 			
 		t = researched("Milling");
 			t.tImpr("Windmill");
@@ -98,6 +101,7 @@ public class TechTree {
 			
 		t = researched("Fletching");
 			t.units("Archer", "Horse Archer");
+			t.obsUnits("Slinger");
 			
 		t = researched("Terraforming");
 			t.tImpr("Quarry");
@@ -112,6 +116,7 @@ public class TechTree {
 		t = researched("Metal Working");
 			t.units("Swordsman", "Spearman");
 			t.cImpr("Metalworks");
+			t.obsUnits("Warrior");
 			
 		t = researched("Stone Working");
 			t.tImpr("Light Fortifications");

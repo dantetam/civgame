@@ -66,6 +66,7 @@ public class Warrior extends GameEntity {
 						{
 							return;
 						}
+						continue;
 					}
 					
 					if (queueTiles.size() == 0)

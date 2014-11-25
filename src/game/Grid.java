@@ -186,7 +186,7 @@ public class Grid {
 		for (int i = numCivs + numCityStates; i < civs.length; i++)
 		{
 			//Civilization civ = new Civilization("Barbarians");
-			Civilization civ = new Civilization("Barbarians"+(i-numCivs-numCityStates+1),new ArrayList<String>(),0,0,0);
+			Civilization civ = new Civilization("Barbarians"+(i-numCivs-numCityStates+1),new ArrayList<String>(),0,0,0,1,0,0);
 			civ.r = 0; civ.sR = 0;
 			civ.g = 0; civ.sG = 255;
 			civ.b = 0; civ.sB = 0;

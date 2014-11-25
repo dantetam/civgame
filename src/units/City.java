@@ -24,6 +24,7 @@ public class City extends TileEntity {
 	public String focus;
 	public ArrayList<Improvement> buildings;
 	public int takeover;
+	public float morale;
 	//public int sight = 4;
 
 	public int adm, art, sci; 
@@ -83,8 +84,27 @@ public class City extends TileEntity {
 		{
 			takeover--;
 		}
+		//Calculate morale of city
+		float enemies = 0;
+		for (int i = 0; i < land.size(); i++)
+		{
+			if (land.get(i).occupants.size() > 0)
+			{
+				for (int j = 0; j < land.get(i).occupants.size(); j++)
+				{
+					if (land.get(i).occupants.get(j).owner.isWar(owner))
+					{
+						enemies++;
+					}
+				}
+			}
+		}
+		morale = 1 - enemies/(float)land.size();
+		if (sortie == 2)
+			morale -= 0.4;
+		morale = Math.max(0, morale);
 	}
-	
+
 	public boolean built(String building)
 	{
 		for (int i = 0; i < buildings.size(); i++)
@@ -130,7 +150,7 @@ public class City extends TileEntity {
 		}
 		return temp;
 	}
-	
+
 
 	public int tilesBorderingCiv(Civilization other)
 	{

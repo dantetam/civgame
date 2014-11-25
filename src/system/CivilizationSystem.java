@@ -478,7 +478,8 @@ public class CivilizationSystem extends BaseSystem {
 										//Math.random() < 0.03 &&
 										!civ.equals(civ2) &&
 										//civ.capital.location.dist(grid.civs[j].capital.location) < grid.aggroDistance &&
-										!civ.isWar(civ2))
+										!civ.isWar(civ2) &&
+										civ.enemies().size() < 2)
 								{
 									//System.out.println("war between " + civ.name + " and " + grid.civs[j]);
 									civ.war(civ2);

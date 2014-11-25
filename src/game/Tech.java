@@ -11,7 +11,7 @@ public class Tech {
 	public int totalR, requiredR;
 	
 	private String[] unlockUnits = new String[0], unlockTileImprovements = new String[0], unlockCityImprovements = new String[0];
-
+	private String[] obsoleteUnits = new String[0];
 	public Tech(String name, int requiredR, Tech... t)
 	{
 		this.name = name;
@@ -33,9 +33,11 @@ public class Tech {
 	//When the tech is completed, unlock the units for the civ, allow them to be queued
 	public void unlockForCiv(Civilization civ)
 	{
+		//Add discoveries
 		for (int i = 0; i < unlockUnits.length; i++)
 		{
-			civ.techTree.allowedUnits.add(unlockUnits[i]);
+			if (!civ.techTree.obsoleteUnits.contains(unlockUnits[i]))
+				civ.techTree.allowedUnits.add(unlockUnits[i]);
 		}
 		for (int i = 0; i < unlockTileImprovements.length; i++)
 		{
@@ -44,6 +46,12 @@ public class Tech {
 		for (int i = 0; i < unlockCityImprovements.length; i++)
 		{
 			civ.techTree.allowedCityImprovements.add(unlockCityImprovements[i]);
+		}
+		//Remove obsolete units
+		for (int i = 0; i < obsoleteUnits.length; i++)
+		{
+			civ.techTree.allowedUnits.remove(unlockUnits[i]);
+			civ.techTree.obsoleteUnits.add(unlockUnits[i]);
 		}
 	}
 	
@@ -56,6 +64,10 @@ public class Tech {
 	public void units(String... t) {unlockUnits = t;}
 	public void tImpr(String... t) {unlockTileImprovements = t;}
 	public void cImpr(String... t) {unlockCityImprovements = t;}
+	
+	//Set what the tech makes obsolete
+	//i.e. researching warband makes warrior unable to be built
+	public void obsUnits(String... t) {obsoleteUnits = t;}
 	
 	public Tech addAlt(TechTree tree, String name) {alternative = tree.researched(name); return this; } //System.out.println(tree + " " + name);}
 

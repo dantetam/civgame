@@ -135,23 +135,28 @@ public class EntityData {
 	public static void setupCivBonuses()
 	{
 		civs.clear();
-		civs.put("Achaea", new Civilization("Achaea",list(),0,0,255));
-		civs.put("Athens", new Civilization("Athens",list(),255,255,255));
-		civs.put("Corinth", new Civilization("Corinth",list(),0,255,255));
-		civs.put("Crete", new Civilization("Crete",list(),0,150,0));
-		civs.put("Ephesus", new Civilization("Ephesus",list(),150,150,150));
-		civs.put("Epirus", new Civilization("Epirus",list(),150,150,150));
-		civs.put("Illyria", new Civilization("Illyria",list(),0,255,0));
-		civs.put("Lydia", new Civilization("Lydia",list(),150,150,150));
-		civs.put("Macedonia", new Civilization("Macedonia",list(),255,150,0));
-		civs.put("Rhodes", new Civilization("Rhodes",list(),150,150,150));
-		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0));
-		civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
-		civs.put("Thrace", new Civilization("Thrace",list(),150,225,255));
+		civs.put("Achaea", new Civilization("Achaea",list(),0,0,255,0.3,0.3,1));
+		civs.put("Athens", new Civilization("Athens",list(),255,255,255,0.2,0.8,0.2));
+		civs.put("Corinth", new Civilization("Corinth",list(),0,255,255,0.5,0.5,0.5));
+		civs.put("Crete", new Civilization("Crete",list(),0,150,0,0.3,0.6,0.3));
+		//civs.put("Ephesus", new Civilization("Ephesus",list(),150,150,150));
+		civs.put("Epirus", new Civilization("Epirus",list(),150,150,150,0.7,0,0.5));
+		civs.put("Illyria", new Civilization("Illyria",list(),0,255,0,0.5,0.5,0.8));
+		//civs.put("Lydia", new Civilization("Lydia",list(),150,150,150));
+		civs.put("Macedonia", new Civilization("Macedonia",list(),255,150,0,0.8,0.6,1));
+		civs.put("Rhodes", new Civilization("Rhodes",list(),150,150,150,0.1,0.8,0.1));
+		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0,0.8,0.1,0.2));
+		//civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
+		civs.put("Thrace", new Civilization("Thrace",list(),150,225,255,0.6,0.4,0.5));
 
 		for (int i = 0; i < 30; i++)
 		{
-			cityStates.put(""+i, new CityState(""+i,list(),(float)(Math.random()*255),(float)(Math.random()*255),(float)(Math.random()*255)));
+			cityStates.put(""+i, new CityState(""+i,list(),
+							(float)(Math.random()*255),
+							(float)(Math.random()*255),
+							(float)(Math.random()*255),
+							Math.random(),Math.random(),0
+			));
 		}
 
 	}
@@ -397,11 +402,22 @@ public class EntityData {
 		return null;
 		//return false;
 	}
+	
+	/*
+	 Return the technology that the civilization is priortizing
+	 If playing a militaristic game, go for units (particularly metal casting)
+	 If playing a turtle/economic game, go for useful improvements
+	 */
+	public static Tech queueTechAi(Civilization civ)
+	{
+		
+	}
 
+	//TODO: Factor in level of technology and available units
 	public static Improvement queueAi(City c)
 	{
 		String queue = null;
-		if (c.owner.units.size() < 3)
+		/*if (c.owner.units.size() < 3)
 		{
 			queue = "Warrior"; 
 		}
@@ -415,7 +431,10 @@ public class EntityData {
 					queue = "Settler";
 			}
 			else 
-				queue = "Warrior";
+				if (Math.random() < 0.3)
+					queue = "Settler";
+				else
+					queue = "Warrior";
 		}
 		else
 		{
@@ -424,9 +443,9 @@ public class EntityData {
 			else
 				queue = "Warrior";
 		}
-		return queue(c, queue);
+		return queue(c, queue);*/
 	}
-
+	
 	public static boolean queueCityImprovement(City city, String impr)
 	{
 		if (!city.hasImprovement(impr))
