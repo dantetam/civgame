@@ -78,12 +78,12 @@ public class TechTree {
 			t.cImpr("Port");
 			
 		t = researched("Forestry");	
-			t.cImpr("Hut");
+			//t.cImpr("Hut");
 		
 		t = researched("Hunting");
-			t.tImpr("Trading Post");
+			//t.tImpr("Trading Post");
 			t.units("Scout", "Warband");
-			t.cImpr("Butcher");
+			//t.cImpr("Butcher");
 			t.obsUnits("Warrior");
 			
 		t = researched("Milling");
@@ -94,7 +94,7 @@ public class TechTree {
 			
 		t = researched("Architecture");
 			t.tImpr("Fort");
-			t.cImpr("Shrine");
+			//t.cImpr("Shrine");
 			
 		t = researched("Silviculture");
 			t.tImpr("Forest Yard");
@@ -104,7 +104,7 @@ public class TechTree {
 			t.obsUnits("Slinger");
 			
 		t = researched("Terraforming");
-			t.tImpr("Quarry");
+			//t.tImpr("Quarry");
 			
 		t = researched("Mining");
 			t.tImpr("Mine");

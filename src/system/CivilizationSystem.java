@@ -65,6 +65,9 @@ public class CivilizationSystem extends BaseSystem {
 					{
 
 					}*/
+					if (civ.cities.size() == 1)
+						if (!civ.cities.get(0).built("Palace"))
+							civ.cities.get(0).buildings.add(EntityData.cityImprovementMap.get("Palace"));
 					double tf = 0, tg = 0, tm = 0, tr = 0;
 					int population = 0;
 					for (int j = 0; j < civ.cities.size(); j++)
@@ -237,7 +240,7 @@ public class CivilizationSystem extends BaseSystem {
 							if (civ.units.size() < 15)
 								EntityData.queueAi(c);
 						}
-						else if (c.queue != null)
+						if (c.queue != null)
 						{
 							/*c.queueTurns--;
 							if (c.queueTurns == 0)
@@ -275,6 +278,7 @@ public class CivilizationSystem extends BaseSystem {
 								}
 								else
 								{
+									if (EntityData.cityImprovementMap.get(c.queue) == null) System.out.println(c.queue + " NULL:");
 									c.buildings.add(EntityData.cityImprovementMap.get(c.queue));
 								}
 								c.queueFood = 0;
@@ -347,7 +351,7 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							c.focus = "Growth";
 						}
-						for (int k = 0; k < c.workedLand.size(); k++)
+						/*for (int k = 0; k < c.workedLand.size(); k++)
 						{
 							Tile t = c.workedLand.get(k);
 							if (t.turnsSettled % 50 == 0 && t.turnsSettled > 0 && !t.forest)
@@ -357,7 +361,7 @@ public class CivilizationSystem extends BaseSystem {
 									t.biome--;
 								}
 							}
-						}
+						}*/
 						if (c.raze)
 						{
 							for (int k = 0; k < c.land.size(); k++)

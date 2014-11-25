@@ -254,21 +254,28 @@ public class EntityData {
 
 	private static void setupUnitCosts()
 	{
-		f.put("Settler", 35);
-		m.put("Settler", 0);
-		g.put("Settler", 0);
+		cost("Settler",35,0,0);
+		cost("Warrior",10,5,0);
+		cost("Work Boat",15,0,0);
+		cost("Worker",25,0,0);
+		
+		cost("Axeman",10,10,0);
+		cost("Warband",15,5,0);
+		cost("Swordsman",10,15,0);
+		cost("Spearman",10,10,0);
+		cost("Chariot",10,15,0);
+		cost("Scout",10,5,0);
+		cost("Archer",15,10,0);
+		cost("Axe Thrower",10,15,0);
+		cost("Horseman",15,5,0);
+		cost("Horse Archer",15,10,0);
+	}
 
-		f.put("Warrior", 5);
-		m.put("Warrior", 5);
-		g.put("Warrior", 0);
-
-		f.put("Work Boat", 15);
-		m.put("Work Boat", 0);
-		g.put("Work Boat", 0);
-
-		f.put("Worker", 25);
-		m.put("Worker", 0);
-		g.put("Worker", 0);
+	private static void cost(String name, int food, int gold, int metal)
+	{
+		f.put(name, food);
+		g.put(name, gold);
+		m.put(name, metal);
 	}
 
 	private static void setupUnitImprovementCosts()
@@ -317,32 +324,41 @@ public class EntityData {
 		Improvement temp;
 		temp = new Improvement("Warehouse","Mining");
 		temp.cost(0,0,0,5,20,0);
+		cityImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("Granary","Agriculture");
 		temp.cost(0,0,0,5,20,0);
+		cityImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("Metalworks","Metal Working");
 		temp.cost(0,0,0,10,50,0);
+		cityImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("Port","Fishing");
 		temp.cost(0,0,0,25,25,0);
+		cityImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("Walls","Stone Working");
 		temp.cost(0,0,0,5,50,0);
+		cityImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("Palace","Stone Working");
 		temp.cost(0,0,0,25,25,0);
+		cityImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("Stables","Equestrian Practice");
 		temp.cost(0,0,0,25,25,0);
+		cityImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("Market","Currency");
 		temp.cost(0,0,0,30,20,0);
+		cityImprovementMap.put(temp.name, temp);
 
 		temp = new Improvement("Pyramid","Monument Building");
 		temp.cost(0,0,0,0,50,0);
-		//temp.set();
 		cityImprovementMap.put(temp.name, temp);
+		//temp.set();
+		//cityImprovementMap.put(temp.name, temp);
 	}
 
 	public static ArrayList<Improvement> getValidImprovements(Civilization civ, BaseEntity en)
@@ -386,8 +402,17 @@ public class EntityData {
 			Improvement i = c.owner.unitImprovements.get(queue);
 			if (i == null)
 			{
-				c.queueFood = f.get(queue);
-				c.queueMetal = m.get(queue);
+				Improvement building = cityImprovementMap.get(queue);
+				if (building != null)
+				{	
+					c.queueFood = (int)building.foodFlat;
+					c.queueMetal = (int)building.metalFlat;
+				}
+				else
+				{
+					c.queueFood = f.get(queue);
+					c.queueMetal = m.get(queue);
+				}
 				return unitImprovementMap.get("Neutral");
 			}
 			else
@@ -471,6 +496,7 @@ public class EntityData {
 				queue = bestUnit(c.owner, c.owner.enemies());
 		}
 		if (queue == null) queue = bestUnit(c.owner, c.owner.enemies());
+		System.out.println(queue);
 		return queue(c, queue);
 	}
 
@@ -705,12 +731,12 @@ public class EntityData {
 		if (b != null)
 		{
 			//TODO: Fix this so that it doesn't return a generic GameEntity
-			if (name.equals("Settler"))
+			if (b.offensiveStr > 0)
+				return new Warrior((GameEntity)b);
+			else if (name.equals("Settler"))
 				return new Settler((GameEntity)b);
 			else if (name.equals("Galley"))
 				return new Galley((GameEntity)b);
-			else if (name.equals("Warrior"))
-				return new Warrior((GameEntity)b);
 			else if (name.equals("Work Boat"))
 				return new WorkBoat((GameEntity)b);
 			else if (name.equals("Worker"))

@@ -98,13 +98,16 @@ public class City extends TileEntity {
 			morale -= 0.4;
 		morale = Math.max(0, morale);
 		//Calculate focus of a city
-		ArrayList<Float> data = new ArrayList<Float>();
+		//ArrayList<Float> data = new ArrayList<Float>();
 		float hill = 0; int gold = 0;
-		for (int i = 0; i < 7; i++)
-			data.add(0F);
+		float[] data = new float[7];
 		for (int i = 0; i < land.size(); i++)
 		{
-			data.set(land.get(i).biome,data.get(i));
+			if (land.get(i).biome != -1)
+			{
+				//System.out.println(land.get(i).biome);
+				data[land.get(i).biome]++;
+			}
 			if (land.get(i).shape > 0)
 				hill++;
 			gold += staticEval(land.get(i))[1];
@@ -113,7 +116,7 @@ public class City extends TileEntity {
 		//Collections.sort(data);
 		if (hill > 0.4)
 			cityFocus = 2;
-		else if ((data.get(4) + data.get(5) + data.get(6))/(float)land.size() > 0.3)
+		else if ((data[4] + data[5] + data[6])/(float)land.size() > 0.3)
 			cityFocus = 3;
 		else if (gold > 5)
 			cityFocus = 1;
@@ -123,11 +126,13 @@ public class City extends TileEntity {
 
 	public boolean built(String building)
 	{
+		if (building == null) System.err.println("null building");
 		for (int i = 0; i < buildings.size(); i++)
 		{
+			//System.out.println(buildings.get(i));
 			if (buildings.get(i).name.equals(building)) return true;
 		}
-		return true;
+		return false;
 	}
 
 	//Returns true if an enemy is in the city's land
