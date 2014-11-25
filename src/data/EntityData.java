@@ -577,9 +577,13 @@ public class EntityData {
 		double r = Math.random();
 		if (data.get(3) == heavyMelee)
 		{
-			if (r < 0.25)
+			if (r < 0.2)
 			{
 				if (allowed.contains("Spearman")) return "Spearman";
+			}
+			if (r < 0.5)
+			{
+				if (allowed.contains("Swordsman")) return "Swordsman";
 			}
 			if (r < 0.6)
 			{

@@ -102,6 +102,7 @@ public class Civilization {
 			beelineTo("Fletching");
 		}*/
 		war = c.war; peace = c.peace; tallwide = c.tallwide;
+		r = c.r; g = c.g; b = c.b;
 		EntityData.queueTechAi(this);
 	}
 

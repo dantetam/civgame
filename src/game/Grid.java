@@ -102,9 +102,12 @@ public class Grid {
 			/*Civilization civ = new Civilization("Civilization " + Double.toString(
 					Math.floor(Math.sqrt(System.currentTimeMillis()*rand.nextDouble()))
 					),new ArrayList<String>(),255,255,255);*/
-			civ.r = (float)(rand.nextDouble()*255); civ.sR = civ.r;
+			/*civ.r = (float)(rand.nextDouble()*255); civ.sR = civ.r;
 			civ.g = (float)(rand.nextDouble()*255); civ.sG = civ.g;
-			civ.b = (float)(rand.nextDouble()*255); civ.sB = civ.b;
+			civ.b = (float)(rand.nextDouble()*255); civ.sB = civ.b;*/
+			civ.sR = civ.r;
+			civ.sG = civ.g;
+			civ.sB = civ.b;
 			civ.revealed = new boolean[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;
