@@ -409,9 +409,23 @@ public class EntityData {
 	 If playing a militaristic game, go for units (particularly metal casting)
 	 If playing a turtle/economic game, go for useful improvements
 	 */
-	public static Tech queueTechAi(Civilization civ)
+	public static void queueTechAi(Civilization civ)
 	{
-
+		//Temporary algorithm
+		civ.beeline.clear();
+		if (civ.war > civ.peace)
+		{
+			civ.beeline.add("Mining");
+			civ.beeline.add("Agriculture");
+			civ.beeline.add("Metal Working");
+			civ.beeline.add("Animal Husbandry");
+			civ.beeline.add("Milling");
+			civ.beeline.add("Casting");
+		}
+		else
+		{
+			
+		}
 	}
 
 	//TODO: Factor in level of technology and available units
@@ -420,7 +434,7 @@ public class EntityData {
 		String queue = null;
 		if (c.owner.units.size() < 3)
 		{
-			queue = "Warrior"; 
+			queue = bestUnit(c.owner, c.owner.enemies());
 		}
 		else if (c.owner.cities.size() == 1)
 		{
@@ -435,14 +449,14 @@ public class EntityData {
 				if (Math.random() < 0.3)
 					queue = "Settler";
 				else
-					queue = "Warrior";
+					queue = bestUnit(c.owner, c.owner.enemies());
 		}
 		else
 		{
 			if (Math.random() < 0.2)
 				queue = "Settler";
 			else
-				queue = "Warrior";
+				queue = bestUnit(c.owner, c.owner.enemies());
 		}
 		return queue(c, queue);
 	}
