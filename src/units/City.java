@@ -1,6 +1,7 @@
 package units;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import data.EntityData;
 import data.Improvement;
@@ -35,6 +36,7 @@ public class City extends TileEntity {
 	public int culture;
 	public int expanded; //Stage of expansion: 0, does not exist; 1, 3 by 3; 2, 5 by 5; 3, large cross;
 	public boolean raze;
+	public int cityFocus; //Production focus: 0, general production; 1, science/trade; 2, military production; 3, expansion
 
 	//Store how many of a copy of a resource (improved) that the city holds
 	public int[] resources = new int[41]; //as of 9/28/2014 resources go up to 40 so 40+1 spaces
@@ -87,22 +89,36 @@ public class City extends TileEntity {
 		//Calculate morale of city
 		float enemies = 0;
 		for (int i = 0; i < land.size(); i++)
-		{
 			if (land.get(i).occupants.size() > 0)
-			{
 				for (int j = 0; j < land.get(i).occupants.size(); j++)
-				{
 					if (land.get(i).occupants.get(j).owner.isWar(owner))
-					{
 						enemies++;
-					}
-				}
-			}
-		}
 		morale = 1 - enemies/(float)land.size();
 		if (sortie == 2)
 			morale -= 0.4;
 		morale = Math.max(0, morale);
+		//Calculate focus of a city
+		ArrayList<Float> data = new ArrayList<Float>();
+		float hill = 0; int gold = 0;
+		for (int i = 0; i < 7; i++)
+			data.add(0F);
+		for (int i = 0; i < land.size(); i++)
+		{
+			data.set(land.get(i).biome,data.get(i));
+			if (land.get(i).shape > 0)
+				hill++;
+			gold += staticEval(land.get(i))[1];
+		}
+		hill /= land.size();
+		//Collections.sort(data);
+		if (hill > 0.4)
+			cityFocus = 2;
+		else if ((data.get(4) + data.get(5) + data.get(6))/(float)land.size() > 0.3)
+			cityFocus = 3;
+		else if (gold > 5)
+			cityFocus = 1;
+		else
+			cityFocus = 0;
 	}
 
 	public boolean built(String building)

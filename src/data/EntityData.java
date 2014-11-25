@@ -424,7 +424,12 @@ public class EntityData {
 		}
 		else
 		{
-			
+			civ.beeline.add("Agriculture");
+			civ.beeline.add("Mining");
+			civ.beeline.add("Milling");
+			civ.beeline.add("Hunting");
+			civ.beeline.add("Metal Working");
+			civ.beeline.add("Fletching");
 		}
 	}
 
@@ -440,25 +445,86 @@ public class EntityData {
 		{
 			if (c.expanded == 1)
 			{
-				if (Math.random() < 0.3)
-					queue = "Worker";
+				if (Math.random() < 0.6*(1-c.owner.tallwide))
+				{
+					if (c.owner.count("Worker") < c.owner.cities.size()*1.5)
+						queue = "Worker";
+					else
+						queue = bestBuilding(c);
+				}
 				else
 					queue = "Settler";
 			}
 			else 
-				if (Math.random() < 0.3)
+				if (Math.random() < 0.4*c.owner.tallwide)
 					queue = "Settler";
+				else if (Math.random() < 0.7)
+					queue = bestBuilding(c);
 				else
 					queue = bestUnit(c.owner, c.owner.enemies());
 		}
 		else
 		{
-			if (Math.random() < 0.2)
+			if (Math.random() < 0.3*c.owner.tallwide)
 				queue = "Settler";
 			else
 				queue = bestUnit(c.owner, c.owner.enemies());
 		}
+		if (queue == null) queue = bestUnit(c.owner, c.owner.enemies());
 		return queue(c, queue);
+	}
+
+	//Decide which city improvement is best
+	public static String bestBuilding(City c)
+	{
+		ArrayList<String> allowed = c.owner.techTree.allowedCityImprovements;
+		if (allowed(c,"Granary")) return "Granary";
+		if (c.cityFocus == 3)
+		{
+			if (Math.random() < 0.25)
+				if (allowed(c,"Warehouse")) return "Warehouse";
+			if (allowed(c,"Port")) return "Port";
+			if (allowed(c,"Market")) return "Market";
+			if (allowed(c,"Metalworks")) return "Metalworks";
+			if (allowed(c,"Walls")) return "Walls";
+		}
+		else if (c.cityFocus == 2)
+		{
+			if (Math.random() < 0.25)
+				if (allowed(c,"Warehouse")) return "Warehouse";
+			if (allowed(c,"Metalworks")) return "Metalworks";
+			if (allowed(c,"Walls")) return "Walls";
+			if (allowed(c,"Stables")) return "Stables";
+			if (allowed(c,"Market")) return "Market";
+		}
+		else if (c.cityFocus == 1)
+		{
+			if (allowed(c,"Library")) return "Library";
+			if (allowed(c,"Port")) return "Port";
+			if (allowed(c,"Market")) return "Market";
+			if (allowed(c,"Palace")) return "Palace";
+		}
+		else
+		{
+			if (Math.random() < 0.25)
+				if (allowed(c,"Warehouse")) return "Warehouse";
+			if (allowed(c,"Port")) return "Port";
+			if (allowed(c,"Market")) return "Market";
+		}
+		for (int i = 0; i < 10; i++) //10 trials
+		{
+			String candidate = allowed.get((int)(Math.random()*allowed.size()));
+			if (allowed(c, candidate))
+				return candidate;
+		}
+		return null;
+		//return 
+	}
+
+	public static boolean allowed(City c, String building)
+	{
+		return c.owner.techTree.allowedCityImprovements.contains(building) &&
+				!c.built(building);
 	}
 
 	//Decide which unit is best unit to counter an enemy unit

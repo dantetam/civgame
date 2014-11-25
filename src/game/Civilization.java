@@ -64,15 +64,16 @@ public class Civilization {
 		food = 17; gold = 0; research = 0; //metal = 0;
 		techTree = new TechTree();
 		beeline = new ArrayList<String>();
-		if (!name.equals("Player"))
+		/*if (!name.equals("Player"))
 		{
 			beelineTo("Metal Working");
 			beelineTo("Fletching");
-		}
+		}*/
 		//System.out.println(techTree.researched("Agriculture"));
 		this.r = r; this.g = g; this.b = b;
 		this.bonuses = bonuses;
 		war = (float)w; peace = (float)p; tallwide = (float)t;
+		EntityData.queueTechAi(this);
 	}
 
 	public Civilization(Civilization c)
@@ -95,12 +96,13 @@ public class Civilization {
 		food = 17; gold = 0; research = 0; //metal = 0; 
 		techTree = new TechTree();
 		beeline = new ArrayList<String>();
-		if (!name.equals("Player"))
+		/*if (!name.equals("Player"))
 		{
 			beelineTo("Metal Working");
 			beelineTo("Fletching");
-		}
+		}*/
 		war = c.war; peace = c.peace; tallwide = c.tallwide;
+		EntityData.queueTechAi(this);
 	}
 
 	public int count(String... unitName)
