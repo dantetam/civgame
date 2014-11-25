@@ -1,6 +1,7 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -152,11 +153,11 @@ public class EntityData {
 		for (int i = 0; i < 30; i++)
 		{
 			cityStates.put(""+i, new CityState(""+i,list(),
-							(float)(Math.random()*255),
-							(float)(Math.random()*255),
-							(float)(Math.random()*255),
-							Math.random(),Math.random(),0
-			));
+					(float)(Math.random()*255),
+					(float)(Math.random()*255),
+					(float)(Math.random()*255),
+					Math.random(),Math.random(),0
+					));
 		}
 
 	}
@@ -222,7 +223,7 @@ public class EntityData {
 		gameEntityMap.put("Warrior",new Warrior("Warrior",2,2,0));
 		gameEntityMap.put("Worker",new Worker("Worker",0,2,0).mode(0));
 		gameEntityMap.put("Scout",new Worker("Warrior",0,2,0).mode(0).maxAction(2));
-		
+
 		gameEntityMap.put("Axeman",new Warrior("Axeman",4,3,0));
 		gameEntityMap.put("Warband",new Warrior("Warband",2,4,1).range(1).maxAction(2));
 		gameEntityMap.put("Swordsman",new Warrior("Swordsman",5,4,0));
@@ -316,28 +317,28 @@ public class EntityData {
 		Improvement temp;
 		temp = new Improvement("Warehouse","Mining");
 		temp.cost(0,0,0,5,20,0);
-		
+
 		temp = new Improvement("Granary","Agriculture");
 		temp.cost(0,0,0,5,20,0);
 
 		temp = new Improvement("Metalworks","Metal Working");
 		temp.cost(0,0,0,10,50,0);
-		
+
 		temp = new Improvement("Port","Fishing");
 		temp.cost(0,0,0,25,25,0);
-		
+
 		temp = new Improvement("Walls","Stone Working");
 		temp.cost(0,0,0,5,50,0);
-		
+
 		temp = new Improvement("Palace","Stone Working");
 		temp.cost(0,0,0,25,25,0);
-		
+
 		temp = new Improvement("Stables","Equestrian Practice");
 		temp.cost(0,0,0,25,25,0);
-		
+
 		temp = new Improvement("Market","Currency");
 		temp.cost(0,0,0,30,20,0);
-		
+
 		temp = new Improvement("Pyramid","Monument Building");
 		temp.cost(0,0,0,0,50,0);
 		//temp.set();
@@ -402,7 +403,7 @@ public class EntityData {
 		return null;
 		//return false;
 	}
-	
+
 	/*
 	 Return the technology that the civilization is priortizing
 	 If playing a militaristic game, go for units (particularly metal casting)
@@ -410,14 +411,14 @@ public class EntityData {
 	 */
 	public static Tech queueTechAi(Civilization civ)
 	{
-		
+
 	}
 
 	//TODO: Factor in level of technology and available units
 	public static Improvement queueAi(City c)
 	{
 		String queue = null;
-		/*if (c.owner.units.size() < 3)
+		if (c.owner.units.size() < 3)
 		{
 			queue = "Warrior"; 
 		}
@@ -443,9 +444,91 @@ public class EntityData {
 			else
 				queue = "Warrior";
 		}
-		return queue(c, queue);*/
+		return queue(c, queue);
 	}
-	
+
+	//Decide which unit is best unit to counter an enemy unit
+	public static String bestUnit(Civilization civ, ArrayList<Civilization> enemies)
+	{
+		ArrayList<String> allowed = civ.techTree.allowedUnits;
+		float heavyMelee = 0, lightMelee = 0, ranged = 0, mounted = 0;
+		for (int i = 0; i < enemies.size(); i++)
+		{
+			heavyMelee += enemies.get(i).count("Axeman", "Spearman", "Swordsman");
+			lightMelee += enemies.get(i).count("Axe Thrower", "Warband", "Warrior");
+			ranged += enemies.get(i).count("Archer", "Slinger");
+			mounted += enemies.get(i).count("Chariot", "Horse Archer", "Horseman");
+		}
+		float sum = heavyMelee + lightMelee + ranged + mounted;
+		if (sum == 0)
+			return "Warrior";
+		ArrayList<Float> data = new ArrayList<Float>();
+		data.add(heavyMelee); data.add(lightMelee); data.add(ranged); data.add(mounted); 
+		Collections.sort(data);
+		double r = Math.random();
+		if (data.get(3) == heavyMelee)
+		{
+			if (r < 0.25)
+			{
+				if (allowed.contains("Spearman")) return "Spearman";
+			}
+			if (r < 0.6)
+			{
+				if (allowed.contains("Axe Thrower")) return "Axe Thrower";
+			}
+			if (allowed.contains("Axeman")) return "Axeman";
+		}
+		else if (data.get(3) == lightMelee)
+		{
+			if (r < 0.25)
+			{
+				if (allowed.contains("Archer")) return "Archer";
+			}
+			if (r < 0.5)
+			{
+				if (allowed.contains("Swordsman")) return "Swordsman";
+			}
+			if (allowed.contains("Axeman")) return "Axeman";
+		}
+		else if (data.get(3) == ranged)
+		{
+			if (r < 0.25)
+			{
+				if (allowed.contains("Horse Archer")) return "Horse Archer";
+			}
+			if (r < 0.5)
+			{
+				if (allowed.contains("Horseman")) return "Horseman";
+			}
+			if (r < 0.6)
+			{
+				if (allowed.contains("Archer")) return "Archer";
+			}
+			if (allowed.contains("Warband")) return "Warband";
+		}
+		else if (data.get(3) == mounted)
+		{
+			if (r < 0.25)
+			{
+				if (allowed.contains("Horse Archer")) return "Horse Archer";
+			}
+			if (r < 0.5)
+			{
+				if (allowed.contains("Archer")) return "Archer";
+			}
+			if (allowed.contains("Spearman")) return "Spearman";
+			if (allowed.contains("Warband")) return "Warband";
+		}
+		else
+		{
+			System.out.println("Invalid queue");
+			return null;
+		}
+		if (allowed.contains("Axeman")) return "Axeman";
+		if (allowed.contains("Warband")) return "Warband";
+		return "Warrior";
+	}
+
 	public static boolean queueCityImprovement(City city, String impr)
 	{
 		if (!city.hasImprovement(impr))

@@ -29,7 +29,7 @@ public class Civilization {
 	//1 wide (build many small cities close to each other)
 	public float war, peace, tallwide;
 	public String[] civics = new String[5];
-	
+
 	public TechTree techTree;
 	public String researchTech;
 	public ArrayList<String> bonuses;
@@ -39,7 +39,7 @@ public class Civilization {
 
 	public boolean[][] revealed;
 	public int[] opinions;
-	
+
 	public boolean observe = false;
 
 	public Civilization(String name, ArrayList<String> bonuses, 
@@ -74,7 +74,7 @@ public class Civilization {
 		this.bonuses = bonuses;
 		war = (float)w; peace = (float)p; tallwide = (float)t;
 	}
-	
+
 	public Civilization(Civilization c)
 	{
 		cities = new ArrayList<City>();
@@ -102,20 +102,23 @@ public class Civilization {
 		}
 		war = c.war; peace = c.peace; tallwide = c.tallwide;
 	}
-	
-	public int count(String unitName)
+
+	public int count(String... unitName)
 	{
 		int n = 0;
-		for (int i = 0; i < units.size(); i++)
-			if (units.get(i).name.equals(unitName))
-				n++;
-		for (int i = 0; i < cities.size(); i++)
-			if (cities.get(i).queue != null)
-				if (cities.get(i).queue.equals(unitName))
+		for (int index = 0; index < unitName.length; index++)
+		{
+			for (int i = 0; i < units.size(); i++)
+				if (units.get(i).name.equals(unitName[index]))
 					n++;
+			for (int i = 0; i < cities.size(); i++)
+				if (cities.get(i).queue != null)
+					if (cities.get(i).queue.equals(unitName[index]))
+						n++;
+		}
 		return n;
 	}
-	
+
 	public void cancelDeals(Civilization other)
 	{
 		if (openBorders.contains(other))
@@ -152,7 +155,7 @@ public class Civilization {
 
 	public ArrayList<Civilization> enemies() {return enemies;}
 	public ArrayList<Civilization> allies() {return allies;}
-	
+
 	public void peace(Civilization c)
 	{
 		if (isWar(c) && !equals(c))
@@ -161,7 +164,7 @@ public class Civilization {
 			c.enemies.remove(this);
 		}
 	}
-	
+
 	public void ally(Civilization c)
 	{
 		if (!isAlly(c) && !equals(c))
@@ -170,7 +173,7 @@ public class Civilization {
 			c.allies.add(this);
 		}
 	}
-	
+
 	public void openBorder(Civilization c)
 	{
 		if (!isOpenBorder(c) && !equals(c))
@@ -179,7 +182,7 @@ public class Civilization {
 			c.openBorders.add(this);
 		}
 	}
-	
+
 	/*public boolean war(Civilization c)
 	{
 		if (!isWar(c))
@@ -191,7 +194,7 @@ public class Civilization {
 		else
 			return false;
 	}
-	
+
 	public boolean ally(Civilization c)
 	{
 		if (!isAlly(c))
@@ -203,7 +206,7 @@ public class Civilization {
 		else
 			return false;
 	}
-	
+
 	public boolean openBorder(Civilization c)
 	{
 		if (!isOpenBorder(c))
@@ -215,25 +218,25 @@ public class Civilization {
 		else
 			return false;
 	}*/
-	
+
 	public boolean isWar(Civilization other)
 	{
 		if (other == null) return false;
 		return enemies.contains(other);
 	}
-	
+
 	public boolean isAlly(Civilization other)
 	{
 		if (other == null) return false;
 		return allies.contains(other);
 	}
-	
+
 	public boolean isOpenBorder(Civilization other)
 	{
 		if (other == null) return true;
 		return openBorders.contains(other);
 	}
-	
+
 	public ArrayList<Tile> land()
 	{
 		ArrayList<Tile> temp = new ArrayList<Tile>();
@@ -278,7 +281,7 @@ public class Civilization {
 		}
 		System.out.println("-----");*/
 	}
-	
+
 	public float researchProgress()
 	{
 		Tech t = techTree.researched(researchTech);
