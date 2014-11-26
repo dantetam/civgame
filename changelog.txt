@@ -30,12 +30,13 @@ Civilization-wide health levels dependent on population
 >+ "Spiral" menu like the one found in Sniper Elite with choices that can be "dragged" to other tiles to complete actions
 	+ Add images to the buttons
 Ability to drag unit improvements onto units
-Addition of trade routes between cities
+/ Addition of trade routes between cities
 	Cities get bonuses to production and growth when a trade route is set up
 	Caravan units set up routes if there is a legal path
 	Trade routes grow over time when not interrupted
+	Trade range depends on city size
 > Certain technologies can obsolete units
-/ Addition of difficulty level
+> Addition of difficulty level
 	>2:50 Combat bonuses to player on easier levels and to AI on harder levels
 	>+ Health and productionbonuses varying with difficulty
 	>3:00 Varying war and peace values dependent on difficulty

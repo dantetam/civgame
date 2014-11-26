@@ -21,6 +21,7 @@ import render.Game.PFrame;
 import render.TextBox;
 import render.Tooltip;
 import render.Tutorial;
+import units.Caravan;
 import units.City;
 import units.Settler;
 import units.Warrior;
@@ -711,7 +712,12 @@ public class MenuSystem extends BaseSystem {
 		{
 			((Settler)selected).settle();
 		}
-
+		else if (command.contains("caravan"))
+		{
+			int index = Integer.parseInt(command.substring(7));
+			((Caravan)selected).setRoute(selected.owner.cities.get(index));
+		}
+		
 		else if (command.contains("queueBuilding"))
 		{
 			City city = ((City)selected);
@@ -1126,6 +1132,17 @@ public class MenuSystem extends BaseSystem {
 			}
 			//menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			//menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
+		}
+		else if (en.name.equals("Caravan"))
+		{
+			for (int i = 0; i < en.owner.cities.size(); i++)
+			{
+				City c = en.owner.cities.get(i);
+				if (!c.equals(((Caravan)en).home))
+				{
+					menus.get(1).addButton("caravan"+i, "Caravan"+c.name, "Establish a trade route.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+				}
+			}
 		}
 
 		if (en.mode == 1 && en.rangedStr > 0)

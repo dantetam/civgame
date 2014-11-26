@@ -223,6 +223,8 @@ public class EntityData {
 		gameEntityMap.put("Warrior",new Warrior("Warrior",2,2,0));
 		gameEntityMap.put("Worker",new Worker("Worker",0,2,0).mode(0));
 		gameEntityMap.put("Scout",new Worker("Warrior",0,2,0).mode(0).maxAction(2));
+		
+		gameEntityMap.put("Caravan",new Caravan("Caravan",0,2,0).mode(0).maxAction(0));
 
 		gameEntityMap.put("Axeman",new Warrior("Axeman",4,3,0));
 		gameEntityMap.put("Warband",new Warrior("Warband",2,4,1).range(1).maxAction(2));
@@ -258,13 +260,14 @@ public class EntityData {
 		cost("Warrior",10,5,0);
 		cost("Work Boat",15,0,0);
 		cost("Worker",25,0,0);
+		cost("Scout",10,5,0);
+		cost("Caravan",15,5,0);
 		
 		cost("Axeman",10,10,0);
 		cost("Warband",15,5,0);
 		cost("Swordsman",10,15,0);
 		cost("Spearman",10,10,0);
 		cost("Chariot",10,15,0);
-		cost("Scout",10,5,0);
 		cost("Slinger",10,5,0);
 		cost("Archer",15,10,0);
 		cost("Axe Thrower",10,15,0);

@@ -644,6 +644,10 @@ public class RenderSystem extends BaseSystem {
 				main.popMatrix();
 			}
 		}
+		else
+		{
+			renderModel("Settler", red, green, blue);
+		}
 		main.popMatrix();
 	}
 

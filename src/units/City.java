@@ -27,6 +27,9 @@ public class City extends TileEntity {
 	public int takeover;
 	public float morale;
 	//public int sight = 4;
+	
+	public ArrayList<Caravan> activeCaravansOut;
+	public ArrayList<Caravan> activeCaravansIn;
 
 	public int adm, art, sci; 
 	//Specialized workers:
@@ -67,6 +70,9 @@ public class City extends TileEntity {
 		art = 0; sci = 0; adm = 0;
 		culture = 0; expanded = 0;
 		raze = false;
+		
+		activeCaravansOut = new ArrayList<Caravan>();
+		activeCaravansIn = new ArrayList<Caravan>();
 	}
 
 	/*public City(TileEntity other) {

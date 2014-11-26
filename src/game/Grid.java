@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
+import units.Caravan;
 import units.City;
 import data.EntityData;
 
@@ -294,6 +295,8 @@ public class Grid {
 	{
 		if (en instanceof GameEntity)
 		{
+			if (en.name.equals("Caravan"))
+				((Caravan)en).endRoute();
 			tiles[en.location.row][en.location.col].occupants.remove(en);
 			en.owner.units.remove((GameEntity)en);
 		}

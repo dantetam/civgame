@@ -210,6 +210,17 @@ public class CivilizationSystem extends BaseSystem {
 							tg *= 1.25;
 						}
 						
+						for (int k = 0; k < c.activeCaravansOut.size(); k++)
+						{
+							//Temporary algorithm
+							tf += 2; tm++; tg += 2;
+						}
+						for (int k = 0; k < c.activeCaravansIn.size(); k++)
+						{
+							//Temporary algorithm
+							tf++; tm++;
+						}
+						
 						//c.culture++;
 						//System.out.println(c.culture + " " + c.expanded);
 						if (c.culture >= 20 && c.expanded == 1)
@@ -301,6 +312,8 @@ public class CivilizationSystem extends BaseSystem {
 										if (en instanceof GameEntity && !(en instanceof Settler) && !(en instanceof Worker))
 											if (civ.units.size() < 4)
 												((GameEntity)en).explorer = true;
+									if (c.queue.equals("Caravan"))
+										((Caravan)en).home = c;
 								}
 								else
 								{
