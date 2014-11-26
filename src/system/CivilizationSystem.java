@@ -523,7 +523,7 @@ public class CivilizationSystem extends BaseSystem {
 								}
 							}
 						}
-						else if (civ.opinions[j] > -20 && civ.isWar(civ2))
+						else if (civ.opinions[j] > -(50*civ.peace) && civ.isWar(civ2))
 						{
 							grid.civs[j].peace(civ);
 							civ.peace(grid.civs[j]);

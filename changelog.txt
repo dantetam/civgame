@@ -6,16 +6,48 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
-(Planned 11/24/2014 -> 11/28/2014)
+(Planned 11/24/2014 -> 12/1/2014) MASTER LIST DUE 12/1/2014
 Major additions:
-
-
+/ AI improvements
+	> Civilizations research techs that prioritize their long-term strengths and strategy
+	> Civilizations build appropriate units of the time that counter enemy units
+	/ AI implements grand strategy in pursuit of a larger goal
+/ AI additions
+	> AI civilizations have different "flavors" i.e. tendencies
+		/ Factor in war and peace values when civs consider peacing out
+	Civilization have unique bonuses and units
+Addition of civics from researching techs
+	Player can take sides on certain events which affect government spectrum
+	Civilizations with different civics have better relations
+/ Step by step tutorial that prompts for keys and conditions which simulates a real game
+	
 Minor additions:
-
+/ Cities have morale values dependent on number of enemies around
+	- Leving troops lowers morale
+	- Morale affects city ranged strength, health, production speed
+Cities get bonus vs ranged attack
+Civilization-wide health levels dependent on population
+>+ "Spiral" menu like the one found in Sniper Elite with choices that can be "dragged" to other tiles to complete actions
+	+ Add images to the buttons
+Ability to drag unit improvements onto units
+Addition of trade routes between cities
+	Cities get bonuses to production and growth when a trade route is set up
+	Caravan units set up routes if there is a legal path
+	Trade routes grow over time when not interrupted
+> Certain technologies can obsolete units
+Addition of difficulty level
+World scales smaller with less people (world is too large as of 11/25/2014)
+/ Menu with constant color theme, possibly white and blue
+	
 Changes:
+Technology research rate depends 50% on research and 50% on gold production
+Civs with more cities need more research for tech
+Change revealing mechanism to 0,1,2 system
 
 Fixes:
 >+ Fixed unit access bug
+
+--------------------------------------------------------------------------------------------------------
 
 (Planned 11/10/2014 -> 11/21/2014) on hiatus due to college applications
 Major additions:
@@ -41,6 +73,7 @@ Minor additions:
 	+ List of "revealed" civilizations show their tiles even when in darkness
 		* Change revealed array from boolean to numbers 0 -> hidden, 1 -> discovered, 2 -> in sight
 + Remove old buttons
++ Barbarian unification events
 	
 Changes:
 

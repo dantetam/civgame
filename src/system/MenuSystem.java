@@ -20,6 +20,7 @@ import render.Menu;
 import render.Game.PFrame;
 import render.TextBox;
 import render.Tooltip;
+import render.Tutorial;
 import units.City;
 import units.Settler;
 import units.Warrior;
@@ -74,7 +75,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
 		menu0.addButton("relations", "Relations", "The wars and alliances of this world.", 0, 280, 100, 30);
-		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 300, main.width*1/6, 30).lock = true;
+		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, main.height*5/6 - 30, main.width*1/6, 30).lock = true;
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -127,7 +128,7 @@ public class MenuSystem extends BaseSystem {
 		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width - 400,0,200,150); //"SelectedText"
 		textboxes.add(text1);
 
-		TextBox text2 = new TextBox(new ArrayList<String>(),"",main.width*5/6,200,main.width*1/6,100); //"Messages"
+		TextBox text2 = new TextBox(new ArrayList<String>(),"",main.width*4/6,main.height*5/6,main.width*2/6,100); //"Messages"
 		textboxes.add(text2);
 
 		TextBox text3 = new TextBox(new ArrayList<String>(),"",main.width/6,0,300,50); //"PlayerStatus"
@@ -373,7 +374,7 @@ public class MenuSystem extends BaseSystem {
 
 		if (messages.size() > 0)
 		{
-			int len = Math.min(4,messages.size());
+			int len = Math.min(6,messages.size());
 			for (int i = 0; i < len; i++)
 			{
 				textboxes.get(2).display.add(messages.get(i));
@@ -907,10 +908,12 @@ public class MenuSystem extends BaseSystem {
 	//Send a message, checking for repeats
 	public void message(String... newMessages)
 	{
-		for (int i = 0; i < newMessages.length; i++)
+		if (!(main instanceof Tutorial))
 		{
-			String message = newMessages[i];
-			if (message.length() < 40)
+			for (int i = 0; i < newMessages.length; i++)
+			{
+				String message = newMessages[i];
+				/*if (message.length() < 40)
 			{
 				if (messages.size() == 0) messages.add(message);
 				if (!messages.get(0).equals(message))
@@ -920,7 +923,31 @@ public class MenuSystem extends BaseSystem {
 			{
 				messages.add(0,message.substring(40));
 				messages.add(0,message.substring(0,40));
+			}*/
+				if (messages.size() == 0) messages.add(message);
+				if (!messages.get(0).equals(message))
+					messages.add(0,message);
 			}
+			if (!main.grid.civs[0].observe) //Do not shake the GUI if player is not alive
+			{
+				textboxes.get(2).moveDis(0,-5,2);
+				for (int i = 0; i < 10; i++)
+					textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
+				textboxes.get(2).moveDis(0,5,2);
+				textboxes.get(2).orderOriginal(false);
+			}
+		}
+	}
+	
+	//Send a message from tutorial level
+	public void messageT(String... newMessages)
+	{
+		for (int i = 0; i < newMessages.length; i++)
+		{
+			String message = newMessages[i];
+			if (messages.size() == 0) messages.add(message);
+			if (!messages.get(0).equals(message))
+				messages.add(0,message);
 		}
 		if (!main.grid.civs[0].observe) //Do not shake the GUI if player is not alive
 		{

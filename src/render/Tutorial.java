@@ -24,8 +24,16 @@ public class Tutorial extends CivGame {
 		path.add(list(32));
 		cond.add("");
 		
-		path.add(list(200)); //not a "key"
+		path.add(list(32));
 		cond.add("");
+		
+		path.add(empty());
+		cond.add("playerHasOneCity");
+		
+		path.add(list(32));
+		cond.add("");
+		
+		path.add(list(200)); //not a "key"
 	}
 
 	public void setup()
@@ -37,6 +45,7 @@ public class Tutorial extends CivGame {
 	public void draw()
 	{
 		super.draw();
+		check();
 	}
 
 	public ArrayList<Character> list(char... keys)
@@ -80,16 +89,40 @@ public class Tutorial extends CivGame {
 		switch (step)
 		{
 		case 0:
-			menuSystem.message("Entered tutorial level");
-			menuSystem.message("Press SPACE to cycle through your units");
+			menuSystem.messageT("When ready, press SPACE to control a unit.");
+			menuSystem.messageT("Use WASD to move the camera around the map");
+			enable('w','a','s','d');
 			break;
 		case 1:
-			menuSystem.message("End test");
-			enable('w','a','s','d','q','e',(char)32);
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT("Press SPACE to continue.");
+			menuSystem.messageT("Cities produce units and improvements for the civilization.");
+			menuSystem.messageT("It is a settler, which can found a city.");
+			menuSystem.messageT("This is a unit belonging to your civilization.");
+			//enable((char)32);
+			break;
+		case 2:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT("It will be founded at your settler's location.");
+			menuSystem.messageT("In the provided menu, press SETTLE to create a new city.");
+			enable((char)32);
+			break;
+		case 3:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT("This will allow you to give orders to those who need them.");
+			menuSystem.messageT("Press SPACE again to cycle through your units.");
 			break;
 		default:
 			break;
 		}
+	}
+	
+	public void check()
+	{
+		if (step >= cond.size()) return;
+		if (done(cond.get(step)))
+			if (path.get(step).size() == 0)
+				step();
 	}
 
 	public void keyPressed()
@@ -109,9 +142,7 @@ public class Tutorial extends CivGame {
 		}
 		//else
 			//return; //Wrong key pressed. Restrict access to other keys
-		if (done(cond.get(step)))
-			if (path.get(step).size() == 0)
-				step();
+		//check();
 	}
 
 	public void keyReleased()
@@ -128,8 +159,21 @@ public class Tutorial extends CivGame {
 		else
 		{
 			//Invalid
-			return true;
+			if (c.equals("playerHasOneCity"))
+			{
+				return grid.civs[0].cities.size() > 0;
+			}
+			else
+			{
+				System.out.println("Invalid condition");
+				return false;
+			}
 		}
 	}
 
+	public void mousePressed()
+	{
+		super.mousePressed();
+	}
+	
 }
