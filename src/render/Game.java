@@ -19,7 +19,7 @@ public class Game extends PApplet {
 
 	//public String gameMode = "MainMenu";
 	public String challengeType = "", civChoice = "";
-	public int numCivs = 2, numCityStates = 0;
+	public int numCivs = 2, numCityStates = 0, difficultyLevel = 1;
 	public ArrayList<Menu> menus;
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public Menu activeMenu;
@@ -101,6 +101,17 @@ public class Game extends PApplet {
 			n++;
 		}
 		menu5.addButton("backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
+		
+		Menu menu6 = new Menu("DifficultyMenu");
+		menus.add(menu6);
+		menu6.addButton("level1", "Sandbox", "Recommended for trying new strategies.", 70, 100, 210, 50);
+		menu6.addButton("level2", "Settler", "Easy difficulty. You get a natural bonus over the passive AI.", 70, 160, 210, 50);
+		menu6.addButton("level3", "Warlord", "Moderate difficulty. You get no bonuses and the AI is more aggressive.", 70, 220, 210, 50);
+		menu6.addButton("level4", "Monarch", "Hard difficulty. The AI gets slight bonuses and the favors war.", 70, 280, 210, 50);
+		menu6.addButton("level5", "Immortal", "Impossible difficulty. AI gets massive bonuses and exclusively uses war.", 70, 340, 210, 50);
+		//menu2.addButton("civs16", "Huge", 100, 600, 210, 70);
+		//menu2.addButton("civs64", "Testing", 100, 700, 210, 70);
+		menu6.addButton("backMenu5", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
 
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });
@@ -261,9 +272,9 @@ public class Game extends PApplet {
 	private Tutorial tutorial;
 	//Taken from stack overflow
 	public class PFrame extends JFrame {
-		public PFrame(Game game, int width, int height, int numCivs, int numCityStates, String challengeType, String terrainType, String civChoice, long seed) {
+		public PFrame(Game game, int width, int height, int numCivs, int numCityStates, int difficultyLevel, String challengeType, String terrainType, String civChoice, long seed) {
 			setBounds(0, 0, width, height);
-			renderer = new CivGame(game, numCivs, numCityStates, challengeType, terrainType, civChoice, seed);
+			renderer = new CivGame(game, numCivs, numCityStates, difficultyLevel, challengeType, terrainType, civChoice, seed);
 			add(renderer);
 			setResizable(false);
 			renderer.init();
@@ -340,12 +351,19 @@ public class Game extends PApplet {
 						else if (command.contains("civ"))
 						{
 							civChoice = command.substring(3);
+							activeMenu = menus.get(6);
+							redraw();
+						}
+						//Coosing difficulty
+						else if (command.contains("level"))
+						{
+							difficultyLevel = Integer.parseInt(command.substring(5));
 							activeMenu = menus.get(3);
 							redraw();
 						}
 						else if (command.contains("terrain"))
 						{
-							PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,challengeType,command,civChoice,Long.parseLong(seed));
+							PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,difficultyLevel,challengeType,command,civChoice,Long.parseLong(seed));
 							f.setTitle("Survival: Civilization");
 							//setVisible(false);
 							background(255);

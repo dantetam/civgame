@@ -22,7 +22,7 @@ public class CivGame extends PApplet {
 
 	public BaseTerrain map;
 	public String challengeType, terrainType, civChoice;
-	public int numCivs, numCityStates;
+	public int numCivs, numCityStates, difficultyLevel;
 	public double[][] terrain;
 	//public boolean[][] rivers;
 	public Erosion erosion;
@@ -47,11 +47,12 @@ public class CivGame extends PApplet {
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
 
-	public CivGame(Game game, int numCivs, int numCityStates, String challengeType, String terrainType, String civChoice, long seed)
+	public CivGame(Game game, int numCivs, int numCityStates, int difficultyLevel, String challengeType, String terrainType, String civChoice, long seed)
 	{
 		this.game = game;
 		this.numCivs = numCivs;
 		this.numCityStates = numCityStates;
+		this.difficultyLevel = difficultyLevel;
 		this.challengeType = challengeType;
 		this.terrainType = terrainType;
 		this.civChoice = civChoice;
@@ -278,10 +279,15 @@ public class CivGame extends PApplet {
 		}
 		if (numCivs <= 4)
 		{
+			terrain = downSample(terrain,4);
+			menuSystem.multiplier = 4;
+		}
+		else if (numCivs <= 7)
+		{
 			terrain = downSample(terrain,3);
 			menuSystem.multiplier = 3;
 		}
-		else if (numCivs <= 8)
+		else if (numCivs <= 10)
 		{
 			terrain = downSample(terrain,2);
 			menuSystem.multiplier = 2;
@@ -565,12 +571,8 @@ public class CivGame extends PApplet {
 	{
 		double[][] temp = new double[terrain.length/num + 1][terrain.length/num + 1];
 		for (int r = 0; r < terrain.length; r += num)
-		{
 			for (int c = 0; c < terrain[0].length; c += num)
-			{
 				temp[r/num][c/num] = terrain[r][c];
-			}
-		}
 		return temp;
 	}
 

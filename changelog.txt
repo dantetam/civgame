@@ -19,7 +19,7 @@ Major additions:
 Addition of civics from researching techs
 	Player can take sides on certain events which affect government spectrum
 	Civilizations with different civics have better relations
-/ Step by step tutorial that prompts for keys and conditions which simulates a real game
+>2:12 Step by step tutorial that prompts for keys and conditions which simulates a real game 
 	
 Minor additions:
 / Cities have morale values dependent on number of enemies around
@@ -35,9 +35,9 @@ Addition of trade routes between cities
 	Caravan units set up routes if there is a legal path
 	Trade routes grow over time when not interrupted
 > Certain technologies can obsolete units
-Addition of difficulty level
-World scales smaller with less people (world is too large as of 11/25/2014)
-/ Menu with constant color theme, possibly white and blue
+/ Addition of difficulty level
+>2:16 World scales smaller with less people (world is too large as of 11/25/2014)
+Menu with constant color theme, possibly white and blue
 	
 Changes:
 Technology research rate depends 50% on research and 50% on gold production
