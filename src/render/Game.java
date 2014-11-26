@@ -107,7 +107,7 @@ public class Game extends PApplet {
 		menu6.addButton("level1", "Sandbox", "Recommended for trying new strategies.", 70, 100, 210, 50);
 		menu6.addButton("level2", "Settler", "Easy difficulty. You get a natural bonus over the passive AI.", 70, 160, 210, 50);
 		menu6.addButton("level3", "Warlord", "Moderate difficulty. You get no bonuses and the AI is more aggressive.", 70, 220, 210, 50);
-		menu6.addButton("level4", "Monarch", "Hard difficulty. The AI gets slight bonuses and the favors war.", 70, 280, 210, 50);
+		menu6.addButton("level4", "Monarch", "Hard difficulty. The AI gets slight bonuses and favors war.", 70, 280, 210, 50);
 		menu6.addButton("level5", "Immortal", "Impossible difficulty. AI gets massive bonuses and exclusively uses war.", 70, 340, 210, 50);
 		//menu2.addButton("civs16", "Huge", 100, 600, 210, 70);
 		//menu2.addButton("civs64", "Testing", 100, 700, 210, 70);

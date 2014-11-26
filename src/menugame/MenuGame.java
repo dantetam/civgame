@@ -108,6 +108,7 @@ public class MenuGame {
 		grid = new Grid("Athens", terrain, biomes, assignResources(biomes), 
 				(int)(Math.random()*4) + 4, 
 				0,
+				3,
 				1, 
 				(int)cutoff, seed);
 		civRecord = new Civilization[terrain.length][terrain[0].length];

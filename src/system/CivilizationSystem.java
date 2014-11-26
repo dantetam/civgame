@@ -120,6 +120,14 @@ public class CivilizationSystem extends BaseSystem {
 						}
 
 						c.happiness = 4 - c.population;
+						if (grid.difficultyLevel == 1 && i == 0)
+							c.happiness += 3;
+						else if (grid.difficultyLevel == 2 && i == 0)
+							c.happiness += 1;
+						else if (grid.difficultyLevel == 4 && i != 0)
+							c.happiness += 1;
+						else if (grid.difficultyLevel == 5 && i != 0)
+							c.happiness += 3;
 						
 						if (c.built("Palace"))
 						{
@@ -135,7 +143,17 @@ public class CivilizationSystem extends BaseSystem {
 							c.workTiles(c.population - c.happiness - sumCityWorkers);
 						else
 							c.workTiles(c.population - sumCityWorkers);
+						
 						c.health = 7 - c.population + Math.min(0,c.happiness);
+						if (grid.difficultyLevel == 1 && i == 0)
+							c.health += 4;
+						else if (grid.difficultyLevel == 2 && i == 0)
+							c.health += 2;
+						else if (grid.difficultyLevel == 4 && i != 0)
+							c.health += 2;
+						else if (grid.difficultyLevel == 5 && i != 0)
+							c.health += 4;
+						
 						for (int k = 0; k < c.land.size(); k++)
 							c.land.get(k).harvest = false;
 
@@ -162,6 +180,14 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							tm *= 1.25;
 						}
+						if (grid.difficultyLevel == 1 && i == 0)
+							tm *= 1.25;
+						else if (grid.difficultyLevel == 2 && i == 0)
+							tm *= 1.1;
+						else if (grid.difficultyLevel == 4 && i != 0)
+							tm *= 1.1;
+						else if (grid.difficultyLevel == 5 && i != 0)
+							tm *= 1.25;
 						//Factor in specialized workers
 						double taxBase = tg;
 						tr += c.sci*2;

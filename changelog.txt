@@ -36,6 +36,9 @@ Addition of trade routes between cities
 	Trade routes grow over time when not interrupted
 > Certain technologies can obsolete units
 / Addition of difficulty level
+	>2:50 Combat bonuses to player on easier levels and to AI on harder levels
+	>+ Health and productionbonuses varying with difficulty
+	>3:00 Varying war and peace values dependent on difficulty
 >2:16 World scales smaller with less people (world is too large as of 11/25/2014)
 Menu with constant color theme, possibly white and blue
 	

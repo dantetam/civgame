@@ -25,10 +25,46 @@ public class ConflictSystem {
 	public int[] attack(GameEntity a, GameEntity d)
 	{
 		double off = 1, def = 1;
+		double potentialAdv = 0;
+		switch (grid.difficultyLevel)
+		{
+		case 1:
+			potentialAdv = 0.2;
+			break;
+		case 2:
+			potentialAdv = 0.1;		
+			break;
+		case 3:
+			//do nothing since neither side gets an advantage
+			break;
+		case 4:
+			potentialAdv = -0.1;
+			break;
+		case 5:
+			potentialAdv = -0.2;
+			break;
+		default:
+			System.out.println("Invalid difficulty level: " + grid.difficultyLevel);
+		}
+		if (a.owner.id == 0)
+		{
+			if (potentialAdv >= 0)
+				off += potentialAdv;
+			else
+				def += potentialAdv;
+		}
+		else if (d.owner.id == 0)
+		{
+			if (potentialAdv >= 0)
+				def += potentialAdv;
+			else
+				off += potentialAdv;
+		}
+		//Disadvantage to barbarians
 		if (a.owner.id >= grid.barbarians)
-			off -= 0.5;
+			off -= 0.3;
 		if (d.owner.id >= grid.barbarians)
-			def -= 0.5;
+			def -= 0.3;
 		//Offensive bonus
 		if (a.is("Swordsman"))
 			off += 0.25;
@@ -80,6 +116,41 @@ public class ConflictSystem {
 	public int[] fire(GameEntity a, GameEntity d)
 	{
 		double off = 1, def = 1;
+		double potentialAdv = 0;
+		switch (grid.difficultyLevel)
+		{
+		case 1:
+			potentialAdv = 0.2;
+			break;
+		case 2:
+			potentialAdv = 0.1;		
+			break;
+		case 3:
+			//do nothing since neither side gets an advantage
+			break;
+		case 4:
+			potentialAdv = -0.1;
+			break;
+		case 5:
+			potentialAdv = -0.2;
+			break;
+		default:
+			System.out.println("Invalid difficulty level: " + grid.difficultyLevel);
+		}
+		if (a.owner.id == 0)
+		{
+			if (potentialAdv >= 0)
+				off += potentialAdv;
+			else
+				def += potentialAdv;
+		}
+		else if (d.owner.id == 0)
+		{
+			if (potentialAdv >= 0)
+				def += potentialAdv;
+			else
+				off += potentialAdv;
+		}
 		if (a.is("Slinger"))
 		{
 			off -= 0.35;

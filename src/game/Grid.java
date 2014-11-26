@@ -22,6 +22,8 @@ public class Grid {
 
 	public final int aggroDistance = 500;
 	public boolean won = false;
+	
+	public int difficultyLevel;
 
 	//Keep track of barbarian civs
 	public int barbarians;
@@ -32,12 +34,13 @@ public class Grid {
 	//Handle combat scenarios in the context of this grid
 	public ConflictSystem conflictSystem;
 
-	public Grid(String playerCiv, double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int numBarbarians, int cutoff, long seed)
+	public Grid(String playerCiv, double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int difficultyLevel, int numBarbarians, int cutoff, long seed)
 	{
 		rand = new Random(seed);
 		conflictSystem = new ConflictSystem(this);
 		civs = new Civilization[numCivs+numCityStates+numBarbarians];
 		barbarians = numCivs + numCityStates;
+		this.difficultyLevel = difficultyLevel;
 		tiles = new Tile[terrain.length][terrain[0].length];
 		rows = tiles.length; cols = tiles[0].length;
 		for (int r = 0; r < terrain.length; r++)
@@ -112,6 +115,29 @@ public class Grid {
 			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;
 			civ.id = i;
+			
+			switch (difficultyLevel)
+			{
+			case 1:
+				civ.war -= 0.3;
+				civ.peace += 0.2;
+				break;
+			case 2:
+				civ.war -= 0.15;
+				civ.peace += 0.2;
+				break;
+			case 3:
+				//personalities remain the same
+				break;
+			case 4:
+				civ.war += 0.15;
+				break;
+			case 5:
+				civ.war += 0.3;
+				civ.peace -= 0.2;
+				break;
+			default: System.out.println("Invalid difficulty: " + difficultyLevel); break;
+			}
 
 			//This will bias but not force settlers to stay away from each other
 			int r,c; float dist = 30;
