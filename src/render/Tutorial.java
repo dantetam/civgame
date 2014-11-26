@@ -21,65 +21,40 @@ public class Tutorial extends CivGame {
 		path = new ArrayList<ArrayList<Character>>();
 		cond = new ArrayList<String>();
 
+		//0
 		path.add(list(32));
 		cond.add("");
-		
+
 		path.add(list(32));
 		cond.add("");
-		
+
 		path.add(empty());
 		cond.add("playerHasOneCity");
-		
+
 		path.add(list(32));
 		cond.add("");
-		
+
+		path.add(empty());
+		cond.add("cityQueueWarrior");
+
+		//5
+		path.add(list(32));
+		cond.add("");
+
+		path.add(empty());
+		cond.add("researchingTech");
+
+		path.add(list(32));
+		cond.add("");
+
+		path.add(empty());
+		cond.add("unitAndCity");
+
+		path.add(empty());
+		cond.add("unitOutsideBorders");
+
+		//10
 		path.add(list(200)); //not a "key"
-	}
-
-	public void setup()
-	{
-		super.setup();
-		step();
-	}
-
-	public void draw()
-	{
-		super.draw();
-		check();
-	}
-
-	public ArrayList<Character> list(char... keys)
-	{
-		ArrayList<Character> temp = new ArrayList<Character>();
-		for (int i = 0; i < keys.length; i++)
-			temp.add(keys[i]);
-		return temp;
-	}
-
-	public ArrayList<Character> list(int... keys)
-	{
-		ArrayList<Character> temp = new ArrayList<Character>();
-		for (int i = 0; i < keys.length; i++)
-			temp.add((char)keys[i]);
-		return temp;
-	}
-	
-	public ArrayList<Character> empty()
-	{
-		ArrayList<Character> temp = new ArrayList<Character>();
-		return temp;
-	}
-	
-	public void enable(char... keys)
-	{
-		for (int i = 0; i < keys.length; i++)
-			keysAllowed[(int)keys[i]] = true;
-	}
-	
-	public void disable(char... keys)
-	{
-		for (int i = 0; i < keys.length; i++)
-			keysAllowed[(int)keys[i]] = false;
 	}
 
 	public void step()
@@ -112,11 +87,85 @@ public class Tutorial extends CivGame {
 			menuSystem.messageT("This will allow you to give orders to those who need them.");
 			menuSystem.messageT("Press SPACE again to cycle through your units.");
 			break;
+		case 4:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT("which are used for creating new units. Queue a WARRIOR.");
+			menuSystem.messageT("It harvests the tiles around it for food and metal,");
+			menuSystem.messageT("This is the city menu for your first city.");
+			break;
+		case 5:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT("press SPACE. This will advance to next turn if all your units have orders.");
+			menuSystem.messageT("Your unit will be produced soon. To progress the game forward,");
+			break;
+		case 6: 
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT("Click on any technology to research it.");
+			menuSystem.messageT("Before you can go on, your civilization must research a technology.");
+			break;
+		case 7:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT("Now, you may advance the game with SPACE.");
+			break;
+		case 8:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT("Keep pressing SPACE to advance the game until your unit is completed.");
+			break;
+		case 9:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT("Move it outside of your territory with RMB when selecting it.");
+			menuSystem.messageT("It has offensive and defensive values. Later units may have ranged strength.");
+			menuSystem.messageT("Your city has produced its first combat unit.");
+			break;
 		default:
 			break;
 		}
 	}
-	
+
+	public boolean done(String c)
+	{
+		if (c == null || c.equals(""))
+		{
+			return true;
+		}
+		else
+		{
+			//Invalid
+			if (c.equals("playerHasOneCity"))
+			{
+				return grid.civs[0].cities.size() > 0;
+			}
+			else if (c.equals("cityQueueWarrior"))
+			{
+				if (grid.civs[0].cities.get(0).queue != null)
+					return grid.civs[0].cities.get(0).queue.equals("Warrior");
+				return false;
+			}
+			else if (c.equals("researchingTech"))
+			{
+				return grid.civs[0].researchTech != null &&
+						grid.civs[0].researchTech != "";
+			}
+			else if (c.equals("unitAndCity"))
+			{
+				return grid.civs[0].cities.size() > 0 &&
+						grid.civs[0].units.size() > 0;
+			}
+			else if (c.equals("unitOutsideBorders"))
+			{
+				for (int i = 0; i < grid.civs[0].units.size(); i++)
+					if (grid.civs[0].units.get(i).owner == null)
+						return true;
+				return false;
+			}
+			else
+			{
+				System.out.println("Invalid condition: " + c);
+				return false;
+			}
+		}
+	}
+
 	public void check()
 	{
 		if (step >= cond.size()) return;
@@ -141,7 +190,7 @@ public class Tutorial extends CivGame {
 			super.keyPressed();
 		}
 		//else
-			//return; //Wrong key pressed. Restrict access to other keys
+		//return; //Wrong key pressed. Restrict access to other keys
 		//check();
 	}
 
@@ -149,31 +198,56 @@ public class Tutorial extends CivGame {
 	{
 		super.keyReleased();
 	}
-	
-	public boolean done(String c)
+
+	public void setup()
 	{
-		if (c == null || c.equals(""))
-		{
-			return true;
-		}
-		else
-		{
-			//Invalid
-			if (c.equals("playerHasOneCity"))
-			{
-				return grid.civs[0].cities.size() > 0;
-			}
-			else
-			{
-				System.out.println("Invalid condition");
-				return false;
-			}
-		}
+		super.setup();
+		step();
+	}
+
+	public void draw()
+	{
+		super.draw();
+		check();
+	}
+
+	public ArrayList<Character> list(char... keys)
+	{
+		ArrayList<Character> temp = new ArrayList<Character>();
+		for (int i = 0; i < keys.length; i++)
+			temp.add(keys[i]);
+		return temp;
+	}
+
+	public ArrayList<Character> list(int... keys)
+	{
+		ArrayList<Character> temp = new ArrayList<Character>();
+		for (int i = 0; i < keys.length; i++)
+			temp.add((char)keys[i]);
+		return temp;
+	}
+
+	public ArrayList<Character> empty()
+	{
+		ArrayList<Character> temp = new ArrayList<Character>();
+		return temp;
+	}
+
+	public void enable(char... keys)
+	{
+		for (int i = 0; i < keys.length; i++)
+			keysAllowed[(int)keys[i]] = true;
+	}
+
+	public void disable(char... keys)
+	{
+		for (int i = 0; i < keys.length; i++)
+			keysAllowed[(int)keys[i]] = false;
 	}
 
 	public void mousePressed()
 	{
 		super.mousePressed();
 	}
-	
+
 }
