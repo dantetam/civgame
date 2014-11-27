@@ -200,6 +200,7 @@ public class CivilizationSystem extends BaseSystem {
 						if (c.built("Palace"))
 						{
 							tg *= 1.25;
+							tg += 8;
 							c.culture++;
 						}
 						if (c.built("Pyramid"))
@@ -225,7 +226,7 @@ public class CivilizationSystem extends BaseSystem {
 						tm *= c.morale;
 						//End of calculation stage
 
-
+						
 
 						//c.culture++;
 						//System.out.println(c.culture + " " + c.expanded);
@@ -625,8 +626,19 @@ public class CivilizationSystem extends BaseSystem {
 					else if (civ.researchTech != null) //Could be null, check for this possibility
 					{
 						Tech tech = civ.techTree.researched(civ.researchTech);
-						tech.totalR += civ.research;
-						civ.research = 0;
+						if (civ.research > civ.gold) //Sufficient funds for research
+						{
+							tech.totalR += civ.research;
+							civ.gold -= civ.research;
+							civ.research = 0;
+						}
+						else
+						{
+							tech.totalR += civ.research/2;
+							civ.research = 0;
+						}
+						
+			
 						if (tech.researched())
 						{
 							if (i == 0)

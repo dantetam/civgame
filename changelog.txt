@@ -31,9 +31,9 @@ Minor additions:
 >+ "Spiral" menu like the one found in Sniper Elite with choices that can be "dragged" to other tiles to complete actions
 	+ Add images to the buttons
 Ability to drag unit improvements onto units
->3:55 Addition of trade routes between cities
-	Cities get bonuses to production and growth when a trade route is set up
-	Caravan units set up routes if there is a legal path
+/3:55 Addition of trade routes between cities
+	> Cities get bonuses to production and growth when a trade route is set up
+	> Caravan units set up routes if there is a legal path
 	Trade routes grow over time when not interrupted
 	Trade range depends on city size
 > Certain technologies can obsolete units
@@ -47,7 +47,7 @@ Menu with constant color theme, possibly white and blue
 Changes:
 Technology research rate depends 50% on research and 50% on gold production
 Civs with more cities need more research for tech
-Change revealing mechanism to 0,1,2 system
+> Change revealing mechanism to 0,1,2 system
 >+ Changed menu game animations
 
 Fixes:
