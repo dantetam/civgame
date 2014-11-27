@@ -149,17 +149,6 @@ public class EntityData {
 		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0,0.8,0.1,0.2));
 		//civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
 		civs.put("Thrace", new Civilization("Thrace",list(),175,255,255,0.6,0.4,0.5));
-
-		/*
-		 * Traits for civs:
-		 * 3 Aggressive    > +10% when attacking,     1 free promotion per unit
-		 * 3 Imperialistic > 2 health per city,       > 1 extra trade route per city
-		 * 2 Refined       > 2 culture per city,      > +10% research speed
-		 * 4 Prosperous    > +15% food per city,      > +25% speed on Settler 
-		 * 3 Defensive     > +15% when defending,     +25% speed on fortifications
-		 * 3 Traditional   +25% speed on unique unit, > +15% food per city
-		 * 2 Industrious   > +10% production/metal,   +25% on wonders 
-		 */
 		
 		civs.get("Achaea").traits("Prosperous", "Imperialistic");
 		civs.get("Athens").traits("Refined", "Prosperous");
@@ -191,6 +180,39 @@ public class EntityData {
 			cityStates.get(""+i).traits(traits.get((int)(Math.random()*traits.size())), "");
 		}
 
+	}
+	
+	public static String[] traitDesc(String trait)
+	{
+		/*
+		 * Traits for civs:
+		 * 3 Aggressive    > +10% when attacking,     1 free promotion per unit
+		 * 3 Imperialistic > 2 health per city,       > 1 extra trade route per city
+		 * 2 Refined       > 2 culture per city,      > +10% research speed
+		 * 4 Prosperous    > +15% food per city,      > +25% speed on Settler 
+		 * 3 Defensive     > +15% when defending,     +25% speed on fortifications
+		 * 3 Traditional   +25% speed on unique unit, > +15% food per city
+		 * 2 Industrious   > +10% production/metal,   +25% on wonders 
+		 */
+		if (trait.equals("Aggressive"))
+			return new String[]{"+10% when attacking","1 free promotion per unit"};
+		else if (trait.equals("Defensive"))
+			return new String[]{"+15% when defending","+25% speed on fortifications"};
+		else if (trait.equals("Imperialistic"))
+			return new String[]{"2 health per city","1 extra trade route per city"};
+		else if (trait.equals("Industrious"))
+			return new String[]{"+10% production/metal","+25% on wonders "};
+		else if (trait.equals("Prosperous"))
+			return new String[]{"+15% food per city,","+25% speed on Settler "};
+		else if (trait.equals("Refined"))
+			return new String[]{"2 culture per city","+10% research speed"};
+		else if (trait.equals("Traditional"))
+			return new String[]{"+25% speed on unique unit","+15% food per city"};
+		else
+		{
+			System.out.println("Invalid trait: " + trait);
+			return null;
+		}
 	}
 
 	public static ArrayList<String> list(String... strings)

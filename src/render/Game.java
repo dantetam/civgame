@@ -99,7 +99,12 @@ public class Game extends PApplet {
 		int n = 0;
 		for (Entry<String, Civilization> i : EntityData.civs.entrySet())
 		{
-			menu5.addButton("civ"+i.getKey(), i.getKey(), "", 70, 100+40*n, 210, 30);
+			TextBox b = menu5.addButton("civ"+i.getKey(), i.getKey(), "", 70, 100+40*n, 210, 30);
+			String[] t1 = EntityData.traitDesc(i.getValue().primaryTrait),
+					t2 = EntityData.traitDesc(i.getValue().secondaryTrait);
+			b.tooltip.add(i.getValue().name);
+			b.tooltip.add(i.getValue().primaryTrait + ": " + t1[0] + ", " + t1[1]);
+			b.tooltip.add(i.getValue().secondaryTrait + ": " + t2[0] + ", " + t2[1]);
 			n++;
 		}
 		menu5.addButton("backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
@@ -259,7 +264,9 @@ public class Game extends PApplet {
 				{
 					//TODO: Word wrap if the text goes off the screen
 					tooltip.active = true;
-					tooltip.sizeX = 7*hover.tooltip.length();
+					int[] d = hover.dimTooltip();
+					tooltip.sizeX = d[0];
+					tooltip.sizeY = d[1];
 					tooltip.posX = mouseX;
 					tooltip.posY = mouseY;
 					fill(0);
@@ -267,7 +274,11 @@ public class Game extends PApplet {
 					rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
 					fill(255);
 					noStroke();
-					text(hover.tooltip, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2);
+					if (hover.tooltip.size() == 1)
+						text(hover.tooltip.get(0), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10);
+					else
+						for (int i = 0; i < hover.tooltip.size(); i++)
+							text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 14*i);
 				}
 
 		//Display the seed being typed if in the options menu

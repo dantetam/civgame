@@ -6,7 +6,8 @@ public class TextBox {
 
 	public float posX, posY;
 	public float sizeX, sizeY;
-	public String name, tooltip;
+	public String name;
+	public ArrayList<String> tooltip;
 	public ArrayList<String> display;
 	//public boolean enabled;
 	public ArrayList<Order> orders;
@@ -19,11 +20,12 @@ public class TextBox {
 	
 	public float r,g,b;
 	
-	public TextBox(String displayString, String tooltip, float a, float b, float c, float d)
+	public TextBox(String displayString, String t, float a, float b, float c, float d)
 	{
 		display = new ArrayList<String>();
 		display.add(displayString);
-		this.tooltip = tooltip;
+		tooltip = new ArrayList<String>();
+		tooltip.add(t);
 		posX = a;
 		posY = b;
 		sizeX = c;
@@ -36,10 +38,11 @@ public class TextBox {
 		orders = new ArrayList<Order>();
 	}
 
-	public TextBox(ArrayList<String> display, String tooltip, float a, float b, float c, float d)
+	public TextBox(ArrayList<String> display, String t, float a, float b, float c, float d)
 	{
 		this.display = display;
-		this.tooltip = tooltip;
+		tooltip = new ArrayList<String>();
+		tooltip.add(t);
 		posX = a;
 		posY = b;
 		sizeX = c;
@@ -52,10 +55,11 @@ public class TextBox {
 		orders = new ArrayList<Order>();
 	}
 
-	public TextBox(ArrayList<String> display, String tooltip, float a, float b, float c, float d, int[] n)
+	public TextBox(ArrayList<String> display, String t, float a, float b, float c, float d, int[] n)
 	{
 		this.display = display;
-		this.tooltip = tooltip;
+		tooltip = new ArrayList<String>();
+		tooltip.add(t);
 		noOrdersIfMenu = n;
 		posX = a;
 		posY = b;
@@ -69,11 +73,12 @@ public class TextBox {
 		orders = new ArrayList<Order>();
 	}
 
-	public TextBox(String displayString, String tooltip, float a, float b, float c, float d, int[] n)
+	public TextBox(String displayString, String t, float a, float b, float c, float d, int[] n)
 	{
 		display = new ArrayList<String>();
 		display.add(displayString);
-		this.tooltip = tooltip;
+		tooltip = new ArrayList<String>();
+		tooltip.add(t);
 		noOrdersIfMenu = n;
 		posX = a;
 		posY = b;
@@ -85,6 +90,17 @@ public class TextBox {
 		origSizeY = d;
 		//enabled = false;
 		orders = new ArrayList<Order>();
+	}
+	
+	public int[] dimTooltip()
+	{
+		if (tooltip.size() == 0) return new int[]{0,0};
+		int index = 0;
+		for (int i = 0; i < tooltip.size(); i++)
+		{
+			if (tooltip.get(i).length() > tooltip.get(index).length()) index = i;
+		}
+		return new int[]{7*tooltip.get(index).length(),20*tooltip.size()};
 	}
 
 	public void tick()

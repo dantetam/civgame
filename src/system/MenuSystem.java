@@ -442,7 +442,9 @@ public class MenuSystem extends BaseSystem {
 				{
 					//TODO: Word wrap if the text goes off the screen
 					tooltip.active = true;
-					tooltip.sizeX = 7*hover.tooltip.length();
+					int[] d = hover.dimTooltip();
+					tooltip.sizeX = d[0];
+					tooltip.sizeY = d[1];
 					tooltip.posX = main.mouseX;
 					tooltip.posY = main.mouseY;
 					main.fill(0);
@@ -451,7 +453,8 @@ public class MenuSystem extends BaseSystem {
 					main.fill(255);
 					main.noStroke();
 					main.textAlign(main.CENTER);
-					main.text(hover.tooltip, tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 5);
+					for (int i = 0; i < hover.tooltip.size(); i++)
+						main.text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
 				}
 
 		menuActivated = false;

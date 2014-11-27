@@ -15,7 +15,7 @@ Major additions:
 / AI additions
 	> AI civilizations have different "flavors" i.e. tendencies
 		/ Factor in war and peace values when civs consider peacing out
-	Civilization have unique bonuses and units
+	/ Civilization have unique bonuses and units
 > Addition of civics from researching techs
 	> Civilizations with different civics have better relations
 	>+ Civic menu for player
