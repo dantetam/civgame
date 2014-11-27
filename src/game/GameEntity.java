@@ -14,7 +14,7 @@ public abstract class GameEntity extends BaseEntity {
 	public int mode = 1; //0 non-violent, 1 melee, 2 ranged
 	protected int[] previous = new int[2];
 	public int sight = 2;
-	
+
 	public GameEntity(String name, float o, float d, float r)
 	{
 		super(name,o,d,r);
@@ -89,13 +89,13 @@ public abstract class GameEntity extends BaseEntity {
 	{
 		return !(previous[0] == location.row && previous[1] == location.col);
 	}
-	
+
 	public void recordPos()
 	{
 		previous[0] = location.row;
 		previous[1] = location.col;
 	}
-	
+
 	public void waddleTo(int r, int c)
 	{
 		/*System.out.println("------");
@@ -139,7 +139,7 @@ public abstract class GameEntity extends BaseEntity {
 		}
 		return false;
 	}
-	
+
 	//Calcualte a path to a tile that does not go through enemy territory
 	public void calculateNewPath()
 	{
@@ -364,7 +364,7 @@ public abstract class GameEntity extends BaseEntity {
 		//System.out.println("Exploring " + id);
 		waddleToExact(r,c);
 	}
-	
+
 	public void fire(GameEntity target)
 	{
 		if (action > 0)
@@ -380,7 +380,7 @@ public abstract class GameEntity extends BaseEntity {
 			location.grid.removeUnit(target);
 		}
 	}
-	
+
 	public Tile adjacentEnemy()
 	{
 		if (owner == null || location == null) return null;
@@ -410,7 +410,7 @@ public abstract class GameEntity extends BaseEntity {
 				for (int j = 0; j < e.get(i).cities.size(); j++)
 				{
 					City candidate = e.get(i).cities.get(j);
-					if (!owner.revealed[candidate.location.row][candidate.location.col])
+					if (owner.revealed[candidate.location.row][candidate.location.col] == 0)
 					{
 						continue;
 					}
@@ -423,6 +423,34 @@ public abstract class GameEntity extends BaseEntity {
 					{
 						nearest = candidate;
 					}
+				}
+			}
+		}
+		if (nearest != null)
+			return nearest.location;
+		return null;
+	}
+
+	public Tile nearestUndefendedCity()
+	{
+		City nearest = null;
+		if (owner.cities.size() > 0)
+		{
+			for (int i = 0; i < owner.cities.size(); i++)
+			{
+				City candidate = owner.cities.get(i);
+				if (candidate.location.occupants.size() > 1)
+					continue;
+				else if (candidate.location.occupants.size() == 1)
+					if (candidate.location.equals(this.location)) 
+						return candidate.location;
+				if (nearest != null)
+				{
+					if (candidate.location.dist(location) < nearest.location.dist(location)) nearest = candidate;
+				}
+				else
+				{
+					nearest = candidate;
 				}
 			}
 		}
@@ -457,7 +485,7 @@ public abstract class GameEntity extends BaseEntity {
 			return nearest.location;
 		return null;
 	}
-	
+
 	public Tile nearestAlliedCityNotAt(Tile t)
 	{
 		City nearest = null;
@@ -494,7 +522,7 @@ public abstract class GameEntity extends BaseEntity {
 			action--;
 		}
 	}
-	
+
 	//public void tick()
 	{
 		/*GameEntity en = this;
@@ -743,9 +771,9 @@ public abstract class GameEntity extends BaseEntity {
 			}
 		}*/
 	}
-	
+
 	public GameEntity range(int n) {range = n; return this;}
 	public GameEntity mode(int n) {mode = n; return this;}
 	public GameEntity maxAction(int n) {maxAction = n; action = n; return this;}
-	
+
 }

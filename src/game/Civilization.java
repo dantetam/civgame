@@ -38,7 +38,7 @@ public class Civilization {
 	public int food, gold, research; //,metal;
 	public int health = 0;
 
-	public boolean[][] revealed;
+	public int[][] revealed;
 	public int[] opinions;
 
 	public boolean observe = false;

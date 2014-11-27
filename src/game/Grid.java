@@ -112,7 +112,7 @@ public class Grid {
 			civ.sR = civ.r;
 			civ.sG = civ.g;
 			civ.sB = civ.b;
-			civ.revealed = new boolean[terrain.length][terrain[0].length];
+			civ.revealed = new int[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;
 			civ.id = i;
@@ -201,7 +201,7 @@ public class Grid {
 			civ.r = (float)(rand.nextDouble()*255); civ.sR = 255;
 			civ.g = (float)(rand.nextDouble()*255); civ.sG = 255;
 			civ.b = (float)(rand.nextDouble()*255); civ.sB = 255;
-			civ.revealed = new boolean[terrain.length][terrain[0].length];
+			civ.revealed = new int[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;
 			civ.id = i;
@@ -224,7 +224,7 @@ public class Grid {
 			civ.r = 0; civ.sR = 0;
 			civ.g = 0; civ.sG = 255;
 			civ.b = 0; civ.sB = 0;
-			civ.revealed = new boolean[terrain.length][terrain[0].length];
+			civ.revealed = new int[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;
 			civ.id = i;
@@ -435,7 +435,7 @@ public class Grid {
 				if (t.biome != -1)
 				{
 					land++;
-					if (civ.revealed[r][c])
+					if (civ.revealed[r][c] != 0)
 						n++;
 				}
 			}

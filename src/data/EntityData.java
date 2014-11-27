@@ -222,7 +222,7 @@ public class EntityData {
 		gameEntityMap.put("Settler",new Settler("Settler",0,2,0).mode(0));
 		gameEntityMap.put("Warrior",new Warrior("Warrior",2,2,0));
 		gameEntityMap.put("Worker",new Worker("Worker",0,2,0).mode(0));
-		gameEntityMap.put("Scout",new Worker("Warrior",0,2,0).mode(0).maxAction(2));
+		gameEntityMap.put("Scout",new Worker("Scout",0,2,0).mode(0).maxAction(2));
 		
 		gameEntityMap.put("Caravan",new Caravan("Caravan",0,2,0).mode(0).maxAction(0));
 

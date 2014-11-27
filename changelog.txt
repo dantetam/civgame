@@ -22,10 +22,11 @@ Addition of civics from researching techs
 >2:12 Step by step tutorial that prompts for keys and conditions which simulates a real game 
 	
 Minor additions:
-/ Cities have morale values dependent on number of enemies around
-	- Leving troops lowers morale
-	- Morale affects city ranged strength, health, production speed
-Cities get bonus vs ranged attack
+> Cities have morale values dependent on number of enemies around
+	> Leving troops lowers morale
+	> Morale affects city ranged strength, health, production speed
+/ Cities get bonus vs ranged attack
+	+ Change cities to health system, capture city at 0 health
 > Civilization-wide health levels dependent on population
 >+ "Spiral" menu like the one found in Sniper Elite with choices that can be "dragged" to other tiles to complete actions
 	+ Add images to the buttons

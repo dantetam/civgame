@@ -743,7 +743,7 @@ public class CivilizationSystem extends BaseSystem {
 				{
 					for (int c = 0; c < civ.revealed[0].length; c++)
 					{
-						revealedByCivs[r][c] = revealedByCivs[r][c] || civ.revealed[r][c];
+						revealedByCivs[r][c] = revealedByCivs[r][c] || (civ.revealed[r][c] != 0);
 					}
 				}
 			}

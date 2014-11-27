@@ -137,25 +137,20 @@ public class Warrior extends GameEntity {
 			{
 				Tile nearestE = nearestEnemyCity();
 				Tile nearestA = nearestAlliedCity();
+				Tile nearestU = nearestUndefendedCity();
 				//System.out.println(nearest);
 				//System.out.println(location);
-				if (nearestE != null)
+				/*if (nearestU != null)
 				{
-					//waddleTo(nearest.row, nearest.col);
-					//int r = nearestE.row - location.row;
-					//int c = nearestE.col - location.col;
-					//queueTiles.clear(); //just in case
+					super.waddleToExact(nearestU.row, nearestU.col);
+				}*/
+				if (nearestE != null) //else if (nearestE != null)
+				{
 					super.waddleToExact(nearestE.row, nearestE.col);
-					//System.out.println("pathfinding start " + queueTiles.size());
 				}
 				else if (nearestA != null)
 				{
-					//waddleTo(nearest.row, nearest.col);
-					int r = nearestA.row - location.row;
-					int c = nearestA.col - location.col;
-					//queueTiles.clear(); //just in case
-					super.waddleTo(r,c);
-					//System.out.println("pathfinding start " + queueTiles.size());
+					super.waddleToExact(nearestA.row, nearestA.col);
 				}
 				else
 				{

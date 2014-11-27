@@ -54,7 +54,7 @@ public abstract class BaseEntity {
 			{
 				if (location.grid.getTile(i, j) != null)
 				{
-					owner.revealed[i][j] = true;
+					owner.revealed[i][j] = 2;
 				}
 			}
 		}
