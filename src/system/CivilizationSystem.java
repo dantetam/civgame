@@ -70,6 +70,7 @@ public class CivilizationSystem extends BaseSystem {
 							civ.cities.get(0).buildings.add(EntityData.cityImprovementMap.get("Palace"));
 					double tf = 0, tg = 0, tm = 0, tr = 0;
 					int population = 0;
+					civ.health = 0;
 					for (int j = 0; j < civ.cities.size(); j++)
 					{
 						City c = civ.cities.get(j);
@@ -128,7 +129,7 @@ public class CivilizationSystem extends BaseSystem {
 							c.happiness += 1;
 						else if (grid.difficultyLevel == 5 && i != 0)
 							c.happiness += 3;
-						
+
 						if (c.built("Palace"))
 						{
 							c.happiness++;
@@ -137,13 +138,13 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							c.happiness += 2;
 						}
-						
+
 						int sumCityWorkers = c.adm + c.art + c.sci;
 						if (c.happiness < 0)
 							c.workTiles(c.population - c.happiness - sumCityWorkers);
 						else
 							c.workTiles(c.population - sumCityWorkers);
-						
+
 						c.health = 7 - c.population + Math.min(0,c.happiness);
 						if (grid.difficultyLevel == 1 && i == 0)
 							c.health += 4;
@@ -153,7 +154,7 @@ public class CivilizationSystem extends BaseSystem {
 							c.health += 2;
 						else if (grid.difficultyLevel == 5 && i != 0)
 							c.health += 4;
-						
+
 						for (int k = 0; k < c.land.size(); k++)
 							c.land.get(k).harvest = false;
 
@@ -168,7 +169,7 @@ public class CivilizationSystem extends BaseSystem {
 
 							if (t.biome == -1 && c.built("Port"))
 								f += 2;
-							
+
 							//civ.food += f;
 							//civ.gold += g;
 							//civ.metal += m;
@@ -209,7 +210,7 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							tg *= 1.25;
 						}
-						
+
 						for (int k = 0; k < c.activeCaravansOut.size(); k++)
 						{
 							//Temporary algorithm
@@ -220,7 +221,10 @@ public class CivilizationSystem extends BaseSystem {
 							//Temporary algorithm
 							tf++; tm++;
 						}
-						
+						//End of calculation stage
+
+
+
 						//c.culture++;
 						//System.out.println(c.culture + " " + c.expanded);
 						if (c.culture >= 20 && c.expanded == 1)
@@ -337,7 +341,7 @@ public class CivilizationSystem extends BaseSystem {
 						if (c.health >= 0)
 						{
 							c.focus = "Growth";
-							double dGrowth = 0;
+							/*double dGrowth = 0;
 							if (tf > c.population*2)
 							{
 								if (c.population < 3)
@@ -360,7 +364,14 @@ public class CivilizationSystem extends BaseSystem {
 							else
 							{
 								dGrowth = 0.05;
-							}
+							}*/
+							/*if (dGrowth > 0 && c.built("Granary")) 
+								dGrowth *= 1.25;
+							c.percentGrowth += dGrowth;*/
+							double dGrowth = civ.food/(8*c.population);
+							if (dGrowth > 0 && c.built("Granary")) 
+								dGrowth *= 1.25;
+							c.percentGrowth += dGrowth;
 							if (c.percentGrowth >= 1)
 							{
 								c.percentGrowth = 0;
@@ -377,9 +388,6 @@ public class CivilizationSystem extends BaseSystem {
 								}
 								//c.focus = "Production";
 							}
-							if (dGrowth > 0 && c.built("Granary")) 
-								dGrowth *= 1.25;
-							c.percentGrowth += dGrowth;
 						}
 						else 
 						{
@@ -503,71 +511,74 @@ public class CivilizationSystem extends BaseSystem {
 					oCiv.opinions[i] = baseOpinion;
 				}
 				//Declare war on other civilizations
-				if (!(civ instanceof CityState))
+				if (i != 0)
 				{
-					for (int j = 0; j < grid.civs.length; j++)
+					if (!(civ instanceof CityState))
 					{
-						Civilization civ2 = grid.civs[j];
-						//if (j == 0 || civ2 instanceof CityState) continue;
-						if (civ.opinions[j] < -70 + 50*civ.war)//grid.civs[j].cities.size() > 2)
+						for (int j = 0; j < grid.barbarians; j++)
 						{
-							if (grid.civs[j].capital != null && civ.capital != null)
+							Civilization civ2 = grid.civs[j];
+							//if (j == 0 || civ2 instanceof CityState) continue;
+							if (civ.opinions[j] < -70 + 50*civ.war)//grid.civs[j].cities.size() > 2)
 							{
-								/*System.out.println("----");
+								if (grid.civs[j].capital != null && civ.capital != null)
+								{
+									/*System.out.println("----");
 							System.out.println(!civ.equals(grid.civs[j]));
 							System.out.println(civ.capital.location.dist(grid.civs[j].capital.location) < grid.aggroDistance);
 							System.out.println(!civ.enemies.contains(grid.civs[j]));*/
-								if (//civ.cities.size() > 1.25*grid.civs[j].cities.size() &&
-										//Math.random() < 0.03 &&
-										!civ.equals(civ2) &&
-										//civ.capital.location.dist(grid.civs[j].capital.location) < grid.aggroDistance &&
-										!civ.isWar(civ2) &&
-										civ.enemies().size() < 2)
-								{
-									//System.out.println("war between " + civ.name + " and " + grid.civs[j]);
-									civ.war(civ2);
-									//Call in allies
-									ArrayList<Civilization> allies = civ.allies();
-									for (int k = 0; k < allies.size(); k++)
+									if (//civ.cities.size() > 1.25*grid.civs[j].cities.size() &&
+											//Math.random() < 0.03 &&
+											!civ.equals(civ2) &&
+											//civ.capital.location.dist(grid.civs[j].capital.location) < grid.aggroDistance &&
+											!civ.isWar(civ2) &&
+											civ.enemies().size() < 2)
 									{
-										//Don't call in people allied to both
-										Civilization a = allies.get(k);
-										if (a.isAlly(civ) && a.isAlly(civ2))
+										//System.out.println("war between " + civ.name + " and " + grid.civs[j]);
+										civ.war(civ2);
+										//Call in allies
+										ArrayList<Civilization> allies = civ.allies();
+										for (int k = 0; k < allies.size(); k++)
 										{
-											continue;
+											//Don't call in people allied to both
+											Civilization a = allies.get(k);
+											if (a.isAlly(civ) && a.isAlly(civ2))
+											{
+												continue;
+											}
+											else //Implies not allied to civ2
+											{
+												a.war(civ2);
+												main.menuSystem.message(a.name + " has been called to war against " + civ2 + "!");
+											}
 										}
-										else //Implies not allied to civ2
+										allies = civ2.allies();
+										for (int k = 0; k < allies.size(); k++)
 										{
-											a.war(civ2);
-											main.menuSystem.message(a.name + " has been called to war against " + civ2 + "!");
+											Civilization a = allies.get(k);
+											if (a.isAlly(civ) && a.isAlly(civ2))
+											{
+												continue;
+											}
+											else //Implies not allied to civ
+											{
+												a.war(civ);
+												if (guiExists)
+													main.menuSystem.message(a.name + " has been called to war against " + civ + "!");
+											}
 										}
+										if (guiExists)
+											main.menuSystem.message(civ.name + " has declared war on " + civ2.name + "!");
 									}
-									allies = civ2.allies();
-									for (int k = 0; k < allies.size(); k++)
-									{
-										Civilization a = allies.get(k);
-										if (a.isAlly(civ) && a.isAlly(civ2))
-										{
-											continue;
-										}
-										else //Implies not allied to civ
-										{
-											a.war(civ);
-											if (guiExists)
-												main.menuSystem.message(a.name + " has been called to war against " + civ + "!");
-										}
-									}
-									if (guiExists)
-										main.menuSystem.message(civ.name + " has declared war on " + civ2.name + "!");
 								}
 							}
-						}
-						else if (civ.opinions[j] > -(50*civ.peace) && civ.isWar(civ2))
-						{
-							grid.civs[j].peace(civ);
-							civ.peace(grid.civs[j]);
-							if (guiExists)
-								main.menuSystem.message(civ.name + " has made peace with " + civ2.name + "!");
+							else if (civ.opinions[j] > -(50*civ.peace) && civ.isWar(civ2))
+							{
+								grid.civs[j].peace(civ);
+								civ.peace(grid.civs[j]);
+								if (guiExists)
+									main.menuSystem.message(civ.name + " has made peace with " + civ2.name + "!");
+							}
 						}
 					}
 				}

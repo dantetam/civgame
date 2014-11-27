@@ -36,6 +36,7 @@ public class Civilization {
 	//public ArrayList<Tile> tiles;
 
 	public int food, gold, research; //,metal;
+	public int health = 0;
 
 	public boolean[][] revealed;
 	public int[] opinions;

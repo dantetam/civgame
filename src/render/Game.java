@@ -201,6 +201,19 @@ public class Game extends PApplet {
 				rect(len*r,len*c,len,len);
 			}
 		}
+		for (int i = 0; i < menuGame.grid.civs.length; i++)
+		{
+			for (int j = 0; j < menuGame.grid.civs[i].cities.size(); j++)
+			{
+				for (int k = 0; k < menuGame.grid.civs[i].cities.get(j).workedLand.size(); k++)
+				{
+					float len = 800F/(float)menuGame.grid.rows;
+					fill(255);
+					Tile t = menuGame.grid.civs[i].cities.get(j).workedLand.get(k);
+					rect(len*(t.row+0.25F),len*(t.col+0.25F),len/2F,len/2F);
+				}
+			}
+		}
 		fill(255,0,0);
 		text("Seed: " + menuGame.seed + "; Turn: " + (menuGame.civSystem.turnsPassed+1),450,25);
 		if (menuGame.civSystem.turnsPassed >= 400)

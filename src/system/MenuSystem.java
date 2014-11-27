@@ -385,6 +385,7 @@ public class MenuSystem extends BaseSystem {
 		main.noStroke();
 		Civilization c = main.grid.civs[0];
 		textboxes.get(3).display.add(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Research: " + c.research);
+		textboxes.get(3).display.add("Health: " + c.health);
 		if (c.researchTech == null)
 			textboxes.get(3).display.add("No research");
 		else
