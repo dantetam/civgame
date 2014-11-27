@@ -19,7 +19,8 @@ public class Caravan extends GameEntity {
 
 	public boolean setRoute(City t)
 	{
-		if (home.activeCaravansOut.size() < 2)
+		int num = owner.trait("Imperialistic") ? 3 : 2;
+		if (home.activeCaravansOut.size() < num)
 		{
 			home.activeCaravansOut.add(this);
 			t.activeCaravansIn.add(this);

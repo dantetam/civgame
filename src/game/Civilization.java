@@ -29,7 +29,8 @@ public class Civilization {
 	//1 wide (build many small cities close to each other)
 	public float war, peace, tallwide;
 	public String governmentCivic = "Decentralization", economicCivic = "Tribal ";
-
+	public String primaryTrait, secondaryTrait;
+	
 	public TechTree techTree;
 	public String researchTech;
 	public ArrayList<String> bonuses;
@@ -103,6 +104,7 @@ public class Civilization {
 			beelineTo("Fletching");
 		}*/
 		war = c.war; peace = c.peace; tallwide = c.tallwide;
+		traits(c.primaryTrait, c.secondaryTrait);
 		r = c.r; g = c.g; b = c.b;
 		EntityData.queueTechAi(this);
 	}
@@ -250,6 +252,17 @@ public class Civilization {
 		return openBorders.contains(other);
 	}
 
+	public void traits(String p, String s)
+	{
+		primaryTrait = p; 
+		secondaryTrait = s;
+	}
+	
+	public boolean trait(String t)
+	{
+		return primaryTrait.equals(t) || secondaryTrait.equals(t);
+	}
+	
 	public ArrayList<Tile> land()
 	{
 		ArrayList<Tile> temp = new ArrayList<Tile>();

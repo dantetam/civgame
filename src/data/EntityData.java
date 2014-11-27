@@ -150,14 +150,45 @@ public class EntityData {
 		//civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
 		civs.put("Thrace", new Civilization("Thrace",list(),175,255,255,0.6,0.4,0.5));
 
+		/*
+		 * Traits for civs:
+		 * 3 Aggressive    > +10% when attacking,     1 free promotion per unit
+		 * 3 Imperialistic > 2 health per city,       > 1 extra trade route per city
+		 * 2 Refined       > 2 culture per city,      > +10% research speed
+		 * 4 Prosperous    > +15% food per city,      > +25% speed on Settler 
+		 * 3 Defensive     > +15% when defending,     +25% speed on fortifications
+		 * 3 Traditional   +25% speed on unique unit, > +15% food per city
+		 * 2 Industrious   > +10% production/metal,   +25% on wonders 
+		 */
+		
+		civs.get("Achaea").traits("Prosperous", "Imperialistic");
+		civs.get("Athens").traits("Refined", "Prosperous");
+		civs.get("Corinth").traits("Prosperous", "Industrious");
+		civs.get("Crete").traits("Defensive", "Refined");
+		civs.get("Epirus").traits("Aggressive", "Prosperous");
+		civs.get("Illyria").traits("Defensive", "Traditional");
+		civs.get("Macedonia").traits("Imperialistic", "Aggressive");
+		civs.get("Rhodes").traits("Defensive", "Industrious");
+		civs.get("Sparta").traits("Aggressive", "Traditional");
+		civs.get("Thrace").traits("Traditional", "Imperialistic");
+		
 		for (int i = 0; i < 30; i++)
 		{
+			ArrayList<String> traits = new ArrayList<String>();
+			traits.add("Aggressive");
+			traits.add("Defensive");
+			traits.add("Imperialistic");
+			traits.add("Industrious");
+			traits.add("Prosperous");
+			traits.add("Refined");
+			traits.add("Traditional");
 			cityStates.put(""+i, new CityState(""+i,list(),
 					(float)(Math.random()*255),
 					(float)(Math.random()*255),
 					(float)(Math.random()*255),
 					Math.random(),Math.random(),0
 					));
+			cityStates.get(""+i).traits(traits.get((int)(Math.random()*traits.size())), "");
 		}
 
 	}

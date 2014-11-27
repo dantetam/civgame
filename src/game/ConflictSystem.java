@@ -26,6 +26,10 @@ public class ConflictSystem {
 	{
 		double off = 1, def = 1;
 		double potentialAdv = 0;
+		if (a.owner.trait("Aggressive"))
+			off += 0.1;
+		if (d.owner.trait("Defensive"))
+			def += 0.15;
 		switch (grid.difficultyLevel)
 		{
 		case 1:
@@ -122,6 +126,10 @@ public class ConflictSystem {
 		{
 			off = ((City)a).morale; 
 		}
+		if (a.owner.trait("Aggressive"))
+			off += 0.1;
+		if (d.owner.trait("Defensive"))
+			def += 0.15;
 		switch (grid.difficultyLevel)
 		{
 		case 1:

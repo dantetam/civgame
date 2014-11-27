@@ -154,6 +154,8 @@ public class CivilizationSystem extends BaseSystem {
 							c.health += 2;
 						else if (grid.difficultyLevel == 5 && i != 0)
 							c.health += 4;
+						if (civ.trait("Imperialistic"))
+							c.health += 2;
 
 						for (int k = 0; k < c.land.size(); k++)
 							c.land.get(k).harvest = false;
@@ -194,6 +196,8 @@ public class CivilizationSystem extends BaseSystem {
 						tr += c.sci*2;
 						tg += Math.floor(c.adm*0.25*taxBase);
 						c.culture += Math.floor(c.art*0.25*taxBase);
+						if (civ.trait("Refined"))
+							c.culture += 2;
 						/*if (civ.capital != null)
 							if (civ.capital.equals(c) && !(c.owner instanceof CityState))
 								c.culture++;*/
@@ -222,6 +226,16 @@ public class CivilizationSystem extends BaseSystem {
 							//Temporary algorithm
 							tf++; tm++;
 						}
+						if (civ.trait("Prosperous") || civ.trait("Traditional"))
+							tf *= 1.15;
+						if (civ.trait("Industrious"))
+							tm *= 1.1;
+						if (civ.trait("Refined"))
+							tr *= 1.1;	
+						if (civ.trait("Prosperous") && c.queue != null)
+							if (c.queue.equals("Settler"))
+								tf *= 1.25;
+						
 						tf *= c.morale*0.75 + 0.25;
 						tm *= c.morale;
 						//End of calculation stage

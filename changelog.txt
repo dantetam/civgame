@@ -16,9 +16,10 @@ Major additions:
 	> AI civilizations have different "flavors" i.e. tendencies
 		/ Factor in war and peace values when civs consider peacing out
 	Civilization have unique bonuses and units
-/ Addition of civics from researching techs
-	Player can take sides on certain events which affect government spectrum
+> Addition of civics from researching techs
 	> Civilizations with different civics have better relations
+	>+ Civic menu for player
+Player can take sides on certain events which affect government spectrum
 >2:12 Step by step tutorial that prompts for keys and conditions which simulates a real game 
 	
 Minor additions:
