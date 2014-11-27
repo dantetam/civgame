@@ -26,7 +26,7 @@ Minor additions:
 	- Leving troops lowers morale
 	- Morale affects city ranged strength, health, production speed
 Cities get bonus vs ranged attack
-Civilization-wide health levels dependent on population
+> Civilization-wide health levels dependent on population
 >+ "Spiral" menu like the one found in Sniper Elite with choices that can be "dragged" to other tiles to complete actions
 	+ Add images to the buttons
 Ability to drag unit improvements onto units
@@ -38,7 +38,7 @@ Ability to drag unit improvements onto units
 > Certain technologies can obsolete units
 > Addition of difficulty level
 	>2:50 Combat bonuses to player on easier levels and to AI on harder levels
-	>+ Health and productionbonuses varying with difficulty
+	>+ Health and production bonuses varying with difficulty
 	>3:00 Varying war and peace values dependent on difficulty
 >2:16 World scales smaller with less people (world is too large as of 11/25/2014)
 Menu with constant color theme, possibly white and blue
@@ -47,6 +47,7 @@ Changes:
 Technology research rate depends 50% on research and 50% on gold production
 Civs with more cities need more research for tech
 Change revealing mechanism to 0,1,2 system
+>+ Changed menu game animations
 
 Fixes:
 >+ Fixed unit access bug

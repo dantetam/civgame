@@ -482,6 +482,34 @@ public abstract class GameEntity extends BaseEntity {
 			return nearest.location;
 		return null;
 	}
+	
+	public Tile nearestAlliedCityNotAt(Tile t)
+	{
+		City nearest = null;
+		if (owner.cities.size() > 0)
+		{
+			for (int i = 0; i < owner.cities.size(); i++)
+			{
+				City candidate = owner.cities.get(i);
+				/*if (!owner.revealed[candidate.location.row][candidate.location.col])
+				{
+					continue;
+				}*/
+				if (candidate.location.equals(t)) continue;
+				if (nearest != null)
+				{
+					if (candidate.location.dist(location) < nearest.location.dist(location)) nearest = candidate;
+				}
+				else
+				{
+					nearest = candidate;
+				}
+			}
+		}
+		if (nearest != null)
+			return nearest.location;
+		return null;
+	}
 
 	public void heal()
 	{

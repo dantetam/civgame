@@ -145,10 +145,10 @@ public class EntityData {
 		civs.put("Illyria", new Civilization("Illyria",list(),0,255,0,0.5,0.5,0.8));
 		//civs.put("Lydia", new Civilization("Lydia",list(),150,150,150));
 		civs.put("Macedonia", new Civilization("Macedonia",list(),255,150,0,0.8,0.6,1));
-		civs.put("Rhodes", new Civilization("Rhodes",list(),0,0,175,0.1,0.8,0.1));
+		civs.put("Rhodes", new Civilization("Rhodes",list(),175,175,0,0.1,0.8,0.1));
 		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0,0.8,0.1,0.2));
 		//civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
-		civs.put("Thrace", new Civilization("Thrace",list(),150,225,255,0.6,0.4,0.5));
+		civs.put("Thrace", new Civilization("Thrace",list(),175,255,255,0.6,0.4,0.5));
 
 		for (int i = 0; i < 30; i++)
 		{

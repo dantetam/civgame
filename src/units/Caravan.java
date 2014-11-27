@@ -40,7 +40,7 @@ public class Caravan extends GameEntity {
 	{
 		if (target == null)
 		{
-			Tile t = nearestAlliedCity();
+			Tile t = nearestAlliedCityNotAt(home.location);
 			waddleToExact(t.row, t.col);
 			//If a path was found
 			if (queueTiles.size() > 0)

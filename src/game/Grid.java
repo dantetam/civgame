@@ -139,6 +139,10 @@ public class Grid {
 				break;
 			default: System.out.println("Invalid difficulty: " + difficultyLevel); break;
 			}
+			civ.war = Math.min(1,civ.war);
+			civ.peace = Math.min(1,civ.peace);
+			civ.war = Math.max(0,civ.war);
+			civ.peace = Math.max(0,civ.peace);
 
 			//This will bias but not force settlers to stay away from each other
 			int r,c; float dist = 30;

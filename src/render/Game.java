@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 
+import data.Color;
 import data.EntityData;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -124,7 +125,7 @@ public class Game extends PApplet {
 
 	public void draw()
 	{
-		background(255);
+		background(150,225,255);
 		noStroke();
 		textFont(arial);
 		textSize(14);
@@ -144,18 +145,19 @@ public class Game extends PApplet {
 				Tile t = menuGame.grid.getTile(r, c);
 				Civilization civ = t.owner;
 				Civilization civ2 = menuGame.civRecord[r][c];
-				Civilization enCiv = t.occupants.size() > 0 ? t.occupants.get(0).owner : null;
-				Civilization enCiv2 = menuGame.civUnitRecord[r][c];
+				//Civilization enCiv = t.occupants.size() > 0 ? t.occupants.get(0).owner : null;
+				//Civilization enCiv2 = menuGame.civUnitRecord[r][c];
 				float frames = frameCount % tickEvery;
 				//Give priority to showing units and then 
-				if (enCiv != null)
+				noStroke();
+				/*if (enCiv != null)
 				{
 					fill(enCiv.r, enCiv.g, enCiv.b);
 				}
 				else
-				{
+				{*/
 					if (t.biome == -1)
-						fill(150,225,255);
+						continue; //fill(150,225,255);
 					else if (civ == null && civ2 == null) //No owner
 					{
 						fill(150);
@@ -170,10 +172,7 @@ public class Game extends PApplet {
 					}
 					else if (civ.equals(civ2)) //Same owner
 					{
-						if (t.biome == -1)
-							fill(150,225,255);
-						else
-							fill(civ.r,civ.g,civ.b);
+						fill(civ.r,civ.g,civ.b);
 					}
 					else //A new owner
 					{
@@ -195,13 +194,14 @@ public class Game extends PApplet {
 									);
 						}
 					}
-				}
+				//}
 
 				float len = 800F/(float)menuGame.grid.rows;
+				//fill(EntityData.brickColorMap.get(EntityData.groundColorMap.get(t.biome)));
 				rect(len*r,len*c,len,len);
 			}
 		}
-		for (int i = 0; i < menuGame.grid.civs.length; i++)
+		/*for (int i = 0; i < menuGame.grid.civs.length; i++)
 		{
 			for (int j = 0; j < menuGame.grid.civs[i].cities.size(); j++)
 			{
@@ -210,8 +210,19 @@ public class Game extends PApplet {
 					float len = 800F/(float)menuGame.grid.rows;
 					fill(255);
 					Tile t = menuGame.grid.civs[i].cities.get(j).workedLand.get(k);
-					rect(len*(t.row+0.25F),len*(t.col+0.25F),len/2F,len/2F);
+					//rect(len*(t.row+0.25F),len*(t.col+0.25F),len/2F,len/2F);
 				}
+			}
+		}*/
+		stroke(0);
+		for (int i = 0; i < menuGame.grid.civs.length; i++)
+		{
+			for (int j = 0; j < menuGame.grid.civs[i].units.size(); j++)
+			{
+				float len = 800F/(float)menuGame.grid.rows;
+				GameEntity en = menuGame.grid.civs[i].units.get(j);
+				fill(en.owner.r, en.owner.g, en.owner.b);
+				rect(len*(en.location.row+0.25F),len*(en.location.col+0.25F),len/2F,len/2F);
 			}
 		}
 		fill(255,0,0);
@@ -414,6 +425,11 @@ public class Game extends PApplet {
 		{
 			newMenuGame((long)(System.currentTimeMillis()*Math.random()));
 		}
+	}
+	
+	public void fill(Color c)
+	{
+		fill((float)c.r*255,(float)c.g*255,(float)c.b*255);
 	}
 
 	private String[] models = {"City","Farm","Fishing Boats","Forest","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
