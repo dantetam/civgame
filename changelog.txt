@@ -45,7 +45,7 @@ Ability to drag unit improvements onto units
 Menu with constant color theme, possibly white and blue
 	
 Changes:
-Technology research rate depends 50% on research and 50% on gold production
+> Technology research rate depends 50% on research and 50% on gold production
 Civs with more cities need more research for tech
 > Change revealing mechanism to 0,1,2 system
 >+ Changed menu game animations

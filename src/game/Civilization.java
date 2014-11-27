@@ -28,7 +28,7 @@ public class Civilization {
 	//play 0 tall (build a few large cities with many tiles) or 
 	//1 wide (build many small cities close to each other)
 	public float war, peace, tallwide;
-	public String[] civics = new String[5];
+	public String governmentCivic = "Decentralization", economicCivic = "Tribal ";
 
 	public TechTree techTree;
 	public String researchTech;

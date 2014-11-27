@@ -12,6 +12,7 @@ public class Tech {
 	
 	private String[] unlockUnits = new String[0], unlockTileImprovements = new String[0], unlockCityImprovements = new String[0];
 	private String[] obsoleteUnits = new String[0];
+	public String governmentCivic, economicCivic = null;
 	public Tech(String name, int requiredR, Tech... t)
 	{
 		this.name = name;

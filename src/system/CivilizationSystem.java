@@ -637,7 +637,6 @@ public class CivilizationSystem extends BaseSystem {
 							tech.totalR += civ.research/2;
 							civ.research = 0;
 						}
-						
 			
 						if (tech.researched())
 						{

@@ -11,6 +11,7 @@ public class TechTree {
 	//All the valid things that the player can queue
 	public ArrayList<String> allowedUnits, allowedTileImprovements, allowedCityImprovements;
 	public ArrayList<String> obsoleteUnits;
+	public ArrayList<String> governmentCivics, economicCivics;
 	//public HashMap<String, String> unlockUnits, unlockTileImprovements, unlockCityImprovements;
 
 	public TechTree()
@@ -19,6 +20,10 @@ public class TechTree {
 		allowedTileImprovements = new ArrayList<String>();
 		allowedCityImprovements = new ArrayList<String>();
 		obsoleteUnits = new ArrayList<String>();
+		governmentCivics = new ArrayList<String>();
+		governmentCivics.add("Decentralization");
+		economicCivics = new ArrayList<String>();
+		economicCivics.add("Tribalism");
 		//unlockUnits = new HashMap<String, String>();
 		//unlockTileImprovements = new HashMap<String, String>();
 		//unlockCityImprovements = new HashMap<String, String>();
@@ -68,10 +73,13 @@ public class TechTree {
 		
 		t = researched("Civilization");
 			t.units("Settler", "Warrior", "Worker", "Slinger");
+			t.governmentCivic = "Decentralization";
+			t.economicCivic = "Tribalism";
 
 		t = researched("Agriculture");
 			t.tImpr("Farm");
 			t.cImpr("Granary");
+			t.governmentCivic = "Collective Rule";
 
 		t = researched("Fishing");
 			t.units("Work Boat");
@@ -117,6 +125,7 @@ public class TechTree {
 			t.units("Swordsman", "Spearman");
 			t.cImpr("Metalworks");
 			t.obsUnits("Warrior");
+			t.economicCivic = "Slavery";
 			
 		t = researched("Stone Working");
 			t.tImpr("Light Fortifications");
@@ -124,6 +133,7 @@ public class TechTree {
 			
 		t = researched("Currency");
 			t.cImpr("Market");
+			t.economicCivic = "Controlled Economy";
 		
 		t = researched("Casting");
 			t.tImpr("Forge");
@@ -139,9 +149,18 @@ public class TechTree {
 		t = researched("Equestrian Practice");
 			t.units("Horseman");
 			t.cImpr("Stables");
+			t.governmentCivic = "Tribal Rule";
 			
+		t = researched("Monotheism");	
+			t.cImpr("Temple");
+			
+		t = researched("Polytheism");
+			t.cImpr("Temple");
+		
 		t = researched("Writing");
 			t.addAlt(this,"Polytheism");
+			t.cImpr("Library", "Trade Depot");
+			t.governmentCivic = "Theocracy";
 	}
 
 	//Syntax shortcut for later, no need to pass first argument
