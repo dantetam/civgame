@@ -502,6 +502,14 @@ public class CivilizationSystem extends BaseSystem {
 								baseOpinion -= borderTiles*10;
 							}
 						}
+						if (civ.governmentCivic.equals(oCiv.governmentCivic)) 
+							baseOpinion += 20;
+						else
+							baseOpinion -= 20;
+						if (civ.economicCivic.equals(oCiv.economicCivic)) 
+							baseOpinion += 40;
+						else
+							baseOpinion -= 40;
 					}
 					else
 					{

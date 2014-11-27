@@ -76,6 +76,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
 		menu0.addButton("relations", "Relations", "The wars and alliances of this world.", 0, 280, 100, 30);
+		menu0.addButton("civic", "Civics", "Change the ideals of your government.", 0, 310, 100, 30);
 		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, main.height*5/6 - 30, main.width*1/6, 30).lock = true;
 
 		Menu menu1 = new Menu("UnitMenu");
@@ -120,6 +121,9 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu11 = new Menu("RelationsMenu"); 
 		menus.add(menu11);
+		
+		Menu menu12 = new Menu("CivicMenu");
+		menus.add(menu12);
 
 		menu0.active = true;
 
@@ -546,7 +550,8 @@ public class MenuSystem extends BaseSystem {
 				command.equals("encyclopedia") ||
 				command.contains("diplomacy") ||
 				command.equals("log") ||
-				command.equals("relations")
+				command.equals("relations") ||
+				command.equals("civic")
 				)
 		{
 			closeMenus();
@@ -612,6 +617,11 @@ public class MenuSystem extends BaseSystem {
 				menus.get(11).active = true;
 				pivot = main.grid.civs[0];
 				updateRelations();
+			}
+			else if (command.equals("civic"))
+			{
+				menus.get(12).active = true;
+				updateCivicsMenu(main.grid.civs[0]);
 			}
 			resetAllButtons();
 			return false;
@@ -772,6 +782,19 @@ public class MenuSystem extends BaseSystem {
 			//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
 			main.grid.civs[0].researchTech = command.substring(8);
 			menus.get(5).active = false;
+		}
+		//Change a government or economic civic
+		else if (command.contains("gCivic"))
+		{
+			String civic = command.substring(6);
+			main.grid.civs[0].governmentCivic = civic;
+			main.menuSystem.message("Changed form of government to " + civic);
+		}
+		else if (command.contains("eCivic"))
+		{
+			String civic = command.substring(6);
+			main.grid.civs[0].economicCivic = civic;
+			main.menuSystem.message("Changed economy to " + civic);
 		}
 		//The six commands below check to see if the number of idle people is more than the requested number of specialized workers 					
 		else if (command.equals("addAdmin"))
@@ -1305,6 +1328,21 @@ public class MenuSystem extends BaseSystem {
 			text = new TextBox("",temp,"",300,280 + 25*(i-1),100,20);
 			menus.get(11).buttons.add(text);
 		}*/
+	}
+	
+	public void updateCivicsMenu(Civilization civ)
+	{
+		menus.get(12).buttons.clear();
+		for (int i = 0; i < civ.techTree.governmentCivics.size(); i++)
+		{
+			String s = civ.techTree.governmentCivics.get(i);
+			menus.get(12).addButton("gCivic" + s, s, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
+		}
+		for (int i = 0; i < civ.techTree.governmentCivics.size(); i++)
+		{
+			String s = civ.techTree.economicCivics.get(i);
+			menus.get(12).addButton("eCivic" + s, s, "", main.width/3F + 250, (float)main.height*2F/6F + 60*i, 200, 50);
+		}
 	}
 
 	//Only done once

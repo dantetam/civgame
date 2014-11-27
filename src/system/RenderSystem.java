@@ -69,7 +69,7 @@ public class RenderSystem extends BaseSystem {
 					{
 						continue;
 					}*/
-					if (main.grid.civs[0].revealed[r][c] == 0)
+					if (main.grid.civs[0].revealed[r][c] == 0 && !main.showAll)
 					{
 						continue;
 					}

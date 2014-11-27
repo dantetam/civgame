@@ -48,6 +48,15 @@ public class Tech {
 		{
 			civ.techTree.allowedCityImprovements.add(unlockCityImprovements[i]);
 		}
+		//Add civics
+		if (governmentCivic != null)
+		{
+			civ.techTree.governmentCivics.add(governmentCivic);
+		}
+		if (economicCivic != null)
+		{
+			civ.techTree.economicCivics.add(economicCivic);
+		}
 		//Remove obsolete units
 		for (int i = 0; i < obsoleteUnits.length; i++)
 		{
