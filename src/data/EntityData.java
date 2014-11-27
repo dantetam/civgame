@@ -230,7 +230,7 @@ public class EntityData {
 		gameEntityMap.put("Warband",new Warrior("Warband",2,4,1).range(1).maxAction(2));
 		gameEntityMap.put("Swordsman",new Warrior("Swordsman",5,4,0));
 		gameEntityMap.put("Spearman",new Warrior("Spearman",2,4,0));
-		gameEntityMap.put("Axe Thrower",new Warrior("Axe Thrower",4,3,2).range(1));
+		gameEntityMap.put("Axe Thrower",new Warrior("Axe Thrower",4,3,3).range(1));
 
 		gameEntityMap.put("Chariot",new Warrior("Chariot",4,1,1).range(2).mode(2).maxAction(2));
 		gameEntityMap.put("Horseman",new Warrior("Horseman",4,1,0).maxAction(2));

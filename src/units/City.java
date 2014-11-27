@@ -27,7 +27,7 @@ public class City extends TileEntity {
 	public int takeover;
 	public float morale;
 	//public int sight = 4;
-	
+
 	public ArrayList<Caravan> activeCaravansOut;
 	public ArrayList<Caravan> activeCaravansIn;
 
@@ -70,7 +70,7 @@ public class City extends TileEntity {
 		art = 0; sci = 0; adm = 0;
 		culture = 0; expanded = 0;
 		raze = false;
-		
+
 		activeCaravansOut = new ArrayList<Caravan>();
 		activeCaravansIn = new ArrayList<Caravan>();
 	}
@@ -87,6 +87,14 @@ public class City extends TileEntity {
 	}*/
 
 	public void tick()
+	{
+		playerTick();
+		ArrayList<GameEntity> candidates = fireAtTargets();
+		if (candidates.size() > 0)
+			fire(candidates.get((int)(Math.random()*candidates.size())));
+	}
+
+	public void playerTick()
 	{
 		if (takeover > 0)
 		{
@@ -625,6 +633,21 @@ public class City extends TileEntity {
 				System.err.println("Invalid city focus");
 			}
 			return new double[]{score,f,g,m,r};
+		}
+	}
+
+	public void fire(GameEntity target)
+	{
+		if (action > 0)
+			action--;
+		else
+			return;
+		int[] damages = location.grid.conflictSystem.fire(this, target);
+		target.health -= damages[0];
+		System.out.println("Ranged damage: " + damages[0]);
+		if (target.health <= 0)
+		{
+			location.grid.removeUnit(target);
 		}
 	}
 

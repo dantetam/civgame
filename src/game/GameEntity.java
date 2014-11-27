@@ -10,7 +10,6 @@ import data.EntityData;
 public abstract class GameEntity extends BaseEntity {
 
 	public ArrayList<Tile> queueTiles = new ArrayList<Tile>();
-	public int action = 1, maxAction = 1;
 	public boolean explorer = false; //For the AI only
 	public int mode = 1; //0 non-violent, 1 melee, 2 ranged
 	protected int[] previous = new int[2];
@@ -364,30 +363,6 @@ public abstract class GameEntity extends BaseEntity {
 		}
 		//System.out.println("Exploring " + id);
 		waddleToExact(r,c);
-	}
-	
-	public ArrayList<GameEntity> fireAtTargets()
-	{
-		ArrayList<GameEntity> temp = new ArrayList<GameEntity>();
-		for (int r = location.row - range; r <= location.row + range; r++)
-		{
-			for (int c = location.col - range; c <= location.col + range; c++)
-			{
-				Tile t = location.grid.getTile(r, c);
-				if (t.occupants.size() > 0)
-				{
-					for (int i = 0; i < t.occupants.size(); i++)
-					{
-						GameEntity en = t.occupants.get(i);
-						if (owner.isWar(en.owner))
-						{
-							temp.add(en);
-						}
-					}
-				}
-			}
-		}
-		return temp;
 	}
 	
 	public void fire(GameEntity target)

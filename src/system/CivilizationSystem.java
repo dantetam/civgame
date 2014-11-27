@@ -221,6 +221,8 @@ public class CivilizationSystem extends BaseSystem {
 							//Temporary algorithm
 							tf++; tm++;
 						}
+						tf *= c.morale*0.75 + 0.25;
+						tm *= c.morale;
 						//End of calculation stage
 
 
@@ -518,7 +520,8 @@ public class CivilizationSystem extends BaseSystem {
 						for (int j = 0; j < grid.barbarians; j++)
 						{
 							Civilization civ2 = grid.civs[j];
-							//if (j == 0 || civ2 instanceof CityState) continue;
+							//if (j == 0) continue;
+							if (civ2 instanceof CityState) continue;
 							if (civ.opinions[j] < -70 + 50*civ.war)//grid.civs[j].cities.size() > 2)
 							{
 								if (grid.civs[j].capital != null && civ.capital != null)
@@ -678,6 +681,10 @@ public class CivilizationSystem extends BaseSystem {
 			if (guiExists)
 			{
 				Civilization theCiv = grid.civs[0];
+				for (int j = 0; j < theCiv.improvements.size(); j++)
+				{
+					theCiv.improvements.get(j).playerTick();
+				}
 				for (int j = 0; j < theCiv.units.size(); j++)
 				{
 					GameEntity u = theCiv.units.get(j);

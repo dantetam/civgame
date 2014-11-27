@@ -1,5 +1,6 @@
 package render;
 
+import game.CityState;
 import game.Civilization;
 import game.GameEntity;
 import game.Tile;
@@ -199,6 +200,15 @@ public class Game extends PApplet {
 				float len = 800F/(float)menuGame.grid.rows;
 				//fill(EntityData.brickColorMap.get(EntityData.groundColorMap.get(t.biome)));
 				rect(len*r,len*c,len,len);
+				/*if (civ instanceof CityState)
+				{
+					fill(255,0,0);
+					beginShape(TRIANGLES);
+					vertex(len*r,len*(c+1));
+					vertex(len*(r+1),len*(c+1));
+					vertex(len*(r+1),len*c);
+					endShape();
+				}*/
 			}
 		}
 		/*for (int i = 0; i < menuGame.grid.civs.length; i++)

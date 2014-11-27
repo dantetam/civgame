@@ -62,6 +62,12 @@ public class Settler extends GameEntity {
 		{	
 			while (action > 0)
 			{
+				if (queueTiles.size() == 0) 
+				{
+					Tile t = settleLocation();
+					waddleToExact(t.row,t.col);
+					return;
+				}
 				if (queueTiles.get(0).equals(location))
 				{
 					settle();

@@ -113,10 +113,15 @@ public class ConflictSystem {
 	}
 
 	//Return the damage inflicted by a ranged attack
-	public int[] fire(GameEntity a, GameEntity d)
+	//Changed a to BaseEntity to account for city firing on units
+	public int[] fire(BaseEntity a, GameEntity d)
 	{
 		double off = 1, def = 1;
 		double potentialAdv = 0;
+		if (a.is("City"))
+		{
+			off = ((City)a).morale; 
+		}
 		switch (grid.difficultyLevel)
 		{
 		case 1:

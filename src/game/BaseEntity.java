@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+
 import units.City;
 import units.Worker;
 import data.Improvement;
@@ -18,6 +20,7 @@ public abstract class BaseEntity {
 
 	public int health, maxHealth;
 	public float offensiveStr, defensiveStr, rangedStr;
+	public int action = 1, maxAction = 1;
 	public int range = 0;
 
 	public City sortie = null; //If this unit was raised by a sortie order, this will hold the city it "belongs" to
@@ -85,7 +88,31 @@ public abstract class BaseEntity {
 			}
 		}
 	}
-
+	
+	public ArrayList<GameEntity> fireAtTargets()
+	{
+		ArrayList<GameEntity> temp = new ArrayList<GameEntity>();
+		for (int r = location.row - range; r <= location.row + range; r++)
+		{
+			for (int c = location.col - range; c <= location.col + range; c++)
+			{
+				Tile t = location.grid.getTile(r, c);
+				if (t.occupants.size() > 0)
+				{
+					for (int i = 0; i < t.occupants.size(); i++)
+					{
+						GameEntity en = t.occupants.get(i);
+						if (owner.isWar(en.owner))
+						{
+							temp.add(en);
+						}
+					}
+				}
+			}
+		}
+		return temp;
+	}
+	
 	public abstract String getName();
 	
 	public boolean is(String name) {return this.name.equals(name);}
