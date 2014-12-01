@@ -60,6 +60,13 @@ public class Tutorial extends CivGame {
 	public void step()
 	{
 		step++;
+		if (step == 0)
+		{
+			grid.revealPlayer();
+			for (int i = 0; i < grid.civs[0].units.size(); i++)
+				grid.civs[0].units.get(i).reveal();
+		}
+
 		println("Called " + step);
 		switch (step)
 		{

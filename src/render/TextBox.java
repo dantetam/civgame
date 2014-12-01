@@ -95,12 +95,13 @@ public class TextBox {
 	public int[] dimTooltip()
 	{
 		if (tooltip.size() == 0) return new int[]{0,0};
+		if (tooltip.size() == 1) return new int[]{7*tooltip.get(0).length(),20}; 
 		int index = 0;
 		for (int i = 0; i < tooltip.size(); i++)
 		{
 			if (tooltip.get(i).length() > tooltip.get(index).length()) index = i;
 		}
-		return new int[]{7*tooltip.get(index).length(),20*tooltip.size()};
+		return new int[]{7*tooltip.get(index).length(),14*tooltip.size()};
 	}
 
 	public void tick()

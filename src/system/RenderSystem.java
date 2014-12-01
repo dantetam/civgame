@@ -209,7 +209,7 @@ public class RenderSystem extends BaseSystem {
 			if (!hidden)
 				main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
 			else if (hidden || lazy)
-				main.fill((float)color.r*150F,(float)color.g*150F,(float)color.b*150F);
+				main.fill((float)color.r*100F,(float)color.g*100F,(float)color.b*100F);
 			main.noStroke();
 			Civilization civ = t.owner;
 

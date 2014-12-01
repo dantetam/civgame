@@ -6,6 +6,7 @@ import menugame.MenuGame;
 import processing.core.PApplet;
 import data.EntityData;
 import render.CivGame;
+import render.Tutorial;
 import game.*;
 import units.*;
 
@@ -50,6 +51,24 @@ public class CivilizationSystem extends BaseSystem {
 					if (i >= grid.barbarians) //Barbarian reset
 					{
 						//civ.revealed = new boolean[civ.revealed.length][civ.revealed[0].length];
+					}
+					else
+					{
+						for (int r = 0; r < civ.revealed.length; r++)
+						{
+							for (int c = 0; c < civ.revealed[0].length; c++)
+							{
+								if (main instanceof Tutorial)
+								{
+									civ.revealed[r][c] = 1;
+								}
+								else
+								{
+									if (civ.revealed[r][c] == 2)
+										civ.revealed[r][c] = 1;
+								}
+							}
+						}
 					}
 					for (int j = 0; j < civ.units.size(); j++)
 					{
@@ -235,12 +254,12 @@ public class CivilizationSystem extends BaseSystem {
 						if (civ.trait("Prosperous") && c.queue != null)
 							if (c.queue.equals("Settler"))
 								tf *= 1.25;
-						
+
 						tf *= c.morale*0.75 + 0.25;
 						tm *= c.morale;
 						//End of calculation stage
 
-						
+
 
 						//c.culture++;
 						//System.out.println(c.culture + " " + c.expanded);
@@ -536,7 +555,7 @@ public class CivilizationSystem extends BaseSystem {
 					oCiv.opinions[i] = baseOpinion;
 				}
 				//Declare war on other civilizations
-				if (i != 0)
+				if (i != 0 && i < grid.barbarians)
 				{
 					if (!(civ instanceof CityState))
 					{
@@ -659,7 +678,7 @@ public class CivilizationSystem extends BaseSystem {
 							tech.totalR += civ.research/2;
 							civ.research = 0;
 						}
-			
+
 						if (tech.researched())
 						{
 							if (i == 0)

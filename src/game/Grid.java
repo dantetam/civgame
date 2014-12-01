@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
+import render.Tutorial;
 import units.Caravan;
 import units.City;
 import data.EntityData;
@@ -23,7 +24,7 @@ public class Grid {
 
 	public final int aggroDistance = 500;
 	public boolean won = false;
-	
+
 	public int difficultyLevel;
 
 	//Keep track of barbarian civs
@@ -113,10 +114,11 @@ public class Grid {
 			civ.sG = civ.g;
 			civ.sB = civ.b;
 			civ.revealed = new int[terrain.length][terrain[0].length];
+				
 			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;
 			civ.id = i;
-			
+
 			switch (difficultyLevel)
 			{
 			case 1:
@@ -363,6 +365,14 @@ public class Grid {
 	public void setupCivs()
 	{
 
+	}
+	
+	public void revealPlayer()
+	{
+		Civilization civ = civs[0];
+		for (int r = 0; r < civ.revealed.length; r++)
+			for (int c = 0; c < civ.revealed[0].length; c++)
+				civ.revealed[r][c] = 1;
 	}
 
 	//Check if a tile is bordered by a river

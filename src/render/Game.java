@@ -41,6 +41,7 @@ public class Game extends PApplet {
 	public void setup()
 	{
 		size(800,800);
+		//frameRate(60);
 		arial = createFont("ArialMT-48.vlw", 48);
 		EntityData.init();
 		setModels();

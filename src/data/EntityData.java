@@ -527,9 +527,9 @@ public class EntityData {
 		{
 			if (c.expanded == 1)
 			{
-				if (Math.random() < 0.6*(1-c.owner.tallwide))
+				if (Math.random() < 0.8*(1-c.owner.tallwide))
 				{
-					if (c.owner.count("Worker") < c.owner.cities.size()*1.5)
+					if (c.owner.count("Worker") < c.owner.cities.size()*2)
 						queue = "Worker";
 					else
 						queue = bestBuilding(c);

@@ -6,16 +6,32 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
+/+ Game mechanic balancing
+	AI should improve units when available to discourage spamming weaker units
+		Melee units have weapon improvement that gives advantage over enemy unit lacking it
+	AI should explore more and pathfind to enemies directly (omnisciently) on harder difficulty
+	Increase costs of all "late-game" units such as swordsman
+	Integrate other tile improvements into game such as windmill, mine, etc
+	Focus on tile improvements early-game and let AI research techs that exploit resources
+	Limit number of units spawned by AI and barbarians
+	Add health system to city that ranged strength relies on; capture at 0 health
++ Graphics changes
+	Add more detail to terrain (possible use of textures)
+	Tile yields shown in 2D GUI
+
+V 1.0!
+
 (Planned 11/24/2014 -> 12/1/2014) MASTER LIST DUE 12/1/2014
 Major additions:
 / AI improvements
 	> Civilizations research techs that prioritize their long-term strengths and strategy
 	> Civilizations build appropriate units of the time that counter enemy units
 	/ AI implements grand strategy in pursuit of a larger goal
-/ AI additions
+> AI additions
 	> AI civilizations have different "flavors" i.e. tendencies
-		/ Factor in war and peace values when civs consider peacing out
-	/ Civilization have unique bonuses and units
+		> Factor in war and peace values when civs consider peacing out
+	> Civilization have unique bonuses and units
+		> Tooltips for traits listed in menu
 > Addition of civics from researching techs
 	> Civilizations with different civics have better relations
 	>+ Civic menu for player

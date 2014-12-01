@@ -71,6 +71,7 @@ public class CivGame extends PApplet {
 	public void setup()
 	{
 		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
+		//frameRate(60);
 		arial = createFont("ArialMT-48.vlw", 48);
 		textFont(arial);
 		//pg = createGraphics(1500,900,P2D);
