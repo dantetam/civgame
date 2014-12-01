@@ -103,6 +103,7 @@ public class CivGame extends PApplet {
 		player.orient(grid);
 		inputSystem.on = false;
 		menuSystem.select(null); //Fix the selection menu
+		chunkSystem.update(); //Update once
 	}
 
 	public void draw()

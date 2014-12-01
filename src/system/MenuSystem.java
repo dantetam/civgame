@@ -269,8 +269,8 @@ public class MenuSystem extends BaseSystem {
 			hintText.add(mouseHighlighted.row + " " + mouseHighlighted.col);
 			if (mouseHighlighted.owner != null)
 				hintText.add("Owner: " + mouseHighlighted.owner.name);
-			else
-				hintText.add("Terra nullius");
+			//else
+				//hintText.add("Terra nullius");
 
 			if (mouseHighlighted.biome >= 4 && mouseHighlighted.biome <= 6)
 				if (mouseHighlighted.forest)

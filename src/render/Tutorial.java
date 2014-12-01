@@ -1,5 +1,7 @@
 package render;
 
+import game.Tech;
+
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -65,6 +67,9 @@ public class Tutorial extends CivGame {
 			grid.revealPlayer();
 			for (int i = 0; i < grid.civs[0].units.size(); i++)
 				grid.civs[0].units.get(i).reveal();
+			//Tech tech = grid.civs[0].techTree.researched("Civilization");
+			grid.civs[0].techTree.allowedUnits = new ArrayList<String>();
+			grid.civs[0].techTree.allowedUnits.add("Warrior");
 		}
 
 		println("Called " + step);

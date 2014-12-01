@@ -114,7 +114,7 @@ public class Grid {
 			civ.sG = civ.g;
 			civ.sB = civ.b;
 			civ.revealed = new int[terrain.length][terrain[0].length];
-				
+
 			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;
 			civ.id = i;
@@ -366,7 +366,7 @@ public class Grid {
 	{
 
 	}
-	
+
 	public void revealPlayer()
 	{
 		Civilization civ = civs[0];
@@ -413,15 +413,13 @@ public class Grid {
 	}
 
 	//Check if a tile borders the sea
-	public boolean coastal(int r, int c)
+	public ArrayList<Tile> coastal(int r, int c)
 	{
-		ArrayList<Tile> candidates = new ArrayList<Tile>();
-		for (int i = 0; i < candidates.size(); i++)
-		{
-			if (candidates.get(i).biome == -1)
-				return true;
-		}
-		return false;
+		ArrayList<Tile> candidates = adjacent(r, c);
+		for (int i = candidates.size() - 1; i >= 0; i--)
+			if (candidates.get(i).biome != -1)
+				candidates.remove(i);
+		return null;
 	}
 
 	public Tile getTile(int r, int c)

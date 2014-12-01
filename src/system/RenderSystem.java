@@ -459,7 +459,7 @@ public class RenderSystem extends BaseSystem {
 				}
 			}
 		}*/
-		
+
 		if (main.menuSystem.getSelected() != null)
 			if (en.equals(main.menuSystem.getSelected()))
 			{
@@ -506,7 +506,7 @@ public class RenderSystem extends BaseSystem {
 			main.fill(255,0,0);
 			main.box(widthBlock,2,2);
 			main.popMatrix();
-			
+
 			main.pushMatrix();
 			main.translate(r*widthBlock - widthBlock*health/2 + widthBlock/2, 25, c*widthBlock);
 			main.fill(0,255,0);
@@ -602,6 +602,54 @@ public class RenderSystem extends BaseSystem {
 							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
 							vertices[nr][nc] = (float)(Math.random()*2);
 							//vertices[nr][nc] = 1;
+						}
+					}
+				}
+				//Check to see if there is a land and sea split
+				ArrayList<Tile> sea = main.grid.coastal(r, c);
+				if (sea != null)
+				{
+					//Diagonal
+					//damn these variables
+					for (int i = 0; i < sea.size(); i++)
+					{
+						int dr = sea.get(i).row - r, dc = sea.get(i).col - c;
+						int pr = 0, pc = 0;
+						if (dr != 0 && dc != 0)
+						{
+							if (dr == -1) pr = 0;
+							else if (dr == 1) pr = 1;
+							else {dr = 0; System.out.println("impossible adjacent sea tile");}
+							if (dc == -1) pc = 0;
+							else if (dc == 1) pc = 1;
+							else {dc = 0; System.out.println("impossible adjacent sea tile");}
+							vertices[(r+pr)*multiply][(c+pc)*multiply] = 0;
+						}
+						else if (dr != 0) // && dc == 0
+						{
+							if (dr == 1)
+							{
+								//for (int j = 0; j < )
+							}
+							else //dr == -1
+							{
+								
+							}
+						}
+						else if (dc != 0) // && dr == 0
+						{
+							if (dc == 1)
+							{
+								
+							}
+							else //dc == -1
+							{
+								
+							}
+						}
+						else
+						{
+							System.out.println("impossible");
 						}
 					}
 				}
