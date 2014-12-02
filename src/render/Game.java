@@ -85,7 +85,7 @@ public class Game extends PApplet {
 
 		menu3.addButton("terrain5", "Testing", "", 70, 400, 210, 50);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
-		menu3.addButton("backMenu5", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
+		menu3.addButton("backMenu6", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
 
 		Menu menu4 = new Menu("OptionsMenu");
 

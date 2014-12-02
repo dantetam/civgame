@@ -5,14 +5,16 @@ import java.util.ArrayList;
 public class MouseHelper {
 
 	public ArrayList<Line> vertLines, horizonLines;
-	public Point[][] intersections;
+	public ArrayList<Line> rVertLines, rHorizonLines;
+	public Point[][] intersections, guiPositions;
 	public Shape[][] shapes;
 	
 	public MouseHelper(float width, float height)
 	{
-		vertLines = new ArrayList<Line>();
-		horizonLines = new ArrayList<Line>();
+		vertLines = new ArrayList<Line>(); rVertLines = new ArrayList<Line>();
+		horizonLines = new ArrayList<Line>(); rHorizonLines = new ArrayList<Line>();
 		
+		//Allow player to select tiles
 		vertical(379,426,328,469);
 		vertical(445,426,402,469);
 		vertical(513,424,479,464);
@@ -35,16 +37,29 @@ public class MouseHelper {
 		horizontal(0,602,width,602);
 		horizontal(0,720,width,720);
 		
-		intersections = new Point[horizonLines.size()][vertLines.size()];
-		for (int i = 0; i < horizonLines.size(); i++)
-		{
-			Line h = horizonLines.get(i);
-			for (int j = 0; j < vertLines.size(); j++)
-			{
-				Line v = vertLines.get(j);
-				intersections[i][j] = h.intersect(v);
-			}
-		}
+		//Provide reference for 2d GUIs 
+		rVertical(749,443,747,494);
+		rVertical(821,444,834,497);
+		rVertical(896,444,916,492);
+		rVertical(964,437,997,486);
+		rVertical(1040,441,1082,492);
+		rVertical(678,439,666,493);
+		rVertical(604,443,585,493);
+		rVertical(534,442,505,492);
+		rVertical(463,446,420,498);
+		
+		rHorizontal(678,440,749,440);
+		rHorizontal(667,495,752,494);
+		rHorizontal(653,553,750,553);
+		rHorizontal(626,648,749,649);
+		rHorizontal(691,370,749,370);
+		
+		rHorizontal(748,407,814,405);
+		//horizontal(751,373,807,374);
+		rHorizontal(801,349,750,348);
+		
+		intersections = getIntersections(horizonLines, vertLines);
+		guiPositions = getIntersections(rHorizonLines, rVertLines);
 		
 		shapes = new Shape[(horizonLines.size()-1)][(vertLines.size()-1)];
 		for (int i = 0; i < intersections.length - 1; i++)
@@ -54,6 +69,21 @@ public class MouseHelper {
 				shapes[i][j] = new Shape(intersections[i][j],intersections[i+1][j],intersections[i+1][j+1],intersections[i][j+1]);
 			}
 		}
+	}
+	
+	public Point[][] getIntersections(ArrayList<Line> hl, ArrayList<Line> vl)
+	{
+		Point[][] intersections = new Point[hl.size()][vl.size()];
+		for (int i = 0; i < hl.size(); i++)
+		{
+			Line h = hl.get(i);
+			for (int j = 0; j < vl.size(); j++)
+			{
+				Line v = vl.get(j);
+				intersections[i][j] = h.intersect(v);
+			}
+		}
+		return intersections;
 	}
 	
 	public void vertical(float a, float b, float c, float d)
@@ -66,6 +96,18 @@ public class MouseHelper {
 	{
 		Line l = new Line(new Point(a,b),new Point(c,d));
 		horizonLines.add(l);
+	}
+	
+	public void rVertical(float a, float b, float c, float d)
+	{
+		Line l = new Line(new Point(a,b),new Point(c,d));
+		rVertLines.add(l);
+	}
+	
+	public void rHorizontal(float a, float b, float c, float d)
+	{
+		Line l = new Line(new Point(a,b),new Point(c,d));
+		rHorizonLines.add(l);
 	}
 	
 	//http://alienryderflex.com/polygon/

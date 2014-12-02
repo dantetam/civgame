@@ -120,20 +120,20 @@ public class CivGame extends PApplet {
 		newMenuSystem.lastMouseX = mouseX; newMenuSystem.lastMouseY = mouseY;
 	}
 
-	//public boolean newLine = false;
+	public boolean newLine = false;
 	public void mousePressed()
 	{
-		/*if (!newLine)
+		if (!newLine)
 		{
 			print("main.line("+(int)mouseX+","+(int)mouseY);
 		}
 		else
 		{
-			println(","+mouseX+","+mouseY+")");
+			println(","+mouseX+","+mouseY+");");
 		}
-		newLine = !newLine;*/
+		newLine = !newLine;
 		//println(player.toString());
-		println((int)mouseX+","+(int)mouseY);
+		//println((int)mouseX+","+(int)mouseY);
 		menuSystem.queueClick(mouseX, mouseY);
 		if (newMenuSystem.within(mouseX, mouseY) != null)
 			menuSystem.menuActivated = true;

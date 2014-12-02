@@ -35,8 +35,19 @@ public class Test extends PApplet {
 				point(mouseHelper.intersections[r][c].x,mouseHelper.intersections[r][c].y);
 			}
 		}
+		for (int r = 0; r < mouseHelper.guiPositions.length; r++)
+		{
+			for (int c = 0; c < mouseHelper.guiPositions[0].length; c++)
+			{
+				strokeWeight(5);
+				fill(0,0,255);
+				stroke(0,0,255);
+				//println(mouseHelper.intersections[r][c].x + "," + mouseHelper.intersections[r][c].y);
+				point(mouseHelper.guiPositions[r][c].x,mouseHelper.guiPositions[r][c].y);
+			}
+		}
 		//println(mouseHelper.shapes.length + " " + mouseHelper.shapes[0].length);
-		for (int r = 0; r < mouseHelper.shapes.length; r++)
+		/*for (int r = 0; r < mouseHelper.shapes.length; r++)
 		{
 			for (int c = 0; c < mouseHelper.shapes[0].length; c++)
 			{
@@ -51,7 +62,7 @@ public class Test extends PApplet {
 				vertex(s.x[0],s.y[0]);
 				endShape();
 			}
-		}
+		}*/
 	}
 	
 	public void mousePressed()
