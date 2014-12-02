@@ -175,6 +175,10 @@ public class CivilizationSystem extends BaseSystem {
 							c.health += 4;
 						if (civ.trait("Imperialistic"))
 							c.health += 2;
+						if (c.sortie == 2)
+							c.health -= 4;
+						//Civilization wide health calculation
+						civ.health += c.health;
 
 						for (int k = 0; k < c.land.size(); k++)
 							c.land.get(k).harvest = false;
@@ -485,6 +489,10 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							c.sortie = 0;
 						}
+					}
+					if (civ.health < 0)
+					{
+						
 					}
 					/*for (int j = 0; j < civ.cities.size(); j++)
 					{

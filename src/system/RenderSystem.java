@@ -375,14 +375,18 @@ public class RenderSystem extends BaseSystem {
 					main.pushMatrix();
 					main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
 					main.beginShape(main.TRIANGLES);
-					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
+					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock);
+					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc+1-1],(float)(nc+1)/m*widthBlock);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock);
+					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock);
+					/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
-					//System.out.println(nr + " " + nc);
-					//System.out.println(nr + " " + nc + " " + (float)vertices[nr][nc] + " " + (float)vertices[nr][nc+1] + " " + (float)vertices[nr+1][nc+1]);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
 					main.endShape();
 					main.popMatrix();
 				}
@@ -568,46 +572,13 @@ public class RenderSystem extends BaseSystem {
 			for (int c = 0; c < terrain[0].length; c++)
 			{
 				Tile t = main.grid.getTile(r,c);
-				map = null;
-				if (t.shape == 2)
-				{
-					map = new DiamondSquare(temp2);
-					map.seed(870L);
-					double[][] renderHill = map.generate(new double[]{0, 0, 2, 24, 0.7});
-					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
-					{
-						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-						{
-							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
-						}
-					}
-				}
-				else if (t.shape == 1)
-				{
-					map = new DiamondSquare(temp1);
-					long seed = (long)(System.currentTimeMillis()*Math.random());
-					map.seed(seed);
-					//System.out.println(seed);
-					//map.seed(870L);
-					double[][] renderHill = map.generate(new double[]{0, 0, 2, 6, 0.5});
-					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
-					{
-						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-						{
-							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
-						}
-					}
-				}
-				else
+				if (t.biome == -1)
 				{
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
-							//double height = 2;
-							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
-							vertices[nr][nc] = (float)(Math.random()*2);
-							//vertices[nr][nc] = 1;
+							vertices[nr][nc] = 0;
 						}
 					}
 				}
@@ -659,6 +630,57 @@ public class RenderSystem extends BaseSystem {
 						}
 					}
 				}*/
+			}
+		}
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				Tile t = main.grid.getTile(r,c);
+				map = null;
+				if (t.biome == -1) continue;
+				if (t.shape == 2)
+				{
+					map = new DiamondSquare(temp2);
+					map.seed(870L);
+					double[][] renderHill = map.generate(new double[]{0, 0, 2, 24, 0.7});
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					{
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+						{
+							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
+						}
+					}
+				}
+				else if (t.shape == 1)
+				{
+					map = new DiamondSquare(temp1);
+					long seed = (long)(System.currentTimeMillis()*Math.random());
+					map.seed(seed);
+					//System.out.println(seed);
+					//map.seed(870L);
+					double[][] renderHill = map.generate(new double[]{0, 0, 2, 6, 0.5});
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					{
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+						{
+							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
+						}
+					}
+				}
+				else
+				{
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					{
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+						{
+							//double height = 2;
+							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
+							vertices[nr][nc] = (float)(Math.random()*2);
+							//vertices[nr][nc] = 1;
+						}
+					}
+				}
 			}
 		}
 		//Make the top & left border zero

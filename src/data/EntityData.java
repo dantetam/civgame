@@ -203,7 +203,7 @@ public class EntityData {
 		else if (trait.equals("Industrious"))
 			return new String[]{"+10% production/metal","+25% on wonders "};
 		else if (trait.equals("Prosperous"))
-			return new String[]{"+15% food per city,","+25% speed on Settler "};
+			return new String[]{"+15% food per city","+25% speed on Settler "};
 		else if (trait.equals("Refined"))
 			return new String[]{"2 culture per city","+10% research speed"};
 		else if (trait.equals("Traditional"))

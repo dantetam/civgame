@@ -16,8 +16,9 @@ X : Abandoned
 	Limit number of units spawned by AI and barbarians
 	Add health system to city that ranged strength relies on; capture at 0 health
 + Graphics changes
-	Add more detail to terrain (possible use of textures)
+	/ Add more detail to terrain (possible use of textures)
 	Tile yields shown in 2D GUI
++ Fixed sea land border glitch
 
 V 1.0!
 

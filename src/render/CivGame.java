@@ -104,6 +104,8 @@ public class CivGame extends PApplet {
 		inputSystem.on = false;
 		menuSystem.select(null); //Fix the selection menu
 		chunkSystem.update(); //Update once
+		Tile t = grid.civs[0].units.get(0).location; //First settler
+		fixCamera(t.row, t.col); //Center the camera at the appropriate location
 	}
 
 	public void draw()
