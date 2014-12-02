@@ -419,9 +419,18 @@ public class Grid {
 		for (int i = candidates.size() - 1; i >= 0; i--)
 			if (candidates.get(i).biome != -1)
 				candidates.remove(i);
-		return null;
+		return candidates;
 	}
 
+	public ArrayList<Tile> adjacentLand(int r, int c)
+	{
+		ArrayList<Tile> candidates = adjacent(r, c);
+		for (int i = candidates.size() - 1; i >= 0; i--)
+			if (candidates.get(i).biome == -1)
+				candidates.remove(i);
+		return candidates;
+	}
+	
 	public Tile getTile(int r, int c)
 	{
 		if (r >= 0 && r < tiles.length && c >= 0 && c < tiles[0].length)

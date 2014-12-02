@@ -10,6 +10,8 @@ public class ChunkSystem extends BaseSystem {
 	public double[] angle;
 	public double playerAngle;
 
+	public int lastUpdate = -1000;
+	
 	public ChunkSystem(CivGame civGame) 
 	{
 		super(civGame);
@@ -109,6 +111,9 @@ public class ChunkSystem extends BaseSystem {
 	public void update()
 	{
 		//System.out.print("Updating...");
+		if (main.frameCount - lastUpdate < 10)
+			return;
+		lastUpdate = main.frameCount;
 		for (int i = 0; i < dist.length; i++)
 		{
 			int[] dists = locationFromChunk(i);

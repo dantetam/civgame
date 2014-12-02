@@ -239,12 +239,11 @@ public class RenderSystem extends BaseSystem {
 					main.stroke(255,0,0);
 					main.strokeWeight(8);
 					strokedColor = true;
-					main.strokeWeight(1);
 				}
 			}
 			else
 			{
-				if (main.grid.getTile(r,c).owner != null && !hidden)
+				if (civ != null && !hidden)
 				{
 					main.stroke(civ.r, civ.g, civ.b);
 					if (t.harvest)
@@ -253,7 +252,7 @@ public class RenderSystem extends BaseSystem {
 					}
 					else
 					{
-						main.strokeWeight(1);
+						main.strokeWeight(2);
 					}
 					//strokedColor = true;
 				}
@@ -283,11 +282,18 @@ public class RenderSystem extends BaseSystem {
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			//main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 
-			if (main.grid.getTile(r, c).biome == -1)
+			if (t.biome == -1)
 			{
-				main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
-				main.popMatrix();
-				return;
+				if (main.grid.adjacentLand(t.row, t.col).size() > 0)
+				{
+
+				}
+				else
+				{
+					main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
+					main.popMatrix();
+					return;
+				}
 			}
 
 			main.pushMatrix();
@@ -606,8 +612,8 @@ public class RenderSystem extends BaseSystem {
 					}
 				}
 				//Check to see if there is a land and sea split
-				ArrayList<Tile> sea = main.grid.coastal(r, c);
-				if (sea != null)
+				/*ArrayList<Tile> sea = main.grid.coastal(r, c);
+				if (sea.size() > 0)
 				{
 					//Diagonal
 					//damn these variables
@@ -633,18 +639,18 @@ public class RenderSystem extends BaseSystem {
 							}
 							else //dr == -1
 							{
-								
+
 							}
 						}
 						else if (dc != 0) // && dr == 0
 						{
 							if (dc == 1)
 							{
-								
+
 							}
 							else //dc == -1
 							{
-								
+
 							}
 						}
 						else
@@ -652,7 +658,7 @@ public class RenderSystem extends BaseSystem {
 							System.out.println("impossible");
 						}
 					}
-				}
+				}*/
 			}
 		}
 		//Make the top & left border zero
@@ -713,6 +719,7 @@ public class RenderSystem extends BaseSystem {
 
 	public void renderRiver(int r1, int c1, int r2, int c2)
 	{
+		main.noStroke();
 		main.fill(0,0,150);
 		if (r1 == r2) //"Vertical"
 		{
@@ -732,6 +739,7 @@ public class RenderSystem extends BaseSystem {
 		{
 			System.err.println("Invalid river");
 		}
+		main.stroke(0);
 	}
 
 	public void setCamera()

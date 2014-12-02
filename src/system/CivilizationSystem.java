@@ -283,7 +283,7 @@ public class CivilizationSystem extends BaseSystem {
 								}
 								else if (numWorkers < civ.cities.size())
 								{
-									if (grid.coastal(c.location.row, c.location.col) != null && Math.random() < 0.2)
+									if (grid.coastal(c.location.row, c.location.col).size() > 0 && Math.random() < 0.2)
 									{
 										EntityData.queue(c, "Work Boat");
 									}
@@ -294,7 +294,7 @@ public class CivilizationSystem extends BaseSystem {
 								}
 								else if (civ.units.size() <= civ.cities.size()*3)
 								{
-									if (grid.coastal(c.location.row, c.location.col) != null && Math.random() < 0.2)
+									if (grid.coastal(c.location.row, c.location.col).size() > 0 && Math.random() < 0.2)
 									{
 										EntityData.queue(c, "Work Boat");
 									}
