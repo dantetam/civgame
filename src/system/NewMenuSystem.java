@@ -124,7 +124,7 @@ public class NewMenuSystem extends BaseSystem {
 	//Number of the resource yielded from harvest, total number of icons, and the position of showing (i.e. left most is 1)
 	public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
 	{
-		float size = 10;
+		float size = 10, space = 10;
 		main.rectMode(main.CENTER);
 		main.ellipseMode(main.CENTER);
 		if (n == 0)
@@ -136,33 +136,45 @@ public class NewMenuSystem extends BaseSystem {
 		else if (n == 2)
 		{
 			if (i == 1)
-				posX -= size/2 + 5;
+				posX -= size/4 + space;
 			else
-				posX += size/2 + 5;
+				posX += size/4 + space;
 		}
 		else if (n == 3)
 		{
 			if (i == 1)
-				posX -= size + 5;
+				posX -= size + space;
 			else if (i == 3)
-				posX += size + 5;
+				posX += size + space;
 			//else (i == 2) //do nothing;
 		}
 		else
 		{
 			if (i == 1)
-				posX -= size + 15;
+				posX -= size/2 + space*2;
 			else if (i == 2)
-				posX -= size/2 + 5;
+				posX -= size/4 + space;
 			else if (i == 3)
-				posX += size/2 + 5;
+				posX += size/4 + space;
 			else if (i == 4)
-				posX += size + 15;
+				posX += size/2 + space*2;
 		}
 		if (type == 0)
 		{
 			main.fill(0,200,0);
-			main.ellipse(posX, posY, size, size);
+			if (numBlocks == 1)
+				main.ellipse(posX, posY, size, size);
+			else if (numBlocks == 2)
+			{
+				main.ellipse(posX - size/2, posY, size, size);
+				main.ellipse(posX + size/2, posY, size, size);
+			}
+			else
+			{
+				main.ellipse(posX, posY - size/2, size, size);
+				main.ellipse(posX - size/2, posY + size/2, size, size);
+				main.ellipse(posX + size/2, posY + size/2, size, size);
+			}
 		}
 		else if (type == 1)
 		{
