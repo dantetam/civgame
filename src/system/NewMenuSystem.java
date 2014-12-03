@@ -61,7 +61,26 @@ public class NewMenuSystem extends BaseSystem {
 					{
 						main.textAlign(main.CENTER);
 						main.fill(255,0,0);
-						main.text((h.row - (mh.guiPositions.length-1)/2 + c) + "," + (h.col - (mh.guiPositions[0].length-1)/2 - r), pos[0], pos[1]);
+						int dC = r - (mh.guiPositions.length-1)/2;
+						int dR = c - (mh.guiPositions[0].length-1)/2;
+						Tile t = main.grid.getTile(h.row + dR, h.col - dC);
+						if (t != null)
+						{
+							if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0) continue;
+							main.text(t.row + "," + t.col, pos[0], pos[1]);
+							double[] y = City.staticEval(t);
+							int n = 0;
+							for (int i = 0; i < y.length; i++)
+								if (y[i] > 0)
+									n++;
+							int iter = 1;
+							for (int i = 0; i < y.length; i++)
+								if (y[i] > 0)
+								{
+									tileIcon(pos[0],pos[1],i,(int)y[i],n,iter);
+									iter++;
+								}
+						}
 					}
 				}
 			}
@@ -99,6 +118,73 @@ public class NewMenuSystem extends BaseSystem {
 				}
 			}
 		}
+	}
+
+	//X position of center, Y position of center, which resource is being shown,
+	//Number of the resource yielded from harvest, total number of icons, and the position of showing (i.e. left most is 1)
+	public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
+	{
+		float size = 10;
+		main.rectMode(main.CENTER);
+		main.ellipseMode(main.CENTER);
+		if (n == 0)
+			return;
+		else if (n == 1)
+		{
+			//do nothing
+		}
+		else if (n == 2)
+		{
+			if (i == 1)
+				posX -= size/2 + 5;
+			else
+				posX += size/2 + 5;
+		}
+		else if (n == 3)
+		{
+			if (i == 1)
+				posX -= size + 5;
+			else if (i == 3)
+				posX += size + 5;
+			//else (i == 2) //do nothing;
+		}
+		else
+		{
+			if (i == 1)
+				posX -= size + 15;
+			else if (i == 2)
+				posX -= size/2 + 5;
+			else if (i == 3)
+				posX += size/2 + 5;
+			else if (i == 4)
+				posX += size + 15;
+		}
+		if (type == 0)
+		{
+			main.fill(0,200,0);
+			main.ellipse(posX, posY, size, size);
+		}
+		else if (type == 1)
+		{
+			main.fill(255,255,0);
+			main.ellipse(posX, posY, size, size);
+		}
+		else if (type == 2)
+		{
+			main.fill(255,140,0);
+			main.rect(posX, posY, size, size);
+		}
+		else //if (type == 3)
+		{
+			main.fill(0,0,200);
+			main.beginShape(main.TRIANGLES);
+			main.vertex(posX - size/2, posY + size/2);
+			main.vertex(posX + size/2, posY + size/2);
+			main.vertex(posX, posY - size/2);
+			main.endShape();
+		}
+		main.rectMode(main.CORNER);
+		main.ellipseMode(main.CORNER);
 	}
 
 	public void showMenu(int n)
