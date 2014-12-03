@@ -1,5 +1,7 @@
 package render;
 
+import game.Tile;
+
 import java.util.ArrayList;
 
 public class MouseHelper {
@@ -38,25 +40,26 @@ public class MouseHelper {
 		horizontal(0,720,width,720);
 		
 		//Provide reference for 2d GUIs 
+		rVertical(463,446,420,498);
+		rVertical(534,442,505,492);
+		rVertical(604,443,585,493);
+		rVertical(678,439,666,493);
 		rVertical(749,443,747,494);
 		rVertical(821,444,834,497);
 		rVertical(896,444,916,492);
 		rVertical(964,437,997,486);
 		rVertical(1040,441,1082,492);
-		rVertical(678,439,666,493);
-		rVertical(604,443,585,493);
-		rVertical(534,442,505,492);
-		rVertical(463,446,420,498);
-		
+
+		rHorizontal(801,349,750,348);
+		rHorizontal(691,370,749,370);
+		rHorizontal(748,407,814,405);
 		rHorizontal(678,440,749,440);
 		rHorizontal(667,495,752,494);
 		rHorizontal(653,553,750,553);
 		rHorizontal(626,648,749,649);
-		rHorizontal(691,370,749,370);
 		
-		rHorizontal(748,407,814,405);
 		//horizontal(751,373,807,374);
-		rHorizontal(801,349,750,348);
+
 		
 		intersections = getIntersections(horizonLines, vertLines);
 		guiPositions = getIntersections(rHorizonLines, rVertLines);
@@ -147,6 +150,28 @@ public class MouseHelper {
 		}
 		return null;
 	}
+	
+	public float[] positionGui(int r, int c)
+	{
+		if (r >= 0 && r < guiPositions.length && c >= 0 && c < guiPositions[0].length)
+		{
+			Point p = guiPositions[r][c];
+			return new float[]{p.x, p.y};
+		}
+		System.out.println("Out of bounds access for intersections");
+		return null;
+	}
+	
+	/*public int[] positionGui(Tile highlighted, int r, int c)
+	{
+		int notAdj = r - (horizonLines.size()-1)/2;
+		if (r < )
+		{
+		Point p = 
+		return new int[]{p.x, p.y};
+		}
+		return null;
+	}*/
 	
 	public class Line
 	{

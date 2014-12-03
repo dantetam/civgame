@@ -7,8 +7,11 @@ import game.Tile;
 import java.util.ArrayList;
 
 import render.CivGame;
+import render.MouseHelper;
 import render.Rune;
 import render.Menu;
+import units.City;
+import units.Settler;
 
 public class NewMenuSystem extends BaseSystem {
 
@@ -22,7 +25,7 @@ public class NewMenuSystem extends BaseSystem {
 		Menu menu0 = new Menu("UnitMenu");
 		menus.add(menu0);
 		menus.get(0).buttons.add(new Rune("image","tileMove",675,425,50,50).color(0,255,0));
-		
+
 		Menu menu1 = new Menu("AdvisorMenu");
 		menus.add(menu1);
 		menus.get(1).buttons.add(new Rune("diplomat","tileDiplomat",600,10,50,50).color(0,0,255));
@@ -32,6 +35,38 @@ public class NewMenuSystem extends BaseSystem {
 
 	public void tick() 
 	{
+		Tile h = main.menuSystem.highlighted;
+		if ((main.menuSystem.getSelected() instanceof City || main.menuSystem.getSelected() instanceof Settler) && h != null)
+		{
+			MouseHelper mh = main.inputSystem.mouseHelper;
+			/*for (int r = h.row - (mh.rHorizonLines.size()-1)/2; r <= h.row + (mh.rHorizonLines.size()-1)/2; r++)
+			{
+				for (int c = h.col - (mh.rVertLines.size()-1)/2; r <= h.col + (mh.rVertLines.size()-1)/2; c++)
+				{
+					float[] pos = mh.positionGui(r - h.row + (mh.rVertLines.size()-1)/2, c - h.col + (mh.rVertLines.size()-1)/2);
+					if (pos != null)
+					{
+						main.textAlign(main.CENTER);
+						main.fill(255,0,0);
+						main.text(pos[0] + "," + pos[1], pos[0], pos[1]);
+					}
+				}
+			}*/
+			for (int r = 0; r < mh.guiPositions.length; r++)
+			{
+				for (int c = 0; c < mh.guiPositions[0].length; c++)
+				{
+					float[] pos = mh.positionGui(r,c);
+					if (pos != null)
+					{
+						main.textAlign(main.CENTER);
+						main.fill(255,0,0);
+						main.text((h.row - (mh.guiPositions.length-1)/2 + c) + "," + (h.col - (mh.guiPositions[0].length-1)/2 - r), pos[0], pos[1]);
+					}
+				}
+			}
+		}
+
 		for (int i = 0; i < menus.size(); i++)
 		{
 			for (int j = 0; j < menus.get(i).buttons.size(); j++)
@@ -71,7 +106,7 @@ public class NewMenuSystem extends BaseSystem {
 		for (int i = 0; i < menus.get(n).buttons.size(); i++)
 			menus.get(n).buttons.get(i).active = true;
 	}
-	
+
 	public void hideMenu(int n)
 	{
 		for (int i = 0; i < menus.get(n).buttons.size(); i++)

@@ -84,7 +84,7 @@ Major additions:
 	+ Allow players to "drag" improvements over units
 	/+ Allow player to "drag" advisors (in the forms of squares)
 		/+ Diplomat square, trader square, spy square
-	+ Replace words with symbols (food with green circle, metal with red square, research with blue triangle, gold with yellow square)
+	+ Replace words with symbols (food with green circle, metal with orange square, research with blue triangle, gold with yellow circle)
 	+ Ability to drag units quickly to get them to move or attack (LMB drag, RMB drag)
 	-+ All squares oscillate in size when held
 	
