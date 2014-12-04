@@ -22,6 +22,7 @@ X : Abandoned
 		+ Flashing button (use stroke) instead of changing button width
 		+ Rearrange elements to specifications in notebook
 >+ Fixed sea land border glitch
+>+ Fixed glitch in 2D tile gui
 
 V 1.0!
 

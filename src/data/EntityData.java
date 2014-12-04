@@ -554,7 +554,7 @@ public class EntityData {
 		}
 		if (queue == null) 
 			queue = bestUnit(c.owner, c.location.grid.civs);
-		System.out.println(queue);
+		//System.out.println(queue);
 		return queue(c, queue);
 	}
 

@@ -1419,6 +1419,7 @@ public class MenuSystem extends BaseSystem {
 	{
 		selected = en;
 		main.newMenuSystem.updateUnitMenu(en);
+		main.requestUpdate();
 		if (en != null)
 		{
 			if (en instanceof Settler)

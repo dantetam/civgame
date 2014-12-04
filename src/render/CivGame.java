@@ -195,7 +195,7 @@ public class CivGame extends PApplet {
 	{
 		player.posX = r*renderSystem.widthBlock;
 		player.posY = 80;
-		player.posZ = c*renderSystem.widthBlock;
+		player.posZ = (c-5)*renderSystem.widthBlock;
 		//player.rotY = 0;
 		//player.rotVertical = 0;
 		//player.update();
@@ -601,5 +601,6 @@ public class CivGame extends PApplet {
 
 	public float widthBlock() {return renderSystem.widthBlock;}
 	public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
-
+	public void requestUpdate() {renderSystem.requestUpdate = true;}
+	
 }

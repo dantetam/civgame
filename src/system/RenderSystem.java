@@ -20,6 +20,7 @@ public class RenderSystem extends BaseSystem {
 
 	public GridModel terrain;
 	public Player player;
+	public boolean requestUpdate = false;
 
 	public RenderSystem(CivGame civGame)
 	{
@@ -47,8 +48,9 @@ public class RenderSystem extends BaseSystem {
 		main.perspective(3.14F/2,15F/9F,1,10000);
 		setCamera();
 		Tile tile = main.menuSystem.highlighted;
-		if (tile != null)
+		if (tile != null && requestUpdate)
 		{
+			requestUpdate = false;
 			main.pushMatrix();
 			main.translate(tile.row*widthBlock, (float)main.terrain[tile.row][tile.col]*con/2F, tile.col*widthBlock);
 			main.fill(255,0,0);

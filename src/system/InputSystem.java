@@ -100,9 +100,10 @@ public class InputSystem extends BaseSystem {
 				//main.redraw();
 			}
 		}
-		if (moving == false && lastMoving)
+		if (moving == false && lastMoving) //if the player has stopped moving
 		{
 			main.chunkSystem.update();
+			main.requestUpdate();
 			//System.out.println("Update");
 		}
 		lastMoving = moving;
