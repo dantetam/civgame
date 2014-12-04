@@ -17,8 +17,11 @@ X : Abandoned
 	Add health system to city that ranged strength relies on; capture at 0 health
 + Graphics changes
 	/ Add more detail to terrain (possible use of textures)
-	Tile yields shown in 2D GUI
-+ Fixed sea land border glitch
+	> Tile yields shown in 2D GUI
+	/+ Streamlined UI
+		+ Flashing button (use stroke) instead of changing button width
+		+ Rearrange elements to specifications in notebook
+>+ Fixed sea land border glitch
 
 V 1.0!
 

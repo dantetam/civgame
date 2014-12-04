@@ -245,7 +245,10 @@ public class InputSystem extends BaseSystem {
 				{
 					String msg = en.playerWaddleToExact(t.row, t.col);
 					if (msg == null && en.action > 0)
+					{
 						en.playerTick();
+						selectAvailableUnit();
+					}
 					else
 						main.menuSystem.message(msg);
 				}
@@ -270,13 +273,45 @@ public class InputSystem extends BaseSystem {
 		}
 	}*/
 
+	//Select the next unit with action and return it
+	//If there are no available units, return null
+	public BaseEntity selectAvailableUnit()
+	{
+		Civilization civ = main.grid.civs[0];
+		for (int i = 0; i < civ.units.size(); i++)
+		{
+			GameEntity en = civ.units.get(i);
+			if (en.action != 0)
+			{
+				main.fixCamera(en.location.row, en.location.col);
+				main.menuSystem.select(en);
+				return en;
+			}
+		}
+		for (int i = 0; i < civ.cities.size(); i++)
+		{
+			City c = civ.cities.get(i);
+			if (c.queue == null)
+			{
+				//main.menuSystem.select(c);
+				main.fixCamera(c.location.row, c.location.col);
+				//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
+				main.menuSystem.select(c);
+				main.menuSystem.updateCity(c);
+				return c;
+			}
+		}
+		main.menuSystem.select(null);
+		return null;
+	}
+
 	public void executeAction(char key)
 	{
 		if (key == 32)
 		{
 			//System.out.println("Space");
 			Civilization civ = main.grid.civs[0];
-			for (int i = 0; i < civ.units.size(); i++)
+			/*for (int i = 0; i < civ.units.size(); i++)
 			{
 				GameEntity en = civ.units.get(i);
 				if (en.action > 0 && en.queueTiles.size() == 0 && en.queue == null)
@@ -299,20 +334,28 @@ public class InputSystem extends BaseSystem {
 					main.menuSystem.updateCity(c);
 					return;
 				}
-			}
-			if (civ.researchTech == null || civ.researchTech == "")
+			}*/
+			BaseEntity selected = selectAvailableUnit();
+			if (selected == null)
 			{
-				main.menuSystem.displayTechMenu(civ);
-				main.menuSystem.menus.get(5).active = true;
-				main.menuSystem.message("A tech is needed to research.");
-				return;
+				if (civ.researchTech == null || civ.researchTech == "")
+				{
+					main.menuSystem.displayTechMenu(civ);
+					main.menuSystem.menus.get(5).active = true;
+					main.menuSystem.message("A tech is needed to research.");
+					return;
+				}
+				if (civ.observe || civ.units.size() > 0 || civ.cities.size() > 0)
+					main.civilizationSystem.requestTurn = true;
+				else
+				{
+					main.menuSystem.menus.get(6).active = true;
+					main.menuSystem.message("You have no cities or units!");
+				}
 			}
-			if (civ.observe || civ.units.size() > 0 || civ.cities.size() > 0)
-				main.civilizationSystem.requestTurn = true;
 			else
 			{
-				main.menuSystem.menus.get(6).active = true;
-				main.menuSystem.message("You have no cities or units!");
+				main.fixCamera(selected.location.row, selected.location.col);
 			}
 		}
 		/*else if (key == 'c')

@@ -35,58 +35,6 @@ public class NewMenuSystem extends BaseSystem {
 
 	public void tick() 
 	{
-		Tile h = main.menuSystem.highlighted;
-		if ((main.menuSystem.getSelected() instanceof City || main.menuSystem.getSelected() instanceof Settler) && h != null)
-		{
-			MouseHelper mh = main.inputSystem.mouseHelper;
-			/*for (int r = h.row - (mh.rHorizonLines.size()-1)/2; r <= h.row + (mh.rHorizonLines.size()-1)/2; r++)
-			{
-				for (int c = h.col - (mh.rVertLines.size()-1)/2; r <= h.col + (mh.rVertLines.size()-1)/2; c++)
-				{
-					float[] pos = mh.positionGui(r - h.row + (mh.rVertLines.size()-1)/2, c - h.col + (mh.rVertLines.size()-1)/2);
-					if (pos != null)
-					{
-						main.textAlign(main.CENTER);
-						main.fill(255,0,0);
-						main.text(pos[0] + "," + pos[1], pos[0], pos[1]);
-					}
-				}
-			}*/
-			for (int r = 0; r < mh.guiPositions.length; r++)
-			{
-				for (int c = 0; c < mh.guiPositions[0].length; c++)
-				{
-					float[] pos = mh.positionGui(r,c);
-					if (pos != null)
-					{
-						main.textAlign(main.CENTER);
-						main.fill(255,0,0);
-						int dC = r - (mh.guiPositions.length-1)/2;
-						int dR = c - (mh.guiPositions[0].length-1)/2;
-						Tile t = main.grid.getTile(h.row + dR, h.col - dC);
-						if (t != null)
-						{
-							if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
-									main.grid.civs[0].revealed[t.row][t.col] == 0) continue;
-							main.text(t.row + "," + t.col, pos[0], pos[1]);
-							double[] y = City.staticEval(t);
-							int n = 0;
-							for (int i = 0; i < y.length; i++)
-								if (y[i] > 0)
-									n++;
-							int iter = 1;
-							for (int i = 0; i < y.length; i++)
-								if (y[i] > 0)
-								{
-									tileIcon(pos[0],pos[1],i,(int)y[i],n,iter);
-									iter++;
-								}
-						}
-					}
-				}
-			}
-		}
-
 		for (int i = 0; i < menus.size(); i++)
 		{
 			for (int j = 0; j < menus.get(i).buttons.size(); j++)
@@ -125,7 +73,7 @@ public class NewMenuSystem extends BaseSystem {
 	//Number of the resource yielded from harvest, total number of icons, and the position of showing (i.e. left most is 1)
 	public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
 	{
-		float size = 10, space = 10;
+		float size = 10, space = 10, alpha = 125;
 		main.rectMode(main.CENTER);
 		main.ellipseMode(main.CENTER);
 		if (n == 0)
@@ -162,7 +110,7 @@ public class NewMenuSystem extends BaseSystem {
 		}
 		if (type == 0)
 		{
-			main.fill(0,200,0);
+			main.fill(0,200,0,alpha);
 			if (numBlocks == 1)
 				main.ellipse(posX, posY, size, size);
 			else if (numBlocks == 2)
@@ -179,7 +127,7 @@ public class NewMenuSystem extends BaseSystem {
 		}
 		else if (type == 1)
 		{
-			main.fill(255,255,0);
+			main.fill(255,255,0,alpha);
 			if (numBlocks == 1)
 				main.ellipse(posX, posY, size, size);
 			else if (numBlocks == 2)
@@ -196,7 +144,7 @@ public class NewMenuSystem extends BaseSystem {
 		}
 		else if (type == 2)
 		{
-			main.fill(255,140,0);
+			main.fill(255,140,0,alpha);
 			if (numBlocks == 1)
 				main.rect(posX, posY, size, size);
 			else if (numBlocks == 2)
@@ -213,13 +161,14 @@ public class NewMenuSystem extends BaseSystem {
 		}
 		else //if (type == 3)
 		{
-			/*main.fill(0,0,200);
+			/*main.fill(0,0,200,alpha);
 			main.beginShape(main.TRIANGLES);
 			main.vertex(posX - size/2, posY + size/2);
 			main.vertex(posX + size/2, posY + size/2);
 			main.vertex(posX, posY - size/2);
 			main.endShape();*/
 		}
+		main.fill(255);
 		main.rectMode(main.CORNER);
 		main.ellipseMode(main.CORNER);
 	}

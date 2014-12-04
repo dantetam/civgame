@@ -17,6 +17,7 @@ import processing.core.PFont;
 import render.Button;
 import render.CivGame;
 import render.Menu;
+import render.MouseHelper;
 import render.Game.PFrame;
 import render.TextBox;
 import render.Tooltip;
@@ -121,7 +122,7 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu11 = new Menu("RelationsMenu"); 
 		menus.add(menu11);
-		
+
 		Menu menu12 = new Menu("CivicMenu");
 		menus.add(menu12);
 
@@ -270,7 +271,7 @@ public class MenuSystem extends BaseSystem {
 			if (mouseHighlighted.owner != null)
 				hintText.add("Owner: " + mouseHighlighted.owner.name);
 			//else
-				//hintText.add("Terra nullius");
+			//hintText.add("Terra nullius");
 
 			if (mouseHighlighted.biome >= 4 && mouseHighlighted.biome <= 6)
 				if (mouseHighlighted.forest)
@@ -349,6 +350,44 @@ public class MenuSystem extends BaseSystem {
 			else
 			{
 				menus.get(1).active = false;
+			}
+			Tile h = highlighted;
+			if ((getSelected() instanceof City || getSelected() instanceof Settler) && h != null)
+			{
+				MouseHelper mh = main.inputSystem.mouseHelper;
+				for (int r = 0; r < mh.guiPositions.length; r++)
+				{
+					for (int c = 0; c < mh.guiPositions[0].length; c++)
+					{
+						float[] pos = mh.positionGui(r,c);
+						if (pos != null)
+						{
+							main.textAlign(main.CENTER);
+							main.fill(255,0,0);
+							int dC = r - (mh.guiPositions.length-1)/2;
+							int dR = c - (mh.guiPositions[0].length-1)/2;
+							Tile t = main.grid.getTile(h.row + dR, h.col - dC);
+							if (t != null)
+							{
+								if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
+										main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) continue;
+								main.text(t.row + "," + t.col, pos[0], pos[1]);
+								double[] y = City.staticEval(t);
+								int n = 0;
+								for (int i = 0; i < y.length; i++)
+									if (y[i] > 0)
+										n++;
+								int iter = 1;
+								for (int i = 0; i < y.length; i++)
+									if (y[i] > 0)
+									{
+										main.newMenuSystem.tileIcon(pos[0],pos[1],i,(int)y[i],n,iter);
+										iter++;
+									}
+							}
+						}
+					}
+				}
 			}
 		}
 		else
@@ -473,7 +512,7 @@ public class MenuSystem extends BaseSystem {
 							//Replace with function that returns true if the menu resetting should happen
 							if (executeAction(command))
 							{
-								main.menuSystem.select(null);
+								//main.menuSystem.select(null);
 								//below was derived from the original expression to calculate rotY & rotVertical
 								//main.centerX = main.mouseX/(1 - main.player.rotY/(float)Math.PI);
 								//main.centerY = main.mouseY/(1 + 4*main.player.rotVertical/(float)Math.PI);
@@ -702,36 +741,36 @@ public class MenuSystem extends BaseSystem {
 			}
 			en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 		}
-		else if (command.equals("kill"))
+		else if (command.equals("unitKill"))
 		{
 			main.grid.removeUnit(selected);
 		}
-		else if (command.equals("meleeMode"))
+		else if (command.equals("unitMeleeMode"))
 		{
 			((GameEntity)selected).mode = 1;
 			updateUnitMenu((GameEntity)selected);
 		}
-		else if (command.equals("rangedMode"))
+		else if (command.equals("unitRangedMode"))
 		{
 			((GameEntity)selected).mode = 2;
 			updateUnitMenu((GameEntity)selected);
 		}
-		else if (command.equals("raze"))
+		else if (command.equals("unitRaze"))
 		{
 			((Warrior)selected).raze();
 			((Warrior)selected).action = 0;
 			//selected.playerTick();
 		}
-		else if (command.equals("settle"))
+		else if (command.equals("unitSettle"))
 		{
 			((Settler)selected).settle();
 		}
-		else if (command.contains("caravan"))
+		else if (command.contains("unitCaravan"))
 		{
 			int index = Integer.parseInt(command.substring(7));
 			((Caravan)selected).setRoute(selected.owner.cities.get(index));
 		}
-		
+
 		else if (command.contains("queueBuilding"))
 		{
 			City city = ((City)selected);
@@ -898,6 +937,10 @@ public class MenuSystem extends BaseSystem {
 		{
 			System.out.println("Invalid or non-functioning command: " + command);
 		}
+		if (command.contains("build") || command.contains("unit") || command.contains("queue"))
+		{
+			main.inputSystem.selectAvailableUnit();
+		}
 		return true;
 	}
 
@@ -971,7 +1014,7 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 	}
-	
+
 	//Send a message from tutorial level
 	public void messageT(String... newMessages)
 	{
@@ -1141,14 +1184,14 @@ public class MenuSystem extends BaseSystem {
 	public void updateUnitMenu(GameEntity en)
 	{
 		menus.get(1).buttons.clear();
-		menus.get(1).addButton("kill", "Destroy", "Destroy this unit.", (float)main.width/3F, (float)main.height*5F/6F, 50, 50);
+		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", (float)main.width/3F, (float)main.height*5F/6F, 50, 50);
 		if (en.name.equals("Settler"))
 		{
-			menus.get(1).addButton("settle", "Settle", "Settle a city here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("unitSettle", "Settle", "Settle a city here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
 		else if (en.name.equals("Warrior"))
 		{
-			menus.get(1).addButton("raze", "Attack", "Attack the improvement here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("unitRaze", "Attack", "Attack the improvement here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		}
 		else if (en.name.equals("Worker"))
 		{
@@ -1167,7 +1210,7 @@ public class MenuSystem extends BaseSystem {
 				City c = en.owner.cities.get(i);
 				if (!c.equals(((Caravan)en).home))
 				{
-					menus.get(1).addButton("caravan"+i, "Caravan"+c.name, "Establish a trade route.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+					menus.get(1).addButton("unitCaravan"+i, "Caravan"+c.name, "Establish a trade route.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 				}
 			}
 		}
@@ -1332,7 +1375,7 @@ public class MenuSystem extends BaseSystem {
 			menus.get(11).buttons.add(text);
 		}*/
 	}
-	
+
 	public void updateCivicsMenu(Civilization civ)
 	{
 		menus.get(12).buttons.clear();
