@@ -66,7 +66,8 @@ public class NewMenuSystem extends BaseSystem {
 						Tile t = main.grid.getTile(h.row + dR, h.col - dC);
 						if (t != null)
 						{
-							if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0) continue;
+							if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
+									main.grid.civs[0].revealed[t.row][t.col] == 0) continue;
 							main.text(t.row + "," + t.col, pos[0], pos[1]);
 							double[] y = City.staticEval(t);
 							int n = 0;
@@ -179,21 +180,45 @@ public class NewMenuSystem extends BaseSystem {
 		else if (type == 1)
 		{
 			main.fill(255,255,0);
-			main.ellipse(posX, posY, size, size);
+			if (numBlocks == 1)
+				main.ellipse(posX, posY, size, size);
+			else if (numBlocks == 2)
+			{
+				main.ellipse(posX - size/2, posY, size, size);
+				main.ellipse(posX + size/2, posY, size, size);
+			}
+			else
+			{
+				main.ellipse(posX, posY - size/2, size, size);
+				main.ellipse(posX - size/2, posY + size/2, size, size);
+				main.ellipse(posX + size/2, posY + size/2, size, size);
+			}
 		}
 		else if (type == 2)
 		{
 			main.fill(255,140,0);
-			main.rect(posX, posY, size, size);
+			if (numBlocks == 1)
+				main.rect(posX, posY, size, size);
+			else if (numBlocks == 2)
+			{
+				main.rect(posX - size/2, posY, size, size);
+				main.rect(posX + size/2, posY, size, size);
+			}
+			else
+			{
+				main.rect(posX, posY - size/2, size, size);
+				main.rect(posX - size/2, posY + size/2, size, size);
+				main.rect(posX + size/2, posY + size/2, size, size);
+			}
 		}
 		else //if (type == 3)
 		{
-			main.fill(0,0,200);
+			/*main.fill(0,0,200);
 			main.beginShape(main.TRIANGLES);
 			main.vertex(posX - size/2, posY + size/2);
 			main.vertex(posX + size/2, posY + size/2);
 			main.vertex(posX, posY - size/2);
-			main.endShape();
+			main.endShape();*/
 		}
 		main.rectMode(main.CORNER);
 		main.ellipseMode(main.CORNER);
