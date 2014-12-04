@@ -29,7 +29,36 @@ public class RenderSystem extends BaseSystem {
 
 	public void tick()
 	{
+		//Pre-processing
+		/*Tile tile = main.menuSystem.highlighted;
+		if (tile != null)
+		{
+			
+			main.pushMatrix();
+			main.translate(tile.row*widthBlock, (float)main.terrain[tile.row][tile.col]*con/2F, tile.col*widthBlock);
+			main.fill(255,0,0);
+			main.box(widthBlock,widthBlock,widthBlock);
+			main.popMatrix();
+			//return;
+		}*/
 		main.background(150,225,255);
+		
+		main.pushStyle();
+		main.perspective(3.14F/2,15F/9F,1,10000);
+		setCamera();
+		Tile tile = main.menuSystem.highlighted;
+		if (tile != null)
+		{
+			main.pushMatrix();
+			main.translate(tile.row*widthBlock, (float)main.terrain[tile.row][tile.col]*con/2F, tile.col*widthBlock);
+			main.fill(255,0,0);
+			main.box(25,25,25);
+			main.popMatrix();
+		}
+		main.popStyle();
+		
+		main.perspective(); main.resetCamera(); main.resetShader(); main.resetMatrix();
+		//main.background(150,225,255);
 		//main.background(0);
 		//main.smooth(4);
 		//background(background);

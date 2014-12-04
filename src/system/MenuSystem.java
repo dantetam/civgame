@@ -366,12 +366,16 @@ public class MenuSystem extends BaseSystem {
 							main.fill(255,0,0);
 							int dC = r - (mh.guiPositions.length-1)/2;
 							int dR = c - (mh.guiPositions[0].length-1)/2;
+							
+							//float[] disp = mh.center();
+							//float dX = main.width/2 - disp[0], dY = main.height/2 - disp[1];
+							
 							Tile t = main.grid.getTile(h.row + dR, h.col - dC);
 							if (t != null)
 							{
 								if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
 										main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) continue;
-								main.text(t.row + "," + t.col, pos[0], pos[1]);
+								//main.text(t.row + "," + t.col, pos[0], pos[1]);
 								double[] y = City.staticEval(t);
 								int n = 0;
 								for (int i = 0; i < y.length; i++)

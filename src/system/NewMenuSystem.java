@@ -73,7 +73,7 @@ public class NewMenuSystem extends BaseSystem {
 	//Number of the resource yielded from harvest, total number of icons, and the position of showing (i.e. left most is 1)
 	public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
 	{
-		float size = 10, space = 10, alpha = 125;
+		float size = 10, space = 6, alpha = 125;
 		main.rectMode(main.CENTER);
 		main.ellipseMode(main.CENTER);
 		if (n == 0)
@@ -85,9 +85,9 @@ public class NewMenuSystem extends BaseSystem {
 		else if (n == 2)
 		{
 			if (i == 1)
-				posX -= size/4 + space;
+				posX -= size/2 + space;
 			else
-				posX += size/4 + space;
+				posX += size/2 + space;
 		}
 		else if (n == 3)
 		{
@@ -100,13 +100,13 @@ public class NewMenuSystem extends BaseSystem {
 		else
 		{
 			if (i == 1)
-				posX -= size/2 + space*2;
+				posX -= size + space*2;
 			else if (i == 2)
-				posX -= size/4 + space;
+				posX -= size/2 + space;
 			else if (i == 3)
-				posX += size/4 + space;
+				posX += size/2 + space;
 			else if (i == 4)
-				posX += size/2 + space*2;
+				posX += size + space*2;
 		}
 		if (type == 0)
 		{

@@ -10,12 +10,12 @@ public class MouseHelper {
 	public ArrayList<Line> rVertLines, rHorizonLines;
 	public Point[][] intersections, guiPositions;
 	public Shape[][] shapes;
-	
+
 	public MouseHelper(float width, float height)
 	{
 		vertLines = new ArrayList<Line>(); rVertLines = new ArrayList<Line>();
 		horizonLines = new ArrayList<Line>(); rHorizonLines = new ArrayList<Line>();
-		
+
 		//Allow player to select tiles
 		vertical(379,426,328,469);
 		vertical(445,426,402,469);
@@ -38,7 +38,7 @@ public class MouseHelper {
 		horizontal(0,527,width,527);
 		horizontal(0,602,width,602);
 		horizontal(0,720,width,720);
-		
+
 		//Provide reference for 2d GUIs 
 		rVertical(463,446,420,498);
 		rVertical(534,442,505,492);
@@ -57,13 +57,13 @@ public class MouseHelper {
 		rHorizontal(667,495,752,494);
 		rHorizontal(653,553,750,553);
 		rHorizontal(626,648,749,649);
-		
+
 		//horizontal(751,373,807,374);
 
-		
+
 		intersections = getIntersections(horizonLines, vertLines);
 		guiPositions = getIntersections(rHorizonLines, rVertLines);
-		
+
 		shapes = new Shape[(horizonLines.size()-1)][(vertLines.size()-1)];
 		for (int i = 0; i < intersections.length - 1; i++)
 		{
@@ -73,7 +73,7 @@ public class MouseHelper {
 			}
 		}
 	}
-	
+
 	public Point[][] getIntersections(ArrayList<Line> hl, ArrayList<Line> vl)
 	{
 		Point[][] intersections = new Point[hl.size()][vl.size()];
@@ -88,31 +88,37 @@ public class MouseHelper {
 		}
 		return intersections;
 	}
-	
+
 	public void vertical(float a, float b, float c, float d)
 	{
 		Line l = new Line(new Point(a,b),new Point(c,d));
 		vertLines.add(l);
 	}
-	
+
 	public void horizontal(float a, float b, float c, float d)
 	{
 		Line l = new Line(new Point(a,b),new Point(c,d));
 		horizonLines.add(l);
 	}
-	
+
 	public void rVertical(float a, float b, float c, float d)
 	{
 		Line l = new Line(new Point(a,b),new Point(c,d));
 		rVertLines.add(l);
 	}
-	
+
 	public void rHorizontal(float a, float b, float c, float d)
 	{
 		Line l = new Line(new Point(a,b),new Point(c,d));
 		rHorizonLines.add(l);
 	}
-	
+
+	public float[] center()
+	{
+		Point p = guiPositions[(guiPositions.length-1)/2][(guiPositions[0].length-1)/2];
+		return new float[]{p.x, p.y};
+	}
+
 	//http://alienryderflex.com/polygon/
 	public boolean within(float x, float y, float[] polyX, float[] polyY) 
 	{
@@ -132,7 +138,7 @@ public class MouseHelper {
 		}
 		return oddNodes; 
 	}
-	
+
 	public int[] findTile(float x, float y)
 	{
 		for (int r = 0; r < shapes.length; r++)
@@ -150,7 +156,7 @@ public class MouseHelper {
 		}
 		return null;
 	}
-	
+
 	public float[] positionGui(int r, int c)
 	{
 		if (r >= 0 && r < guiPositions.length && c >= 0 && c < guiPositions[0].length)
@@ -161,7 +167,7 @@ public class MouseHelper {
 		System.out.println("Out of bounds access for intersections");
 		return null;
 	}
-	
+
 	/*public int[] positionGui(Tile highlighted, int r, int c)
 	{
 		int notAdj = r - (horizonLines.size()-1)/2;
@@ -172,18 +178,18 @@ public class MouseHelper {
 		}
 		return null;
 	}*/
-	
+
 	public class Line
 	{
 		public float slope, xPoint, yPoint;
-		
+
 		public Line(Point a, Point b)
 		{
 			slope = (b.y-a.y)/(b.x-a.x);
 			xPoint = a.x;
 			yPoint = a.y;
 		}
-		
+
 		public Point intersect(Line l)
 		{
 			if (slope == l.slope) return null;
@@ -191,13 +197,13 @@ public class MouseHelper {
 			float y = slope*(x-xPoint) + yPoint;
 			return new Point(x,y);
 		}
-		
+
 		/*public float f(float x)
 		{
 			return slope*()
 		}*/
 	}
-	
+
 	public class Point {public float x,y; public Point(float a, float b) {x = a; y = b;}}
 	public class Shape 
 	{
@@ -209,5 +215,5 @@ public class MouseHelper {
 			for (int i = 0; i < points.length; i++) {x[i] = points[i].x; y[i] = points[i].y;}
 		}
 	}
-	
+
 }
