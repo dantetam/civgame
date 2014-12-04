@@ -37,7 +37,8 @@ public class MenuSystem extends BaseSystem {
 
 	public boolean minimap, info; //loadout, loadoutDisplay, techMenu, continueMenu; //Access the menu's active property instead
 	public int multiplier = 1;
-
+	public float highlightDispX = main.width/2, highlightDispY = main.width/2;
+	
 	public Tile target;
 	//public ArrayList<String> hintText;
 	public Tile highlighted;
@@ -368,7 +369,8 @@ public class MenuSystem extends BaseSystem {
 							int dR = c - (mh.guiPositions[0].length-1)/2;
 							
 							//float[] disp = mh.center();
-							//float dX = main.width/2 - disp[0], dY = main.height/2 - disp[1];
+							float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
+							//System.out.println(dX + " " + dY + " " + highlightDispX + " " + highlightDispY);
 							
 							Tile t = main.grid.getTile(h.row + dR, h.col - dC);
 							if (t != null)
@@ -385,7 +387,7 @@ public class MenuSystem extends BaseSystem {
 								for (int i = 0; i < y.length; i++)
 									if (y[i] > 0)
 									{
-										main.newMenuSystem.tileIcon(pos[0],pos[1],i,(int)y[i],n,iter);
+										main.newMenuSystem.tileIcon(pos[0] - dX,pos[1] - dY,i,(int)y[i],n,iter);
 										iter++;
 									}
 							}

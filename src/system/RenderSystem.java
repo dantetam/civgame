@@ -33,7 +33,7 @@ public class RenderSystem extends BaseSystem {
 		/*Tile tile = main.menuSystem.highlighted;
 		if (tile != null)
 		{
-			
+
 			main.pushMatrix();
 			main.translate(tile.row*widthBlock, (float)main.terrain[tile.row][tile.col]*con/2F, tile.col*widthBlock);
 			main.fill(255,0,0);
@@ -42,7 +42,7 @@ public class RenderSystem extends BaseSystem {
 			//return;
 		}*/
 		main.background(150,225,255);
-		
+
 		main.pushStyle();
 		main.perspective(3.14F/2,15F/9F,1,10000);
 		setCamera();
@@ -52,11 +52,27 @@ public class RenderSystem extends BaseSystem {
 			main.pushMatrix();
 			main.translate(tile.row*widthBlock, (float)main.terrain[tile.row][tile.col]*con/2F, tile.col*widthBlock);
 			main.fill(255,0,0);
-			main.box(25,25,25);
+			main.box(5,5,5);
 			main.popMatrix();
+			search:
+			{
+				for (int r = 0; r < main.width; r += 5)
+				{
+					for (int c = 0; c < main.height; c += 5)
+					{
+						if (main.get(r,c) == main.color(255,0,0))
+						{
+							//System.out.println("Match: " + r + "," + c);
+							main.menuSystem.highlightDispX = r; 
+							main.menuSystem.highlightDispY = c;
+							break search;
+						}
+					}
+				}
+			}
 		}
 		main.popStyle();
-		
+
 		main.perspective(); main.resetCamera(); main.resetShader(); main.resetMatrix();
 		//main.background(150,225,255);
 		//main.background(0);
@@ -66,7 +82,7 @@ public class RenderSystem extends BaseSystem {
 		//main.lights();
 		main.directionalLight(200, 200, 200, (float)0.5, -1, 0);
 		//stroke(0);
-		main.fill(135, 206, 235);
+		main.background(135, 206, 235);
 		main.perspective(3.14F/2,15F/9F,1,10000);
 		main.shader(main.shader, main.TRIANGLES);
 		//System.out.println(player);
