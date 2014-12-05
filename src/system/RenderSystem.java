@@ -271,18 +271,17 @@ public class RenderSystem extends BaseSystem {
 				main.stroke(0,0,255);
 				main.strokeWeight(8);
 				strokedColor = true;*/
-				if (main.grid.getTile(r,c) != null)
+				if (t != null)
 				{
-					main.menuSystem.highlighted = main.grid.getTile(r,c);
-				}
-				else
-				{
-					main.menuSystem.highlighted = null;
+					if (main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll)
+						main.menuSystem.highlighted = null;
+					else
+						main.menuSystem.highlighted = t;
 				}
 			}
 			if (main.menuSystem.mouseHighlighted != null)
 			{
-				if (main.menuSystem.mouseHighlighted.equals(main.grid.getTile(r, c)))
+				if (main.menuSystem.mouseHighlighted.equals(t))
 				{
 					main.stroke(255,0,0);
 					main.strokeWeight(8);

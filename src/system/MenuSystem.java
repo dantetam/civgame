@@ -69,18 +69,29 @@ public class MenuSystem extends BaseSystem {
 		//Keep track of the menu's indices in list
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		menu0.addButton("exitgame", "Exit", "Exit this session of the game.", 0, 0, 100, 30);
-		menu0.addButton("close", "Close", "Close all open menus.", 0, 70, 100, 30);
-		menu0.addButton("minimap", "Minimap", "Open the minimap of the world.", 0, 100, 100, 30);
-		menu0.addButton("info", "Information", "", 0, 130, 100, 30);
-		menu0.buttons.add(new Button("loadout", "Loadout", "Change loadouts of certain units.", 0, 160, 100, 30, 3, 4));
-		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", 0, 190, 100, 30);
-		menu0.addButton("techs", "Techs", "Choose technologies to research.", 0, 220, 100, 30);
-		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
-		menu0.addButton("relations", "Relations", "The wars and alliances of this world.", 0, 280, 100, 30);
-		menu0.addButton("civic", "Civics", "Change the ideals of your government.", 0, 310, 100, 30);
-		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 0, main.width*1/6, 30).lock = true;
+		int height = 20;
+		//menu0.addButton("exitgame", "Exit", "Exit this session of the game.", main.width - 100, 0, 100, height).lock = true;
+		menu0.addButton("close", "Close", "Close all open menus.", main.width - 100, 70, 100, height).lock = true;
+		menu0.addButton("minimap", "Minimap", "Open the minimap of the world.", main.width - 100, 100, 100, height).lock = true;
+		menu0.addButton("info", "Information", "", main.width - 100, 130, 100, height).lock = true;
+		//menu0.buttons.add(new Button("loadout", "Loadout", "Change loadouts of certain units.", main.width - 100, 160, 100,height, 3, 4));
+		menu0.addButton("loadout", "Loadout", "Change loadouts of certain units.", main.width - 100, 160, 100, height).lock = true;
+		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", main.width - 100, 190, 100, height).lock = true;
+		menu0.addButton("techs", "Techs", "Choose technologies to research.", main.width - 100, 220, 100, height).lock = true;
+		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", main.width - 100, 250, 100, height).lock = true;
+		menu0.addButton("relations", "Relations", "The wars and alliances of this world.", main.width - 100, 280, 100, height).lock = true;
+		menu0.addButton("civic", "Civics", "Change the ideals of your government.", main.width - 100, 310, 100, height).lock = true;
+		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 0, main.width*1/6, height).lock = true;
 
+		int pivot = menu0.buttons.size()*height;
+		for (int i = 0; i < menu0.buttons.size() - 1; i++)
+		{
+			TextBox b = menu0.buttons.get(i);
+			b.move(b.posX, main.height-150 - pivot + (i+1)*height);
+			b.origX = b.posX; b.origY = b.posY;
+			System.out.println(b.posX + " " + b.posY);
+		}
+		
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
 
@@ -1049,7 +1060,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(10).buttons.clear();
 		for (int i = 0; i < messages.size(); i++)
 		{
-			TextBox msg = new TextBox(messages.get(i), "", main.width*5/6, 30 + 20*i, main.width*1/6, 20);
+			TextBox msg = new TextBox(messages.get(i), "", main.width*4.5F/6, 30 + 14*i, main.width*1.5F/6, 14);
 			menus.get(10).buttons.add(msg);
 			if (i == 19) break;
 		}
@@ -1256,7 +1267,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < buildings.size(); i++)
 		{
 			menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "Queue a " + buildings.get(i) + ".",
-					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedCityImprovements.size()), main.width*1/6, 30);
+					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);
 		}
 		//menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);

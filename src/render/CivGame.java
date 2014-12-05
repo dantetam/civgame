@@ -77,7 +77,7 @@ public class CivGame extends PApplet {
 		//pg = createGraphics(1500,900,P2D);
 		shader = loadShader("fragtest.glsl", "verttest.glsl");
 		frameRate(25);
-		background(0,225,255);
+		background(150,225,255);
 		camera(500,500,500,0,0,0,0,-1,0);
 		box(100,100,100);
 		//redraw();
