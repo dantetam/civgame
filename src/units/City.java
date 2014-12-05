@@ -350,10 +350,16 @@ public class City extends TileEntity {
 			System.err.println("Invalid biomerrr " + t.biome);
 			f = 0; g = 0; m = 0; r = 0;
 		}
-		if (t.biome >= 4 && t.biome <= 6 && !t.forest)
+		if (t.biome >= 4 && t.biome <= 6)
 		{
-			f--;
-			r--;
+			if (!t.forest)
+			{
+				f--;
+				r--;
+			}
+			if (t.biome != 6)
+				if (t.grid.irrigated(t.row, t.col))
+					f++;
 		}
 		if (t.shape == 1)
 		{

@@ -65,9 +65,13 @@ public class Grid {
 				{
 					forest = rand.nextDouble() < 0.02;
 				}
-				else if (biomes[r][c] >= 4 && biomes[r][c] <= 6)
+				else if (biomes[r][c] >= 4 && biomes[r][c] <= 5)
 				{
 					forest = rand.nextDouble() < 0.15;
+				}
+				else if (biomes[r][c] == 6)
+				{
+					forest = rand.nextDouble() < 0.5;
 				}
 				if (terrain[r][c] >= cutoff)
 				{
@@ -513,7 +517,7 @@ public class Grid {
 			{
 				double[] e = City.staticEval(getTile(i,j));
 				//Give a little bias to food
-				tileScores[i][j] = (int)(e[0]*1.1+e[1]+e[2]+e[3]);
+				tileScores[i][j] = (int)(e[0]*1.2+e[1]+e[2]+e[3]);
 			}
 		}	
 	}

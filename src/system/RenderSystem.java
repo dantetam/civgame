@@ -258,6 +258,7 @@ public class RenderSystem extends BaseSystem {
 			else if (hidden || lazy)
 				main.fill((float)color.r*100F,(float)color.g*100F,(float)color.b*100F);
 			main.noStroke();
+			main.strokeWeight(1);
 			Civilization civ = t.owner;
 
 			Entity temp = new Entity();

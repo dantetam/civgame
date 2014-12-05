@@ -149,7 +149,7 @@ public class EntityData {
 		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0,0.8,0.1,0.2));
 		//civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
 		civs.put("Thrace", new Civilization("Thrace",list(),175,255,255,0.6,0.4,0.5));
-		
+
 		civs.get("Achaea").traits("Prosperous", "Imperialistic");
 		civs.get("Athens").traits("Refined", "Prosperous");
 		civs.get("Corinth").traits("Prosperous", "Industrious");
@@ -160,7 +160,7 @@ public class EntityData {
 		civs.get("Rhodes").traits("Defensive", "Industrious");
 		civs.get("Sparta").traits("Aggressive", "Traditional");
 		civs.get("Thrace").traits("Traditional", "Imperialistic");
-		
+
 		for (int i = 0; i < 30; i++)
 		{
 			ArrayList<String> traits = new ArrayList<String>();
@@ -181,7 +181,7 @@ public class EntityData {
 		}
 
 	}
-	
+
 	public static String[] traitDesc(String trait)
 	{
 		/*
@@ -276,7 +276,7 @@ public class EntityData {
 		gameEntityMap.put("Warrior",new Warrior("Warrior",2,2,0));
 		gameEntityMap.put("Worker",new Worker("Worker",0,2,0).mode(0));
 		gameEntityMap.put("Scout",new Worker("Scout",0,2,0).mode(0).maxAction(2));
-		
+
 		gameEntityMap.put("Caravan",new Caravan("Caravan",0,2,0).mode(0).maxAction(0));
 
 		gameEntityMap.put("Axeman",new Warrior("Axeman",4,3,0));
@@ -315,7 +315,7 @@ public class EntityData {
 		cost("Worker",25,0,0);
 		cost("Scout",10,5,0);
 		cost("Caravan",15,5,0);
-		
+
 		cost("Axeman",10,10,0);
 		cost("Warband",15,5,0);
 		cost("Swordsman",10,15,0);
@@ -521,7 +521,7 @@ public class EntityData {
 		String queue = null;
 		if (c.owner.units.size() < 3)
 		{
-			queue = bestUnit(c.owner, c.location.grid.civs);
+			queue = "Worker";
 		}
 		else if (c.owner.cities.size() == 1)
 		{
@@ -539,11 +539,16 @@ public class EntityData {
 			}
 			else 
 				if (Math.random() < 0.4*c.owner.tallwide)
+				{
 					queue = "Settler";
+				}
 				else if (Math.random() < 0.7)
 					queue = bestBuilding(c);
 				else
-					queue = bestUnit(c.owner, c.location.grid.civs);
+					if (c.owner.count("Worker") < c.owner.cities.size()*2)
+						queue = "Worker";
+					else
+						queue = bestUnit(c.owner, c.location.grid.civs);
 		}
 		else
 		{
