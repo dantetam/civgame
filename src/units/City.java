@@ -88,6 +88,8 @@ public class City extends TileEntity {
 	public void tick()
 	{
 		playerTick();
+		if (takeover <= 0)
+			health = Math.min(health + 4, maxHealth);
 		ArrayList<GameEntity> candidates = fireAtTargets();
 		if (candidates.size() > 0)
 			fire(candidates.get((int)(Math.random()*candidates.size())));
@@ -647,7 +649,8 @@ public class City extends TileEntity {
 			action--;
 		else
 			return;
-		int[] damages = location.grid.conflictSystem.fire(this, target);
+		//int[] damages = location.grid.conflictSystem.fire(this, target);
+		int[] damages = location.grid.conflictSystem.fire(rangedStr*(health/maxHealth), target.defensiveStr);
 		target.health -= damages[0];
 		System.out.println("Ranged damage: " + damages[0]);
 		if (target.health <= 0)

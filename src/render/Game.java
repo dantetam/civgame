@@ -130,6 +130,7 @@ public class Game extends PApplet {
 		newMenuGame((long)(System.currentTimeMillis()*Math.random()));
 	}
 
+	private TextBox lastHover = null; private int lastFrameHover = 0;
 	public void draw()
 	{
 		background(150,225,255);
@@ -248,8 +249,9 @@ public class Game extends PApplet {
 
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
 		{
-			fill(0);
 			TextBox b = activeMenu.buttons.get(i);
+			fill(b.r, b.g, b.b);
+			stroke(b.borderR, b.borderG, b.borderB);
 			rect(b.posX, b.posY, b.sizeX, b.sizeY);
 			textAlign(CENTER, CENTER);
 			fill(255);
@@ -257,10 +259,16 @@ public class Game extends PApplet {
 				text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2);
 		}
 
+		for (int i = 0; i < activeMenu.buttons.size(); i++)
+		{
+			activeMenu.buttons.get(i).color(0);
+		}
 		tooltip.active = false;
 		TextBox hover = activeMenu.within(mouseX, mouseY);
 		if (hover != null)
+		{
 			if (hover.tooltip != null)
+			{
 				if (!hover.tooltip.equals(""))
 				{
 					//TODO: Word wrap if the text goes off the screen
@@ -281,6 +289,17 @@ public class Game extends PApplet {
 						for (int i = 0; i < hover.tooltip.size(); i++)
 							text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 14*i);
 				}
+			}
+			/*float len = 100;
+			if (frameCount % len < len/2)
+				hover.color(255 - (frameCount%(len/2))/len*255);
+			else
+				hover.color((frameCount%(len/2))/len*255);*/
+			if (hover != lastHover) //Treat the last hover frame as the origin
+				lastFrameHover = frameCount;
+			hover.color((float)(Math.sin((float)(frameCount-lastFrameHover)/50))*100 + 100);
+		}
+		lastHover = hover;
 
 		//Display the seed being typed if in the options menu
 		if (menus.get(4).equals(activeMenu))

@@ -14,7 +14,7 @@ X : Abandoned
 	Integrate other tile improvements into game such as windmill, mine, etc
 	Focus on tile improvements early-game and let AI research techs that exploit resources
 	Limit number of units spawned by AI and barbarians
-	Add health system to city that ranged strength relies on; capture at 0 health
+	> Add health system to city that ranged strength relies on; capture at 0 health
 + Graphics changes
 	/ Add more detail to terrain (possible use of textures)
 	> Tile yields shown in 2D GUI

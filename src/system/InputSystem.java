@@ -303,6 +303,7 @@ public class InputSystem extends BaseSystem {
 			}
 		}
 		main.menuSystem.select(null);
+		main.requestUpdate();
 		return null;
 	}
 

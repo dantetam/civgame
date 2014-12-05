@@ -18,7 +18,8 @@ public class TextBox {
 	public boolean lock = false;
 	public boolean active = true;
 	
-	public float r,g,b;
+	public float r = 0, g = 0, b = 0;
+	public float borderR = 255, borderG = 255, borderB = 255;
 	
 	public TextBox(String displayString, String t, float a, float b, float c, float d)
 	{
@@ -210,12 +211,11 @@ public class TextBox {
 	}
 	
 	//Return itself for convienence
-	public TextBox color(float x, float y, float z)
-	{
-		r = x; g = y; b = z;
-		return this;
-	}
-
+	public TextBox color(float x, float y, float z) {r = x; g = y; b = z; return this;}
+	public TextBox color(float w) {return color(w,w,w);}
+	public TextBox borderColor(float x, float y, float z) {borderR = x; borderG = y; borderB = z; return this;}
+	public TextBox borderColor(float w) {return borderColor(w,w,w);}
+	
 	public class Order
 	{
 		public TextBox button;
