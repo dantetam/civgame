@@ -175,6 +175,18 @@ public class ConflictSystem {
 		return fire((int)(a.rangedStr*off), (int)(d.defensiveStr*def));
 	}
 
+	//Attack a city
+	public int[] attack(GameEntity a, City c)
+	{
+		return attack(a.offensiveStr, c.defensiveStr);
+	}
+	
+	//Fire upon a city
+	public int[] fire(GameEntity a, City c)
+	{
+		return fire(a.rangedStr, c.defensiveStr);
+	}
+	
 	//This accepts two sets of parameters: offensive str, defensive str, and possibly evasion str later
 	//The first index is attacker on defender
 	//http://forums.civfanatics.com/showthread.php?t=432238

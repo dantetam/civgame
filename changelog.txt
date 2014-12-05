@@ -23,6 +23,7 @@ X : Abandoned
 		+ Rearrange elements to specifications in notebook
 >+ Fixed sea land border glitch
 >+ Fixed glitch in 2D tile gui
+>+ Balanced forests, small changes
 
 V 1.0!
 

@@ -55,7 +55,6 @@ public class City extends TileEntity {
 		population = 1;
 		percentGrowth = 0;
 		happiness = 0;
-		health = 0;
 		land = new ArrayList<Tile>();
 		workedLand = new ArrayList<Tile>();
 		//queue = null;

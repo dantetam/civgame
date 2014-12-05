@@ -243,44 +243,54 @@ public abstract class GameEntity extends BaseEntity {
 						damages = location.grid.conflictSystem.attack(this, enemy);
 					else
 						damages = location.grid.conflictSystem.fire(this, enemy);
-					if (enemy.health - damages[0] <= 0 && health - damages[1] <= 0) //Both may kill each other
+					if (attack(damages, enemy, r, c))
 					{
-						if (health >= enemy.health)
-						{
-							location.grid.removeUnit(enemy);
-							passiveWaddle(r,c);
-							health = 1;
-							return true;
-						}
-						else
-						{
-							enemy.health = 1;
-							location.grid.removeUnit(this);
-							return false;
-						}
-					}
-					else if (enemy.health - damages[0] <= 0) //Killed the enemy
-					{
-						location.grid.removeUnit(enemy);
 						passiveWaddle(r,c);
-						health -= damages[1];
-						return true;
 					}
-					else if (health - damages[1] <= 0) //Killed in an attack
-					{
-						location.grid.removeUnit(this);
-						return false;
-					}
-					else //Damage to each other
-					{
-						enemy.health -= damages[0];
-						health -= damages[1];
-						return true;
-					}
+					if (owner == null) return false; 
 				}
 			}
 		}
 		return true;
+	}
+
+	//Deal damage and return true if there was a kill
+	public boolean attack(int[] damages, BaseEntity enemy, int r, int c)
+	{
+		if (enemy.health - damages[0] <= 0 && health - damages[1] <= 0) //Both may kill each other
+		{
+			if (health >= enemy.health)
+			{
+				location.grid.removeUnit(enemy);
+				health = 1;
+				return true;
+			}
+			else
+			{
+				enemy.health = 1;
+				location.grid.removeUnit(this);
+				owner = null;
+				return false;
+			}
+		}
+		else if (enemy.health - damages[0] <= 0) //Killed the enemy
+		{
+			location.grid.removeUnit(enemy);
+			health -= damages[1];
+			return true;
+		}
+		else if (health - damages[1] <= 0) //Killed in an attack
+		{
+			location.grid.removeUnit(this);
+			owner = null;
+			return false;
+		}
+		else //Damage to each other
+		{
+			enemy.health -= damages[0];
+			health -= damages[1];
+			return false;
+		}
 	}
 
 	public boolean raze()
@@ -297,50 +307,66 @@ public abstract class GameEntity extends BaseEntity {
 			}
 			else if (owner.isWar(location.owner))
 			{
-				//System.out.println("takeover");
-				if (location.improvement.name.equals("City"))
-				{
-					//System.out.println("takeovercity");
-					City city = (City)location.improvement;
-					city.queue = null;
-					city.queueFood = 0;
-					city.queueMetal = 0;
-					city.adm = 0; city.art = 0; city.sci = 0;
-					if (city.owner.capital != null)
-					{
-						if (city.equals(city.owner.capital))
-						{
-							city.owner.capital = null;
-						}
-					}
-					for (int k = city.land.size() - 1; k >= 0; k--)
-					{
-						Tile t = city.land.get(k);
-						if (t.improvement != null)
-						{
-							t.improvement.owner = owner;
-							city.owner.improvements.remove(t.improvement);
-						}
-						t.owner = owner;
-					}
-					city.owner.cities.remove(city);
-					if (city.owner.cities.size() > 0)
-					{
-						city.owner.capital = city.owner.cities.get(0);
-					}
-					city.owner = owner;
-					city.takeover = 5;
-					owner.cities.add(city);
-					return true;
-				}
-				//Just in case
-				//The first condition is not needed
-				else if (!(location.improvement instanceof City))//owner.enemies.contains(en.location.improvement.owner)) 
+				if (!(location.improvement instanceof City))//owner.enemies.contains(en.location.improvement.owner)) 
 				{
 					location.grid.removeUnit(location.improvement);
 					return true;
 					//en.location.improvement = null;
 				}
+			}
+		}
+		return false;
+	}
+
+	public boolean captureCity(int r, int c)
+	{
+		//System.out.println("takeover");
+		Tile tile = location.grid.getTile(r,c);
+		if (tile.improvement.name.equals("City"))
+		{
+			//System.out.println("takeovercity");
+			City city = (City)tile.improvement;
+			queueTiles.clear();
+			int[] damages;
+			if (mode == 2)
+				damages = location.grid.conflictSystem.fire(this, city);
+			else if (mode == 1)
+				damages = location.grid.conflictSystem.attack(this, city);
+			else //Cannot attack with a passive unit
+				return false;
+			if (attack(damages, city, r, c) && mode == 1)
+			{
+				city.queue = null;
+				city.queueFood = 0;
+				city.queueMetal = 0;
+				city.adm = 0; city.art = 0; city.sci = 0;
+				if (city.owner.capital != null)
+				{
+					if (city.equals(city.owner.capital))
+					{
+						city.owner.capital = null;
+					}
+				}
+				for (int k = city.land.size() - 1; k >= 0; k--)
+				{
+					Tile t = city.land.get(k);
+					if (t.improvement != null)
+					{
+						t.improvement.owner = owner;
+						city.owner.improvements.remove(t.improvement);
+					}
+					t.owner = owner;
+				}
+				city.owner.cities.remove(city);
+				if (city.owner.cities.size() > 0)
+				{
+					city.owner.capital = city.owner.cities.get(0);
+				}
+				city.owner = owner;
+				city.takeover = 5;
+				city.health = city.maxHealth/2;
+				owner.cities.add(city);
+				return true;
 			}
 		}
 		return false;
