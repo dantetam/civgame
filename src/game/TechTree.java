@@ -73,6 +73,7 @@ public class TechTree {
 		
 		t = researched("Civilization");
 			t.units("Settler", "Warrior", "Worker", "Slinger");
+			t.cImpr("Obelisk");
 			t.governmentCivic = "Decentralization";
 			t.economicCivic = "Tribalism";
 

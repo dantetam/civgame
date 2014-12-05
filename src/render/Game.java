@@ -297,7 +297,7 @@ public class Game extends PApplet {
 				hover.color((frameCount%(len/2))/len*255);*/
 			if (hover != lastHover) //Treat the last hover frame as the origin
 				lastFrameHover = frameCount;
-			hover.color((float)(Math.sin((float)(frameCount-lastFrameHover)/50))*100 + 100);
+			hover.color((float)(Math.sin((float)(frameCount-lastFrameHover)/50 + Math.PI*1.5))*85 + 85);
 		}
 		lastHover = hover;
 
@@ -305,7 +305,7 @@ public class Game extends PApplet {
 		if (menus.get(4).equals(activeMenu))
 		{
 			fill(0);
-			rect(70, 100, 210, 50);
+			rect(70 , 100, 210, 50);
 			fill(255);
 			text("Seed: " + seed, 175, 125);
 		}

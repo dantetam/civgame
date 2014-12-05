@@ -11,16 +11,16 @@ X : Abandoned
 		Melee units have weapon improvement that gives advantage over enemy unit lacking it
 	AI should explore more and pathfind to enemies directly (omnisciently) on harder difficulty
 	Increase costs of all "late-game" units such as swordsman
-	Integrate other tile improvements into game such as windmill, mine, etc
+	/ Integrate other tile improvements into game such as windmill, mine, etc
 	Focus on tile improvements early-game and let AI research techs that exploit resources
 	Limit number of units spawned by AI and barbarians
 	> Add health system to city that ranged strength relies on; capture at 0 health
 + Graphics changes
 	/ Add more detail to terrain (possible use of textures)
 	> Tile yields shown in 2D GUI
-	/+ Streamlined UI
-		+ Flashing button (use stroke) instead of changing button width
-		+ Rearrange elements to specifications in notebook
+	>+ Streamlined UI
+		>+ Flashing button (use stroke) instead of changing button width
+		/+ Rearrange elements to specifications in notebook
 >+ Fixed sea land border glitch
 >+ Fixed glitch in 2D tile gui
 >+ Balanced forests, small changes

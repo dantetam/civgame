@@ -379,6 +379,10 @@ public class EntityData {
 	private static void setupCityImprovementCosts()
 	{
 		Improvement temp;
+		temp = new Improvement("Obelisk","Civilization");
+		temp.cost(0,0,0,10,10,0);
+		cityImprovementMap.put(temp.name, temp);
+		
 		temp = new Improvement("Warehouse","Mining");
 		temp.cost(0,0,0,5,20,0);
 		cityImprovementMap.put(temp.name, temp);

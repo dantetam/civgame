@@ -79,7 +79,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", 0, 250, 100, 30);
 		menu0.addButton("relations", "Relations", "The wars and alliances of this world.", 0, 280, 100, 30);
 		menu0.addButton("civic", "Civics", "Change the ideals of your government.", 0, 310, 100, 30);
-		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, main.height*5/6 - 30, main.width*1/6, 30).lock = true;
+		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 0, main.width*1/6, 30).lock = true;
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -129,13 +129,13 @@ public class MenuSystem extends BaseSystem {
 
 		menu0.active = true;
 
-		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width - 200,0,200,150); //"HintText"
+		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 150,200,150); //"HintText"
 		textboxes.add(text0);
 
-		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width - 400,0,200,150); //"SelectedText"
+		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width - 400,main.height - 150,200,150); //"SelectedText"
 		textboxes.add(text1);
 
-		TextBox text2 = new TextBox(new ArrayList<String>(),"",main.width*4/6,main.height*5/6,main.width*2/6,100); //"Messages"
+		TextBox text2 = new TextBox(new ArrayList<String>(),"",main.width*4/6,30,main.width*2/6,100); //"Messages"
 		textboxes.add(text2);
 
 		TextBox text3 = new TextBox(new ArrayList<String>(),"",main.width/6,0,300,50); //"PlayerStatus"
@@ -657,6 +657,7 @@ public class MenuSystem extends BaseSystem {
 			}
 			else if (command.equals("log"))
 			{
+				textboxes.get(2).active = false;
 				menus.get(10).active = true;
 				updateMessages();
 			}
@@ -952,6 +953,7 @@ public class MenuSystem extends BaseSystem {
 
 	public void closeMenus()
 	{
+		textboxes.get(2).active = true;
 		info = false;
 		minimap = false;
 		menus.get(3).active = false;
@@ -1047,7 +1049,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(10).buttons.clear();
 		for (int i = 0; i < messages.size(); i++)
 		{
-			TextBox msg = new TextBox(messages.get(i), "", main.width*5/6, 360 + 20*i, main.width*1/6, 20);
+			TextBox msg = new TextBox(messages.get(i), "", main.width*5/6, 30 + 20*i, main.width*1/6, 20);
 			menus.get(10).buttons.add(msg);
 			if (i == 19) break;
 		}
@@ -1241,17 +1243,20 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(2).addButton("razeCity", "Raze", "Destroy the city, one citizen at a time.", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
 		}
-
+		
+		float disp = c.owner.techTree.allowedUnits.size() + c.owner.techTree.allowedCityImprovements.size() + 1; disp *= 30;
+		
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		for (int i = 0; i < units.size(); i++)
 		{
-			menus.get(2).addButton("queue" + units.get(i), units.get(i), "Queue a " + units.get(i) + ".", main.width/3F + 60*i, (float)main.height*5F/6F, 50, 50);
+			menus.get(2).addButton("queue" + units.get(i), units.get(i), "Queue a " + units.get(i) + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
 		}
 
 		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements;
 		for (int i = 0; i < buildings.size(); i++)
 		{
-			menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "Queue a " + buildings.get(i) + ".", main.width/3F + 60*i, (float)main.height*5F/6F + 60, 50, 50);
+			menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "Queue a " + buildings.get(i) + ".",
+					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedCityImprovements.size()), main.width*1/6, 30);
 		}
 		//menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
@@ -1435,13 +1440,13 @@ public class MenuSystem extends BaseSystem {
 				updateCity((City)en);
 			}
 			textboxes.get(1).active = true;
-			textboxes.get(1).move(main.width - 400,-150);
-			textboxes.get(1).moveTo(main.width - 400,0,20);
+			textboxes.get(1).move(main.width - 400,main.height);
+			textboxes.get(1).moveTo(main.width - 400,main.height - 150,20);
 		}
 		else
 		{
 			textboxes.get(1).active = false;
-			textboxes.get(1).move(main.width*4/6,-150);
+			textboxes.get(1).move(main.width - 400,main.height-150);
 
 			menus.get(1).buttons.clear();
 		}
