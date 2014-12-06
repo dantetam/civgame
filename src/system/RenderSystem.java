@@ -477,6 +477,7 @@ public class RenderSystem extends BaseSystem {
 			}
 			main.popMatrix();
 		}
+		main.strokeWeight(1);
 	}
 
 	//Render a game entity

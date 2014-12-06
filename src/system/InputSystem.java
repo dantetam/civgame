@@ -282,7 +282,7 @@ public class InputSystem extends BaseSystem {
 		for (int i = 0; i < civ.units.size(); i++)
 		{
 			GameEntity en = civ.units.get(i);
-			if (en.action != 0)
+			if (en.action != 0 && en.queueTiles.size() == 0)
 			{
 				main.fixCamera(en.location.row, en.location.col);
 				main.menuSystem.select(en);

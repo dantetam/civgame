@@ -33,8 +33,8 @@ public class Tutorial extends CivGame {
 		path.add(empty());
 		cond.add("playerHasOneCity");
 
-		path.add(list(32));
-		cond.add("");
+		/*path.add(list(32));
+		cond.add("");*/
 
 		path.add(empty());
 		cond.add("cityQueueWarrior");
@@ -68,7 +68,8 @@ public class Tutorial extends CivGame {
 			for (int i = 0; i < grid.civs[0].units.size(); i++)
 				grid.civs[0].units.get(i).reveal();
 			//Tech tech = grid.civs[0].techTree.researched("Civilization");
-			grid.civs[0].techTree.allowedUnits = new ArrayList<String>();
+			grid.civs[0].techTree.allowedUnits.clear();
+			grid.civs[0].techTree.allowedCityImprovements.clear();
 			grid.civs[0].techTree.allowedUnits.add("Warrior");
 		}
 
@@ -94,40 +95,43 @@ public class Tutorial extends CivGame {
 			menuSystem.messageT("In the provided menu, press SETTLE to create a new city.");
 			enable((char)32);
 			break;
-		case 3:
+		/*case 3:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("This will allow you to give orders to those who need them.");
 			menuSystem.messageT("Press SPACE again to cycle through your units.");
-			break;
-		case 4:
+			break;*/
+		case 3:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("which are used for creating new units. Queue a WARRIOR.");
 			menuSystem.messageT("It harvests the tiles around it for food and metal,");
 			menuSystem.messageT("This is the city menu for your first city.");
 			break;
-		case 5:
+		case 4:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("press SPACE. This will advance to next turn if all your units have orders.");
 			menuSystem.messageT("Your unit will be produced soon. To progress the game forward,");
 			break;
-		case 6: 
+		case 5: 
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("Click on any technology to research it.");
 			menuSystem.messageT("Before you can go on, your civilization must research a technology.");
 			break;
-		case 7:
+		case 6:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("Now, you may advance the game with SPACE.");
 			break;
-		case 8:
+		case 7:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("Keep pressing SPACE to advance the game until your unit is completed.");
 			break;
-		case 9:
+		case 8:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("Move it outside of your territory with RMB when selecting it.");
 			menuSystem.messageT("It has offensive and defensive values. Later units may have ranged strength.");
 			menuSystem.messageT("Your city has produced its first combat unit.");
+			Tech t = grid.civs[0].techTree.researched("Civilization");
+			t.units("Settler", "Warrior", "Worker", "Slinger");
+			t.cImpr("Obelisk");
 			break;
 		default:
 			break;

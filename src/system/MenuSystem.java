@@ -69,7 +69,7 @@ public class MenuSystem extends BaseSystem {
 		//Keep track of the menu's indices in list
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		int height = 20;
+		int height = 30;
 		//menu0.addButton("exitgame", "Exit", "Exit this session of the game.", main.width - 100, 0, 100, height).lock = true;
 		menu0.addButton("close", "Close", "Close all open menus.", main.width - 100, 70, 100, height).lock = true;
 		menu0.addButton("minimap", "Minimap", "Open the minimap of the world.", main.width - 100, 100, 100, height).lock = true;
@@ -87,7 +87,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < menu0.buttons.size() - 1; i++)
 		{
 			TextBox b = menu0.buttons.get(i);
-			b.move(b.posX, main.height-150 - pivot + (i+1)*height);
+			b.move(0, 70 + (i)*height);
 			b.origX = b.posX; b.origY = b.posY;
 			System.out.println(b.posX + " " + b.posY);
 		}
@@ -456,11 +456,13 @@ public class MenuSystem extends BaseSystem {
 		{
 			if (menus.get(menu).active)
 			{
+				main.strokeWeight(1);
 				//System.out.println(menu + " " + menus.get(menu).active);
 				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
-					main.fill(0);
 					TextBox b = menus.get(menu).buttons.get(i);
+					main.fill(b.r, b.g, b.b);
+					//main.stroke(b.borderR, b.borderG, b.borderB);
 					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
 					main.textAlign(PApplet.CENTER, PApplet.CENTER);
 					main.fill(255);

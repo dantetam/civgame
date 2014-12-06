@@ -117,6 +117,8 @@ public class CivGame extends PApplet {
 		{
 			systems.get(i).tick();
 		}
+		if (frameCount == 10)
+			inputSystem.queueKey((char)32);
 		newMenuSystem.lastMouseX = mouseX; newMenuSystem.lastMouseY = mouseY;
 	}
 
