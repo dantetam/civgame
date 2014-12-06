@@ -654,7 +654,8 @@ public class MenuSystem extends BaseSystem {
 			else if (command.equals("techs"))
 			{
 				displayTechMenu(main.grid.civs[0]);
-				menus.get(5).active = !menus.get(5).active;
+				//menus.get(5).active = !menus.get(5).active;
+				main.menuSystem.menus.get(5).active = true;
 				//menus.get(5).active = !menus.get(5).active;
 			}
 			else if (command.equals("encyclopedia"))
@@ -973,11 +974,9 @@ public class MenuSystem extends BaseSystem {
 		menus.get(4).active = false;
 		textboxes.get(4).active = false;
 		menus.get(5).active = false;
-		menus.get(7).active = false;
-		menus.get(8).active = false;
-		menus.get(9).active = false;
-		menus.get(10).active = false;
-		menus.get(11).active = false;
+		for (int i = 7; i <= 12; i++)
+			menus.get(i).active = false;
+	
 		//Clear all but the main menu and encyclopedia
 		//for (int i = 1; i < menus.size(); i++)
 	}
@@ -1086,10 +1085,12 @@ public class MenuSystem extends BaseSystem {
 		menus.get(5).buttons.clear();
 
 		ArrayList<String> techNames = civ.techTree.findCandidates();
+		float disp = techNames.size()*30;
 		for (int i = 0; i < techNames.size(); i++)
 		{
 			String s = techNames.get(i);
-			menus.get(5).addButton("research" + s, s, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
+			menus.get(5).addButton("research" + s, s, "Research " + s + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
+			//menus.get(5).addButton("research" + s, s, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
 	}
 
