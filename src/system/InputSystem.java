@@ -22,6 +22,8 @@ public class InputSystem extends BaseSystem {
 	public boolean on = true;
 	public MouseHelper mouseHelper;
 
+	public int time = 40, nextSelection = 0;
+
 	public InputSystem(CivGame main)
 	{
 		super(main);
@@ -124,6 +126,11 @@ public class InputSystem extends BaseSystem {
 			}
 			clicks.remove(i);
 		}
+		if (nextSelection == main.frameCount)
+		{
+			nextSelection = 0;
+			selectAvailableUnit();
+		}
 	}
 
 	//Stores which keys are being held (such as panning with WASD)
@@ -224,13 +231,18 @@ public class InputSystem extends BaseSystem {
 					//return;
 				}
 		}
-		if (main.menuSystem.getSelected() instanceof Settler)
+		main.menuSystem.settlerChoices = null;
+		if (main.menuSystem.getSelected() == null)
+		{
+			return;
+		}
+		else if (main.menuSystem.getSelected().owner == null)
+		{
+			return;
+		}
+		else if (main.menuSystem.getSelected() instanceof Settler)
 		{
 			main.menuSystem.settlerChoices = main.grid.returnBestCityScores(main.menuSystem.getSelected().location.row, main.menuSystem.getSelected().location.col,0.25);
-		}
-		else
-		{
-			main.menuSystem.settlerChoices = null;
 		}
 	}
 
@@ -248,7 +260,8 @@ public class InputSystem extends BaseSystem {
 					if (msg == null && en.action > 0)
 					{
 						en.playerTick();
-						selectAvailableUnit();
+						nextSelection = main.frameCount + time;
+						main.menuSystem.select(null);
 					}
 					else
 						main.menuSystem.message(msg);
@@ -274,9 +287,30 @@ public class InputSystem extends BaseSystem {
 		}
 	}*/
 
-	//Select the next unit with action and return it
+	private void selectAvailableUnit()
+	{
+		BaseEntity en = availableUnit();
+		if (availableUnit() != null)
+		{
+			if (en instanceof City)
+			{
+				City c = (City)en;
+				main.fixCamera(c.location.row, c.location.col);
+				main.menuSystem.select(c);
+				main.menuSystem.updateCity(c);
+			}
+			else
+			{
+				main.fixCamera(en.location.row, en.location.col);
+				main.menuSystem.select(en);
+				//main.menuSystem.message(en.name + " needs orders.");
+			}
+		}
+	}
+
+	//Find the next unit with action and return it
 	//If there are no available units, return null
-	public BaseEntity selectAvailableUnit()
+	public BaseEntity availableUnit()
 	{
 		Civilization civ = main.grid.civs[0];
 		for (int i = 0; i < civ.units.size(); i++)
@@ -284,8 +318,6 @@ public class InputSystem extends BaseSystem {
 			GameEntity en = civ.units.get(i);
 			if (en.action != 0 && en.queueTiles.size() == 0)
 			{
-				main.fixCamera(en.location.row, en.location.col);
-				main.menuSystem.select(en);
 				return en;
 			}
 		}
@@ -294,16 +326,9 @@ public class InputSystem extends BaseSystem {
 			City c = civ.cities.get(i);
 			if (c.queue == null)
 			{
-				//main.menuSystem.select(c);
-				main.fixCamera(c.location.row, c.location.col);
-				//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
-				main.menuSystem.select(c);
-				main.menuSystem.updateCity(c);
 				return c;
 			}
 		}
-		main.menuSystem.select(null);
-		main.requestUpdate();
 		return null;
 	}
 
@@ -311,33 +336,8 @@ public class InputSystem extends BaseSystem {
 	{
 		if (key == 32)
 		{
-			//System.out.println("Space");
 			Civilization civ = main.grid.civs[0];
-			/*for (int i = 0; i < civ.units.size(); i++)
-			{
-				GameEntity en = civ.units.get(i);
-				if (en.action > 0 && en.queueTiles.size() == 0 && en.queue == null)
-				{
-					main.fixCamera(en.location.row, en.location.col);
-					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
-					main.menuSystem.select(en);
-					main.menuSystem.message(en.name + " needs orders.");
-					return;
-				}
-			}
-			for (int i = 0; i < civ.cities.size(); i++)
-			{
-				City c = civ.cities.get(i);
-				if (c.queue == null && c.takeover <= 0 && !c.raze)
-				{
-					main.fixCamera(c.location.row, c.location.col);
-					//lastMouseX = main.mouseX; //lastMouseY = main.mouseY;
-					main.menuSystem.select(c);
-					main.menuSystem.updateCity(c);
-					return;
-				}
-			}*/
-			BaseEntity selected = selectAvailableUnit();
+			BaseEntity selected = availableUnit();
 			if (selected == null)
 			{
 				if (civ.researchTech == null || civ.researchTech == "")
@@ -355,9 +355,14 @@ public class InputSystem extends BaseSystem {
 					main.menuSystem.message("You have no cities or units!");
 				}
 			}
+			else if (nextSelection != 0)
+			{
+				return;
+			}
 			else
 			{
 				main.fixCamera(selected.location.row, selected.location.col);
+				main.menuSystem.select(selected);
 			}
 		}
 		/*else if (key == 'c')
