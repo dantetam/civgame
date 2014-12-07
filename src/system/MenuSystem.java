@@ -154,6 +154,9 @@ public class MenuSystem extends BaseSystem {
 
 		TextBox text4 = new TextBox(new ArrayList<String>(),"",100,190,500,250); //"LedgerText"
 		textboxes.add(text4);
+		
+		TextBox text5 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 200,200,50); //"ConditionText"
+		textboxes.add(text5);
 
 		text4.active = false;
 
@@ -338,6 +341,8 @@ public class MenuSystem extends BaseSystem {
 					hintText.add(stringy.substring(0,stringy.length()-2));
 			}
 		}
+		Tile h = highlighted;
+		MouseHelper mh = main.inputSystem.mouseHelper;
 		if (selected != null)
 		{
 			if (selected.owner != null && !(selected instanceof City))
@@ -363,10 +368,8 @@ public class MenuSystem extends BaseSystem {
 			{
 				menus.get(1).active = false;
 			}
-			Tile h = highlighted;
 			if ((getSelected() instanceof City || getSelected() instanceof Settler) && h != null)
 			{
-				MouseHelper mh = main.inputSystem.mouseHelper;
 				for (int r = 0; r < mh.guiPositions.length; r++)
 				{
 					for (int c = 0; c < mh.guiPositions[0].length; c++)
@@ -410,6 +413,30 @@ public class MenuSystem extends BaseSystem {
 		else
 		{
 			menus.get(1).active = false;
+		}
+		
+		//Show the city queue food/metal menu and associated UI
+		//More repeating code
+		for (int r = 0; r < mh.guiPositions.length; r++)
+		{
+			for (int c = 0; c < mh.guiPositions[0].length; c++)
+			{
+				float[] pos = mh.positionGui(r,c);
+				if (pos != null)
+				{
+					int dC = r - (mh.guiPositions.length-1)/2;
+					int dR = c - (mh.guiPositions[0].length-1)/2;
+					float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
+					Tile t = main.grid.getTile(h.row + dR, h.col - dC);
+					if (t.improvement != null)
+					{
+						if (t.improvement instanceof City)
+						{
+							TODO Show the city GUI/label
+						}
+					}
+				}
+			}
 		}
 
 		menus.get(2).active = false;
