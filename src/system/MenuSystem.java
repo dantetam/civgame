@@ -495,6 +495,7 @@ public class MenuSystem extends BaseSystem {
 		tooltip.active = false;
 		TextBox hover = findButtonWithin(main.mouseX, main.mouseY);
 		if (hover != null)
+		{
 			if (hover.tooltip != null)
 				if (!hover.tooltip.equals(""))
 				{
@@ -514,6 +515,34 @@ public class MenuSystem extends BaseSystem {
 					for (int i = 0; i < hover.tooltip.size(); i++)
 						main.text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
 				}
+		}
+		else //Show the tooltip for a unit being hovered over
+		{
+			if (mouseHighlighted != null)
+			{
+				if (mouseHighlighted.occupants.size() > 0)
+				{
+					tooltip.active = true;
+					tooltip.posX = main.mouseX;
+					tooltip.posY = main.mouseY;
+					tooltip.dimTooltip(mouseHighlighted.occupants);
+					main.fill(0);
+					main.stroke(255);
+					main.rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
+					main.fill(255);
+					main.noStroke();
+					main.textAlign(main.CENTER);
+					for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
+					{
+						GameEntity en = mouseHighlighted.occupants.get(i);
+						/*if (i != mouseHighlighted.occupants.size() - 1)
+							main.text(en.name + "(" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
+						else*/
+						main.text(en.name + " (" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
+					}
+				}
+			}
+		}
 
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
