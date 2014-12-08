@@ -38,7 +38,7 @@ public class MenuSystem extends BaseSystem {
 	public boolean minimap, info; //loadout, loadoutDisplay, techMenu, continueMenu; //Access the menu's active property instead
 	public int multiplier = 1;
 	public float highlightDispX = main.width/2, highlightDispY = main.width/2;
-	
+
 	public Tile target;
 	//public ArrayList<String> hintText;
 	public Tile highlighted;
@@ -91,7 +91,7 @@ public class MenuSystem extends BaseSystem {
 			b.origX = b.posX; b.origY = b.posY;
 			System.out.println(b.posX + " " + b.posY);
 		}
-		
+
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
 
@@ -154,8 +154,8 @@ public class MenuSystem extends BaseSystem {
 
 		TextBox text4 = new TextBox(new ArrayList<String>(),"",100,190,500,250); //"LedgerText"
 		textboxes.add(text4);
-		
-		TextBox text5 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 200,200,50); //"ConditionText"
+
+		TextBox text5 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 200 + 15,200,35); //"ConditionText"
 		textboxes.add(text5);
 
 		text4.active = false;
@@ -381,11 +381,11 @@ public class MenuSystem extends BaseSystem {
 							main.fill(255,0,0);
 							int dC = r - (mh.guiPositions.length-1)/2;
 							int dR = c - (mh.guiPositions[0].length-1)/2;
-							
+
 							//float[] disp = mh.center();
 							float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
 							//System.out.println(dX + " " + dY + " " + highlightDispX + " " + highlightDispY);
-							
+
 							Tile t = main.grid.getTile(h.row + dR, h.col - dC);
 							if (t != null)
 							{
@@ -414,25 +414,31 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(1).active = false;
 		}
-		
+
 		//Show the city queue food/metal menu and associated UI
 		//More repeating code
-		for (int r = 0; r < mh.guiPositions.length; r++)
+		if (h != null)
 		{
-			for (int c = 0; c < mh.guiPositions[0].length; c++)
+			for (int r = 0; r < mh.guiPositions.length; r++)
 			{
-				float[] pos = mh.positionGui(r,c);
-				if (pos != null)
+				for (int c = 0; c < mh.guiPositions[0].length; c++)
 				{
-					int dC = r - (mh.guiPositions.length-1)/2;
-					int dR = c - (mh.guiPositions[0].length-1)/2;
-					float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
-					Tile t = main.grid.getTile(h.row + dR, h.col - dC);
-					if (t.improvement != null)
+					float[] pos = mh.positionGui(r,c);
+					if (pos != null)
 					{
-						if (t.improvement instanceof City)
+						int dC = r - (mh.guiPositions.length-1)/2;
+						int dR = c - (mh.guiPositions[0].length-1)/2;
+						float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
+						Tile t = main.grid.getTile(h.row + dR, h.col - dC);
+						if (t != null)
 						{
-							TODO Show the city GUI/label
+							if (t.improvement != null)
+							{
+								if (t.improvement instanceof City)
+								{
+									//TODO Show the city GUI/label
+								}
+							}
 						}
 					}
 				}
@@ -1033,7 +1039,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(5).active = false;
 		for (int i = 7; i <= 12; i++)
 			menus.get(i).active = false;
-	
+
 		//Clear all but the main menu and encyclopedia
 		//for (int i = 1; i < menus.size(); i++)
 	}
@@ -1263,21 +1269,26 @@ public class MenuSystem extends BaseSystem {
 	public void updateUnitMenu(GameEntity en)
 	{
 		menus.get(1).buttons.clear();
-		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", (float)main.width/3F, (float)main.height*5F/6F, 50, 50);
+		int n = 0;
+		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+		n++;
 		if (en.name.equals("Settler"))
 		{
-			menus.get(1).addButton("unitSettle", "Settle", "Settle a city here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("unitSettle", "Settle", "Settle a city here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+			n++;
 		}
 		else if (en.name.equals("Warrior"))
 		{
-			menus.get(1).addButton("unitRaze", "Attack", "Attack the improvement here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+			menus.get(1).addButton("unitRaze", "Attack", "Attack the improvement here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+			n++;
 		}
 		else if (en.name.equals("Worker"))
 		{
 			ArrayList<String> units = main.grid.civs[0].techTree.allowedTileImprovements;
 			for (int i = 0; i < units.size(); i++)
 			{
-				menus.get(1).addButton("build"+units.get(i), units.get(i), "Construct " + units.get(i) + " here.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+				menus.get(1).addButton("build"+units.get(i), units.get(i), "Construct " + units.get(i) + " here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+				n++;
 			}
 			//menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			//menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
@@ -1289,18 +1300,28 @@ public class MenuSystem extends BaseSystem {
 				City c = en.owner.cities.get(i);
 				if (!c.equals(((Caravan)en).home))
 				{
-					menus.get(1).addButton("unitCaravan"+i, "Caravan"+c.name, "Establish a trade route.", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
+					menus.get(1).addButton("unitCaravan"+i, "Caravan"+c.name, "Establish a trade route.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+					n++;
 				}
 			}
 		}
 
 		if (en.mode == 1 && en.rangedStr > 0)
 		{
-			menus.get(1).addButton("rangedMode", "Ranged", "Allow this unit to use ranged attacks.", (float)main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
+			menus.get(1).addButton("rangedMode", "Ranged", "Allow this unit to use ranged attacks.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+			n++;
 		}
 		else if (en.mode == 2 && en.offensiveStr > 0)
 		{
-			menus.get(1).addButton("meleeMode", "Melee", "Allow this unit to use melee attacks.", (float)main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
+			menus.get(1).addButton("meleeMode", "Melee", "Allow this unit to use melee attacks.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+			n++;
+		}
+		
+		for (int i = 0; i < menus.get(1).buttons.size(); i++)
+		{
+			TextBox b = menus.get(i).buttons.get(i);
+			b.move(b.posX, b.posY - (n+1)*30); //Shift the buttons to their proper place
+			b.origX = b.posX; b.origY = b.posY;
 		}
 		//System.out.println(menus.get(1).buttons.size());
 	}
@@ -1314,9 +1335,9 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(2).addButton("razeCity", "Raze", "Destroy the city, one citizen at a time.", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
 		}
-		
+
 		float disp = c.owner.techTree.allowedUnits.size() + c.owner.techTree.allowedCityImprovements.size() + 1; disp *= 30;
-		
+
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		for (int i = 0; i < units.size(); i++)
 		{

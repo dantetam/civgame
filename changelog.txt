@@ -21,10 +21,10 @@ X : Abandoned
 	>+ Streamlined UI
 		>+ Flashing button (use stroke) instead of changing button width
 		/+ Rearrange elements to specifications in notebook
-		+ Tooltip of a unit's name that is highlighted by mouse (e.g. Athenian worker, Cretan warrior, etc.)
-		+ Pauses between automatic selection (of units) which can be set in menu
+		>+ Tooltip of a unit's name that is highlighted by mouse (e.g. Athenian worker, Cretan warrior, etc.)
+		>+ Pauses between automatic selection (of units) which can be set in menu
 		+ Gradient colors for UI buttons
-	+ City GUI for queued food, metal, and health + estimated turns to production
+	/+ City GUI for queued food, metal, and health + estimated turns to production
 >+ Fixed sea land border glitch
 >+ Fixed glitch in 2D tile gui
 >+ Balanced forests, small changes
