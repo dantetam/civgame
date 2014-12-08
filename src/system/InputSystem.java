@@ -23,6 +23,7 @@ public class InputSystem extends BaseSystem {
 	public MouseHelper mouseHelper;
 
 	public int time = 40, nextSelection = 0;
+	public boolean autoSelect;
 
 	public InputSystem(CivGame main)
 	{

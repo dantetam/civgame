@@ -67,6 +67,11 @@ public class CivGame extends PApplet {
 		systems.add(newMenuSystem);
 		systems.add(inputSystem);
 	}
+	
+	public void options(boolean autoSelect)
+	{
+		inputSystem.autoSelect = autoSelect;
+	}
 
 	public void setup()
 	{

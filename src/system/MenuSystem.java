@@ -1320,7 +1320,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < menus.get(1).buttons.size(); i++)
 		{
 			TextBox b = menus.get(i).buttons.get(i);
-			b.move(b.posX, b.posY - (n+1)*30); //Shift the buttons to their proper place
+			b.move(b.posX, b.posY - n*30); //Shift the buttons to their proper place
 			b.origX = b.posX; b.origY = b.posY;
 		}
 		//System.out.println(menus.get(1).buttons.size());
