@@ -16,7 +16,7 @@ public class TextBox {
 	public boolean expanded = false;
 	public int[] noOrdersIfMenu = null;
 	public boolean lock = false;
-	public boolean active = true;
+	public boolean active = true, autoClear = true;
 	
 	public float r = 0, g = 0, b = 0;
 	public float borderR = 255, borderG = 255, borderB = 255;

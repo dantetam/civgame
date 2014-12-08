@@ -155,7 +155,9 @@ public class MenuSystem extends BaseSystem {
 		TextBox text4 = new TextBox(new ArrayList<String>(),"",100,190,500,250); //"LedgerText"
 		textboxes.add(text4);
 
-		TextBox text5 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 200 + 15,200,35); //"ConditionText"
+		TextBox text5 = new TextBox("...","",main.width - 200,main.height - 200 + 15,200,35); //"ConditionText"
+		//ArrayList<String> stringy = new ArrayList<String>(); stringy.add("..."); text5.display = stringy;
+		text5.autoClear = false;
 		textboxes.add(text5);
 
 		text4.active = false;
@@ -521,7 +523,8 @@ public class MenuSystem extends BaseSystem {
 						main.text(b.display.get(j), b.posX + 15, b.posY + 15*(j+1));
 					}
 				}
-				b.display.clear(); //Clear them to be refilled next frame
+				if (b.autoClear)
+					b.display.clear(); //Clear them to be refilled next frame
 			}
 		}
 
