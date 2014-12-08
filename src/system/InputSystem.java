@@ -22,7 +22,7 @@ public class InputSystem extends BaseSystem {
 	public boolean on = true;
 	public MouseHelper mouseHelper;
 
-	public int time = 40, nextSelection = 0;
+	public int time = 40; private int nextSelection = 0;
 	public boolean autoSelect;
 
 	public InputSystem(CivGame main)
@@ -36,6 +36,18 @@ public class InputSystem extends BaseSystem {
 	public void tick()
 	{
 		moving = false;
+		if (!autoSelect)
+		{
+			nextSelection = 0;
+		}
+		else
+		{
+			if (nextSelection == main.frameCount)
+			{
+				nextSelection = 0;
+				selectAvailableUnit();
+			}
+		}
 		for (int i = keyPresses.size() - 1; i >= 0; i--)
 		{
 			executeAction(keyPresses.get(i));
@@ -126,11 +138,6 @@ public class InputSystem extends BaseSystem {
 				passRightMouseClick(c.mouseX, c.mouseY);
 			}
 			clicks.remove(i);
-		}
-		if (nextSelection == main.frameCount)
-		{
-			nextSelection = 0;
-			selectAvailableUnit();
 		}
 	}
 
@@ -261,7 +268,7 @@ public class InputSystem extends BaseSystem {
 					if (msg == null && en.action > 0)
 					{
 						en.playerTick();
-						nextSelection = main.frameCount + time;
+						timeSelection();
 						main.menuSystem.select(null);
 					}
 					else
@@ -287,6 +294,14 @@ public class InputSystem extends BaseSystem {
 			}
 		}
 	}*/
+	
+	public void timeSelection()
+	{
+		if (autoSelect)
+			nextSelection = main.frameCount + time;
+		else
+			nextSelection = 0;
+	}
 
 	private void selectAvailableUnit()
 	{

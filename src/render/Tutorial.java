@@ -20,6 +20,7 @@ public class Tutorial extends CivGame {
 	{
 		super(game, 2, 1, 1, "survival", "terrain11", "Athens", 8700L);
 		//keysAllowed[97] = true;
+		super.options(true);
 		path = new ArrayList<ArrayList<Character>>();
 		cond = new ArrayList<String>();
 
@@ -77,7 +78,7 @@ public class Tutorial extends CivGame {
 		switch (step)
 		{
 		case 0:
-			menuSystem.messageT("When ready, press SPACE to control a unit.");
+			menuSystem.messageT("When ready, press SPACE to continue.");
 			menuSystem.messageT("Use WASD to move the camera around the map");
 			enable('w','a','s','d');
 			break;

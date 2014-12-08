@@ -1023,7 +1023,7 @@ public class MenuSystem extends BaseSystem {
 		if (command.contains("build") || command.contains("unit") || command.contains("queue"))
 		{
 			main.menuSystem.select(null);
-			main.inputSystem.nextSelection = main.frameCount + main.inputSystem.time;
+			main.inputSystem.timeSelection();
 		}
 		return true;
 	}
