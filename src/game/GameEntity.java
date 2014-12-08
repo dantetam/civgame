@@ -303,7 +303,7 @@ public abstract class GameEntity extends BaseEntity {
 			if (location.improvement.owner == null && location.improvement.name.equals("Ruins"))
 			{
 				location.grid.removeUnit(location.improvement);
-				owner.food += 10;
+				owner.gold += 10;
 			}
 			else if (owner.isWar(location.owner))
 			{

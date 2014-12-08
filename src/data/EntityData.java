@@ -382,7 +382,7 @@ public class EntityData {
 		temp = new Improvement("Obelisk","Civilization");
 		temp.cost(0,0,0,10,10,0);
 		cityImprovementMap.put(temp.name, temp);
-		
+
 		temp = new Improvement("Warehouse","Mining");
 		temp.cost(0,0,0,5,20,0);
 		cityImprovementMap.put(temp.name, temp);
@@ -523,6 +523,13 @@ public class EntityData {
 	public static Improvement queueAi(City c)
 	{
 		String queue = null;
+		int p = 0, cities = c.owner.count("Settler");
+		for (int i = 0; i < c.owner.cities.size(); i++) 
+		{
+			p += c.owner.cities.get(i).population;
+			cities++;
+		}
+
 		if (c.owner.units.size() < 3)
 		{
 			queue = "Worker";
@@ -539,12 +546,18 @@ public class EntityData {
 						queue = bestBuilding(c);
 				}
 				else
-					queue = "Settler";
+					if (p > cities*4)
+						queue = "Settler";
+					else
+						queue = bestUnit(c.owner, c.location.grid.civs);
 			}
 			else 
 				if (Math.random() < 0.4*c.owner.tallwide)
 				{
-					queue = "Settler";
+					if (p > cities*4)
+						queue = "Settler";
+					else
+						queue = bestUnit(c.owner, c.location.grid.civs);
 				}
 				else if (Math.random() < 0.7)
 					queue = bestBuilding(c);
@@ -557,7 +570,12 @@ public class EntityData {
 		else
 		{
 			if (Math.random() < 0.3*c.owner.tallwide)
-				queue = "Settler";
+			{
+				if (p > cities*4)
+					queue = "Settler";
+				else
+					queue = bestUnit(c.owner, c.location.grid.civs);
+			}
 			else
 				queue = bestUnit(c.owner, c.location.grid.civs);
 		}

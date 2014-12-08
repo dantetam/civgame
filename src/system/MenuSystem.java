@@ -479,8 +479,8 @@ public class MenuSystem extends BaseSystem {
 
 		main.noStroke();
 		Civilization c = main.grid.civs[0];
-		textboxes.get(3).display.add(c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Research: " + c.research);
-		textboxes.get(3).display.add("Health: " + c.health);
+		textboxes.get(3).display.add(c.name + "; Health: " + c.health + "; Gold: " + c.gold + "; Research: " + c.research);
+		//textboxes.get(3).display.add("Health: " + c.health);
 		if (c.researchTech == null)
 			textboxes.get(3).display.add("No research");
 		else
@@ -1250,7 +1250,7 @@ public class MenuSystem extends BaseSystem {
 		textboxes.get(4).display.clear();
 		textboxes.get(4).display.add("You:");
 		Civilization c = main.grid.civs[0];
-		String s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Research: " + c.research;
+		String s = c.name + "; Health: " + c.health + "; Gold: " + c.gold + "; Research: " + c.research;
 		textboxes.get(4).display.add(s);
 		textboxes.get(4).display.add("");
 
@@ -1259,7 +1259,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 1; i < main.grid.civs.length; i++)
 		{
 			c = main.grid.civs[i];
-			s = c.name + "; Food: " + c.food + "; Gold: " + c.gold + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
+			s = c.name + "; Health: " + c.health + "; Gold: " + c.gold + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
 			textboxes.get(4).display.add(s);
 			menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + c.name + ".", 600, 190+60+15*(i-1), 90, 15);
 		}

@@ -6,6 +6,8 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
+(Planned 12/1/2014 -> 12/12/2014) 
+
 /+ Game mechanic balancing
 	AI should improve units when available to discourage spamming weaker units
 		Melee units have weapon improvement that gives advantage over enemy unit lacking it
@@ -25,9 +27,14 @@ X : Abandoned
 		>+ Pauses between automatic selection (of units) which can be set in menu
 		+ Gradient colors for UI buttons
 	/+ City GUI for queued food, metal, and health + estimated turns to production
+	>+ Status bar (tell player what needs to be queued)
 >+ Fixed sea land border glitch
 >+ Fixed glitch in 2D tile gui
 >+ Balanced forests, small changes
+
++ Savages that prevent working of certain tiles (have no presence on map)
+	+ Can turn into barbarians
++ City names for each civilization
 
 V 1.0!
 

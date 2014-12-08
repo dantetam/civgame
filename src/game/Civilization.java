@@ -28,7 +28,7 @@ public class Civilization {
 	//play 0 tall (build a few large cities with many tiles) or 
 	//1 wide (build many small cities close to each other)
 	public float war, peace, tallwide;
-	public String governmentCivic = "Decentralization", economicCivic = "Tribal ";
+	public String governmentCivic = "Decentralization", economicCivic = "Tribal Economy";
 	public String primaryTrait = "", secondaryTrait = "";
 	
 	public TechTree techTree;
@@ -36,7 +36,8 @@ public class Civilization {
 	public ArrayList<String> bonuses;
 	//public ArrayList<Tile> tiles;
 
-	public int food, gold, research; //,metal;
+	public int gold, research;
+	//public int food, gold, research; //,metal; Scrap this system 
 	public int health = 0;
 
 	public int[][] revealed;
@@ -63,7 +64,8 @@ public class Civilization {
 		allies = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		this.name = name;
-		food = 17; gold = 0; research = 0; //metal = 0;
+		gold = 50; research = 0;
+		//food = 17; research = 0; //metal = 0;
 		techTree = new TechTree();
 		beeline = new ArrayList<String>();
 		/*if (!name.equals("Player"))
@@ -95,7 +97,8 @@ public class Civilization {
 		allies = new ArrayList<Civilization>();
 		//tiles = new ArrayList<Tile>();
 		name = c.name;
-		food = 17; gold = 0; research = 0; //metal = 0; 
+		gold = 50; research = 0;
+		//food = 17; gold = 0; research = 0; //metal = 0; 
 		techTree = new TechTree();
 		beeline = new ArrayList<String>();
 		/*if (!name.equals("Player"))

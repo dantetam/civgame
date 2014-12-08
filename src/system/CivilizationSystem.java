@@ -123,7 +123,7 @@ public class CivilizationSystem extends BaseSystem {
 						 * (shape 2) mountain -2,0,2,2
 						 *
 						 */
-						if (i != 0)
+						/*if (i != 0)
 						{
 							//Assign specialized workers, prioritize scientists
 							if (c.population >= 5)
@@ -137,7 +137,7 @@ public class CivilizationSystem extends BaseSystem {
 									idle = 0;
 								}
 							}
-						}
+						}*/
 
 						c.happiness = 4 - c.population;
 						if (grid.difficultyLevel == 1 && i == 0)
@@ -378,10 +378,10 @@ public class CivilizationSystem extends BaseSystem {
 								tf -= Math.min(tf, c.population*2);
 							}
 						}*/
-						if (c.health >= 0)
+						/*if (c.health >= 0)
 						{
 							c.focus = "Growth";
-							/*double dGrowth = 0;
+							double dGrowth = 0;
 							if (tf > c.population*2)
 							{
 								if (c.population < 3)
@@ -404,10 +404,10 @@ public class CivilizationSystem extends BaseSystem {
 							else
 							{
 								dGrowth = 0.05;
-							}*/
-							/*if (dGrowth > 0 && c.built("Granary")) 
+							}
+							if (dGrowth > 0 && c.built("Granary")) 
 								dGrowth *= 1.25;
-							c.percentGrowth += dGrowth;*/
+							c.percentGrowth += dGrowth;
 							double dGrowth = civ.food/(8*c.population);
 							if (dGrowth > 0 && c.built("Granary")) 
 								dGrowth *= 1.25;
@@ -437,7 +437,7 @@ public class CivilizationSystem extends BaseSystem {
 						if (c.population > 4)
 						{
 							c.focus = "Growth";
-						}
+						}*/
 						/*for (int k = 0; k < c.workedLand.size(); k++)
 						{
 							Tile t = c.workedLand.get(k);
@@ -654,7 +654,7 @@ public class CivilizationSystem extends BaseSystem {
 				}*/
 
 				//Begin starvation if there is lack of food
-				if (civ.food <= -10)
+				if (civ.gold <= 0)
 				{
 					if (Math.random() < 0.2) //&& civ.units.size() > 5)
 					{

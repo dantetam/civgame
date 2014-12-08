@@ -22,7 +22,6 @@ public class City extends TileEntity {
 	//public int queueTurns;
 	public int queueFood, queueMetal;
 	public Civilization owner;
-	public String focus;
 	public ArrayList<Improvement> buildings;
 	public int takeover;
 	public float morale;
@@ -60,7 +59,7 @@ public class City extends TileEntity {
 		//queue = null;
 		queueTurns = 0; queueFood = 0; queueMetal = 0;
 		//owner = null;
-		focus = "Growth";
+		//focus = "Growth";
 		buildings = new ArrayList<Improvement>();
 		health = 20; maxHealth = 20;
 		offensiveStr = 0; rangedStr = 4; defensiveStr = 6;
@@ -217,7 +216,7 @@ public class City extends TileEntity {
 		{
 			Tile t = land.get(k);
 			temp.add(t);
-			scores.add((int)evaluate(t,focus)[0]);
+			scores.add((int)evaluate(t,cityFocus)[0]);
 		}
 		workedLand.clear();
 		//System.out.println("-----");
@@ -244,7 +243,7 @@ public class City extends TileEntity {
 		int[] temp = new int[4];
 		for (int i = 0; i < workedLand.size(); i++)
 		{
-			double[] eval = evaluate(workedLand.get(i), null);
+			double[] eval = evaluate(workedLand.get(i), -1);
 			temp[0] += eval[0]; 
 			temp[1] += eval[1];
 			temp[2] += eval[2];
@@ -451,7 +450,7 @@ public class City extends TileEntity {
 	}
 
 	//Returns a score
-	public double[] evaluate(Tile t, String focus)
+	public double[] evaluate(Tile t, int cityFocus)
 	{
 		findResources();
 		int f, g, m, r;
@@ -612,14 +611,14 @@ public class City extends TileEntity {
 				}
 			}
 		}
-		if (focus == null)
+		if (cityFocus == -1)
 		{
 			return new double[]{f,g,m,r};
 		}
 		else
 		{
 			int score = 0;
-			if (focus.equals("Growth"))
+			/*if (focus.equals("Growth"))
 			{
 				score = f*2 + g + m + r;
 			}
@@ -638,7 +637,17 @@ public class City extends TileEntity {
 			else
 			{
 				System.err.println("Invalid city focus");
-			}
+			}*/
+			if (cityFocus == 0)
+				score = f + g + m*2 + r;
+			else if (cityFocus == 1)
+				score = f + (int)(g*1.5F) + m + (int)(r*1.5F);
+			else if (cityFocus == 2)
+				score = f + g + m*2 + r;
+			else if (cityFocus == 3)
+				score = f*2 + g + m + r;
+			else
+				System.out.println("Invalid city focus number");
 			return new double[]{score,f,g,m,r};
 		}
 	}

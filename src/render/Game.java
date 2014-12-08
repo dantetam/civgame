@@ -15,6 +15,7 @@ import data.Color;
 import data.EntityData;
 import processing.core.PApplet;
 import processing.core.PFont;
+import units.City;
 import menugame.MenuGame;
 
 public class Game extends PApplet {
@@ -218,6 +219,14 @@ public class Game extends PApplet {
 					vertex(len*(r+1),len*c);
 					endShape();
 				}*/
+				if (t.improvement != null)
+				{
+					if (t.improvement instanceof City)
+					{
+						fill(255,0,0);
+						text(((City)t.improvement).population ,len*r, len*c);
+					}
+				}
 			}
 		}
 		/*for (int i = 0; i < menuGame.grid.civs.length; i++)
