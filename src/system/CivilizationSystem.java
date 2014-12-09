@@ -377,7 +377,7 @@ public class CivilizationSystem extends BaseSystem {
 							double dGrowth = (tf - c.population*3)/(c.population*4 + Math.pow(c.population,1.5));
 							if (dGrowth > 0 && c.built("Granary")) 
 								dGrowth *= 1.25;
-							System.out.println(dGrowth + " " + tf);
+							//System.out.println(dGrowth + " " + tf);
 							c.percentGrowth += dGrowth;
 
 							if (c.percentGrowth >= 1)
@@ -516,6 +516,7 @@ public class CivilizationSystem extends BaseSystem {
 							c.sortie = 0;
 						}
 					}
+					civ.health -= Math.pow(civ.cities.size(), 1.5);
 					if (civ.health < 0)
 					{
 
@@ -554,6 +555,7 @@ public class CivilizationSystem extends BaseSystem {
 					{
 						if (grid.civs[j].capital != null && civ.capital != null)
 						{
+							if (civ.cities.size() == 0) continue;
 							if (civ.capital.location.dist(oCiv.capital.location) < 30)
 							{
 								//baseOpinion -= 50;

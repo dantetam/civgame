@@ -137,7 +137,7 @@ public class EntityData {
 	{
 		civs.clear();
 		civs.put("Achaea", new Civilization("Achaea",list(),0,0,255,0.3,0.3,1));
-		civs.put("Athens", new Civilization("Athens",list(),255,255,255,0.2,0.8,0.2));
+		civs.put("Athens", new Civilization("Athens",list(),255,255,255,0.2,0.8,0.3));
 		civs.put("Corinth", new Civilization("Corinth",list(),0,255,255,0.5,0.5,0.5));
 		civs.put("Crete", new Civilization("Crete",list(),0,150,0,0.3,0.6,0.3));
 		//civs.put("Ephesus", new Civilization("Ephesus",list(),150,150,150));
@@ -145,8 +145,8 @@ public class EntityData {
 		civs.put("Illyria", new Civilization("Illyria",list(),0,255,0,0.5,0.5,0.8));
 		//civs.put("Lydia", new Civilization("Lydia",list(),150,150,150));
 		civs.put("Macedonia", new Civilization("Macedonia",list(),255,150,0,0.8,0.6,1));
-		civs.put("Rhodes", new Civilization("Rhodes",list(),175,175,0,0.1,0.8,0.1));
-		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0,0.8,0.1,0.2));
+		civs.put("Rhodes", new Civilization("Rhodes",list(),175,175,0,0.1,0.8,0.3));
+		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0,0.8,0.1,0.3));
 		//civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
 		civs.put("Thrace", new Civilization("Thrace",list(),175,255,255,0.6,0.4,0.5));
 
@@ -546,7 +546,7 @@ public class EntityData {
 						queue = bestBuilding(c);
 				}
 				else
-					if (p > cities*4 && civ && cities < 6)
+					if (p > cities*4 && civ && cities < 6 && c.owner.health > -5)
 						queue = "Settler";
 					else
 						queue = bestUnit(c.owner, c.location.grid.civs);
@@ -554,7 +554,7 @@ public class EntityData {
 			else 
 				if (Math.random() < 0.4*c.owner.tallwide)
 				{
-					if (p > cities*4 && civ && cities < 6)
+					if (p > cities*4 && civ && cities < 6 && c.owner.health > -5)
 						queue = "Settler";
 					else
 						queue = bestUnit(c.owner, c.location.grid.civs);
@@ -571,7 +571,7 @@ public class EntityData {
 		{
 			if (Math.random() < 0.3*c.owner.tallwide)
 			{
-				if (p > cities*4 && civ && cities < 6)
+				if (p > cities*4 && civ && cities < 6 && c.owner.health > -5)
 					queue = "Settler";
 				else
 					queue = bestUnit(c.owner, c.location.grid.civs);

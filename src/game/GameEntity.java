@@ -227,12 +227,25 @@ public abstract class GameEntity extends BaseEntity {
 				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 				if (enemy == null)
 				{
-					if (owner.isOpenBorder(t.owner) ||
-							owner.isWar(t.owner) ||
-							t.owner == null ||
-							owner.equals(t.owner))
+					if (t.improvement == null)
 					{
-						passiveWaddle(r,c);
+						if (owner.isOpenBorder(t.owner) ||
+								owner.isWar(t.owner) ||
+								t.owner == null ||
+								owner.equals(t.owner))
+						{
+							passiveWaddle(r,c);
+						}
+					}
+					else
+					{
+						if (t.improvement instanceof City)
+						{
+							if (captureCity(t.row, t.col))
+							{
+								passiveWaddle(r,c);
+							}
+						}
 					}
 				}
 				if (enemy != null)
@@ -261,7 +274,8 @@ public abstract class GameEntity extends BaseEntity {
 		{
 			if (health >= enemy.health)
 			{
-				location.grid.removeUnit(enemy);
+				if (!(enemy instanceof City))
+					location.grid.removeUnit(enemy);
 				health = 1;
 				return true;
 			}
@@ -275,7 +289,8 @@ public abstract class GameEntity extends BaseEntity {
 		}
 		else if (enemy.health - damages[0] <= 0) //Killed the enemy
 		{
-			location.grid.removeUnit(enemy);
+			if (!(enemy instanceof City))
+				location.grid.removeUnit(enemy);
 			health -= damages[1];
 			return true;
 		}
@@ -322,7 +337,7 @@ public abstract class GameEntity extends BaseEntity {
 	{
 		//System.out.println("takeover");
 		Tile tile = location.grid.getTile(r,c);
-		if (tile.improvement.name.equals("City"))
+		if (tile.improvement instanceof City)
 		{
 			//System.out.println("takeovercity");
 			City city = (City)tile.improvement;
@@ -340,13 +355,14 @@ public abstract class GameEntity extends BaseEntity {
 				city.queueFood = 0;
 				city.queueMetal = 0;
 				city.adm = 0; city.art = 0; city.sci = 0;
-				if (city.owner.capital != null)
+				/*if (city.owner.capital != null)
 				{
 					if (city.equals(city.owner.capital))
 					{
+						if (city.owner.cities.size())
 						city.owner.capital = null;
 					}
-				}
+				}*/
 				for (int k = city.land.size() - 1; k >= 0; k--)
 				{
 					Tile t = city.land.get(k);
