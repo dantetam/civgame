@@ -520,7 +520,7 @@ public class EntityData {
 	}
 
 	//TODO: Factor in level of technology and available units
-	public static Improvement queueAi(City c)
+	public static Improvement queueAi(City c, boolean civ)
 	{
 		String queue = null;
 		int p = 0, cities = c.owner.count("Settler");
@@ -546,7 +546,7 @@ public class EntityData {
 						queue = bestBuilding(c);
 				}
 				else
-					if (p > cities*4)
+					if (p > cities*4 && civ && cities < 6)
 						queue = "Settler";
 					else
 						queue = bestUnit(c.owner, c.location.grid.civs);
@@ -554,7 +554,7 @@ public class EntityData {
 			else 
 				if (Math.random() < 0.4*c.owner.tallwide)
 				{
-					if (p > cities*4)
+					if (p > cities*4 && civ && cities < 6)
 						queue = "Settler";
 					else
 						queue = bestUnit(c.owner, c.location.grid.civs);
@@ -571,7 +571,7 @@ public class EntityData {
 		{
 			if (Math.random() < 0.3*c.owner.tallwide)
 			{
-				if (p > cities*4)
+				if (p > cities*4 && civ && cities < 6)
 					queue = "Settler";
 				else
 					queue = bestUnit(c.owner, c.location.grid.civs);

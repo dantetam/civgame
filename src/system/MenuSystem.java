@@ -319,7 +319,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				if (mouseHighlighted.city.owner != null)
 				{
-					double[] data = mouseHighlighted.city.evaluate(mouseHighlighted, null);
+					double[] data = mouseHighlighted.city.evaluate(mouseHighlighted, -1);
 					hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
 				}
 			}

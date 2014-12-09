@@ -160,9 +160,9 @@ public class CivilizationSystem extends BaseSystem {
 
 						int sumCityWorkers = c.adm + c.art + c.sci;
 						if (c.happiness < 0)
-							c.workTiles(c.population - c.happiness - sumCityWorkers);
+							c.workTiles(c.population - c.happiness - sumCityWorkers + 1);
 						else
-							c.workTiles(c.population - sumCityWorkers);
+							c.workTiles(c.population - sumCityWorkers + 1);
 
 						c.health = 7 - c.population + Math.min(0,c.happiness);
 						if (grid.difficultyLevel == 1 && i == 0)
@@ -189,7 +189,7 @@ public class CivilizationSystem extends BaseSystem {
 							Tile t = c.workedLand.get(k);
 							t.turnsSettled++;
 							//System.out.println(t.row + " " + t.col + " " + t.turnsSettled);
-							double[] eval = c.evaluate(t,null);
+							double[] eval = c.evaluate(t,-1);
 							double f=eval[0],g=eval[1],m=eval[2],r=eval[3];
 
 							if (t.biome == -1 && c.built("Port"))
@@ -221,6 +221,7 @@ public class CivilizationSystem extends BaseSystem {
 						c.culture += Math.floor(c.art*0.25*taxBase);
 						if (civ.trait("Refined"))
 							c.culture += 2;
+						c.culture++;
 						/*if (civ.capital != null)
 							if (civ.capital.equals(c) && !(c.owner instanceof CityState))
 								c.culture++;*/
@@ -272,14 +273,14 @@ public class CivilizationSystem extends BaseSystem {
 							//c.culture -= 20;
 							c.expand(2);
 						}
-						if (c.culture >= 100 && c.expanded == 2)// && c.population > 6)
+						if (c.culture >= 150 && c.expanded == 2)// && c.population > 6)
 						{
 							c.expand(3);
 						}
 						//System.out.println(tf + " " + c.owner.food);
 						if (civ instanceof CityState || civ.name.contains("Barbarians"))
 						{
-							if (c.focus.equals("Growth"))
+							/*if (c.cityFocus == 0 && c.cityFocus == 3)
 							{
 								if (civ.units.size() == 0)
 								{
@@ -308,18 +309,19 @@ public class CivilizationSystem extends BaseSystem {
 									}
 								}
 							}
-							else if (c.focus.equals("Production"))
+							else if (c.cityFocus == 1 || c.cityFocus == 2)
 							{
 								if (civ.units.size() <= 5)
 								{
 									EntityData.queue(c, "Warrior");
 								}
-							}
+							}*/
+							EntityData.queueAi(c, false);
 						}
 						if (c.queue == null && i != 0)
 						{
 							if (civ.units.size() < 15)
-								EntityData.queueAi(c);
+								EntityData.queueAi(c, true);
 						}
 						if (c.queue != null)
 						{
@@ -331,15 +333,15 @@ public class CivilizationSystem extends BaseSystem {
 							}*/
 							if (c.queueFood > 0)
 							{
-								float amount = PApplet.min((float)tf/2,c.population*5,c.queueFood);
-								tf -= amount;
-								c.queueFood -= amount;
+								//float amount = PApplet.min((float)tf/2,c.population*5,c.queueFood);
+								//tf -= amount;
+								c.queueFood -= tf;
 							}
 							if (c.queueMetal > 0)
 							{
-								float amount = PApplet.min((float)tm,c.population*5,c.queueMetal);
-								tm -= amount;
-								c.queueMetal -= amount;
+								//float amount = PApplet.min((float)tm,c.population*5,c.queueMetal);
+								//tm -= amount;
+								c.queueMetal -= tm;
 							}
 							//System.out.println(c.queueFood);
 							if (c.queueFood <= 0 && c.queueMetal <= 0)
@@ -370,6 +372,30 @@ public class CivilizationSystem extends BaseSystem {
 							}
 						}
 
+						if (c.health > -5)
+						{
+							double dGrowth = (tf - c.population*3)/(c.population*4 + Math.pow(c.population,1.5));
+							if (dGrowth > 0 && c.built("Granary")) 
+								dGrowth *= 1.25;
+							System.out.println(dGrowth + " " + tf);
+							c.percentGrowth += dGrowth;
+
+							if (c.percentGrowth >= 1)
+							{
+								c.percentGrowth = 0;
+								c.population++;
+								//c.focus = "Growth";
+							}
+							else if (c.percentGrowth < 0)
+							{
+								c.percentGrowth = 0;
+								if (c.population > 1)
+								{
+									c.percentGrowth = 0.5;
+									c.population--;
+								}
+							}
+						}
 						/*if (c.queue != null)
 						{
 							if (c.queue.equals("Settler") || c.queue.equals("Worker"))
@@ -492,7 +518,7 @@ public class CivilizationSystem extends BaseSystem {
 					}
 					if (civ.health < 0)
 					{
-						
+
 					}
 					/*for (int j = 0; j < civ.cities.size(); j++)
 					{
@@ -511,13 +537,12 @@ public class CivilizationSystem extends BaseSystem {
 							}
 						}
 					}*/
-					civ.food += tf;
 					civ.gold += tg;
 					//civ.metal += tm;
 					civ.research += tr;
 
 					//Resource caps
-					civ.food = Math.min(civ.food, population*3);
+					//civ.food = Math.min(civ.food, population*3);
 					//civ.metal = Math.min(civ.metal, population*3);
 				}
 				//Update civilization's opinions of each other
