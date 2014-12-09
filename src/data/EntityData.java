@@ -581,6 +581,8 @@ public class EntityData {
 		}
 		if (queue == null) 
 			queue = bestUnit(c.owner, c.location.grid.civs);
+		if (c.owner.units.size() > 5*c.owner.cities.size())
+			return null;
 		//System.out.println(queue);
 		return queue(c, queue);
 	}

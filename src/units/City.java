@@ -62,7 +62,7 @@ public class City extends TileEntity {
 		//focus = "Growth";
 		buildings = new ArrayList<Improvement>();
 		health = 20; maxHealth = 20;
-		offensiveStr = 0; rangedStr = 4; defensiveStr = 6;
+		offensiveStr = 0; rangedStr = 4; defensiveStr = 7;
 		takeover = 0;
 		sight = 4;
 		art = 0; sci = 0; adm = 0;

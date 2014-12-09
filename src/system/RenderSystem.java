@@ -419,6 +419,8 @@ public class RenderSystem extends BaseSystem {
 							main.fill(255);
 						}
 					}*/
+					try
+					{
 					main.pushMatrix();
 					main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
 					main.beginShape(main.TRIANGLES);
@@ -436,6 +438,7 @@ public class RenderSystem extends BaseSystem {
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
 					main.endShape();
 					main.popMatrix();
+					} catch (Exception e) {continue;}
 				}
 			}
 			main.popMatrix();
@@ -491,14 +494,6 @@ public class RenderSystem extends BaseSystem {
 		main.pushMatrix();
 
 		main.strokeWeight(1);
-		if (en.owner != null)
-		{
-			if (en.location.harvest)
-			{
-				main.strokeWeight(5);
-				main.stroke(en.owner.r,en.owner.g,en.owner.b);
-			}
-		}
 
 		/*if (en instanceof GameEntity && en.owner.id == 0)
 		{
@@ -555,7 +550,16 @@ public class RenderSystem extends BaseSystem {
 		else
 			renderModel(en.getName(),r,c,0,0,0);
 		main.noStroke();
-
+		
+		if (en.owner != null)
+		{
+			if (en.location.harvest)
+			{
+				main.strokeWeight(5);
+				main.stroke(en.owner.r,en.owner.g,en.owner.b);
+			}
+		}
+		
 		float health = (float)en.health/(float)en.maxHealth;
 		if (en.owner != null && health < 1)
 		{

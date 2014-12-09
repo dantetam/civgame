@@ -452,19 +452,14 @@ public abstract class GameEntity extends BaseEntity {
 				for (int j = 0; j < e.get(i).cities.size(); j++)
 				{
 					City candidate = e.get(i).cities.get(j);
-					if (owner.revealed[candidate.location.row][candidate.location.col] == 0)
-					{
-						continue;
-					}
+					if (owner.id >= location.grid.barbarians)
+						if (owner.revealed[candidate.location.row][candidate.location.col] == 0)
+							continue;
 					if (nearest != null)
-					{
 						if (candidate.location.dist(location) < nearest.location.dist(location)) 
 							nearest = candidate;
-					}
 					else
-					{
 						nearest = candidate;
-					}
 				}
 			}
 		}

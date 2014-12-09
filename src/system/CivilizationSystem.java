@@ -681,13 +681,13 @@ public class CivilizationSystem extends BaseSystem {
 				}*/
 
 				//Begin starvation if there is lack of food
-				if (civ.gold <= 0)
+				/*if (civ.gold <= 0)
 				{
 					if (Math.random() < 0.2) //&& civ.units.size() > 5)
 					{
 						grid.removeUnit(civ.units.get((int)(Math.random()*civ.units.size())));
 					}
-				}
+				}*/
 				//Begin researching techs (enemy AI only)
 				if (true)
 				{
@@ -914,7 +914,7 @@ public class CivilizationSystem extends BaseSystem {
 	public void spawnBarbarians(Grid grid, int index, int r, int c)
 	{
 		if (grid.civs[index].cities.size()*4 +
-				grid.civs[index].units.size() < turnsPassed/10)
+				grid.civs[index].units.size() < turnsPassed/10 && turnsPassed < 100)
 		{
 			if (grid.civs[index].cities.size() == 0)
 				grid.addUnit(EntityData.get("Settler"),grid.civs[index],r,c);
