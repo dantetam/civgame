@@ -561,20 +561,26 @@ public class MenuSystem extends BaseSystem {
 					tooltip.active = true;
 					tooltip.posX = main.mouseX;
 					tooltip.posY = main.mouseY;
-					tooltip.dimTooltip(mouseHighlighted.occupants);
+					tooltip.dimTooltip(mouseHighlighted.occupants, mouseHighlighted.improvement);
 					main.fill(0);
 					main.stroke(255);
 					main.rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
 					main.fill(255);
 					main.noStroke();
 					main.textAlign(main.CENTER);
+					BaseEntity impr = mouseHighlighted.improvement;
+					if (impr != null)
+						main.text(impr.name + " (" + impr.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10);
 					for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
 					{
 						GameEntity en = mouseHighlighted.occupants.get(i);
 						/*if (i != mouseHighlighted.occupants.size() - 1)
 							main.text(en.name + "(" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
 						else*/
-						main.text(en.name + " (" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
+						if (impr != null)
+							main.text(en.name + " (" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10 + 14*(i+1));
+						else
+							main.text(en.name + " (" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10 + 14*i);
 					}
 				}
 			}
