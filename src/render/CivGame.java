@@ -12,6 +12,7 @@ import data.Color;
 import terrain.*;
 import system.*;
 import entity.Player;
+import game.Civilization;
 import game.Grid;
 import game.Pathfinder;
 import game.Tile;
@@ -46,6 +47,8 @@ public class CivGame extends PApplet {
 	public InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
+	
+	public boolean testing = false;
 
 	public CivGame(Game game, int numCivs, int numCityStates, int difficultyLevel, String challengeType, String terrainType, String civChoice, long seed)
 	{
@@ -111,6 +114,16 @@ public class CivGame extends PApplet {
 		chunkSystem.update(); //Update once
 		Tile t = grid.civs[0].units.get(0).location; //First settler
 		fixCamera(t.row, t.col); //Center the camera at the appropriate location
+		
+		if (testing)
+		{
+			for (int i = 0; i < grid.civs.length; i++)
+			{
+				Civilization civ = grid.civs[i];
+				civ.war = Math.min(1, civ.war*2);
+				civ.tallwide = Math.min(0, civ.tallwide/2);
+			}
+		}
 	}
 
 	public void draw()
@@ -288,26 +301,27 @@ public class CivGame extends PApplet {
 			con = 1F;
 			cutoff = 0;
 		}
+		int n = 1;
 		if (numCivs <= 4)
 		{
-			terrain = downSample(terrain,4);
-			menuSystem.multiplier = 4;
+			n = 4;
 		}
 		else if (numCivs <= 7)
 		{
-			terrain = downSample(terrain,3);
-			menuSystem.multiplier = 3;
+			n = 3;
 		}
 		else if (numCivs <= 10)
 		{
-			terrain = downSample(terrain,2);
-			menuSystem.multiplier = 2;
+			n = 2;
 		}
 		else
 		{
-			menuSystem.multiplier = 1;
+			n = 1;
 			//Don't sample and downsize it
 		}
+		if (!terrainType.equals("terrain11")) n *= 2;
+		terrain = downSample(terrain,n);
+		menuSystem.multiplier = n;
 		int[][] biomes = assignBiome(terrain);
 		grid = new Grid(civChoice, terrain, biomes, assignResources(biomes), numCivs, numCityStates, difficultyLevel, 3, (int)cutoff, seed);
 		civilizationSystem.theGrid = grid;

@@ -614,7 +614,7 @@ public class CivilizationSystem extends BaseSystem {
 											!civ.isWar(civ2) &&
 											civ.enemies().size() < 2)
 									{
-										//System.out.println("war between " + civ.name + " and " + grid.civs[j]);
+										System.out.println("war between " + civ.name + " and " + grid.civs[j]);
 										civ.war(civ2);
 										//Call in allies
 										ArrayList<Civilization> allies = civ.allies();
@@ -654,6 +654,7 @@ public class CivilizationSystem extends BaseSystem {
 							}
 							else if (civ.opinions[j] > -(50*civ.peace) && civ.isWar(civ2))
 							{
+								System.out.println("peace");
 								grid.civs[j].peace(civ);
 								civ.peace(grid.civs[j]);
 								if (guiExists)

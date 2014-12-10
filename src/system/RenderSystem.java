@@ -754,7 +754,7 @@ public class RenderSystem extends BaseSystem {
 
 	public void renderModel(String name, float red, float green, float blue)
 	{
-		main.pushMatrix();
+		//main.pushMatrix();
 		float[][] model = EntityData.getModel(name);
 		if (model != null)
 		{
@@ -780,7 +780,7 @@ public class RenderSystem extends BaseSystem {
 		{
 			renderModel("Settler", red, green, blue);
 		}
-		main.popMatrix();
+		//main.popMatrix();
 	}
 
 	public void renderModel(String name, int r, int c, float red, float green, float blue)

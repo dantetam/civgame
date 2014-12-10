@@ -31,7 +31,6 @@ public class Game extends PApplet {
 
 	public MenuGame menuGame;
 	public int tickEvery = 6;
-	
 	//public long seed = 87069200L;
 	public String seed = "87069200"; //for easy modification (not by modulo, but substring)
 

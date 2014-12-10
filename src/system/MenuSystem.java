@@ -89,7 +89,7 @@ public class MenuSystem extends BaseSystem {
 			TextBox b = menu0.buttons.get(i);
 			b.move(0, 70 + (i)*height);
 			b.origX = b.posX; b.origY = b.posY;
-			System.out.println(b.posX + " " + b.posY);
+			//System.out.println(b.posX + " " + b.posY);
 		}
 
 		Menu menu1 = new Menu("UnitMenu");

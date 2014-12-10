@@ -16,6 +16,8 @@ public class MenuGame {
 	public Civilization[][] civRecord; //A record of the owners of the respective tiles
 	public Civilization[][] civUnitRecord; //A record of the units present at those tiles
 	
+	public boolean testing = true;
+	
 	public MenuGame(long seed)
 	{
 		this.seed = seed;
@@ -106,7 +108,7 @@ public class MenuGame {
 		
 		int[][] biomes = assignBiome(terrain, (int)cutoff);
 		grid = new Grid("Athens", terrain, biomes, assignResources(biomes), 
-				(int)(Math.random()*4) + 4, 
+				(int)(Math.random()*3) + 7, 
 				0,
 				3,
 				1, 
@@ -116,6 +118,15 @@ public class MenuGame {
 		makeRivers(biomes);
 		civSystem = new CivilizationSystem(this);
 		civSystem.theGrid = grid;
+		if (testing)
+		{
+			for (int i = 0; i < grid.civs.length; i++)
+			{
+				Civilization civ = grid.civs[i];
+				//civ.war = Math.min(1, civ.war*2);
+				civ.tallwide = Math.min(1, civ.tallwide*2);
+			}
+		}
 	}
 	
 	public void tick()

@@ -144,8 +144,10 @@ public class Warrior extends GameEntity {
 				{
 					super.waddleToExact(nearestU.row, nearestU.col);
 				}*/
+				//System.out.println(nearestE);
 				if (nearestE != null) //else if (nearestE != null)
 				{
+					//System.out.println("pathfinding");
 					super.waddleToExact(nearestE.row, nearestE.col);
 				}
 				else if (nearestA != null)
