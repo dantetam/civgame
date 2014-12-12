@@ -269,8 +269,11 @@ public class InputSystem extends BaseSystem {
 					if (msg == null && en.action > 0)
 					{
 						en.playerTick();
-						timeSelection();
-						main.menuSystem.select(null);
+						if (en.action == 0)
+						{
+							timeSelection();
+							main.menuSystem.select(null);
+						}
 					}
 					else
 						main.menuSystem.message(msg);
@@ -295,7 +298,7 @@ public class InputSystem extends BaseSystem {
 			}
 		}
 	}*/
-	
+
 	public void timeSelection()
 	{
 		main.menuSystem.textboxes.get(5).display.clear();

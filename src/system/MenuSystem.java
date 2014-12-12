@@ -380,6 +380,7 @@ public class MenuSystem extends BaseSystem {
 						if (pos != null)
 						{
 							main.textAlign(main.CENTER);
+							main.textSize(18);
 							main.fill(255,0,0);
 							int dC = r - (mh.guiPositions.length-1)/2;
 							int dR = c - (mh.guiPositions[0].length-1)/2;
@@ -394,6 +395,9 @@ public class MenuSystem extends BaseSystem {
 								if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
 										main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) 
 									continue;
+								if (movementChoices.contains(t))
+									main.text(">", pos[0] - dX,pos[1] - dY + 10);
+								if (movementChoices.size() > 0) continue; 
 								//main.text(t.row + "," + t.col, pos[0], pos[1]);
 								double[] y = City.staticEval(t);
 								int n = 0;
@@ -417,11 +421,12 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(1).active = false;
 		}
-
+		main.textSize(12);
+		
 		//Show the possible tiles that a unit can move to
 		//Make this a function to stop code repeats
 		//System.out.println(movementChoices.size());
-		for (int i = 0; i < movementChoices.size(); i++)
+		/*for (int i = 0; i < movementChoices.size(); i++)
 		{
 			Tile t = movementChoices.get(i);
 			//System.out.println((t.row - h.row - (mh.guiPositions.length-1)/2) + " " + (t.col - h.col + (mh.guiPositions[0].length-1)/2));
@@ -436,7 +441,7 @@ public class MenuSystem extends BaseSystem {
 				float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
 				main.text("1", pos[0] - dX,pos[1] - dY);
 			}
-		}
+		}*/
 
 		//Show the city queue food/metal menu and associated UI
 		//More repeating code
