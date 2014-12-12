@@ -139,6 +139,7 @@ public class InputSystem extends BaseSystem {
 			}
 			clicks.remove(i);
 		}
+		main.menuSystem.menuActivated = false;
 	}
 
 	//Stores which keys are being held (such as panning with WASD)

@@ -50,7 +50,7 @@ public class CivilizationSystem extends BaseSystem {
 				{
 					if (i >= grid.barbarians) //Barbarian reset
 					{
-						//civ.revealed = new boolean[civ.revealed.length][civ.revealed[0].length];
+						civ.revealed = new int[civ.revealed.length][civ.revealed[0].length];
 					}
 					else
 					{

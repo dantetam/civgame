@@ -12,7 +12,9 @@ import data.Color;
 import terrain.*;
 import system.*;
 import entity.Player;
+import game.BaseEntity;
 import game.Civilization;
+import game.GameEntity;
 import game.Grid;
 import game.Pathfinder;
 import game.Tile;
@@ -141,16 +143,17 @@ public class CivGame extends PApplet {
 	}
 
 	public boolean newLine = false;
+	private float rMouseX = -1, rMouseY = -1;
 	public void mousePressed()
 	{
-		if (!newLine)
+		/*if (!newLine)
 		{
 			print("main.line("+(int)mouseX+","+(int)mouseY);
 		}
 		else
 		{
 			println(","+mouseX+","+mouseY+");");
-		}
+		}*/
 		newLine = !newLine;
 		//println(player.toString());
 		//println((int)mouseX+","+(int)mouseY);
@@ -166,7 +169,14 @@ public class CivGame extends PApplet {
 			else if (mouseButton == RIGHT)
 			{
 				//Pass a right click to input system
-				inputSystem.queueRightClick(mouseX, mouseY);
+				rMouseX = mouseX; rMouseY = mouseY;
+				BaseEntity en = menuSystem.getSelected();
+				if (en != null)
+				{
+					ArrayList<Tile> temp = new ArrayList<Tile>(); temp.add(en.location);
+					menuSystem.movementChoice(temp, true, en.maxAction);
+				}
+				//inputSystem.queueRightClick(mouseX, mouseY);
 			}
 		}
 	}
@@ -180,8 +190,11 @@ public class CivGame extends PApplet {
 
 	public void mouseReleased()
 	{
-		menuSystem.menuActivated = false;
-		newMenuSystem.mouseReleased(mouseX, mouseY);
+		inputSystem.queueRightClick(rMouseX, rMouseY);
+		rMouseX = -1; rMouseY = -1;
+		menuSystem.movementChoices.clear();
+		//menuSystem.menuActivated = false;
+		newMenuSystem.mouseReleased(rMouseX, rMouseY);
 	}
 
 	/*public void mouseMoved()

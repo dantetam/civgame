@@ -45,7 +45,7 @@ public class MenuSystem extends BaseSystem {
 	public Tile mouseHighlighted; //Under the player's crosshair versus under the player's mouse
 	public Tile lastHighlighted;
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
-	public Tile[] settlerChoices;
+	public Tile[] settlerChoices; public ArrayList<Tile> movementChoices = new ArrayList<Tile>();
 	public String typeOfLastSelected = "";
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
@@ -392,7 +392,8 @@ public class MenuSystem extends BaseSystem {
 							if (t != null)
 							{
 								if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
-										main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) continue;
+										main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) 
+									continue;
 								//main.text(t.row + "," + t.col, pos[0], pos[1]);
 								double[] y = City.staticEval(t);
 								int n = 0;
@@ -415,6 +416,26 @@ public class MenuSystem extends BaseSystem {
 		else
 		{
 			menus.get(1).active = false;
+		}
+
+		//Show the possible tiles that a unit can move to
+		//Make this a function to stop code repeats
+		//System.out.println(movementChoices.size());
+		for (int i = 0; i < movementChoices.size(); i++)
+		{
+			Tile t = movementChoices.get(i);
+			//System.out.println((t.row - h.row - (mh.guiPositions.length-1)/2) + " " + (t.col - h.col + (mh.guiPositions[0].length-1)/2));
+			float[] pos = mh.positionGui(t.col - h.col + (mh.guiPositions[0].length-1)/2, t.row - h.row + (mh.guiPositions.length-1)/2);
+			if (pos != null && t != null)
+			{
+				if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
+						main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) 
+					continue;
+				main.textAlign(main.CENTER);
+				main.fill(255,0,0);
+				float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
+				main.text("1", pos[0] - dX,pos[1] - dY);
+			}
 		}
 
 		//Show the city queue food/metal menu and associated UI
@@ -1325,7 +1346,7 @@ public class MenuSystem extends BaseSystem {
 			menus.get(1).addButton("meleeMode", "Melee", "Allow this unit to use melee attacks.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
 			n++;
 		}
-		
+
 		for (int i = 0; i < menus.get(1).buttons.size(); i++)
 		{
 			TextBox b = menus.get(i).buttons.get(i);
@@ -1513,6 +1534,32 @@ public class MenuSystem extends BaseSystem {
 			menus.get(7).addButton("encyclopedia" + key, key, "", 830, 190 + 30*n, 100, 30);
 			n++;
 		}
+	}
+
+	//Find the spaces that a selected unit could potentially move to
+	ArrayList<Tile> temp = new ArrayList<Tile>();
+	public void movementChoice(ArrayList<Tile> initial, boolean first, int action)
+	{
+		if (first)
+			temp = new ArrayList<Tile>();
+		//action--;
+		if (action <= 0)
+		{
+			movementChoices = temp; 
+			return;
+		}
+		for (int i = 0; i < initial.size(); i++)
+		{
+			ArrayList<Tile> adj = main.grid.adjacent(initial.get(i).row, initial.get(i).col);
+			for (int j = 0; j < adj.size(); j++)
+			{
+				if (!temp.contains(adj.get(j)))
+					temp.add(adj.get(j));
+			}
+		}
+		//System.out.println(initial.size() + " " + temp.size());
+		if (action > 0)
+			movementChoice(temp, false, action-1);
 	}
 
 	//Encapsulation for selected
