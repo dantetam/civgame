@@ -186,6 +186,11 @@ public class InputSystem extends BaseSystem {
 			Tile h = main.menuSystem.highlighted;
 			if (h != null)
 				main.menuSystem.mouseHighlighted = main.grid.getTile(h.row + tile[1], h.col - tile[0]);
+			if (main.rMouseX != -1 && main.rMouseY != -1)
+			{
+				if (!main.menuSystem.lastMouseHighlighted.equals(main.menuSystem.mouseHighlighted) && main.menuSystem.getSelected() != null)
+					main.menuSystem.pathTo(main.menuSystem.lastHighlighted);
+			}
 		}
 	}
 

@@ -143,7 +143,7 @@ public class CivGame extends PApplet {
 	}
 
 	public boolean newLine = false;
-	private float rMouseX = -1, rMouseY = -1;
+	public float rMouseX = -1, rMouseY = -1;
 	public void mousePressed()
 	{
 		/*if (!newLine)
@@ -193,6 +193,7 @@ public class CivGame extends PApplet {
 		inputSystem.queueRightClick(rMouseX, rMouseY);
 		rMouseX = -1; rMouseY = -1;
 		menuSystem.movementChoices.clear();
+		menuSystem.pathToHighlighted.clear();
 		//menuSystem.menuActivated = false;
 		newMenuSystem.mouseReleased(rMouseX, rMouseY);
 	}

@@ -43,9 +43,10 @@ public class MenuSystem extends BaseSystem {
 	//public ArrayList<String> hintText;
 	public Tile highlighted;
 	public Tile mouseHighlighted; //Under the player's crosshair versus under the player's mouse
+	public Tile lastMouseHighlighted;
 	public Tile lastHighlighted;
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
-	public Tile[] settlerChoices; public ArrayList<Tile> movementChoices = new ArrayList<Tile>();
+	public Tile[] settlerChoices; public ArrayList<Tile> movementChoices = new ArrayList<Tile>(), pathToHighlighted = new ArrayList<Tile>();
 	public String typeOfLastSelected = "";
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
@@ -184,6 +185,7 @@ public class MenuSystem extends BaseSystem {
 		main.textSize(12);
 
 		lastHighlighted = highlighted;
+		lastMouseHighlighted = mouseHighlighted;
 
 		//Approximate tile lines
 		/*main.strokeWeight(5);
@@ -1565,6 +1567,12 @@ public class MenuSystem extends BaseSystem {
 		//System.out.println(initial.size() + " " + temp.size());
 		if (action > 0)
 			movementChoice(temp, false, action-1);
+	}
+	
+	//Draw a path from the selected's entity tile to another
+	public void pathTo(Tile t)
+	{
+		TODO
 	}
 
 	//Encapsulation for selected
