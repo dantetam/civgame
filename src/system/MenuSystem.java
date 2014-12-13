@@ -14,14 +14,7 @@ import data.EntityData;
 import data.Improvement;
 import processing.core.PApplet;
 import processing.core.PFont;
-import render.Button;
-import render.CivGame;
-import render.Menu;
-import render.MouseHelper;
-import render.Game.PFrame;
-import render.TextBox;
-import render.Tooltip;
-import render.Tutorial;
+import render.*;
 import units.Caravan;
 import units.City;
 import units.Settler;
@@ -399,6 +392,14 @@ public class MenuSystem extends BaseSystem {
 									continue;
 								if (movementChoices.contains(t))
 									main.text(">", pos[0] - dX,pos[1] - dY + 10);
+								if (pathToHighlighted != null)
+								{
+									int index = pathToHighlighted.indexOf(t);
+									if (index != -1)
+									{
+										main.text(pathToHighlighted.size() - index, pos[0] - dX,pos[1] - dY + 20);
+									}
+								}
 								if (movementChoices.size() > 0) continue; 
 								//main.text(t.row + "," + t.col, pos[0], pos[1]);
 								double[] y = City.staticEval(t);
@@ -424,7 +425,7 @@ public class MenuSystem extends BaseSystem {
 			menus.get(1).active = false;
 		}
 		main.textSize(12);
-		
+
 		//Show the possible tiles that a unit can move to
 		//Make this a function to stop code repeats
 		//System.out.println(movementChoices.size());
@@ -1568,11 +1569,17 @@ public class MenuSystem extends BaseSystem {
 		if (action > 0)
 			movementChoice(temp, false, action-1);
 	}
-	
+
 	//Draw a path from the selected's entity tile to another
 	public void pathTo(Tile t)
 	{
-		TODO
+		pathToHighlighted = main.grid.pathFinder.findAdjustedPath(
+				selected.owner,
+				selected.location.row,
+				selected.location.col,
+				t.row,
+				t.col
+				);
 	}
 
 	//Encapsulation for selected

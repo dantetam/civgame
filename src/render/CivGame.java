@@ -180,7 +180,13 @@ public class CivGame extends PApplet {
 			}
 		}
 	}
-
+	
+	public void mouseMoved()
+	{
+		rMouseX = mouseX; rMouseY = mouseY;
+		//if (menuSystem.lastMouseHighlighted)
+	}
+	
 	public void mouseDragged()
 	{
 		//println("Dragging " + mouseX + "," + mouseY);
