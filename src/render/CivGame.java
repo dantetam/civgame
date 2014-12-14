@@ -49,7 +49,7 @@ public class CivGame extends PApplet {
 	public InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
-	
+
 	public boolean testing = false;
 
 	public CivGame(Game game, int numCivs, int numCityStates, int difficultyLevel, String challengeType, String terrainType, String civChoice, long seed)
@@ -72,7 +72,7 @@ public class CivGame extends PApplet {
 		systems.add(newMenuSystem);
 		systems.add(inputSystem);
 	}
-	
+
 	public void options(boolean autoSelect)
 	{
 		inputSystem.autoSelect = autoSelect;
@@ -116,7 +116,7 @@ public class CivGame extends PApplet {
 		chunkSystem.update(); //Update once
 		Tile t = grid.civs[0].units.get(0).location; //First settler
 		fixCamera(t.row, t.col); //Center the camera at the appropriate location
-		
+
 		if (testing)
 		{
 			for (int i = 0; i < grid.civs.length; i++)
@@ -173,20 +173,23 @@ public class CivGame extends PApplet {
 				BaseEntity en = menuSystem.getSelected();
 				if (en != null)
 				{
-					ArrayList<Tile> temp = new ArrayList<Tile>(); temp.add(en.location);
-					menuSystem.movementChoice(temp, true, en.maxAction);
+					if (en instanceof GameEntity)
+					{
+						ArrayList<Tile> temp = new ArrayList<Tile>(); temp.add(en.location);
+						menuSystem.movementChoice(temp, true, en.maxAction);
+					}
 				}
 				//inputSystem.queueRightClick(mouseX, mouseY);
 			}
 		}
 	}
-	
+
 	public void mouseMoved()
 	{
 		rMouseX = mouseX; rMouseY = mouseY;
 		//if (menuSystem.lastMouseHighlighted)
 	}
-	
+
 	public void mouseDragged()
 	{
 		//println("Dragging " + mouseX + "," + mouseY);
@@ -643,5 +646,5 @@ public class CivGame extends PApplet {
 	public float widthBlock() {return renderSystem.widthBlock;}
 	public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
 	public void requestUpdate() {renderSystem.requestUpdate = true;}
-	
+
 }

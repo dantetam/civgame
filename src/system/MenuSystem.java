@@ -1580,6 +1580,8 @@ public class MenuSystem extends BaseSystem {
 				t.row,
 				t.col
 				);
+		if (pathToHighlighted == null) //Handle case that there is no point or invalid tile
+			pathToHighlighted = new ArrayList<Tile>();
 	}
 
 	//Encapsulation for selected
