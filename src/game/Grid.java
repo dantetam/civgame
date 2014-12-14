@@ -180,13 +180,18 @@ public class Grid {
 
 			BaseEntity en = EntityData.get("Settler");
 			settlers.add((GameEntity)en);
-			/*if (i == 1)
-			{
+			if (i == 0)
 				for (int j = 0; j < 4; j++)
-				{
-					addUnit(EntityData.get("Settler"),civs[i],r,c);
-				}
-			}*/
+					{
+						int nr,nc;
+						while (true)
+						{
+							nr = (int)(rand.nextDouble()*tiles.length);
+							nc = (int)(rand.nextDouble()*tiles[0].length);
+							if (getTile(nr,nc).biome != -1) break;
+						}
+						addUnit(EntityData.get("Settler"),civs[i],nr,nc);
+					}
 			addUnit(en,civs[i],r,c);
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 

@@ -6,6 +6,7 @@ import game.GameEntity;
 import game.Tile;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import render.CivGame;
 import render.MouseHelper;
@@ -319,7 +320,7 @@ public class InputSystem extends BaseSystem {
 	private void selectAvailableUnit()
 	{
 		BaseEntity en = availableUnit();
-		if (availableUnit() != null)
+		if (en != null)
 		{
 			if (en instanceof City)
 			{
@@ -350,18 +351,49 @@ public class InputSystem extends BaseSystem {
 		}
 	}
 
+	//A comparator to sort units by distance
+	//Thank you stackoverflow
+	/*class GameEntityCompare implements Comparator<GameEntity> {
+		private Tile t;
+		public GameEntityCompare(Tile t) {this.t = t;}
+	    public int compare(GameEntity o1, GameEntity o2) {
+	        if (o1.location.dist(t) < o2.location.dist(t))
+		        return -1;
+	        else if (o1.location.dist(t) > o2.location.dist(t))
+		        return 1;
+	        return 0;
+	    }
+	}*/
 	//Find the next unit with action and return it
 	//If there are no available units, return null
 	public BaseEntity availableUnit()
 	{
 		Civilization civ = main.grid.civs[0];
+		ArrayList<GameEntity> candidates = new ArrayList<GameEntity>();
+		Tile t = main.menuSystem.mouseHighlighted;
 		for (int i = 0; i < civ.units.size(); i++)
 		{
 			GameEntity en = civ.units.get(i);
 			if (en.action != 0 && en.queueTiles.size() == 0)
 			{
-				return en;
+				candidates.add(en);
+				if (t == null) return candidates.get(0);
+				//return en;
 			}
+		}
+		System.out.println("AAAA");
+		if (candidates.size() > 0)
+		{
+			GameEntity en = candidates.get(0);
+			for (int i = 0; i < candidates.size(); i++)
+			{
+				System.out.println(candidates.get(i).location.dist(t) + " " + en.location.dist(t));
+				if (candidates.get(i).location.dist(t) < en.location.dist(t))
+				{
+					en = candidates.get(i);
+				}
+			}
+			return en;
 		}
 		for (int i = 0; i < civ.cities.size(); i++)
 		{
