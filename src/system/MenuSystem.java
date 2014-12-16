@@ -43,6 +43,7 @@ public class MenuSystem extends BaseSystem {
 	public String typeOfLastSelected = "";
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
+	public boolean[][] markedTiles;
 	//public City citySelected;
 
 	//public TextBox hintTextBox;
@@ -85,6 +86,9 @@ public class MenuSystem extends BaseSystem {
 			b.origX = b.posX; b.origY = b.posY;
 			//System.out.println(b.posX + " " + b.posY);
 		}
+		
+		TextBox b = menu0.addButton("markTile", "MarkTile", "Mark this tile", main.width - 100, 70, 100, height);
+		b.lock = true; b.active = false; b.autoClear = false;
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -392,6 +396,8 @@ public class MenuSystem extends BaseSystem {
 									continue;
 								if (movementChoices.contains(t))
 									main.text(">", pos[0] - dX,pos[1] - dY + 10);
+								if (markedTiles[h.row + dR][h.col - dC])
+									main.text("X", pos[0] - dX,pos[1] - dY + 20);
 								if (pathToHighlighted != null)
 								{
 									int index = pathToHighlighted.indexOf(t);
@@ -699,6 +705,12 @@ public class MenuSystem extends BaseSystem {
 		{
 			//TODO: Replace with a loop later
 			closeMenus();
+		}
+		else if (command.equals("markTile"))
+		{
+			if (mouseHighlighted != null)
+				markedTiles[mouseHighlighted.row][mouseHighlighted.col] = !markedTiles[mouseHighlighted.row][mouseHighlighted.col];
+			menus.get(0).findButtonByCommand("markTile").active = false;
 		}
 		else if (
 				command.equals("info") || 
@@ -1174,7 +1186,9 @@ public class MenuSystem extends BaseSystem {
 		{
 			for (int j = 0; j < menus.get(i).buttons.size(); j++)
 			{
-				menus.get(i).buttons.get(j).orderOriginal(true);
+				TextBox b = menus.get(i).buttons.get(j);
+				if (b.autoClear)
+					b.orderOriginal(true);
 			}
 		}
 	}

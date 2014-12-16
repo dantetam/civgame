@@ -10,6 +10,7 @@ import java.util.Comparator;
 
 import render.CivGame;
 import render.MouseHelper;
+import render.TextBox;
 import system.MenuSystem.Click;
 import units.City;
 import units.Settler;
@@ -285,6 +286,20 @@ public class InputSystem extends BaseSystem {
 					else
 						main.menuSystem.message(msg);
 				}
+			}
+		}
+		else if (main.menuSystem.getSelected() == null)
+		{
+			System.out.println("yottt");
+			TextBox b = main.menuSystem.menus.get(0).findButtonByCommand("markTile");
+			if (b.active)
+			{
+				//b.active = false;
+			}
+			else
+			{
+				b.active = true;
+				b.posX = main.mouseX; b.posY = main.mouseY;
 			}
 		}
 	}

@@ -164,10 +164,12 @@ public class CivGame extends PApplet {
 		{
 			if (mouseButton == LEFT)
 			{
+				println("LEFT");
 				inputSystem.queueLeftClick(mouseX, mouseY);
 			}
 			else if (mouseButton == RIGHT)
 			{
+				println("RIGHT");
 				//Pass a right click to input system
 				rMouseX = mouseX; rMouseY = mouseY;
 				BaseEntity en = menuSystem.getSelected();
@@ -199,12 +201,15 @@ public class CivGame extends PApplet {
 
 	public void mouseReleased()
 	{
-		inputSystem.queueRightClick(rMouseX, rMouseY);
-		rMouseX = -1; rMouseY = -1;
-		menuSystem.movementChoices.clear();
-		menuSystem.pathToHighlighted.clear();
-		//menuSystem.menuActivated = false;
-		newMenuSystem.mouseReleased(rMouseX, rMouseY);
+		if (mouseButton == RIGHT)
+		{
+			inputSystem.queueRightClick(rMouseX, rMouseY);
+			rMouseX = -1; rMouseY = -1;
+			menuSystem.movementChoices.clear();
+			menuSystem.pathToHighlighted.clear();
+			//menuSystem.menuActivated = false;
+			newMenuSystem.mouseReleased(rMouseX, rMouseY);
+		}
 	}
 
 	/*public void mouseMoved()
@@ -345,6 +350,7 @@ public class CivGame extends PApplet {
 		if (!terrainType.equals("terrain11")) n *= 2;
 		terrain = downSample(terrain,n);
 		menuSystem.multiplier = n;
+		menuSystem.markedTiles = new boolean[terrain.length][terrain[0].length];
 		int[][] biomes = assignBiome(terrain);
 		grid = new Grid(civChoice, terrain, biomes, assignResources(biomes), numCivs, numCityStates, difficultyLevel, 3, (int)cutoff, seed);
 		civilizationSystem.theGrid = grid;
