@@ -164,12 +164,10 @@ public class CivGame extends PApplet {
 		{
 			if (mouseButton == LEFT)
 			{
-				println("LEFT");
 				inputSystem.queueLeftClick(mouseX, mouseY);
 			}
 			else if (mouseButton == RIGHT)
 			{
-				println("RIGHT");
 				//Pass a right click to input system
 				rMouseX = mouseX; rMouseY = mouseY;
 				BaseEntity en = menuSystem.getSelected();

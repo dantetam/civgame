@@ -86,7 +86,7 @@ public class MenuSystem extends BaseSystem {
 			b.origX = b.posX; b.origY = b.posY;
 			//System.out.println(b.posX + " " + b.posY);
 		}
-		
+
 		TextBox b = menu0.addButton("markTile", "MarkTile", "Mark this tile", main.width - 100, 70, 100, height);
 		b.lock = true; b.active = false; b.autoClear = false;
 
@@ -184,6 +184,9 @@ public class MenuSystem extends BaseSystem {
 		lastHighlighted = highlighted;
 		lastMouseHighlighted = mouseHighlighted;
 
+		//System.out.println(menus.get(0).findButtonByCommand("markTile").posX);
+		//System.out.println(menus.get(0).findButtonByCommand("markTile").posY);
+		//System.out.println("======");
 		//Approximate tile lines
 		/*main.strokeWeight(5);
 		main.stroke(255,0,0);
@@ -531,13 +534,16 @@ public class MenuSystem extends BaseSystem {
 				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
 					TextBox b = menus.get(menu).buttons.get(i);
-					main.fill(b.r, b.g, b.b);
-					//main.stroke(b.borderR, b.borderG, b.borderB);
-					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-					main.textAlign(PApplet.CENTER, PApplet.CENTER);
-					main.fill(255);
-					for (int j = 0; j < b.display.size(); j++)
-						main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2 + j*15);
+					if (b.active)
+					{
+						main.fill(b.r, b.g, b.b);
+						//main.stroke(b.borderR, b.borderG, b.borderB);
+						main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+						main.textAlign(PApplet.CENTER, PApplet.CENTER);
+						main.fill(255);
+						for (int j = 0; j < b.display.size(); j++)
+							main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2 + j*15);
+					}
 				}
 			}
 		}
@@ -708,6 +714,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		else if (command.equals("markTile"))
 		{
+			System.out.println("marked tile");
 			if (mouseHighlighted != null)
 				markedTiles[mouseHighlighted.row][mouseHighlighted.col] = !markedTiles[mouseHighlighted.row][mouseHighlighted.col];
 			menus.get(0).findButtonByCommand("markTile").active = false;

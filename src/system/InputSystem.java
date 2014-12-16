@@ -290,7 +290,6 @@ public class InputSystem extends BaseSystem {
 		}
 		else if (main.menuSystem.getSelected() == null)
 		{
-			System.out.println("yottt");
 			TextBox b = main.menuSystem.menus.get(0).findButtonByCommand("markTile");
 			if (b.active)
 			{
@@ -300,6 +299,7 @@ public class InputSystem extends BaseSystem {
 			{
 				b.active = true;
 				b.posX = main.mouseX; b.posY = main.mouseY;
+				b.origX = main.mouseX; b.origY = main.mouseY;
 			}
 		}
 	}
