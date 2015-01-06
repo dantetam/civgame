@@ -403,15 +403,11 @@ public class MenuSystem extends BaseSystem {
 									continue;
 								//if (movementChoices.contains(t))
 								//main.text(">", pos[0] - dX,pos[1] - dY + 10);
-								if (markedTiles[h.row + dR][h.col - dC])
-									main.text("X", pos[0] - dX,pos[1] - dY + 20);
 								if (pathToHighlighted != null)
 								{
 									int index = pathToHighlighted.indexOf(t);
 									if (index != -1)
-									{
 										main.text(pathToHighlighted.size() - index, pos[0] - dX,pos[1] - dY + 20);
-									}
 								}
 								if (movementChoices.size() > 0) continue; 
 								//main.text(t.row + "," + t.col, pos[0], pos[1]);
@@ -434,40 +430,51 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 		else
-		{
 			menus.get(1).activate(false);
-			
-			if (h != null)
-			{
-				for (int r = 0; r < mh.guiPositions.length; r++)
-				{
-					for (int c = 0; c < mh.guiPositions[0].length; c++)
-					{
-						float[] pos = mh.positionGui(r,c);
-						if (pos != null)
-						{
-							main.textAlign(main.CENTER);
-							main.textSize(18);
-							main.fill(255,0,0);
-							int dC = r - (mh.guiPositions.length-1)/2;
-							int dR = c - (mh.guiPositions[0].length-1)/2;
-							float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
 
-							Tile t = main.grid.getTile(h.row + dR, h.col - dC);
-							if (t != null)
+		if (h != null)
+		{
+			for (int r = 0; r < mh.guiPositions.length; r++)
+			{
+				for (int c = 0; c < mh.guiPositions[0].length; c++)
+				{
+					float[] pos = mh.positionGui(r,c);
+					if (pos != null)
+					{
+						main.textAlign(main.CENTER);
+						main.textSize(18);
+						main.fill(255,0,0);
+						int dC = r - (mh.guiPositions.length-1)/2;
+						int dR = c - (mh.guiPositions[0].length-1)/2;
+						float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
+
+						Tile t = main.grid.getTile(h.row + dR, h.col - dC);
+						if (t != null)
+						{
+							if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
+									main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) 
+								continue;
+							if (markedTiles[h.row + dR][h.col - dC])
+								main.text("X", pos[0] - dX,pos[1] - dY + 20);
+							if (t.occupants.size() > 0)
 							{
-								if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
-										main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) 
-									continue;
-								if (markedTiles[h.row + dR][h.col - dC])
-									main.text("X", pos[0] - dX,pos[1] - dY + 20);
+								//for (int i = 0; i < t.occupants.size(); i++)
+								for (int i = t.occupants.size() - 1; i >= 0; i--)
+								{
+									GameEntity en = t.occupants.get(i);
+									main.fill(en.owner.r, en.owner.g, en.owner.b);
+									//main.rectMode(main.CENTER);
+									int len = 30;
+									main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
+									//main.rectMode(main.LEFT);
+								}
 							}
 						}
 					}
 				}
 			}
-			
 		}
+
 		main.textSize(12);
 
 		//Show the possible tiles that a unit can move to
