@@ -553,7 +553,7 @@ public class MenuSystem extends BaseSystem {
 							if (shortcuts[j] != null)
 								if (shortcuts[j].equals(b))
 								{
-									main.text(j + "", b.posX + b.sizeX*0.8, b.posY + b.sizeY/2);
+									main.text("[" + j + "]", b.posX + b.sizeX*0.8F, b.posY + b.sizeY/2);
 									//System.out.println("Text");
 								}
 					}
@@ -702,11 +702,12 @@ public class MenuSystem extends BaseSystem {
 			{
 				menus.get(menu).requestUpdate = false;
 				shortcuts = new Button[10];
-				System.out.println(menu);
+				//System.out.println(menu);
 				if (menus.get(menu).active())
 				{
 					int iter = 1;
-					for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+					//for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+					for (int i = menus.get(menu).buttons.size() - 1; i >= 0; i--)
 					{
 						//if (i >= menus.get(menu).buttons.size()) break;
 						TextBox b = menus.get(menu).buttons.get(i);
@@ -946,7 +947,10 @@ public class MenuSystem extends BaseSystem {
 		}
 		else if (command.equals("unitSettle"))
 		{
-			((Settler)selected).settle();
+			if (!((Settler)selected).settle())
+			{
+				message("Cannot settle here.");
+			}
 		}
 		else if (command.contains("unitCaravan"))
 		{

@@ -113,8 +113,17 @@ public class Settler extends GameEntity {
 
 	public boolean settle()
 	{
-		if (location.owner == null)
+		if (location.owner == null) TODO: Allow player to settle in own territory
 		{
+			for (int i = 0; i < location.grid.civs.length; i++)
+			{
+				for (int j = 0; j < location.grid.civs[i].cities.size(); j++)
+				{
+					City c = location.grid.civs[i].cities.get(j);
+					if (c.location.dist(location) <= 3)
+						return false;
+				}
+			}
 			GameEntity en = this;
 			City city = (City)EntityData.get("City");
 			city.owner = en.owner;
