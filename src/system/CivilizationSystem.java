@@ -542,6 +542,11 @@ public class CivilizationSystem extends BaseSystem {
 					//civ.metal += tm;
 					civ.research += tr;
 
+					for (int j = 0; j < civ.units.size(); j++)
+					{
+						civ.gold--;
+					}
+					civ.gold = Math.max(0, civ.gold);
 					//Resource caps
 					//civ.food = Math.min(civ.food, population*3);
 					//civ.metal = Math.min(civ.metal, population*3);

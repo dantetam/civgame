@@ -6,7 +6,7 @@ public class Menu {
 
 	public ArrayList<TextBox> buttons;
 	public String name;
-	public boolean active;
+	private boolean active;
 
 	public Menu(String name)
 	{
@@ -111,6 +111,10 @@ public class Menu {
 			}
 		}
 	}
+	
+	public boolean requestUpdate = false;
+	public void activate(boolean yn) {active = yn; requestUpdate = true;}
+	public boolean active() {return active;}
 
 	/*public void on()
 	{

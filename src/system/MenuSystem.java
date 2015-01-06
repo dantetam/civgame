@@ -44,6 +44,8 @@ public class MenuSystem extends BaseSystem {
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public boolean[][] markedTiles;
+	
+	public Button[] shortcuts = new Button[10];
 	//public City citySelected;
 
 	//public TextBox hintTextBox;
@@ -88,7 +90,7 @@ public class MenuSystem extends BaseSystem {
 		}
 
 		TextBox b = menu0.addButton("markTile", "MarkTile", "Mark this tile", main.width - 100, 70, 100, height);
-		b.lock = true; b.active = false; b.autoClear = false;
+		b.lock = true; b.activate(false); b.autoClear = false;
 
 		Menu menu1 = new Menu("UnitMenu");
 		menus.add(menu1);
@@ -136,7 +138,7 @@ public class MenuSystem extends BaseSystem {
 		Menu menu12 = new Menu("CivicMenu");
 		menus.add(menu12);
 
-		menu0.active = true;
+		menu0.activate(true);
 
 		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 150,200,150); //"HintText"
 		textboxes.add(text0);
@@ -158,7 +160,7 @@ public class MenuSystem extends BaseSystem {
 		text5.autoClear = false;
 		textboxes.add(text5);
 
-		text4.active = false;
+		text4.activate(false);
 
 		updateEncyclopedia();
 		//arial = main.loadFont("ArialMT-48.vlw");
@@ -365,12 +367,12 @@ public class MenuSystem extends BaseSystem {
 				{
 					updateUnitMenu((GameEntity)selected);
 				}
-				menus.get(1).active = true;
+				menus.get(1).activate(true);
 				//main.text("Test", main.width*5/6 + 15, main.height*5/6 + 15);
 			}
 			else
 			{
-				menus.get(1).active = false;
+				menus.get(1).activate(false);
 			}
 			if ((getSelected() instanceof City || getSelected() instanceof Settler) && h != null)
 			{
@@ -431,7 +433,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		else
 		{
-			menus.get(1).active = false;
+			menus.get(1).activate(false);
 		}
 		main.textSize(12);
 
@@ -485,7 +487,7 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 
-		menus.get(2).active = false;
+		menus.get(2).activate(false);
 
 		if (selected != null)
 		{
@@ -527,7 +529,7 @@ public class MenuSystem extends BaseSystem {
 		updateMessages();
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
-			if (menus.get(menu).active)
+			if (menus.get(menu).active())
 			{
 				main.strokeWeight(1);
 				//System.out.println(menu + " " + menus.get(menu).active);
@@ -543,6 +545,14 @@ public class MenuSystem extends BaseSystem {
 						main.fill(255);
 						for (int j = 0; j < b.display.size(); j++)
 							main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2 + j*15);
+						main.fill(255,0,0);
+						for (int j = 0; j < shortcuts.length; j++)
+						{
+							if (shortcuts[j].equals(b))
+							{
+								main.text(j + "", b.posX + b.sizeX, b.posY + b.sizeY/2);
+							}
+						}
 					}
 				}
 			}
@@ -630,7 +640,7 @@ public class MenuSystem extends BaseSystem {
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
-			if (menus.get(menu).active)
+			if (menus.get(menu).active())
 			{
 				for (int i = clicks.size() - 1; i >= 0; i--)
 				{
@@ -658,7 +668,7 @@ public class MenuSystem extends BaseSystem {
 							boolean[] activeMenus = new boolean[menus.size()];
 							for (int j = 0; j < activeMenus.length; j++)
 							{
-								activeMenus[j] = menus.get(j).active;
+								activeMenus[j] = menus.get(j).active();
 							}
 							menus.get(menu).pass(activeMenus, clicks.get(i).mouseX, clicks.get(i).mouseY);
 						}
@@ -683,6 +693,33 @@ public class MenuSystem extends BaseSystem {
 				for (int i = 0; i < textboxes.size(); i++)
 				{
 					textboxes.get(i).tick();
+				}
+			}
+			if (menus.get(menu).requestUpdate)
+			{
+				menus.get(menu).requestUpdate = false;
+				shortcuts = new Button[10];
+				if (menus.get(menu).active())
+				{
+					int iter = 1;
+					for (int i = 0; i < 10; i++)
+					{
+						TextBox b = menus.get(menu).buttons.get(i);
+						if (b instanceof Button)
+						{
+							shortcuts[iter] = (Button)b;
+							if (iter == 9) 
+								iter = 0;
+							else if (iter == 0)
+								break;
+							else
+								iter++;
+						}
+					}
+				}
+				else
+				{
+					
 				}
 			}
 		}
@@ -717,7 +754,7 @@ public class MenuSystem extends BaseSystem {
 			System.out.println("marked tile");
 			if (mouseHighlighted != null)
 				markedTiles[mouseHighlighted.row][mouseHighlighted.col] = !markedTiles[mouseHighlighted.row][mouseHighlighted.col];
-			menus.get(0).findButtonByCommand("markTile").active = false;
+			menus.get(0).findButtonByCommand("markTile").activate(false);
 		}
 		else if (
 				command.equals("info") || 
@@ -747,62 +784,62 @@ public class MenuSystem extends BaseSystem {
 			{
 				/*if (menus.get(3).active)
 				{
-					menus.get(3).active = false;
+					menus.get(3).activate(false);
 				}
 				menus.get(4).active = !menus.get(4).active;*/
-				menus.get(3).active = true;
+				menus.get(3).activate(true);
 			}
 			else if (command.contains("loadoutDisplay"))
 			{
 				//loadout = false;
 				updateLoadoutDisplay(command.substring(14));
-				menus.get(4).active = true;
+				menus.get(4).activate(true);
 			}
 			else if (command.equals("stats"))
 			{
 				updateCivStats();
 				//ledgerMenu = true;
-				textboxes.get(4).active = true;
+				textboxes.get(4).activate(true);
 				menus.get(0).findButtonByCommand("stats").lock = textboxes.get(4).active;
 			}
 			else if (command.equals("continue"))
 			{
 				main.grid.civs[0].observe = true;
-				menus.get(6).active = false;
+				menus.get(6).activate(false);
 			}
 			else if (command.equals("techs"))
 			{
 				displayTechMenu(main.grid.civs[0]);
 				//menus.get(5).active = !menus.get(5).active;
-				main.menuSystem.menus.get(5).active = true;
+				main.menuSystem.menus.get(5).activate(true);
 				//menus.get(5).active = !menus.get(5).active;
 			}
 			else if (command.equals("encyclopedia"))
 			{
-				menus.get(7).active = true;
+				menus.get(7).activate(true);
 			}
 			else if (command.contains("diplomacy"))
 			{
-				menus.get(8).active = false;
-				menus.get(9).active = true;
+				menus.get(8).activate(false);
+				menus.get(9).activate(true);
 				Civilization civ = main.grid.civs[Integer.parseInt(command.substring(9))];
 				updateDiplomacyMenu(civ);
 			}
 			else if (command.equals("log"))
 			{
-				textboxes.get(2).active = false;
-				menus.get(10).active = true;
+				textboxes.get(2).activate(false);
+				menus.get(10).activate(true);
 				updateMessages();
 			}
 			else if (command.equals("relations"))
 			{
-				menus.get(11).active = true;
+				menus.get(11).activate(true);
 				pivot = main.grid.civs[0];
 				updateRelations();
 			}
 			else if (command.equals("civic"))
 			{
-				menus.get(12).active = true;
+				menus.get(12).activate(true);
 				updateCivicsMenu(main.grid.civs[0]);
 			}
 			resetAllButtons();
@@ -838,7 +875,7 @@ public class MenuSystem extends BaseSystem {
 			}
 			message("Changed production method of " + unit);
 			main.grid.civs[0].unitImprovements.put(unit,EntityData.unitImprovementMap.get(command.substring(index+1)));
-			menus.get(4).active = false; //Allow player to stay in menu?
+			menus.get(4).activate(false); //Allow player to stay in menu?
 			return false;
 		}
 
@@ -963,7 +1000,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
 			main.grid.civs[0].researchTech = command.substring(8);
-			menus.get(5).active = false;
+			menus.get(5).activate(false);
 		}
 		//Change a government or economic civic
 		else if (command.contains("gCivic"))
@@ -1084,18 +1121,26 @@ public class MenuSystem extends BaseSystem {
 		}
 		return true;
 	}
+	
+	public void executeShortcut(int n)
+	{
+		if (shortcuts[n] != null)
+		{
+			executeAction(shortcuts[n].command);
+		}
+	}
 
 	public void closeMenus()
 	{
-		textboxes.get(2).active = true;
+		textboxes.get(2).activate(true);
 		info = false;
 		minimap = false;
-		menus.get(3).active = false;
-		menus.get(4).active = false;
-		textboxes.get(4).active = false;
-		menus.get(5).active = false;
+		menus.get(3).activate(false);
+		menus.get(4).activate(false);
+		textboxes.get(4).activate(false);
+		menus.get(5).activate(false);
 		for (int i = 7; i <= 12; i++)
-			menus.get(i).active = false;
+			menus.get(i).activate(false);
 
 		//Clear all but the main menu and encyclopedia
 		//for (int i = 1; i < menus.size(); i++)
@@ -1106,7 +1151,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < menus.size(); i++)
 		{
 			Menu m = menus.get(i);
-			if (m.active)
+			if (m.active())
 			{
 				for (int j = 0; j < m.buttons.size(); j++)
 				{
@@ -1203,7 +1248,7 @@ public class MenuSystem extends BaseSystem {
 	//Will always refer to the player's tech tree
 	public void displayTechMenu(Civilization civ)
 	{
-		menus.get(5).active = true;
+		menus.get(5).activate(true);
 		menus.get(5).buttons.clear();
 
 		ArrayList<String> techNames = civ.techTree.findCandidates();
@@ -1221,7 +1266,7 @@ public class MenuSystem extends BaseSystem {
 		//Selection vs highlight
 		if (citySelected.equals(selected))
 		{
-			menus.get(2).active = true;
+			menus.get(2).activate(true);
 		}
 
 		ArrayList<String> temp = textboxes.get(1).display;
@@ -1311,7 +1356,7 @@ public class MenuSystem extends BaseSystem {
 		textboxes.get(4).display.add("");
 
 		textboxes.get(4).display.add("Civilizations:");
-		menus.get(8).active = false;
+		menus.get(8).activate(false);
 		for (int i = 1; i < main.grid.civs.length; i++)
 		{
 			c = main.grid.civs[i];
@@ -1320,7 +1365,7 @@ public class MenuSystem extends BaseSystem {
 			menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + c.name + ".", 600, 190+60+15*(i-1), 90, 15);
 		}
 		textboxes.get(4).sizeY = (main.grid.civs.length - 1 + 4)*15 + 15;
-		menus.get(8).active = true;
+		menus.get(8).activate(true);
 		//100,190,500,250
 	}
 
@@ -1630,13 +1675,13 @@ public class MenuSystem extends BaseSystem {
 			{
 				updateCity((City)en);
 			}
-			textboxes.get(1).active = true;
+			textboxes.get(1).activate(true);
 			textboxes.get(1).move(main.width - 400,main.height);
 			textboxes.get(1).moveTo(main.width - 400,main.height - 150,20);
 		}
 		else
 		{
-			textboxes.get(1).active = false;
+			textboxes.get(1).activate(false);
 			textboxes.get(1).move(main.width - 400,main.height-150);
 
 			menus.get(1).buttons.clear();

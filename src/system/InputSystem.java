@@ -293,7 +293,7 @@ public class InputSystem extends BaseSystem {
 			TextBox b = main.menuSystem.menus.get(0).findButtonByCommand("markTile");
 			if (b.active)
 			{
-				//b.active = false;
+				//b.activate(false);
 			}
 			else
 			{
@@ -438,7 +438,7 @@ public class InputSystem extends BaseSystem {
 					main.menuSystem.textboxes.get(5).display.add(0, "RESEARCH TECH");
 					main.menuSystem.textboxes.get(5).tooltip.set(0, "Please research a technology.");
 					main.menuSystem.displayTechMenu(civ);
-					main.menuSystem.menus.get(5).active = true;
+					main.menuSystem.menus.get(5).activate(true);
 					main.menuSystem.message("A tech is needed to research.");
 					return;
 				}
@@ -449,7 +449,7 @@ public class InputSystem extends BaseSystem {
 					main.menuSystem.textboxes.get(5).display.clear();
 					main.menuSystem.textboxes.get(5).display.add(0, "Press SPACE.");
 					main.menuSystem.textboxes.get(5).tooltip.set(0, "");
-					main.menuSystem.menus.get(6).active = true;
+					main.menuSystem.menus.get(6).activate(true);
 					main.menuSystem.message("You have no cities or units!");
 				}
 			}
@@ -484,6 +484,10 @@ public class InputSystem extends BaseSystem {
 		else if (key == 't')
 		{
 			main.showAll = !main.showAll;
+		}
+		else if (Character.isDigit(key))
+		{
+			main.menuSystem.executeShortcut(Integer.parseInt(Character.toString(key)));
 		}
 	}
 

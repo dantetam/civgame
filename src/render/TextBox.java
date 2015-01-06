@@ -210,6 +210,9 @@ public class TextBox {
 		posY = y;
 	}
 	
+	public void activate(boolean yn) {active = yn;}
+	public boolean active() {return active;}
+	
 	//Return itself for convienence
 	public TextBox color(float x, float y, float z) {r = x; g = y; b = z; return this;}
 	public TextBox color(float w) {return color(w,w,w);}
