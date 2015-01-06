@@ -93,6 +93,11 @@ public class TextBox {
 		orders = new ArrayList<Order>();
 	}
 	
+	public boolean equals(TextBox o)
+	{
+		return origX == o.origX && origY == o.origY && origSizeX == o.origSizeX && origSizeY == o.origSizeY;
+	}
+	
 	public int[] dimTooltip()
 	{
 		if (tooltip.size() == 0) return new int[]{0,0};

@@ -44,7 +44,7 @@ public class MenuSystem extends BaseSystem {
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public boolean[][] markedTiles;
-	
+
 	public Button[] shortcuts = new Button[10];
 	//public City citySelected;
 
@@ -367,12 +367,14 @@ public class MenuSystem extends BaseSystem {
 				{
 					updateUnitMenu((GameEntity)selected);
 				}
-				menus.get(1).activate(true);
+				if (!menus.get(1).active())
+					menus.get(1).activate(true);
 				//main.text("Test", main.width*5/6 + 15, main.height*5/6 + 15);
 			}
 			else
 			{
-				menus.get(1).activate(false);
+				if (menus.get(1).active())
+					menus.get(1).activate(false);
 			}
 			if ((getSelected() instanceof City || getSelected() instanceof Settler) && h != null)
 			{
@@ -486,8 +488,9 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
-
-		menus.get(2).activate(false);
+		
+		if (menus.get(2).active())
+			menus.get(2).activate(false);
 
 		if (selected != null)
 		{
@@ -547,12 +550,12 @@ public class MenuSystem extends BaseSystem {
 							main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2 + j*15);
 						main.fill(255,0,0);
 						for (int j = 0; j < shortcuts.length; j++)
-						{
-							if (shortcuts[j].equals(b))
-							{
-								main.text(j + "", b.posX + b.sizeX, b.posY + b.sizeY/2);
-							}
-						}
+							if (shortcuts[j] != null)
+								if (shortcuts[j].equals(b))
+								{
+									main.text(j + "", b.posX + b.sizeX*0.8, b.posY + b.sizeY/2);
+									//System.out.println("Text");
+								}
 					}
 				}
 			}
@@ -695,15 +698,17 @@ public class MenuSystem extends BaseSystem {
 					textboxes.get(i).tick();
 				}
 			}
-			if (menus.get(menu).requestUpdate)
+			if (menus.get(menu).requestUpdate && menu != 0)
 			{
 				menus.get(menu).requestUpdate = false;
 				shortcuts = new Button[10];
+				System.out.println(menu);
 				if (menus.get(menu).active())
 				{
 					int iter = 1;
-					for (int i = 0; i < 10; i++)
+					for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 					{
+						//if (i >= menus.get(menu).buttons.size()) break;
 						TextBox b = menus.get(menu).buttons.get(i);
 						if (b instanceof Button)
 						{
@@ -715,11 +720,12 @@ public class MenuSystem extends BaseSystem {
 							else
 								iter++;
 						}
+						//System.out.println("Assign shortcut " + iter);
 					}
 				}
 				else
 				{
-					
+
 				}
 			}
 		}
@@ -1121,7 +1127,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		return true;
 	}
-	
+
 	public void executeShortcut(int n)
 	{
 		if (shortcuts[n] != null)
