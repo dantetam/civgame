@@ -349,7 +349,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		Tile h = highlighted;
 		MouseHelper mh = main.inputSystem.mouseHelper;
-		if (selected != null)
+		if (selected != null) //Allow GUI to show elements specific to selected unit
 		{
 			if (selected.owner != null && !(selected instanceof City))
 			{
@@ -401,8 +401,8 @@ public class MenuSystem extends BaseSystem {
 								if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
 										main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) 
 									continue;
-								if (movementChoices.contains(t))
-									main.text(">", pos[0] - dX,pos[1] - dY + 10);
+								//if (movementChoices.contains(t))
+								//main.text(">", pos[0] - dX,pos[1] - dY + 10);
 								if (markedTiles[h.row + dR][h.col - dC])
 									main.text("X", pos[0] - dX,pos[1] - dY + 20);
 								if (pathToHighlighted != null)
@@ -436,6 +436,37 @@ public class MenuSystem extends BaseSystem {
 		else
 		{
 			menus.get(1).activate(false);
+			
+			if (h != null)
+			{
+				for (int r = 0; r < mh.guiPositions.length; r++)
+				{
+					for (int c = 0; c < mh.guiPositions[0].length; c++)
+					{
+						float[] pos = mh.positionGui(r,c);
+						if (pos != null)
+						{
+							main.textAlign(main.CENTER);
+							main.textSize(18);
+							main.fill(255,0,0);
+							int dC = r - (mh.guiPositions.length-1)/2;
+							int dR = c - (mh.guiPositions[0].length-1)/2;
+							float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
+
+							Tile t = main.grid.getTile(h.row + dR, h.col - dC);
+							if (t != null)
+							{
+								if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
+										main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) 
+									continue;
+								if (markedTiles[h.row + dR][h.col - dC])
+									main.text("X", pos[0] - dX,pos[1] - dY + 20);
+							}
+						}
+					}
+				}
+			}
+			
 		}
 		main.textSize(12);
 
@@ -461,7 +492,7 @@ public class MenuSystem extends BaseSystem {
 
 		//Show the city queue food/metal menu and associated UI
 		//More repeating code
-		if (h != null)
+		/*if (h != null)
 		{
 			for (int r = 0; r < mh.guiPositions.length; r++)
 			{
@@ -487,8 +518,8 @@ public class MenuSystem extends BaseSystem {
 					}
 				}
 			}
-		}
-		
+		}*/
+
 		if (menus.get(2).active())
 			menus.get(2).activate(false);
 

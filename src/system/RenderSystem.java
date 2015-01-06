@@ -467,7 +467,7 @@ public class RenderSystem extends BaseSystem {
 					if (res != 0)
 					{
 						main.pushMatrix();
-						main.fill(EntityData.get(res));
+						main.fill(EntityData.getResourceColor(res));
 						main.translate(0, 15, 0);
 						main.box(5);
 						main.popMatrix();

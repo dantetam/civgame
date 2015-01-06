@@ -755,7 +755,7 @@ public class EntityData {
 		return false;
 	}
 
-	public static Color get(int res)
+	public static Color getResourceColor(int res)
 	{
 		switch (res)
 		{
@@ -772,6 +772,30 @@ public class EntityData {
 		case 30: return EntityData.brickColorMap.get(21);
 
 		case 40: return EntityData.brickColorMap.get(45);
+
+		default: 
+			System.err.println("Invalid resource " + res);
+			return null;
+		}
+	}
+	
+	public static String getResourceName(int res)
+	{
+		switch (res)
+		{
+		case 1: return "Wheat";
+		case 2: return "Rice";
+
+		case 10: return "Fish";
+		case 11: return "Whale";
+
+		case 20: return "Copper";
+		case 21: return "Iron";
+		case 22: return "Coal";
+
+		case 30: return "Redwood";
+
+		case 40: return "Spring";
 
 		default: 
 			System.err.println("Invalid resource " + res);
