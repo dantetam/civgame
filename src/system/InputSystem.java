@@ -483,9 +483,13 @@ public class InputSystem extends BaseSystem {
 		{
 			main.menuSystem.minimap = !main.menuSystem.minimap;
 		}
-		else if (key == 't')
+		else if (key == 'r')
 		{
 			main.showAll = !main.showAll;
+		}
+		else if (key == 't')
+		{
+			main.tacticalView = true;
 		}
 		else if (Character.isDigit(key))
 		{

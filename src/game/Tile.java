@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 
+import data.Field;
 import units.City;
 
 public class Tile {
@@ -9,16 +10,14 @@ public class Tile {
 	public Grid grid;
 	public TileEntity improvement;
 	public ArrayList<GameEntity> occupants;
+	public ArrayList<Field> fields; public int maxFields;
 	public Civilization owner;
 	public City city;
 	public boolean harvest; //For rendering purposes
 	
 	public String type;
 	public int height;
-	public int row, col;
-	public int biome;
-	public int shape;
-	public int resource;
+	public int row, col, biome, shape, resource;
 	public boolean forest, freshWater, road;
 	public int turnsSettled = 0;
 	
@@ -26,10 +25,11 @@ public class Tile {
 	//When it reaches zero, it can be taken
 	public int culture; 
 	
-	public Tile(Grid grid, String type, int height, int biome, int shape, int resource, boolean forest, int row, int col)
+	public Tile(Grid grid, String type, int height, int biome, int shape, int resource, boolean forest, int row, int col, int maxFields)
 	{
 		this.grid = grid;
 		occupants = new ArrayList<GameEntity>();
+		fields = new ArrayList<Field>();
 		harvest = false;
 		this.type = type;
 		this.height = height;

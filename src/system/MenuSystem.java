@@ -46,6 +46,7 @@ public class MenuSystem extends BaseSystem {
 	public boolean[][] markedTiles;
 
 	public Button[] shortcuts = new Button[10];
+
 	//public City citySelected;
 
 	//public TextBox hintTextBox;
@@ -411,18 +412,21 @@ public class MenuSystem extends BaseSystem {
 								}
 								if (movementChoices.size() > 0) continue; 
 								//main.text(t.row + "," + t.col, pos[0], pos[1]);
-								double[] y = City.staticEval(t);
-								int n = 0;
-								for (int i = 0; i < y.length; i++)
-									if (y[i] > 0)
-										n++;
-								int iter = 1;
-								for (int i = 0; i < y.length; i++)
-									if (y[i] > 0)
-									{
-										main.newMenuSystem.tileIcon(pos[0] - dX,pos[1] - dY,i,(int)y[i],n,iter);
-										iter++;
-									}
+								if (main.tacticalView)
+								{
+									double[] y = City.staticEval(t);
+									int n = 0;
+									for (int i = 0; i < y.length; i++)
+										if (y[i] > 0)
+											n++;
+									int iter = 1;
+									for (int i = 0; i < y.length; i++)
+										if (y[i] > 0)
+										{
+											main.newMenuSystem.tileIcon(pos[0] - dX,pos[1] - dY,i,(int)y[i],n,iter);
+											iter++;
+										}
+								}
 							}
 						}
 					}
@@ -447,7 +451,7 @@ public class MenuSystem extends BaseSystem {
 						int dC = r - (mh.guiPositions.length-1)/2;
 						int dR = c - (mh.guiPositions[0].length-1)/2;
 						float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
-						
+
 						Tile t = main.grid.getTile(h.row + dR, h.col - dC);
 						if (t != null)
 						{
@@ -456,17 +460,40 @@ public class MenuSystem extends BaseSystem {
 								continue;
 							if (markedTiles[h.row + dR][h.col - dC])
 								main.text("X", pos[0] - dX,pos[1] - dY + 20);
-							if (t.occupants.size() > 0)
+							if (main.tacticalView)
 							{
-								//for (int i = 0; i < t.occupants.size(); i++)
-								for (int i = t.occupants.size() - 1; i >= 0; i--)
+								if (t.occupants.size() > 0)
 								{
-									GameEntity en = t.occupants.get(i);
-									main.fill(en.owner.r, en.owner.g, en.owner.b);
-									//main.rectMode(main.CENTER);
-									int len = 30;
-									main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
-									//main.rectMode(main.LEFT);
+									//for (int i = 0; i < t.occupants.size(); i++)
+									for (int i = t.occupants.size() - 1; i >= 0; i--)
+									{
+										GameEntity en = t.occupants.get(i);
+										main.fill(en.owner.r, en.owner.g, en.owner.b);
+										//main.rectMode(main.CENTER);
+										int len = 30;
+										main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
+										//main.rectMode(main.LEFT);
+									}
+								}
+							}
+							else
+							{
+								//Replace with for loop
+								if (t.maxFields > 0)
+								{
+									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,0);
+								}
+								if (t.maxFields > 1)
+								{
+									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,1);
+								}
+								if (t.maxFields > 2)
+								{
+									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,2);
+								}
+								if (t.maxFields > 3)
+								{
+									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,3);
 								}
 							}
 						}

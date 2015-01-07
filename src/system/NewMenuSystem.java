@@ -18,7 +18,8 @@ public class NewMenuSystem extends BaseSystem {
 	public ArrayList<Menu> menus;
 	public Rune selectedRune = null;
 
-	public NewMenuSystem(CivGame civGame) {
+	public NewMenuSystem(CivGame civGame) 
+	{
 		super(civGame);
 		menus = new ArrayList<Menu>();
 
@@ -171,6 +172,16 @@ public class NewMenuSystem extends BaseSystem {
 		main.fill(255);
 		main.rectMode(main.CORNER);
 		main.ellipseMode(main.CORNER);
+	}
+	
+	//Another method that shows GUIs for a tile's fields
+	public void fieldIcon(float posX, float posY, Tile t, int n)
+	{ 
+		boolean noDraw = false;
+		if (n >= t.fields.size())
+		{
+			main.rect();
+		}
 	}
 
 	public void showMenu(int n)

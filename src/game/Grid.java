@@ -75,16 +75,25 @@ public class Grid {
 				}
 				if (terrain[r][c] >= cutoff)
 				{
-					tiles[r][c] = new Tile(this,"Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],forest,r,c);
+					//2-4 fields
+					tiles[r][c] = new Tile(this,"Land",(int)terrain[r][c],biomes[r][c],hill,resources[r][c],forest,r,c,(int)(Math.random()*3)+2); 
 					if (random > 0.98)
 						addUnit(EntityData.get("Ruins"), null, r, c);
 				}
 				else
 				{
-					tiles[r][c] = new Tile(this,"Sea",(int)terrain[r][c],-1,0,resources[r][c],forest,r,c);
+					tiles[r][c] = new Tile(this,"Sea",(int)terrain[r][c],-1,0,resources[r][c],forest,r,c,0);
 					if (random > 0.995)
 						addUnit(EntityData.get("Ruins"), null, r, c);
 				}
+			}
+		}
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				if (tiles[r][c].biome == -1 && adjacentLand(r,c).size() > 0) //Shore check i.e. borders a coast
+					tiles[r][c].maxFields = 1;
 			}
 		}
 		ArrayList<GameEntity> settlers = new ArrayList<GameEntity>();

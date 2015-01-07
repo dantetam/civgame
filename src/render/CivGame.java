@@ -50,7 +50,7 @@ public class CivGame extends PApplet {
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
 
-	public boolean testing = false;
+	public boolean testing = false, tacticalView = false; //tacticalView -> display special tile yield and tile ownership GUIs
 
 	public CivGame(Game game, int numCivs, int numCityStates, int difficultyLevel, String challengeType, String terrainType, String civChoice, long seed)
 	{
