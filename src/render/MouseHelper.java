@@ -123,7 +123,7 @@ public class MouseHelper {
 	public boolean within(float x, float y, float[] polyX, float[] polyY) 
 	{
 		if (polyX.length != polyY.length) return false;
-		int i, j = polyX.length-1 ;
+		int i, j = polyX.length-1;
 		boolean oddNodes = false;
 		for (i = 0; i < polyX.length; i++) 
 		{

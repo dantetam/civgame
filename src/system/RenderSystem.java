@@ -94,6 +94,7 @@ public class RenderSystem extends BaseSystem {
 			renderBlock(terrain.entities.get(i));
 		}*/
 		//Look to see if the entity is both within the player's vision and is a close enough distance
+		main.menuSystem.highlighted = null;
 		for (int r = 0; r < main.terrain.length; r++)
 		{
 			for (int c = 0; c < main.terrain[0].length; c++)

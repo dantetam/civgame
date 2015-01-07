@@ -376,7 +376,7 @@ public class MenuSystem extends BaseSystem {
 				if (menus.get(1).active())
 					menus.get(1).activate(false);
 			}
-			if ((getSelected() instanceof City || getSelected() instanceof Settler) && h != null)
+			if ((getSelected() instanceof City || getSelected() instanceof Settler) && h != null && (main.grid.civs[0].revealed[h.row][h.col] != 0 || main.showAll))
 			{
 				for (int r = 0; r < mh.guiPositions.length; r++)
 				{
@@ -447,7 +447,7 @@ public class MenuSystem extends BaseSystem {
 						int dC = r - (mh.guiPositions.length-1)/2;
 						int dR = c - (mh.guiPositions[0].length-1)/2;
 						float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
-
+						
 						Tile t = main.grid.getTile(h.row + dR, h.col - dC);
 						if (t != null)
 						{

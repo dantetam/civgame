@@ -178,7 +178,9 @@ public class InputSystem extends BaseSystem {
 			}
 		}
 		main.player.update();
-		int[] tile = mouseHelper.findTile(mouseX, mouseY);
+		int[] tile = mouseHelper.findTile(mouseX + (main.width/2 - main.menuSystem.highlightDispX), mouseY + (main.height/2 - main.menuSystem.highlightDispY));
+		//System.out.println(":" + mouseX);
+		//System.out.println(mouseX + main.menuSystem.highlightDispX);
 		if (tile == null)
 		{
 			main.menuSystem.mouseHighlighted = null;
