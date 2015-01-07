@@ -1,6 +1,7 @@
 package units;
 
 import data.EntityData;
+import data.Field;
 import game.GameEntity;
 import game.Tile;
 
@@ -138,6 +139,13 @@ public class Settler extends GameEntity {
 			city.id = city.owner.cities.size() - 1;
 			//Remove the settler
 			location.grid.removeUnit(this);
+			for (int i = 0; i < city.location.maxFields; i++)
+			{
+				Field f = EntityData.fieldMap.get("TestField");
+				location.fields.add(f);
+				if (Math.random() < 0.5)
+					f.owner = owner;
+			}
 			return true;
 		}
 		return false;

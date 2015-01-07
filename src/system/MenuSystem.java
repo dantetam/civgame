@@ -460,7 +460,7 @@ public class MenuSystem extends BaseSystem {
 								continue;
 							if (markedTiles[h.row + dR][h.col - dC])
 								main.text("X", pos[0] - dX,pos[1] - dY + 20);
-							if (main.tacticalView)
+							if (!main.tacticalView)
 							{
 								if (t.occupants.size() > 0)
 								{
@@ -478,22 +478,25 @@ public class MenuSystem extends BaseSystem {
 							}
 							else
 							{
+								int len = 30;
+								main.fill(t.owner.r, t.owner.g, t.owner.b);
+								main.rect(pos[0] - dX - len/2, pos[1] - dY - len/2, len, len);
 								//Replace with for loop
 								if (t.maxFields > 0)
 								{
-									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,0);
+									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,0,len);
 								}
 								if (t.maxFields > 1)
 								{
-									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,1);
+									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,1,len);
 								}
 								if (t.maxFields > 2)
 								{
-									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,2);
+									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,2,len);
 								}
 								if (t.maxFields > 3)
 								{
-									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,3);
+									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,3,len);
 								}
 							}
 						}

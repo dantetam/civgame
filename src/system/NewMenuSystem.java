@@ -6,6 +6,7 @@ import game.Tile;
 
 import java.util.ArrayList;
 
+import data.Field;
 import render.CivGame;
 import render.MouseHelper;
 import render.Rune;
@@ -173,14 +174,59 @@ public class NewMenuSystem extends BaseSystem {
 		main.rectMode(main.CORNER);
 		main.ellipseMode(main.CORNER);
 	}
-	
+
 	//Another method that shows GUIs for a tile's fields
-	public void fieldIcon(float posX, float posY, Tile t, int n)
+	public void fieldIcon(float posX, float posY, Tile t, int n, int len)
 	{ 
-		boolean noDraw = false;
+		int space = 5;
+		boolean exists = false;
 		if (n >= t.fields.size())
 		{
-			main.rect();
+			main.fill(150,150,150);
+			//exists = false;
+		}
+		else
+		{
+			Field f = t.fields.get(n);
+			if (f.owner == null)
+			{
+				main.fill(150,150,150);
+				exists = true;
+			}
+			else
+			{
+				main.fill(t.owner.r, t.owner.g, t.owner.b);
+				exists = true;
+			}
+		}
+		float x, y;
+		if (n == 0)
+		{
+			x = posX - len*3/2 - space;
+			y = posY - len/2;
+		}
+		else if (n == 1)
+		{
+			x = posX + len*3/2 + space;
+			y = posY - len/2;
+		}
+		else if (n == 2)
+		{
+			y = posY - len*3/2 - space;
+			x = posX - len/2;
+		}
+		else if (n == 3)
+		{
+			y = posY + len*3/2 + space;
+			x = posX - len/2;
+		}
+		else {System.out.println("Error: newmenusystem, no tile icon"); x = 0; y = 0;} 
+		//Replace with an actual error later?
+		main.rect(x, y, len, len);
+		if (!exists)
+		{
+			main.fill(255,0,0);
+			main.ellipse(x, y, len, len);
 		}
 	}
 

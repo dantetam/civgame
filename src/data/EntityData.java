@@ -25,6 +25,7 @@ public class EntityData {
 
 	public static HashMap<String, Improvement> unitImprovementMap;
 	public static HashMap<String, Improvement> cityImprovementMap;
+	public static HashMap<String, Field> fieldMap;
 
 	public static HashMap<String,ArrayList<String>> encyclopediaEntries;
 
@@ -45,6 +46,7 @@ public class EntityData {
 		unitModelMap = new HashMap<String, float[][]>();
 		unitImprovementMap = new HashMap<String, Improvement>();
 		cityImprovementMap = new HashMap<String, Improvement>();
+		fieldMap = new HashMap<String, Field>();
 
 		encyclopediaEntries = new HashMap<String,ArrayList<String>>();
 		civs = new HashMap<String,Civilization>();
@@ -60,6 +62,7 @@ public class EntityData {
 		setupUnitCosts();
 		setupUnitImprovementCosts(); //longest name yet
 		setupCityImprovementCosts();
+		setupFields();
 		setupCivBonuses();
 
 		//setModels();
@@ -436,6 +439,19 @@ public class EntityData {
 		//cityImprovementMap.put(temp.name, temp);
 	}
 
+	private static void setupFields()
+	{
+		Field temp;
+		temp = new Field(null,"TestField","Agriculture");
+		temp.cost(0,0,0,0,20,0);
+		fieldMap.put(temp.name, temp);
+	}
+	
+	/*public static void awardField(Civilization civ, Tile t, String name)
+	{
+		
+	}*/
+	
 	public static ArrayList<Improvement> getValidImprovements(Civilization civ, BaseEntity en)
 	{
 		ArrayList<Improvement> temp = new ArrayList<Improvement>();
