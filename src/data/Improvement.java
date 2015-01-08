@@ -25,6 +25,15 @@ public class Improvement
 		requiredTech = tech;
 	}
 	
+	public Improvement(Improvement i)
+	{
+		name = i.name;
+		fit(i.units);
+		cost(i.foodPercent, i.metalPercent, i.goldPercent, i.foodFlat, i.metalFlat, i.goldFlat);
+		set(i.offensivePercent, i.defensivePercent, i.rangedPercent, i.offensiveFlat, i.defensiveFlat, i.rangedFlat, i.workerImprovementTime);
+		requiredTech = i.requiredTech;
+	}
+	
 	public void fit(String... types) {units = types;}
 	public boolean isFit(String type) {
 		for (int i = 0; i < units.length; i++)

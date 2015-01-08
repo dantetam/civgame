@@ -25,7 +25,7 @@ public class EntityData {
 
 	public static HashMap<String, Improvement> unitImprovementMap;
 	public static HashMap<String, Improvement> cityImprovementMap;
-	public static HashMap<String, Field> fieldMap;
+	private static HashMap<String, Field> fieldMap;
 
 	public static HashMap<String,ArrayList<String>> encyclopediaEntries;
 
@@ -445,6 +445,11 @@ public class EntityData {
 		temp = new Field(null,"TestField","Agriculture");
 		temp.cost(0,0,0,0,20,0);
 		fieldMap.put(temp.name, temp);
+	}
+	
+	public static Field getField(String name)
+	{
+		return new Field(fieldMap.get(name));
 	}
 	
 	/*public static void awardField(Civilization civ, Tile t, String name)

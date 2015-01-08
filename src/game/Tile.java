@@ -30,6 +30,7 @@ public class Tile {
 		this.grid = grid;
 		occupants = new ArrayList<GameEntity>();
 		fields = new ArrayList<Field>();
+		this.maxFields = maxFields;
 		harvest = false;
 		this.type = type;
 		this.height = height;

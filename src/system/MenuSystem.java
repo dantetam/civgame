@@ -328,6 +328,11 @@ public class MenuSystem extends BaseSystem {
 					hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
 				}
 			}
+			else //A rough estimate that does not take the city into account
+			{
+				double[] data = City.staticEval(mouseHighlighted);
+				hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
+			}
 			//Same check as above, really
 			if (mouseHighlighted.owner != null)
 			{
@@ -412,7 +417,7 @@ public class MenuSystem extends BaseSystem {
 								}
 								if (movementChoices.size() > 0) continue; 
 								//main.text(t.row + "," + t.col, pos[0], pos[1]);
-								if (main.tacticalView)
+								if (!main.tacticalView)
 								{
 									double[] y = City.staticEval(t);
 									int n = 0;
@@ -482,12 +487,14 @@ public class MenuSystem extends BaseSystem {
 								//main.fill(t.owner.r, t.owner.g, t.owner.b);
 								//main.rect(pos[0] - dX - len/2, pos[1] - dY - len/2, len, len);
 								//Replace with for loop
-								main.newMenuSystem.largeFieldIcon(pos[0]-dX,pos[1]-dY,t,(int)(len*1.5));
+								main.newMenuSystem.largeFieldIcon(pos[0]-dX,pos[1]-dY + len*1.5F,t,(int)(len*1.5));
+								/*if (Math.random() < 0.01)
+									System.out.println(t.maxFields);*/
 								for (int i = 0; i <= 3; i++)
 								{
 									if (t.maxFields > i)
 									{
-										main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,i,len,(int)(len*1.5));
+										main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY + len*1.5F,t,i,len,(int)(len*1.5));
 									}
 								}
 							}

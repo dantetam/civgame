@@ -141,8 +141,8 @@ public class Settler extends GameEntity {
 			location.grid.removeUnit(this);
 			for (int i = 0; i < city.location.maxFields; i++)
 			{
-				Field f = EntityData.fieldMap.get("TestField");
-				location.fields.add(f);
+				Field f = EntityData.getField("TestField");
+				city.location.fields.add(f);
 				if (Math.random() < 0.5)
 					f.owner = owner;
 			}

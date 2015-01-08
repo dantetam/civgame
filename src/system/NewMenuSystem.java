@@ -178,7 +178,7 @@ public class NewMenuSystem extends BaseSystem {
 	//Another method that shows GUIs for a tile's fields
 	public void fieldIcon(float posX, float posY, Tile t, int n, int len1, int len2)
 	{ 
-		int space = 5;
+		int space = 0;
 		boolean exists = false;
 		if (n >= t.fields.size())
 		{
@@ -207,7 +207,7 @@ public class NewMenuSystem extends BaseSystem {
 		}
 		else if (n == 1)
 		{
-			x = posX + len1/2 + space + len2;
+			x = posX - len1/2 + space + len2;
 			y = posY - len1/2;
 		}
 		else if (n == 2)
@@ -217,7 +217,7 @@ public class NewMenuSystem extends BaseSystem {
 		}
 		else if (n == 3)
 		{
-			y = posY + len1/2 + space + len2;
+			y = posY - len1/2 + space + len2;
 			x = posX - len1/2;
 		}
 		else {System.out.println("Error: newmenusystem, no tile icon"); x = 0; y = 0;} 
