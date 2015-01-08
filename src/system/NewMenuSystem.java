@@ -176,7 +176,7 @@ public class NewMenuSystem extends BaseSystem {
 	}
 
 	//Another method that shows GUIs for a tile's fields
-	public void fieldIcon(float posX, float posY, Tile t, int n, int len)
+	public void fieldIcon(float posX, float posY, Tile t, int n, int len1, int len2)
 	{ 
 		int space = 5;
 		boolean exists = false;
@@ -202,32 +202,46 @@ public class NewMenuSystem extends BaseSystem {
 		float x, y;
 		if (n == 0)
 		{
-			x = posX - len*3/2 - space;
-			y = posY - len/2;
+			x = posX - len1/2 - space - len2;
+			y = posY - len1/2;
 		}
 		else if (n == 1)
 		{
-			x = posX + len*3/2 + space;
-			y = posY - len/2;
+			x = posX + len1/2 + space + len2;
+			y = posY - len1/2;
 		}
 		else if (n == 2)
 		{
-			y = posY - len*3/2 - space;
-			x = posX - len/2;
+			y = posY - len1/2 - space - len2;
+			x = posX - len1/2;
 		}
 		else if (n == 3)
 		{
-			y = posY + len*3/2 + space;
-			x = posX - len/2;
+			y = posY + len1/2 + space + len2;
+			x = posX - len1/2;
 		}
 		else {System.out.println("Error: newmenusystem, no tile icon"); x = 0; y = 0;} 
 		//Replace with an actual error later?
-		main.rect(x, y, len, len);
+		//y += len2;
+		main.rect(x, y, len1, len1);
 		if (!exists)
 		{
 			main.fill(255,0,0);
-			main.ellipse(x, y, len, len);
+			main.ellipse(x, y, len1, len1);
 		}
+	}
+
+	public void largeFieldIcon(float posX, float posY, Tile t, int len)
+	{
+		if (t.owner == null)
+		{
+			main.fill(150,150,150);
+		}
+		else
+		{
+			main.fill(t.owner.r, t.owner.g, t.owner.b);
+		}
+		main.rect(posX - len/2, posY - len/2, len, len);
 	}
 
 	public void showMenu(int n)

@@ -478,25 +478,17 @@ public class MenuSystem extends BaseSystem {
 							}
 							else
 							{
-								int len = 30;
-								main.fill(t.owner.r, t.owner.g, t.owner.b);
-								main.rect(pos[0] - dX - len/2, pos[1] - dY - len/2, len, len);
+								int len = 14;
+								//main.fill(t.owner.r, t.owner.g, t.owner.b);
+								//main.rect(pos[0] - dX - len/2, pos[1] - dY - len/2, len, len);
 								//Replace with for loop
-								if (t.maxFields > 0)
+								main.newMenuSystem.largeFieldIcon(pos[0]-dX,pos[1]-dY,t,(int)(len*1.5));
+								for (int i = 0; i <= 3; i++)
 								{
-									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,0,len);
-								}
-								if (t.maxFields > 1)
-								{
-									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,1,len);
-								}
-								if (t.maxFields > 2)
-								{
-									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,2,len);
-								}
-								if (t.maxFields > 3)
-								{
-									main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,3,len);
+									if (t.maxFields > i)
+									{
+										main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY,t,i,len,(int)(len*1.5));
+									}
 								}
 							}
 						}

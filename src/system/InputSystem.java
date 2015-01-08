@@ -489,7 +489,7 @@ public class InputSystem extends BaseSystem {
 		}
 		else if (key == 't')
 		{
-			main.tacticalView = true;
+			main.tacticalView = !main.tacticalView;
 		}
 		else if (Character.isDigit(key))
 		{
