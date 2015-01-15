@@ -5,6 +5,7 @@ import game.Civilization;
 import game.GameEntity;
 import game.Tile;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -398,13 +399,13 @@ public class InputSystem extends BaseSystem {
 				//return en;
 			}
 		}
-		System.out.println("AAAA");
+		//System.out.println("AAAA");
 		if (candidates.size() > 0)
 		{
 			GameEntity en = candidates.get(0);
 			for (int i = 0; i < candidates.size(); i++)
 			{
-				System.out.println(candidates.get(i).location.dist(t) + " " + en.location.dist(t));
+				//System.out.println(candidates.get(i).location.dist(t) + " " + en.location.dist(t));
 				if (candidates.get(i).location.dist(t) < en.location.dist(t))
 				{
 					en = candidates.get(i);
@@ -494,6 +495,10 @@ public class InputSystem extends BaseSystem {
 		else if (Character.isDigit(key))
 		{
 			main.menuSystem.executeShortcut(Integer.parseInt(Character.toString(key)));
+		}
+		else if (key == KeyEvent.VK_TAB)
+		{
+			main.keyMenu = !main.keyMenu;
 		}
 	}
 

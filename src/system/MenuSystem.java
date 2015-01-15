@@ -138,6 +138,9 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu12 = new Menu("CivicMenu");
 		menus.add(menu12);
+		
+		Menu menu13 = new KeyMenu("KeyMenu");
+		menus.add(menu13);
 
 		menu0.activate(true);
 
@@ -483,7 +486,7 @@ public class MenuSystem extends BaseSystem {
 							}
 							else
 							{
-								int len = 14;
+								int len = 8;
 								//main.fill(t.owner.r, t.owner.g, t.owner.b);
 								//main.rect(pos[0] - dX - len/2, pos[1] - dY - len/2, len, len);
 								//Replace with for loop

@@ -75,7 +75,7 @@ public class NewMenuSystem extends BaseSystem {
 	//Number of the resource yielded from harvest, total number of icons, and the position of showing (i.e. left most is 1)
 	public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
 	{
-		float size = 10, space = 6, alpha = 75;
+		float size = 10, space = 0, alpha = 75;
 		main.rectMode(main.CENTER);
 		main.ellipseMode(main.CENTER);
 		if (n == 0)
@@ -176,7 +176,7 @@ public class NewMenuSystem extends BaseSystem {
 	}
 
 	//Another method that shows GUIs for a tile's fields
-	public void fieldIcon(float posX, float posY, Tile t, int n, int len1, int len2)
+	public void fieldIcon(float posX, float posY, Tile t, int n, float len1, float len2)
 	{ 
 		int space = 0;
 		boolean exists = false;
@@ -231,7 +231,7 @@ public class NewMenuSystem extends BaseSystem {
 		}
 	}
 
-	public void largeFieldIcon(float posX, float posY, Tile t, int len)
+	public void largeFieldIcon(float posX, float posY, Tile t, float len)
 	{
 		if (t.owner == null)
 		{
@@ -241,7 +241,7 @@ public class NewMenuSystem extends BaseSystem {
 		{
 			main.fill(t.owner.r, t.owner.g, t.owner.b);
 		}
-		main.rect(posX - len/2, posY - len/2, len, len);
+		main.rect(posX - len/2F, posY - len/2F, len, len);
 	}
 
 	public void showMenu(int n)
