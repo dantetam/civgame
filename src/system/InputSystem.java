@@ -20,7 +20,8 @@ import units.Settler;
 public class InputSystem extends BaseSystem {
 
 	private ArrayList<Character> keyPresses;
-	public HashMap<Character,KeyBind> keyBinds = new HashMap<Character,KeyBind>();
+	public HashMap<Character,String> keyPressBinds = new HashMap<Character,String>();
+	public HashMap<Character,String> keyHoldBinds = new HashMap<Character,String>();
 	
 	public boolean moving = false;
 	public boolean lastMoving = false;
@@ -33,21 +34,40 @@ public class InputSystem extends BaseSystem {
 
 	public enum KeyPressBind
 	{
+		ADVANCE_TURN   	(32, 0),
+		TOGGLE_MINIMAP 	('f'),
+		TOGGLE_FOG		('r'),
+		TOGGLE_TACTICAL ('t'),
+		FUNCTION_1 		('1', 112),
+		FUNCTION_2 		('2', 113),
+		FUNCTION_3 		('3', 114),
+		FUNCTION_4 		('4', 115),
+		FUNCTION_5 		('5', 116),
+		FUNCTION_6 		('6', 117),
+		FUNCTION_7 		('7', 118),
+		FUNCTION_8 		('8', 119),
+		FUNCTION_9 		('9', 120),
+		FUNCTION_0 		('0', 121),
+		TOGGLE_KEY_MENU (9, 0),
 		;
-		private KeyPressBind(char k1, char k2)
-		{
-			key1 = k1; key2 = k2;
-		}
+		private KeyPressBind(char k1, char k2) {key1 = k1; key2 = k2;}
+		private KeyPressBind(char k1) {key1 = k1; key2 = (char)0;}
+		private KeyPressBind(int k1, int k2) {key1 = (char)k1; key2 = (char)k2;}
+		private KeyPressBind(char k1, int k2) {key1 = k1; key2 = (char)k2;}
 		public char key1, key2;
 	}
 	
 	public enum KeyHoldBind
 	{
+		PAN_LEFT	('a'),
+		PAN_RIGHT	('d'),
+		PAN_UP		('w'),
+		PAN_DOWN	('s'),
 		;
-		private KeyHoldBind(char k1, char k2)
-		{
-			key1 = k1; key2 = k2;
-		}
+		private KeyHoldBind(char k1, char k2) {key1 = k1; key2 = k2;}
+		private KeyHoldBind(char k1) {key1 = k1; key2 = (char)0;}
+		private KeyHoldBind(int k1, int k2) {key1 = (char)k1; key2 = (char)k2;}
+		private KeyHoldBind(char k1, int k2) {key1 = k1; key2 = (char)k2;}
 		public char key1, key2;
 	}
 	
@@ -56,8 +76,26 @@ public class InputSystem extends BaseSystem {
 		super(main);
 		keyPresses = new ArrayList<Character>();
 		mouseHelper = new MouseHelper(main.width, main.height);
+		setKeyBinds();
 	}
 
+	public void setKeyBinds()
+	{
+		keyPressBinds.clear(); keyHoldBinds.clear();
+		for (KeyPressBind kb: KeyPressBind.values())
+		{
+			keyPressBinds.put(kb.key1, kb.toString());
+			if (kb.key2 != (char)0)
+				keyPressBinds.put(kb.key2, kb.toString());
+		}
+		for (KeyHoldBind kb: KeyHoldBind.values())
+		{
+			keyHoldBinds.put(kb.key1, kb.toString());
+			if (kb.key2 != (char)0)
+				keyHoldBinds.put(kb.key2, kb.toString());
+		}
+	}
+	
 	//Goes through keys backwards to avoid arraylist trap
 	public void tick()
 	{
