@@ -5,6 +5,7 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -217,7 +218,18 @@ public class CivGame extends PApplet {
 
 	public void keyPressed()
 	{
-		inputSystem.queueKey(key);
+		if (keyCode == KeyEvent.VK_F1) inputSystem.queueKey((char)131);
+		else if (keyCode == KeyEvent.VK_F2) inputSystem.queueKey((char)132);
+		else if (keyCode == KeyEvent.VK_F3) inputSystem.queueKey((char)133);
+		else if (keyCode == KeyEvent.VK_F4) inputSystem.queueKey((char)134);
+		else if (keyCode == KeyEvent.VK_F5) inputSystem.queueKey((char)135);
+		else if (keyCode == KeyEvent.VK_F6) inputSystem.queueKey((char)136);
+		else if (keyCode == KeyEvent.VK_F7) inputSystem.queueKey((char)137);
+		else if (keyCode == KeyEvent.VK_F8) inputSystem.queueKey((char)138);
+		else if (keyCode == KeyEvent.VK_F9) inputSystem.queueKey((char)139);
+		else if (keyCode == KeyEvent.VK_F10) inputSystem.queueKey((char)140);
+		else
+			inputSystem.queueKey(key);
 		//inputSystem.test();
 	}
 

@@ -38,16 +38,16 @@ public class InputSystem extends BaseSystem {
 		TOGGLE_MINIMAP 	('m'),
 		TOGGLE_FOG		('r'),
 		TOGGLE_TACTICAL ('t'),
-		FUNCTION_1 		('1', 112),
-		FUNCTION_2 		('2', 113),
-		FUNCTION_3 		('3', 114),
-		FUNCTION_4 		('4', 115),
-		FUNCTION_5 		('5', 116),
-		FUNCTION_6 		('6', 117),
-		FUNCTION_7 		('7', 118),
-		FUNCTION_8 		('8', 119),
-		FUNCTION_9 		('9', 120),
-		FUNCTION_0 		('0', 121),
+		FUNCTION_1 		('1', 131),
+		FUNCTION_2 		('2', 132),
+		FUNCTION_3 		('3', 133),
+		FUNCTION_4 		('4', 134),
+		FUNCTION_5 		('5', 135),
+		FUNCTION_6 		('6', 136),
+		FUNCTION_7 		('7', 137),
+		FUNCTION_8 		('8', 138),
+		FUNCTION_9 		('9', 139),
+		FUNCTION_0 		('0', 140),
 		TOGGLE_KEY_MENU (9, 0),
 		;
 		private KeyPressBind(char k1, char k2) {key1 = k1; key2 = k2;}
@@ -489,6 +489,7 @@ public class InputSystem extends BaseSystem {
 	{
 		String action = keyPressBinds.get(key);
 		if (action != null) {System.out.println(action);}
+		if (action == null) return;
 		if (action.equals("ADVANCE_TURN"))
 		{
 			Civilization civ = main.grid.civs[0];
@@ -557,7 +558,7 @@ public class InputSystem extends BaseSystem {
 		}
 		else if (action.contains("FUNCTION_"))
 		{
-			main.menuSystem.executeShortcut(Integer.parseInt(Character.toString(key)));
+			main.menuSystem.executeShortcut(Integer.parseInt(action.substring(9)));
 		}
 		else if (action.equals("TOGGLE_KEY_MENU"))
 		{
