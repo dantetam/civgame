@@ -8,6 +8,7 @@ import game.Tile;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import render.CivGame;
 import render.MouseHelper;
@@ -19,6 +20,8 @@ import units.Settler;
 public class InputSystem extends BaseSystem {
 
 	private ArrayList<Character> keyPresses;
+	public HashMap<Character,KeyBind> keyBinds = new HashMap<Character,KeyBind>();
+	
 	public boolean moving = false;
 	public boolean lastMoving = false;
 
@@ -28,6 +31,26 @@ public class InputSystem extends BaseSystem {
 	public int time = 20; private int nextSelection = 0;
 	public boolean autoSelect;
 
+	public enum KeyPressBind
+	{
+		;
+		private KeyPressBind(char k1, char k2)
+		{
+			key1 = k1; key2 = k2;
+		}
+		public char key1, key2;
+	}
+	
+	public enum KeyHoldBind
+	{
+		;
+		private KeyHoldBind(char k1, char k2)
+		{
+			key1 = k1; key2 = k2;
+		}
+		public char key1, key2;
+	}
+	
 	public InputSystem(CivGame main)
 	{
 		super(main);
