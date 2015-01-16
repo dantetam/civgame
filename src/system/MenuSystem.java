@@ -139,7 +139,7 @@ public class MenuSystem extends BaseSystem {
 		Menu menu12 = new Menu("CivicMenu");
 		menus.add(menu12);
 		
-		Menu menu13 = new KeyMenu("KeyMenu");
+		Menu menu13 = new KeyMenu(main.inputSystem, "KeyMenu");
 		menus.add(menu13);
 
 		menu0.activate(true);
@@ -1219,7 +1219,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(4).activate(false);
 		textboxes.get(4).activate(false);
 		menus.get(5).activate(false);
-		for (int i = 7; i <= 12; i++)
+		for (int i = 7; i <= 13; i++)
 			menus.get(i).activate(false);
 
 		//Clear all but the main menu and encyclopedia
