@@ -35,7 +35,7 @@ public class InputSystem extends BaseSystem {
 	public enum KeyPressBind
 	{
 		ADVANCE_TURN   	(32, 0),
-		TOGGLE_MINIMAP 	('f'),
+		TOGGLE_MINIMAP 	('m'),
 		TOGGLE_FOG		('r'),
 		TOGGLE_TACTICAL ('t'),
 		FUNCTION_1 		('1', 112),
@@ -207,7 +207,7 @@ public class InputSystem extends BaseSystem {
 	}
 
 	//Stores which keys are being held (such as panning with WASD)
-	public boolean[] keyHeld = new boolean[26];
+	public boolean[] keyHeld = new boolean[200];
 	public void queueKey(char key)
 	{
 		if (key >= 97 && key <= 122)
@@ -487,7 +487,9 @@ public class InputSystem extends BaseSystem {
 
 	public void executeAction(char key)
 	{
-		if (key == 32)
+		String action = keyPressBinds.get(key);
+		if (action != null) {System.out.println(action);}
+		if (action.equals("ADVANCE_TURN"))
 		{
 			Civilization civ = main.grid.civs[0];
 			BaseEntity selected = availableUnit();
@@ -535,29 +537,29 @@ public class InputSystem extends BaseSystem {
 			on = !on;
 			main.resetCamera();
 		}*/
-		else if (key == 'f')
+		/*else if (key == 'f')
 		{
 			//main.resetCamera();
 			main.centerX = main.width/2;
 			main.centerY = main.height/2;
-		}
-		else if (key == 'm')
+		}*/
+		else if (action.equals("TOGGLE_MINIMAP"))
 		{
 			main.menuSystem.minimap = !main.menuSystem.minimap;
 		}
-		else if (key == 'r')
+		else if (action.equals("TOGGLE_FOG"))
 		{
 			main.showAll = !main.showAll;
 		}
-		else if (key == 't')
+		else if (action.equals("TOGGLE_TACTICAL"))
 		{
 			main.tacticalView = !main.tacticalView;
 		}
-		else if (Character.isDigit(key))
+		else if (action.contains("FUNCTION_"))
 		{
 			main.menuSystem.executeShortcut(Integer.parseInt(Character.toString(key)));
 		}
-		else if (key == KeyEvent.VK_TAB)
+		else if (action.equals("TOGGLE_KEY_MENU"))
 		{
 			main.keyMenu = !main.keyMenu;
 		}
