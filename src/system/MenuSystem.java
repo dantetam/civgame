@@ -193,34 +193,6 @@ public class MenuSystem extends BaseSystem {
 		//System.out.println(menus.get(0).findButtonByCommand("markTile").posX);
 		//System.out.println(menus.get(0).findButtonByCommand("markTile").posY);
 		//System.out.println("======");
-		//Approximate tile lines
-		/*main.strokeWeight(5);
-		main.stroke(255,0,0);
-		//main.line(705,437,698,483);
-		//main.line(775,435,781,482);
-		//main.line(840,425,854,471);
-		main.line(717,424,711,467);
-		main.line(785,423,789,467);
-		main.line(851,425,864,467);
-		main.line(919,425,943,466);
-		//main.line(987,428,1023,468);
-		main.line(988,425,1019,466);
-		main.line(1055,424,1094,471);
-		main.line(1120,424,1174,468);
-		main.line(649,426,635,469);
-		main.line(581,426,556,468);
-		main.line(513,424,479,464);
-		main.line(445,426,402,469);
-
-		main.line(0,340,main.width,340);
-		main.line(0,364,main.width,364);
-		main.line(0,392,main.width,392);
-		main.line(0,424,main.width,424);
-		main.line(0,468,main.width,468);
-		main.line(0,527,main.width,527);
-		main.line(0,602,main.width,602);
-		main.line(0,720,main.width,720);
-		main.noStroke();*/
 
 		main.textAlign(main.CENTER);
 		main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
@@ -623,7 +595,7 @@ public class MenuSystem extends BaseSystem {
 							if (shortcuts[j] != null)
 								if (shortcuts[j].equals(b))
 								{
-									main.text("[" + j + "]", b.posX + b.sizeX*0.8F, b.posY + b.sizeY/2);
+									main.text("[" + j + "]", b.posX + b.sizeX*0.8F, b.posY + b.sizeY/2 + b.sizeY/4F);
 									//System.out.println("Text");
 								}
 					}
@@ -776,8 +748,8 @@ public class MenuSystem extends BaseSystem {
 				if (menus.get(menu).active())
 				{
 					int iter = 1;
-					//for (int i = 0; i < menus.get(menu).buttons.size(); i++)
-					for (int i = menus.get(menu).buttons.size() - 1; i >= 0; i--)
+					for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+					//for (int i = menus.get(menu).buttons.size() - 1; i >= 0; i--)
 					{
 						//if (i >= menus.get(menu).buttons.size()) break;
 						TextBox b = menus.get(menu).buttons.get(i);
@@ -1503,7 +1475,7 @@ public class MenuSystem extends BaseSystem {
 
 		for (int i = 0; i < menus.get(1).buttons.size(); i++)
 		{
-			TextBox b = menus.get(i).buttons.get(i);
+			TextBox b = menus.get(1).buttons.get(i);
 			b.move(b.posX, b.posY - n*30); //Shift the buttons to their proper place
 			b.origX = b.posX; b.origY = b.posY;
 		}
@@ -1552,6 +1524,16 @@ public class MenuSystem extends BaseSystem {
 		else if (c.sortie == 2)
 		{
 			menus.get(2).addButton("endSortie", "End sortie", "End the sortie and return troops to city.", main.width/6F - 60, (float)main.height*5F/6F, 50, 50);
+		}
+		
+		int n = menus.get(2).buttons.size();
+		for (int i = 0; i < n; i++)
+		{
+			TextBox b = menus.get(2).buttons.get(i);
+			b.move(0, main.height*5/6 + i*30 - n*30); //Shift the buttons to their proper place
+			b.origX = b.posX; b.origY = b.posY;
+			b.sizeX = 100; b.sizeY = 30;
+			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
 	}
 

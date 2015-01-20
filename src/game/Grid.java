@@ -189,7 +189,7 @@ public class Grid {
 
 			BaseEntity en = EntityData.get("Settler");
 			settlers.add((GameEntity)en);
-			if (i == 0)
+			/*if (i == 0) //Give extra settlers to the player as a test
 				for (int j = 0; j < 4; j++)
 					{
 						int nr,nc;
@@ -200,7 +200,7 @@ public class Grid {
 							if (getTile(nr,nc).biome != -1) break;
 						}
 						addUnit(EntityData.get("Settler"),civs[i],nr,nc);
-					}
+					}*/
 			addUnit(en,civs[i],r,c);
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 
