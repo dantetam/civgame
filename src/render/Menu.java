@@ -113,7 +113,7 @@ public class Menu {
 	}
 	
 	public boolean requestUpdate = false;
-	public void activate(boolean yn) {active = yn; requestUpdate = true;}
+	public void activate(boolean yn) {active = yn; if (yn) requestUpdate = true;}
 	public boolean active() {return active;}
 
 	/*public void on()

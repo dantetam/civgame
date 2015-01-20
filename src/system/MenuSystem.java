@@ -743,6 +743,7 @@ public class MenuSystem extends BaseSystem {
 			if (menus.get(menu).requestUpdate && menu != 0)
 			{
 				menus.get(menu).requestUpdate = false;
+				System.out.println("Clear shortcuts");
 				shortcuts = new Button[10];
 				//System.out.println(menu);
 				if (menus.get(menu).active())
@@ -753,17 +754,17 @@ public class MenuSystem extends BaseSystem {
 					{
 						//if (i >= menus.get(menu).buttons.size()) break;
 						TextBox b = menus.get(menu).buttons.get(i);
-						if (b instanceof Button)
+						if (b instanceof Button && b.shortcut)
 						{
 							shortcuts[iter] = (Button)b;
-							if (iter == 9) 
+							if (iter == 9) //Loop from 1 to 9 to 0 for shortcut keys
 								iter = 0;
 							else if (iter == 0)
 								break;
 							else
 								iter++;
 						}
-						//System.out.println("Assign shortcut " + iter);
+						System.out.println("Assign shortcut " + iter);
 					}
 				}
 				else
@@ -1510,12 +1511,12 @@ public class MenuSystem extends BaseSystem {
 		//menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
 
-		menus.get(2).addButton("addAdmin", "Admin+", "Convert one citizen to admin.", main.width/6F, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("subAdmin", "Admin-", "Revert one admin to citizen.", main.width/6F, (float)main.height*5F/6F + 60, 50, 50);
-		menus.get(2).addButton("addArtist", "Artist+", "Convert one citizen to artist.", main.width/6F + 60, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("subArtist", "Artist-", "Revert one artist to citizen.", main.width/6F + 60, (float)main.height*5F/6F + 60, 50, 50);
-		menus.get(2).addButton("addSci", "Sci+", "Convert one citizen to scientist.", main.width/6F + 120, (float)main.height*5F/6F, 50, 50);
-		menus.get(2).addButton("subSci", "Sci-", "Revert one scientist to citizen.", main.width/6F + 120, (float)main.height*5F/6F + 60, 50, 50);
+		menus.get(2).addButton("addAdmin", "Admin+", "Convert one citizen to admin.", main.width/6F, (float)main.height*5F/6F, 50, 50).shortcut = false;
+		menus.get(2).addButton("subAdmin", "Admin-", "Revert one admin to citizen.", main.width/6F, (float)main.height*5F/6F + 60, 50, 50).shortcut = false;
+		menus.get(2).addButton("addArtist", "Artist+", "Convert one citizen to artist.", main.width/6F + 60, (float)main.height*5F/6F, 50, 50).shortcut = false;
+		menus.get(2).addButton("subArtist", "Artist-", "Revert one artist to citizen.", main.width/6F + 60, (float)main.height*5F/6F + 60, 50, 50).shortcut = false;
+		menus.get(2).addButton("addSci", "Sci+", "Convert one citizen to scientist.", main.width/6F + 120, (float)main.height*5F/6F, 50, 50).shortcut = false;
+		menus.get(2).addButton("subSci", "Sci-", "Revert one scientist to citizen.", main.width/6F + 120, (float)main.height*5F/6F + 60, 50, 50).shortcut = false;
 
 		if (c.sortie == 1)
 		{

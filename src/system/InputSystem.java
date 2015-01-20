@@ -507,6 +507,7 @@ public class InputSystem extends BaseSystem {
 					main.menuSystem.displayTechMenu(civ);
 					main.menuSystem.menus.get(5).activate(true);
 					main.menuSystem.message("A tech is needed to research.");
+					//main.menuSystem.menus.get(5).requestUpdate = true;
 					return;
 				}
 				if (civ.observe || civ.units.size() > 0 || civ.cities.size() > 0)
