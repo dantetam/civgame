@@ -14,6 +14,7 @@ import data.EntityData;
 import data.Improvement;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PImage;
 import render.*;
 import units.Caravan;
 import units.City;
@@ -451,7 +452,10 @@ public class MenuSystem extends BaseSystem {
 										main.fill(en.owner.r, en.owner.g, en.owner.b);
 										//main.rectMode(main.CENTER);
 										int len = 30;
-										main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
+										//main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
+										PImage image = EntityData.unitIconMap.get(en.name);
+										if (image != null)
+											main.image(image, pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
 										//main.rectMode(main.LEFT);
 									}
 								}

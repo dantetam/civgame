@@ -1,11 +1,9 @@
 package render;
 
-import game.CityState;
 import game.Civilization;
 import game.GameEntity;
 import game.Tile;
 
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
@@ -15,7 +13,7 @@ import data.Color;
 import data.EntityData;
 import processing.core.PApplet;
 import processing.core.PFont;
-import processing.core.PShape;
+import processing.core.PImage;
 import units.City;
 import menugame.MenuGame;
 
@@ -514,13 +512,9 @@ public class Game extends PApplet {
 		}
 		for (int i = 0; i < units.length; i++)
 		{
-			System.out.println(units[i]);
-			try
-			{
-				PShape data2 = loadShape("/models/"+units[i]+".svg");
-				EntityData.unitIconMap.put(units[i], data2);
-				System.out.println("Put " + units[i]);
-			} catch (Exception e) {continue;} //No icon found 
+			PImage data2 = loadImage("/models/"+units[i]+".png");
+			EntityData.unitIconMap.put(units[i], data2);
+			//System.out.println("Put " + units[i]);
 		}
 	}
 
