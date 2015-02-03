@@ -6,6 +6,39 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
+1/19/2015 -> 1/24/2015
+
+Streamlined UI
+	Use royalty free icons from favorited website
+	Rearrange buttons for menus to be in a row on the bottom
+Graphics/UX
+	Add textures to terrain
+		Possible use of TerraGen
+	Smooth terrain (no implementation details yet)
+		http://www.chadvernon.com/blog/resources/directx9/terrain-generation-with-a-heightmap/
+		http://www.gamedev.net/page/resources/_/technical/game-programming/box-filtering-height-maps-for-smooth-rolling-hills-r2164
+Balancing
+
+Fields
+	/ Implement multiple fields per tile
+		Allow player to buy fields with gold or culture
+		Allow AI to optimize fields of a tile
+	/ Implement owners of tiles
+		Randomly generate an owner for a field
+			Tributary fields -> provide resources for any civ that owns the tile, can be converted into civ field (less autonomy)
+			X Unowned fields -> provide larger amount of resources when improvement is built
+			Barbarian fields -> openly hostile fields, equivalent to savage field but can spawn a barbarian revolt
+			Savage fields -> must be converted to tributary fields by force or culture
+			Civilization fields -> directly owned by a civilization (converted from unowned)
+	Fields can have buildings
+	/ Field autonomy
+		Percentage which determines amount of resources given
+		A field is left autonomous -> may turn into city state (cannot be captured)
+	Fields can be captured by warring civs
+City-states
+	Addition of non-capturable city states
+		Revert to tributary field on tile when captured
+	
 (Planned 12/1/2014 -> 12/12/2014) 
 
 /+ Game mechanic balancing

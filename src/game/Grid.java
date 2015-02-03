@@ -9,6 +9,7 @@ import render.Tutorial;
 import units.Caravan;
 import units.City;
 import data.EntityData;
+import data.Field;
 
 public class Grid {
 
@@ -36,7 +37,7 @@ public class Grid {
 	//Handle combat scenarios in the context of this grid
 	public ConflictSystem conflictSystem;
 
-	public Grid(String playerCiv, double[][] terrain, int[][] biomes, int[][] resources, int numCivs, int numCityStates, int difficultyLevel, int numBarbarians, int cutoff, long seed)
+	public Grid(String playerCiv, double[][] terrain, int[][] biomes, int[][] resources, int[][] fields, int numCivs, int numCityStates, int difficultyLevel, int numBarbarians, int cutoff, long seed)
 	{
 		rand = new Random(seed);
 		conflictSystem = new ConflictSystem(this);
@@ -92,10 +93,41 @@ public class Grid {
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
+				tiles[r][c].maxFields = fields[r][c];
 				if (tiles[r][c].biome == -1 && adjacentLand(r,c).size() > 0) //Shore check i.e. borders a coast
 					tiles[r][c].maxFields = 1;
+				double random = rand.nextDouble(); int n = 0;
+				if (random < 0.02)
+					n = 4;
+				else if (random < 0.05)
+					n = 3;
+				else if (random < 0.1)
+					n = 2;
+				else if (random < 0.17)
+					n = 1;
+				else 
+					n = 0;
+				for (int i = 0; i < n; i++)
+				{
+					if (n > tiles[r][c].maxFields) break;
+					Field f = EntityData.getField("TestField");
+					tiles[r][c].fields.add(f);
+					//city.location.fields.add(f);
+					f.owner = null;
+					double random2 = rand.nextDouble();
+					if (random2 < 0.02)
+						f.status = 3;
+					else if (random2 < 0.1)
+						f.status = 2;
+					else if (random2 < 0.2)
+						f.status = 1;
+					else
+						f.status = 0;
+					f.autonomy = 0.5;
+				}
 			}
 		}
+		
 		ArrayList<GameEntity> settlers = new ArrayList<GameEntity>();
 		for (int i = 0; i < numCivs; i++)
 		{

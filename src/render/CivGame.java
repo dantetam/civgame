@@ -362,7 +362,7 @@ public class CivGame extends PApplet {
 		menuSystem.multiplier = n;
 		menuSystem.markedTiles = new boolean[terrain.length][terrain[0].length];
 		int[][] biomes = assignBiome(terrain);
-		grid = new Grid(civChoice, terrain, biomes, assignResources(biomes), numCivs, numCityStates, difficultyLevel, 3, (int)cutoff, seed);
+		grid = new Grid(civChoice, terrain, biomes, assignResources(biomes), assignFields(biomes), numCivs, numCityStates, difficultyLevel, 3, (int)cutoff, seed);
 		civilizationSystem.theGrid = grid;
 		//player = new Player(grid.civs[0]);
 		makeRivers(biomes); 
@@ -372,6 +372,41 @@ public class CivGame extends PApplet {
 		//grid.setupTiles(terrain);
 		//grid.setupCivs();
 		//renderSystem.addTerrain(terrain, con, cutoff);
+	}
+
+	public int[][] assignFields(int[][] biomes)
+	{
+		int[][] temp = new int[biomes.length][biomes[0].length];
+		Random rand = new Random(seed + 1000000000);
+		for (int r = 0; r < biomes.length; r++)
+		{
+			for (int c = 0; c < biomes[0].length; c++)
+			{
+				if (biomes[r][c] == -1)
+					temp[r][c] = 0;
+				else
+				{
+					double random = rand.nextDouble();
+					if (random < 0.025*biomes[r][c]/3)
+					{
+						temp[r][c] = 3;
+					}
+					else if (random < 0.1*biomes[r][c]/3)
+					{
+						temp[r][c] = 2;
+					}
+					else if (random < 0.15*biomes[r][c]/3)
+					{
+						temp[r][c] = 1;
+					}
+					else
+					{
+						temp[r][c] = 0;
+					}
+				}
+			}
+		}
+		return temp;
 	}
 
 	public int[][] assignBiome(double[][] terrain)

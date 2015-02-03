@@ -182,7 +182,7 @@ public class NewMenuSystem extends BaseSystem {
 		boolean exists = false;
 		if (n >= t.fields.size())
 		{
-			main.fill(150,150,150);
+			main.fill(150,150,150,50);
 			//exists = false;
 		}
 		else
@@ -190,14 +190,36 @@ public class NewMenuSystem extends BaseSystem {
 			Field f = t.fields.get(n);
 			if (f.owner == null)
 			{
-				main.fill(150,150,150);
-				exists = true;
+				main.fill(150,150,150,175);
+				//exists = true;
 			}
-			else
+			else if (f.status == 0)
 			{
-				main.fill(t.owner.r, t.owner.g, t.owner.b);
-				exists = true;
+				main.fill(t.owner.r, t.owner.g, t.owner.b, 175);
+				main.noStroke();
+				//exists = true;
 			}
+			else if (f.status == 1)
+			{
+				main.strokeWeight(3);
+				main.stroke(t.owner.r, t.owner.g, t.owner.b);
+				main.fill(150,150,150,175);
+				//exists = true;
+			}
+			else if (f.status == 2)
+			{
+				main.strokeWeight(3);
+				main.stroke(0);
+				main.fill(150,150,150,175);
+				//exists = true;
+			}
+			else if (f.status == 3)
+			{
+				main.noStroke();
+				main.fill(0,0,0,175);
+				//exists = true;
+			}
+			exists = true;
 		}
 		float x, y;
 		if (n == 0)
@@ -226,16 +248,17 @@ public class NewMenuSystem extends BaseSystem {
 		main.rect(x, y, len1, len1);
 		if (!exists)
 		{
-			main.fill(255,0,0);
+			main.fill(255,0,0,50);
 			main.ellipse(x, y, len1, len1);
 		}
+		main.strokeWeight(1);
 	}
 
 	public void largeFieldIcon(float posX, float posY, Tile t, float len)
 	{
 		if (t.owner == null)
 		{
-			main.fill(150,150,150);
+			main.fill(150,150,150,175);
 		}
 		else
 		{

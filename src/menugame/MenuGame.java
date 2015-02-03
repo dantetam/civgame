@@ -107,7 +107,7 @@ public class MenuGame {
 		}
 		
 		int[][] biomes = assignBiome(terrain, (int)cutoff);
-		grid = new Grid("Athens", terrain, biomes, assignResources(biomes), 
+		grid = new Grid("Athens", terrain, biomes, assignResources(biomes), new int[biomes.length][biomes[0].length],
 				(int)(Math.random()*3) + 7, 
 				0,
 				3,
