@@ -488,7 +488,7 @@ public class InputSystem extends BaseSystem {
 	public void executeAction(char key)
 	{
 		String action = keyPressBinds.get(key);
-		if (action != null) {System.out.println(action);}
+		//if (action != null) {System.out.println(action);}
 		if (action == null) return;
 		if (action.equals("ADVANCE_TURN"))
 		{

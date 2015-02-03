@@ -81,7 +81,8 @@ public class CivGame extends PApplet {
 
 	public void setup()
 	{
-		size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
+		size((int)width,(int)height,P3D);
+		//size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
 		//frameRate(60);
 		arial = createFont("ArialMT-48.vlw", 48);
 		textFont(arial);
@@ -387,7 +388,7 @@ public class CivGame extends PApplet {
 				else
 				{
 					double random = rand.nextDouble();
-					if (random < 0.025*biomes[r][c]/3)
+					if (random < 0.05*biomes[r][c]/3)
 					{
 						temp[r][c] = 3;
 					}
@@ -395,7 +396,7 @@ public class CivGame extends PApplet {
 					{
 						temp[r][c] = 2;
 					}
-					else if (random < 0.15*biomes[r][c]/3)
+					else if (random < 0.25*biomes[r][c]/3)
 					{
 						temp[r][c] = 1;
 					}

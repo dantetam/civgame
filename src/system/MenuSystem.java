@@ -79,7 +79,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", main.width - 100, 250, 100, height).lock = true;
 		menu0.addButton("relations", "Relations", "The wars and alliances of this world.", main.width - 100, 280, 100, height).lock = true;
 		menu0.addButton("civic", "Civics", "Change the ideals of your government.", main.width - 100, 310, 100, height).lock = true;
-		menu0.addButton("log", "Messages", "View your messages.", main.width*5/6, 0, main.width*1/6, height).lock = true;
+		menu0.addButton("log", "Messages", "View your messages.", main.width*3/4, 0, main.width*1/4, height).lock = true;
 
 		int pivot = menu0.buttons.size()*height;
 		for (int i = 0; i < menu0.buttons.size() - 1; i++)
@@ -150,7 +150,7 @@ public class MenuSystem extends BaseSystem {
 		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width - 400,main.height - 150,200,150); //"SelectedText"
 		textboxes.add(text1);
 
-		TextBox text2 = new TextBox(new ArrayList<String>(),"",main.width*4/6,30,main.width*2/6,100); //"Messages"
+		TextBox text2 = new TextBox(new ArrayList<String>(),"",main.width*3/4,30,main.width/4,100); //"Messages"
 		textboxes.add(text2);
 
 		TextBox text3 = new TextBox(new ArrayList<String>(),"",main.width/6,0,300,50); //"PlayerStatus"
@@ -616,7 +616,7 @@ public class MenuSystem extends BaseSystem {
 					if (b.display.get(j) != null)
 					{
 						//System.out.println(b.text + " " + b.text.get(j) + " " + b.posX);
-						main.text(b.display.get(j), b.posX + 15, b.posY + 15*(j+1));
+						main.text(b.display.get(j), b.posX + 7, b.posY + 15*(j+1));
 					}
 				}
 				if (b.autoClear)
@@ -743,7 +743,7 @@ public class MenuSystem extends BaseSystem {
 			if (menus.get(menu).requestUpdate && menu != 0)
 			{
 				menus.get(menu).requestUpdate = false;
-				System.out.println("Clear shortcuts");
+				//System.out.println("Clear shortcuts");
 				shortcuts = new Button[10];
 				//System.out.println(menu);
 				if (menus.get(menu).active())
@@ -764,7 +764,7 @@ public class MenuSystem extends BaseSystem {
 							else
 								iter++;
 						}
-						System.out.println("Assign shortcut " + iter);
+						//System.out.println("Assign shortcut " + iter);
 					}
 				}
 				else

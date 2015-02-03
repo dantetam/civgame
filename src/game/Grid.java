@@ -97,13 +97,13 @@ public class Grid {
 				if (tiles[r][c].biome == -1 && adjacentLand(r,c).size() > 0) //Shore check i.e. borders a coast
 					tiles[r][c].maxFields = 1;
 				double random = rand.nextDouble(); int n = 0;
-				if (random < 0.02)
+				if (random < 0.04)
 					n = 4;
-				else if (random < 0.05)
-					n = 3;
 				else if (random < 0.1)
+					n = 3;
+				else if (random < 0.2)
 					n = 2;
-				else if (random < 0.17)
+				else if (random < 0.34)
 					n = 1;
 				else 
 					n = 0;

@@ -74,13 +74,13 @@ public class Tutorial extends CivGame {
 			grid.civs[0].techTree.allowedUnits.add("Warrior");
 		}
 
-		println("Called " + step);
+		//println("Called " + step);
 		switch (step)
 		{
 		case 0:
 			menuSystem.messageT("When ready, press SPACE to continue.");
 			menuSystem.messageT("Use WASD to move the camera around the map");
-			enable('w','a','s','d');
+			enable('w','a','s','d','1','2','3','4','5');
 			break;
 		case 1:
 			menuSystem.messageT("------------------------------------------");
@@ -109,13 +109,14 @@ public class Tutorial extends CivGame {
 			break;
 		case 4:
 			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("press SPACE. This will advance to next turn if all your units have orders.");
+			menuSystem.messageT("if all your units have orders.");
+			menuSystem.messageT("press SPACE. This will advance to next turn,");
 			menuSystem.messageT("Your unit will be produced soon. To progress the game forward,");
 			break;
 		case 5: 
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("Click on any technology to research it.");
-			menuSystem.messageT("Before you can go on, your civilization must research a technology.");
+			menuSystem.messageT("Before you can go on, your civilization must research a tech.");
 			break;
 		case 6:
 			menuSystem.messageT("------------------------------------------");
@@ -123,12 +124,14 @@ public class Tutorial extends CivGame {
 			break;
 		case 7:
 			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("Keep pressing SPACE to advance the game until your unit is completed.");
+			menuSystem.messageT("until your unit is completed.");
+			menuSystem.messageT("Keep pressing SPACE to advance the game");
 			break;
 		case 8:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("Move it outside of your territory with RMB when selecting it.");
-			menuSystem.messageT("It has offensive and defensive values. Later units may have ranged strength.");
+			menuSystem.messageT("Later units may have ranged strength.");
+			menuSystem.messageT("It has offensive and defensive values.");
 			menuSystem.messageT("Your city has produced its first combat unit.");
 			Tech t = grid.civs[0].techTree.researched("Civilization");
 			t.units("Settler", "Warrior", "Worker", "Slinger");
