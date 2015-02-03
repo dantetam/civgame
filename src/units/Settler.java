@@ -107,7 +107,7 @@ public class Settler extends GameEntity {
 
 	public Tile settleLocation()
 	{
-		Tile[] candidates = location.grid.returnBestCityScores(location.row, location.col, 0.5);
+		Tile[] candidates = location.grid.returnBestCityScores(location.row, location.col, 1);
 		return candidates[(int)(Math.random()*candidates.length)];
 		//return candidates[0];
 	}

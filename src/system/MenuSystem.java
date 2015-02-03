@@ -138,7 +138,7 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu12 = new Menu("CivicMenu");
 		menus.add(menu12);
-		
+
 		Menu menu13 = new KeyMenu(main.inputSystem, "KeyMenu");
 		menus.add(menu13);
 
@@ -341,7 +341,7 @@ public class MenuSystem extends BaseSystem {
 				//temp.clear();
 				temp.add(selected.name + " " + ((GameEntity)selected).action + "/" + ((GameEntity)selected).maxAction);
 				temp.add(selected.health + "/" + selected.maxHealth + " health");
-				temp.add(selected.offensiveStr + " offensive, " + selected.rangedStr + " ranged");
+				temp.add(selected.offensiveStr + " offensive, " + selected.rangedStr + " ranged,");
 				temp.add(selected.defensiveStr + " defensive");
 
 				if (!typeOfLastSelected.equals(selected.name))
@@ -384,7 +384,7 @@ public class MenuSystem extends BaseSystem {
 									continue;
 								//if (movementChoices.contains(t))
 								//main.text(">", pos[0] - dX,pos[1] - dY + 10);
-								if (pathToHighlighted != null)
+								if (!(getSelected() instanceof City) && pathToHighlighted != null)
 								{
 									int index = pathToHighlighted.indexOf(t);
 									if (index != -1)
@@ -626,27 +626,29 @@ public class MenuSystem extends BaseSystem {
 
 		tooltip.active = false;
 		TextBox hover = findButtonWithin(main.mouseX, main.mouseY);
+		tooltip.active = false;
 		if (hover != null)
 		{
 			if (hover.tooltip != null)
-				if (!hover.tooltip.equals(""))
-				{
-					//TODO: Word wrap if the text goes off the screen
-					tooltip.active = true;
-					int[] d = hover.dimTooltip();
-					tooltip.sizeX = d[0];
-					tooltip.sizeY = d[1];
-					tooltip.posX = main.mouseX;
-					tooltip.posY = main.mouseY;
-					main.fill(0);
-					main.stroke(255);
-					main.rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
-					main.fill(255);
-					main.noStroke();
-					main.textAlign(main.CENTER);
-					for (int i = 0; i < hover.tooltip.size(); i++)
-						main.text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
-				}
+				if (hover.tooltip.size() > 0)
+					if (!hover.tooltip.get(0).isEmpty())
+					{
+						//TODO: Word wrap if the text goes off the screen
+						tooltip.active = true;
+						int[] d = hover.dimTooltip();
+						tooltip.sizeX = d[0];
+						tooltip.sizeY = d[1];
+						tooltip.posX = main.mouseX;
+						tooltip.posY = main.mouseY;
+						main.fill(0);
+						main.stroke(255);
+						main.rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
+						main.fill(255);
+						main.noStroke();
+						main.textAlign(main.CENTER);
+						for (int i = 0; i < hover.tooltip.size(); i++)
+							main.text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
+					}
 		}
 		else //Show the tooltip for a unit being hovered over
 		{
@@ -654,29 +656,35 @@ public class MenuSystem extends BaseSystem {
 			{
 				if (mouseHighlighted.occupants.size() > 0)
 				{
-					tooltip.active = true;
-					tooltip.posX = main.mouseX;
-					tooltip.posY = main.mouseY;
-					tooltip.dimTooltip(mouseHighlighted.occupants, mouseHighlighted.improvement);
-					main.fill(0);
-					main.stroke(255);
-					main.rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
-					main.fill(255);
-					main.noStroke();
-					main.textAlign(main.CENTER);
-					BaseEntity impr = mouseHighlighted.improvement;
-					if (impr != null)
-						main.text(impr.name + " (" + impr.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10);
-					for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
+					//if (tooltip.display.size() != 0) 
 					{
-						GameEntity en = mouseHighlighted.occupants.get(i);
-						/*if (i != mouseHighlighted.occupants.size() - 1)
-							main.text(en.name + "(" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
-						else*/
-						if (impr != null)
-							main.text(en.name + " (" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10 + 14*(i+1));
-						else
-							main.text(en.name + " (" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10 + 14*i);
+						//if (!tooltip.display.get(0).equals(""))
+						{
+							tooltip.active = true;
+							tooltip.posX = main.mouseX;
+							tooltip.posY = main.mouseY;
+							tooltip.dimTooltip(mouseHighlighted.occupants, mouseHighlighted.improvement);
+							main.fill(0);
+							main.stroke(255);
+							main.rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
+							main.fill(255);
+							main.noStroke();
+							main.textAlign(main.CENTER);
+							BaseEntity impr = mouseHighlighted.improvement;
+							if (impr != null)
+								main.text(impr.name + " (" + impr.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10);
+							for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
+							{
+								GameEntity en = mouseHighlighted.occupants.get(i);
+								/*if (i != mouseHighlighted.occupants.size() - 1)
+								main.text(en.name + "(" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
+								else*/
+								if (impr != null)
+									main.text(en.name + " (" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10 + 14*(i+1));
+								else
+									main.text(en.name + " (" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10 + 14*i);
+							}
+						}
 					}
 				}
 			}
@@ -750,7 +758,7 @@ public class MenuSystem extends BaseSystem {
 				{
 					int iter = 1;
 					for (int i = 0; i < menus.get(menu).buttons.size(); i++)
-					//for (int i = menus.get(menu).buttons.size() - 1; i >= 0; i--)
+						//for (int i = menus.get(menu).buttons.size() - 1; i >= 0; i--)
 					{
 						//if (i >= menus.get(menu).buttons.size()) break;
 						TextBox b = menus.get(menu).buttons.get(i);
@@ -1309,7 +1317,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < techNames.size(); i++)
 		{
 			String s = techNames.get(i);
-			menus.get(5).addButton("research" + s, s, "Research " + s + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
+			menus.get(5).addButton("research" + s, s, "Research " + s + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30).lock = true;
 			//menus.get(5).addButton("research" + s, s, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
 	}
@@ -1526,7 +1534,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(2).addButton("endSortie", "End sortie", "End the sortie and return troops to city.", main.width/6F - 60, (float)main.height*5F/6F, 50, 50);
 		}
-		
+
 		int n = menus.get(2).buttons.size();
 		for (int i = 0; i < n; i++)
 		{

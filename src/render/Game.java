@@ -253,7 +253,11 @@ public class Game extends PApplet {
 			}
 		}
 		fill(255,0,0);
-		text("Seed: " + menuGame.seed + "; Turn: " + (menuGame.civSystem.turnsPassed+1),450,25);
+		textAlign(LEFT);
+		text("Seed: " + menuGame.seed + "; Turn: " + (menuGame.civSystem.turnsPassed+1),300,25);
+		text("This game is in deep alpha and is prone to random crashing.",300,45);
+		text("Some art is temporary, thank you http://game-icons.net/",300,65);
+		textAlign(CENTER);
 		if (menuGame.civSystem.turnsPassed >= 400)
 			newMenuGame((long)(System.currentTimeMillis()*Math.random()));
 

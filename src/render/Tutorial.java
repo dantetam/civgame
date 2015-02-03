@@ -80,7 +80,7 @@ public class Tutorial extends CivGame {
 		case 0:
 			menuSystem.messageT("When ready, press SPACE to continue.");
 			menuSystem.messageT("Use WASD to move the camera around the map");
-			enable('w','a','s','d','1','2','3','4','5');
+			enable('w','a','s','d');
 			break;
 		case 1:
 			menuSystem.messageT("------------------------------------------");
@@ -95,6 +95,7 @@ public class Tutorial extends CivGame {
 			menuSystem.messageT("It will be founded at your settler's location.");
 			menuSystem.messageT("In the provided menu, press SETTLE to create a new city.");
 			enable((char)32);
+			enable('1','2','3','4','5');
 			break;
 		/*case 3:
 			menuSystem.messageT("------------------------------------------");
@@ -249,8 +250,8 @@ public class Tutorial extends CivGame {
 
 	public ArrayList<Character> empty()
 	{
-		ArrayList<Character> temp = new ArrayList<Character>();
-		return temp;
+		//ArrayList<Character> temp = new ArrayList<Character>();
+		return new ArrayList<Character>();
 	}
 
 	public void enable(char... keys)
