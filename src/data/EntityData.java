@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import processing.core.PApplet;
-import entity.Entity;
+import processing.core.PShape;
 import game.*;
 import units.*;
 
@@ -17,11 +17,10 @@ public class EntityData {
 	public static HashMap<String, TileEntity> tileEntityMap;
 	public static HashMap<Integer, Integer> groundColorMap; //Defines color of ground of certain biomes
 	private static HashMap<String, float[][]> unitModelMap;
+	public static HashMap<String, PShape> unitIconMap;
 
 	//Terrible short hand names
-	private static HashMap<String, Integer> f;
-	private static HashMap<String, Integer> m;
-	private static HashMap<String, Integer> g;
+	private static HashMap<String, Integer> f, m, g;
 
 	public static HashMap<String, Improvement> unitImprovementMap;
 	public static HashMap<String, Improvement> cityImprovementMap;
@@ -44,6 +43,8 @@ public class EntityData {
 		tileEntityMap = new HashMap<String, TileEntity>();
 		groundColorMap = new HashMap<Integer, Integer>();
 		unitModelMap = new HashMap<String, float[][]>();
+		unitIconMap = new HashMap<String, PShape>();
+		
 		unitImprovementMap = new HashMap<String, Improvement>();
 		cityImprovementMap = new HashMap<String, Improvement>();
 		fieldMap = new HashMap<String, Field>();
@@ -60,6 +61,7 @@ public class EntityData {
 		setupEntityMap();
 		groundColorMap();
 		setupUnitCosts();
+		setupUnitIcons();
 		setupUnitImprovementCosts(); //longest name yet
 		setupCityImprovementCosts();
 		setupFields();
@@ -450,6 +452,11 @@ public class EntityData {
 	public static Field getField(String name)
 	{
 		return new Field(fieldMap.get(name));
+	}
+	
+	private static void setupUnitIcons()
+	{
+		
 	}
 	
 	/*public static void awardField(Civilization civ, Tile t, String name)

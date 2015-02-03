@@ -15,6 +15,7 @@ import data.Color;
 import data.EntityData;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PShape;
 import units.City;
 import menugame.MenuGame;
 
@@ -111,7 +112,7 @@ public class Game extends PApplet {
 			n++;
 		}
 		menu5.addButton("backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
-		
+
 		Menu menu6 = new Menu("DifficultyMenu");
 		menus.add(menu6);
 		menu6.addButton("level1", "Sandbox", "Recommended for trying new strategies.", 70, 100, 210, 50);
@@ -166,44 +167,44 @@ public class Game extends PApplet {
 				}
 				else
 				{*/
-					if (t.biome == -1)
-						continue; //fill(150,225,255);
-					else if (civ == null && civ2 == null) //No owner
+				if (t.biome == -1)
+					continue; //fill(150,225,255);
+				else if (civ == null && civ2 == null) //No owner
+				{
+					fill(150);
+				}
+				else if (civ == null && civ2 != null) //Owner was destroyed
+				{
+					fill(civ2.r*(1 - frames/(float)tickEvery),civ2.g*(1 - frames/(float)tickEvery),civ2.b*(1 - frames/(float)tickEvery));
+				}
+				else if (civ != null && civ2 == null) //Terra nullius gets owner
+				{
+					fill(civ.r*(frames/(float)tickEvery),civ.g*(frames/(float)tickEvery),civ.b*(frames/(float)tickEvery));
+				}
+				else if (civ.equals(civ2)) //Same owner
+				{
+					fill(civ.r,civ.g,civ.b);
+				}
+				else //A new owner
+				{
+					fill(255,0,0);
+					if (frames <= tickEvery/2)
 					{
-						fill(150);
+						fill(
+								civ2.r*(1 - frames*2/(float)tickEvery),
+								civ2.g*(1 - frames*2/(float)tickEvery),
+								civ2.b*(1 - frames*2/(float)tickEvery)
+								);
 					}
-					else if (civ == null && civ2 != null) //Owner was destroyed
+					else
 					{
-						fill(civ2.r*(1 - frames/(float)tickEvery),civ2.g*(1 - frames/(float)tickEvery),civ2.b*(1 - frames/(float)tickEvery));
+						fill(
+								civ.r*(frames*2/(float)tickEvery),
+								civ.g*(frames*2/(float)tickEvery),
+								civ.b*(frames*2/(float)tickEvery)
+								);
 					}
-					else if (civ != null && civ2 == null) //Terra nullius gets owner
-					{
-						fill(civ.r*(frames/(float)tickEvery),civ.g*(frames/(float)tickEvery),civ.b*(frames/(float)tickEvery));
-					}
-					else if (civ.equals(civ2)) //Same owner
-					{
-						fill(civ.r,civ.g,civ.b);
-					}
-					else //A new owner
-					{
-						fill(255,0,0);
-						if (frames <= tickEvery/2)
-						{
-							fill(
-									civ2.r*(1 - frames*2/(float)tickEvery),
-									civ2.g*(1 - frames*2/(float)tickEvery),
-									civ2.b*(1 - frames*2/(float)tickEvery)
-									);
-						}
-						else
-						{
-							fill(
-									civ.r*(frames*2/(float)tickEvery),
-									civ.g*(frames*2/(float)tickEvery),
-									civ.b*(frames*2/(float)tickEvery)
-									);
-						}
-					}
+				}
 				//}
 
 				float len = 800F/(float)menuGame.grid.rows;
@@ -496,19 +497,30 @@ public class Game extends PApplet {
 			newMenuGame((long)(System.currentTimeMillis()*Math.random()));
 		}
 	}
-	
+
 	public void fill(Color c)
 	{
 		fill((float)c.r*255,(float)c.g*255,(float)c.b*255);
 	}
 
 	private String[] models = {"City","Farm","Fishing Boats","Forest","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
+	private String[] units = {"Archer","Axeman","Barbarian","Settler","Spearman","Swordsman","Warrior","Worker"};
 	private void setModels()
 	{
 		for (int i = 0; i < models.length; i++)
 		{
 			String[] data = loadStrings("/models/"+models[i]);
 			EntityData.passModelData(models[i],data);
+		}
+		for (int i = 0; i < units.length; i++)
+		{
+			System.out.println(units[i]);
+			try
+			{
+				PShape data2 = loadShape("/models/"+units[i]+".svg");
+				EntityData.unitIconMap.put(units[i], data2);
+				System.out.println("Put " + units[i]);
+			} catch (Exception e) {continue;} //No icon found 
 		}
 	}
 
