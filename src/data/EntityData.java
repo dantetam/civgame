@@ -354,6 +354,11 @@ public class EntityData {
 		g.put(name, gold);
 		m.put(name, metal);
 	}
+	
+	public static float[] getCost(String name)
+	{
+		return new float[]{f.get(name),g.get(name),m.get(name)};
+	}
 
 	private static void setupUnitImprovementCosts()
 	{

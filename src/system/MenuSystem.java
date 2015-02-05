@@ -613,7 +613,7 @@ public class MenuSystem extends BaseSystem {
 							if (shortcuts[j] != null)
 								if (shortcuts[j].equals(b))
 								{
-									main.text("[" + j + "]", b.posX + b.sizeX*0.8F, b.posY + b.sizeY/2 + b.sizeY/4F);
+									main.text("[" + j + "]", b.posX + b.sizeX*0.95F, b.posY + b.sizeY/2 + b.sizeY/4F);
 									//System.out.println("Text");
 								}
 					}
@@ -658,6 +658,16 @@ public class MenuSystem extends BaseSystem {
 						tooltip.sizeY = d[1];
 						tooltip.posX = main.mouseX;
 						tooltip.posY = main.mouseY;
+						if (hover instanceof Button)
+						{
+							Button b = (Button)hover;
+							if (b.command.contains("queue"))
+							{
+								tooltip.posX = hover.posX + hover.sizeX;
+								tooltip.posY = hover.posY;
+								//System.out.println("---_>");
+							}
+						}
 						main.fill(0);
 						main.stroke(255);
 						main.rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
@@ -1377,46 +1387,7 @@ public class MenuSystem extends BaseSystem {
 		temp.add(buildingString);
 		if (citySelected.queueFood > 0 || citySelected.queueMetal > 0)
 		{
-			int[] t = citySelected.quickEval();
-			//Division by zero errors
-			if (t[0] == 0 && citySelected.queueFood > 0)
-			{
-				temp.add("No food production, will not finish.");
-			}
-			else if (t[2] == 0 && citySelected.queueMetal > 0)
-			{
-				temp.add("No metal production, will not finish.");
-			}
-			else if (t[0] == 0 && t[2] == 0)
-			{
-				temp.add("Neither food nor metal production");
-				temp.add("will not finish.");
-			}
-			else
-			{
-				//System.out.println(t[0] + " " + t[2]);
-				int turns;
-				if (t[0] == 0)
-				{
-					turns = citySelected.queueMetal/(t[2]) + 1;
-				}
-				else if (t[2] == 0)
-				{
-					turns = citySelected.queueFood/(t[0]) + 1;
-				}
-				else
-				{
-					turns = Math.max(
-							citySelected.queueFood/(t[0]) + 1,
-							citySelected.queueMetal/(t[2]) + 1
-							);
-				}
-				//English grammar...
-				if (turns == 1)
-					temp.add("Queued " + citySelected.queue + " for " + turns + " turn.");
-				else
-					temp.add("Queued " + citySelected.queue + " for " + turns + " turns.");
-			}
+			temp.add(calcQueueTurns(citySelected));
 		}
 		else
 		{
@@ -1424,6 +1395,76 @@ public class MenuSystem extends BaseSystem {
 		}
 	}
 
+	public int calcQueueTurnsInt(City citySelected, String name)
+	{
+		int[] t = citySelected.quickEval();
+		float[] cost = EntityData.getCost(name);
+		//Division by zero errors
+		if ((t[0] == 0 && cost[0] > 0) || (t[2] == 0 && cost[2] > 0) || (t[0] == 0 && t[2] == 0))
+			return -1;
+		else
+		{
+			//System.out.println(t[0] + " " + t[2]);
+			float turns;
+			if (t[0] == 0)
+				turns = cost[2]/(t[2]) + 1;
+			else if (t[2] == 0)
+				turns = cost[0]/(t[0]) + 1;
+			else
+			{
+				turns = Math.max(
+						cost[0]/(t[0]) + 1,
+						cost[2]/(t[2]) + 1
+						);
+			}
+			return (int)turns;
+		}
+	}
+	
+	public String calcQueueTurns(City citySelected)
+	{
+		int[] t = citySelected.quickEval();
+		//Division by zero errors
+		if (t[0] == 0 && citySelected.queueFood > 0)
+		{
+			return new String("No food production, will not finish.");
+		}
+		else if (t[2] == 0 && citySelected.queueMetal > 0)
+		{
+			return new String("No metal production, will not finish.");
+		}
+		else if (t[0] == 0 && t[2] == 0)
+		{
+			//return new String("Neither food nor metal production");
+			return new String("Will not finish.");
+		}
+		else
+		{
+			//System.out.println(t[0] + " " + t[2]);
+			int turns;
+			if (t[0] == 0)
+			{
+				turns = citySelected.queueMetal/(t[2]) + 1;
+			}
+			else if (t[2] == 0)
+			{
+				turns = citySelected.queueFood/(t[0]) + 1;
+			}
+			else
+			{
+				turns = Math.max(
+						citySelected.queueFood/(t[0]) + 1,
+						citySelected.queueMetal/(t[2]) + 1
+						);
+			}
+			//English grammar...
+			if (turns == 1)
+				return new String("Queued " + citySelected.queue + " for " + turns + " turn.");
+			else
+				return new String("Queued " + citySelected.queue + " for " + turns + " turns.");
+		}
+	}
+	
 	//Update the ledger
 	public void updateCivStats()
 	{
@@ -1526,14 +1567,19 @@ public class MenuSystem extends BaseSystem {
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		for (int i = 0; i < units.size(); i++)
 		{
-			menus.get(2).addButton("queue" + units.get(i), units.get(i), "Queue a " + units.get(i) + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
+			Button b = (Button)menus.get(2).addButton("queue" + units.get(i), units.get(i) + " [" + calcQueueTurnsInt(c,units.get(i)) + "]", "Queue a " + units.get(i) + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
+			b.tooltip.add(calcQueueTurns(c));
+			//menus.get(2).addButton("queue" + units.get(i), units.get(i), "", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
 		}
 
 		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements;
 		for (int i = 0; i < buildings.size(); i++)
 		{
-			menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "Queue a " + buildings.get(i) + ".",
+			Button b = (Button)menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i) + " [" + calcQueueTurnsInt(c,units.get(i)) + "]", "Queue a " + buildings.get(i) + ".",
 					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);
+			b.tooltip.add(calcQueueTurns(c));
+			/*menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "",
+					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);*/
 		}
 		//menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
