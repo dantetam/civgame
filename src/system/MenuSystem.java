@@ -202,7 +202,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			//main.rect(0, 700, 50, 50);
 			int con = 1;
-			float sX = 0; float sY = 400; float widthX = 400; float widthY = 400; 
+			float sX = main.width - 400; float sY = main.height - 550; float widthX = 400; float widthY = 400; 
 			for (int r = 0; r < main.grid.rows; r += con)
 			{
 				for (int c = 0; c < main.grid.cols; c += con)
@@ -454,9 +454,12 @@ public class MenuSystem extends BaseSystem {
 										int len = 30;
 										//main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
 										PImage image = EntityData.unitIconMap.get(en.name);
+										main.pushStyle();
+										main.tint(en.owner.r, en.owner.g, en.owner.b);
 										if (image != null)
 											main.image(image, pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
 										//main.rectMode(main.LEFT);
+										main.popStyle();
 									}
 								}
 							}
@@ -575,6 +578,17 @@ public class MenuSystem extends BaseSystem {
 		else
 			textboxes.get(3).display.add("Researching " + c.researchTech + " at " + (int)((c.researchProgress()*1000/1000)*100) + "%");
 
+		//Manual textbox; does not use class
+		main.fill(0);
+		main.rect(0,0,main.width/6,50);
+		main.textSize(20);
+		main.fill(main.grid.civs[0].r, main.grid.civs[0].g, main.grid.civs[0].b);
+		main.text(main.civChoice,main.width/6/2,25);
+		int s = 5;
+		main.rect(s, s, 50 - 2*s, 50 - 2*s);
+		main.rect(main.width/6 - 50 + s, s, 50 - 2*s, 50 - 2*s);
+		main.textSize(12);
+		
 		updateMessages();
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
@@ -1490,6 +1504,8 @@ public class MenuSystem extends BaseSystem {
 		{
 			TextBox b = menus.get(1).buttons.get(i);
 			b.move(b.posX, b.posY - n*30); //Shift the buttons to their proper place
+			b.sizeX = 100; b.sizeY = 30;
+			b.origSizeX = 100; b.origSizeY = 30;
 			b.origX = b.posX; b.origY = b.posY;
 		}
 		//System.out.println(menus.get(1).buttons.size());

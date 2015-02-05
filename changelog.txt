@@ -8,9 +8,9 @@ X : Abandoned
 
 1/19/2015 -> 1/24/2015
 
-Streamlined UI
-	Use royalty free icons from favorited website
-	Rearrange buttons for menus to be in a row on the bottom
+> Streamlined UI
+	> Use royalty free icons from favorited website
+	X Rearrange buttons for menus to be in a row on the bottom
 Graphics/UX
 	Add textures to terrain
 		Possible use of TerraGen
@@ -23,14 +23,14 @@ Fields
 	/ Implement multiple fields per tile
 		Allow player to buy fields with gold or culture
 		Allow AI to optimize fields of a tile
-	/ Implement owners of tiles
-		Randomly generate an owner for a field
+	> Implement owners of tiles
+		> Randomly generate an owner for a field
 			Tributary fields -> provide resources for any civ that owns the tile, can be converted into civ field (less autonomy)
 			X Unowned fields -> provide larger amount of resources when improvement is built
 			Barbarian fields -> openly hostile fields, equivalent to savage field but can spawn a barbarian revolt
 			Savage fields -> must be converted to tributary fields by force or culture
 			Civilization fields -> directly owned by a civilization (converted from unowned)
-	Fields can have buildings
+	Fields can improve a tile's yield
 	/ Field autonomy
 		Percentage which determines amount of resources given
 		A field is left autonomous -> may turn into city state (cannot be captured)
