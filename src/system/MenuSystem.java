@@ -613,7 +613,7 @@ public class MenuSystem extends BaseSystem {
 							if (shortcuts[j] != null)
 								if (shortcuts[j].equals(b))
 								{
-									main.text("[" + j + "]", b.posX + b.sizeX*0.95F, b.posY + b.sizeY/2 + b.sizeY/4F);
+									main.text("[" + j + "]", b.posX + b.sizeX*0.9F, b.posY + b.sizeY/2);
 									//System.out.println("Text");
 								}
 					}
@@ -674,8 +674,9 @@ public class MenuSystem extends BaseSystem {
 						main.fill(255);
 						main.noStroke();
 						main.textAlign(main.CENTER);
+						//if (hover.tooltip.size() == 0)
 						for (int i = 0; i < hover.tooltip.size(); i++)
-							main.text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
+							main.text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10 + 14*i);
 					}
 		}
 		else //Show the tooltip for a unit being hovered over
@@ -1567,17 +1568,30 @@ public class MenuSystem extends BaseSystem {
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		for (int i = 0; i < units.size(); i++)
 		{
-			Button b = (Button)menus.get(2).addButton("queue" + units.get(i), units.get(i) + " [" + calcQueueTurnsInt(c,units.get(i)) + "]", "Queue a " + units.get(i) + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
-			b.tooltip.add(calcQueueTurns(c));
+			Button b = (Button)menus.get(2).addButton("queue" + units.get(i), units.get(i) + " <" + calcQueueTurnsInt(c,units.get(i)) + ">", "Queue a " + units.get(i) + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
+			b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) + " turns");
+			
+			float[] cost = EntityData.getCost(units.get(i));
+			b.tooltip.add("Requires " + cost[0] + " food");
+			b.tooltip.add("Requires " + cost[2] + " metal");
+			
+			GameEntity example = (GameEntity)EntityData.get(units.get(i));
+			b.tooltip.add("Offensive strength: " + example.offensiveStr);
+			b.tooltip.add("Defensive strength: " + example.defensiveStr);
+			b.tooltip.add("Ranged strength: " + example.rangedStr);
 			//menus.get(2).addButton("queue" + units.get(i), units.get(i), "", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
 		}
 
 		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements;
 		for (int i = 0; i < buildings.size(); i++)
 		{
-			Button b = (Button)menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i) + " [" + calcQueueTurnsInt(c,units.get(i)) + "]", "Queue a " + buildings.get(i) + ".",
+			Button b = (Button)menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i) + " <" + calcQueueTurnsInt(c,units.get(i)) + ">", "Queue a " + buildings.get(i) + ".",
 					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);
 			b.tooltip.add(calcQueueTurns(c));
+			
+			float[] cost = EntityData.getCost(units.get(i));
+			b.tooltip.add("Requires " + cost[0] + " food");
+			b.tooltip.add("Requires " + cost[2] + " metal");
 			/*menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "",
 					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);*/
 		}

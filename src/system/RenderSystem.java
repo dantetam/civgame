@@ -289,7 +289,7 @@ public class RenderSystem extends BaseSystem {
 					strokedColor = true;
 				}
 			}
-			else
+			if (!strokedColor) //Don't overwrite a previous stroke
 			{
 				if (civ != null && !hidden)
 				{

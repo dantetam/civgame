@@ -143,7 +143,7 @@ public class EntityData {
 	{
 		civs.clear();
 		civs.put("Achaea", new Civilization("Achaea",list(),0,0,255,0.3,0.3,1));
-		civs.put("Athens", new Civilization("Athens",list(),150,150,150,0.2,0.8,0.3));
+		civs.put("Athens", new Civilization("Athens",list(),200,200,200,0.2,0.8,0.3));
 		civs.put("Corinth", new Civilization("Corinth",list(),0,255,255,0.5,0.5,0.5));
 		civs.put("Crete", new Civilization("Crete",list(),0,150,0,0.3,0.6,0.3));
 		//civs.put("Ephesus", new Civilization("Ephesus",list(),150,150,150));
