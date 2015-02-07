@@ -124,7 +124,10 @@ public class City extends TileEntity {
 			}
 			if (land.get(i).shape > 0)
 				hill++;
-			gold += staticEval(land.get(i))[1];
+			if (land.get(i).improvement != null)
+				gold += staticEval(land.get(i), land.get(i).improvement.name)[1];
+			else
+				gold += staticEval(land.get(i), null)[1];
 		}
 		hill /= land.size();
 		//Collections.sort(data);
@@ -312,6 +315,14 @@ public class City extends TileEntity {
 
 	public static double[] staticEval(Tile t)
 	{
+		if (t.improvement != null)
+			return staticEval(t, t.improvement.name);
+		return staticEval(t, null);
+	}
+	
+	//Evaluate when an improvement is planned
+	public static double[] staticEval(Tile t, String improvement)
+	{
 		int f, g, m, r;
 		if (t.biome == -1)
 		{
@@ -365,22 +376,22 @@ public class City extends TileEntity {
 		{
 			f--;
 			m++;
-			if (t.improvement != null)
-				if (t.improvement.name.equals("Mine"))
+			if (improvement != null)
+				if (improvement.equals("Mine"))
 					m++;
 		}
 		else if (t.shape == 2)
 		{
 			f -= 1;
 			m += 1;
-			if (t.improvement != null)
-				if (t.improvement.name.equals("Mine"))
+			if (improvement != null)
+				if (improvement.equals("Mine"))
 					m += 2;
 		}
 		//Record tiles with harvested resources as extra yield and record the number of these special tiles
-		if (t.improvement != null)
+		if (improvement != null)
 		{
-			if (t.improvement.name.equals("Farm"))
+			if (improvement.equals("Farm"))
 			{
 				if (t.resource == 1)
 				{
@@ -395,7 +406,7 @@ public class City extends TileEntity {
 					f += 2;
 				}
 			}
-			else if (t.improvement.name.equals("Fishing Boats"))
+			else if (improvement.equals("Fishing Boats"))
 			{
 				if (t.resource == 10)
 				{
@@ -408,7 +419,7 @@ public class City extends TileEntity {
 					r += 3;
 				}
 			}
-			else if (t.improvement.name.equals("Mine"))
+			else if (improvement.equals("Mine"))
 			{
 				if (t.resource == 20)
 				{
@@ -429,7 +440,7 @@ public class City extends TileEntity {
 					r += 1;
 				}
 			}
-			else if (t.improvement.name.equals("Forest Yard"))
+			else if (improvement.equals("Forest Yard"))
 			{
 				if (t.resource == 30)
 				{

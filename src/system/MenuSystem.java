@@ -588,7 +588,7 @@ public class MenuSystem extends BaseSystem {
 		main.rect(s, s, 50 - 2*s, 50 - 2*s);
 		main.rect(main.width/6 - 50 + s, s, 50 - 2*s, 50 - 2*s);
 		main.textSize(12);
-		
+
 		updateMessages();
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
@@ -1421,7 +1421,7 @@ public class MenuSystem extends BaseSystem {
 			return (int)turns;
 		}
 	}
-	
+
 	public String calcQueueTurns(City citySelected)
 	{
 		int[] t = citySelected.quickEval();
@@ -1465,7 +1465,7 @@ public class MenuSystem extends BaseSystem {
 				return new String("Queued " + citySelected.queue + " for " + turns + " turns.");
 		}
 	}
-	
+
 	//Update the ledger
 	public void updateCivStats()
 	{
@@ -1496,24 +1496,43 @@ public class MenuSystem extends BaseSystem {
 		menus.get(1).buttons.clear();
 		int n = 0;
 		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
-		n++;
+
 		if (en.name.equals("Settler"))
 		{
 			menus.get(1).addButton("unitSettle", "Settle", "Settle a city here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
-			n++;
+
 		}
 		else if (en.name.equals("Warrior"))
 		{
 			menus.get(1).addButton("unitRaze", "Attack", "Attack the improvement here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
-			n++;
+
 		}
 		else if (en.name.equals("Worker"))
 		{
 			ArrayList<String> units = main.grid.civs[0].techTree.allowedTileImprovements;
 			for (int i = 0; i < units.size(); i++)
 			{
-				menus.get(1).addButton("build"+units.get(i), units.get(i), "Construct " + units.get(i) + " here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
-				n++;
+				Button b = (Button)menus.get(1).addButton("build"+units.get(i), units.get(i), "Construct " + units.get(i) + " here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+				b.tooltip.clear();
+				b.tooltip.add("Estimated build time: " + EntityData.tileImprovementTime(en, units.get(i)) + " turns");
+				double[] yieldBefore = City.staticEval(en.location), yieldAfter = City.staticEval(en.location, units.get(i));
+				double[] temp = new double[]{
+						yieldAfter[0] - yieldBefore[0], 
+						yieldAfter[1] - yieldBefore[1], 
+						yieldAfter[2] - yieldBefore[2],
+						yieldAfter[3] - yieldBefore[3]
+				};
+				String[] names = new String[]{"food", "gold", "metal", "research"};
+				for (int j = 0; j < temp.length; j++)
+				{
+					if (temp[j] != 0)
+					{
+						if (temp[j] > 0)
+							b.tooltip.add("+" + temp[j] + " " + names[j]);
+						else
+							b.tooltip.add("-" + temp[j] + " " + names[j]);
+					}
+				}
 			}
 			//menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			//menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
@@ -1526,7 +1545,7 @@ public class MenuSystem extends BaseSystem {
 				if (!c.equals(((Caravan)en).home))
 				{
 					menus.get(1).addButton("unitCaravan"+i, "Caravan"+c.name, "Establish a trade route.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
-					n++;
+
 				}
 			}
 		}
@@ -1534,18 +1553,18 @@ public class MenuSystem extends BaseSystem {
 		if (en.mode == 1 && en.rangedStr > 0)
 		{
 			menus.get(1).addButton("rangedMode", "Ranged", "Allow this unit to use ranged attacks.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
-			n++;
+
 		}
 		else if (en.mode == 2 && en.offensiveStr > 0)
 		{
 			menus.get(1).addButton("meleeMode", "Melee", "Allow this unit to use melee attacks.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
-			n++;
+
 		}
 
 		for (int i = 0; i < menus.get(1).buttons.size(); i++)
 		{
 			TextBox b = menus.get(1).buttons.get(i);
-			b.move(b.posX, b.posY - n*30); //Shift the buttons to their proper place
+			b.move(b.posX, b.posY - menus.get(1).buttons.size()*30 + i*30); //Shift the buttons to their proper place
 			b.sizeX = 100; b.sizeY = 30;
 			b.origSizeX = 100; b.origSizeY = 30;
 			b.origX = b.posX; b.origY = b.posY;
@@ -1570,11 +1589,11 @@ public class MenuSystem extends BaseSystem {
 		{
 			Button b = (Button)menus.get(2).addButton("queue" + units.get(i), units.get(i) + " <" + calcQueueTurnsInt(c,units.get(i)) + ">", "Queue a " + units.get(i) + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
 			b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) + " turns");
-			
+
 			float[] cost = EntityData.getCost(units.get(i));
 			b.tooltip.add("Requires " + cost[0] + " food");
 			b.tooltip.add("Requires " + cost[2] + " metal");
-			
+
 			GameEntity example = (GameEntity)EntityData.get(units.get(i));
 			b.tooltip.add("Offensive strength: " + example.offensiveStr);
 			b.tooltip.add("Defensive strength: " + example.defensiveStr);
@@ -1589,7 +1608,7 @@ public class MenuSystem extends BaseSystem {
 					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);
 			//b.tooltip.add(calcQueueTurns(c));
 			b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, buildings.get(i)) + " turns");
-			
+
 			Improvement impr = EntityData.cityImprovementMap.get(buildings.get(i));
 			float[] cost = EntityData.getCost(buildings.get(i));
 			b.tooltip.add(impr.tooltip);

@@ -87,28 +87,28 @@ public class NewMenuSystem extends BaseSystem {
 		else if (n == 2)
 		{
 			if (i == 1)
-				posX -= size/2 + space;
+				posX -= size + space;
 			else
-				posX += size/2 + space;
+				posX += size + space;
 		}
 		else if (n == 3)
 		{
 			if (i == 1)
-				posX -= size + space;
+				posX -= size*2 + space;
 			else if (i == 3)
-				posX += size + space;
+				posX += size*2 + space;
 			//else (i == 2) //do nothing;
 		}
 		else
 		{
 			if (i == 1)
-				posX -= size + space*2;
+				posX -= size*2 + space*2;
 			else if (i == 2)
-				posX -= size/2 + space;
+				posX -= size + space;
 			else if (i == 3)
-				posX += size/2 + space;
+				posX += size + space;
 			else if (i == 4)
-				posX += size + space*2;
+				posX += size*2 + space*2;
 		}
 		if (type == 0)
 		{

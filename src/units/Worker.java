@@ -73,8 +73,7 @@ public class Worker extends GameEntity {
 				//if (city.location.owner.equals(owner)) //just in case
 				if (en.location.resource == 1 || en.location.resource == 2)
 				{
-					en.queueTurns = 6;
-					en.queue = "Farm";
+					EntityData.queueTileImprovement(en, "Farm");
 					return;
 				}
 				else if (en.location.resource == 10 || en.location.resource == 11)
@@ -83,8 +82,7 @@ public class Worker extends GameEntity {
 				}
 				else if (en.location.resource >= 20 && en.location.resource <= 22)
 				{
-					en.queueTurns = 6;
-					en.queue = "Mine";
+					EntityData.queueTileImprovement(en, "Mine");
 					return;
 				}
 				else if (en.location.resource >= 30 && en.location.resource <= 30)
@@ -93,8 +91,7 @@ public class Worker extends GameEntity {
 				}
 				if (en.location.biome >= 3 && en.location.biome <= 6 && location.grid.irrigated(location.row, location.col) && en.location.shape == 0)
 				{
-					en.queueTurns = 6;
-					en.queue = "Farm";
+					EntityData.queueTileImprovement(en, "Farm");
 				}
 				else if (en.location.biome >= 1 && en.location.biome <= 2)
 				{
@@ -110,18 +107,16 @@ public class Worker extends GameEntity {
 				}
 				if (en.location.shape == 2)
 				{
-					en.queueTurns = 6;
-					en.queue = "Mine";
+					EntityData.queueTileImprovement(en, "Mine");
 				}
 				else if (en.location.shape == 1)
 				{
 					if (en.location.biome >= 0 && en.location.biome <= 3)
 					{
-						en.queueTurns = 6;
-						en.queue = "Mine";
+						EntityData.queueTileImprovement(en, "Mine");
 					}
 				}
-				en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
+				//en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 			}
 		}
 		if (queue == null)

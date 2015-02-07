@@ -793,6 +793,31 @@ public class EntityData {
 		}
 		return false;
 	}
+	
+	//Temp. replace with a hashmap
+	public static void queueTileImprovement(GameEntity en, String tileImpr)
+	{
+		en.queue = tileImpr;
+		en.queueTurns = tileImprovementTime(en, tileImpr);
+	}
+	
+	public static int tileImprovementTime(GameEntity en, String tileImpr)
+	{
+		int temp = -1;
+		if (tileImpr.equals("Mine"))
+			temp = 6;
+		else if (tileImpr.equals("Farm"))
+			temp = 6;
+		else if (tileImpr.equals("Windmill") || tileImpr.equals("Lumbermill"))
+			temp = 10;
+		else
+		{
+			System.out.println("Invalid tile improvement: " + tileImpr);
+			temp = -1;
+		}
+		temp = Math.max(1,(int)(temp*((Worker)en).workTime));
+		return temp;
+	}
 
 	public static Color getResourceColor(int res)
 	{

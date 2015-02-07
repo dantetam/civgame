@@ -22,13 +22,13 @@ Better UI/graphics
 	Gradient buttons with consistent theme
 	Textured graphics (either randomly generated in program or TerraGen)
 	Ability to view a tile's fields through tactical menu
-	Ability to see how improvements easy yield
-	Tooltips for building queue menu
+	/ Ability to see how improvements easy yield
+	> Tooltips for building queue menu
 	Encyclopedia entries
 	Advanced tutorial on economics, war, etc.
-	Fix tile yield GUI so that it does not overlap
+	> Fix tile yield GUI so that it does not overlap
 Bug fixes
-	/ Cancel movement order if next tile is within enemy territory
+	> Cancel movement order if next tile is within enemy territory
 	Check if units are in enemy territory and push them out
 	
 Game balancing (to be done 2/9/2015)
