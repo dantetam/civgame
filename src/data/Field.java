@@ -14,8 +14,8 @@ public class Field extends Improvement {
 	 */
 	public double autonomy = 0;
 	
-	public Field(Civilization civ, String name, String tech) {
-		super(name, tech);
+	public Field(Civilization civ, String name, String tooltip, String tech) {
+		super(name, tooltip, tech);
 		owner = civ;
 	}
 	

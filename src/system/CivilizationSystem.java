@@ -231,13 +231,18 @@ public class CivilizationSystem extends BaseSystem {
 							tg += 8;
 							c.culture++;
 						}
-						if (c.built("Pyramid"))
+						if (c.built("Obelisk"))
 						{
 							c.culture++;
 						}
 						if (c.built("Market"))
 						{
 							tg *= 1.25;
+						}
+						if (c.built("Pyramid"))
+						{
+							c.culture++;
+							c.culture *= 1.25;
 						}
 
 						for (int k = 0; k < c.activeCaravansOut.size(); k++)
@@ -376,7 +381,7 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							double dGrowth = (tf - c.population*3)/(c.population*4 + Math.pow(c.population,1.5));
 							if (dGrowth > 0 && c.built("Granary")) 
-								dGrowth *= 1.25;
+								dGrowth *= 1.15;
 							//System.out.println(dGrowth + " " + tf);
 							c.percentGrowth += dGrowth;
 

@@ -45,7 +45,7 @@ public class EntityData {
 		groundColorMap = new HashMap<Integer, Integer>();
 		unitModelMap = new HashMap<String, float[][]>();
 		unitIconMap = new HashMap<String, PImage>();
-		
+
 		unitImprovementMap = new HashMap<String, Improvement>();
 		cityImprovementMap = new HashMap<String, Improvement>();
 		fieldMap = new HashMap<String, Field>();
@@ -155,7 +155,7 @@ public class EntityData {
 		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0,0.8,0.1,0.3));
 		//civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
 		civs.put("Thrace", new Civilization("Thrace",list(),175,255,255,0.6,0.4,0.5));
-		
+
 		/*civs.put("Achaea", new Civilization("Achaea",list(),0,0,255,0.3,0.3,1));
 		civs.put("Athens", new Civilization("Athens",list(),255,255,255,0.2,0.8,1));
 		civs.put("Corinth", new Civilization("Corinth",list(),0,255,255,0.5,0.5,0.8));
@@ -354,21 +354,26 @@ public class EntityData {
 		g.put(name, gold);
 		m.put(name, metal);
 	}
-	
+
 	public static float[] getCost(String name)
 	{
+		if (f.get(name) == null)
+		{
+			Improvement impr = cityImprovementMap.get(name);
+			return new float[]{(float)impr.foodFlat, (float)impr.goldFlat, (float)impr.metalFlat};
+		}
 		return new float[]{f.get(name),g.get(name),m.get(name)};
 	}
 
 	private static void setupUnitImprovementCosts()
 	{
 		Improvement temp;
-		temp = new Improvement("Neutral","Civilization");
+		temp = new Improvement("Neutral","No improvement","Civilization");
 		temp.cost(1,1,1,0,0,0);
 		temp.set(1,1,1,0,0,0,1);
 		unitImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("CopperTools","Metal Working");
+		temp = new Improvement("CopperTools","Not impl.","Metal Working");
 		temp.cost(1.25,1.25,0,0,0,0);
 		temp.set(0,0,0,0,0,0,0.8);
 		temp.fit("Worker");
@@ -379,22 +384,22 @@ public class EntityData {
 		temp.fit("Worker");
 		unitImprovementMap.put(temp.name, temp);*/
 
-		temp = new Improvement("CopperWeapons","Metal Working");
+		temp = new Improvement("CopperWeapons","Not impl.","Metal Working");
 		temp.cost(1.25,1.5,0,0,0,0);
 		temp.set(1.25,1.4,0,0,0,0,0);
 		temp.fit("allmelee");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("IronWeapons","Metal Working");
+		temp = new Improvement("IronWeapons","Not impl.","Metal Working");
 		temp.cost(1.25,2,0,0,0,0);
 		temp.set(1.5,1.5,0,0,0,0,0);
 		temp.fit("allmelee");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("CopperArrows","Casting");
+		temp = new Improvement("CopperArrows","Not impl.","Casting");
 		temp.cost(1.25,1.25,0,0,0,0);
 		temp.set(0,0,1.25,0,0,0,0);
 		temp.fit("allranged");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("IronArrows","Casting");
+		temp = new Improvement("IronArrows","Not impl.","Casting");
 		temp.cost(1.25,1.5,0,0,0,0);
 		temp.set(0,0,1.5,0,0,0,0);
 		temp.fit("allranged");
@@ -404,43 +409,43 @@ public class EntityData {
 	private static void setupCityImprovementCosts()
 	{
 		Improvement temp;
-		temp = new Improvement("Obelisk","Civilization");
+		temp = new Improvement("Obelisk","+1 culture","Civilization");
 		temp.cost(0,0,0,10,10,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Warehouse","Mining");
+		temp = new Improvement("Warehouse","Not impl.","Mining");
 		temp.cost(0,0,0,5,20,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Granary","Agriculture");
+		temp = new Improvement("Granary","+15% to population growth","Agriculture");
 		temp.cost(0,0,0,5,20,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Metalworks","Metal Working");
+		temp = new Improvement("Metalworks","+25% to metal production","Metal Working");
 		temp.cost(0,0,0,10,50,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Port","Fishing");
+		temp = new Improvement("Port","+25% food from sea tiles","Fishing");
 		temp.cost(0,0,0,25,25,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Walls","Stone Working");
+		temp = new Improvement("Walls","+40% defense in city","Stone Working");
 		temp.cost(0,0,0,5,50,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Palace","Stone Working");
+		temp = new Improvement("Palace","+25% revenue, +1 culture","Stone Working");
 		temp.cost(0,0,0,25,25,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Stables","Equestrian Practice");
+		temp = new Improvement("Stables","Not impl.","Equestrian Practice");
 		temp.cost(0,0,0,25,25,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Market","Currency");
+		temp = new Improvement("Market","+25% revenue","Currency");
 		temp.cost(0,0,0,30,20,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Pyramid","Monument Building");
+		temp = new Improvement("Pyramid","+25% culture","Monument Building");
 		temp.cost(0,0,0,0,50,0);
 		cityImprovementMap.put(temp.name, temp);
 		//temp.set();
@@ -450,26 +455,26 @@ public class EntityData {
 	private static void setupFields()
 	{
 		Field temp;
-		temp = new Field(null,"TestField","Agriculture");
+		temp = new Field(null,"TestField","Test","Agriculture");
 		temp.cost(0,0,0,0,20,0);
 		fieldMap.put(temp.name, temp);
 	}
-	
+
 	public static Field getField(String name)
 	{
 		return new Field(fieldMap.get(name));
 	}
-	
+
 	private static void setupUnitIcons()
 	{
-		
+
 	}
-	
+
 	/*public static void awardField(Civilization civ, Tile t, String name)
 	{
-		
+
 	}*/
-	
+
 	public static ArrayList<Improvement> getValidImprovements(Civilization civ, BaseEntity en)
 	{
 		ArrayList<Improvement> temp = new ArrayList<Improvement>();
@@ -812,7 +817,7 @@ public class EntityData {
 			return null;
 		}
 	}
-	
+
 	public static String getResourceName(int res)
 	{
 		switch (res)

@@ -661,7 +661,7 @@ public class MenuSystem extends BaseSystem {
 						if (hover instanceof Button)
 						{
 							Button b = (Button)hover;
-							if (b.command.contains("queue"))
+							if (b.menu.name.equals("UnitMenu") || b.menu.name.equals("TechMenu") || b.menu.name.equals("CityMenu"))
 							{
 								tooltip.posX = hover.posX + hover.sizeX;
 								tooltip.posY = hover.posY;
@@ -1587,9 +1587,12 @@ public class MenuSystem extends BaseSystem {
 		{
 			Button b = (Button)menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i) + " <" + calcQueueTurnsInt(c,units.get(i)) + ">", "Queue a " + buildings.get(i) + ".",
 					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);
-			b.tooltip.add(calcQueueTurns(c));
+			//b.tooltip.add(calcQueueTurns(c));
+			b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, buildings.get(i)) + " turns");
 			
-			float[] cost = EntityData.getCost(units.get(i));
+			Improvement impr = EntityData.cityImprovementMap.get(buildings.get(i));
+			float[] cost = EntityData.getCost(buildings.get(i));
+			b.tooltip.add(impr.tooltip);
 			b.tooltip.add("Requires " + cost[0] + " food");
 			b.tooltip.add("Requires " + cost[2] + " metal");
 			/*menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "",

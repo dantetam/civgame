@@ -5,7 +5,7 @@ package data;
 
 public class Improvement
 {
-	public String name;
+	public String name, tooltip;
 	//The types of units it can be applied to
 	public String[] units = new String[0];
 	//The proportion of the unit of which it will cost
@@ -19,9 +19,9 @@ public class Improvement
 	
 	public String requiredTech;
 	
-	public Improvement(String name, String tech)
+	public Improvement(String name, String tooltip, String tech)
 	{
-		this.name = name;
+		this.name = name; this.tooltip = tooltip;
 		requiredTech = tech;
 	}
 	

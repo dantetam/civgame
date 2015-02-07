@@ -9,6 +9,7 @@ public class TextBox {
 	public String name;
 	public ArrayList<String> tooltip;
 	public ArrayList<String> display;
+	public Menu menu;
 	//public boolean enabled;
 	public ArrayList<Order> orders;
 

@@ -199,9 +199,10 @@ public abstract class GameEntity extends BaseEntity {
 	public void passiveWaddle(int r, int c)
 	{
 		GameEntity en = this;
-		if (location.grid.getTile(en.location.row+r,en.location.col+c) != null)
+		Tile t = location.grid.getTile(en.location.row+r,en.location.col+c);
+		if (t != null)
 		{
-			if (location.grid.getTile(en.location.row+r,en.location.col+c).biome != -1)
+			if (t.biome != -1)
 			{
 				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 				if (enemy == null)
@@ -235,6 +236,10 @@ public abstract class GameEntity extends BaseEntity {
 								owner.equals(t.owner))
 						{
 							passiveWaddle(r,c);
+						}
+						else
+						{
+							queueTiles.clear();
 						}
 					}
 					else

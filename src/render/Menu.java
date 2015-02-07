@@ -18,6 +18,7 @@ public class Menu {
 	public TextBox addButton(String command, String display, String tooltip, float a, float b, float c, float d)
 	{
 		Button temp = new Button(command,display,tooltip,a,b,c,d);
+		temp.menu = this;
 		buttons.add(temp);
 		return temp;
 	}
