@@ -556,6 +556,7 @@ public class InputSystem extends BaseSystem {
 		else if (action.equals("TOGGLE_TACTICAL"))
 		{
 			main.tacticalView = !main.tacticalView;
+			main.chunkSystem.update(); //Update the fields menu
 		}
 		else if (action.contains("FUNCTION_"))
 		{

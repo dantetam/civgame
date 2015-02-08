@@ -88,7 +88,7 @@ public class RenderSystem extends BaseSystem {
 		main.background(135, 206, 235);
 		main.perspective(3.14F/2,15F/9F,1,10000);
 		//System.out.println(player);
-		main.shader(main.texLightShader, main.TRIANGLES);
+		main.shader(main.lightShader, main.TRIANGLES);
 		setCamera();
 		/*for (int i = 0; i < terrain.entities.size(); i++)
 		{
@@ -257,9 +257,9 @@ public class RenderSystem extends BaseSystem {
 			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(t.biome));
 			if (t.shape == 2) color = new Color(1,1,1);
 			if (!hidden)
-				main.tint((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
+				main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
 			else if (hidden || lazy)
-				main.tint((float)color.r*100F,(float)color.g*100F,(float)color.b*100F);
+				main.fill((float)color.r*100F,(float)color.g*100F,(float)color.b*100F);
 			main.noStroke();
 			main.strokeWeight(1);
 			Civilization civ = t.owner;
@@ -427,13 +427,13 @@ public class RenderSystem extends BaseSystem {
 						main.pushMatrix();
 						main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
 						main.beginShape(main.TRIANGLES);
-						main.texture(textures[nr][nc]);
+						//main.texture(textures[nr][nc]);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,widthBlock,widthBlock);
 						main.endShape();
 						main.beginShape(main.TRIANGLES);
-						main.texture(textures[nr][nc]);
+						//main.texture(textures[nr][nc]);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock,widthBlock,0);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
@@ -787,12 +787,13 @@ public class RenderSystem extends BaseSystem {
 	//Creates a n*n size group of textures that will be put into t
 	public PImage getBlock(PImage tex, int row, int col)
 	{
-		PImage temp = main.createImage((int)widthBlock, (int)widthBlock, main.ARGB);
-		for (int r = 0; r < widthBlock; r++)
+		int len = (int)widthBlock;
+		PImage temp = main.createImage(len, len, main.ARGB);
+		for (int r = 0; r < len; r++)
 		{
-			for (int c = 0; c < widthBlock; c++)
+			for (int c = 0; c < len; c++)
 			{
-				temp.pixels[r*(int)widthBlock + c] = tex.pixels[(r*(int)1024 + c)%(1024*1024)];
+				temp.pixels[r*(int)len + c] = tex.pixels[((row+r)*1024 + (col+c))%(1024*1024)];
 				//System.out.println(main.hex(temp.pixels[r*(int)widthBlock + c]));
 			}
 		}
