@@ -985,7 +985,9 @@ public class EntityData {
 		else if (tileImpr.equals("Farm"))
 			temp = 6;
 		else if (tileImpr.equals("Windmill") || tileImpr.equals("Lumbermill"))
-			temp = 10;
+			temp = 8;
+		else if (tileImpr.equals("Road"))
+			temp = 3;
 		else
 		{
 			System.out.println("Invalid tile improvement: " + tileImpr);

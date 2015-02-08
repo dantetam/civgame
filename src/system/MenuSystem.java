@@ -871,6 +871,12 @@ public class MenuSystem extends BaseSystem {
 
 	public boolean executeAction(String command)
 	{
+		GameEntity en = null;
+		if (selected != null) 
+		{
+			if (selected instanceof GameEntity)
+				en = (GameEntity)selected;
+		}
 		if (command.equals("exitgame"))
 		{
 			System.exit(0);
@@ -1010,45 +1016,41 @@ public class MenuSystem extends BaseSystem {
 			menus.get(4).activate(false); //Allow player to stay in menu?
 			return false;
 		}
-
 		else if (command.equals("buildFarm"))
 		{
 			//Recycled code
-			BaseEntity en = selected;
 			if (en.location.resource == 1 || en.location.resource == 2)
 			{
-				en.queueTurns = 6;
-				en.queue = "Farm";
+				EntityData.queueTileImprovement(en, "Farm");
 			}
 			else if (en.location.biome >= 3 && en.location.biome <= 6 && en.location.grid.irrigated(en.location.row, en.location.col))
 			{
-				en.queueTurns = 6;
-				en.queue = "Farm";
+				EntityData.queueTileImprovement(en, "Farm");
 			}
 			en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 		}
 		else if (command.equals("buildMine"))
 		{
-			BaseEntity en = selected;
 			if (en.location.shape == 2)
 			{
-				en.queueTurns = 6;
-				en.queue = "Mine";
+				EntityData.queueTileImprovement(en, "Mine");
 			}
 			else if (en.location.resource >= 20 && en.location.resource <= 22)
 			{
-				en.queueTurns = 6;
-				en.queue = "Mine";
+				EntityData.queueTileImprovement(en, "Mine");
 			}
 			else if (en.location.shape == 1)
 			{
 				if (en.location.biome >= 0 && en.location.biome <= 3)
 				{
-					en.queueTurns = 6;
-					en.queue = "Mine";
+					EntityData.queueTileImprovement(en, "Mine");
 				}
 			}
 			en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
+		}
+		else if (command.equals("buildRoad"))
+		{
+			EntityData.queueTileImprovement(en, "Road");
 		}
 		else if (command.equals("unitKill"))
 		{
@@ -1609,6 +1611,14 @@ public class MenuSystem extends BaseSystem {
 					}
 				}
 			}
+			if (!en.location.road)
+			{
+				Button b = (Button)menus.get(1).addButton("buildRoad", "Road", "Construct a road, to expand your civilization's network.", 
+						0, main.height*5/6 + 30, main.width*1/6, 30);
+				b.tooltip.add("Roads allow for increased movement,");
+				b.tooltip.add("and connect resources and cities.");
+				b.dimTooltip();
+			}
 			//menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 			//menus.get(1).addButton("buildmine", "Mine", (float)main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
 		}
@@ -1721,7 +1731,7 @@ public class MenuSystem extends BaseSystem {
 			b.sizeX = 100; b.sizeY = 30;
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
-		
+
 		double[] data = EntityData.calculateYield(c);
 		TextBox t = new TextBox("Food per turn: " + (int)Math.floor(data[0]),"",0,main.height*5/6,main.width*1/6,main.height*1/6);
 		t.display.add("Gold per turn: " + (int)Math.floor(data[1]));

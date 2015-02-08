@@ -150,6 +150,8 @@ public class RenderSystem extends BaseSystem {
 					{
 						continue;
 					}*/
+					if (t.road)
+						renderRoad(r,c);
 					if (t.occupants.size() > 0)
 					{
 						for (int i = 0; i < t.occupants.size(); i++)
@@ -862,6 +864,17 @@ public class RenderSystem extends BaseSystem {
 		{
 			System.err.println("Invalid river");
 		}
+		main.stroke(0);
+	}
+	
+	public void renderRoad(int r, int c)
+	{
+		main.noStroke();
+		main.fill(150);
+		main.pushMatrix();
+		main.translate(r*widthBlock,0,c*widthBlock);
+		main.box(5,5,5);
+		main.popMatrix();
 		main.stroke(0);
 	}
 

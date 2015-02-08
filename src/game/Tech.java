@@ -93,6 +93,7 @@ public class Tech {
 			temp += unlockCityImprovements[i] + ", ";
 		for (int i = 0; i < unlockTileImprovements.length; i++)
 			temp += unlockTileImprovements[i] + ", ";
+		if (temp.equals("")) return temp;
 		return temp.substring(0, temp.length() - 2);
 	}
 	

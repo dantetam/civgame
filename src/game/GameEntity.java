@@ -207,8 +207,11 @@ public abstract class GameEntity extends BaseEntity {
 				GameEntity enemy = location.grid.hasEnemy(en,en.location.row+r,en.location.col+c);
 				if (enemy == null)
 				{
+					if (en.location.road)
+						action -= 0.5;
+					else
+						action--;
 					location.grid.move(this, r, c);
-					action--;
 				}
 			}
 		}

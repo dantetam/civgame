@@ -179,7 +179,7 @@ public class CivGame extends PApplet {
 					if (en instanceof GameEntity)
 					{
 						ArrayList<Tile> temp = new ArrayList<Tile>(); temp.add(en.location);
-						menuSystem.movementChoice(temp, true, en.maxAction);
+						menuSystem.movementChoice(temp, true, (int)en.maxAction);
 					}
 				}
 				//inputSystem.queueRightClick(mouseX, mouseY);
