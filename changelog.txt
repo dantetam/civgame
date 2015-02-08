@@ -29,6 +29,7 @@ Better UI/graphics
 	Advanced tutorial on economics, war, etc.
 	> Fix tile yield GUI so that it does not overlap
 	/ Rough and smooth textures for terrain
+	>+ City growth GUI
 Bug fixes
 	> Cancel movement order if next tile is within enemy territory
 	Check if units are in enemy territory and push them out

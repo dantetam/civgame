@@ -463,7 +463,7 @@ public class MenuSystem extends BaseSystem {
 									//main.rectMode(main.CENTER);
 									main.rect(pos[0] - dX - 50, pos[1] - dY - 10, 100, 20);
 									main.fill(0,255,0);
-									System.out.println((float)city.percentGrowth*100);
+									//System.out.println((float)city.percentGrowth*100);
 									main.rect(pos[0] - dX - 50, pos[1] - dY - 10, 100F*(float)city.percentGrowth, 20);
 									main.fill(255);
 									main.textAlign(main.CENTER);
@@ -647,7 +647,7 @@ public class MenuSystem extends BaseSystem {
 						main.textAlign(PApplet.CENTER, PApplet.CENTER);
 						main.fill(255);
 						for (int j = 0; j < b.display.size(); j++)
-							main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2 + j*15);
+							main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + 10 + j*15);
 						main.fill(255,0,0);
 						for (int j = 0; j < shortcuts.length; j++)
 							if (shortcuts[j] != null)
@@ -1721,6 +1721,13 @@ public class MenuSystem extends BaseSystem {
 			b.sizeX = 100; b.sizeY = 30;
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
+		
+		double[] data = EntityData.calculateYield(c);
+		TextBox t = new TextBox("Food per turn: " + (int)Math.floor(data[0]),"",0,main.height*5/6,main.width*1/6,main.height*1/6);
+		t.display.add("Gold per turn: " + (int)Math.floor(data[1]));
+		t.display.add("Metal per turn: " + (int)Math.floor(data[2]));
+		t.display.add("Research per turn: " + (int)Math.floor(data[3]));
+		menus.get(2).buttons.add(t);
 	}
 
 	public void updateLoadoutDisplay(String name)
