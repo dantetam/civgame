@@ -7,6 +7,7 @@ public class Menu {
 	public ArrayList<TextBox> buttons;
 	public String name;
 	private boolean active;
+	public boolean noShortcuts = false;
 
 	public Menu(String name)
 	{

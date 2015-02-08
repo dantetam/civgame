@@ -21,9 +21,10 @@ Allow workers to build roads, which connect cities
 Better UI/graphics
 	Gradient buttons with consistent theme
 	Textured graphics (either randomly generated in program or TerraGen)
-	Ability to view a tile's fields through tactical menu
-	/ Ability to see how improvements easy yield
+	/ Ability to view a tile's fields through tactical menu
+	> Ability to see how improvements easy yield
 	> Tooltips for building queue menu
+	>+ Tooltips for researching tech
 	Encyclopedia entries
 	Advanced tutorial on economics, war, etc.
 	> Fix tile yield GUI so that it does not overlap

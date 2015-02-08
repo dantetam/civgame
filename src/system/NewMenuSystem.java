@@ -7,6 +7,7 @@ import game.Tile;
 import java.util.ArrayList;
 
 import data.Field;
+import render.Button;
 import render.CivGame;
 import render.MouseHelper;
 import render.Rune;
@@ -70,7 +71,7 @@ public class NewMenuSystem extends BaseSystem {
 			}
 		}
 	}
-
+	
 	//X position of center, Y position of center, which resource is being shown,
 	//Number of the resource yielded from harvest, total number of icons, and the position of showing (i.e. left most is 1)
 	public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
@@ -245,6 +246,7 @@ public class NewMenuSystem extends BaseSystem {
 		else {System.out.println("Error: newmenusystem, no tile icon"); x = 0; y = 0;} 
 		//Replace with an actual error later?
 		//y += len2;
+		
 		main.rect(x, y, len1, len1);
 		if (!exists)
 		{
@@ -256,15 +258,25 @@ public class NewMenuSystem extends BaseSystem {
 
 	public void largeFieldIcon(float posX, float posY, Tile t, float len)
 	{
+		float[] fill = new float[4];
 		if (t.owner == null)
 		{
-			main.fill(150,150,150,175);
+			fill = new float[]{150,150,150,175};
 		}
 		else
 		{
-			main.fill(t.owner.r, t.owner.g, t.owner.b);
+			fill = new float[]{t.owner.r, t.owner.g, t.owner.b, 255};
 		}
-		main.rect(posX - len/2F, posY - len/2F, len, len);
+		Button b = (Button)main.menuSystem.menus.get(14).addButton("fieldMenu" + t.row + "/" + t.col, "", "", posX - len/2F, posY - len/2F, len, len);
+		b.r = fill[0]; b.g = fill[1]; b.b = fill[2]; b.a = fill[3];
+		b.tooltip.clear();
+		String fieldString = "";
+		for (int i = 0; i < t.fields.size(); i++)
+			fieldString = t.fields.get(i).name + " ,";
+		if (t.fields.size() > 0)
+			b.tooltip.add(fieldString + "; " + t.fields.size() + "/" + t.maxFields);
+		else
+			b.tooltip.add("No fields" + "; " + t.fields.size() + "/" + t.maxFields);
 	}
 
 	public void showMenu(int n)

@@ -134,6 +134,7 @@ public class ChunkSystem extends BaseSystem {
 			else
 				angle[i] = -10;
 		}
+		main.menuSystem.requestFieldsUpdate = true;
 		//System.out.print("updated.");
 		//System.out.println();
 	}

@@ -48,6 +48,8 @@ public class MenuSystem extends BaseSystem {
 
 	public Button[] shortcuts = new Button[10];
 
+	public boolean requestFieldsUpdate = false;
+
 	//public City citySelected;
 
 	//public TextBox hintTextBox;
@@ -142,6 +144,10 @@ public class MenuSystem extends BaseSystem {
 
 		Menu menu13 = new KeyMenu(main.inputSystem, "KeyMenu");
 		menus.add(menu13);
+
+		Menu menu14 = new Menu("TacticalMenu");
+		menu14.noShortcuts = true;
+		menus.add(menu14);
 
 		menu0.activate(true);
 
@@ -417,6 +423,12 @@ public class MenuSystem extends BaseSystem {
 		else
 			menus.get(1).activate(false);
 
+		menus.get(14).activate(main.tacticalView);
+		if (requestFieldsUpdate)
+		{
+			menus.get(14).buttons.clear();
+		}
+
 		if (h != null)
 		{
 			for (int r = 0; r < mh.guiPositions.length; r++)
@@ -469,9 +481,12 @@ public class MenuSystem extends BaseSystem {
 								//main.fill(t.owner.r, t.owner.g, t.owner.b);
 								//main.rect(pos[0] - dX - len/2, pos[1] - dY - len/2, len, len);
 								//Replace with for loop
-								main.newMenuSystem.largeFieldIcon(pos[0]-dX,pos[1]-dY + len*1.5F,t,(int)(len*1.5));
-								/*if (Math.random() < 0.01)
-									System.out.println(t.maxFields);*/
+								if (requestFieldsUpdate)
+								{
+									main.newMenuSystem.largeFieldIcon(pos[0]-dX,pos[1]-dY + len*1.5F,t,(int)(len*1.5));
+									/*if (Math.random() < 0.01)
+										System.out.println(t.maxFields);*/
+								}
 								for (int i = 0; i <= 3; i++)
 								{
 									if (t.maxFields > i)
@@ -485,6 +500,7 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
+		if (requestFieldsUpdate) requestFieldsUpdate = false;
 
 		main.textSize(12);
 
@@ -603,7 +619,12 @@ public class MenuSystem extends BaseSystem {
 					{
 						main.fill(b.r, b.g, b.b);
 						//main.stroke(b.borderR, b.borderG, b.borderB);
-						main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+						if (b.shape == 0)
+							main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+						else if (b.shape == 1)
+							main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+						else
+							System.out.println("Invalid button shape: " + b.shape);
 						main.textAlign(PApplet.CENTER, PApplet.CENTER);
 						main.fill(255);
 						for (int j = 0; j < b.display.size(); j++)
@@ -626,7 +647,12 @@ public class MenuSystem extends BaseSystem {
 			if (b.active)
 			{
 				main.fill(0);
-				main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+				if (b.shape == 0)
+					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+				else if (b.shape == 1)
+					main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+				else
+					System.out.println("Invalid button shape: " + b.shape);
 				main.textAlign(PApplet.LEFT, PApplet.UP);
 				main.fill(255);
 				for (int j = 0; j < b.display.size(); j++)
@@ -783,7 +809,7 @@ public class MenuSystem extends BaseSystem {
 				//System.out.println("Clear shortcuts");
 				shortcuts = new Button[10];
 				//System.out.println(menu);
-				if (menus.get(menu).active())
+				if (menus.get(menu).active() && !menus.get(menu).noShortcuts)
 				{
 					int iter = 1;
 					for (int i = 0; i < menus.get(menu).buttons.size(); i++)
