@@ -37,12 +37,15 @@ public class CivilizationSystem extends BaseSystem {
 
 	private void tick(Grid grid, boolean guiExists) 
 	{
+		/*if (main != null)
+			System.out.println("okigenyo" + main.frameCount);*/
 		if (requestTurn) 
 		{
 			requestTurn = false;
 			if (guiExists) main.menuSystem.message("Executed AI actions");
 			for (int i = 0; i < grid.civs.length; i++)
 			{
+				//System.out.println(i + "Start loop");
 				Civilization civ = grid.civs[i];
 				//System.out.println(civ.name + ": " + civ.food + " " + civ.gold + " " + civ.metal + " " + civ.research);
 				//Automatically move the computer players' units
@@ -737,6 +740,7 @@ public class CivilizationSystem extends BaseSystem {
 					}
 				}
 			}
+			//System.out.println("end loop");
 			//Loop through tiles
 			/*for (int r = 0; r < grid.rows; r++)
 			{

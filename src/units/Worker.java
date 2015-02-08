@@ -30,6 +30,7 @@ public class Worker extends GameEntity {
 					location.grid.addUnit(EntityData.get(queue), owner, location.row, location.col);
 					queueTurns = 0; //just to be sure
 					queue = null;
+					//action = 0;
 				}
 			}
 			else if (queueTiles.size() > 0)
@@ -38,9 +39,18 @@ public class Worker extends GameEntity {
 				super.recordPos();
 				passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
 				if (moved())
+				{
 					queueTiles.remove(queueTiles.size()-1);
+					//action--;
+				}
 				else
+				{
 					queueTiles.clear();
+				}
+			}
+			else
+			{
+				action--;
 			}
 		}
 	}
