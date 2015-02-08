@@ -127,7 +127,7 @@ public class Grid {
 				}
 			}
 		}
-		
+
 		ArrayList<GameEntity> settlers = new ArrayList<GameEntity>();
 		for (int i = 0; i < numCivs; i++)
 		{
@@ -208,13 +208,18 @@ public class Grid {
 						if (t.dist(s.location) > dist)
 							continue;
 						else
+						{
 							valid = false; break;
+						}
 					}
 					if (valid)
 						break;
-					dist -= 3;
+					//if (dist > 6)
+						dist -= 1; 
 				}
 			}
+			/*Tile t = findIsolated();
+			int r = t.row, c = t.col;*/
 			//Test out giving a civilization land and a unit 
 			//with proper encapsulation
 			//addTile(civs[i], tiles[r][c]);
@@ -265,6 +270,9 @@ public class Grid {
 				c = (int)(rand.nextDouble()*tiles[0].length);
 			} while (tiles[r][c].type.equals("Sea"));
 
+			/*Tile t = findIsolated();
+			int r = t.row, c = t.col;*/
+
 			addUnit(EntityData.get("Settler"),civs[i],r,c);
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 		}
@@ -281,12 +289,12 @@ public class Grid {
 			civs[i] = civ;
 			civ.id = i;
 
-			int r,c;
+			/*int r,c;
 			do
 			{
 				r = (int)(rand.nextDouble()*tiles.length);
 				c = (int)(rand.nextDouble()*tiles[0].length);
-			} while (tiles[r][c].biome == -1);
+			} while (tiles[r][c].biome == -1);*/
 
 			/*for (int j = 0; j < 3; j++)
 			{
@@ -305,6 +313,36 @@ public class Grid {
 		EntityData.setupCivBonuses();
 		//makeRivers(terrain);
 		pathFinder = new Pathfinder(this);
+	}
+
+	public Tile findIsolated()
+	{
+		ArrayList<GameEntity> all = new ArrayList<GameEntity>();
+		for (int r = 0; r < rows; r++)
+		{
+			for (int c = 0; c < cols; c++)
+			{
+				if (tiles[r][c].occupants.size() > 0)
+					all.add(tiles[r][c].occupants.get(0));
+			}
+		}
+		int r = 0, c = 0, maxDist = 15;
+		out:
+			while (true)
+			{
+				do 
+				{
+					r = (int)(Math.random()*rows); c = (int)(Math.random()*cols);
+				} while (tiles[r][c].biome == -1);
+				for (int i = 0; i < all.size(); i++)
+				{
+					if (all.get(i).location.dist(tiles[r][c]) < maxDist)
+						break;
+					if (i == all.size() - 1) break out;
+				}
+				maxDist--;
+			}
+		return tiles[r][c];
 	}
 
 	public void move(BaseEntity en, int rDis, int cDis)
@@ -480,7 +518,7 @@ public class Grid {
 				candidates.remove(i);
 		return candidates;
 	}
-	
+
 	public Tile getTile(int r, int c)
 	{
 		if (r >= 0 && r < tiles.length && c >= 0 && c < tiles[0].length)

@@ -33,6 +33,7 @@ Implement trade routes/caravans
 	> Fix tile yield GUI so that it does not overlap
 	/ Rough and smooth textures for terrain
 	>+ City growth and production GUI
+	>+ Addition of tutorial menu (multiple tutorials)
 / Bug fixes
 	> Cancel movement order if next tile is within enemy territory
 	Check if units are in enemy territory and push them out
