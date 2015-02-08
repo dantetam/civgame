@@ -1037,6 +1037,10 @@ public class MenuSystem extends BaseSystem {
 			int index = Integer.parseInt(command.substring(7));
 			((Caravan)selected).setRoute(selected.owner.cities.get(index));
 		}
+		else if (command.equals("unitSkipTurn"))
+		{
+			selected.action = 0;
+		}
 
 		else if (command.contains("queueBuilding"))
 		{
@@ -1346,7 +1350,19 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < techNames.size(); i++)
 		{
 			String s = techNames.get(i);
-			menus.get(5).addButton("research" + s, s, "Research " + s + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30).lock = true;
+			Tech t = civ.techTree.researched(s);
+			int turns = calcQueueTurnsTech(civ, t);
+			Button b = (Button)menus.get(5).addButton("research" + s, s + " <" + turns + ">", "Research " + s + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
+			b.lock = true;
+			b.tooltip.clear();
+			b.tooltip.add("Estimated build time: " + turns);
+			b.tooltip.add(t.totalR + " research out of " + t.requiredR + "; " + (int)((float)t.totalR/(float)t.requiredR*100) + "%");
+			b.tooltip.add("Requires " + t.requisite.name);
+			String techString = "";
+			for (int j = 0; j < t.techs.length; j++)
+				techString += t.techs[j].name + ", ";
+			b.tooltip.add("Leads to " + techString.substring(0, techString.length()-2));
+			b.tooltip.add("Unlocks " + t.unlockString());
 			//menus.get(5).addButton("research" + s, s, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
 	}
@@ -1422,6 +1438,18 @@ public class MenuSystem extends BaseSystem {
 		}
 	}
 
+	public int calcQueueTurnsTech(Civilization civ, Tech tech)
+	{
+		int research = 0;
+		for (int i = 0; i < civ.cities.size(); i++)
+		{
+			int[] t = civ.cities.get(i).quickEval();
+			research += t[3];
+		}
+		if (research == 0) return -1;
+		return (int)((tech.requiredR - tech.totalR)/(float)research + 1);
+	}
+
 	public String calcQueueTurns(City citySelected)
 	{
 		int[] t = citySelected.quickEval();
@@ -1494,17 +1522,18 @@ public class MenuSystem extends BaseSystem {
 	public void updateUnitMenu(GameEntity en)
 	{
 		menus.get(1).buttons.clear();
-		int n = 0;
-		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+		//int n = 0;
+		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", 0, main.height*5/6 + 30, main.width*1/6, 30);
+		menus.get(1).addButton("unitSkipTurn", "Skip Turn", "Do nothing this turn.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 
 		if (en.name.equals("Settler"))
 		{
-			menus.get(1).addButton("unitSettle", "Settle", "Settle a city here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+			menus.get(1).addButton("unitSettle", "Settle", "Settle a city here.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 
 		}
 		else if (en.name.equals("Warrior"))
 		{
-			menus.get(1).addButton("unitRaze", "Attack", "Attack the improvement here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+			menus.get(1).addButton("unitRaze", "Attack", "Attack the improvement here.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 
 		}
 		else if (en.name.equals("Worker"))
@@ -1512,7 +1541,7 @@ public class MenuSystem extends BaseSystem {
 			ArrayList<String> units = main.grid.civs[0].techTree.allowedTileImprovements;
 			for (int i = 0; i < units.size(); i++)
 			{
-				Button b = (Button)menus.get(1).addButton("build"+units.get(i), units.get(i), "Construct " + units.get(i) + " here.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+				Button b = (Button)menus.get(1).addButton("build"+units.get(i), units.get(i), "Construct " + units.get(i) + " here.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 				b.tooltip.clear();
 				b.tooltip.add("Estimated build time: " + EntityData.tileImprovementTime(en, units.get(i)) + " turns");
 				double[] yieldBefore = City.staticEval(en.location), yieldAfter = City.staticEval(en.location, units.get(i));
@@ -1544,7 +1573,7 @@ public class MenuSystem extends BaseSystem {
 				City c = en.owner.cities.get(i);
 				if (!c.equals(((Caravan)en).home))
 				{
-					menus.get(1).addButton("unitCaravan"+i, "Caravan"+c.name, "Establish a trade route.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+					menus.get(1).addButton("unitCaravan"+i, "Caravan"+c.name, "Establish a trade route.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 
 				}
 			}
@@ -1552,12 +1581,12 @@ public class MenuSystem extends BaseSystem {
 
 		if (en.mode == 1 && en.rangedStr > 0)
 		{
-			menus.get(1).addButton("rangedMode", "Ranged", "Allow this unit to use ranged attacks.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+			menus.get(1).addButton("rangedMode", "Ranged", "Allow this unit to use ranged attacks.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 
 		}
 		else if (en.mode == 2 && en.offensiveStr > 0)
 		{
-			menus.get(1).addButton("meleeMode", "Melee", "Allow this unit to use melee attacks.", 0, main.height*5/6 + 30*n, main.width*1/6, 30);
+			menus.get(1).addButton("meleeMode", "Melee", "Allow this unit to use melee attacks.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 
 		}
 

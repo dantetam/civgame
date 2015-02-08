@@ -81,4 +81,19 @@ public class Tech {
 	
 	public Tech addAlt(TechTree tree, String name) {alternative = tree.researched(name); return this; } //System.out.println(tree + " " + name);}
 
+	public String toString() {return name;}
+	
+	//Returns everything that this tech unlocks 
+	public String unlockString() 
+	{
+		String temp = "";
+		for (int i = 0; i < unlockUnits.length; i++)
+			temp += unlockUnits[i] + ", ";
+		for (int i = 0; i < unlockCityImprovements.length; i++)
+			temp += unlockCityImprovements[i] + ", ";
+		for (int i = 0; i < unlockTileImprovements.length; i++)
+			temp += unlockTileImprovements[i] + ", ";
+		return temp.substring(0, temp.length() - 2);
+	}
+	
 }
