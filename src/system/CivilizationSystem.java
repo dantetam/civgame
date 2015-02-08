@@ -104,175 +104,11 @@ public class CivilizationSystem extends BaseSystem {
 							continue;
 						}
 
-						//Make some settlers to test
-						//int numSettlers = 0, numWorkers = 0, numWarriors = 0;
-						int numWorkers = c.owner.count("Worker");
-						//Loop through a city's tiles
-						/*
-						 * -2 freshwater 2,1,0,2
-						 * -1 sea 1,1,0,2
-						 * 0 ice 0,1,2,1
-						 * 1 taiga 1,1,1,1
-						 * 2 desert 0,0,2,1
-						 * 3 savannah 2,0,1,2
-						 * 4 dry forest 2,1,1,2
-						 * 5 forest 3,0,1,2
-						 * 6 rainforest 3,1,0,3
-						 * 7 beach (outdated)
-						 * 
-						 * modifiers:
-						 * 8 oasis 3,3,0,2
-						 * (shape 1) hill -1,0,1,0
-						 * (shape 2) mountain -2,0,2,2
-						 *
-						 */
-						/*if (i != 0)
-						{
-							//Assign specialized workers, prioritize scientists
-							if (c.population >= 5)
-							{
-								int idle = c.population - 4;
-								c.sci = Math.min(4, idle);
-								idle -= c.sci;
-								if (idle > 0)
-								{
-									c.art += idle;
-									idle = 0;
-								}
-							}
-						}*/
-
-						c.happiness = 4 - c.population;
-						if (grid.difficultyLevel == 1 && i == 0)
-							c.happiness += 3;
-						else if (grid.difficultyLevel == 2 && i == 0)
-							c.happiness += 1;
-						else if (grid.difficultyLevel == 4 && i != 0)
-							c.happiness += 1;
-						else if (grid.difficultyLevel == 5 && i != 0)
-							c.happiness += 3;
-
-						if (c.built("Palace"))
-						{
-							c.happiness++;
-						}
-						else if (c.built("Pyramid"))
-						{
-							c.happiness += 2;
-						}
-
-						int sumCityWorkers = c.adm + c.art + c.sci;
-						if (c.happiness < 0)
-							c.workTiles(c.population - c.happiness - sumCityWorkers + 1);
-						else
-							c.workTiles(c.population - sumCityWorkers + 1);
-
-						c.health = 7 - c.population + Math.min(0,c.happiness);
-						if (grid.difficultyLevel == 1 && i == 0)
-							c.health += 4;
-						else if (grid.difficultyLevel == 2 && i == 0)
-							c.health += 2;
-						else if (grid.difficultyLevel == 4 && i != 0)
-							c.health += 2;
-						else if (grid.difficultyLevel == 5 && i != 0)
-							c.health += 4;
-						if (civ.trait("Imperialistic"))
-							c.health += 2;
-						if (c.sortie == 2)
-							c.health -= 4;
-						//Civilization wide health calculation
-						civ.health += c.health;
-
-						for (int k = 0; k < c.land.size(); k++)
-							c.land.get(k).harvest = false;
-
-						//Work tiles and harvest their numerical yields
-						for (int k = 0; k < c.workedLand.size(); k++)
-						{
-							Tile t = c.workedLand.get(k);
-							t.turnsSettled++;
-							//System.out.println(t.row + " " + t.col + " " + t.turnsSettled);
-							double[] eval = c.evaluate(t,-1);
-							double f=eval[0],g=eval[1],m=eval[2],r=eval[3];
-
-							if (t.biome == -1 && c.built("Port"))
-								f += 2;
-
-							//civ.food += f;
-							//civ.gold += g;
-							//civ.metal += m;
-							//tf += f;
-							tf += f; tg += g; tm += m; tr += r;
-							c.workedLand.get(k).harvest = true;
-						}
-						if (c.built("Metalworks"))
-						{
-							tm *= 1.25;
-						}
-						if (grid.difficultyLevel == 1 && i == 0)
-							tm *= 1.25;
-						else if (grid.difficultyLevel == 2 && i == 0)
-							tm *= 1.1;
-						else if (grid.difficultyLevel == 4 && i != 0)
-							tm *= 1.1;
-						else if (grid.difficultyLevel == 5 && i != 0)
-							tm *= 1.25;
-						//Factor in specialized workers
-						double taxBase = tg;
-						tr += c.sci*2;
-						tg += Math.floor(c.adm*0.25*taxBase);
-						c.culture += Math.floor(c.art*0.25*taxBase);
-						if (civ.trait("Refined"))
-							c.culture += 2;
-						c.culture++;
-						/*if (civ.capital != null)
-							if (civ.capital.equals(c) && !(c.owner instanceof CityState))
-								c.culture++;*/
-						if (c.built("Palace"))
-						{
-							tg *= 1.25;
-							tg += 8;
-							c.culture++;
-						}
-						if (c.built("Obelisk"))
-						{
-							c.culture++;
-						}
-						if (c.built("Market"))
-						{
-							tg *= 1.25;
-						}
-						if (c.built("Pyramid"))
-						{
-							c.culture++;
-							c.culture *= 1.25;
-						}
-
-						for (int k = 0; k < c.activeCaravansOut.size(); k++)
-						{
-							//Temporary algorithm
-							tf += 2; tm++; tg += 2;
-						}
-						for (int k = 0; k < c.activeCaravansIn.size(); k++)
-						{
-							//Temporary algorithm
-							tf++; tm++;
-						}
-						if (civ.trait("Prosperous") || civ.trait("Traditional"))
-							tf *= 1.15;
-						if (civ.trait("Industrious"))
-							tm *= 1.1;
-						if (civ.trait("Refined"))
-							tr *= 1.1;	
-						if (civ.trait("Prosperous") && c.queue != null)
-							if (c.queue.equals("Settler"))
-								tf *= 1.25;
-
-						tf *= c.morale*0.75 + 0.25;
-						tm *= c.morale;
+						double[] calc = EntityData.calculateYield(c);
+						tf = calc[0]; tg = calc[1]; tm = calc[2]; tr = calc[3];
+						c.owner.health += c.health;
+						
 						//End of calculation stage
-
-
 
 						//c.culture++;
 						//System.out.println(c.culture + " " + c.expanded);
@@ -382,7 +218,7 @@ public class CivilizationSystem extends BaseSystem {
 
 						if (c.health > -5)
 						{
-							double dGrowth = (tf - c.population*3)/(c.population*4 + Math.pow(c.population,1.5));
+							double dGrowth = (tf - c.population*3)/(c.population*6 + Math.pow(c.population,1.5));
 							if (dGrowth > 0 && c.built("Granary")) 
 								dGrowth *= 1.15;
 							//System.out.println(dGrowth + " " + tf);

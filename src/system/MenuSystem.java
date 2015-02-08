@@ -75,7 +75,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.addButton("close", "Close", "Close all open menus.", main.width - 100, 70, 100, height).lock = true;
 		menu0.addButton("minimap", "Minimap", "Open the minimap of the world.", main.width - 100, 100, 100, height).lock = true;
 		menu0.addButton("info", "Information", "", main.width - 100, 130, 100, height).lock = true;
-		//menu0.buttons.add(new Button("loadout", "Loadout", "Change loadouts of certain units.", main.width - 100, 160, 100,height, 3, 4));
+		//menu0.buttons.add(new Button("loadout", "Loadout", "Change loadouts of certain units.", main.width - 100, 160, 100, height, 3, 4));
 		menu0.addButton("loadout", "Loadout", "Change loadouts of certain units.", main.width - 100, 160, 100, height).lock = true;
 		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", main.width - 100, 190, 100, height).lock = true;
 		menu0.addButton("techs", "Techs", "Choose technologies to research.", main.width - 100, 220, 100, height).lock = true;
@@ -453,6 +453,25 @@ public class MenuSystem extends BaseSystem {
 								continue;
 							if (markedTiles[h.row + dR][h.col - dC])
 								main.text("X", pos[0] - dX,pos[1] - dY + 20);
+							if (t.improvement != null)
+							{
+								if (t.improvement instanceof City)
+								{
+									//main.rectMode(main.LEFT);
+									City city = (City)t.improvement;
+									main.fill(0);
+									//main.rectMode(main.CENTER);
+									main.rect(pos[0] - dX - 50, pos[1] - dY - 10, 100, 20);
+									main.fill(0,255,0);
+									System.out.println((float)city.percentGrowth*100);
+									main.rect(pos[0] - dX - 50, pos[1] - dY - 10, 100F*(float)city.percentGrowth, 20);
+									main.fill(255);
+									main.textAlign(main.CENTER);
+									main.text(city.name + " <" + city.population + ">", pos[0] - dX, pos[1] - dY);
+									main.textAlign(main.LEFT);
+									//main.rectMode(main.LEFT);
+								}
+							}
 							if (!main.tacticalView)
 							{
 								if (t.occupants.size() > 0)
@@ -480,7 +499,7 @@ public class MenuSystem extends BaseSystem {
 								int len = 8;
 								//main.fill(t.owner.r, t.owner.g, t.owner.b);
 								//main.rect(pos[0] - dX - len/2, pos[1] - dY - len/2, len, len);
-								//Replace with for loop
+								//Replace with for loop //done
 								if (requestFieldsUpdate)
 								{
 									main.newMenuSystem.largeFieldIcon(pos[0]-dX,pos[1]-dY + len*1.5F,t,(int)(len*1.5));
@@ -1387,7 +1406,8 @@ public class MenuSystem extends BaseSystem {
 			String techString = "";
 			for (int j = 0; j < t.techs.length; j++)
 				techString += t.techs[j].name + ", ";
-			b.tooltip.add("Leads to " + techString.substring(0, techString.length()-2));
+			if (t.techs.length != 0)
+				b.tooltip.add("Leads to " + techString.substring(0, techString.length()-2));
 			b.tooltip.add("Unlocks " + t.unlockString());
 			//menus.get(5).addButton("research" + s, s, "", main.width/3F, (float)main.height*2F/6F + 60*i, 200, 50);
 		}
