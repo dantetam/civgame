@@ -3,6 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import units.City;
+
 //the following may or may not actually be a "tree"
 
 public class TechTree {
@@ -203,6 +205,26 @@ public class TechTree {
 		return temp;
 	}
 
+	//Check if a city has already built the buildings
+	public ArrayList<String> allowedCityImprovements(City c)
+	{		
+		if (c.buildings.size() == 0) return allowedCityImprovements;
+		ArrayList<String> temp = new ArrayList<String>();
+		//System.out.println(allowedCityImprovements.size());
+		for (int i = 0; i < allowedCityImprovements.size(); i++)
+		{
+			String s = allowedCityImprovements.get(i);
+			for (int j = 0; j < c.buildings.size(); j++)
+			{
+				if (c.buildings.get(j).name.equals(s))
+					break;
+				if (j == c.buildings.size() - 1) //Add the candidate if the loop does not break
+					temp.add(s);
+			}
+		}
+		return temp;
+	}
+	
 	/*public void printOut()
 	{
 

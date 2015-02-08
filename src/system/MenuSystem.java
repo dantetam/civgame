@@ -42,7 +42,7 @@ public class MenuSystem extends BaseSystem {
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
 	public Tile[] settlerChoices; public ArrayList<Tile> movementChoices = new ArrayList<Tile>(), pathToHighlighted = new ArrayList<Tile>();
 	public String typeOfLastSelected = "";
-	
+
 	public int[] rbox;
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
@@ -218,25 +218,30 @@ public class MenuSystem extends BaseSystem {
 				{
 					Tile t = main.grid.getTile(r,c);
 					if (t == null) continue;
-					if (t.height >= main.cutoff)
+					if (main.grid.civs[0].revealed[r][c] == 0)
+						main.fill(0);
+					else
 					{
-						if (t.owner != null)
+						if (t.height >= main.cutoff)
 						{
-							main.fill(t.owner.r,t.owner.g,t.owner.b);
-						}
-						else if (t.occupants.size() > 0)
-						{
-							GameEntity en = t.occupants.get(0);
-							main.fill(en.owner.r, en.owner.g, en.owner.b);
+							if (t.owner != null)
+							{
+								main.fill(t.owner.r,t.owner.g,t.owner.b);
+							}
+							else if (t.occupants.size() > 0)
+							{
+								GameEntity en = t.occupants.get(0);
+								main.fill(en.owner.r, en.owner.g, en.owner.b);
+							}
+							else
+							{
+								main.fill(150);
+							}
 						}
 						else
 						{
-							main.fill(150);
+							main.fill(150,225,255);
 						}
-					}
-					else
-					{
-						main.fill(150,225,255);
 					}
 					//main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,widthX*con/main.grid.rows,widthY*con/main.grid.cols);
 					//System.out.println(sX + r/(float)main.grid.rows*widthX);
@@ -282,7 +287,7 @@ public class MenuSystem extends BaseSystem {
 			hintText.add(stringy);
 			//else
 			//hintText.add("Terra nullius");
-			
+
 			String biomeText = "";
 
 			if (mouseHighlighted.biome >= 4 && mouseHighlighted.biome <= 6)
@@ -301,7 +306,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				biomeText += ", Mountain";
 			}
-			
+
 			hintText.add(biomeText);
 
 			if (mouseHighlighted.improvement != null)
@@ -310,7 +315,7 @@ public class MenuSystem extends BaseSystem {
 			}
 			else
 				hintText.add("Pristine");
-			
+
 			if (mouseHighlighted.city != null)
 			{
 				if (mouseHighlighted.city.owner != null)
@@ -508,6 +513,7 @@ public class MenuSystem extends BaseSystem {
 								{
 									if (t.improvement instanceof City)
 									{
+										main.tint(t.improvement.owner.r, t.improvement.owner.g, t.improvement.owner.b);
 										PImage image = EntityData.iconMap.get("CityIcon");
 										if (t.improvement.owner.capital.equals(t.improvement))
 											image = EntityData.iconMap.get("Capital");
@@ -660,6 +666,7 @@ public class MenuSystem extends BaseSystem {
 						if (b instanceof ImageBox)
 						{
 							ImageBox img = (ImageBox)b;
+							main.tint(img.tintR, img.tintG, img.tintB);
 							if (img.image != null)
 								main.image(img.image, img.posX, img.posY, img.sizeX, img.sizeY);
 							else 
@@ -1686,8 +1693,10 @@ public class MenuSystem extends BaseSystem {
 			b.origSizeX = 100; b.origSizeY = 30;
 			b.origX = b.posX; b.origY = b.posY;
 		}
-		
-		menus.get(1).buttons.add(new ImageBox(en.name,0,main.height*5/6,main.height/6,main.height/6));
+
+		ImageBox img = new ImageBox(en.name,0,main.height*5/6,main.height/6,main.height/6);
+		img.tint(en.owner.r, en.owner.g, en.owner.b);
+		menus.get(1).buttons.add(img);
 		//System.out.println(menus.get(1).buttons.size());
 	}
 
@@ -1720,7 +1729,7 @@ public class MenuSystem extends BaseSystem {
 			//menus.get(2).addButton("queue" + units.get(i), units.get(i), "", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
 		}
 
-		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements;
+		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements(c);
 		for (int i = 0; i < buildings.size(); i++)
 		{
 			Button b = (Button)menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i) + " <" + calcQueueTurnsInt(c,units.get(i)) + ">", "Queue a " + buildings.get(i) + ".",

@@ -9,6 +9,7 @@ public class ImageBox extends TextBox {
 
 	public String imageString;
 	public PImage image;
+	public float tintR, tintG, tintB;
 	
 	public ImageBox(String s, float a, float b,
 			float c, float d) {
@@ -18,5 +19,10 @@ public class ImageBox extends TextBox {
 		//System.out.println(s);
 		// TODO Auto-generated constructor stub
 	} //bad inheritance but I just want to group without using an interface
+	
+	public void tint(float r, float g, float b)
+	{
+		tintR = r; tintG = g; tintB = b;
+	}
 	
 }
