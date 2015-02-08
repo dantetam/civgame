@@ -513,7 +513,7 @@ public class Game extends PApplet {
 		for (int i = 0; i < units.length; i++)
 		{
 			PImage data2 = loadImage("/models/"+units[i]+".png");
-			EntityData.unitIconMap.put(units[i], data2);
+			EntityData.iconMap.put(units[i], data2);
 			//System.out.println("Put " + units[i]);
 		}
 	}

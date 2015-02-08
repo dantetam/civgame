@@ -484,7 +484,7 @@ public class MenuSystem extends BaseSystem {
 										//main.rectMode(main.CENTER);
 										int len = 30;
 										//main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
-										PImage image = EntityData.unitIconMap.get(en.name);
+										PImage image = EntityData.iconMap.get(en.name);
 										main.pushStyle();
 										main.tint(en.owner.r, en.owner.g, en.owner.b);
 										if (image != null)
@@ -636,26 +636,34 @@ public class MenuSystem extends BaseSystem {
 					TextBox b = menus.get(menu).buttons.get(i);
 					if (b.active)
 					{
-						main.fill(b.r, b.g, b.b);
-						//main.stroke(b.borderR, b.borderG, b.borderB);
-						if (b.shape == 0)
-							main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-						else if (b.shape == 1)
-							main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+						if (b instanceof ImageBox)
+						{
+							ImageBox img = (ImageBox)b;
+							main.image(img.image, img.posX, img.posY, img.sizeX, img.sizeY);
+						}
 						else
-							System.out.println("Invalid button shape: " + b.shape);
-						main.textAlign(PApplet.CENTER, PApplet.CENTER);
-						main.fill(255);
-						for (int j = 0; j < b.display.size(); j++)
-							main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + 10 + j*15);
-						main.fill(255,0,0);
-						for (int j = 0; j < shortcuts.length; j++)
-							if (shortcuts[j] != null)
-								if (shortcuts[j].equals(b))
-								{
-									main.text("[" + j + "]", b.posX + b.sizeX*0.9F, b.posY + b.sizeY/2);
-									//System.out.println("Text");
-								}
+						{
+							main.fill(b.r, b.g, b.b);
+							//main.stroke(b.borderR, b.borderG, b.borderB);
+							if (b.shape == 0)
+								main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+							else if (b.shape == 1)
+								main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+							else
+								System.out.println("Invalid button shape: " + b.shape);
+							main.textAlign(PApplet.CENTER, PApplet.CENTER);
+							main.fill(255);
+							for (int j = 0; j < b.display.size(); j++)
+								main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + 10 + j*15);
+							main.fill(255,0,0);
+							for (int j = 0; j < shortcuts.length; j++)
+								if (shortcuts[j] != null)
+									if (shortcuts[j].equals(b))
+									{
+										main.text("[" + j + "]", b.posX + b.sizeX*0.9F, b.posY + b.sizeY/2);
+										//System.out.println("Text");
+									}
+						}
 					}
 				}
 			}
@@ -1614,7 +1622,7 @@ public class MenuSystem extends BaseSystem {
 			if (!en.location.road)
 			{
 				Button b = (Button)menus.get(1).addButton("buildRoad", "Road", "Construct a road, to expand your civilization's network.", 
-						0, main.height*5/6 + 30, main.width*1/6, 30);
+						0, main.height*5/6, main.width*1/6, 30);
 				b.tooltip.add("Roads allow for increased movement,");
 				b.tooltip.add("and connect resources and cities.");
 				b.dimTooltip();
@@ -1649,11 +1657,12 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < menus.get(1).buttons.size(); i++)
 		{
 			TextBox b = menus.get(1).buttons.get(i);
-			b.move(b.posX, b.posY - menus.get(1).buttons.size()*30 + i*30); //Shift the buttons to their proper place
+			b.move(b.posX, b.posY - (menus.get(1).buttons.size()+1)*30 + i*30); //Shift the buttons to their proper place
 			b.sizeX = 100; b.sizeY = 30;
 			b.origSizeX = 100; b.origSizeY = 30;
 			b.origX = b.posX; b.origY = b.posY;
 		}
+		menus.get(1).buttons.add(new ImageBox(en.name,0,main.height*5/6,main.height/6,main.height/6));
 		//System.out.println(menus.get(1).buttons.size());
 	}
 
@@ -1726,11 +1735,13 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < n; i++)
 		{
 			TextBox b = menus.get(2).buttons.get(i);
-			b.move(0, main.height*5/6 + i*30 - n*30); //Shift the buttons to their proper place
+			b.move(0, main.height*5/6 + i*30 - (n+1)*30); //Shift the buttons to their proper place
 			b.origX = b.posX; b.origY = b.posY;
 			b.sizeX = 100; b.sizeY = 30;
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
+		
+		menus.get(2).buttons.add(new TextBox(c.name,"",0,main.height*5/6 - 30,main.width*1/6,30));
 
 		double[] data = EntityData.calculateYield(c);
 		TextBox t = new TextBox("Food per turn: " + (int)Math.floor(data[0]),"",0,main.height*5/6,main.width*1/6,main.height*1/6);

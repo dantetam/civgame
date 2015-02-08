@@ -18,7 +18,7 @@ public class EntityData {
 	public static HashMap<String, TileEntity> tileEntityMap;
 	public static HashMap<Integer, Integer> groundColorMap; //Defines color of ground of certain biomes
 	private static HashMap<String, float[][]> unitModelMap;
-	public static HashMap<String, PImage> unitIconMap;
+	public static HashMap<String, PImage> iconMap;
 
 	//Terrible short hand names
 	private static HashMap<String, Integer> f, m, g;
@@ -44,7 +44,7 @@ public class EntityData {
 		tileEntityMap = new HashMap<String, TileEntity>();
 		groundColorMap = new HashMap<Integer, Integer>();
 		unitModelMap = new HashMap<String, float[][]>();
-		unitIconMap = new HashMap<String, PImage>();
+		iconMap = new HashMap<String, PImage>();
 
 		unitImprovementMap = new HashMap<String, Improvement>();
 		cityImprovementMap = new HashMap<String, Improvement>();
