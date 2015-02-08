@@ -3,6 +3,7 @@ package system;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import render.Button;
 import render.CivGame;
 import render.MouseHelper;
@@ -239,10 +240,11 @@ public class RenderSystem extends BaseSystem {
 	//Hidden means not within the player's sight/revealed fog of war
 	//
 	public float con; public float cutoff;
-	private final int dist0 = 500;
-	private final int dist1 = 800; private final int dist2 = 1250;
+	private final int dist0 = 400;
+	private final int dist1 = 500; private final int dist2 = 600;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
 	private float[][] vertices;
+	private PImage[][] textures;
 	public void renderBlock(float dist, int r, int c, boolean hidden, boolean lazy)
 	{
 		//if (dist < 1000 && en.sizeY >= cutoff)
@@ -425,12 +427,16 @@ public class RenderSystem extends BaseSystem {
 					main.pushMatrix();
 					main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
 					main.beginShape(main.TRIANGLES);
-					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock);
-					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc+1-1],(float)(nc+1)/m*widthBlock);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock);
-					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock);
+					main.texture(textures[r][c]);
+					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
+					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,widthBlock,widthBlock);
+					main.endShape();
+					main.beginShape(main.TRIANGLES);
+					main.texture(textures[r][c]);
+					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock,widthBlock,0);
+					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
 					/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
@@ -751,6 +757,40 @@ public class RenderSystem extends BaseSystem {
 			System.out.println();
 		}*/
 		this.multiply = multiply;
+	}
+	
+	public void generateTextures(int n)
+	{
+		textures = new PImage[main.terrain.length][main.terrain[0].length];
+		PImage roughMaster = main.loadImage("roughtexture.jpg"), smoothMaster = main.loadImage("smoothtexture.jpg");
+		for (int r = 0; r < main.terrain.length; r++)
+		{
+			for (int c = 0; c < main.terrain[0].length; c++)
+			{
+				Tile t = main.grid.getTile(r, c);
+				PImage master;
+				if (t.biome == -1 || t.biome == 0 || t.biome == 2 || t.biome == 3)
+					master = smoothMaster;
+				else
+					master = roughMaster;
+				textures[r][c] = getBlock(master,r,c);
+			}
+		}
+	}
+	
+	//Creates a n*n size group of textures that will be put into t
+	public PImage getBlock(PImage tex, int row, int col)
+	{
+		PImage temp = main.createImage((int)widthBlock, (int)widthBlock, main.ARGB);
+		for (int r = 0; r < widthBlock; r++)
+		{
+			for (int c = 0; c < widthBlock; c++)
+			{
+				temp.pixels[r*(int)widthBlock + c] = tex.pixels[(r*(int)1024 + c)%(1024*1024)];
+				System.out.println(main.hex(temp.pixels[r*(int)widthBlock + c]));
+			}
+		}
+		return temp;
 	}
 
 	public void renderModel(String name, float red, float green, float blue)
