@@ -87,8 +87,8 @@ public class RenderSystem extends BaseSystem {
 		//stroke(0);
 		main.background(135, 206, 235);
 		main.perspective(3.14F/2,15F/9F,1,10000);
-		main.shader(main.shader, main.TRIANGLES);
 		//System.out.println(player);
+		main.shader(main.texLightShader, main.TRIANGLES);
 		setCamera();
 		/*for (int i = 0; i < terrain.entities.size(); i++)
 		{
@@ -257,9 +257,9 @@ public class RenderSystem extends BaseSystem {
 			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(t.biome));
 			if (t.shape == 2) color = new Color(1,1,1);
 			if (!hidden)
-				main.fill((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
+				main.tint((float)color.r*255F,(float)color.g*255F,(float)color.b*255F);
 			else if (hidden || lazy)
-				main.fill((float)color.r*100F,(float)color.g*100F,(float)color.b*100F);
+				main.tint((float)color.r*100F,(float)color.g*100F,(float)color.b*100F);
 			main.noStroke();
 			main.strokeWeight(1);
 			Civilization civ = t.owner;
@@ -422,30 +422,30 @@ public class RenderSystem extends BaseSystem {
 							main.fill(255);
 						}
 					}*/
-					try
+					//
 					{
-					main.pushMatrix();
-					main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
-					main.beginShape(main.TRIANGLES);
-					main.texture(textures[r][c]);
-					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
-					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,widthBlock,widthBlock);
-					main.endShape();
-					main.beginShape(main.TRIANGLES);
-					main.texture(textures[r][c]);
-					main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock,widthBlock,0);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
-					/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
+						main.pushMatrix();
+						main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
+						main.beginShape(main.TRIANGLES);
+						main.texture(textures[nr][nc]);
+						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
+						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
+						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,widthBlock,widthBlock);
+						main.endShape();
+						main.beginShape(main.TRIANGLES);
+						main.texture(textures[nr][nc]);
+						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
+						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock,widthBlock,0);
+						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
+						/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
 					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
-					main.endShape();
-					main.popMatrix();
-					} catch (Exception e) {continue;}
+						main.endShape();
+						main.popMatrix();
+					} //catch (Exception e) {main.popMatrix();}
 				}
 			}
 			main.popMatrix();
@@ -493,6 +493,7 @@ public class RenderSystem extends BaseSystem {
 	//Render a game entity
 	public void renderGameEntity(BaseEntity en, float dist, int r, int c)
 	{
+		main.texture(textures[0][0]);
 		if (en.owner != null)
 			main.fill(en.owner.r,en.owner.g,en.owner.b);
 		//float dist = (float)Math.sqrt(Math.pow(player.posX - r*widthBlock, 2) + Math.pow(player.posY - main.terrain[r][c], 2) + Math.pow(player.posZ - c*widthBlock, 2));
@@ -557,7 +558,7 @@ public class RenderSystem extends BaseSystem {
 		else
 			renderModel(en.getName(),r,c,0,0,0);
 		main.noStroke();
-		
+
 		if (en.owner != null)
 		{
 			if (en.location.harvest)
@@ -566,7 +567,7 @@ public class RenderSystem extends BaseSystem {
 				main.stroke(en.owner.r,en.owner.g,en.owner.b);
 			}
 		}
-		
+
 		float health = (float)en.health/(float)en.maxHealth;
 		if (en.owner != null && health < 1)
 		{
@@ -758,26 +759,31 @@ public class RenderSystem extends BaseSystem {
 		}*/
 		this.multiply = multiply;
 	}
-	
+
 	public void generateTextures(int n)
 	{
-		textures = new PImage[main.terrain.length][main.terrain[0].length];
+		textures = new PImage[main.terrain.length*n + 1][main.terrain[0].length*n + 1];
 		PImage roughMaster = main.loadImage("roughtexture.jpg"), smoothMaster = main.loadImage("smoothtexture.jpg");
-		for (int r = 0; r < main.terrain.length; r++)
+		for (int r = 0; r < textures.length; r++)
 		{
-			for (int c = 0; c < main.terrain[0].length; c++)
+			for (int c = 0; c < textures[0].length; c++)
 			{
-				Tile t = main.grid.getTile(r, c);
+				Tile t = main.grid.getTile(r/n, c/n);
 				PImage master;
-				if (t.biome == -1 || t.biome == 0 || t.biome == 2 || t.biome == 3)
+				if (t == null) 
 					master = smoothMaster;
 				else
-					master = roughMaster;
+				{
+					if (t.biome == -1 || t.biome == 0 || t.biome == 2 || t.biome == 3)
+						master = smoothMaster;
+					else
+						master = roughMaster;
+				}
 				textures[r][c] = getBlock(master,r,c);
 			}
 		}
 	}
-	
+
 	//Creates a n*n size group of textures that will be put into t
 	public PImage getBlock(PImage tex, int row, int col)
 	{
@@ -787,7 +793,7 @@ public class RenderSystem extends BaseSystem {
 			for (int c = 0; c < widthBlock; c++)
 			{
 				temp.pixels[r*(int)widthBlock + c] = tex.pixels[(r*(int)1024 + c)%(1024*1024)];
-				System.out.println(main.hex(temp.pixels[r*(int)widthBlock + c]));
+				//System.out.println(main.hex(temp.pixels[r*(int)widthBlock + c]));
 			}
 		}
 		return temp;
@@ -796,6 +802,7 @@ public class RenderSystem extends BaseSystem {
 	public void renderModel(String name, float red, float green, float blue)
 	{
 		//main.pushMatrix();
+		main.texture(textures[0][0]);
 		float[][] model = EntityData.getModel(name);
 		if (model != null)
 		{

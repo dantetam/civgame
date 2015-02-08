@@ -3,7 +3,7 @@ precision mediump float;
 precision mediump int;
 #endif
 
-#define PROCESSING_TEXLIGHT_SHADER
+#define PROCESSING_LIGHT_SHADER
 
 uniform float fraction;
 

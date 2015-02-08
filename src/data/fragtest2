@@ -1,0 +1,19 @@
+#ifdef GL_ES
+precision mediump float;
+precision mediump int;
+#endif
+
+#define PROCESSING_TEXLIGHT_SHADER
+
+uniform sampler2D texture;
+
+varying vec4 vertColor;
+varying vec4 vertTexCoord;
+varying vec3 vertNormal;
+varying vec3 vertLightDir;
+
+void main() {
+  float intensity = abs(dot(vertLightDir, vertNormal));
+  vec4 color = vec4(1*vertColor.x, 1*vertColor.y, 1*vertColor.z, 1);
+  gl_FragColor = texture2D(texture, vertTexCoord.st) * color;
+}

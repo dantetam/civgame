@@ -44,7 +44,7 @@ public class CivGame extends PApplet {
 	//public PGraphics pg;
 	public MenuSystem menuSystem = new MenuSystem(this);
 	public NewMenuSystem newMenuSystem = new NewMenuSystem(this);
-	public PShader shader;
+	public PShader lightShader, texLightShader;
 	public PFont arial;
 
 	public InputSystem inputSystem = new InputSystem(this);
@@ -87,7 +87,8 @@ public class CivGame extends PApplet {
 		arial = createFont("ArialMT-48.vlw", 48);
 		textFont(arial);
 		//pg = createGraphics(1500,900,P2D);
-		shader = loadShader("fragtest.glsl", "verttest.glsl");
+		lightShader = loadShader("fragtest.glsl", "verttest.glsl");
+		texLightShader = loadShader("fragtest2", "verttest2");
 		frameRate(25);
 		background(150,225,255);
 		camera(500,500,500,0,0,0,0,-1,0);
