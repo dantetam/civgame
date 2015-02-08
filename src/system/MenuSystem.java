@@ -271,37 +271,41 @@ public class MenuSystem extends BaseSystem {
 		//hintText.clear();
 		if (mouseHighlighted != null)
 		{
-			hintText.add(mouseHighlighted.row + " " + mouseHighlighted.col);
+			String stringy = mouseHighlighted.row + " " + mouseHighlighted.col;
 			if (mouseHighlighted.owner != null)
-				hintText.add("Owner: " + mouseHighlighted.owner.name);
+				stringy += " (" + mouseHighlighted.owner.name + ")";
+			hintText.add(stringy);
 			//else
 			//hintText.add("Terra nullius");
+			
+			String biomeText = "";
 
 			if (mouseHighlighted.biome >= 4 && mouseHighlighted.biome <= 6)
 				if (mouseHighlighted.forest)
-					hintText.add(EntityData.getBiome(mouseHighlighted.biome) + " (forested)");
+					biomeText += EntityData.getBiome(mouseHighlighted.biome) + " (fertile)";
 				else
-					hintText.add(EntityData.getBiome(mouseHighlighted.biome) + " (unforested)");
+					biomeText += EntityData.getBiome(mouseHighlighted.biome);
 			else
-				hintText.add(EntityData.getBiome(mouseHighlighted.biome));
+				biomeText += EntityData.getBiome(mouseHighlighted.biome);
 
 			if (mouseHighlighted.shape == 1)
 			{
-				hintText.add("Hill");
+				biomeText += ", Hill";
 			}
 			else if (mouseHighlighted.shape == 2)
 			{
-				hintText.add("Mountain");
+				biomeText += ", Mountain";
 			}
+			
+			hintText.add(biomeText);
 
 			if (mouseHighlighted.improvement != null)
 			{
-				hintText.add(mouseHighlighted.improvement.name);
-				hintText.add(mouseHighlighted.improvement.id);
+				hintText.add(mouseHighlighted.improvement.name + ", " + mouseHighlighted.improvement.id);
 			}
 			else
 				hintText.add("Pristine");
-
+			
 			if (mouseHighlighted.city != null)
 			{
 				if (mouseHighlighted.city.owner != null)
@@ -326,10 +330,12 @@ public class MenuSystem extends BaseSystem {
 
 			if (mouseHighlighted.occupants.size() > 0)
 			{
-				String stringy = "";
+				//String stringy;
+				stringy = "";
 				for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
 				{
-					stringy += mouseHighlighted.occupants.get(i).name + "; ";
+					GameEntity en = mouseHighlighted.occupants.get(i);
+					stringy += en.name + " (" + en.owner + "); ";
 				}
 				if (!stringy.equals(""))
 					hintText.add(stringy.substring(0,stringy.length()-2));
@@ -649,7 +655,10 @@ public class MenuSystem extends BaseSystem {
 						if (b instanceof ImageBox)
 						{
 							ImageBox img = (ImageBox)b;
-							main.image(img.image, img.posX, img.posY, img.sizeX, img.sizeY);
+							if (img.image != null)
+								main.image(img.image, img.posX, img.posY, img.sizeX, img.sizeY);
+							else 
+								System.out.println("Invalid image: " + img.imageString);
 						}
 						else
 						{
@@ -1632,7 +1641,7 @@ public class MenuSystem extends BaseSystem {
 			if (!en.location.road)
 			{
 				Button b = (Button)menus.get(1).addButton("buildRoad", "Road", "Construct a road, to expand your civilization's network.", 
-						0, main.height*5/6, main.width*1/6, 30);
+						0, main.height*5/6 + 30, main.width*1/6, 30);
 				b.tooltip.add("Roads allow for increased movement,");
 				b.tooltip.add("and connect resources and cities.");
 				b.dimTooltip();
@@ -1672,6 +1681,7 @@ public class MenuSystem extends BaseSystem {
 			b.origSizeX = 100; b.origSizeY = 30;
 			b.origX = b.posX; b.origY = b.posY;
 		}
+		
 		menus.get(1).buttons.add(new ImageBox(en.name,0,main.height*5/6,main.height/6,main.height/6));
 		//System.out.println(menus.get(1).buttons.size());
 	}
