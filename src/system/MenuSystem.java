@@ -474,6 +474,7 @@ public class MenuSystem extends BaseSystem {
 							}
 							if (!main.tacticalView)
 							{
+								int len = 30;
 								if (t.occupants.size() > 0)
 								{
 									//for (int i = 0; i < t.occupants.size(); i++)
@@ -482,7 +483,6 @@ public class MenuSystem extends BaseSystem {
 										GameEntity en = t.occupants.get(i);
 										main.fill(en.owner.r, en.owner.g, en.owner.b);
 										//main.rectMode(main.CENTER);
-										int len = 30;
 										//main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
 										PImage image = EntityData.iconMap.get(en.name);
 										main.pushStyle();
@@ -491,6 +491,16 @@ public class MenuSystem extends BaseSystem {
 											main.image(image, pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
 										//main.rectMode(main.LEFT);
 										main.popStyle();
+									}
+								}
+								if (t.improvement != null)
+								{
+									if (t.improvement instanceof City)
+									{
+										PImage image = EntityData.iconMap.get("CityIcon");
+										if (t.improvement.owner.capital.equals(t.improvement))
+											image = EntityData.iconMap.get("Capital");
+										main.image(image, pos[0] - dX - len/2, pos[1] - dY - 60 - len/2, len, len);
 									}
 								}
 							}
@@ -1740,7 +1750,7 @@ public class MenuSystem extends BaseSystem {
 			b.sizeX = 100; b.sizeY = 30;
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
-		
+
 		menus.get(2).buttons.add(new TextBox(c.name,"",0,main.height*5/6 - 30,main.width*1/6,30));
 
 		double[] data = EntityData.calculateYield(c);

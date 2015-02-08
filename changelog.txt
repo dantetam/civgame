@@ -8,6 +8,9 @@ X : Abandoned
 
 2/7/2015 -> 2/14/2015 (Hackathon work)
 
+The idea that every single island is a world, and civilizations can establish colonies in other worlds
+Colonization as a possible mid-to-late-game mechanic
+
 Implement fields
 	Allow AI to optimize fields
 	Allow player to buy and improve fields through menu

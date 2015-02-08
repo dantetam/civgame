@@ -502,7 +502,8 @@ public class Game extends PApplet {
 	}
 
 	private String[] models = {"City","Farm","Fishing Boats","Forest","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
-	private String[] units = {"Archer","Axeman","Barbarian","Settler","Spearman","Swordsman","Warrior","Worker"};
+	private String[] icons = {"Archer","Axeman","Barbarian","Settler","Spearman","Swordsman","Warrior","Worker",
+			"Capital","CityIcon"};
 	private void setModels()
 	{
 		for (int i = 0; i < models.length; i++)
@@ -510,10 +511,10 @@ public class Game extends PApplet {
 			String[] data = loadStrings("/models/"+models[i]);
 			EntityData.passModelData(models[i],data);
 		}
-		for (int i = 0; i < units.length; i++)
+		for (int i = 0; i < icons.length; i++)
 		{
-			PImage data2 = loadImage("/models/"+units[i]+".png");
-			EntityData.iconMap.put(units[i], data2);
+			PImage data2 = loadImage("/models/"+icons[i]+".png");
+			EntityData.iconMap.put(icons[i], data2);
 			//System.out.println("Put " + units[i]);
 		}
 	}
