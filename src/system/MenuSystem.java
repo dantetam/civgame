@@ -500,7 +500,7 @@ public class MenuSystem extends BaseSystem {
 										PImage image = EntityData.iconMap.get("CityIcon");
 										if (t.improvement.owner.capital.equals(t.improvement))
 											image = EntityData.iconMap.get("Capital");
-										main.image(image, pos[0] - dX - len/2, pos[1] - dY - 60 - len/2, len, len);
+										main.image(image, pos[0] - dX - len/2, pos[1] - dY - 30 - len/2, len, len);
 									}
 								}
 							}

@@ -13,7 +13,7 @@ public class ImageBox extends TextBox {
 			float c, float d) {
 		super("", "", a, b, c, d);
 		image = EntityData.iconMap.get(s);
-		System.out.println(s);
+		//System.out.println(s);
 		// TODO Auto-generated constructor stub
 	} //bad inheritance but I just want to group without using an interface
 	

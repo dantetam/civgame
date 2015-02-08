@@ -52,8 +52,9 @@ public class Game extends PApplet {
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
 		menu0.addButton("newgame", "New Game", "Start a new game.", 70, 100, 210, 50);
-		menu0.addButton("tutorial", "Tutorial", "Start a tutorial level.", 70, 160, 210, 50);
+		menu0.addButton("backMenu7", "Tutorials", "Learn about the game through play.", 70, 160, 210, 50);
 		menu0.addButton("options", "Options", "Change options such as the level seed.", 70, 220, 210, 50);
+		menu0.addButton("quickgame", "Quick Game", "Conquest - Tiny - Corinth - Warlord - Pangaea", 70, 280, 210, 50);
 		menu0.addButton("exitgame", "Exit", "Exit the game.", 70, 630, 210, 70);
 		//menu1.on();
 
@@ -83,7 +84,7 @@ public class Game extends PApplet {
 		//menu3.addButton("terrain10", "Rolling Hills", "A set of large islands.", 70, 280, 210, 50);
 		menu3.addButton("terrain11", "Pangaea", "One large landmass and satellite islands.", 70, 340, 210, 50);
 
-		menu3.addButton("terrain5", "Testing", "", 70, 400, 210, 50);
+		//menu3.addButton("terrain5", "Testing", "", 70, 400, 210, 50);
 		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
 		menu3.addButton("backMenu6", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
 
@@ -122,6 +123,11 @@ public class Game extends PApplet {
 		//menu2.addButton("civs64", "Testing", 100, 700, 210, 70);
 		menu6.addButton("backMenu5", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
 
+		Menu menu7 = new Menu("TutorialMenu");
+		menu7.addButton("tutorial", "Beginnings", "Grasp the basics of game control, UI, and basic mechanics.", 70, 100, 210, 50);
+		menu7.addButton("backMenu0", "Back", "Back to the main menu.", 70, 630, 210, 70);
+		menus.add(menu7); 
+		
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });
 		activeMenu = menus.get(0);
@@ -401,6 +407,13 @@ public class Game extends PApplet {
 						{
 							activeMenu = menus.get(4);
 							redraw();
+						}
+						else if (command.equals("quickgame"))
+						{
+							PFrame f = new PFrame(this,1500,900,3,4,3,"Conquest","terrain11","Corinth",System.currentTimeMillis());
+							f.setTitle("Survival: Civilization");
+							background(255);
+							noLoop();
 						}
 						else if (command.equals("exitgame"))
 						{
