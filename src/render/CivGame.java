@@ -95,6 +95,8 @@ public class CivGame extends PApplet {
 		box(100,100,100);
 		//redraw();
 		generate(terrainType);
+		//Force update
+		menuSystem.rbox = grid.civs[0].revealedBox();
 		//makeRivers(terrain);
 		/*for (int r = 0; r < terrain.length; r++)
 		{

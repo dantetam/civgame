@@ -42,6 +42,8 @@ public class MenuSystem extends BaseSystem {
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
 	public Tile[] settlerChoices; public ArrayList<Tile> movementChoices = new ArrayList<Tile>(), pathToHighlighted = new ArrayList<Tile>();
 	public String typeOfLastSelected = "";
+	
+	public int[] rbox;
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public boolean[][] markedTiles;
@@ -208,12 +210,14 @@ public class MenuSystem extends BaseSystem {
 		{
 			//main.rect(0, 700, 50, 50);
 			int con = 1;
-			float sX = main.width - 400; float sY = main.height - 550; float widthX = 400; float widthY = 400; 
-			for (int r = 0; r < main.grid.rows; r += con)
+			float sX = main.width - 400; float sY = main.height - 550; float widthX = 200; float widthY = 200; 
+			System.out.println(rbox[0] + " " + rbox[1] + " " + rbox[2] + " " + rbox[3]);
+			for (int r = rbox[0]; r <= rbox[0] + rbox[2]; r += con)
 			{
-				for (int c = 0; c < main.grid.cols; c += con)
+				for (int c = rbox[1]; c <= rbox[1] + rbox[3]; c += con)
 				{
 					Tile t = main.grid.getTile(r,c);
+					if (t == null) continue;
 					if (t.height >= main.cutoff)
 					{
 						if (t.owner != null)
@@ -234,8 +238,9 @@ public class MenuSystem extends BaseSystem {
 					{
 						main.fill(150,225,255);
 					}
+					//main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,widthX*con/main.grid.rows,widthY*con/main.grid.cols);
 					//System.out.println(sX + r/(float)main.grid.rows*widthX);
-					main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,widthX*con/main.grid.rows,widthY*con/main.grid.cols);
+					main.rect(sX + (r-rbox[0])/(float)rbox[2]*widthX              ,sY + (c-rbox[1])/(float)(rbox[3])*widthY       ,widthX*con/(float)rbox[2],widthY*con/(float)rbox[3]);
 				}
 			}
 		}

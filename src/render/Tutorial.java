@@ -68,6 +68,7 @@ public class Tutorial extends CivGame {
 			grid.revealPlayer();
 			for (int i = 0; i < grid.civs[0].units.size(); i++)
 				grid.civs[0].units.get(i).reveal();
+			menuSystem.rbox = grid.civs[0].revealedBox(); //Force update
 			//Tech tech = grid.civs[0].techTree.researched("Civilization");
 			grid.civs[0].techTree.allowedUnits.clear();
 			grid.civs[0].techTree.allowedCityImprovements.clear();

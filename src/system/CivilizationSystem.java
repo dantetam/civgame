@@ -83,6 +83,10 @@ public class CivilizationSystem extends BaseSystem {
 						//Reveal all tiles within sight
 						civ.improvements.get(j).reveal();
 					}
+					//Update accordingly
+					if (main != null)
+						if (i == 0) 
+							main.menuSystem.rbox = main.grid.civs[0].revealedBox();
 					/*for (int j = 0; j < civ.units.size(); j++)
 					{
 

@@ -111,6 +111,25 @@ public class Civilization {
 		r = c.r; g = c.g; b = c.b;
 		EntityData.queueTechAi(this);
 	}
+	
+	public int[] revealedBox()
+	{
+		int minR = 1000, minC = 1000, maxR = 0, maxC = 0;
+		for (int r = 0; r < revealed.length; r++)
+		{
+			for (int c = 0; c < revealed[0].length; c++)
+			{
+				if (revealed[r][c] != 0)
+				{
+					if (r < minR) minR = r;
+					else if (r > maxR) maxR = r;
+					if (c < minC) minC = c;
+					else if (c > maxC) maxC = c; 
+				}
+			}
+		}
+		return new int[]{minR, minC, maxR-minR, maxC-minC};
+	}
 
 	public int count(String... unitName)
 	{

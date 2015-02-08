@@ -346,6 +346,7 @@ public class InputSystem extends BaseSystem {
 							timeSelection();
 							main.menuSystem.select(null);
 						}
+						main.menuSystem.rbox = en.owner.revealedBox();
 					}
 					else
 						main.menuSystem.message(msg);
