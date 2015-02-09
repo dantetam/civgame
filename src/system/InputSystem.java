@@ -341,7 +341,7 @@ public class InputSystem extends BaseSystem {
 					if (msg == null && en.action > 0)
 					{
 						en.playerTick();
-						if (en.action == 0)
+						if (en.action <= 0)
 						{
 							timeSelection();
 							main.menuSystem.select(null);
@@ -454,7 +454,7 @@ public class InputSystem extends BaseSystem {
 		for (int i = 0; i < civ.units.size(); i++)
 		{
 			GameEntity en = civ.units.get(i);
-			if (en.action != 0 && en.queueTiles.size() == 0 && en.queue == null)
+			if (en.action > 0 && en.queueTiles.size() == 0 && en.queue == null)
 			{
 				candidates.add(en);
 				if (t == null) return candidates.get(0);
@@ -549,6 +549,7 @@ public class InputSystem extends BaseSystem {
 		else if (action.equals("TOGGLE_MINIMAP"))
 		{
 			main.menuSystem.minimap = !main.menuSystem.minimap;
+			main.menuSystem.rbox = main.grid.civs[0].revealedBox();
 		}
 		else if (action.equals("TOGGLE_FOG"))
 		{

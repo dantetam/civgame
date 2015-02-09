@@ -137,6 +137,7 @@ public class Settler extends GameEntity {
 			}
 			city.expand(1);
 			city.id = city.owner.cities.size() - 1;
+			location.road = true;
 			//Remove the settler
 			location.grid.removeUnit(this);
 			return true;

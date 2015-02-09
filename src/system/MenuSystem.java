@@ -211,7 +211,7 @@ public class MenuSystem extends BaseSystem {
 			//main.rect(0, 700, 50, 50);
 			int con = 1;
 			float sX = main.width - 400; float sY = main.height - 550; float widthX = 200; float widthY = 200; 
-			System.out.println(rbox[0] + " " + rbox[1] + " " + rbox[2] + " " + rbox[3]);
+			//System.out.println(rbox[0] + " " + rbox[1] + " " + rbox[2] + " " + rbox[3]);
 			for (int r = rbox[0]; r <= rbox[0] + rbox[2]; r += con)
 			{
 				for (int c = rbox[1]; c <= rbox[1] + rbox[3]; c += con)
@@ -245,7 +245,7 @@ public class MenuSystem extends BaseSystem {
 					}
 					//main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,widthX*con/main.grid.rows,widthY*con/main.grid.cols);
 					//System.out.println(sX + r/(float)main.grid.rows*widthX);
-					main.rect(sX + (r-rbox[0])/(float)rbox[2]*widthX              ,sY + (c-rbox[1])/(float)(rbox[3])*widthY       ,widthX*con/(float)rbox[2],widthY*con/(float)rbox[3]);
+					main.rect(sX + (r-rbox[0])/(float)rbox[2]*widthX, sY + (1 - (c-rbox[1])/(float)(rbox[3]))*widthY, widthX*con/(float)rbox[2], widthY*con/(float)rbox[3]);
 				}
 			}
 		}
@@ -362,7 +362,7 @@ public class MenuSystem extends BaseSystem {
 
 				ArrayList<String> temp = textboxes.get(1).display;
 				//temp.clear();
-				temp.add(selected.name + " " + ((GameEntity)selected).action + "/" + ((GameEntity)selected).maxAction);
+				temp.add(selected.name + " " + ((GameEntity)selected).action*2 + "/" + ((GameEntity)selected).maxAction*2);
 				temp.add(selected.health + "/" + selected.maxHealth + " health");
 				temp.add(selected.offensiveStr + " offensive, " + selected.rangedStr + " ranged,");
 				temp.add(selected.defensiveStr + " defensive");
@@ -1441,7 +1441,7 @@ public class MenuSystem extends BaseSystem {
 			Button b = (Button)menus.get(5).addButton("research" + s, s + " <" + turns + ">", "Research " + s + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
 			b.lock = true;
 			b.tooltip.clear();
-			b.tooltip.add("Estimated build time: " + turns);
+			b.tooltip.add("Estimated research time: " + turns);
 			b.tooltip.add(t.totalR + " research out of " + t.requiredR + "; " + (int)((float)t.totalR/(float)t.requiredR*100) + "%");
 			b.tooltip.add("Requires " + t.requisite.name);
 			String techString = "";
