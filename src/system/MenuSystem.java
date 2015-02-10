@@ -490,7 +490,7 @@ public class MenuSystem extends BaseSystem {
 							}
 							if (!main.tacticalView)
 							{
-								int len = 30;
+								int len = 24;
 								if (t.occupants.size() > 0)
 								{
 									//for (int i = 0; i < t.occupants.size(); i++)
@@ -509,11 +509,23 @@ public class MenuSystem extends BaseSystem {
 											if (en.mode != 0)
 											{
 												//4*len to compensate for unit strength GUI
-												main.image(image, pos[0] - dX - len/2 - len, pos[1] - dY - 60 - i*10 - len/2, len, len);
-												main.image(EntityData.iconMap.get("attack"), pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len/2, len/2);
-												main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 60 - i*10, len/2, len/2);
-												main.image(EntityData.iconMap.get("speed"), pos[0] - dX - len/2 + len, pos[1] - dY - 60 - i*10 - len/2, len/2, len/2);
-												main.image(EntityData.iconMap.get("health"), pos[0] - dX - len/2 + len, pos[1] - dY - 60 - i*10, len/2, len/2);
+												main.image(image, pos[0] - dX - len/2 - len, pos[1] - dY - 30 - i*30 - len/2, len, len);
+												main.image(EntityData.iconMap.get("attack"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+												main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
+												main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+												main.image(EntityData.iconMap.get("health"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30, len/2, len/2);
+												
+												main.fill(0);
+												main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
+												main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10, len/2, len/2);
+												main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
+												main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10, len/2, len/2);
+												main.textAlign(main.LEFT, main.TOP);
+												main.fill(255);
+												main.text((int)en.offensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2);
+												main.text((int)en.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10);
+												main.text((int)en.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2);
+												main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*10);
 											}
 											else
 											{

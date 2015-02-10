@@ -425,6 +425,7 @@ public class RenderSystem extends BaseSystem {
 						}
 					}*/
 					//
+					try
 					{
 						main.pushMatrix();
 						main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
@@ -447,7 +448,7 @@ public class RenderSystem extends BaseSystem {
 					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
 						main.endShape();
 						main.popMatrix();
-					} //catch (Exception e) {main.popMatrix();}
+					} catch (Exception e) {main.popMatrix();}
 				}
 			}
 			main.popMatrix();

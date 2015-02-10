@@ -518,7 +518,7 @@ public class Game extends PApplet {
 	private String[] models = {"City","Farm","Fishing Boats","Forest","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
 	private String[] icons = {"Archer","Axeman","Barbarian","Settler","Slinger","Spearman","Swordsman","Warrior","Worker",
 			"Capital","CityIcon",
-			"attack", "defense", "health", "speed"};
+			"attack", "defense", "health", "ranged", "speed"};
 	private void setModels()
 	{
 		/*java.io.File folder = new File(new File("").getAbsolutePath().concat("/data/models"));

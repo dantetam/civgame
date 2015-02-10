@@ -23,6 +23,8 @@ public abstract class GameEntity extends BaseEntity {
 	public GameEntity(GameEntity other)
 	{
 		super(other);
+		mode = other.mode;
+		sight = other.sight;
 	}
 
 	//public abstract String getName();
