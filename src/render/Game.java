@@ -4,6 +4,7 @@ import game.Civilization;
 import game.GameEntity;
 import game.Tile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
@@ -127,7 +128,7 @@ public class Game extends PApplet {
 		menu7.addButton("tutorial", "Beginnings", "Grasp the basics of game control, UI, and basic mechanics.", 70, 100, 210, 50);
 		menu7.addButton("backMenu0", "Back", "Back to the main menu.", 70, 630, 210, 70);
 		menus.add(menu7); 
-		
+
 		//Main main = new Main();
 		//PApplet.main(new String[] { Main.class.getName(),"Test" });
 		activeMenu = menus.get(0);
@@ -516,13 +517,28 @@ public class Game extends PApplet {
 
 	private String[] models = {"City","Farm","Fishing Boats","Forest","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
 	private String[] icons = {"Archer","Axeman","Barbarian","Settler","Slinger","Spearman","Swordsman","Warrior","Worker",
-			"Capital","CityIcon"};
+			"Capital","CityIcon",
+			"attack", "defense", "health", "speed"};
 	private void setModels()
 	{
+		/*java.io.File folder = new File(new File("").getAbsolutePath().concat("/data/models"));
+		java.io.FilenameFilter pngFilter = new java.io.FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".png");
+			}
+		};
+		java.io.FilenameFilter modelFilter = new java.io.FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".text");
+			}
+		};
+		String[] icons = folder.list(pngFilter);
+		String[] models = folder.list(modelFilter);*/
+
 		for (int i = 0; i < models.length; i++)
 		{
 			String[] data = loadStrings("/models/"+models[i]);
-			EntityData.passModelData(models[i],data);
+			EntityData.passModelData(models[i], data);
 		}
 		for (int i = 0; i < icons.length; i++)
 		{

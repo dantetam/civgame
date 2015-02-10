@@ -501,12 +501,26 @@ public class MenuSystem extends BaseSystem {
 										//main.rectMode(main.CENTER);
 										//main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
 										PImage image = EntityData.iconMap.get(en.name);
-										main.pushStyle();
-										main.tint(en.owner.r, en.owner.g, en.owner.b);
 										if (image != null)
-											main.image(image, pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
-										//main.rectMode(main.LEFT);
-										main.popStyle();
+										{
+											main.pushStyle();
+											main.tint(en.owner.r, en.owner.g, en.owner.b);
+											//main.rectMode(main.LEFT);
+											if (en.mode != 0)
+											{
+												//4*len to compensate for unit strength GUI
+												main.image(image, pos[0] - dX - len/2 - len, pos[1] - dY - 60 - i*10 - len/2, len, len);
+												main.image(EntityData.iconMap.get("attack"), pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len/2, len/2);
+												main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 60 - i*10, len/2, len/2);
+												main.image(EntityData.iconMap.get("speed"), pos[0] - dX - len/2 + len, pos[1] - dY - 60 - i*10 - len/2, len/2, len/2);
+												main.image(EntityData.iconMap.get("health"), pos[0] - dX - len/2 + len, pos[1] - dY - 60 - i*10, len/2, len/2);
+											}
+											else
+											{
+												main.image(image, pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
+											}
+											main.popStyle();
+										}
 									}
 								}
 								if (t.improvement != null)
@@ -1604,6 +1618,12 @@ public class MenuSystem extends BaseSystem {
 		menus.get(8).activate(true);
 		//100,190,500,250
 	}
+	
+	//TODO: Battlefield perspective
+	/*public void updateBattlePerspective()
+	{
+		
+	}*/
 
 	//Choose which buttons to show depending on unit (e.g. only settler can settle)
 	public void updateUnitMenu(GameEntity en)
