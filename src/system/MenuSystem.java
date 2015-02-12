@@ -491,7 +491,7 @@ public class MenuSystem extends BaseSystem {
 							}
 							if (!main.tacticalView)
 							{
-								int len = 24;
+								int len = 30;
 								if (t.occupants.size() > 0)
 								{
 									//for (int i = 0; i < t.occupants.size(); i++)
@@ -540,11 +540,31 @@ public class MenuSystem extends BaseSystem {
 								{
 									if (t.improvement instanceof City)
 									{
+										City city = (City)t.improvement;
 										main.tint(t.improvement.owner.r, t.improvement.owner.g, t.improvement.owner.b);
 										PImage image = EntityData.iconMap.get("CityIcon");
 										if (t.improvement.owner.capital.equals(t.improvement))
 											image = EntityData.iconMap.get("Capital");
-										main.image(image, pos[0] - dX - len/2, pos[1] - dY - 30 - len/2, len, len);
+										main.image(image, pos[0] - dX - 3*len/2, pos[1] - dY - 30 - len/2, len, len);
+
+										int i = 0;
+										main.image(image, pos[0] - dX - len/2 - len, pos[1] - dY - 30 - i*30 - len/2, len, len);
+										main.image(EntityData.iconMap.get("population"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+										main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
+										main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+										main.image(EntityData.iconMap.get("cityhealth"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30, len/2, len/2);
+
+										main.fill(0);
+										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
+										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10, len/2, len/2);
+										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
+										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10, len/2, len/2);
+										main.textAlign(main.LEFT, main.TOP);
+										main.fill(255);
+										main.text((int)city.population, pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2);
+										main.text((int)city.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10);
+										main.text((int)city.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2);
+										main.text((int)city.health, pos[0] - dX + len, pos[1] - dY - 30 - i*10);
 									}
 								}
 							}

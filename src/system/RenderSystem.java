@@ -580,7 +580,8 @@ public class RenderSystem extends BaseSystem {
 		}
 
 		float health = (float)en.health/(float)en.maxHealth;
-		if (en.owner != null && health < 1)
+		//Shown in GUI now
+		/*if (en.owner != null && health < 1)
 		{
 			main.pushMatrix();
 			main.translate(r*widthBlock, 25, c*widthBlock);
@@ -593,7 +594,7 @@ public class RenderSystem extends BaseSystem {
 			main.fill(0,255,0);
 			main.box(widthBlock*health + 2,3,3);
 			main.popMatrix();
-		}
+		}*/
 		/*else
 		{
 			main.fill(0);

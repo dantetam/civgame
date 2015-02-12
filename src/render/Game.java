@@ -43,10 +43,10 @@ public class Game extends PApplet {
 	{
 		size(800,800);
 		//frameRate(60);
-		arial = createFont("ProggyClean.ttf", 48);
-		//arial = loadFont("ArialMT-48.vlw");
+		//arial = createFont("ProggyClean.ttf", 48);
+		arial = loadFont("ArialMT-48.vlw");
 		//arial = loadFont("DejaVuSansMono-48.vlw");
-		super.textFont(arial, 15);
+		super.textFont(arial, 48);
 		EntityData.init();
 		setModels();
 		getEncyclopedia();
@@ -147,8 +147,9 @@ public class Game extends PApplet {
 		background(150,225,255);
 		noStroke();
 		textFont(arial);
-		textSize(18);
-
+		//textSize(18);
+		textSize(14);
+		
 		if (frameCount % tickEvery == 0)
 		{
 			menuGame.tick();
@@ -521,7 +522,7 @@ public class Game extends PApplet {
 	private String[] models = {"City","Farm","Fishing Boats","Forest","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
 	private String[] icons = {"Archer","Axeman","Barbarian","Settler","Slinger","Spearman","Swordsman","Warrior","Worker",
 			"Capital","CityIcon",
-			"attack", "defense", "health", "ranged", "speed"};
+			"attack", "cityhealth", "defense", "health", "population", "ranged", "speed"};
 	private void setModels()
 	{
 		/*java.io.File folder = new File(new File("").getAbsolutePath().concat("/data/models"));
