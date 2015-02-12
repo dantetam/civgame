@@ -363,7 +363,8 @@ public class MenuSystem extends BaseSystem {
 				ArrayList<String> temp = textboxes.get(1).display;
 				//temp.clear();
 				temp.add(selected.name + " " + ((GameEntity)selected).action*2 + "/" + ((GameEntity)selected).maxAction*2);
-				temp.add(selected.health + "/" + selected.maxHealth + " health <!health!>");
+				//temp.add(selected.health + "<!health!>/" + selected.maxHealth + " health");
+				temp.add(selected.health + "/" + selected.maxHealth + " health");
 				temp.add(selected.offensiveStr + " offensive, " + selected.rangedStr + " ranged,");
 				temp.add(selected.defensiveStr + " defensive");
 
@@ -710,24 +711,7 @@ public class MenuSystem extends BaseSystem {
 								System.out.println("Invalid button shape: " + b.shape);
 							main.textAlign(PApplet.CENTER, PApplet.CENTER);
 							main.fill(255);
-							for (int j = 0; j < b.display.size(); j++)
-							{
-								String text = b.display.get(j);
-								do
-								{
-									int index1 = text.indexOf("<!"), index2 = text.indexOf("!>");
-									if (index1 != -1 && index2 != -1)
-									{
-										PImage img = EntityData.iconMap.get(text.substring(index1+2, index2));
-										main.image(img, b.posX + index1/text.length()*7, b.posY + 10 + j*15, 10, 10);
-										text = text.substring(0,index1) + "  " + text.substring(index2+2);
-									}
-									else
-										break;
-								} while (true);
-								main.textAlign(main.CENTER, main.CENTER);
-								main.text(text, b.posX + b.sizeX/2, b.posY + 10 + j*15);
-							}
+							displayText(b);
 							main.fill(255,0,0);
 							for (int j = 0; j < shortcuts.length; j++)
 								if (shortcuts[j] != null)
@@ -755,25 +739,7 @@ public class MenuSystem extends BaseSystem {
 					System.out.println("Invalid button shape: " + b.shape);
 				main.textAlign(PApplet.LEFT, PApplet.UP);
 				main.fill(255);
-				for (int j = 0; j < b.display.size(); j++)
-				{
-					String text = b.display.get(j);
-					if (text == null) continue;
-					do
-					{
-						int index1 = text.indexOf("<!"), index2 = text.indexOf("!>");
-						if (index1 != -1 && index2 != -1)
-						{
-							PImage img = EntityData.iconMap.get(text.substring(index1+2, index2));
-							main.image(img, b.posX + index1/text.length()*7, b.posY + 10 + j*15, 10, 10);
-							text = text.substring(0,index1) + "  " + text.substring(index2+2);
-						}
-						else
-							break;
-					} while (true);
-					main.textAlign(main.CENTER, main.CENTER);
-					main.text(text, b.posX + b.sizeX/2, b.posY + 10 + j*15);
-				}
+				displayText(b);
 				if (b.autoClear)
 					b.display.clear(); //Clear them to be refilled next frame
 			}
@@ -950,6 +916,36 @@ public class MenuSystem extends BaseSystem {
 		clicks.clear();
 	}
 
+	public void displayText(TextBox b)
+	{
+		for (int j = 0; j < b.display.size(); j++)
+		{
+			String text = b.display.get(j);
+			/*do
+			{
+				int index1 = text.indexOf("<!"), index2 = text.indexOf("!>");
+				if (index1 != -1 && index2 != -1)
+				{
+					System.out.println((float)index1/(float)text.length()*b.sizeX);
+					System.out.println(index1 + " " + text.length() + " " + b.sizeX + " " + ((index1 - text.length()/2F)*10));
+					PImage img = EntityData.iconMap.get(text.substring(index1+2, index2));
+					main.imageMode(main.CENTER);
+					main.fill(255,0,0);
+					main.rect(b.posX + b.sizeX/2 + (index1 - text.length()/2F)*3, b.posY + 10 + j*15, 4, 4);
+					main.fill(255);
+					main.image(img, b.posX + b.sizeX/2 + (index1 - text.length()/2F)*5, b.posY + 10 + j*15, 10, 10);
+					main.imageMode(main.CORNER);
+					String temp = text.substring(0,index1) + new String("        ") + text.substring(index2+2);
+					text = temp;
+				}
+				else
+					break;
+			} while (true);*/
+			main.textAlign(main.CENTER, main.CENTER);
+			main.text(text, b.posX + b.sizeX/2, b.posY + 10 + j*15);
+		}
+	}
+	
 	public class Click {float mouseX, mouseY; boolean click; Click(boolean click, float x, float y) {this.click = click; mouseX = x; mouseY = y;}}
 	public void queueClick(float mouseX, float mouseY)
 	{

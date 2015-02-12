@@ -43,7 +43,10 @@ public class Game extends PApplet {
 	{
 		size(800,800);
 		//frameRate(60);
-		arial = createFont("ArialMT-48.vlw", 48);
+		arial = createFont("ProggyClean.ttf", 48);
+		//arial = loadFont("ArialMT-48.vlw");
+		//arial = loadFont("DejaVuSansMono-48.vlw");
+		super.textFont(arial, 15);
 		EntityData.init();
 		setModels();
 		getEncyclopedia();
@@ -144,7 +147,7 @@ public class Game extends PApplet {
 		background(150,225,255);
 		noStroke();
 		textFont(arial);
-		textSize(14);
+		textSize(18);
 
 		if (frameCount % tickEvery == 0)
 		{
