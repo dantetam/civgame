@@ -14,7 +14,8 @@ public abstract class BaseTerrain {
 	
 	public void seed(long seed)
 	{
-		random = new Random(seed);
+		random = null;
+		random = new Random(seed); 
 	}
 	
 	public abstract double[][] generate();

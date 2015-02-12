@@ -21,12 +21,20 @@ public class Warrior extends GameEntity {
 
 	public void playerTick()
 	{
-		if (queueTiles.size() > 0)
+		while (action > 0)
 		{
-			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
-			aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
-			queueTiles.remove(queueTiles.size()-1);
-			//System.out.println("okigenyo");
+			if (queueTiles.size() > 0)
+			{
+				//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
+				aggressiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+				if (queueTiles.size() > 0)
+					queueTiles.remove(queueTiles.size()-1);
+				//System.out.println("okigenyo");
+			}
+			else
+			{
+				break;
+			}
 		}
 	}
 
@@ -70,7 +78,7 @@ public class Warrior extends GameEntity {
 						}
 						continue;
 					}
-					
+
 					if (queueTiles.size() == 0)
 						return;
 

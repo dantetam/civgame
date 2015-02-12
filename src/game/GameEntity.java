@@ -251,7 +251,7 @@ public abstract class GameEntity extends BaseEntity {
 					{
 						if (t.improvement instanceof City)
 						{
-							if (captureCity(t.row, t.col))
+							if (captureCity(t.row, t.col) || !en.owner.isWar(t.owner))
 							{
 								passiveWaddle(r,c);
 							}
@@ -323,18 +323,20 @@ public abstract class GameEntity extends BaseEntity {
 		//System.out.println(location + " " + location.improvement);
 		if (location.improvement != null)
 		{		
-			action--;
+			//action--;
 			//System.out.println(owner + " " + location.improvement.owner + " Name: " + location.improvement.id);
 			if (location.improvement.owner == null && location.improvement.name.equals("Ruins"))
 			{
 				location.grid.removeUnit(location.improvement);
 				owner.gold += 10;
+				action = 0;
 			}
 			else if (owner.isWar(location.owner))
 			{
 				if (!(location.improvement instanceof City))//owner.enemies.contains(en.location.improvement.owner)) 
 				{
 					location.grid.removeUnit(location.improvement);
+					action = 0;
 					return true;
 					//en.location.improvement = null;
 				}
@@ -351,21 +353,23 @@ public abstract class GameEntity extends BaseEntity {
 		{
 			//System.out.println("takeovercity");
 			City city = (City)tile.improvement;
-			queueTiles.clear();
-			int[] damages;
-			if (mode == 2)
-				damages = location.grid.conflictSystem.fire(this, city);
-			else if (mode == 1)
-				damages = location.grid.conflictSystem.attack(this, city);
-			else //Cannot attack with a passive unit
-				return false;
-			if (attack(damages, city, r, c) && mode == 1)
+			if (owner.isWar(city.owner))
 			{
-				city.queue = null;
-				city.queueFood = 0;
-				city.queueMetal = 0;
-				city.adm = 0; city.art = 0; city.sci = 0;
-				/*if (city.owner.capital != null)
+				queueTiles.clear();
+				int[] damages;
+				if (mode == 2)
+					damages = location.grid.conflictSystem.fire(this, city);
+				else if (mode == 1)
+					damages = location.grid.conflictSystem.attack(this, city);
+				else //Cannot attack with a passive unit
+					return false;
+				if (attack(damages, city, r, c) && mode == 1)
+				{
+					city.queue = null;
+					city.queueFood = 0;
+					city.queueMetal = 0;
+					city.adm = 0; city.art = 0; city.sci = 0;
+					/*if (city.owner.capital != null)
 				{
 					if (city.equals(city.owner.capital))
 					{
@@ -373,26 +377,27 @@ public abstract class GameEntity extends BaseEntity {
 						city.owner.capital = null;
 					}
 				}*/
-				for (int k = city.land.size() - 1; k >= 0; k--)
-				{
-					Tile t = city.land.get(k);
-					if (t.improvement != null)
+					for (int k = city.land.size() - 1; k >= 0; k--)
 					{
-						t.improvement.owner = owner;
-						city.owner.improvements.remove(t.improvement);
+						Tile t = city.land.get(k);
+						if (t.improvement != null)
+						{
+							t.improvement.owner = owner;
+							city.owner.improvements.remove(t.improvement);
+						}
+						t.owner = owner;
 					}
-					t.owner = owner;
+					city.owner.cities.remove(city);
+					if (city.owner.cities.size() > 0)
+					{
+						city.owner.capital = city.owner.cities.get(0);
+					}
+					city.owner = owner;
+					city.takeover = 5;
+					city.health = city.maxHealth/2;
+					owner.cities.add(city);
+					return true;
 				}
-				city.owner.cities.remove(city);
-				if (city.owner.cities.size() > 0)
-				{
-					city.owner.capital = city.owner.cities.get(0);
-				}
-				city.owner = owner;
-				city.takeover = 5;
-				city.health = city.maxHealth/2;
-				owner.cities.add(city);
-				return true;
 			}
 		}
 		return false;

@@ -363,7 +363,7 @@ public class MenuSystem extends BaseSystem {
 				ArrayList<String> temp = textboxes.get(1).display;
 				//temp.clear();
 				temp.add(selected.name + " " + ((GameEntity)selected).action*2 + "/" + ((GameEntity)selected).maxAction*2);
-				temp.add(selected.health + "/" + selected.maxHealth + " health");
+				temp.add(selected.health + "/" + selected.maxHealth + " health <!health!>");
 				temp.add(selected.offensiveStr + " offensive, " + selected.rangedStr + " ranged,");
 				temp.add(selected.defensiveStr + " defensive");
 
@@ -514,7 +514,7 @@ public class MenuSystem extends BaseSystem {
 												main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
 												main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
 												main.image(EntityData.iconMap.get("health"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30, len/2, len/2);
-												
+
 												main.fill(0);
 												main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
 												main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10, len/2, len/2);
@@ -711,7 +711,23 @@ public class MenuSystem extends BaseSystem {
 							main.textAlign(PApplet.CENTER, PApplet.CENTER);
 							main.fill(255);
 							for (int j = 0; j < b.display.size(); j++)
-								main.text(b.display.get(j), b.posX + b.sizeX/2, b.posY + 10 + j*15);
+							{
+								String text = b.display.get(j);
+								do
+								{
+									int index1 = text.indexOf("<!"), index2 = text.indexOf("!>");
+									if (index1 != -1 && index2 != -1)
+									{
+										PImage img = EntityData.iconMap.get(text.substring(index1+2, index2));
+										main.image(img, b.posX + index1/text.length()*7, b.posY + 10 + j*15, 10, 10);
+										text = text.substring(0,index1) + "  " + text.substring(index2+2);
+									}
+									else
+										break;
+								} while (true);
+								main.textAlign(main.CENTER, main.CENTER);
+								main.text(text, b.posX + b.sizeX/2, b.posY + 10 + j*15);
+							}
 							main.fill(255,0,0);
 							for (int j = 0; j < shortcuts.length; j++)
 								if (shortcuts[j] != null)
@@ -741,11 +757,22 @@ public class MenuSystem extends BaseSystem {
 				main.fill(255);
 				for (int j = 0; j < b.display.size(); j++)
 				{
-					if (b.display.get(j) != null)
+					String text = b.display.get(j);
+					if (text == null) continue;
+					do
 					{
-						//System.out.println(b.text + " " + b.text.get(j) + " " + b.posX);
-						main.text(b.display.get(j), b.posX + 7, b.posY + 15*(j+1));
-					}
+						int index1 = text.indexOf("<!"), index2 = text.indexOf("!>");
+						if (index1 != -1 && index2 != -1)
+						{
+							PImage img = EntityData.iconMap.get(text.substring(index1+2, index2));
+							main.image(img, b.posX + index1/text.length()*7, b.posY + 10 + j*15, 10, 10);
+							text = text.substring(0,index1) + "  " + text.substring(index2+2);
+						}
+						else
+							break;
+					} while (true);
+					main.textAlign(main.CENTER, main.CENTER);
+					main.text(text, b.posX + b.sizeX/2, b.posY + 10 + j*15);
 				}
 				if (b.autoClear)
 					b.display.clear(); //Clear them to be refilled next frame
@@ -1134,7 +1161,7 @@ public class MenuSystem extends BaseSystem {
 		else if (command.equals("unitRaze"))
 		{
 			((Warrior)selected).raze();
-			((Warrior)selected).action = 0;
+			//((Warrior)selected).action = 0;
 			//selected.playerTick();
 		}
 		else if (command.equals("unitSettle"))
@@ -1630,11 +1657,11 @@ public class MenuSystem extends BaseSystem {
 		menus.get(8).activate(true);
 		//100,190,500,250
 	}
-	
+
 	//TODO: Battlefield perspective
 	/*public void updateBattlePerspective()
 	{
-		
+
 	}*/
 
 	//Choose which buttons to show depending on unit (e.g. only settler can settle)

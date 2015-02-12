@@ -363,6 +363,12 @@ public class RenderSystem extends BaseSystem {
 			}
 			else
 			{
+				/*main.beginShape(main.QUADS);
+				main.vertex(r*widthBlock, 0, c*widthBlock);
+				main.vertex((r+1)*widthBlock, 0, (c)*widthBlock);
+				main.vertex((r+1)*widthBlock, 0, (c+1)*widthBlock);
+				main.vertex((r)*widthBlock, 0, (c+1)*widthBlock);
+				main.endShape();*/
 				//Replace with 4 loops later
 				//done
 				for (float i = 0; i < m; i++)
@@ -434,23 +440,25 @@ public class RenderSystem extends BaseSystem {
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,widthBlock,widthBlock);
-						main.endShape();
-						main.beginShape(main.TRIANGLES);
+						//main.endShape();
+						//main.beginShape(main.TRIANGLES);
 						//main.texture(textures[nr][nc]);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock,widthBlock,0);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
 						/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
-					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
-					main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
-					main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
+						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
+						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
+						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
+						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
+						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
 						main.endShape();
 						main.popMatrix();
 					} catch (Exception e) {main.popMatrix();}
 				}
 			}
+			//main.texture(textures[nr][nc]);
+
 			main.popMatrix();
 
 			//Render a hill or mountain
@@ -700,11 +708,12 @@ public class RenderSystem extends BaseSystem {
 			for (int c = 0; c < terrain[0].length; c++)
 			{
 				Tile t = main.grid.getTile(r,c);
-				map = null;
+				//map = null;
 				if (t.biome == -1) continue;
 				if (t.shape == 2)
 				{
 					map = new DiamondSquare(temp2);
+					//long seed = (long)(System.currentTimeMillis()*Math.random());
 					map.seed(870L);
 					double[][] renderHill = map.generate(new double[]{0, 0, 2, 24, 0.7});
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
@@ -733,13 +742,17 @@ public class RenderSystem extends BaseSystem {
 				}
 				else
 				{
+					boolean rough = Math.random() < 0.2;
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
 							//double height = 2;
 							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
-							vertices[nr][nc] = (float)(Math.random()*2);
+							if (rough)
+								vertices[nr][nc] = (float)(Math.random()*2);
+							else
+								vertices[nr][nc] = (float)(Math.random()*0.5);
 							//vertices[nr][nc] = 1;
 						}
 					}
@@ -867,7 +880,7 @@ public class RenderSystem extends BaseSystem {
 		}
 		main.stroke(0);
 	}
-	
+
 	public void renderRoad(int r, int c)
 	{
 		main.noStroke();
