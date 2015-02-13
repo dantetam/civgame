@@ -109,7 +109,9 @@ public class TextBox {
 		for (int i = 0; i < tooltip.size(); i++)
 		{
 			//System.out.println(tooltip.get(i));
-			if (tooltip.get(i).length() > tooltip.get(index).length()) index = i;
+			if (tooltip.get(i) != null)
+				if (tooltip.get(i).length() > tooltip.get(index).length()) 
+					index = i;
 		}
 		return new int[]{7*tooltip.get(index).length(),14*tooltip.size()};
 	}

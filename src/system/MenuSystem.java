@@ -792,7 +792,10 @@ public class MenuSystem extends BaseSystem {
 						if (hover instanceof Button)
 						{
 							Button b = (Button)hover;
-							if (b.menu.name.equals("UnitMenu") || b.menu.name.equals("TechMenu") || b.menu.name.equals("CityMenu"))
+							if (b.menu.name.equals("UnitMenu") || 
+									b.menu.name.equals("TechMenu") || 
+									b.menu.name.equals("CityMenu") ||
+									b.menu.name.equals("CreateFieldMenu"))
 							{
 								tooltip.posX = hover.posX + hover.sizeX;
 								tooltip.posY = hover.posY;
@@ -989,6 +992,7 @@ public class MenuSystem extends BaseSystem {
 	{
 		System.out.println(command);
 		GameEntity en = null;
+		menuActivated = true;
 		if (selected != null) 
 		{
 			if (selected instanceof GameEntity)
@@ -1418,6 +1422,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 7; i <= 13; i++)
 			menus.get(i).activate(false);
 		menus.get(15).activate(false);
+		menus.get(16).activate(false);
 		//Clear all but the main menu and encyclopedia
 		//for (int i = 1; i < menus.size(); i++)
 	}
@@ -1889,8 +1894,8 @@ public class MenuSystem extends BaseSystem {
 
 	public void updateCreateFieldMenu(Tile t, int n)
 	{
-		closeMenus();
 		menus.get(16).buttons.clear();
+		closeMenus();
 		menus.get(16).activate(true);
 
 		ArrayList<String> fields = main.grid.civs[0].techTree.allowedFields;
@@ -1898,21 +1903,23 @@ public class MenuSystem extends BaseSystem {
 		{
 			Field f = EntityData.getField(fields.get(i));
 			TextBox b = menus.get(16).addButton("makeField"+n, f.name, "", 0, 0, 0, 0);
-			b.tooltip.clear();
-			b.tooltip.add(f.name);
-			b.tooltip.add(f.tooltip);
+			//b.tooltip.clear();
+			b.tooltip = new ArrayList<String>();
+			b.tooltip.add(f.name + "");
+			b.tooltip.add(f.tooltip + "");
 			b.tooltip.add("Costs " + f.foodFlat + " F, " + f.goldFlat + " G, " + f.metalFlat + " M");
-			System.out.println(b.tooltip.get(1));
-			b.dimTooltip();
+			//System.out.println("Tooltip: " + b.tooltip.get(1));
+			//b.dimTooltip();
 		}
 
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < menus.get(16).buttons.size(); i++)
 		{
 			TextBox b = menus.get(16).buttons.get(i);
 			b.move(0, main.height*5/6 + i*30 - (menus.get(16).buttons.size()+1)*30); //Shift the buttons to their proper place
 			b.origX = b.posX; b.origY = b.posY;
 			b.sizeX = 100; b.sizeY = 30;
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
+			//b.dimTooltip();
 		}
 	}
 

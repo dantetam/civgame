@@ -27,7 +27,7 @@ public class Improvement
 	
 	public Improvement(Improvement i)
 	{
-		name = i.name;
+		name = i.name; tooltip = i.tooltip;
 		fit(i.units);
 		cost(i.foodPercent, i.metalPercent, i.goldPercent, i.foodFlat, i.metalFlat, i.goldFlat);
 		set(i.offensivePercent, i.defensivePercent, i.rangedPercent, i.offensiveFlat, i.defensiveFlat, i.rangedFlat, i.workerImprovementTime);
