@@ -267,7 +267,7 @@ public class NewMenuSystem extends BaseSystem {
 		{
 			fill = new float[]{t.owner.r, t.owner.g, t.owner.b, 255};
 		}
-		Button b = (Button)main.menuSystem.menus.get(14).addButton("fieldMenu" + t.row + "/" + t.col, "", "", posX - len/2F, posY - len/2F, len, len);
+		Button b = (Button)main.menuSystem.menus.get(14).addButton("fieldMenu" + t.row + "," + t.col, "", "", posX - len/2F, posY - len/2F, len, len);
 		b.r = fill[0]; b.g = fill[1]; b.b = fill[2]; b.a = fill[3];
 		b.tooltip.clear();
 		String fieldString = "";

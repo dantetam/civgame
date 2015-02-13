@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import data.EntityData;
+import data.Field;
 import data.Improvement;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -147,9 +148,13 @@ public class MenuSystem extends BaseSystem {
 		Menu menu13 = new KeyMenu(main.inputSystem, "KeyMenu");
 		menus.add(menu13);
 
-		Menu menu14 = new Menu("TacticalMenu");
+		Menu menu14 = new Menu("TacticalMenu"); //rendered and added to in NewMenuSystem
 		menu14.noShortcuts = true;
 		menus.add(menu14);
+
+		Menu menu15 = new Menu("FieldMenu");
+		menu15.noShortcuts = true;
+		menus.add(menu15);
 
 		menu0.activate(true);
 
@@ -484,7 +489,7 @@ public class MenuSystem extends BaseSystem {
 									main.rect(pos[0] - dX - 50, pos[1] - dY - 10, 100F*(float)city.percentGrowth, 20);
 									main.fill(255);
 									main.textAlign(main.CENTER);
-									main.text(city.name + " <" + city.population + ">", pos[0] - dX, pos[1] - dY);
+									main.text(city.name + " <" + ((int)(city.percentGrowth*10000F)/100) + "% >", pos[0] - dX, pos[1] - dY);
 									main.textAlign(main.LEFT);
 									//main.rectMode(main.LEFT);
 								}
@@ -965,7 +970,7 @@ public class MenuSystem extends BaseSystem {
 			main.text(text, b.posX + b.sizeX/2, b.posY + 10 + j*15);
 		}
 	}
-	
+
 	public class Click {float mouseX, mouseY; boolean click; Click(boolean click, float x, float y) {this.click = click; mouseX = x; mouseY = y;}}
 	public void queueClick(float mouseX, float mouseY)
 	{
@@ -979,6 +984,7 @@ public class MenuSystem extends BaseSystem {
 
 	public boolean executeAction(String command)
 	{
+		System.out.println(command);
 		GameEntity en = null;
 		if (selected != null) 
 		{
@@ -1228,6 +1234,13 @@ public class MenuSystem extends BaseSystem {
 		{
 			((City)selected).raze = true;
 		}
+
+		else if (command.contains("fieldMenu"))
+		{
+			int index = command.indexOf(',');
+			int r = Integer.parseInt(command.substring(9,index)), c = Integer.parseInt(command.substring(index+1));
+			updateFieldMenu(main.grid.getTile(r,c));
+		}
 		/*else if (command.equals("queueSettler"))
 		{
 			((City)selected).queue = "Settler";
@@ -1390,7 +1403,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(5).activate(false);
 		for (int i = 7; i <= 13; i++)
 			menus.get(i).activate(false);
-
+		menus.get(15).activate(false);
 		//Clear all but the main menu and encyclopedia
 		//for (int i = 1; i < menus.size(); i++)
 	}
@@ -1858,6 +1871,39 @@ public class MenuSystem extends BaseSystem {
 		t.display.add("Metal per turn: " + (int)Math.floor(data[2]));
 		t.display.add("Research per turn: " + (int)Math.floor(data[3]));
 		menus.get(2).buttons.add(t);
+	}
+
+	public Tile editingFields;
+	public void updateFieldMenu(Tile t)
+	{
+		if (t.maxFields == 0) return;
+		closeMenus();
+		menus.get(15).activate(true);
+		editingFields = t;
+		//Shortcuts are turned off for this menu
+		for (int i = 0; i < t.maxFields; i++)
+		{
+			Field f = null;
+			if (i < t.fields.size())
+				f = t.fields.get(i);
+			if (f == null)
+				menus.get(15).addButton("editField"+i, "Add field", "There is no field built here. Add a new one.", i*100, 0, 100, 30);
+			else
+			{
+				TextBox b = new TextBox("", "", i*100, 30, 100, 100);
+				b.display.clear();
+				b.display.add(f.name + " (" + f.owner.name + ")");
+				menus.get(15).buttons.add(b);
+			}
+		}
+		for (int i = 0; i < menus.get(15).buttons.size(); i++)
+		{
+			TextBox b = menus.get(15).buttons.get(i);
+			b.move(b.posX + main.mouseX, b.posY + main.mouseY); //Shift the buttons to their proper place with respect to mouse
+			b.origX = b.posX; b.origY = b.posY;
+			//b.sizeX = 100; b.sizeY = 30;
+			//b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
+		}
 	}
 
 	public void updateLoadoutDisplay(String name)
