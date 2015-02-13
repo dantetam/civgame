@@ -25,6 +25,7 @@ Implement trade routes/caravans
 	Gradient buttons with consistent theme
 	/ Textured graphics (either randomly generated in program or TerraGen)
 	/ Ability to view a tile's fields through tactical menu
+		>+ Field menu allows one to edit fields
 	> Ability to see how improvements easy yield
 	> Tooltips for building queue menu
 	>+ Tooltips for researching tech

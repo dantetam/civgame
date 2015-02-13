@@ -9,9 +9,9 @@ public class Tech {
 	public Tech[] techs;
 	//public ArrayList<Tech> techs;
 	public int totalR, requiredR;
-	
-	private String[] unlockUnits = new String[0], unlockTileImprovements = new String[0], unlockCityImprovements = new String[0];
-	private String[] obsoleteUnits = new String[0];
+
+	private String[] unlockUnits = new String[0], unlockTileImprovements = new String[0], unlockCityImprovements = new String[0],
+			unlockFieldImprovements = new String[0], obsoleteUnits = new String[0];
 	public String governmentCivic, economicCivic = null;
 	public Tech(String name, int requiredR, Tech... t)
 	{
@@ -36,18 +36,14 @@ public class Tech {
 	{
 		//Add discoveries
 		for (int i = 0; i < unlockUnits.length; i++)
-		{
 			if (!civ.techTree.obsoleteUnits.contains(unlockUnits[i]))
 				civ.techTree.allowedUnits.add(unlockUnits[i]);
-		}
 		for (int i = 0; i < unlockTileImprovements.length; i++)
-		{
 			civ.techTree.allowedTileImprovements.add(unlockTileImprovements[i]);
-		}
 		for (int i = 0; i < unlockCityImprovements.length; i++)
-		{
 			civ.techTree.allowedCityImprovements.add(unlockCityImprovements[i]);
-		}
+		for (int i = 0; i < unlockFieldImprovements.length; i++)
+			civ.techTree.allowedFields.add(unlockFieldImprovements[i]);
 		//Add civics
 		if (governmentCivic != null)
 		{
@@ -64,25 +60,26 @@ public class Tech {
 			civ.techTree.obsoleteUnits.add(unlockUnits[i]);
 		}
 	}
-	
+
 	public boolean researched()
 	{
 		return totalR >= requiredR;
 	}
-	
+
 	//Set what the tech can unlock for a player
 	public void units(String... t) {unlockUnits = t;}
 	public void tImpr(String... t) {unlockTileImprovements = t;}
 	public void cImpr(String... t) {unlockCityImprovements = t;}
-	
+	public void fImpr(String... t) {unlockFieldImprovements = t;}
+
 	//Set what the tech makes obsolete
 	//i.e. researching warband makes warrior unable to be built
 	public void obsUnits(String... t) {obsoleteUnits = t;}
-	
+
 	public Tech addAlt(TechTree tree, String name) {alternative = tree.researched(name); return this; } //System.out.println(tree + " " + name);}
 
 	public String toString() {return name;}
-	
+
 	//Returns everything that this tech unlocks 
 	public String unlockString() 
 	{
@@ -93,8 +90,10 @@ public class Tech {
 			temp += unlockCityImprovements[i] + ", ";
 		for (int i = 0; i < unlockTileImprovements.length; i++)
 			temp += unlockTileImprovements[i] + ", ";
+		for (int i = 0; i < unlockFieldImprovements.length; i++)
+			temp += unlockFieldImprovements[i] + ", ";
 		if (temp.equals("")) return temp;
 		return temp.substring(0, temp.length() - 2);
 	}
-	
+
 }

@@ -152,9 +152,12 @@ public class MenuSystem extends BaseSystem {
 		menu14.noShortcuts = true;
 		menus.add(menu14);
 
-		Menu menu15 = new Menu("FieldMenu");
+		Menu menu15 = new Menu("FieldMenu"); //for displaying fields
 		menu15.noShortcuts = true;
 		menus.add(menu15);
+
+		Menu menu16 = new Menu("CreateFieldMenu");
+		menus.add(menu16);
 
 		menu0.activate(true);
 
@@ -1241,6 +1244,17 @@ public class MenuSystem extends BaseSystem {
 			int r = Integer.parseInt(command.substring(9,index)), c = Integer.parseInt(command.substring(index+1));
 			updateFieldMenu(main.grid.getTile(r,c));
 		}
+		else if (command.contains("editField"))
+		{
+			int n = Integer.parseInt(command.substring(9));
+			updateCreateFieldMenu(editingFields, n);
+		}
+		else if (command.contains("makeField"))
+		{
+			int n = Integer.parseInt(command.substring(9));
+			
+			editingFields = null;
+		}
 		/*else if (command.equals("queueSettler"))
 		{
 			((City)selected).queue = "Settler";
@@ -1873,11 +1887,41 @@ public class MenuSystem extends BaseSystem {
 		menus.get(2).buttons.add(t);
 	}
 
-	public Tile editingFields;
+	public void updateCreateFieldMenu(Tile t, int n)
+	{
+		closeMenus();
+		menus.get(16).buttons.clear();
+		menus.get(16).activate(true);
+
+		ArrayList<String> fields = main.grid.civs[0].techTree.allowedFields;
+		for (int i = 0; i < fields.size(); i++)
+		{
+			Field f = EntityData.getField(fields.get(i));
+			TextBox b = menus.get(16).addButton("makeField"+n, f.name, "", 0, 0, 0, 0);
+			b.tooltip.clear();
+			b.tooltip.add(f.name);
+			b.tooltip.add(f.tooltip);
+			b.tooltip.add("Costs " + f.foodFlat + " F, " + f.goldFlat + " G, " + f.metalFlat + " M");
+			System.out.println(b.tooltip.get(1));
+			b.dimTooltip();
+		}
+
+		for (int i = 0; i < n; i++)
+		{
+			TextBox b = menus.get(16).buttons.get(i);
+			b.move(0, main.height*5/6 + i*30 - (menus.get(16).buttons.size()+1)*30); //Shift the buttons to their proper place
+			b.origX = b.posX; b.origY = b.posY;
+			b.sizeX = 100; b.sizeY = 30;
+			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
+		}
+	}
+
+	private Tile editingFields; //The tile that the player wants to improve
 	public void updateFieldMenu(Tile t)
 	{
 		if (t.maxFields == 0) return;
 		closeMenus();
+		menus.get(15).buttons.clear();
 		menus.get(15).activate(true);
 		editingFields = t;
 		//Shortcuts are turned off for this menu
@@ -1887,12 +1931,15 @@ public class MenuSystem extends BaseSystem {
 			if (i < t.fields.size())
 				f = t.fields.get(i);
 			if (f == null)
-				menus.get(15).addButton("editField"+i, "Add field", "There is no field built here. Add a new one.", i*100, 0, 100, 30);
+				menus.get(15).addButton("editField"+i, "Add field", "There is no field built here. Add a new one.", i*150, 0, 100, 30);
 			else
 			{
-				TextBox b = new TextBox("", "", i*100, 30, 100, 100);
-				b.display.clear();
-				b.display.add(f.name + " (" + f.owner.name + ")");
+				TextBox b = new TextBox("", "", i*150, 30, 150, 100);
+				b.display = new ArrayList<String>();
+				if (f.owner != null)
+					b.display.add(f.name + " (" + f.owner.name + ")");
+				else
+					b.display.add(f.name + " (unowned)");
 				menus.get(15).buttons.add(b);
 			}
 		}

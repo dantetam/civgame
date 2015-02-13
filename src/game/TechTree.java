@@ -11,7 +11,7 @@ public class TechTree {
 
 	public Tech first;
 	//All the valid things that the player can queue
-	public ArrayList<String> allowedUnits, allowedTileImprovements, allowedCityImprovements;
+	public ArrayList<String> allowedUnits, allowedTileImprovements, allowedCityImprovements, allowedFields;
 	public ArrayList<String> obsoleteUnits;
 	public ArrayList<String> governmentCivics, economicCivics;
 	//public HashMap<String, String> unlockUnits, unlockTileImprovements, unlockCityImprovements;
@@ -21,6 +21,7 @@ public class TechTree {
 		allowedUnits = new ArrayList<String>();
 		allowedTileImprovements = new ArrayList<String>();
 		allowedCityImprovements = new ArrayList<String>();
+		allowedFields = new ArrayList<String>();
 		obsoleteUnits = new ArrayList<String>();
 		governmentCivics = new ArrayList<String>();
 		governmentCivics.add("Decentralization");
@@ -76,6 +77,7 @@ public class TechTree {
 		t = researched("Civilization");
 			t.units("Settler", "Warrior", "Worker", "Slinger");
 			t.cImpr("Obelisk");
+			t.fImpr("TestField");
 			t.governmentCivic = "Decentralization";
 			t.economicCivic = "Tribalism";
 
