@@ -27,6 +27,8 @@ public class City extends TileEntity {
 	public float morale;
 	//public int sight = 4;
 
+	public Tile potentialField = null;
+	
 	public ArrayList<Caravan> activeCaravansOut;
 	public ArrayList<Caravan> activeCaravansIn;
 

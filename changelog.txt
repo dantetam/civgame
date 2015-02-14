@@ -6,14 +6,25 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
-2/7/2015 -> 2/14/2015 (Hackathon work)
+2/14/2015 -> 2/20/2015 (More hackathon work)
+
+Scaling resources to empire size and turns
+New streamlined UI that reflects Endless Legend
+Grand view perspective, strategic mid-view, detailed view
+	Variable positions of mouse clicking (define how to click a tile based on a rendering)
+Work on and balance unit upgrades (some disadvantages and costs)
+Tech tree visualization
+Dynamic city model
+	3d models when queuing
+
+2/7/2015 -> 2/13/2015 (Hackathon work)
 
 The idea that every single island is a world, and civilizations can establish colonies in other worlds
 Colonization as a possible mid-to-late-game mechanic
 
-Implement fields
+/ Implement fields
 	Allow AI to optimize fields
-	Allow player to buy and improve fields through menu
+	> Allow player to buy and improve fields through menu
 	Calculate effects of fields on tile production
 	Allow player to increase centralization of fields with centralization tech
 Implement trade routes/caravans

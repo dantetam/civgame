@@ -44,6 +44,8 @@ public class MenuSystem extends BaseSystem {
 	public Tile[] settlerChoices; public ArrayList<Tile> movementChoices = new ArrayList<Tile>(), pathToHighlighted = new ArrayList<Tile>();
 	public String typeOfLastSelected = "";
 
+	public String candidateField = ""; public City candidateCityField = null;
+
 	public int[] rbox;
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
@@ -497,7 +499,8 @@ public class MenuSystem extends BaseSystem {
 									//main.rectMode(main.LEFT);
 								}
 							}
-							if (!main.tacticalView)
+							//if (!main.tacticalView)
+							if (true)
 							{
 								int len = 30;
 								if (t.occupants.size() > 0)
@@ -576,7 +579,7 @@ public class MenuSystem extends BaseSystem {
 									}
 								}
 							}
-							else
+							if (main.tacticalView)
 							{
 								int len = 8;
 								//main.fill(t.owner.r, t.owner.g, t.owner.b);
@@ -584,6 +587,7 @@ public class MenuSystem extends BaseSystem {
 								//Replace with for loop //done
 								if (requestFieldsUpdate)
 								{
+									//requestFieldsUpdate = false;
 									main.newMenuSystem.largeFieldIcon(pos[0]-dX,pos[1]-dY + len*1.5F,t,(int)(len*1.5));
 									/*if (Math.random() < 0.01)
 										System.out.println(t.maxFields);*/
@@ -742,12 +746,15 @@ public class MenuSystem extends BaseSystem {
 							displayText(b);
 							main.fill(255,0,0);
 							for (int j = 0; j < shortcuts.length; j++)
+							{
+								//System.out.println(shortcuts[j]); 
 								if (shortcuts[j] != null)
 									if (shortcuts[j].equals(b))
 									{
 										main.text("[" + j + "]", b.posX + b.sizeX*0.9F, b.posY + b.sizeY/2);
 										//System.out.println("Text");
 									}
+							}
 						}
 					}
 				}
@@ -911,7 +918,7 @@ public class MenuSystem extends BaseSystem {
 					textboxes.get(i).tick();
 				}
 			}
-			if (menus.get(menu).requestUpdate && menu != 0)
+			if (menus.get(menu).requestUpdate && menu != 0 && menu != 14)
 			{
 				menus.get(menu).requestUpdate = false;
 				//System.out.println("Clear shortcuts");
@@ -1237,6 +1244,11 @@ public class MenuSystem extends BaseSystem {
 				message("Cannot queue units in a city being recently captured or razed");
 			}
 		}
+		else if (command.contains("qfield"))
+		{
+			candidateField = command.substring(6);
+			candidateCityField = (City)selected;
+		}
 		else if (command.equals("razeCity"))
 		{
 			((City)selected).raze = true;
@@ -1248,17 +1260,18 @@ public class MenuSystem extends BaseSystem {
 			int r = Integer.parseInt(command.substring(9,index)), c = Integer.parseInt(command.substring(index+1));
 			updateFieldMenu(main.grid.getTile(r,c));
 		}
-		else if (command.contains("editField"))
+		/*else if (command.contains("editField"))
 		{
 			int n = Integer.parseInt(command.substring(9));
 			updateCreateFieldMenu(editingFields, n);
 		}
 		else if (command.contains("makeField"))
 		{
-			int n = Integer.parseInt(command.substring(9));
-			
+			int index = command.indexOf(',');
+			int n = Integer.parseInt(command.substring(9,index));
+			Field f = EntityData.getField(command.substring(index+1));
 			editingFields = null;
-		}
+		}*/
 		/*else if (command.equals("queueSettler"))
 		{
 			((City)selected).queue = "Settler";
@@ -1852,6 +1865,23 @@ public class MenuSystem extends BaseSystem {
 			/*menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "",
 					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);*/
 		}
+
+		ArrayList<String> fields = c.owner.techTree.allowedFields;
+		for (int i = 0; i < fields.size(); i++)
+		{
+			Button b = (Button)menus.get(2).addButton("qfield" + fields.get(i), "Field: " + fields.get(i) + " <" + calcQueueTurnsInt(c,fields.get(i)) + ">", "Add a " + fields.get(i) + " field.",
+					0, 0, 0, 0);
+			//b.tooltip.add(calcQueueTurns(c));
+			b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, fields.get(i)) + " turns");
+
+			Improvement impr = EntityData.getField(fields.get(i));
+			b.tooltip.add(impr.tooltip);
+			b.tooltip.add("Requires " + (int)impr.foodFlat + " food");
+			b.tooltip.add("Requires " + (int)impr.metalFlat + " metal");
+			b.tooltip.add("Requires " + (int)impr.goldFlat + " gold");
+			/*menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "",
+					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);*/
+		}
 		//menus.get(2).addButton("queueSettler", "Settler", main.width/3F, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWorker", "Worker", main.width/3F + 60, (float)main.height*5F/6F, 50, 50);
 		//menus.get(2).addButton("queueWarrior", "Warrior", main.width/3F + 120, (float)main.height*5F/6F, 50, 50);
@@ -1892,7 +1922,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(2).buttons.add(t);
 	}
 
-	public void updateCreateFieldMenu(Tile t, int n)
+	/*public void updateCreateFieldMenu(Tile t, int n)
 	{
 		menus.get(16).buttons.clear();
 		closeMenus();
@@ -1902,7 +1932,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < fields.size(); i++)
 		{
 			Field f = EntityData.getField(fields.get(i));
-			TextBox b = menus.get(16).addButton("makeField"+n, f.name, "", 0, 0, 0, 0);
+			TextBox b = menus.get(16).addButton("makeField"+n+","+f.name, f.name, "", 0, 0, 0, 0);
 			//b.tooltip.clear();
 			b.tooltip = new ArrayList<String>();
 			b.tooltip.add(f.name + "");
@@ -1921,7 +1951,7 @@ public class MenuSystem extends BaseSystem {
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 			//b.dimTooltip();
 		}
-	}
+	}*/
 
 	private Tile editingFields; //The tile that the player wants to improve
 	public void updateFieldMenu(Tile t)
@@ -1937,18 +1967,23 @@ public class MenuSystem extends BaseSystem {
 			Field f = null;
 			if (i < t.fields.size())
 				f = t.fields.get(i);
-			if (f == null)
+			/*if (f == null)
 				menus.get(15).addButton("editField"+i, "Add field", "There is no field built here. Add a new one.", i*150, 0, 100, 30);
-			else
+			else*/
+			TextBox b = new TextBox("", "", i*150, 30, 150, 100);
+			b.display = new ArrayList<String>();
+			if (f != null)
 			{
-				TextBox b = new TextBox("", "", i*150, 30, 150, 100);
-				b.display = new ArrayList<String>();
 				if (f.owner != null)
 					b.display.add(f.name + " (" + f.owner.name + ")");
 				else
 					b.display.add(f.name + " (unowned)");
-				menus.get(15).buttons.add(b);
 			}
+			else
+			{
+				b.display.add("No field");
+			}
+			menus.get(15).buttons.add(b);
 		}
 		for (int i = 0; i < menus.get(15).buttons.size(); i++)
 		{

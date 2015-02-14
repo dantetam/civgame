@@ -357,7 +357,12 @@ public class EntityData {
 
 	public static float[] getCost(String name)
 	{
-		if (f.get(name) == null)
+		Field field = getField(name);
+		if (field != null)
+		{
+			return new float[]{(float)field.foodFlat, (float)field.goldFlat, (float)field.metalFlat};
+		}
+		else if (f.get(name) == null)
 		{
 			Improvement impr = cityImprovementMap.get(name);
 			return new float[]{(float)impr.foodFlat, (float)impr.goldFlat, (float)impr.metalFlat};
@@ -470,6 +475,7 @@ public class EntityData {
 
 	public static Field getField(String name)
 	{
+		if (fieldMap.get(name) == null) return null;
 		return new Field(fieldMap.get(name));
 	}
 

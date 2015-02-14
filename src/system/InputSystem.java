@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import data.EntityData;
+import data.Field;
 import render.CivGame;
 import render.MouseHelper;
 import render.TextBox;
@@ -22,7 +24,7 @@ public class InputSystem extends BaseSystem {
 	private ArrayList<Character> keyPresses;
 	public HashMap<Character,String> keyPressBinds = new HashMap<Character,String>();
 	public HashMap<Character,String> keyHoldBinds = new HashMap<Character,String>();
-	
+
 	public boolean moving = false;
 	public boolean lastMoving = false;
 
@@ -56,7 +58,7 @@ public class InputSystem extends BaseSystem {
 		private KeyPressBind(char k1, int k2) {key1 = k1; key2 = (char)k2;}
 		public char key1, key2;
 	}
-	
+
 	public enum KeyHoldBind
 	{
 		PAN_LEFT	('a'),
@@ -70,7 +72,7 @@ public class InputSystem extends BaseSystem {
 		private KeyHoldBind(char k1, int k2) {key1 = k1; key2 = (char)k2;}
 		public char key1, key2;
 	}
-	
+
 	public InputSystem(CivGame main)
 	{
 		super(main);
@@ -95,7 +97,7 @@ public class InputSystem extends BaseSystem {
 				keyHoldBinds.put(kb.key2, kb.toString());
 		}
 	}
-	
+
 	//Goes through keys backwards to avoid arraylist trap
 	public void tick()
 	{
@@ -277,6 +279,37 @@ public class InputSystem extends BaseSystem {
 	//private int num = 0;
 	public void passLeftMouseClick(float mouseX, float mouseY)
 	{
+		Field field = EntityData.getField(main.menuSystem.candidateField);
+		if (field != null)
+		{
+			Tile t = main.menuSystem.mouseHighlighted;
+			if (t != null)
+			{
+				if (main.menuSystem.candidateCityField.land.contains(main.menuSystem.mouseHighlighted))
+				{
+					City city = (City)main.menuSystem.candidateCityField;
+					if (city.owner.gold < (int)field.goldFlat)
+						main.menuSystem.message("Cannot afford field");
+					else if (t.fields.size() + 1 > t.maxFields)
+						main.menuSystem.message("Maximum number of fields built");
+					else
+					{
+						city.potentialField = t;
+						city.queueFood = (int)field.foodFlat;
+						city.queueMetal = (int)field.metalFlat;
+						city.owner.gold -= (int)field.goldFlat;
+						city.queue = field.name;
+					}
+				}
+				else
+				{
+					main.menuSystem.message("Cannot build fields outside city");
+				}
+				main.menuSystem.candidateCityField = null;
+				main.menuSystem.candidateField = null;
+			}
+			return;
+		}
 		if (main.menuSystem.mouseHighlighted != null && !main.menuSystem.menuActivated)
 		{
 			if (main.menuSystem.mouseHighlighted.occupants.size() > 0)
@@ -560,6 +593,7 @@ public class InputSystem extends BaseSystem {
 		else if (action.equals("TOGGLE_TACTICAL"))
 		{
 			main.tacticalView = !main.tacticalView;
+			//main.menuSystem.menus.get(14).activate(main.tacticalView);
 			main.chunkSystem.update(); //Update the fields menu
 		}
 		else if (action.contains("FUNCTION_"))

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import menugame.MenuGame;
 import processing.core.PApplet;
 import data.EntityData;
+import data.Field;
 import render.CivGame;
 import render.Tutorial;
 import game.*;
@@ -111,7 +112,7 @@ public class CivilizationSystem extends BaseSystem {
 						double[] calc = EntityData.calculateYield(c);
 						tf = calc[0]; tg = calc[1]; tm = calc[2]; tr = calc[3];
 						c.owner.health += c.health;
-						
+
 						//End of calculation stage
 
 						//c.culture++;
@@ -195,24 +196,33 @@ public class CivilizationSystem extends BaseSystem {
 							if (c.queueFood <= 0 && c.queueMetal <= 0)
 							{
 								//System.out.println(c.queue);
-								BaseEntity en = EntityData.get(c.queue);
-								//Check if it's an actual unit or a building
-								if (en != null)
+								Field field = EntityData.getField(c.queue);
+								if (c.potentialField != null && field != null)
 								{
-									grid.addUnit(en,civ,c.location.row,c.location.col);
-									en.unitImprovement = civ.unitImprovements.get(c.queue);
-									en.improve();
-									if (!civ.name.contains("Barbarians"))
-										if (en instanceof GameEntity && !(en instanceof Settler) && !(en instanceof Worker))
-											if (civ.units.size() < 4)
-												((GameEntity)en).explorer = true;
-									if (c.queue.equals("Caravan"))
-										((Caravan)en).home = c;
+									c.potentialField.fields.add(field);
+									c.potentialField = null;
 								}
 								else
 								{
-									if (EntityData.cityImprovementMap.get(c.queue) == null) System.out.println(c.queue + " NULL:");
-									c.buildings.add(EntityData.cityImprovementMap.get(c.queue));
+									BaseEntity en = EntityData.get(c.queue);
+									//Check if it's an actual unit or a building
+									if (en != null)
+									{
+										grid.addUnit(en,civ,c.location.row,c.location.col);
+										en.unitImprovement = civ.unitImprovements.get(c.queue);
+										en.improve();
+										if (!civ.name.contains("Barbarians"))
+											if (en instanceof GameEntity && !(en instanceof Settler) && !(en instanceof Worker))
+												if (civ.units.size() < 4)
+													((GameEntity)en).explorer = true;
+										if (c.queue.equals("Caravan"))
+											((Caravan)en).home = c;
+									}
+									else
+									{
+										if (EntityData.cityImprovementMap.get(c.queue) == null) System.out.println(c.queue + " NULL:");
+										c.buildings.add(EntityData.cityImprovementMap.get(c.queue));
+									}
 								}
 								c.queueFood = 0;
 								c.queueMetal = 0;
