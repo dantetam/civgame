@@ -6,7 +6,7 @@ public class Tech {
 
 	public String name;
 	public Tech requisite, alternative;
-	public Tech[] techs;
+	public Tech[] techs = new Tech[0];
 	//public ArrayList<Tech> techs;
 	public int totalR, requiredR;
 

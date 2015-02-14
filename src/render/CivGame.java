@@ -97,6 +97,8 @@ public class CivGame extends PApplet {
 		generate(terrainType);
 		//Force update
 		menuSystem.rbox = grid.civs[0].revealedBox();
+		
+		menuSystem.techMenu = new TechMenu(grid.civs[0].techTree, "TechMenu");
 		//makeRivers(terrain);
 		/*for (int r = 0; r < terrain.length; r++)
 		{
@@ -106,6 +108,7 @@ public class CivGame extends PApplet {
 			}
 			println();
 		}*/
+		
 		chunkSystem = new ChunkSystem(this);
 		systems.add(chunkSystem);
 		erosion = new Erosion(terrain,1);

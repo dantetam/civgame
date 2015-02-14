@@ -461,7 +461,7 @@ public class EntityData {
 	{
 		Field temp;
 		temp = new Field(null,"TestField","Test","Agriculture");
-		temp.cost(0,0,0,0,20,0);
+		temp.cost(1.25,0,0,0,20,0);
 		fieldMap.put(temp.name, temp);
 		
 		temp = new Field(null,"Stockpile","A stockpile for resources.","Agriculture");
@@ -469,7 +469,7 @@ public class EntityData {
 		fieldMap.put(temp.name, temp);
 		
 		temp = new Field(null,"Hamlet","A small city for workers.","Pottery");
-		temp.cost(0,0,0,10,10,30);
+		temp.cost(0,1.25,0,10,10,30);
 		fieldMap.put(temp.name, temp);
 	}
 

@@ -14,9 +14,11 @@ Grand view perspective, strategic mid-view, detailed view
 	Variable positions of mouse clicking (define how to click a tile based on a rendering)
 Work on and balance unit upgrades (some disadvantages and costs)
 Tech tree visualization
+	Variable tech trees? (group by strategy i.e. militaristic techs unlock others of the same type)
 Dynamic city model
 	3d models when queuing
-
+Levels when building cities, fields, units
+	
 2/7/2015 -> 2/13/2015 (Hackathon work)
 
 The idea that every single island is a world, and civilizations can establish colonies in other worlds
@@ -25,7 +27,7 @@ Colonization as a possible mid-to-late-game mechanic
 / Implement fields
 	Allow AI to optimize fields
 	> Allow player to buy and improve fields through menu
-	Calculate effects of fields on tile production
+	> Calculate effects of fields on tile production
 	Allow player to increase centralization of fields with centralization tech
 Implement trade routes/caravans
 	Allow caravans to be unlocked by tech

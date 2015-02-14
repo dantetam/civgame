@@ -9,6 +9,7 @@ import units.City;
 
 public class TechTree {
 
+	public Civilization civ;
 	public Tech first;
 	//All the valid things that the player can queue
 	public ArrayList<String> allowedUnits, allowedTileImprovements, allowedCityImprovements, allowedFields;
@@ -16,8 +17,9 @@ public class TechTree {
 	public ArrayList<String> governmentCivics, economicCivics;
 	//public HashMap<String, String> unlockUnits, unlockTileImprovements, unlockCityImprovements;
 
-	public TechTree()
+	public TechTree(Civilization civ)
 	{
+		this.civ = civ;
 		allowedUnits = new ArrayList<String>();
 		allowedTileImprovements = new ArrayList<String>();
 		allowedCityImprovements = new ArrayList<String>();

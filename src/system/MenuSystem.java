@@ -26,6 +26,7 @@ import units.Worker;
 public class MenuSystem extends BaseSystem {
 
 	public ArrayList<Menu> menus;
+	public TechMenu techMenu;
 	public ArrayList<TextBox> textboxes;
 
 	private ArrayList<Click> clicks;
@@ -83,7 +84,8 @@ public class MenuSystem extends BaseSystem {
 		//menu0.buttons.add(new Button("loadout", "Loadout", "Change loadouts of certain units.", main.width - 100, 160, 100, height, 3, 4));
 		menu0.addButton("loadout", "Loadout", "Change loadouts of certain units.", main.width - 100, 160, 100, height).lock = true;
 		menu0.addButton("stats", "Statistics", "Compare stats of different civilizations.", main.width - 100, 190, 100, height).lock = true;
-		menu0.addButton("techs", "Techs", "Choose technologies to research.", main.width - 100, 220, 100, height).lock = true;
+		//menu0.addButton("techs", "Techs", "Choose technologies to research.", main.width - 100, 220, 100, height).lock = true;
+		menu0.addButton("techsweb", "Techs", "Choose technologies to research.", main.width - 100, 220, 100, height).lock = true;
 		menu0.addButton("encyclopedia", "Reference", "A encyclopedia-like list of articles.", main.width - 100, 250, 100, height).lock = true;
 		menu0.addButton("relations", "Relations", "The wars and alliances of this world.", main.width - 100, 280, 100, height).lock = true;
 		menu0.addButton("civic", "Civics", "Change the ideals of your government.", main.width - 100, 310, 100, height).lock = true;
@@ -760,6 +762,37 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
+		//Display tech tree
+		main.pushStyle();
+		main.rectMode(main.CENTER);
+		if (techMenu.active())
+		{
+			main.strokeWeight(3);
+			main.fill(0); main.stroke(0);
+			//System.out.println("yaaaa");
+			for (int i = 0; i < techMenu.lines.size(); i++)
+			{
+				main.line(techMenu.lines.get(i).x1, techMenu.lines.get(i).y1, techMenu.lines.get(i).x2, techMenu.lines.get(i).y2);
+			}
+			for (int i = 0; i < techMenu.buttons.size(); i++)
+			{
+				TextBox b = techMenu.buttons.get(i);
+				main.fill(b.r, b.g, b.b);
+				//main.stroke(b.borderR, b.borderG, b.borderB);
+				if (b.shape == 0)
+					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+				else if (b.shape == 1)
+					main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+				else
+					System.out.println("Invalid button shape: " + b.shape);
+				main.textAlign(PApplet.CENTER, PApplet.CENTER);
+				main.fill(255);
+				displayText(b);
+				main.fill(255,0,0);
+				//System.out.println(b.display.get(0) + ": " + b.posX + " " + b.posY + " " + b.sizeX + " " + b.sizeY);
+			}
+		}
+		main.popStyle();
 		for (int i = 0; i < textboxes.size(); i++)
 		{
 			TextBox b = textboxes.get(i);
@@ -1034,7 +1067,8 @@ public class MenuSystem extends BaseSystem {
 				command.contains("diplomacy") ||
 				command.equals("log") ||
 				command.equals("relations") ||
-				command.equals("civic")
+				command.equals("civic") ||
+				command.equals("techsweb")
 				)
 		{
 			closeMenus();
@@ -1077,8 +1111,13 @@ public class MenuSystem extends BaseSystem {
 			{
 				displayTechMenu(main.grid.civs[0]);
 				//menus.get(5).active = !menus.get(5).active;
-				main.menuSystem.menus.get(5).activate(true);
+				menus.get(5).activate(true);
 				//menus.get(5).active = !menus.get(5).active;
+			}
+			else if (command.equals("techsweb"))
+			{
+				techMenu.setupButtons();
+				techMenu.activate(true);
 			}
 			else if (command.equals("encyclopedia"))
 			{
@@ -1436,6 +1475,7 @@ public class MenuSystem extends BaseSystem {
 			menus.get(i).activate(false);
 		menus.get(15).activate(false);
 		menus.get(16).activate(false);
+		techMenu.activate(false);
 		//Clear all but the main menu and encyclopedia
 		//for (int i = 1; i < menus.size(); i++)
 	}
@@ -1639,7 +1679,7 @@ public class MenuSystem extends BaseSystem {
 		}
 	}
 
-	public int calcQueueTurnsTech(Civilization civ, Tech tech)
+	public static int calcQueueTurnsTech(Civilization civ, Tech tech)
 	{
 		int research = 0;
 		for (int i = 0; i < civ.cities.size(); i++)
@@ -1869,7 +1909,7 @@ public class MenuSystem extends BaseSystem {
 		ArrayList<String> fields = c.owner.techTree.allowedFields;
 		for (int i = 0; i < fields.size(); i++)
 		{
-			Button b = (Button)menus.get(2).addButton("qfield" + fields.get(i), "Field: " + fields.get(i) + " <" + calcQueueTurnsInt(c,fields.get(i)) + ">", "Add a " + fields.get(i) + " field.",
+			Button b = (Button)menus.get(2).addButton("qfield" + fields.get(i), "F: " + fields.get(i) + " <" + calcQueueTurnsInt(c,fields.get(i)) + ">", "Add a " + fields.get(i) + " field.",
 					0, 0, 0, 0);
 			//b.tooltip.add(calcQueueTurns(c));
 			b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, fields.get(i)) + " turns");

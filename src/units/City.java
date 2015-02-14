@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import data.EntityData;
+import data.Field;
 import data.Improvement;
 import game.*;
 
@@ -458,6 +459,13 @@ public class City extends TileEntity {
 			f += 2;
 			g += 1;
 			r += 2;
+		}
+		for (int i = 0; i < t.fields.size(); i++)
+		{
+			Field field = t.fields.get(i);
+			f = field.foodPercent != 0 ? (int)(f*field.foodPercent) : f;
+			g = field.goldPercent != 0 ? (int)(g*field.goldPercent) : g;
+			m = field.metalPercent != 0 ? (int)(m*field.metalPercent) : m;
 		}
 		return new double[]{f,g,m,r};
 	}

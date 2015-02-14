@@ -66,7 +66,7 @@ public class Civilization {
 		this.name = name;
 		gold = 50; research = 0;
 		//food = 17; research = 0; //metal = 0;
-		techTree = new TechTree();
+		techTree = new TechTree(this);
 		beeline = new ArrayList<String>();
 		/*if (!name.equals("Player"))
 		{
@@ -99,7 +99,7 @@ public class Civilization {
 		name = c.name;
 		gold = 50; research = 0;
 		//food = 17; gold = 0; research = 0; //metal = 0; 
-		techTree = new TechTree();
+		techTree = new TechTree(this);
 		beeline = new ArrayList<String>();
 		/*if (!name.equals("Player"))
 		{
