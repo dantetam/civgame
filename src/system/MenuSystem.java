@@ -764,7 +764,6 @@ public class MenuSystem extends BaseSystem {
 		}
 		//Display tech tree
 		main.pushStyle();
-		main.rectMode(main.CENTER);
 		if (techMenu.active())
 		{
 			main.strokeWeight(3);

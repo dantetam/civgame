@@ -10,7 +10,8 @@ public class TechMenu extends Menu {
 
 	public TechTree tree;
 	public ArrayList<DisplayLine> lines = new ArrayList<DisplayLine>();
-
+	private float sX = 80, sY = 80, space = 10; //Used for initializing buttons
+	
 	public TechMenu(TechTree t, String name) {
 		super(name);
 		tree = t;
@@ -18,14 +19,22 @@ public class TechMenu extends Menu {
 
 	public void setupButtons()
 	{
+		float largeSpace = 400;
 		buttons.clear();
-		for (int i = 0; i < tree.first.techs.length; i++)
-			drawButton(tree.first.techs[i], 175, i*175);
+		lines.clear();
+		for (int i = 0; i < 2; i++)
+			drawButton(tree.first.techs[i], 125, (i)*largeSpace + 150);
+		for (int i = 2; i < tree.first.techs.length; i++)
+			drawButton(tree.first.techs[i], 825, (i-2)*largeSpace + 150);
+		for (int i = 0; i < lines.size(); i++)
+		{
+			DisplayLine l = lines.get(i);
+			l.x1 += sX/2; l.x2 += sX/2; l.y1 += sY/2; l.y2 += sY/2;
+		}
 	}
 
 	private void drawButton(Tech t, float x, float y)
 	{
-		float sX = 80, sY = 80, space = 10;
 		//System.out.println("Length: " + t.techs.length);
 		if (t.techs.length != 0)
 		{
@@ -39,16 +48,27 @@ public class TechMenu extends Menu {
 				line(x,y,x+sX+space,y-sY/2-space/2);
 				drawButton(t.techs[0],x+sX+space,y-sY/2-space/2);
 				line(x,y,x+sX+space,y+sY/2+space/2);
-				drawButton(t.techs[0],x+sX+space,y+sY/2+space/2);
+				drawButton(t.techs[1],x+sX+space,y+sY/2+space/2);
 			}
 			else if (t.techs.length == 3)
 			{
 				line(x,y,x+sX+space,y);
-				drawButton(t.techs[0],x+sX+space,y);
+				drawButton(t.techs[1],x+sX+space,y);
 				line(x,y,x+sX+space,y-sY-space);
 				drawButton(t.techs[0],x+sX+space,y-sY-space);
 				line(x,y,x+sX+space,y+sY+space);
-				drawButton(t.techs[0],x+sX+space,y+sY+space);
+				drawButton(t.techs[2],x+sX+space,y+sY+space);
+			}
+			else if (t.techs.length == 4)
+			{
+				line(x,y,x+sX+space,y-sY/2-space/2);
+				drawButton(t.techs[1],x+sX+space,y-sY/2-space/2);
+				line(x,y,x+sX+space,y+sY/2+space/2);
+				drawButton(t.techs[2],x+sX+space,y+sY/2+space/2);
+				line(x,y,x+sX+space,y-sY*3/2-space/2);
+				drawButton(t.techs[0],x+sX+space,y-sY*3/2-space/2);
+				line(x,y,x+sX+space,y+sY*3/2+space/2);
+				drawButton(t.techs[3],x+sX+space,y+sY*3/2+space/2);
 			}
 		}
 		else
@@ -65,10 +85,11 @@ public class TechMenu extends Menu {
 	{
 		int turns = MenuSystem.calcQueueTurnsTech(tree.civ, t);
 		String s = t.name;
-		Button b = new Button("research" + s, s + " <" + turns + ">", "Research " + s + ".", 0, 0, 0, 0);
+		Button b = new Button("research" + s, s, "Research " + s + ".", 0, 0, 0, 0);
+		b.display.add("<" + turns + ">");
 		b.lock = true;
 		b.tooltip.clear();
-		b.tooltip.add("Estimated research time: " + turns);
+		//b.tooltip.add("Estimated research time: " + turns);
 		b.tooltip.add(t.totalR + " research out of " + t.requiredR + "; " + (int)((float)t.totalR/(float)t.requiredR*100) + "%");
 		if (t.requisite != null)
 			b.tooltip.add("Requires " + t.requisite.name);
