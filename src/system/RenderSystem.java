@@ -633,7 +633,7 @@ public class RenderSystem extends BaseSystem {
 	private int multiply;
 	public void generateRoughTerrain(double[][] terrain, int multiply)
 	{
-		vertices = new float[terrain.length*multiply + 1][terrain.length*multiply + 1];
+		vertices = new float[terrain.length*multiply + 10][terrain.length*multiply + 10];
 		double[][] temp1 = DiamondSquare.makeTable(2,2,2,2,multiply);
 		temp1[temp1.length/2][temp1.length/2] = 8;
 		double[][] temp2 = DiamondSquare.makeTable(2,2,2,2,multiply);

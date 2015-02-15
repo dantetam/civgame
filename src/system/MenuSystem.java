@@ -36,6 +36,7 @@ public class MenuSystem extends BaseSystem {
 	public boolean info; //loadout, loadoutDisplay, techMenu, continueMenu; //Access the menu's active property instead
 	public int multiplier = 1;
 	public float highlightDispX = main.width/2, highlightDispY = main.width/2;
+	public int sight = 7; 
 
 	public Tile target;
 	//public ArrayList<String> hintText;
@@ -221,7 +222,7 @@ public class MenuSystem extends BaseSystem {
 		main.textAlign(main.CENTER);
 		//main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
 		//main.image(EntityData.iconMap.get("CopperWeapons"),200,200,200,200);
-		
+
 		if (minimapMode == 1 || minimapMode == 2)
 		{
 			//main.rect(0, 700, 50, 50);
@@ -247,7 +248,7 @@ public class MenuSystem extends BaseSystem {
 			}
 			else //if (minimapMode == 1) by disjunctive syllogism
 			{
-				int sight = 7, rr = 0, cc = 0;
+				int rr = 0, cc = 0;
 				if (highlighted != null)
 				{
 					for (int r = highlighted.row - sight; r <= highlighted.row + sight; r++)
@@ -545,57 +546,74 @@ public class MenuSystem extends BaseSystem {
 								if (t.occupants.size() > 0)
 								{
 									//for (int i = 0; i < t.occupants.size(); i++)
-									for (int i = t.occupants.size() - 1; i >= 0; i--)
+									if (!(selected instanceof City))
 									{
-										GameEntity en = t.occupants.get(i);
-										main.fill(en.owner.r, en.owner.g, en.owner.b);
-										//main.rectMode(main.CENTER);
-										//main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
-										PImage image = EntityData.iconMap.get(en.name);
-										float iX, iY;
-										//ArrayList<PImage> images = icon(t);
-										if (image != null)
+										for (int i = t.occupants.size() - 1; i >= 0; i--)
 										{
-											main.pushStyle();
-											main.tint(en.owner.r, en.owner.g, en.owner.b);
-											//main.rectMode(main.LEFT);
-											if (en.mode != 0)
+											GameEntity en = t.occupants.get(i);
+											main.fill(en.owner.r, en.owner.g, en.owner.b);
+											//main.rectMode(main.CENTER);
+											//main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
+											PImage image = EntityData.iconMap.get(en.name);
+											float iX, iY;
+											//ArrayList<PImage> images = icon(t);
+											if (image != null)
 											{
-												//4*len to compensate for unit strength GUI
-												iX = pos[0] - dX - len/2 - len; iY = pos[1] - dY - 30 - i*30 - len/2;
-												main.image(image, iX, iY, len, len);
-												main.image(EntityData.iconMap.get("attack"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
-												main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
-												main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
-												main.image(EntityData.iconMap.get("health"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30, len/2, len/2);
+												main.pushStyle();
+												main.tint(en.owner.r, en.owner.g, en.owner.b);
+												//main.rectMode(main.LEFT);
+												if (en.mode != 0)
+												{
+													//4*len to compensate for unit strength GUI
+													iX = pos[0] - dX - len/2 - len; iY = pos[1] - dY - 30 - i*30 - len/2;
+													main.image(image, iX, iY, len, len);
+													main.image(EntityData.iconMap.get("attack"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+													main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
+													main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+													main.image(EntityData.iconMap.get("health"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30, len/2, len/2);
 
-												main.fill(0);
-												main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
-												main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10, len/2, len/2);
-												main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
-												main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10, len/2, len/2);
-												main.textAlign(main.LEFT, main.TOP);
-												main.fill(255);
-												main.text((int)en.offensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2);
-												main.text((int)en.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10);
-												main.text((int)en.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2);
-												main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*10);
-												
-												image = EntityData.iconMap.get("CopperWeapons");
-												main.image(image, iX + len*0.6F, iY + len*0.6F, len*0.4F, len*0.4F);
+													main.fill(0);
+													main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
+													main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10, len/2, len/2);
+													main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
+													main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10, len/2, len/2);
+													main.textAlign(main.LEFT, main.TOP);
+													main.fill(255);
+													main.text((int)en.offensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2);
+													main.text((int)en.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10);
+													main.text((int)en.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2);
+													main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*10);
+
+													image = EntityData.iconMap.get("CopperWeapons");
+													main.image(image, iX + len*0.6F, iY + len*0.6F, len*0.4F, len*0.4F);
+												}
+												else
+												{
+													iX = pos[0] - dX - len/2; iY = pos[1] - dY - 60 - i*10 - len/2;
+													main.image(image, iX, iY, len, len);
+												}
+												main.popStyle();
+												if (en.unitImprovement != null)
+												{
+													image = null; image = EntityData.iconMap.get(en.unitImprovement.name);
+													if (image != null)
+														main.image(image, iX + len*0.6F, iY, len*0.4F, len*0.4F);
+												}
 											}
+										}
+									}
+									else
+									{
+										for (int i = t.occupants.size() - 1; i >= 0; i--)
+										{
+											GameEntity en = t.occupants.get(i);
+											if (main.grid.civs[0].isWar(en.owner))
+												main.fill(255,0,0);
 											else
-											{
-												iX = pos[0] - dX - len/2; iY = pos[1] - dY - 60 - i*10 - len/2;
-												main.image(image, iX, iY, len, len);
-											}
-											main.popStyle();
-											if (en.unitImprovement != null)
-											{
-												image = null; image = EntityData.iconMap.get(en.unitImprovement.name);
-												if (image != null)
-													main.image(image, iX + len*0.6F, iY, len*0.4F, len*0.4F);
-											}
+												main.fill(150,225,255);
+											float iX = pos[0] - dX - len/2, iY = pos[1] - dY - 60 - i*10 - len/2;
+											main.stroke(en.owner.r, en.owner.g, en.owner.b);
+											main.rect(iX + len/4, iY + len/4, len/2, len/2);
 										}
 									}
 								}

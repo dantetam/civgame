@@ -82,11 +82,11 @@ public class Game extends PApplet {
 
 		Menu menu3 = new Menu("TerrainMenu");
 		menus.add(menu3);
-		//menu3.addButton("terrain1", "Archipelago", "A set of small islands.", 70, 100, 210, 50);
-		//menu3.addButton("terrain2", "Fractal", "Unpredictable as always.", 70, 160, 210, 50);
-		//menu3.addButton("terrain4", "Fractal+", "A true fractal.", 70, 220, 210, 50);
+		menu3.addButton("terrain1", "Archipelago", "A set of small islands.", 70, 100, 210, 50);
+		menu3.addButton("terrain2", "Fractal", "Unpredictable as always.", 70, 160, 210, 50);
+		menu3.addButton("terrain4", "Fractal+", "A true fractal.", 70, 220, 210, 50);
 
-		//menu3.addButton("terrain10", "Rolling Hills", "A set of large islands.", 70, 280, 210, 50);
+		menu3.addButton("terrain10", "Rolling Hills", "A set of large islands.", 70, 280, 210, 50);
 		menu3.addButton("terrain11", "Pangaea", "One large landmass and satellite islands.", 70, 340, 210, 50);
 
 		//menu3.addButton("terrain5", "Testing", "", 70, 400, 210, 50);

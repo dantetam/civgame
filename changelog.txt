@@ -22,6 +22,8 @@ Dynamic city model
 Levels when building cities, fields, units
 > Add more game icons
 	> Change FGMR gui
+	> Unit improvement icons
+	Get building, other unit improvement icons
 >+ Fixed row column order in GUI
 >+ New minimap
 
