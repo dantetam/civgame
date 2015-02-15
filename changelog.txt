@@ -27,7 +27,8 @@ Levels when building cities, fields, units
 >+ Fixed row column order in GUI
 >+ New minimap
 
-Use of hashmaps to explain how yields are calculated (e.g. 
+Use of hashmaps to explain how yields are calculated (e.g. in index "+1 from coal" put "+1 coal"
+Constitution stat i.e. morale for units
 	
 2/7/2015 -> 2/13/2015 (Hackathon work)
 

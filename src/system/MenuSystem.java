@@ -698,24 +698,43 @@ public class MenuSystem extends BaseSystem {
 				{
 					if (atk.mode != 0)
 					{
-						int[] offensiveDamage = main.grid.conflictSystem.attack(atk, def);
-						int[] defensiveDamage = main.grid.conflictSystem.attack(def, atk);
+						int[] offensiveDamage = main.grid.conflictSystem.attackNoRandomness(atk.offensiveStr, def.defensiveStr);
+						int[] defensiveDamage = main.grid.conflictSystem.attackNoRandomness(def.offensiveStr, atk.defensiveStr);
 
-						float iX = 150, iY = main.height - 150;
+						//All numbers, great
+						float iX = 150, iY = main.height - 150, len = 40;
 
 						main.pushStyle();
-						main.textAlign(main.CENTER, main.CENTER);
+						main.textAlign(main.CENTER, main.TOP);
 						main.fill(0);
-						main.rect(iX, iY-30, 340, 30);
+						main.rect(iX, iY - 30, 340, 30);
+						main.fill(255);
+						main.text(atk.name + " (" + atk.owner.name + ") vs " + def.name + " (" + def.name + ")", iX + 170, iY - 30);
 						
 						main.tint(atk.owner.r, atk.owner.g, atk.owner.b);
-						unitStats(atk, iX, iY, 40);
+						unitStats(atk, iX, iY, len);
 
 						main.tint(def.owner.r, def.owner.g, def.owner.b);
-						unitStats(def, iX + 100, iY, 40);
+						unitStats(def, iX + 220, iY, len);
 						
 						main.fill(0);
-						//main.rect();
+						main.rect(iX, iY + len, 160, 150 - len);
+						main.rect(iX + 180, iY + len, 160, 150 - len);
+						
+						main.fill(255);
+						ArrayList<String> text1 = new ArrayList<String>();
+						text1.add("If I attacked...");
+						text1.add("Damage inflicted: " + offensiveDamage[0]);
+						text1.add("Damage taken: " + offensiveDamage[1]);
+						for (int i = 0; i < text1.size(); i++)
+							main.text(text1.get(i), iX, iY + len + 14*i);
+						
+						ArrayList<String> text2 = new ArrayList<String>();
+						text2.add("If I attacked...");
+						text2.add("Damage inflicted: " + defensiveDamage[0]);
+						text2.add("Damage taken: " + defensiveDamage[1]);
+						for (int i = 0; i < text2.size(); i++)
+							main.text(text2.get(i), iX + 180, iY + len + 14*i);
 						
 						main.popStyle();
 						

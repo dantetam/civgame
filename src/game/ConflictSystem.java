@@ -220,6 +220,21 @@ public class ConflictSystem {
 			return new int[]{(int)(Math.max(1,c1)),(int)(Math.max(1,c2/2))};
 		}
 	}
+	
+	public int[] attackNoRandomness(float a, float d)
+	{
+		float r = Math.max(a,1)/Math.max(d,1);
+		float c1 = 4*r - 1; 
+		if (c1 > (16F/3F*r - 4F/3F));
+			c1 = (float)(Math.floor(c1-1));
+		r = Math.max(d,1)/Math.max(a,1);
+		float c2 = 4*r - 1;
+		if (c2 > (16F/3F*r - 4F/3F));
+			c2 = (float)(Math.floor(c2-1));
+		if (c1 > c2)
+			return new int[]{(int)(Math.max(1,c1/2)),(int)(Math.max(1,c2))};
+		return new int[]{(int)(Math.max(1,c1)),(int)(Math.max(1,c2/2))};
+	}
 
 	public int[] fire(float a, float d)
 	{
