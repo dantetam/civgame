@@ -98,7 +98,7 @@ public class NewMenuSystem extends BaseSystem {
 		main.rect(posX + len, posY - 30 - i*10 - len/2, len/2, len/2);
 		main.rect(posX + len, posY - 30 - i*10, len/2, len/2);*/
 		main.textAlign(main.LEFT, main.TOP);
-		main.fill(255,255,255,alpha);
+		main.fill(255,255,255,125);
 		main.pushStyle();
 		main.textSize(12);
 		main.text(f, posX, posY - 30 - i*10 - len/2);

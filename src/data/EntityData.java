@@ -247,8 +247,8 @@ public class EntityData {
 	{
 		return unitModelMap.get(name);
 	}
-
-	public static String getBiome(int biome)
+	
+	public static String getBiomeName(int biome)
 	{
 		if (biome == -1)
 		{
@@ -1054,7 +1054,7 @@ public class EntityData {
 		case 40: return "Spring";
 
 		default: 
-			System.err.println("Invalid resource " + res);
+			//System.err.println("Invalid resource " + res);
 			return null;
 		}
 	}

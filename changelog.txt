@@ -19,6 +19,7 @@ Dynamic city model
 	3d models when queuing
 Levels when building cities, fields, units
 > Add more game icons
+	> Change FGMR gui
 	
 2/7/2015 -> 2/13/2015 (Hackathon work)
 

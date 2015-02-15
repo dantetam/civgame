@@ -293,7 +293,7 @@ public class MenuSystem extends BaseSystem {
 		//hintText.clear();
 		if (mouseHighlighted != null)
 		{
-			String stringy = mouseHighlighted.row + " " + mouseHighlighted.col;
+			String stringy = (main.grid.cols - mouseHighlighted.col) + " " + mouseHighlighted.row;
 			if (mouseHighlighted.owner != null)
 				stringy += " (" + mouseHighlighted.owner.name + ")";
 			hintText.add(stringy);
@@ -304,11 +304,11 @@ public class MenuSystem extends BaseSystem {
 
 			if (mouseHighlighted.biome >= 4 && mouseHighlighted.biome <= 6)
 				if (mouseHighlighted.forest)
-					biomeText += EntityData.getBiome(mouseHighlighted.biome) + " (fertile)";
+					biomeText += EntityData.getBiomeName(mouseHighlighted.biome) + " (fertile)";
 				else
-					biomeText += EntityData.getBiome(mouseHighlighted.biome);
+					biomeText += EntityData.getBiomeName(mouseHighlighted.biome);
 			else
-				biomeText += EntityData.getBiome(mouseHighlighted.biome);
+				biomeText += EntityData.getBiomeName(mouseHighlighted.biome);
 
 			if (mouseHighlighted.shape == 1)
 			{
@@ -362,6 +362,10 @@ public class MenuSystem extends BaseSystem {
 				if (!stringy.equals(""))
 					hintText.add(stringy.substring(0,stringy.length()-2));
 			}
+			
+			String resource = EntityData.getResourceName(mouseHighlighted.resource);
+			if (resource != null)
+				hintText.add(resource);
 		}
 		Tile h = highlighted;
 		MouseHelper mh = main.inputSystem.mouseHelper;
@@ -431,7 +435,8 @@ public class MenuSystem extends BaseSystem {
 								if (!main.tacticalView)
 								{
 									double[] y = City.staticEval(t);
-									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY+30, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									//main.rect(pos[0]-dX, pos[1]-dY, 10, 10);
 									/*int n = 0;
 									for (int i = 0; i < y.length; i++)
 										if (y[i] > 0)
