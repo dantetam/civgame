@@ -14,6 +14,7 @@ public class TechMenu extends Menu {
 	
 	public TechMenu(TechTree t, String name) {
 		super(name);
+		super.name = "TechMenu";
 		tree = t;
 	}
 
@@ -23,9 +24,9 @@ public class TechMenu extends Menu {
 		buttons.clear();
 		lines.clear();
 		for (int i = 0; i < 2; i++)
-			drawButton(tree.first.techs[i], 125, (i)*largeSpace + 150);
+			drawButton(tree.first.techs[i], 425, (i)*largeSpace + 200);
 		for (int i = 2; i < tree.first.techs.length; i++)
-			drawButton(tree.first.techs[i], 825, (i-2)*largeSpace + 150);
+			drawButton(tree.first.techs[i], 825, (i-2)*largeSpace + 200);
 		for (int i = 0; i < lines.size(); i++)
 		{
 			DisplayLine l = lines.get(i);
@@ -66,9 +67,9 @@ public class TechMenu extends Menu {
 				line(x,y,x+sX+space,y+sY/2+space/2);
 				drawButton(t.techs[2],x+sX+space,y+sY/2+space/2);
 				line(x,y,x+sX+space,y-sY*3/2-space/2);
-				drawButton(t.techs[0],x+sX+space,y-sY*3/2-space/2);
+				drawButton(t.techs[0],x+sX+space,y-sY*3/2-space);
 				line(x,y,x+sX+space,y+sY*3/2+space/2);
-				drawButton(t.techs[3],x+sX+space,y+sY*3/2+space/2);
+				drawButton(t.techs[3],x+sX+space,y+sY*3/2+space);
 			}
 		}
 		else
@@ -78,7 +79,7 @@ public class TechMenu extends Menu {
 		Button b = getTechButton(t);
 		b.posX = x; b.origX = x; b.posY = y; b.origY = y;
 		b.sizeX = sX; b.sizeY = sY; b.origSizeX = sX; b.origSizeY = sY;
-		buttons.add(b);
+		addButton(b);
 	}
 
 	private Button getTechButton(Tech t)
@@ -86,6 +87,9 @@ public class TechMenu extends Menu {
 		int turns = MenuSystem.calcQueueTurnsTech(tree.civ, t);
 		String s = t.name;
 		Button b = new Button("research" + s, s, "Research " + s + ".", 0, 0, 0, 0);
+		if (t.researched()) {b.r = 75; b.g = 150; b.b = 205;} //{b.r = tree.civ.r; b.g = tree.civ.g; b.b = tree.civ.b;}
+		else if (t.totalR > 0) {b.r = 0; b.g = 175; b.b = 0;}
+		//else {b.r = 0; b.g = 0; b.b = 0;}
 		b.display.add("<" + turns + ">");
 		b.lock = true;
 		b.tooltip.clear();
@@ -98,7 +102,8 @@ public class TechMenu extends Menu {
 			techString += t.techs[j].name + ", ";
 		if (t.techs.length != 0)
 			b.tooltip.add("Leads to " + techString.substring(0, techString.length()-2));
-		b.tooltip.add("Unlocks " + t.unlockString());
+		if (!t.unlockString().isEmpty())
+			b.tooltip.add("Unlocks " + t.unlockString());
 		return b;
 	}
 	

@@ -715,83 +715,9 @@ public class MenuSystem extends BaseSystem {
 		updateMessages();
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
-			if (menus.get(menu).active())
-			{
-				main.strokeWeight(1);
-				//System.out.println(menu + " " + menus.get(menu).active);
-				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
-				{
-					TextBox b = menus.get(menu).buttons.get(i);
-					if (b.active)
-					{
-						if (b instanceof ImageBox)
-						{
-							ImageBox img = (ImageBox)b;
-							main.tint(img.tintR, img.tintG, img.tintB);
-							if (img.image != null)
-								main.image(img.image, img.posX, img.posY, img.sizeX, img.sizeY);
-							else 
-								System.out.println("Invalid image: " + img.imageString);
-						}
-						else
-						{
-							main.fill(b.r, b.g, b.b);
-							//main.stroke(b.borderR, b.borderG, b.borderB);
-							if (b.shape == 0)
-								main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-							else if (b.shape == 1)
-								main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
-							else
-								System.out.println("Invalid button shape: " + b.shape);
-							main.textAlign(PApplet.CENTER, PApplet.CENTER);
-							main.fill(255);
-							displayText(b);
-							main.fill(255,0,0);
-							for (int j = 0; j < shortcuts.length; j++)
-							{
-								//System.out.println(shortcuts[j]); 
-								if (shortcuts[j] != null)
-									if (shortcuts[j].equals(b))
-									{
-										main.text("[" + j + "]", b.posX + b.sizeX*0.9F, b.posY + b.sizeY/2);
-										//System.out.println("Text");
-									}
-							}
-						}
-					}
-				}
-			}
+			displayMenu(menu);
 		}
-		//Display tech tree
-		main.pushStyle();
-		if (techMenu.active())
-		{
-			main.strokeWeight(3);
-			main.fill(0); main.stroke(0);
-			//System.out.println("yaaaa");
-			for (int i = 0; i < techMenu.lines.size(); i++)
-			{
-				main.line(techMenu.lines.get(i).x1, techMenu.lines.get(i).y1, techMenu.lines.get(i).x2, techMenu.lines.get(i).y2);
-			}
-			for (int i = 0; i < techMenu.buttons.size(); i++)
-			{
-				TextBox b = techMenu.buttons.get(i);
-				main.fill(b.r, b.g, b.b);
-				//main.stroke(b.borderR, b.borderG, b.borderB);
-				if (b.shape == 0)
-					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-				else if (b.shape == 1)
-					main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
-				else
-					System.out.println("Invalid button shape: " + b.shape);
-				main.textAlign(PApplet.CENTER, PApplet.CENTER);
-				main.fill(255);
-				displayText(b);
-				main.fill(255,0,0);
-				//System.out.println(b.display.get(0) + ": " + b.posX + " " + b.posY + " " + b.sizeX + " " + b.sizeY);
-			}
-		}
-		main.popStyle();
+
 		for (int i = 0; i < textboxes.size(); i++)
 		{
 			TextBox b = textboxes.get(i);
@@ -834,7 +760,8 @@ public class MenuSystem extends BaseSystem {
 							if (b.menu.name.equals("UnitMenu") || 
 									b.menu.name.equals("TechMenu") || 
 									b.menu.name.equals("CityMenu") ||
-									b.menu.name.equals("CreateFieldMenu"))
+									b.menu.name.equals("CreateFieldMenu") ||
+									b.menu instanceof TechMenu)
 							{
 								tooltip.posX = hover.posX + hover.sizeX;
 								tooltip.posY = hover.posY;
@@ -986,6 +913,92 @@ public class MenuSystem extends BaseSystem {
 		clicks.clear();
 	}
 
+	public void displayMenu(int menu)
+	{
+		if (menus.get(menu).active())
+		{
+			if (menus.get(menu) instanceof TechMenu)
+			{
+				//Display tech tree
+				main.pushStyle();
+				if (techMenu.active())
+				{
+					main.strokeWeight(3);
+					main.fill(0); main.stroke(0);
+					//System.out.println("yaaaa");
+					for (int i = 0; i < techMenu.lines.size(); i++)
+					{
+						main.line(techMenu.lines.get(i).x1, techMenu.lines.get(i).y1, techMenu.lines.get(i).x2, techMenu.lines.get(i).y2);
+					}
+					for (int i = 0; i < techMenu.buttons.size(); i++)
+					{
+						TextBox b = techMenu.buttons.get(i);
+						main.fill(b.r, b.g, b.b);
+						//main.stroke(b.borderR, b.borderG, b.borderB);
+						if (b.shape == 0)
+							main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+						else if (b.shape == 1)
+							main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+						else
+							System.out.println("Invalid button shape: " + b.shape);
+						main.textAlign(PApplet.CENTER, PApplet.CENTER);
+						main.fill(255);
+						displayText(b);
+						main.fill(255,0,0);
+						//System.out.println(b.display.get(0) + ": " + b.posX + " " + b.posY + " " + b.sizeX + " " + b.sizeY);
+					}
+				}
+				main.popStyle();
+			}
+			else
+			{
+				main.strokeWeight(1);
+				//System.out.println(menu + " " + menus.get(menu).active);
+				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+				{
+					TextBox b = menus.get(menu).buttons.get(i);
+					if (b.active)
+					{
+						if (b instanceof ImageBox)
+						{
+							ImageBox img = (ImageBox)b;
+							main.tint(img.tintR, img.tintG, img.tintB);
+							if (img.image != null)
+								main.image(img.image, img.posX, img.posY, img.sizeX, img.sizeY);
+							else 
+								System.out.println("Invalid image: " + img.imageString);
+						}
+						else
+						{
+							main.fill(b.r, b.g, b.b);
+							//main.stroke(b.borderR, b.borderG, b.borderB);
+							if (b.shape == 0)
+								main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+							else if (b.shape == 1)
+								main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+							else
+								System.out.println("Invalid button shape: " + b.shape);
+							main.textAlign(PApplet.CENTER, PApplet.CENTER);
+							main.fill(255);
+							displayText(b);
+							main.fill(255,0,0);
+							for (int j = 0; j < shortcuts.length; j++)
+							{
+								//System.out.println(shortcuts[j]); 
+								if (shortcuts[j] != null)
+									if (shortcuts[j].equals(b))
+									{
+										main.text("[" + j + "]", b.posX + b.sizeX*0.9F, b.posY + b.sizeY/2);
+										//System.out.println("Text");
+									}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	public void displayText(TextBox b)
 	{
 		for (int j = 0; j < b.display.size(); j++)
@@ -1331,7 +1344,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
 			main.grid.civs[0].researchTech = command.substring(8);
-			menus.get(5).activate(false);
+			menus.get(5).activate(false); techMenu.activate(false);
 		}
 		//Change a government or economic civic
 		else if (command.contains("gCivic"))

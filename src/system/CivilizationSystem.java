@@ -467,9 +467,9 @@ public class CivilizationSystem extends BaseSystem {
 								if (grid.civs[j].capital != null && civ.capital != null)
 								{
 									/*System.out.println("----");
-							System.out.println(!civ.equals(grid.civs[j]));
-							System.out.println(civ.capital.location.dist(grid.civs[j].capital.location) < grid.aggroDistance);
-							System.out.println(!civ.enemies.contains(grid.civs[j]));*/
+									System.out.println(!civ.equals(grid.civs[j]));
+									System.out.println(civ.capital.location.dist(grid.civs[j].capital.location) < grid.aggroDistance);
+									System.out.println(!civ.enemies.contains(grid.civs[j]));*/
 									if (//civ.cities.size() > 1.25*grid.civs[j].cities.size() &&
 											//Math.random() < 0.03 &&
 											!civ.equals(civ2) &&

@@ -23,6 +23,14 @@ public class Menu {
 		buttons.add(temp);
 		return temp;
 	}
+	
+	public TextBox addButton(TextBox temp)
+	{
+		temp.menu = this;
+		buttons.add(temp);
+		return temp;
+	}
+
 
 	/*public void addButton(String command, ArrayList<String> display, String tooltip, float a, float b, float c, float d, int... n)
 	{

@@ -13,7 +13,7 @@ New streamlined UI that reflects Endless Legend
 Grand view perspective, strategic mid-view, detailed view
 	Variable positions of mouse clicking (define how to click a tile based on a rendering)
 Work on and balance unit upgrades (some disadvantages and costs)
-Tech tree visualization
+> Tech tree visualization
 	Variable tech trees? (group by strategy i.e. militaristic techs unlock others of the same type)
 Dynamic city model
 	3d models when queuing
@@ -23,6 +23,8 @@ Levels when building cities, fields, units
 
 The idea that every single island is a world, and civilizations can establish colonies in other worlds
 Colonization as a possible mid-to-late-game mechanic
+	- Colonies require upkeep to survive
+	- Cost increases exponentially with number of colonies (EU4, Civ: BE)
 
 / Implement fields
 	Allow AI to optimize fields
