@@ -242,7 +242,7 @@ public class MenuSystem extends BaseSystem {
 					}
 				}
 			}
-			else //if (minimapMode == 1)
+			else //if (minimapMode == 1) by disjunctive syllogism
 			{
 				int sight = 5, rr = 0, cc = 0;
 				if (highlighted != null)
@@ -252,9 +252,34 @@ public class MenuSystem extends BaseSystem {
 						for (int c = highlighted.col - sight; c <= highlighted.col + sight; c++)
 						{
 							Tile t = main.grid.getTile(r,c);
-							minimapFill(t);
 							float wX = widthX/(sight*2 + 1), wY = widthY/(sight*2 + 1);
+							//minimapFill(t);
+							if (main.grid.civs[0].revealed[r][c] == 0 && !main.showAll)
+							{
+								main.fill(0);
+								main.rect(sX + rr*wX,sY + (sight*2 + 1 - cc)*wY,wX,wY);
+								cc++;
+								continue;
+							}
+							if (t.biome == -1)
+								main.fill(150,225,255);
+							else if (t.owner == null) 
+								main.fill(150);
+							else
+								main.fill(t.owner.r, t.owner.g, t.owner.b);
+							main.stroke(0);
 							main.rect(sX + rr*wX,sY + (sight*2 + 1 - cc)*wY,wX,wY);
+							ArrayList<PImage> images = icon(t);
+							if (images.size() > 0)
+								for (int i = images.size() - 1; i >= 0; i--)
+									if (images.get(i) != null)
+									{
+										if (t.occupants.get(i).owner != null)
+											main.tint(t.occupants.get(i).owner.r, t.occupants.get(i).owner.g, t.occupants.get(i).owner.b);
+										else
+											main.tint(150);
+										main.image(images.get(i),sX + (rr+0.25F)*wX,sY + (sight*2 + 1 - cc + 0.25F - 0.1F*i)*wY,wX/2F,wY/2F); //Flip cols
+									}
 							cc++;
 						}
 						rr++;
@@ -523,6 +548,7 @@ public class MenuSystem extends BaseSystem {
 										//main.rectMode(main.CENTER);
 										//main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
 										PImage image = EntityData.iconMap.get(en.name);
+										//ArrayList<PImage> images = icon(t);
 										if (image != null)
 										{
 											main.pushStyle();
@@ -1006,7 +1032,16 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 	}
-	
+
+	public ArrayList<PImage> icon(Tile t)
+	{
+		ArrayList<PImage> images = new ArrayList<PImage>();
+		if (t == null) return images;
+		for (int i = 0; i < t.occupants.size(); i++)
+			images.add(EntityData.iconMap.get(t.occupants.get(i).name));
+		return images;
+	}
+
 	public void minimapFill(Tile t)
 	{
 		if (t == null)
