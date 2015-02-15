@@ -427,13 +427,13 @@ public class City extends TileEntity {
 				if (t.resource == 20)
 				{
 					m += 3;
-					g += 1;
+					g += 2;
 					r += 1;
 				}
 				else if (t.resource == 21)
 				{
 					m += 4;
-					g += 2;
+					g += 1;
 					r += 3;
 				}
 				else if (t.resource == 22)

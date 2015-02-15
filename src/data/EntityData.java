@@ -31,6 +31,8 @@ public class EntityData {
 
 	public static HashMap<String,Civilization> civs;
 	public static HashMap<String,CityState> cityStates;
+	
+	public static HashMap<String,int[]> yield;
 
 	public EntityData()
 	{
@@ -57,6 +59,8 @@ public class EntityData {
 		f = new HashMap<String, Integer>();
 		m = new HashMap<String, Integer>();
 		g = new HashMap<String, Integer>();
+		
+		yield = new HashMap<String,int[]>();
 
 		setupColors();
 		setupEntityMap();
@@ -65,6 +69,7 @@ public class EntityData {
 		setupUnitIcons();
 		setupUnitImprovementCosts(); //longest name yet
 		setupCityImprovementCosts();
+		setYields();
 		setupFields();
 		setupCivBonuses();
 
@@ -461,9 +466,45 @@ public class EntityData {
 		return new Field(fieldMap.get(name));
 	}
 
+	public static void setYields()
+	{
+		//f, g, m, r
+		yield.put("From sea biome", new int[]{1,1,0,2});
+		yield.put("From ice biome", new int[]{0,1,2,1});
+		yield.put("From taiga", new int[]{1,1,1,1});
+		yield.put("From desert", new int[]{0,0,2,1});
+		yield.put("From steppe", new int[]{2,0,1,2});
+		yield.put("From dry forest biome", new int[]{2,1,1,2});
+		yield.put("From forest biome", new int[]{3,0,1,2});
+		yield.put("From rainforest biome", new int[]{3,1,0,3});
+		yield.put("Forested", new int[]{2,0,0,0});
+		yield.put("Fresh water", new int[]{1,0,0,0});
+		yield.put("Barren", new int[]{-1,0,0,-1});
+		
+		yield.put("Rocky terrain", new int[]{-1,0,1,0});
+		yield.put("Rocky terrain with mine", new int[]{0,0,1,0});
+		
+		yield.put("Mountainous terrain", new int[]{-1,0,1,0});
+		yield.put("Mountainous terrain with mine", new int[]{0,0,2,0});
+		
+		yield.put("Cultivated wheat", new int[]{3,0,0,0});
+		yield.put("Cultivated rice", new int[]{4,0,0,0});
+		yield.put("Cultivated", new int[]{2,0,0,0});
+		yield.put("Wild rice", new int[]{2,0,0,0});
+		
+		yield.put("Harvested fish", new int[]{3,0,0,0});
+		yield.put("Harvested whale", new int[]{2,3,0,3});
+		
+		yield.put("Mined copper", new int[]{0,2,3,1});
+		yield.put("Mined iron", new int[]{0,1,4,3});
+		yield.put("Mined coal", new int[]{0,1,3,1});
+		
+		yield.put("From spring", new int[]{2,1,0,2});
+	}
+	
 	private static void setupUnitIcons()
 	{
-
+		//Done in Game class in setModels()
 	}
 
 	/*public static void awardField(Civilization civ, Tile t, String name)

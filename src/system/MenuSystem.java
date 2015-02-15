@@ -480,11 +480,17 @@ public class MenuSystem extends BaseSystem {
 									float iX = pos[0]-dX-len/2, iY = pos[1]-dY+10;										
 									main.tint(255,255,255,100);
 									if (t.forest || t.freshWater)
+									{
 										if (img != null)
 										{
 											main.image(img, iX, iY, len, len);
 											iX = pos[0]-dX+len/2; //iY = pos[1]-dY+20-len/2;
 										}
+									}
+									else
+									{
+										iX = pos[0]-dX;
+									}
 									img = EntityData.iconMap.get(EntityData.getResourceName(t.resource));
 									if (img != null)
 									{
