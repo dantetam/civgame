@@ -169,7 +169,7 @@ public class MenuSystem extends BaseSystem {
 
 		menu0.activate(true);
 
-		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 150,200,150); //"HintText"
+		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 250,200,100); //"HintText"
 		textboxes.add(text0);
 
 		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width - 400,main.height - 150,200,150); //"SelectedText"
@@ -184,10 +184,17 @@ public class MenuSystem extends BaseSystem {
 		TextBox text4 = new TextBox(new ArrayList<String>(),"",100,190,500,250); //"LedgerText"
 		textboxes.add(text4);
 
-		TextBox text5 = new TextBox("...","",main.width - 200,main.height - 200 + 15,200,35); //"ConditionText"
+		TextBox text5 = new TextBox("...","",main.width - 400,main.height - 200 + 15,200,35); //"ConditionText"
 		//ArrayList<String> stringy = new ArrayList<String>(); stringy.add("..."); text5.display = stringy;
 		text5.autoClear = false;
 		textboxes.add(text5);
+
+		TextBox text6 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 150,100,150); //"Detail1Text" (goes with HintText)
+		textboxes.add(text6);
+
+		TextBox text7 = new TextBox(new ArrayList<String>(),"",main.width - 100,main.height - 150,100,150); //"Detail2Text" (goes with HintText)
+		text7.monospace = true;
+		textboxes.add(text7);
 
 		text4.activate(false);
 
@@ -343,13 +350,9 @@ public class MenuSystem extends BaseSystem {
 				biomeText += EntityData.getBiomeName(mouseHighlighted.biome);
 
 			if (mouseHighlighted.shape == 1)
-			{
 				biomeText += ", Hill";
-			}
 			else if (mouseHighlighted.shape == 2)
-			{
 				biomeText += ", Mountain";
-			}
 
 			hintText.add(biomeText);
 
@@ -375,9 +378,7 @@ public class MenuSystem extends BaseSystem {
 			}
 			//Same check as above, really
 			if (mouseHighlighted.owner != null)
-			{
 				hintText.add("Relations: " + mouseHighlighted.owner.opinions[0]);
-			}
 
 			if (main.grid.irrigated(mouseHighlighted.row, mouseHighlighted.col))
 				hintText.add("Fresh Water");
@@ -405,6 +406,33 @@ public class MenuSystem extends BaseSystem {
 			String resource = EntityData.getResourceName(mouseHighlighted.resource);
 			if (resource != null)
 				hintText.add(resource);
+
+			hintText.add(" ");
+
+			if (mouseHighlighted != null)
+			{
+				ArrayList<String> conditions;
+				if (mouseHighlighted.improvement != null)
+					conditions = City.staticEvalReasons(mouseHighlighted, mouseHighlighted.improvement.name);
+				else
+					conditions = City.staticEvalReasons(mouseHighlighted, null);
+				ArrayList<String> text6 = textboxes.get(6).display;
+				ArrayList<String> text7 = textboxes.get(7).display;
+				for (int i = 0; i < conditions.size(); i++)
+				{
+					text6.add(conditions.get(i));
+					int[] yield = EntityData.yield.get(conditions.get(i));
+					String s = "";
+					for (int j = 0; j < yield.length; j++)
+					{
+						if (yield[j] == 0) s += "  ";
+						else if (yield[j] > 0) s += "+" + yield[j];
+						else s += yield[j];
+						s += " ";
+					}
+					text7.add(s);
+				}
+			}
 		}
 		Tile h = highlighted;
 		MouseHelper mh = main.inputSystem.mouseHelper;
@@ -899,9 +927,25 @@ public class MenuSystem extends BaseSystem {
 					main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
 				else
 					System.out.println("Invalid button shape: " + b.shape);
-				main.textAlign(PApplet.LEFT, PApplet.UP);
+				//main.textAlign(PApplet.LEFT, PApplet.UP);
 				main.fill(255);
-				displayText(b);
+				if (i == 7)
+				{
+					main.pushStyle();
+					main.textFont(main.dvs, 18);
+					main.textAlign(main.LEFT, main.TOP);
+					for (int j = 0; j < textboxes.get(7).display.size(); j++)
+					{
+						String stringy = textboxes.get(7).display.get(j);
+						main.text(stringy, b.posX, b.posY + 15*j + 5);
+					}
+					main.popStyle();
+				}
+				else
+				{
+					main.textAlign(main.CENTER, main.TOP);
+					displayText(b);
+				}
 				if (b.autoClear)
 					b.display.clear(); //Clear them to be refilled next frame
 			}
@@ -2511,7 +2555,7 @@ public class MenuSystem extends BaseSystem {
 			}
 			textboxes.get(1).activate(true);
 			textboxes.get(1).move(main.width - 400,main.height);
-			textboxes.get(1).moveTo(main.width - 400,main.height - 150,20);
+			textboxes.get(1).moveTo(textboxes.get(1).origX,textboxes.get(1).origY,20);
 		}
 		else
 		{

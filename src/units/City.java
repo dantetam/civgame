@@ -336,13 +336,20 @@ public class City extends TileEntity {
 			for (int j = 0; j <= 3; j++)
 				temp[j] += yield[j]; 
 		}
+		for (int i = 0; i < t.fields.size(); i++)
+		{
+			Field field = t.fields.get(i);
+			temp[0] = field.foodPercent != 0 ? (int)(temp[0]*field.foodPercent) : temp[0];
+			temp[1] = field.goldPercent != 0 ? (int)(temp[1]*field.goldPercent) : temp[1];
+			temp[2] = field.metalPercent != 0 ? (int)(temp[2]*field.metalPercent) : temp[2];
+		}
 		return temp;
 	}
 	
 	//Evaluate when an improvement is planned
 	public static ArrayList<String> staticEvalReasons(Tile t, String improvement)
 	{
-		int f = 0, g = 0, m = 0, r = 0;
+		//int f = 0, g = 0, m = 0, r = 0;
 		ArrayList<String> conditions = new ArrayList<String>();
 		if (t.biome == -1)
 			conditions.add("From sea biome");
@@ -363,22 +370,18 @@ public class City extends TileEntity {
 		else
 		{
 			System.err.println("Invalid biomerrr " + t.biome);
-			f = 0; g = 0; m = 0; r = 0;
+			//f = 0; g = 0; m = 0; r = 0;
 		}
 		if (t.biome >= 4 && t.biome <= 6)
 		{
 			if (!t.forest)
-			{
 				conditions.add("Barren");
-			}
 			else
 			{
 				conditions.add("Dense forest");
 				if (t.biome != 6)
 					if (t.grid.irrigated(t.row, t.col))
-					{
 						conditions.add("Fresh water");
-					}
 			}
 		}
 		if (t.shape == 1)

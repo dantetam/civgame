@@ -47,7 +47,7 @@ public class CivGame extends PApplet {
 	public MenuSystem menuSystem = new MenuSystem(this);
 	public NewMenuSystem newMenuSystem = new NewMenuSystem(this);
 	public PShader lightShader, texLightShader;
-	public PFont arial;
+	public PFont arial, dvs;
 
 	public InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
@@ -87,6 +87,8 @@ public class CivGame extends PApplet {
 		//size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
 		//frameRate(60);
 		arial = createFont("ArialMT-48.vlw", 48);
+		//dvs = createFont("DejaVuSansMono-48.vlw", 48);
+		dvs = createFont("ProggyClean.ttf", 48);
 		textFont(arial);
 		//pg = createGraphics(1500,900,P2D);
 		lightShader = loadShader("fragtest.glsl", "verttest.glsl");

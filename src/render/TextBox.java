@@ -18,7 +18,7 @@ public class TextBox {
 	public int[] noOrdersIfMenu = null;
 	public boolean lock = false;
 	public boolean active = true, autoClear = true;
-	public boolean shortcut = true;
+	public boolean shortcut = true, monospace = false;
 	
 	public float r = 0, g = 0, b = 0, alpha = 255;
 	public float borderR = 255, borderG = 255, borderB = 255;
