@@ -28,10 +28,11 @@ Levels when building cities, fields, units
 >+ Fixed row column order in GUI
 >+ New minimap
 
-Use of hashmaps to explain how yields are calculated (e.g. in index "+1 from coal" put "+1 coal"
+Use of hashmaps to explain how yields are calculated (e.g. in index "+1 from coal" put "+1 production"
 Constitution stat (i.e. morale) for units
 Strategy conduciveness (e.g. more horsemen if majority of tiles are steppe)
 	Encourage player to take strategy through quest (but not all the time)
+Increase resources (e.g. allow player to breed animals by not harvesting them, a gamble)
 	
 2/7/2015 -> 2/13/2015 (Hackathon work)
 

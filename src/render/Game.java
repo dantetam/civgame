@@ -526,23 +526,9 @@ public class Game extends PApplet {
 			"attack", "cityhealth", "defense", "health", "population", "ranged", "speed",
 			"food", "gold", "metal", "research",
 			"Fish", "Rice", "Rock", "Spring", "Stones", "Tree", "Wheat",
-			"Ice", "Taiga", "Desert", "Savannah", "Dry Forest", "Forest", "Rainforest"};
+			"Ice", "Taiga", "Desert", "Steppe", "Dry Forest", "Forest", "Rainforest"};
 	private void setModels()
 	{
-		/*java.io.File folder = new File(new File("").getAbsolutePath().concat("/data/models"));
-		java.io.FilenameFilter pngFilter = new java.io.FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".png");
-			}
-		};
-		java.io.FilenameFilter modelFilter = new java.io.FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".text");
-			}
-		};
-		String[] icons = folder.list(pngFilter);
-		String[] models = folder.list(modelFilter);*/
-
 		for (int i = 0; i < models.length; i++)
 		{
 			String[] data = loadStrings("/models/"+models[i]);
@@ -568,6 +554,24 @@ public class Game extends PApplet {
 		colorImage("Iron", "Stones", 255, 255, 255);
 		colorImage("Coal", "Rock", 50, 50, 50);
 		colorImage("Redwood", "Tree", 175, 0, 0);
+		
+		colorImage("Ice", "Ice", 150, 225, 255);
+		colorImage("Taiga", "Taiga", 150, 225, 255);
+		colorImage("Desert", "Desert", 240, 200, 175);
+		
+		/*java.io.File folder = new File(new File("").getAbsolutePath().concat("/data/models"));
+		java.io.FilenameFilter pngFilter = new java.io.FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".png");
+			}
+		};
+		java.io.FilenameFilter modelFilter = new java.io.FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".text");
+			}
+		};
+		String[] icons = folder.list(pngFilter);
+		String[] models = folder.list(modelFilter);*/
 	}
 
 	//Copy the image, give it a color, and store it

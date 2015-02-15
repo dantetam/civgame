@@ -259,7 +259,7 @@ public class EntityData {
 		else if (biome == 2)
 			return "Desert";
 		else if (biome == 3)
-			return "Savannah";
+			return "Steppe";
 		else if (biome == 4)
 			return "Dry Forest";
 		else if (biome == 5)
@@ -1131,7 +1131,7 @@ public class EntityData {
 		groundColorMap.put(0,1);
 		groundColorMap.put(1,102);
 		groundColorMap.put(2,5);
-		groundColorMap.put(3,1022);
+		groundColorMap.put(3,153);
 		groundColorMap.put(4,1022);
 		groundColorMap.put(5,37);
 		groundColorMap.put(6,217);

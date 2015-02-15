@@ -475,10 +475,19 @@ public class MenuSystem extends BaseSystem {
 								{
 									double[] y = City.staticEval(t);
 									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY+30, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
-									PImage img = EntityData.iconMap.get(EntityData.getResourceName(t.resource));
+									PImage img = EntityData.iconMap.get(EntityData.getBiomeName((t.biome)));
+									int len = 20;
+									float iX = pos[0]-dX-len/2, iY = pos[1]-dY+10;										
+									main.tint(255,255,255,100);
+									if (t.forest || t.freshWater)
+										if (img != null)
+										{
+											main.image(img, iX, iY, len, len);
+											iX = pos[0]-dX+len/2; //iY = pos[1]-dY+20-len/2;
+										}
+									img = EntityData.iconMap.get(EntityData.getResourceName(t.resource));
 									if (img != null)
 									{
-										int len = 20;
 										main.tint(255,255,255,255);
 										main.pushStyle();
 										if (t.owner != null)
@@ -486,11 +495,13 @@ public class MenuSystem extends BaseSystem {
 											main.strokeWeight(3);
 											main.noFill();
 											main.stroke(t.owner.r, t.owner.g, t.owner.b);
-											main.rect(pos[0]-dX-len/2, pos[1]-dY+20-len/2, len, len);
+											main.rect(iX, iY, len, len);
 										}
-										main.image(img, pos[0]-dX-len/2, pos[1]-dY+20-len/2, len, len);
+										main.image(img, iX, iY, len, len);
 										main.popStyle();
+										//iX = pos[0]-dX-len/2; iY = pos[1]-dY+20-len/2;
 									}
+									main.tint(255,255,255,255);
 									//main.rect(pos[0]-dX, pos[1]-dY, 10, 10);
 									/*int n = 0;
 									for (int i = 0; i < y.length; i++)
