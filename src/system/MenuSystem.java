@@ -541,7 +541,7 @@ public class MenuSystem extends BaseSystem {
 							//if (!main.tacticalView)
 							if (true)
 							{
-								int len = 30;
+								float len = 30;
 								if (t.occupants.size() > 0)
 								{
 									//for (int i = 0; i < t.occupants.size(); i++)
@@ -552,6 +552,7 @@ public class MenuSystem extends BaseSystem {
 										//main.rectMode(main.CENTER);
 										//main.rect(pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
 										PImage image = EntityData.iconMap.get(en.name);
+										float iX, iY;
 										//ArrayList<PImage> images = icon(t);
 										if (image != null)
 										{
@@ -561,7 +562,8 @@ public class MenuSystem extends BaseSystem {
 											if (en.mode != 0)
 											{
 												//4*len to compensate for unit strength GUI
-												main.image(image, pos[0] - dX - len/2 - len, pos[1] - dY - 30 - i*30 - len/2, len, len);
+												iX = pos[0] - dX - len/2 - len; iY = pos[1] - dY - 30 - i*30 - len/2;
+												main.image(image, iX, iY, len, len);
 												main.image(EntityData.iconMap.get("attack"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
 												main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
 												main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
@@ -578,12 +580,22 @@ public class MenuSystem extends BaseSystem {
 												main.text((int)en.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10);
 												main.text((int)en.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2);
 												main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*10);
+												
+												image = EntityData.iconMap.get("CopperWeapons");
+												main.image(image, iX + len*0.6F, iY + len*0.6F, len*0.4F, len*0.4F);
 											}
 											else
 											{
-												main.image(image, pos[0] - dX - len/2, pos[1] - dY - 60 - i*10 - len/2, len, len);
+												iX = pos[0] - dX - len/2; iY = pos[1] - dY - 60 - i*10 - len/2;
+												main.image(image, iX, iY, len, len);
 											}
 											main.popStyle();
+											if (en.unitImprovement != null)
+											{
+												image = null; image = EntityData.iconMap.get(en.unitImprovement.name);
+												if (image != null)
+													main.image(image, iX + len*0.6F, iY, len*0.4F, len*0.4F);
+											}
 										}
 									}
 								}
@@ -636,7 +648,7 @@ public class MenuSystem extends BaseSystem {
 								{
 									if (t.maxFields > i)
 									{
-										main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY + len*1.5F,t,i,len,(int)(len*1.5));
+										main.newMenuSystem.fieldIcon(pos[0]-dX,pos[1]-dY + len*1.5F,t,i,len,(int)(len*1.5F));
 									}
 								}
 							}

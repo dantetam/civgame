@@ -553,6 +553,7 @@ public class Game extends PApplet {
 			//System.out.println("Put " + units[i]);
 		}
 		//Special cases
+		//colorImage("Neutral", "Swordsman", 255, 150, 0);
 		colorImage("CopperWeapons", "Swordsman", 255, 150, 0);
 		colorImage("IronWeapons", "Swordsman", 255, 255, 255);
 		colorImage("CopperArrows", "ranged", 255, 150, 0);
