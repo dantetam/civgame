@@ -591,8 +591,8 @@ public class MenuSystem extends BaseSystem {
 													main.text((int)en.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2);
 													main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*10);
 
-													image = EntityData.iconMap.get("CopperWeapons");
-													main.image(image, iX + len*0.6F, iY + len*0.6F, len*0.4F, len*0.4F);
+													//image = EntityData.iconMap.get("CopperWeapons");
+													//main.image(image, iX + len*0.6F, iY + len*0.6F, len*0.4F, len*0.4F);
 												}
 												else
 												{
@@ -688,6 +688,41 @@ public class MenuSystem extends BaseSystem {
 
 		main.textSize(12);
 
+		if (mouseHighlighted != null && selected instanceof GameEntity)
+		{
+			GameEntity atk = (GameEntity)selected;
+			if (mouseHighlighted.occupants.size() > 0)
+			{
+				GameEntity def = mouseHighlighted.occupants.get(0);
+				if (atk.owner.isWar(def.owner))
+				{
+					if (atk.mode != 0)
+					{
+						int[] offensiveDamage = main.grid.conflictSystem.attack(atk, def);
+						int[] defensiveDamage = main.grid.conflictSystem.attack(def, atk);
+
+						float iX = 150, iY = main.height - 150;
+
+						main.pushStyle();
+						main.textAlign(main.CENTER, main.CENTER);
+						main.fill(0);
+						main.rect(iX, iY-30, 340, 30);
+						
+						main.tint(atk.owner.r, atk.owner.g, atk.owner.b);
+						unitStats(atk, iX, iY, 40);
+
+						main.tint(def.owner.r, def.owner.g, def.owner.b);
+						unitStats(def, iX + 100, iY, 40);
+						
+						main.fill(0);
+						//main.rect();
+						
+						main.popStyle();
+						
+					}
+				}
+			}
+		}
 		//Show the possible tiles that a unit can move to
 		//Make this a function to stop code repeats
 		//System.out.println(movementChoices.size());
@@ -834,17 +869,18 @@ public class MenuSystem extends BaseSystem {
 						if (hover instanceof Button)
 						{
 							Button b = (Button)hover;
-							if (b.menu.name.equals("MainMenu") || 
-									b.menu.name.equals("UnitMenu") || 
-									b.menu.name.equals("TechMenu") || 
-									b.menu.name.equals("CityMenu") ||
-									b.menu.name.equals("CreateFieldMenu") ||
-									b.menu instanceof TechMenu)
-							{
-								tooltip.posX = hover.posX + hover.sizeX;
-								tooltip.posY = hover.posY;
-								//System.out.println("---_>");
-							}
+							if (b.menu != null)
+								if (b.menu.name.equals("MainMenu") || 
+										b.menu.name.equals("UnitMenu") || 
+										b.menu.name.equals("TechMenu") || 
+										b.menu.name.equals("CityMenu") ||
+										b.menu.name.equals("CreateFieldMenu") ||
+										b.menu instanceof TechMenu)
+								{
+									tooltip.posX = hover.posX + hover.sizeX;
+									tooltip.posY = hover.posY;
+									//System.out.println("---_>");
+								}
 						}
 						main.fill(0);
 						main.stroke(255);
@@ -1108,6 +1144,22 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
+	}
+
+	public void unitStats(GameEntity en, float iX, float iY, float len)
+	{
+		main.image(EntityData.iconMap.get(en.name), iX, iY, len, len);
+		main.image(EntityData.iconMap.get("attack"), iX + len, iY, len/2, len/2);
+		main.image(EntityData.iconMap.get("defense"), iX + len, iY + len/2, len/2, len/2);
+		main.image(EntityData.iconMap.get("ranged"), iX + len*2, iY, len/2, len/2);
+		main.image(EntityData.iconMap.get("health"), iX + len*2, iY + len/2, len/2, len/2);
+
+		main.textAlign(main.LEFT, main.TOP);
+		main.fill(255);
+		main.text((int)en.offensiveStr, iX + len/2, iY + len);
+		main.text((int)en.defensiveStr, iX + len/2, iY + len*3/2);
+		main.text((int)en.rangedStr, iX + len*3/2, iY + len);
+		main.text((int)en.health, iX + len*3/2, iY + len*3/2);
 	}
 
 	public ArrayList<PImage> icon(Tile t)
