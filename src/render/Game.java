@@ -524,7 +524,8 @@ public class Game extends PApplet {
 	private String[] icons = {"Archer","Axeman","Barbarian","Settler","Slinger","Spearman","Swordsman","Warrior","Worker",
 			"Barbarian","Capital","CityIcon",
 			"attack", "cityhealth", "defense", "health", "population", "ranged", "speed",
-			"food", "gold", "metal", "research"};
+			"food", "gold", "metal", "research",
+			"Fish", "Rice", "Rock", "Spring", "Stones", "Wheat"};
 	private void setModels()
 	{
 		/*java.io.File folder = new File(new File("").getAbsolutePath().concat("/data/models"));
@@ -560,6 +561,11 @@ public class Game extends PApplet {
 		colorImage("IronArrows", "ranged", 255, 255, 255);
 		colorImage("CopperTools", "Worker", 255, 150, 0);
 		colorImage("IronTools", "Worker", 255, 255, 255);
+		
+		colorImage("Coal", "Rock", 50, 50, 50);
+		colorImage("Copper", "Stones", 255, 150, 0);
+		colorImage("Iron", "Stones", 255, 255, 255);
+		colorImage("Wheat", "Wheat", 255, 150, 0);
 	}
 
 	//Copy the image, give it a color, and store it

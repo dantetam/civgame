@@ -475,6 +475,13 @@ public class MenuSystem extends BaseSystem {
 								{
 									double[] y = City.staticEval(t);
 									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY+30, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									PImage img = EntityData.iconMap.get(EntityData.getResourceName(t.resource));
+									if (img != null)
+									{
+										int len = 20;
+										main.tint(255,255,255,255);
+										main.image(img, pos[0]-dX-len/2, pos[1]-dY+20-len/2, len, len);
+									}
 									//main.rect(pos[0]-dX, pos[1]-dY, 10, 10);
 									/*int n = 0;
 									for (int i = 0; i < y.length; i++)
@@ -693,7 +700,9 @@ public class MenuSystem extends BaseSystem {
 			GameEntity atk = (GameEntity)selected;
 			if (mouseHighlighted.occupants.size() > 0)
 			{
-				GameEntity def = mouseHighlighted.occupants.get(0);
+				BaseEntity def = mouseHighlighted.occupants.get(0);
+				if (def == null && mouseHighlighted.improvement instanceof City)
+					def = mouseHighlighted.improvement;
 				if (atk.owner.isWar(def.owner))
 				{
 					if (atk.mode != 0)
@@ -710,17 +719,14 @@ public class MenuSystem extends BaseSystem {
 						main.rect(iX, iY - 30, 340, 30);
 						main.fill(255);
 						main.text(atk.name + " (" + atk.owner.name + ") vs " + def.name + " (" + def.name + ")", iX + 170, iY - 30);
-						
+
 						main.tint(atk.owner.r, atk.owner.g, atk.owner.b);
 						unitStats(atk, iX, iY, len);
 
-						main.tint(def.owner.r, def.owner.g, def.owner.b);
-						unitStats(def, iX + 220, iY, len);
-						
 						main.fill(0);
 						main.rect(iX, iY + len, 160, 150 - len);
 						main.rect(iX + 180, iY + len, 160, 150 - len);
-						
+
 						main.fill(255);
 						ArrayList<String> text1 = new ArrayList<String>();
 						text1.add("If I attacked...");
@@ -728,16 +734,22 @@ public class MenuSystem extends BaseSystem {
 						text1.add("Damage taken: " + offensiveDamage[1]);
 						for (int i = 0; i < text1.size(); i++)
 							main.text(text1.get(i), iX, iY + len + 14*i);
-						
-						ArrayList<String> text2 = new ArrayList<String>();
-						text2.add("If I attacked...");
-						text2.add("Damage inflicted: " + defensiveDamage[0]);
-						text2.add("Damage taken: " + defensiveDamage[1]);
-						for (int i = 0; i < text2.size(); i++)
-							main.text(text2.get(i), iX + 180, iY + len + 14*i);
-						
+
+						if (def instanceof GameEntity)
+						{
+							main.tint(def.owner.r, def.owner.g, def.owner.b);
+							unitStats((GameEntity)def, iX + 220, iY, len);
+
+							ArrayList<String> text2 = new ArrayList<String>();
+							text2.add("If I attacked...");
+							text2.add("Damage inflicted: " + defensiveDamage[0]);
+							text2.add("Damage taken: " + defensiveDamage[1]);
+							for (int i = 0; i < text2.size(); i++)
+								main.text(text2.get(i), iX + 180, iY + len + 14*i);
+						}
+
 						main.popStyle();
-						
+
 					}
 				}
 			}
