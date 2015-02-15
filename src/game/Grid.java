@@ -281,9 +281,9 @@ public class Grid {
 		{
 			//Civilization civ = new Civilization("Barbarians");
 			Civilization civ = new Civilization("Barbarians"+(i-numCivs-numCityStates+1),new ArrayList<String>(),0,0,0,1,0,0);
-			civ.r = 0; civ.sR = 0;
-			civ.g = 0; civ.sG = 255;
-			civ.b = 0; civ.sB = 0;
+			civ.r = 50; civ.sR = 0;
+			civ.g = 50; civ.sG = 255;
+			civ.b = 50; civ.sB = 0;
 			civ.revealed = new int[terrain.length][terrain[0].length];
 			civ.opinions = new int[numCivs + numCityStates + numBarbarians];
 			civs[i] = civ;

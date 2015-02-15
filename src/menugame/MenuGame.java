@@ -90,7 +90,15 @@ public class MenuGame {
 		else if (terrainType.equals("terrain4"))
 		{
 			map = new RecursiveBlock(seed);
-			terrain = map.generate(new double[]{10,1});
+			double[][] master = map.generate(new double[]{10,1});
+			terrain = new double[master.length/10 + 1][master.length/10 + 1];
+			for (int r = 0; r < master.length; r += 10)
+			{
+				for (int c = 0; c < master[0].length; c += 10)
+				{
+					terrain[r/10][c/10] = master[r][c];
+				}
+			}
 			cutoff = 1;
 		}
 		else if (terrainType.equals("terrain5"))

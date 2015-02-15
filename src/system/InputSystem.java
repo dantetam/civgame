@@ -40,6 +40,8 @@ public class InputSystem extends BaseSystem {
 		TOGGLE_MINIMAP 	('m'),
 		TOGGLE_FOG		('r'),
 		TOGGLE_TACTICAL ('t'),
+		ZOOM_IN			('i'),
+		ZOOM_OUT		('o'),
 		FUNCTION_1 		('1', 131),
 		FUNCTION_2 		('2', 132),
 		FUNCTION_3 		('3', 133),
@@ -609,6 +611,19 @@ public class InputSystem extends BaseSystem {
 		else if (action.equals("TOGGLE_KEY_MENU"))
 		{
 			main.keyMenu = !main.keyMenu;
+		}
+		else if (main.menuSystem.minimapMode == 1)
+		{
+			if (action.equals("ZOOM_IN"))
+			{
+				if (main.menuSystem.sight > 5)
+					main.menuSystem.sight--;
+			}
+			else if (action.equals("ZOOM_OUT"))
+			{
+				if (main.menuSystem.sight < 20)
+					main.menuSystem.sight++;
+			}
 		}
 	}
 

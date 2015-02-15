@@ -84,6 +84,7 @@ public class TechTree {
 			t.economicCivic = "Tribalism";
 
 		t = researched("Agriculture");
+			t.units("Warband");
 			t.tImpr("Farm");
 			t.cImpr("Granary");
 			t.governmentCivic = "Collective Rule";
@@ -97,7 +98,7 @@ public class TechTree {
 		
 		t = researched("Hunting");
 			//t.tImpr("Trading Post");
-			t.units("Scout", "Warband");
+			t.units("Scout");
 			//t.cImpr("Butcher");
 			t.obsUnits("Warrior");
 			

@@ -254,8 +254,8 @@ public class RecursiveBlock extends BaseTerrain {
 		entities = new ArrayList<Entity>();
 		Entity start = new Entity();
 		entities.add(start);
-		start.setPos(0,100,0);
-		start.setSize(100,100,100);
+		start.setPos(0,50,0);
+		start.setSize(50,50,50);
 		//TODO: More than one starter block?
 		terrain(start,3);
 		

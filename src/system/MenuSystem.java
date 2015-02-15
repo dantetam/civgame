@@ -386,13 +386,20 @@ public class MenuSystem extends BaseSystem {
 			{
 				//String stringy;
 				stringy = "";
-				for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
+				if (mouseHighlighted.occupants.size() > 3)
 				{
-					GameEntity en = mouseHighlighted.occupants.get(i);
-					stringy += en.name + " (" + en.owner + "); ";
+					stringy += "Stack (" + mouseHighlighted.occupants.size() + ")";
 				}
-				if (!stringy.equals(""))
+				else
+				{
+					for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
+					{
+						GameEntity en = mouseHighlighted.occupants.get(i);
+						stringy += en.name + " (" + en.owner + "); ";
+					}
+					//if (!stringy.equals(""))
 					hintText.add(stringy.substring(0,stringy.length()-2));
+				}
 			}
 
 			String resource = EntityData.getResourceName(mouseHighlighted.resource);
@@ -614,6 +621,7 @@ public class MenuSystem extends BaseSystem {
 											float iX = pos[0] - dX - len/2, iY = pos[1] - dY - 60 - i*10 - len/2;
 											main.stroke(en.owner.r, en.owner.g, en.owner.b);
 											main.rect(iX + len/4, iY + len/4, len/2, len/2);
+											main.noStroke();
 										}
 									}
 								}
@@ -624,8 +632,9 @@ public class MenuSystem extends BaseSystem {
 										City city = (City)t.improvement;
 										main.tint(t.improvement.owner.r, t.improvement.owner.g, t.improvement.owner.b);
 										PImage image = city.owner.id >= main.grid.barbarians ? EntityData.iconMap.get("CityIcon") : EntityData.iconMap.get("Barbarian");
-										if (t.improvement.owner.capital.equals(t.improvement))
-											image = EntityData.iconMap.get("Capital");
+										if (t.improvement.owner.capital != null)
+											if (t.improvement.owner.capital.equals(t.improvement))
+												image = EntityData.iconMap.get("Capital");
 										main.image(image, pos[0] - dX - 3*len/2, pos[1] - dY - 30 - len/2, len, len);
 
 										int i = 0;
@@ -2149,14 +2158,14 @@ public class MenuSystem extends BaseSystem {
 		}
 	}*/
 
-	private Tile editingFields; //The tile that the player wants to improve
+	//private Tile editingFields; //The tile that the player wants to improve
 	public void updateFieldMenu(Tile t)
 	{
 		if (t.maxFields == 0) return;
 		closeMenus();
 		menus.get(15).buttons.clear();
 		menus.get(15).activate(true);
-		editingFields = t;
+		//editingFields = t;
 		//Shortcuts are turned off for this menu
 		for (int i = 0; i < t.maxFields; i++)
 		{
