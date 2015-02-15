@@ -774,6 +774,8 @@ public class CivilizationSystem extends BaseSystem {
 				}
 			}
 		}
+		if (main != null)
+			main.menuSystem.techMenu.setupButtons();
 	}	
 
 	public void spawnBarbarians(Grid grid, int index, int r, int c)

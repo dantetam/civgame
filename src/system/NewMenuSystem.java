@@ -6,6 +6,7 @@ import game.Tile;
 
 import java.util.ArrayList;
 
+import data.EntityData;
 import data.Field;
 import render.Button;
 import render.CivGame;
@@ -72,9 +73,44 @@ public class NewMenuSystem extends BaseSystem {
 		}
 	}
 	
+	public void tileIcon(float posX, float posY, int f, int g, int m, int r)
+	{
+		//Show biome
+		//image = EntityData.iconMap.get("Capital");
+		//main.image(image, posX - 3*len/2, posY - 30 - len/2, len, len);
+		int len = 24;
+		
+		int i = 0;
+		//main.image(image, posX - len/2 - len, posY - 30 - i*30 - len/2, len, len);
+		float alpha = 75;
+		main.tint(0,255,0,alpha);
+		main.image(EntityData.iconMap.get("food"), posX - len/2, posY - 30 - i*30 - len/2, len/2, len/2);
+		main.tint(255,255,0,alpha);
+		main.image(EntityData.iconMap.get("gold"), posX - len/2, posY - 30 - i*30, len/2, len/2);
+		main.tint(255,150,0,alpha);
+		main.image(EntityData.iconMap.get("metal"), posX - len/2 + len, posY - 30 - i*30 - len/2, len/2, len/2);
+		main.tint(150,225,255,alpha);
+		main.image(EntityData.iconMap.get("research"), posX - len/2 + len, posY - 30 - i*30, len/2, len/2);
+
+		main.fill(0,0,0,alpha);
+		/*main.rect(posX, posY - 30 - i*10 - len/2, len/2, len/2);
+		main.rect(posX, posY - 30 - i*10, len/2, len/2);
+		main.rect(posX + len, posY - 30 - i*10 - len/2, len/2, len/2);
+		main.rect(posX + len, posY - 30 - i*10, len/2, len/2);*/
+		main.textAlign(main.LEFT, main.TOP);
+		main.fill(255,255,255,alpha);
+		main.pushStyle();
+		main.textSize(12);
+		main.text(f, posX, posY - 30 - i*10 - len/2);
+		main.text(g, posX, posY - 30 - i*10);
+		main.text(m, posX + len, posY - 30 - i*10 - len/2);
+		main.text(r, posX + len, posY - 30 - i*10);
+		main.popStyle();
+	}
+	
 	//X position of center, Y position of center, which resource is being shown,
 	//Number of the resource yielded from harvest, total number of icons, and the position of showing (i.e. left most is 1)
-	public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
+	/*public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
 	{
 		float size = 10, space = 0, alpha = 75;
 		main.rectMode(main.CENTER);
@@ -164,17 +200,17 @@ public class NewMenuSystem extends BaseSystem {
 		}
 		else //if (type == 3)
 		{
-			/*main.fill(0,0,200,alpha);
+			main.fill(0,0,200,alpha);
 			main.beginShape(main.TRIANGLES);
 			main.vertex(posX - size/2, posY + size/2);
 			main.vertex(posX + size/2, posY + size/2);
 			main.vertex(posX, posY - size/2);
-			main.endShape();*/
+			main.endShape();
 		}
 		main.fill(255);
 		main.rectMode(main.CORNER);
 		main.ellipseMode(main.CORNER);
-	}
+	}*/
 
 	//Another method that shows GUIs for a tile's fields
 	public void fieldIcon(float posX, float posY, Tile t, int n, float len1, float len2)

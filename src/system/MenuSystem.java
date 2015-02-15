@@ -431,7 +431,8 @@ public class MenuSystem extends BaseSystem {
 								if (!main.tacticalView)
 								{
 									double[] y = City.staticEval(t);
-									int n = 0;
+									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									/*int n = 0;
 									for (int i = 0; i < y.length; i++)
 										if (y[i] > 0)
 											n++;
@@ -441,7 +442,7 @@ public class MenuSystem extends BaseSystem {
 										{
 											main.newMenuSystem.tileIcon(pos[0] - dX,pos[1] - dY,i,(int)y[i],n,iter);
 											iter++;
-										}
+										}*/
 								}
 							}
 						}
@@ -555,7 +556,7 @@ public class MenuSystem extends BaseSystem {
 									{
 										City city = (City)t.improvement;
 										main.tint(t.improvement.owner.r, t.improvement.owner.g, t.improvement.owner.b);
-										PImage image = EntityData.iconMap.get("CityIcon");
+										PImage image = city.owner.id >= main.grid.barbarians ? EntityData.iconMap.get("CityIcon") : EntityData.iconMap.get("Barbarian");
 										if (t.improvement.owner.capital.equals(t.improvement))
 											image = EntityData.iconMap.get("Capital");
 										main.image(image, pos[0] - dX - 3*len/2, pos[1] - dY - 30 - len/2, len, len);
@@ -998,7 +999,7 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 	}
-	
+
 	public void displayText(TextBox b)
 	{
 		for (int j = 0; j < b.display.size(); j++)
@@ -1342,9 +1343,16 @@ public class MenuSystem extends BaseSystem {
 		//Researching tech commands
 		else if (command.contains("research"))
 		{
-			//Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
-			main.grid.civs[0].researchTech = command.substring(8);
-			menus.get(5).activate(false); techMenu.activate(false);
+			Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
+			if (t.requisite.researched() || t.alternative.researched())
+			{
+				main.grid.civs[0].researchTech = command.substring(8);
+				menus.get(5).activate(false); techMenu.activate(false);
+			} 
+			else
+			{
+				message(t.name + " is not unlocked.");
+			}
 		}
 		//Change a government or economic civic
 		else if (command.contains("gCivic"))
