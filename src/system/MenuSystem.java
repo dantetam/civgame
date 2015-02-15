@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import data.ColorImage;
 import data.EntityData;
 import data.Field;
 import data.Improvement;
@@ -218,14 +219,15 @@ public class MenuSystem extends BaseSystem {
 		//System.out.println("======");
 
 		main.textAlign(main.CENTER);
-		main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
-
+		//main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
+		//main.image(EntityData.iconMap.get("CopperWeapons"),200,200,200,200);
+		
 		if (minimapMode == 1 || minimapMode == 2)
 		{
 			//main.rect(0, 700, 50, 50);
 			int con = 1;
 			main.noFill();
-			float sX = main.width - 300; float sY = main.height - 600; float widthX = 200; float widthY = 200;
+			float sX = main.width - 300; float sY = main.height - 600; float widthX = 250; float widthY = 250;
 			main.rect(sX, sY, widthX, widthY);
 			//System.out.println(rbox[0] + " " + rbox[1] + " " + rbox[2] + " " + rbox[3]);
 			if (minimapMode == 2)
@@ -245,7 +247,7 @@ public class MenuSystem extends BaseSystem {
 			}
 			else //if (minimapMode == 1) by disjunctive syllogism
 			{
-				int sight = 5, rr = 0, cc = 0;
+				int sight = 7, rr = 0, cc = 0;
 				if (highlighted != null)
 				{
 					for (int r = highlighted.row - sight; r <= highlighted.row + sight; r++)
@@ -264,11 +266,11 @@ public class MenuSystem extends BaseSystem {
 								continue;
 							}
 							if (t.biome == -1)
-								main.fill(150,225,255);
+								main.fill(150,225,255,150);
 							else if (t.owner == null) 
-								main.fill(150);
+								main.fill(150,150);
 							else
-								main.fill(t.owner.r, t.owner.g, t.owner.b);
+								main.fill(t.owner.r, t.owner.g, t.owner.b, 150);
 							main.stroke(0);
 							main.rect(sX + rr*wX,sY + (sight*2 + 1 - cc)*wY,wX,wY);
 							ArrayList<PImage> images = icon(t);
@@ -759,7 +761,7 @@ public class MenuSystem extends BaseSystem {
 			TextBox b = textboxes.get(i);
 			if (b.active)
 			{
-				main.fill(0);
+				main.fill(b.r, b.g, b.b, b.alpha);
 				if (b.shape == 0)
 					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
 				else if (b.shape == 1)
@@ -1007,7 +1009,7 @@ public class MenuSystem extends BaseSystem {
 						}
 						else
 						{
-							main.fill(b.r, b.g, b.b);
+							main.fill(b.r, b.g, b.b, b.alpha);
 							//main.stroke(b.borderR, b.borderG, b.borderB);
 							if (b.shape == 0)
 								main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
@@ -1026,10 +1028,29 @@ public class MenuSystem extends BaseSystem {
 									Button button = (Button)b;
 									if (button.command.contains("queue"))
 									{
-										System.out.println(button.command.substring(5));
+										//System.out.println(button.command.substring(5));
 										PImage image = EntityData.iconMap.get(button.command.substring(5));
 										if (image != null)
+										{
+											main.tint(main.grid.civs[0].r, main.grid.civs[0].g, main.grid.civs[0].b, 255);
 											main.image(image, b.posX, b.posY, b.sizeY, b.sizeY);
+										}
+									}
+								}
+							}
+							else if (menu == 4) //Unit improvements
+							{
+								if (b instanceof Button)
+								{
+									Button button = (Button)b;
+									int index = button.command.indexOf('/');
+									if (index != -1)
+									{
+										//System.out.println(button.command.substring(5));
+										PImage image = EntityData.iconMap.get(button.command.substring(index+1));
+										if (image != null)
+											if (image instanceof ColorImage)
+												main.image(image, b.posX, b.posY, b.sizeY, b.sizeY);
 									}
 								}
 							}
@@ -1342,10 +1363,9 @@ public class MenuSystem extends BaseSystem {
 		}
 		else if (command.equals("unitSettle"))
 		{
-			if (!((Settler)selected).settle())
-			{
-				message("Cannot settle here.");
-			}
+			if (selected != null) 
+				if (!((Settler)selected).settle())
+					message("Cannot settle here.");
 		}
 		else if (command.contains("unitCaravan"))
 		{

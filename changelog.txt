@@ -10,6 +10,8 @@ X : Abandoned
 
 Scaling resources to empire size and turns
 / New streamlined UI that reflects Endless Legend
+	>+ Icons in queue menu
+	>+ Changes to yield GUI
 Grand view perspective, strategic mid-view, detailed view
 	Variable positions of mouse clicking (define how to click a tile based on a rendering)
 Work on and balance unit upgrades (some disadvantages and costs)
@@ -22,6 +24,8 @@ Levels when building cities, fields, units
 	> Change FGMR gui
 >+ Fixed row column order in GUI
 >+ New minimap
+
+Use of hashmaps to explain how yields are calculated (e.g. 
 	
 2/7/2015 -> 2/13/2015 (Hackathon work)
 

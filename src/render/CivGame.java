@@ -3,6 +3,7 @@ package render;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.opengl.PShader;
 
 import java.awt.event.KeyEvent;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import data.Color;
+import data.ColorImage;
 import terrain.*;
 import system.*;
 import entity.Player;
@@ -191,6 +193,18 @@ public class CivGame extends PApplet {
 				//inputSystem.queueRightClick(mouseX, mouseY);
 			}
 		}
+	}
+	
+	public void image(PImage image, float a, float b, float c, float d)
+	{
+		if (image instanceof ColorImage)
+		{
+			ColorImage col = (ColorImage)image;
+			tint(col.r, col.g, col.b);
+			super.image(col.image, a, b, c, d);
+		}
+		else
+			super.image(image, a, b, c, d);
 	}
 
 	public void mouseMoved()

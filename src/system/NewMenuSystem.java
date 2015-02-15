@@ -287,7 +287,7 @@ public class NewMenuSystem extends BaseSystem {
 		if (!exists)
 		{
 			main.fill(255,0,0,50);
-			main.ellipse(x, y, len1, len1);
+			main.ellipse(x+len1/2, y+len1/2, len1, len1);
 		}
 		main.strokeWeight(1);
 	}
@@ -304,7 +304,7 @@ public class NewMenuSystem extends BaseSystem {
 			fill = new float[]{t.owner.r, t.owner.g, t.owner.b, 255};
 		}
 		Button b = (Button)main.menuSystem.menus.get(14).addButton("fieldMenu" + t.row + "," + t.col, "", "", posX - len/2F, posY - len/2F, len, len);
-		b.r = fill[0]; b.g = fill[1]; b.b = fill[2]; b.a = fill[3];
+		b.r = fill[0]; b.g = fill[1]; b.b = fill[2]; b.alpha = fill[3];
 		b.tooltip.clear();
 		String fieldString = "";
 		for (int i = 0; i < t.fields.size(); i++)

@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import javax.swing.JFrame;
 
 import data.Color;
+import data.ColorImage;
 import data.EntityData;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -149,7 +150,7 @@ public class Game extends PApplet {
 		textFont(arial);
 		//textSize(18);
 		textSize(14);
-		
+
 		if (frameCount % tickEvery == 0)
 		{
 			menuGame.tick();
@@ -233,7 +234,7 @@ public class Game extends PApplet {
 					if (t.improvement instanceof City)
 					{
 						fill(255,0,0);
-						text(((City)t.improvement).population ,len*r, len*c);
+						text(((City)t.improvement).population, len*r, len*c);
 					}
 				}
 			}
@@ -551,6 +552,30 @@ public class Game extends PApplet {
 			EntityData.iconMap.put(icons[i], data2);
 			//System.out.println("Put " + units[i]);
 		}
+		//Special cases
+		colorImage("CopperWeapons", "Swordsman", 255, 150, 0);
+		colorImage("IronWeapons", "Swordsman", 255, 255, 255);
+		colorImage("CopperArrows", "ranged", 255, 150, 0);
+		colorImage("IronArrows", "ranged", 255, 255, 255);
+		colorImage("CopperTools", "Worker", 255, 150, 0);
+		colorImage("IronTools", "Worker", 255, 255, 255);
+	}
+
+	//Copy the image, give it a color, and store it
+	private void colorImage(String s, String masterName, float r, float g, float b)
+	{
+		PImage master = EntityData.iconMap.get(masterName);
+		ColorImage image = new ColorImage(master,r,g,b);
+		/*image.pixels = new int[master.pixels.length];
+		for (int i = 0; i < master.pixels.length; i++)
+			{
+			image.pixels[i] = master.pixels[i];
+			System.out.println(master.pixels[i]);
+			}
+		
+		image.pixels = master.pixels;
+		image.color(r,g,b);*/
+		EntityData.iconMap.put(s, image);
 	}
 
 	private static String[] entries = {"City"};

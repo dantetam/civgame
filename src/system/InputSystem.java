@@ -400,6 +400,10 @@ public class InputSystem extends BaseSystem {
 				b.origX = main.mouseX; b.origY = main.mouseY;
 			}
 		}
+		else
+		{
+			main.menuSystem.closeMenus();
+		}
 	}
 
 	/*public void test()

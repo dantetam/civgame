@@ -20,7 +20,7 @@ public class TextBox {
 	public boolean active = true, autoClear = true;
 	public boolean shortcut = true;
 	
-	public float r = 0, g = 0, b = 0, a = 255;
+	public float r = 0, g = 0, b = 0, alpha = 255;
 	public float borderR = 255, borderG = 255, borderB = 255;
 	public int shape = 0; //0 -> rectangle (default), 1 -> ellipse
 	
