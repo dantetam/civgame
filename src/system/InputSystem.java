@@ -583,7 +583,9 @@ public class InputSystem extends BaseSystem {
 		}*/
 		else if (action.equals("TOGGLE_MINIMAP"))
 		{
-			main.menuSystem.minimap = !main.menuSystem.minimap;
+			main.menuSystem.minimapMode++;
+			if (main.menuSystem.minimapMode > 2)
+				main.menuSystem.minimapMode = 0;
 			main.menuSystem.rbox = main.grid.civs[0].revealedBox();
 		}
 		else if (action.equals("TOGGLE_FOG"))

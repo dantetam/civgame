@@ -31,7 +31,8 @@ public class MenuSystem extends BaseSystem {
 
 	private ArrayList<Click> clicks;
 
-	public boolean minimap, info; //loadout, loadoutDisplay, techMenu, continueMenu; //Access the menu's active property instead
+	public int minimapMode = 0; //0 -> off, 1 -> local, 2 -> global
+	public boolean info; //loadout, loadoutDisplay, techMenu, continueMenu; //Access the menu's active property instead
 	public int multiplier = 1;
 	public float highlightDispX = main.width/2, highlightDispY = main.width/2;
 
@@ -218,46 +219,47 @@ public class MenuSystem extends BaseSystem {
 		main.textAlign(main.CENTER);
 		main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
 
-		if (minimap)
+		if (minimapMode == 1 || minimapMode == 2)
 		{
 			//main.rect(0, 700, 50, 50);
 			int con = 1;
-			float sX = main.width - 400; float sY = main.height - 550; float widthX = 200; float widthY = 200; 
+			main.noFill();
+			float sX = main.width - 200; float sY = main.height - 600; float widthX = 200; float widthY = 200;
+			main.rect(sX, sY, widthX, widthY);
 			//System.out.println(rbox[0] + " " + rbox[1] + " " + rbox[2] + " " + rbox[3]);
-			for (int r = rbox[0]; r <= rbox[0] + rbox[2]; r += con)
+			if (minimapMode == 2)
 			{
-				for (int c = rbox[1]; c <= rbox[1] + rbox[3]; c += con)
+				for (int r = rbox[0]; r <= rbox[0] + rbox[2]; r += con)
 				{
-					Tile t = main.grid.getTile(r,c);
-					if (t == null) continue;
-					if (main.grid.civs[0].revealed[r][c] == 0)
-						main.fill(0);
-					else
+					for (int c = rbox[1]; c <= rbox[1] + rbox[3]; c += con)
 					{
-						if (t.height >= main.cutoff)
-						{
-							if (t.owner != null)
-							{
-								main.fill(t.owner.r,t.owner.g,t.owner.b);
-							}
-							else if (t.occupants.size() > 0)
-							{
-								GameEntity en = t.occupants.get(0);
-								main.fill(en.owner.r, en.owner.g, en.owner.b);
-							}
-							else
-							{
-								main.fill(150);
-							}
-						}
-						else
-						{
-							main.fill(150,225,255);
-						}
+						Tile t = main.grid.getTile(r,c);
+						if (t == null) continue;
+						minimapFill(t);
+						//main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,widthX*con/main.grid.rows,widthY*con/main.grid.cols);
+						//System.out.println(sX + r/(float)main.grid.rows*widthX);
+						main.rect(sX + (r-rbox[0])/(float)rbox[2]*widthX, sY + (1 - (c-rbox[1])/(float)(rbox[3]))*widthY, widthX*con/(float)rbox[2], widthY*con/(float)rbox[3]);
 					}
-					//main.rect(sX + (main.grid.rows-r)/(float)main.grid.rows*widthX,sY + c/(float)main.grid.cols*widthY,widthX*con/main.grid.rows,widthY*con/main.grid.cols);
-					//System.out.println(sX + r/(float)main.grid.rows*widthX);
-					main.rect(sX + (r-rbox[0])/(float)rbox[2]*widthX, sY + (1 - (c-rbox[1])/(float)(rbox[3]))*widthY, widthX*con/(float)rbox[2], widthY*con/(float)rbox[3]);
+				}
+			}
+			else //if (minimapMode == 1)
+			{
+				int sight = 5, rr = 0, cc = 0;
+				if (highlighted != null)
+				{
+					for (int r = highlighted.row - sight; r <= highlighted.row + sight; r++)
+					{
+						for (int c = highlighted.col - sight; c <= highlighted.col + sight; c++)
+						{
+							Tile t = main.grid.getTile(r,c);
+							minimapFill(t);
+							float wX = widthX/(sight*2 + 1), wY = widthY/(sight*2 + 1);
+							main.rect(sX + rr*wX,sY + (sight*2 + 1 - cc)*wY,wX,wY);
+							cc++;
+						}
+						rr++;
+						cc = 0;
+					}
 				}
 			}
 		}
@@ -362,7 +364,7 @@ public class MenuSystem extends BaseSystem {
 				if (!stringy.equals(""))
 					hintText.add(stringy.substring(0,stringy.length()-2));
 			}
-			
+
 			String resource = EntityData.getResourceName(mouseHighlighted.resource);
 			if (resource != null)
 				hintText.add(resource);
@@ -1004,6 +1006,34 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 	}
+	
+	public void minimapFill(Tile t)
+	{
+		if (t == null)
+			main.fill(0);
+		else
+		{
+			if (main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll)
+				main.fill(0);
+			else
+			{
+				if (t.biome != -1)
+				{
+					if (t.owner != null)
+						main.fill(t.owner.r,t.owner.g,t.owner.b);
+					else if (t.occupants.size() > 0)
+					{
+						GameEntity en = t.occupants.get(0);
+						main.fill(en.owner.r, en.owner.g, en.owner.b);
+					}
+					else
+						main.fill(150);
+				}
+				else
+					main.fill(150,225,255);
+			}
+		}
+	}
 
 	public void displayText(TextBox b)
 	{
@@ -1096,7 +1126,8 @@ public class MenuSystem extends BaseSystem {
 			}
 			else if (command.equals("minimap"))
 			{
-				minimap = !minimap;
+				minimapMode++;
+				if (minimapMode > 2) minimapMode = 0;
 			}
 			else if (command.equals("loadout"))
 			{
@@ -1491,7 +1522,7 @@ public class MenuSystem extends BaseSystem {
 	{
 		textboxes.get(2).activate(true);
 		info = false;
-		minimap = false;
+		minimapMode = 0;
 		menus.get(3).activate(false);
 		menus.get(4).activate(false);
 		textboxes.get(4).activate(false);

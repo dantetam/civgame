@@ -20,6 +20,7 @@ Dynamic city model
 Levels when building cities, fields, units
 > Add more game icons
 	> Change FGMR gui
+>+ Fixed row column order in GUI
 	
 2/7/2015 -> 2/13/2015 (Hackathon work)
 
