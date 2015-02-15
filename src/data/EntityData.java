@@ -477,7 +477,7 @@ public class EntityData {
 		yield.put("From dry forest biome", new int[]{2,1,1,2});
 		yield.put("From forest biome", new int[]{3,0,1,2});
 		yield.put("From rainforest biome", new int[]{3,1,0,3});
-		yield.put("Forested", new int[]{2,0,0,0});
+		yield.put("Dense forest", new int[]{2,0,0,0});
 		yield.put("Fresh water", new int[]{1,0,0,0});
 		yield.put("Barren", new int[]{-1,0,0,-1});
 		
@@ -495,11 +495,12 @@ public class EntityData {
 		yield.put("Harvested fish", new int[]{3,0,0,0});
 		yield.put("Harvested whale", new int[]{2,3,0,3});
 		
-		yield.put("Mined copper", new int[]{0,2,3,1});
-		yield.put("Mined iron", new int[]{0,1,4,3});
-		yield.put("Mined coal", new int[]{0,1,3,1});
+		yield.put("Mined copper", new int[]{0,2,2,1});
+		yield.put("Mined iron", new int[]{0,1,3,2});
+		yield.put("Mined coal", new int[]{0,1,2,1});
 		
-		yield.put("From spring", new int[]{2,1,0,2});
+		yield.put("From natural spring", new int[]{2,1,0,2});
+		yield.put("Silviculture", new int[]{1,1,3,1});
 	}
 	
 	private static void setupUnitIcons()

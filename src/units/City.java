@@ -29,7 +29,7 @@ public class City extends TileEntity {
 	//public int sight = 4;
 
 	public Tile potentialField = null;
-	
+
 	public ArrayList<Caravan> activeCaravansOut;
 	public ArrayList<Caravan> activeCaravansIn;
 
@@ -322,43 +322,44 @@ public class City extends TileEntity {
 			return staticEval(t, t.improvement.name);
 		return staticEval(t, null);
 	}
-	
-	//Evaluate when an improvement is planned
+
+	//If only Java functions could return two things, like in Lua
+	//Why do I write in Java? Because I'm masochistic.
+	//It's not even 4 AM yet...smh
 	public static double[] staticEval(Tile t, String improvement)
 	{
-		int f, g, m, r;
+		double[] temp = {0,0,0,0};
+		ArrayList<String> conditions = staticEvalReasons(t, improvement);
+		for (int i = 0; i < conditions.size(); i++)
+		{
+			int[] yield = EntityData.yield.get(conditions.get(i));
+			for (int j = 0; j <= 3; j++)
+				temp[j] += yield[j]; 
+		}
+		return temp;
+	}
+	
+	//Evaluate when an improvement is planned
+	public static ArrayList<String> staticEvalReasons(Tile t, String improvement)
+	{
+		int f = 0, g = 0, m = 0, r = 0;
+		ArrayList<String> conditions = new ArrayList<String>();
 		if (t.biome == -1)
-		{
-			f = 1; g = 1; m = 0; r = 2;
-		}
+			conditions.add("From sea biome");
 		else if (t.biome == 0)
-		{
-			f = 0; g = 1; m = 2; r = 1;
-		}
+			conditions.add("From ice biome");
 		else if (t.biome == 1)
-		{
-			f = 1; g = 1; m = 1; r = 1;
-		}
+			conditions.add("From taiga");
 		else if (t.biome == 2)
-		{
-			f = 0; g = 0; m = 2; r = 1;
-		}
+			conditions.add("From desert");
 		else if (t.biome == 3)
-		{
-			f = 2; g = 0; m = 1; r = 2;
-		}
+			conditions.add("From steppe");
 		else if (t.biome == 4)
-		{
-			f = 2; g = 1; m = 1; r = 2;
-		}
+			conditions.add("From dry forest biome");
 		else if (t.biome == 5)
-		{
-			f = 3; g = 0; m = 1; r = 2;
-		}
+			conditions.add("From forest biome");
 		else if (t.biome == 6)
-		{
-			f = 3; g = 1; m = 0; r = 3;
-		}
+			conditions.add("From rainforest biome");
 		else
 		{
 			System.err.println("Invalid biomerrr " + t.biome);
@@ -368,28 +369,37 @@ public class City extends TileEntity {
 		{
 			if (!t.forest)
 			{
-				f--;
-				r--;
+				conditions.add("Barren");
 			}
-			if (t.biome != 6)
-				if (t.grid.irrigated(t.row, t.col))
-					f += 2;
+			else
+			{
+				conditions.add("Dense forest");
+				if (t.biome != 6)
+					if (t.grid.irrigated(t.row, t.col))
+					{
+						conditions.add("Fresh water");
+					}
+			}
 		}
 		if (t.shape == 1)
 		{
-			f--;
-			m++;
+			conditions.add("Rocky terrain");
 			if (improvement != null)
 				if (improvement.equals("Mine"))
-					m++;
+				{
+					conditions.remove(conditions.size()-1);
+					conditions.add("Rocky terrain with mine");
+				}
 		}
 		else if (t.shape == 2)
 		{
-			f -= 1;
-			m += 1;
+			conditions.add("Mountainous terrain");
 			if (improvement != null)
 				if (improvement.equals("Mine"))
-					m += 2;
+				{
+					conditions.remove(conditions.size()-1);
+					conditions.add("Mountainous terrain with mine");
+				}
 		}
 		//Record tiles with harvested resources as extra yield and record the number of these special tiles
 		if (improvement != null)
@@ -397,81 +407,46 @@ public class City extends TileEntity {
 			if (improvement.equals("Farm"))
 			{
 				if (t.resource == 1)
-				{
-					f += 3;
-				}
+					conditions.add("Cultivated wheat");
 				else if (t.resource == 2)
-				{
-					f += 4;
-				}
+					conditions.add("Cultivated rice");
 				else
-				{
-					f += 2;
-				}
+					conditions.add("Cultivated");
 			}
 			else if (improvement.equals("Fishing Boats"))
 			{
 				if (t.resource == 10)
-				{
-					f += 3;
-				}
+					conditions.add("Harvested fish");
 				else if (t.resource == 11)
-				{
-					f += 2;
-					g += 3;
-					r += 3;
-				}
+					conditions.add("Harvested whale");
 			}
 			else if (improvement.equals("Mine"))
 			{
 				if (t.resource == 20)
-				{
-					m += 3;
-					g += 2;
-					r += 1;
-				}
+					conditions.add("Mined copper");
 				else if (t.resource == 21)
-				{
-					m += 4;
-					g += 1;
-					r += 3;
-				}
+					conditions.add("Mined iron");
 				else if (t.resource == 22)
-				{
-					m += 3;
-					g += 1;
-					r += 1;
-				}
+					conditions.add("Mined coal");
 			}
 			else if (improvement.equals("Forest Yard"))
 			{
 				if (t.resource == 30)
-				{
-					f += 1;
-					g += 1;
-					m += 3;
-					r += 1;
-				}
+					conditions.add("Silviculture");
 			}
 		}
 		if (t.resource == 10)
-		{
-			f++;
-		}
+			conditions.add("Wild rice");
 		else if (t.resource == 40)
-		{
-			f += 2;
-			g += 1;
-			r += 2;
-		}
-		for (int i = 0; i < t.fields.size(); i++)
+			conditions.add("From natural spring");
+		/*for (int i = 0; i < t.fields.size(); i++)
 		{
 			Field field = t.fields.get(i);
 			f = field.foodPercent != 0 ? (int)(f*field.foodPercent) : f;
 			g = field.goldPercent != 0 ? (int)(g*field.goldPercent) : g;
 			m = field.metalPercent != 0 ? (int)(m*field.metalPercent) : m;
-		}
-		return new double[]{f,g,m,r};
+		}*/
+		return conditions;
 	}
 
 	//Returns a score
