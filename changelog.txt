@@ -9,7 +9,7 @@ X : Abandoned
 2/14/2015 -> 2/20/2015 (More hackathon work)
 
 Scaling resources to empire size and turns
-New streamlined UI that reflects Endless Legend
+/ New streamlined UI that reflects Endless Legend
 Grand view perspective, strategic mid-view, detailed view
 	Variable positions of mouse clicking (define how to click a tile based on a rendering)
 Work on and balance unit upgrades (some disadvantages and costs)
@@ -21,6 +21,7 @@ Levels when building cities, fields, units
 > Add more game icons
 	> Change FGMR gui
 >+ Fixed row column order in GUI
+>+ New minimap
 	
 2/7/2015 -> 2/13/2015 (Hackathon work)
 
