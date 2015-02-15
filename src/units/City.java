@@ -373,7 +373,7 @@ public class City extends TileEntity {
 			}
 			if (t.biome != 6)
 				if (t.grid.irrigated(t.row, t.col))
-					f++;
+					f += 2;
 		}
 		if (t.shape == 1)
 		{
@@ -417,8 +417,8 @@ public class City extends TileEntity {
 				}
 				else if (t.resource == 11)
 				{
-					f += 3;
-					g += 2;
+					f += 2;
+					g += 3;
 					r += 3;
 				}
 			}
@@ -454,7 +454,11 @@ public class City extends TileEntity {
 				}
 			}
 		}
-		if (t.resource == 40)
+		if (t.resource == 10)
+		{
+			f++;
+		}
+		else if (t.resource == 40)
 		{
 			f += 2;
 			g += 1;

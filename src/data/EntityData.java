@@ -251,41 +251,23 @@ public class EntityData {
 	public static String getBiomeName(int biome)
 	{
 		if (biome == -1)
-		{
 			return "Sea";
-		}
 		else if (biome == 0)
-		{
 			return "Ice";
-		}
 		else if (biome == 1)
-		{
 			return "Taiga";
-		}
 		else if (biome == 2)
-		{
 			return "Desert";
-		}
 		else if (biome == 3)
-		{
 			return "Savannah";
-		}
 		else if (biome == 4)
-		{
 			return "Dry Forest";
-		}
 		else if (biome == 5)
-		{
 			return "Forest";
-		}
 		else if (biome == 6)
-		{
 			return "Rainforest";
-		}
 		else if (biome == 8)
-		{
 			return "Oasis";
-		}
 		System.err.println("Invalid biome");
 		return null;
 	}

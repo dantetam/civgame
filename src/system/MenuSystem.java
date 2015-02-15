@@ -480,7 +480,16 @@ public class MenuSystem extends BaseSystem {
 									{
 										int len = 20;
 										main.tint(255,255,255,255);
+										main.pushStyle();
+										if (t.owner != null)
+										{
+											main.strokeWeight(3);
+											main.noFill();
+											main.stroke(t.owner.r, t.owner.g, t.owner.b);
+											main.rect(pos[0]-dX-len/2, pos[1]-dY+20-len/2, len, len);
+										}
 										main.image(img, pos[0]-dX-len/2, pos[1]-dY+20-len/2, len, len);
+										main.popStyle();
 									}
 									//main.rect(pos[0]-dX, pos[1]-dY, 10, 10);
 									/*int n = 0;
@@ -529,7 +538,7 @@ public class MenuSystem extends BaseSystem {
 						Tile t = main.grid.getTile(h.row + dR, h.col - dC);
 						if (t != null)
 						{
-							if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 || 
+							if (t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0 && t.resource == 0 || 
 									main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) 
 								continue;
 							if (markedTiles[h.row + dR][h.col - dC])

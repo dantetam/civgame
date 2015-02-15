@@ -525,7 +525,8 @@ public class Game extends PApplet {
 			"Barbarian","Capital","CityIcon",
 			"attack", "cityhealth", "defense", "health", "population", "ranged", "speed",
 			"food", "gold", "metal", "research",
-			"Fish", "Rice", "Rock", "Spring", "Stones", "Wheat"};
+			"Fish", "Rice", "Rock", "Spring", "Stones", "Tree", "Wheat",
+			"Ice", "Taiga", "Desert", "Savannah", "Dry Forest", "Forest", "Rainforest"};
 	private void setModels()
 	{
 		/*java.io.File folder = new File(new File("").getAbsolutePath().concat("/data/models"));
@@ -562,14 +563,15 @@ public class Game extends PApplet {
 		colorImage("CopperTools", "Worker", 255, 150, 0);
 		colorImage("IronTools", "Worker", 255, 255, 255);
 		
-		colorImage("Coal", "Rock", 50, 50, 50);
+		colorImage("Wheat", "Wheat", 255, 150, 0);
 		colorImage("Copper", "Stones", 255, 150, 0);
 		colorImage("Iron", "Stones", 255, 255, 255);
-		colorImage("Wheat", "Wheat", 255, 150, 0);
+		colorImage("Coal", "Rock", 50, 50, 50);
+		colorImage("Redwood", "Tree", 175, 0, 0);
 	}
 
 	//Copy the image, give it a color, and store it
-	private void colorImage(String s, String masterName, float r, float g, float b)
+	private void colorImage(String newImage, String masterName, float r, float g, float b)
 	{
 		PImage master = EntityData.iconMap.get(masterName);
 		ColorImage image = new ColorImage(master,r,g,b);
@@ -582,7 +584,7 @@ public class Game extends PApplet {
 		
 		image.pixels = master.pixels;
 		image.color(r,g,b);*/
-		EntityData.iconMap.put(s, image);
+		EntityData.iconMap.put(newImage, image);
 	}
 
 	private static String[] entries = {"City"};
