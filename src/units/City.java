@@ -443,6 +443,10 @@ public class City extends TileEntity {
 				if (t.resource == 30)
 					conditions.add("Silviculture");
 			}
+			else if (improvement.equals("Windmill"))
+				conditions.add("Windmill");
+			else if (improvement.equals("Lumbermill"))
+				conditions.add("Lumbermill");
 		}
 		else
 		{

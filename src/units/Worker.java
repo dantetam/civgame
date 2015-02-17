@@ -124,51 +124,7 @@ public class Worker extends GameEntity {
 				City city = en.location.city;
 				//Factor in the city later
 				//if (city.location.owner.equals(owner)) //just in case
-				if (en.location.resource == 1 || en.location.resource == 2)
-				{
-					EntityData.queueTileImprovement(en, "Farm");
-					return;
-				}
-				else if (en.location.resource == 10 || en.location.resource == 11)
-				{
-
-				}
-				else if (en.location.resource >= 20 && en.location.resource <= 22)
-				{
-					EntityData.queueTileImprovement(en, "Mine");
-					return;
-				}
-				else if (en.location.resource >= 30 && en.location.resource <= 30)
-				{
-
-				}
-				if (en.location.biome >= 3 && en.location.biome <= 6 && location.grid.irrigated(location.row, location.col) && en.location.shape == 0)
-				{
-					EntityData.queueTileImprovement(en, "Farm");
-				}
-				else if (en.location.biome >= 1 && en.location.biome <= 2)
-				{
-					en.queueTurns = 10;
-					if (Math.random() < 0.5)
-					{
-						en.queue = "Windmill";
-					}
-					else
-					{
-						en.queue = "Lumbermill";
-					}
-				}
-				if (en.location.shape == 2)
-				{
-					EntityData.queueTileImprovement(en, "Mine");
-				}
-				else if (en.location.shape == 1)
-				{
-					if (en.location.biome >= 0 && en.location.biome <= 3)
-					{
-						EntityData.queueTileImprovement(en, "Mine");
-					}
-				}
+				EntityData.queueTileImprovement(this, EntityData.optimalImpr(en.location));
 				//en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 			}
 		}

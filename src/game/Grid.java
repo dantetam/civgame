@@ -576,7 +576,7 @@ public class Grid {
 			{
 				for (int c = 0; c < cols; c++)
 				{
-					if (cityScores[r][c] <= 0) continue;
+					//if (cityScores[r][c] <= 0) continue;
 					if (cityScores[r][c] > cityScores[maxTile.row][maxTile.col])
 					{
 						maxTile = getTile(r,c);

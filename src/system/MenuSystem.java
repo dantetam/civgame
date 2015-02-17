@@ -418,7 +418,7 @@ public class MenuSystem extends BaseSystem {
 					conditions = City.staticEvalReasons(mouseHighlighted, null);
 				ArrayList<String> text6 = textboxes.get(6).display;
 				ArrayList<String> text7 = textboxes.get(7).display;
-				int[] totalYield = {0,0,0,0};
+				int[] bYield = {0,0,0,0};
 				for (int i = 0; i < conditions.size(); i++)
 				{
 					text6.add(conditions.get(i));
@@ -426,7 +426,7 @@ public class MenuSystem extends BaseSystem {
 					String s = "";
 					for (int j = 0; j < yield.length; j++)
 					{
-						totalYield[j] += yield[j]; 
+						bYield[j] += yield[j]; 
 						if (yield[j] == 0) s += "  ";
 						else if (yield[j] > 0) s += "+" + yield[j];
 						else s += yield[j];
@@ -435,15 +435,31 @@ public class MenuSystem extends BaseSystem {
 					text7.add(s);
 				}
 				String s = "";
-				for (int j = 0; j < totalYield.length; j++)
+				for (int j = 0; j < bYield.length; j++)
 				{
-					if (totalYield[j] == 0) s += "  ";
-					else if (totalYield[j] > 0) s += "+" + totalYield[j];
-					else s += totalYield[j];
+					if (bYield[j] == 0) s += "  ";
+					else if (bYield[j] > 0) s += "+" + bYield[j];
+					else s += bYield[j];
 					s += " ";
 				}
 				text6.add("TOTAL YIELD");
 				text7.add(s);
+
+				s = "";
+				if (mouseHighlighted.improvement == null)
+				{
+					String impr = EntityData.optimalImpr(mouseHighlighted);
+					text6.add("With " + impr.toLowerCase());
+					double[] aYield = City.staticEval(mouseHighlighted, impr);
+					for (int j = 0; j < aYield.length; j++)
+					{
+						if (aYield[j] - bYield[j] == 0) s += "  ";
+						else if (aYield[j] - bYield[j] > 0) s += "+" + (int)(aYield[j] - bYield[j]);
+						else s += (int)(aYield[j] - bYield[j]);
+						s += " ";
+					}
+					text7.add(s);
+				}
 			}
 		}
 		Tile h = highlighted;

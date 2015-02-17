@@ -55,6 +55,10 @@ public class Settler extends GameEntity {
 	{
 		if (queueTiles.size() == 0)
 		{
+			if (owner.cities.size() == 0)
+			{
+				//settle(); return;
+			}
 			Tile t = settleLocation();
 			//System.out.println(t.owner);
 			waddleToExact(t.row,t.col);
@@ -116,7 +120,7 @@ public class Settler extends GameEntity {
 	{
 		if (location.owner == null) //TODO: Allow player to settle in own territory
 		{
-			for (int i = 0; i < location.grid.civs.length; i++)
+			/*for (int i = 0; i < location.grid.civs.length; i++)
 			{
 				for (int j = 0; j < location.grid.civs[i].cities.size(); j++)
 				{
@@ -124,7 +128,7 @@ public class Settler extends GameEntity {
 					if (c.location.dist(location) <= 3)
 						return false;
 				}
-			}
+			}*/
 			GameEntity en = this;
 			City city = (City)EntityData.get("City");
 			city.owner = en.owner;

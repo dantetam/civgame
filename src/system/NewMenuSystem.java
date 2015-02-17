@@ -32,9 +32,9 @@ public class NewMenuSystem extends BaseSystem {
 
 		Menu menu1 = new Menu("AdvisorMenu");
 		menus.add(menu1);
-		menus.get(1).buttons.add(new Rune("diplomat","tileDiplomat",600,10,50,50).color(0,0,255));
+		/*menus.get(1).buttons.add(new Rune("diplomat","tileDiplomat",600,10,50,50).color(0,0,255));
 		menus.get(1).buttons.add(new Rune("war","tileWar",660,10,50,50).color(255,0,0));
-		menus.get(1).buttons.add(new Rune("trader","tileTrader",720,10,50,50).color(200,200,0));
+		menus.get(1).buttons.add(new Rune("trader","tileTrader",720,10,50,50).color(200,200,0));*/
 	}
 
 	public void tick() 
@@ -83,12 +83,14 @@ public class NewMenuSystem extends BaseSystem {
 		int i = 0;
 		//main.image(image, posX - len/2 - len, posY - 30 - i*30 - len/2, len, len);
 		float alpha = 75;
+		//f g
+		//m r
 		main.tint(0,255,0,alpha);
 		main.image(EntityData.iconMap.get("food"), posX - len/2, posY - 30 - i*30 - len/2, len/2, len/2);
-		main.tint(255,255,0,alpha);
-		main.image(EntityData.iconMap.get("gold"), posX - len/2, posY - 30 - i*30, len/2, len/2);
 		main.tint(255,150,0,alpha);
-		main.image(EntityData.iconMap.get("metal"), posX - len/2 + len, posY - 30 - i*30 - len/2, len/2, len/2);
+		main.image(EntityData.iconMap.get("metal"), posX - len/2, posY - 30 - i*30, len/2, len/2);
+		main.tint(255,255,0,alpha);
+		main.image(EntityData.iconMap.get("gold"), posX - len/2 + len, posY - 30 - i*30 - len/2, len/2, len/2);
 		main.tint(150,225,255,alpha);
 		main.image(EntityData.iconMap.get("research"), posX - len/2 + len, posY - 30 - i*30, len/2, len/2);
 
@@ -102,8 +104,8 @@ public class NewMenuSystem extends BaseSystem {
 		main.pushStyle();
 		main.textSize(12);
 		main.text(f, posX, posY - 30 - i*10 - len/2);
-		main.text(g, posX, posY - 30 - i*10);
-		main.text(m, posX + len, posY - 30 - i*10 - len/2);
+		main.text(m, posX, posY - 30 - i*10);
+		main.text(g, posX + len, posY - 30 - i*10 - len/2);
 		main.text(r, posX + len, posY - 30 - i*10);
 		main.popStyle();
 	}
