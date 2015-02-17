@@ -334,7 +334,13 @@ public class City extends TileEntity {
 		{
 			int[] yield = EntityData.yield.get(conditions.get(i));
 			for (int j = 0; j <= 3; j++)
-				temp[j] += yield[j]; 
+			{
+				try 
+				{
+					temp[j] += yield[j]; 
+				}
+				catch (Exception e) {System.out.println("Invalid terrain modifier: " + conditions.get(i));}
+			}
 		}
 		for (int i = 0; i < t.fields.size(); i++)
 		{
@@ -345,16 +351,16 @@ public class City extends TileEntity {
 		}
 		return temp;
 	}
-	
+
 	//Evaluate when an improvement is planned
 	public static ArrayList<String> staticEvalReasons(Tile t, String improvement)
 	{
 		//int f = 0, g = 0, m = 0, r = 0;
 		ArrayList<String> conditions = new ArrayList<String>();
 		if (t.biome == -1)
-			conditions.add("From sea biome");
+			conditions.add("From sea");
 		else if (t.biome == 0)
-			conditions.add("From ice biome");
+			conditions.add("From ice");
 		else if (t.biome == 1)
 			conditions.add("From taiga");
 		else if (t.biome == 2)
@@ -362,11 +368,11 @@ public class City extends TileEntity {
 		else if (t.biome == 3)
 			conditions.add("From steppe");
 		else if (t.biome == 4)
-			conditions.add("From dry forest biome");
+			conditions.add("From dry forest");
 		else if (t.biome == 5)
-			conditions.add("From forest biome");
+			conditions.add("From forest");
 		else if (t.biome == 6)
-			conditions.add("From rainforest biome");
+			conditions.add("From rainforest");
 		else
 		{
 			System.err.println("Invalid biomerrr " + t.biome);
@@ -378,7 +384,7 @@ public class City extends TileEntity {
 				conditions.add("Barren");
 			else
 			{
-				conditions.add("Dense forest");
+				conditions.add("Fertile");
 				if (t.biome != 6)
 					if (t.grid.irrigated(t.row, t.col))
 						conditions.add("Fresh water");
@@ -386,22 +392,22 @@ public class City extends TileEntity {
 		}
 		if (t.shape == 1)
 		{
-			conditions.add("Rocky terrain");
+			conditions.add("Rocky");
 			if (improvement != null)
 				if (improvement.equals("Mine"))
 				{
 					conditions.remove(conditions.size()-1);
-					conditions.add("Rocky terrain with mine");
+					conditions.add("Rocky w/ mine");
 				}
 		}
 		else if (t.shape == 2)
 		{
-			conditions.add("Mountainous terrain");
+			conditions.add("Mountainous");
 			if (improvement != null)
 				if (improvement.equals("Mine"))
 				{
 					conditions.remove(conditions.size()-1);
-					conditions.add("Mountainous terrain with mine");
+					conditions.add("Mountainous w/ mine");
 				}
 		}
 		//Record tiles with harvested resources as extra yield and record the number of these special tiles
@@ -438,10 +444,15 @@ public class City extends TileEntity {
 					conditions.add("Silviculture");
 			}
 		}
-		if (t.resource == 10)
-			conditions.add("Wild rice");
-		else if (t.resource == 40)
-			conditions.add("From natural spring");
+		else
+		{
+			if (t.resource == 1)
+				conditions.add("Wild wheat");
+			else if (t.resource == 2)
+				conditions.add("Wild rice");
+			else if (t.resource == 40)
+				conditions.add("From spring");
+		}
 		/*for (int i = 0; i < t.fields.size(); i++)
 		{
 			Field field = t.fields.get(i);

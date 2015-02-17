@@ -469,27 +469,29 @@ public class EntityData {
 	public static void setYields()
 	{
 		//f, g, m, r
-		yield.put("From sea biome", new int[]{1,1,0,2});
-		yield.put("From ice biome", new int[]{0,1,2,1});
+		yield.put("From sea", new int[]{1,1,0,2});
+		yield.put("From ice", new int[]{0,1,2,1});
 		yield.put("From taiga", new int[]{1,1,1,1});
 		yield.put("From desert", new int[]{0,0,2,1});
 		yield.put("From steppe", new int[]{2,0,1,2});
-		yield.put("From dry forest biome", new int[]{2,1,1,2});
-		yield.put("From forest biome", new int[]{3,0,1,2});
-		yield.put("From rainforest biome", new int[]{3,1,0,3});
-		yield.put("Dense forest", new int[]{2,0,0,0});
+		yield.put("From dry forest", new int[]{2,1,1,2});
+		yield.put("From forest", new int[]{3,0,1,2});
+		yield.put("From rainforest", new int[]{3,1,0,3});
+		yield.put("Fertile", new int[]{2,0,0,0});
 		yield.put("Fresh water", new int[]{1,0,0,0});
 		yield.put("Barren", new int[]{-1,0,0,-1});
 		
-		yield.put("Rocky terrain", new int[]{-1,0,1,0});
-		yield.put("Rocky terrain with mine", new int[]{0,0,1,0});
+		yield.put("Rocky", new int[]{-1,0,1,0});
+		yield.put("Rocky w/ mine", new int[]{0,0,1,0});
 		
-		yield.put("Mountainous terrain", new int[]{-1,0,1,0});
-		yield.put("Mountainous terrain with mine", new int[]{0,0,2,0});
+		yield.put("Mountainous", new int[]{-1,0,1,0});
+		yield.put("Mountainous w/ mine", new int[]{0,0,2,0});
 		
 		yield.put("Cultivated wheat", new int[]{3,0,0,0});
 		yield.put("Cultivated rice", new int[]{4,0,0,0});
 		yield.put("Cultivated", new int[]{2,0,0,0});
+		
+		yield.put("Wild wheat", new int[]{1,0,0,0});
 		yield.put("Wild rice", new int[]{2,0,0,0});
 		
 		yield.put("Harvested fish", new int[]{3,0,0,0});
@@ -499,7 +501,7 @@ public class EntityData {
 		yield.put("Mined iron", new int[]{0,1,3,2});
 		yield.put("Mined coal", new int[]{0,1,2,1});
 		
-		yield.put("From natural spring", new int[]{2,1,0,2});
+		yield.put("From spring", new int[]{2,1,0,2});
 		yield.put("Silviculture", new int[]{1,1,3,1});
 	}
 	
@@ -527,17 +529,11 @@ public class EntityData {
 				continue;
 			}
 			if (i.isFit(en.name))
-			{
 				temp.add(i);
-			}
 			else if (i.units[0].equals("allmelee") && en.offensiveStr > 0)
-			{
 				temp.add(i);
-			}
 			else if (i.units[0].equals("allranged") && en.rangedStr > 0)
-			{
 				temp.add(i);
-			}
 		}
 		//System.out.println(temp.size());
 		return temp;

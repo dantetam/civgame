@@ -27,6 +27,7 @@ Levels when building cities, fields, units
 	> Combat GUI
 >+ Fixed row column order in GUI
 >+ New minimap
+>+ Yield GUI with reasons
 
 Use of hashmaps to explain how yields are calculated (e.g. in index "+1 from coal" put "+1 production"
 Constitution stat (i.e. morale) for units

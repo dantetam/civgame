@@ -418,6 +418,7 @@ public class MenuSystem extends BaseSystem {
 					conditions = City.staticEvalReasons(mouseHighlighted, null);
 				ArrayList<String> text6 = textboxes.get(6).display;
 				ArrayList<String> text7 = textboxes.get(7).display;
+				int[] totalYield = {0,0,0,0};
 				for (int i = 0; i < conditions.size(); i++)
 				{
 					text6.add(conditions.get(i));
@@ -425,6 +426,7 @@ public class MenuSystem extends BaseSystem {
 					String s = "";
 					for (int j = 0; j < yield.length; j++)
 					{
+						totalYield[j] += yield[j]; 
 						if (yield[j] == 0) s += "  ";
 						else if (yield[j] > 0) s += "+" + yield[j];
 						else s += yield[j];
@@ -432,6 +434,16 @@ public class MenuSystem extends BaseSystem {
 					}
 					text7.add(s);
 				}
+				String s = "";
+				for (int j = 0; j < totalYield.length; j++)
+				{
+					if (totalYield[j] == 0) s += "  ";
+					else if (totalYield[j] > 0) s += "+" + totalYield[j];
+					else s += totalYield[j];
+					s += " ";
+				}
+				text6.add("TOTAL YIELD");
+				text7.add(s);
 			}
 		}
 		Tile h = highlighted;
