@@ -22,7 +22,7 @@ public class City extends TileEntity {
 	//public String queue;
 	//public int queueTurns;
 	public int queueFood, queueMetal;
-	public Civilization owner;
+	public Civilization owner, core;
 	public ArrayList<Improvement> buildings;
 	public int takeover;
 	public float morale;

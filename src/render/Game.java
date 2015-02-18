@@ -56,12 +56,14 @@ public class Game extends PApplet {
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
+		//menu0.addButton("newgame", "New Game", "Start a new game.", 295, 100, 210, 50);
 		menu0.addButton("newgame", "New Game", "Start a new game.", 70, 100, 210, 50);
 		menu0.addButton("backMenu7", "Tutorials", "Learn about the game through play.", 70, 160, 210, 50);
 		menu0.addButton("options", "Options", "Change options such as the level seed.", 70, 220, 210, 50);
 		menu0.addButton("quickgame", "Quick Game", "Conquest - Tiny - Corinth - Warlord - Pangaea", 70, 280, 210, 50);
 		menu0.addButton("exitgame", "Exit", "Exit the game.", 70, 630, 210, 70);
 		menu0.addButton("retract", "<<<", "Hide the menu.", 0, 0, 50, 50);
+		menu0.addButton("pause", "||", "Pause the simulation.", 50, 0, 50, 50);
 		//menu1.on();
 
 		Menu menu1 = new Menu("ChallengeTypeMenu");
@@ -144,6 +146,7 @@ public class Game extends PApplet {
 	}
 
 	private TextBox lastHover = null; private int lastFrameHover = 0;
+	private boolean pause = false;
 	public void draw()
 	{
 		background(150,225,255);
@@ -152,7 +155,7 @@ public class Game extends PApplet {
 		//textSize(18);
 		textSize(14);
 
-		if (frameCount % tickEvery == 0)
+		if (frameCount % tickEvery == 0 && !pause)
 		{
 			menuGame.tick();
 		}
@@ -430,7 +433,6 @@ public class Game extends PApplet {
 						else if (command.equals("retract"))
 						{
 							retract = !retract;
-							println("yo");
 							for (int j = 0; j < menus.get(0).buttons.size(); j++)
 							{
 								TextBox b = menus.get(0).buttons.get(j);
@@ -450,6 +452,8 @@ public class Game extends PApplet {
 									}
 									b.dimTooltip();
 								}
+								else if (((Button)b).command.equals("pause")) //Possibly add future cases later
+									continue;
 								else
 								{
 									if (retract)
@@ -458,6 +462,10 @@ public class Game extends PApplet {
 										b.move(b.origX, b.posY);
 								}
 							}
+						}
+						else if (command.equals("pause"))
+						{
+							pause = !pause;
 						}
 						else if (command.equals("conquestgame"))
 						{

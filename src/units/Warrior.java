@@ -143,7 +143,7 @@ public class Warrior extends GameEntity {
 			}
 			else //if (queueTiles.size() == 0) //See if the list has been cleared in the previous section of code 
 			{
-				Tile nearestE = nearestEnemyCity();
+				Tile nearestE = nearestEnemyCity(true);
 				Tile nearestA = nearestAlliedCity();
 				Tile nearestU = nearestUndefendedCity();
 				//System.out.println(nearest);

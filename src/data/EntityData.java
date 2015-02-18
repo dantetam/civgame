@@ -152,7 +152,7 @@ public class EntityData {
 		civs.put("Corinth", new Civilization("Corinth",list(),0,255,255,0.5,0.5,0.5));
 		civs.put("Crete", new Civilization("Crete",list(),0,150,0,0.3,0.6,0.3));
 		//civs.put("Ephesus", new Civilization("Ephesus",list(),150,150,150));
-		civs.put("Epirus", new Civilization("Epirus",list(),0,0,128,0.7,0,0.5));
+		civs.put("Epirus", new Civilization("Epirus",list(),80,80,128,0.7,0,0.5));
 		civs.put("Illyria", new Civilization("Illyria",list(),0,255,0,0.5,0.5,0.8));
 		//civs.put("Lydia", new Civilization("Lydia",list(),150,150,150));
 		civs.put("Macedonia", new Civilization("Macedonia",list(),255,150,0,0.8,0.6,1));
@@ -160,6 +160,7 @@ public class EntityData {
 		civs.put("Sparta", new Civilization("Sparta",list(),255,0,0,0.8,0.1,0.3));
 		//civs.put("Thessaly", new Civilization("Thessaly",list(),150,150,150));
 		civs.put("Thrace", new Civilization("Thrace",list(),175,255,255,0.6,0.4,0.5));
+		//civs.put("TEST", new Civilization("TEST",list(),0,0,0,1,0,1));
 
 		/*civs.put("Achaea", new Civilization("Achaea",list(),0,0,255,0.3,0.3,1));
 		civs.put("Athens", new Civilization("Athens",list(),255,255,255,0.2,0.8,1));
@@ -185,6 +186,7 @@ public class EntityData {
 		civs.get("Rhodes").traits("Defensive", "Industrious");
 		civs.get("Sparta").traits("Aggressive", "Traditional");
 		civs.get("Thrace").traits("Traditional", "Imperialistic");
+		//civs.get("TEST").traits("Aggressive", "Prosperous");
 
 		for (int i = 0; i < 30; i++)
 		{
@@ -200,7 +202,7 @@ public class EntityData {
 					(float)(Math.random()*255),
 					(float)(Math.random()*255),
 					(float)(Math.random()*255),
-					Math.random(),Math.random(),0
+					Math.random()*0.6,Math.random(),0
 					));
 			cityStates.get(""+i).traits(traits.get((int)(Math.random()*traits.size())), "");
 		}

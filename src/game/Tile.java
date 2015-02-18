@@ -68,7 +68,7 @@ public class Tile {
 	
 	public double dist(Tile t)
 	{
-		return Math.sqrt((row-t.row)^2 + (col-t.col)^2);
+		return Math.sqrt(Math.pow(row-t.row,2) + Math.pow(col-t.col,2));
 	}
 	
 	public int manhattan(Tile t)

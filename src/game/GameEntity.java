@@ -453,12 +453,9 @@ public abstract class GameEntity extends BaseEntity {
 		return null;
 	}
 
-	public Tile nearestEnemyCity()
+	public Tile nearestEnemyCity(boolean viable)
 	{
 		City nearest = null;
-		/*System.out.println("********");
-		System.out.println(owner);
-		System.out.println(owner.enemies.size());*/
 		ArrayList<Civilization> e = owner.enemies();
 		if (e.size() > 0)
 		{
@@ -470,6 +467,8 @@ public abstract class GameEntity extends BaseEntity {
 					if (owner.id >= location.grid.barbarians)
 						if (owner.revealed[candidate.location.row][candidate.location.col] == 0)
 							continue;
+					if (candidate.location.dist(location) > 15 && viable)
+						continue;
 					if (nearest != null)
 					{
 						if (candidate.location.dist(location) < nearest.location.dist(location)) 

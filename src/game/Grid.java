@@ -586,7 +586,7 @@ public class Grid {
 									if (t.owner == null)
 										cityScores[r][c] += 4;
 									else
-										cityScores[r][c]--;
+										cityScores[r][c] += 2;
 								}
 							}
 						}
