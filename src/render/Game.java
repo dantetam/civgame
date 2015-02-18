@@ -61,6 +61,7 @@ public class Game extends PApplet {
 		menu0.addButton("options", "Options", "Change options such as the level seed.", 70, 220, 210, 50);
 		menu0.addButton("quickgame", "Quick Game", "Conquest - Tiny - Corinth - Warlord - Pangaea", 70, 280, 210, 50);
 		menu0.addButton("exitgame", "Exit", "Exit the game.", 70, 630, 210, 70);
+		menu0.addButton("retract", "<<<", "Hide the menu.", 0, 0, 50, 50);
 		//menu1.on();
 
 		Menu menu1 = new Menu("ChallengeTypeMenu");
@@ -383,6 +384,7 @@ public class Game extends PApplet {
 		}
 	}
 
+	public boolean retract = false;
 	public void mousePressed()
 	{
 		if (mouseButton == LEFT)
@@ -424,6 +426,38 @@ public class Game extends PApplet {
 						else if (command.equals("exitgame"))
 						{
 							System.exit(0);
+						}
+						else if (command.equals("retract"))
+						{
+							retract = !retract;
+							println("yo");
+							for (int j = 0; j < menus.get(0).buttons.size(); j++)
+							{
+								TextBox b = menus.get(0).buttons.get(j);
+								if (((Button)b).command.equals("retract"))
+								{
+									b.display.clear();
+									b.tooltip.clear();
+									if (retract) 
+									{
+										b.display.add(">>>");
+										b.tooltip.add("Show the menu");
+									}
+									else
+									{
+										b.display.add("<<<");
+										b.tooltip.add("Hide the menu");
+									}
+									b.dimTooltip();
+								}
+								else
+								{
+									if (retract)
+										b.move(-b.sizeX, b.posY);
+									else
+										b.move(b.origX, b.posY);
+								}
+							}
 						}
 						else if (command.equals("conquestgame"))
 						{
@@ -548,17 +582,17 @@ public class Game extends PApplet {
 		colorImage("IronArrows", "ranged", 255, 255, 255);
 		colorImage("CopperTools", "Worker", 255, 150, 0);
 		colorImage("IronTools", "Worker", 255, 255, 255);
-		
+
 		colorImage("Wheat", "Wheat", 255, 150, 0);
 		colorImage("Copper", "Stones", 255, 150, 0);
 		colorImage("Iron", "Stones", 255, 255, 255);
 		colorImage("Coal", "Rock", 50, 50, 50);
 		colorImage("Redwood", "Tree", 175, 0, 0);
-		
+
 		colorImage("Ice", "Ice", 150, 225, 255);
 		colorImage("Taiga", "Taiga", 150, 225, 255);
 		colorImage("Desert", "Desert", 240, 200, 175);
-		
+
 		/*java.io.File folder = new File(new File("").getAbsolutePath().concat("/data/models"));
 		java.io.FilenameFilter pngFilter = new java.io.FilenameFilter() {
 			public boolean accept(File dir, String name) {
@@ -585,7 +619,7 @@ public class Game extends PApplet {
 			image.pixels[i] = master.pixels[i];
 			System.out.println(master.pixels[i]);
 			}
-		
+
 		image.pixels = master.pixels;
 		image.color(r,g,b);*/
 		EntityData.iconMap.put(newImage, image);

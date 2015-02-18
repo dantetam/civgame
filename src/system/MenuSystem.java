@@ -276,9 +276,9 @@ public class MenuSystem extends BaseSystem {
 							if (t.biome == -1)
 								main.fill(150,225,255,150);
 							else if (t.owner == null) 
-								main.fill(150,150);
+								main.fill(150,255);
 							else
-								main.fill(t.owner.r, t.owner.g, t.owner.b, 150);
+								main.fill(t.owner.r, t.owner.g, t.owner.b, 255);
 							main.stroke(0);
 							main.rect(sX + rr*wX,sY + (sight*2 + 1 - cc)*wY,wX,wY);
 							ArrayList<PImage> images = icon(t);
@@ -363,7 +363,7 @@ public class MenuSystem extends BaseSystem {
 			else
 				hintText.add("Pristine");
 
-			if (mouseHighlighted.city != null)
+			/*if (mouseHighlighted.city != null)
 			{
 				if (mouseHighlighted.city.owner != null)
 				{
@@ -375,7 +375,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				double[] data = City.staticEval(mouseHighlighted);
 				hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
-			}
+			}*/
 			//Same check as above, really
 			if (mouseHighlighted.owner != null)
 				hintText.add("Relations: " + mouseHighlighted.owner.opinions[0]);
@@ -449,7 +449,8 @@ public class MenuSystem extends BaseSystem {
 				if (mouseHighlighted.improvement == null)
 				{
 					String impr = EntityData.optimalImpr(mouseHighlighted);
-					text6.add("With " + impr.toLowerCase());
+					if (impr != null)
+						text6.add("With " + impr.toLowerCase());
 					double[] aYield = City.staticEval(mouseHighlighted, impr);
 					for (int j = 0; j < aYield.length; j++)
 					{
@@ -642,7 +643,7 @@ public class MenuSystem extends BaseSystem {
 								if (t.occupants.size() > 0)
 								{
 									//for (int i = 0; i < t.occupants.size(); i++)
-									if (!(selected instanceof City))
+									if (!(selected instanceof City) && !(getSelected() instanceof Settler))
 									{
 										for (int i = t.occupants.size() - 1; i >= 0; i--)
 										{

@@ -20,6 +20,8 @@ Work on and balance unit upgrades (some disadvantages and costs)
 Dynamic city model
 	3d models when queuing
 Levels when building cities, fields, units
+	Improvements and cities (like Boroughs in Endless Legend)
+	Techs 
 > Add more game icons
 	> Change FGMR gui
 	> Unit improvement icons

@@ -616,7 +616,7 @@ public class InputSystem extends BaseSystem {
 		{
 			if (action.equals("ZOOM_IN"))
 			{
-				if (main.menuSystem.sight > 5)
+				if (main.menuSystem.sight > 3)
 					main.menuSystem.sight--;
 			}
 			else if (action.equals("ZOOM_OUT"))

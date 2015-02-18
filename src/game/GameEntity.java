@@ -495,7 +495,7 @@ public abstract class GameEntity extends BaseEntity {
 				City candidate = owner.cities.get(i);
 				if (candidate.location.occupants.size() > 1)
 					continue;
-				else if (candidate.location.occupants.size() == 1)
+				else if (candidate.location.occupants.size() < 3)
 					if (candidate.location.equals(this.location)) 
 						return candidate.location;
 				if (nearest != null)
