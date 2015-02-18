@@ -215,7 +215,7 @@ public class Grid {
 					if (valid)
 						break;
 					//if (dist > 6)
-						dist -= 1; 
+					dist -= 1; 
 				}
 			}
 			/*Tile t = findIsolated();
@@ -548,6 +548,63 @@ public class Grid {
 		return n/land;
 	}
 
+	//Return the best city scores factoring in previous settlements
+	public Tile returnBestCityScoresMod(int settlerR, int settlerC, int capitalR, int capitalC, double distBias)
+	{
+		evalBefore();
+		int[][] cityScores = new int[rows][cols];
+		for (int r = 0; r < rows; r++)
+		{
+			for (int c = 0; c < cols; c++)
+			{
+				int dist = (int)Math.sqrt(Math.pow(r-settlerR,2) + Math.pow(c-settlerC,2));
+				int capitalDist = (int)Math.sqrt(Math.pow(r-settlerR,2) + Math.pow(c-settlerC,2));
+				if (dist > 10 || getTile(r,c).owner != null || getTile(r,c).biome == -1)
+					cityScores[r][c] = -9999;
+				else
+				{
+					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(distBias*dist) - (int)(distBias*capitalDist);
+					out:
+						for (int rr = r - 2; rr <= r + 2; rr++)
+						{
+							for (int cc = c - 2; cc <= c + 2; cc++)
+							{
+								Tile t = getTile(rr,cc);
+								if (t == null) continue;
+								if (t.improvement != null)
+								{
+									if (t.improvement instanceof City)
+									{
+										cityScores[r][c] = 0;
+										break out;
+									}
+									else
+										cityScores[r][c]--;
+								}
+								else
+								{
+									if (t.owner == null)
+										cityScores[r][c] += 4;
+									else
+										cityScores[r][c]--;
+								}
+							}
+						}
+				}
+			}
+		}
+		Tile candidate = tiles[0][0];
+		for (int r = 0; r < rows; r++)
+		{
+			for (int c = 0; c < cols; c++)
+			{
+				if (cityScores[r][c] > cityScores[candidate.row][candidate.col])
+					candidate = getTile(r,c); 
+			}
+		}
+		return candidate;
+	}
+
 	public Tile[] returnBestCityScores(int settlerR, int settlerC, double distBias)
 	{
 		evalBefore();
@@ -558,7 +615,7 @@ public class Grid {
 			{
 				int dist = (int)Math.sqrt(Math.pow(r-settlerR,2) + Math.pow(c-settlerC,2));
 				if (dist > 10 || getTile(r,c).owner != null || getTile(r,c).biome == -1)
-					cityScores[r][c] = 0;
+					cityScores[r][c] = -9999;
 				else
 					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(distBias*dist);
 			}
