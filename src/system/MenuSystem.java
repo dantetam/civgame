@@ -1941,10 +1941,14 @@ public class MenuSystem extends BaseSystem {
 			String s = techNames.get(i);
 			Tech t = civ.techTree.researched(s);
 			int turns = calcQueueTurnsTech(civ, t);
-			Button b = (Button)menus.get(5).addButton("research" + s, s + " <" + turns + ">", "Research " + s + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
+			String name = turns != -1 ? s + " <" + turns + ">" : s + " <N/A>";
+			Button b = (Button)menus.get(5).addButton("research" + s, name, "Research " + s + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
 			b.lock = true;
 			b.tooltip.clear();
-			b.tooltip.add("Estimated research time: " + turns);
+			if (turns != -1)
+				b.tooltip.add("Estimated research time: " + turns + " turns");
+			else
+				b.tooltip.add("Estimated research time: N/A");
 			b.tooltip.add(t.totalR + " research out of " + t.requiredR + "; " + (int)((float)t.totalR/(float)t.requiredR*100) + "%");
 			b.tooltip.add("Requires " + t.requisite.name);
 			String techString = "";
@@ -2137,7 +2141,9 @@ public class MenuSystem extends BaseSystem {
 			{
 				Button b = (Button)menus.get(1).addButton("build"+units.get(i), units.get(i), "Construct " + units.get(i) + " here.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 				b.tooltip.clear();
-				b.tooltip.add("Estimated build time: " + EntityData.tileImprovementTime(en, units.get(i)) + " turns");
+				int turns = EntityData.tileImprovementTime(en, units.get(i));
+				if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
+				else b.tooltip.add("Estimated build time: N/A");
 				double[] yieldBefore = City.staticEval(en.location), yieldAfter = City.staticEval(en.location, units.get(i));
 				double[] temp = new double[]{
 						yieldAfter[0] - yieldBefore[0], 
@@ -2222,8 +2228,12 @@ public class MenuSystem extends BaseSystem {
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		for (int i = 0; i < units.size(); i++)
 		{
-			Button b = (Button)menus.get(2).addButton("queue" + units.get(i), units.get(i) + " <" + calcQueueTurnsInt(c,units.get(i)) + ">", "Queue a " + units.get(i) + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
-			b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) + " turns");
+			int turns = calcQueueTurnsInt(c, units.get(i));
+			String name = turns != -1 ? units.get(i) + " <" + turns + ">" : units.get(i) + " <N/A>";
+			Button b = (Button)menus.get(2).addButton("queue" + units.get(i), name, "Queue a " + units.get(i) + ".", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
+			//b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) + " turns");
+			if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
+			else b.tooltip.add("Estimated build time: N/A");
 
 			float[] cost = EntityData.getCost(units.get(i));
 			b.tooltip.add("Requires " + cost[0] + " food");
@@ -2239,10 +2249,13 @@ public class MenuSystem extends BaseSystem {
 		ArrayList<String> buildings = c.owner.techTree.allowedCityImprovements(c);
 		for (int i = 0; i < buildings.size(); i++)
 		{
-			Button b = (Button)menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i) + " <" + calcQueueTurnsInt(c,units.get(i)) + ">", "Queue a " + buildings.get(i) + ".",
+			int turns = calcQueueTurnsInt(c, buildings.get(i));
+			String name = turns != -1 ? buildings.get(i) + " <" + calcQueueTurnsInt(c,units.get(i)) + ">" : buildings.get(i) + " <N/A>";
+			Button b = (Button)menus.get(2).addButton("queueBuilding" + buildings.get(i), name, "Queue a " + buildings.get(i) + ".",
 					0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);
 			//b.tooltip.add(calcQueueTurns(c));
-			b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, buildings.get(i)) + " turns");
+			if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
+			else b.tooltip.add("Estimated build time: N/A");
 
 			Improvement impr = EntityData.cityImprovementMap.get(buildings.get(i));
 			float[] cost = EntityData.getCost(buildings.get(i));
@@ -2256,10 +2269,12 @@ public class MenuSystem extends BaseSystem {
 		ArrayList<String> fields = c.owner.techTree.allowedFields;
 		for (int i = 0; i < fields.size(); i++)
 		{
+			int turns = calcQueueTurnsInt(c, fields.get(i));
 			Button b = (Button)menus.get(2).addButton("qfield" + fields.get(i), "F: " + fields.get(i) + " <" + calcQueueTurnsInt(c,fields.get(i)) + ">", "Add a " + fields.get(i) + " field.",
 					0, 0, 0, 0);
 			//b.tooltip.add(calcQueueTurns(c));
-			b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, fields.get(i)) + " turns");
+			if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
+			else b.tooltip.add("Estimated build time: N/A");
 
 			Improvement impr = EntityData.getField(fields.get(i));
 			b.tooltip.add(impr.tooltip);

@@ -9,6 +9,9 @@ X : Abandoned
 2/14/2015 -> 2/20/2015 (More hackathon work)
 
 A new UI that emphasizes icons and only shows text in tooltips
+Menu dialogs and ledgers that sort
+Put action/status bar in a permanent location
+	Remove for now
 
 Scaling resources to empire size and turns
 / New streamlined UI that reflects Endless Legend
