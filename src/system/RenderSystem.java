@@ -278,7 +278,8 @@ public class RenderSystem extends BaseSystem {
 				strokedColor = true;*/
 				if (t != null)
 				{
-					if (main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll)
+					//if ((main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) || main.menuSystem.findButtonWithin(main.mouseX, main.mouseY) != null)
+					if (main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll)	
 						main.menuSystem.highlighted = null;
 					else
 						main.menuSystem.highlighted = t;

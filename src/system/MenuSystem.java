@@ -1840,9 +1840,7 @@ public class MenuSystem extends BaseSystem {
 				{
 					TextBox b = m.within(mouseX, mouseY);
 					if (b != null)
-					{
 						return b;
-					}
 				}
 			}
 		}
@@ -2453,49 +2451,52 @@ public class MenuSystem extends BaseSystem {
 		menus.get(11).buttons.clear();
 
 		//Top set
-		TextBox text = new TextBox("Relations","Your relations with this nation (-200 to 200).",200,255,100,20);
+		int width = 60, width2 = 120;
+		TextBox text = new TextBox("Opinion","Your relations with this nation (-200 to 200).",100+width2,255,width,20);
 		menus.get(11).buttons.add(text);
-		text = new TextBox("Open Borders","Your ability to access this nation's lands.",300,255,100,20);
+		text = new TextBox("Border","Your ability to access this nation's lands.",100+width2+width,255,width,20);
 		menus.get(11).buttons.add(text);
-		text = new TextBox("War","",400,255,100,20);
+		text = new TextBox("War","The formal declaration of hostility between you and this nation.",100+width2+width*2,255,width,20);
 		menus.get(11).buttons.add(text);
-		text = new TextBox("Alliance","The existence of a formal alliance between you and this nation.",500,255,100,20);
+		text = new TextBox("Ally","The existence of a formal alliance between you and this nation.",100+width2+width*3,255,width,20);
 		menus.get(11).buttons.add(text);
 
 		for (int i = 0; i < main.grid.civs.length; i++)
 		{
 			Civilization civ = main.grid.civs[i];
 
-			Button b = new Button("pivot"+i,civ.name,"Select to view " + civ.name + "'s diplomatic situation.",100,280 + 25*(i),100,20);
+			Button b = new Button("pivot"+i,civ.name,"",100,280 + 25*(i),width2,20);
 			menus.get(11).buttons.add(b);
 
+			b.tooltip.clear();
+			String s = civ.name + "; Health: " + civ.health + "; Gold: " + civ.gold + "; Research: " + civ.research + "; Relations: " + main.grid.civs[0].opinions[i];
+			b.tooltip.add(s);
+			b.tooltip.add("Select to view the diplomatic situation of " + civ.name + ".");
+			b.dimTooltip();
+			
+			//Allow player to talk with other civs in this menu
+			if (i != 0)
+			{
+				TextBox textBox = menus.get(11).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + civ.name + ".", 100+width2+width*4, 280 + 25*(i), width2, 20);
+				textBox.shortcut = false;
+			}
+			
 			if (civ.equals(pivot)) continue;
 
-			text = new TextBox("" + pivot.opinions[i],"",200,280 + 25*(i),100,20);
+			text = new TextBox("" + pivot.opinions[i],"",100+width2,280 + 25*(i),width,20);
 			menus.get(11).buttons.add(text);
 
-			String temp = pivot.isOpenBorder(civ) ? "Yes" : "No";
-			text = new TextBox(temp,"",300,280 + 25*(i),100,20);
+			String temp = pivot.isOpenBorder(civ) ? "Open" : "Closed";
+			text = new TextBox(temp,"",100+width2+width,280 + 25*(i),width,20);
 			menus.get(11).buttons.add(text);
 
-			temp = pivot.isWar(civ) ? "Yes" : "No";
-			text = new TextBox(temp,"",400,280 + 25*(i),100,20);
+			temp = pivot.isWar(civ) ? "WAR" : "";
+			text = new TextBox(temp,"",100+width2+width*2,280 + 25*(i),width,20);
 			menus.get(11).buttons.add(text);
 
 			temp = pivot.isAlly(civ) ? "Yes" : "No";
-			text = new TextBox(temp,"",500,280 + 25*(i),100,20);
+			text = new TextBox(temp,"",100+width2+width*3,280 + 25*(i),width,20);
 			menus.get(11).buttons.add(text);
-
-			Civilization c = main.grid.civs[i];
-			String s = c.name + "; Health: " + c.health + "; Gold: " + c.gold + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
-			b.tooltip.add(s);
-			b.dimTooltip();
-			if (i != 0)
-			{
-				c = main.grid.civs[i];
-				TextBox textBox = menus.get(11).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + c.name + ".", 600, 280 + 25*(i), 90, 20);
-				textBox.shortcut = false;
-			}
 		}
 		
 		//Bottom set
