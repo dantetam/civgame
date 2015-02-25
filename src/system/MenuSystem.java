@@ -2097,16 +2097,17 @@ public class MenuSystem extends BaseSystem {
 		textboxes.get(4).display.add("");
 
 		textboxes.get(4).display.add("Civilizations:");
-		menus.get(8).activate(false);
+		//Menu 8 buttons were moved to menu 11
+		//menus.get(8).activate(false);
 		for (int i = 1; i < main.grid.civs.length; i++)
 		{
 			c = main.grid.civs[i];
 			s = c.name + "; Health: " + c.health + "; Gold: " + c.gold + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
 			textboxes.get(4).display.add(s);
-			menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + c.name + ".", 600, 190+60+15*(i-1), 90, 15);
+			//menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + c.name + ".", 600, 190+60+15*(i-1), 90, 15);
 		}
 		textboxes.get(4).sizeY = (main.grid.civs.length - 1 + 4)*15 + 15;
-		menus.get(8).activate(true);
+		//menus.get(8).activate(true);
 		//100,190,500,250
 	}
 
@@ -2484,8 +2485,19 @@ public class MenuSystem extends BaseSystem {
 			temp = pivot.isAlly(civ) ? "Yes" : "No";
 			text = new TextBox(temp,"",500,280 + 25*(i),100,20);
 			menus.get(11).buttons.add(text);
-		}
 
+			Civilization c = main.grid.civs[i];
+			String s = c.name + "; Health: " + c.health + "; Gold: " + c.gold + "; Research: " + c.research + "; Relations: " + main.grid.civs[0].opinions[i];
+			b.tooltip.add(s);
+			b.dimTooltip();
+			if (i != 0)
+			{
+				c = main.grid.civs[i];
+				TextBox textBox = menus.get(11).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + c.name + ".", 600, 280 + 25*(i), 90, 20);
+				textBox.shortcut = false;
+			}
+		}
+		
 		//Bottom set
 		/*text = new TextBox("","In war","The list of nations that this nation is currently fighting.",
 				200,280 + 25*main.grid.civs.length,200,20);
