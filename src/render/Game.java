@@ -17,8 +17,7 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
 import units.City;
-import menugame.MenuGame;
-import menugame.Tutorial;
+import menugame.*;
 
 public class Game extends PApplet {
 
@@ -378,10 +377,13 @@ public class Game extends PApplet {
 			//setTitle("Survival: Civilization");
 			show();
 		}
-		public PFrame(Game game, int width, int height)
+		public PFrame(Game game, int type, int width, int height)
 		{
 			setBounds(0, 0, width, height);
-			tutorial = new Tutorial(game,width,height);
+			if (type == 0)
+				tutorial = new Tutorial(game,width,height);
+			else if (type == 1)
+				tutorial = new EconomicTutorial(game,width,height);
 			add(tutorial);
 			setResizable(false);
 			tutorial.init();
@@ -409,7 +411,16 @@ public class Game extends PApplet {
 						}
 						else if (command.equals("tutorial"))
 						{
-							PFrame f = new PFrame(this,1500,900);
+							PFrame f = new PFrame(this,0,1500,900);
+							f.setTitle("Tutorial");
+							//setVisible(false);
+							background(255);
+							//redraw();
+							noLoop();
+						}
+						else if (command.equals("economictutorial"))
+						{
+							PFrame f = new PFrame(this,1,1500,900);
 							f.setTitle("Tutorial");
 							//setVisible(false);
 							background(255);

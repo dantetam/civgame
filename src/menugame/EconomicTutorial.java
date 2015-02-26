@@ -1,7 +1,9 @@
 package menugame;
 
 import game.Tech;
+import game.Tile;
 import render.Game;
+import units.City;
 
 public class EconomicTutorial extends Tutorial {
 
@@ -11,39 +13,28 @@ public class EconomicTutorial extends Tutorial {
 	
 	public void initialize()
 	{
+		//if step == 0 then check the following conditions to advance to step 1
 		//0
 		path.add(empty());
 		cond.add("playerHasOneCity");
 
 		path.add(list(32));
+		cond.add("mouseOverHighestFood");
+
+		path.add(list(32));
 		cond.add("");
-
+		
+		path.add(list(32));
+		cond.add("");
+		
 		path.add(empty());
-		cond.add("playerHasOneCity");
-
-		/*path.add(list(32));
-		cond.add("");*/
-
-		path.add(empty());
-		cond.add("cityQueueWarrior");
-
+		cond.add("queueBuilding");
+		
 		//5
 		path.add(list(32));
 		cond.add("");
 
-		path.add(empty());
-		cond.add("researchingTech");
-
-		path.add(list(32));
-		cond.add("");
-
-		path.add(empty());
-		cond.add("unitAndCity");
-
-		path.add(empty());
-		cond.add("unitOutsideBorders");
-
-		//10
+		//last -> end tutorial
 		path.add(list(200)); //not a "key"
 	}
 	
@@ -71,7 +62,8 @@ public class EconomicTutorial extends Tutorial {
 			menuSystem.messageT(
 					"Your city has a number of tiles under its rule.",
 					"These tiles produce food, gold, metal, and science",
-					"Mouse over the tile with the highest food (green apple).");
+					"Mouse over the tile with the highest food (green apple) in your city,",
+					"and press SPACE at the same time.");
 			break;
 		case 2:
 			menuSystem.messageT("------------------------------------------");
@@ -80,18 +72,14 @@ public class EconomicTutorial extends Tutorial {
 					"the yield, which is used on units and buildings.",
 					"Press SPACE to continue.");
 			break;
-		/*case 3:
-			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("This will allow you to give orders to those who need them.");
-			menuSystem.messageT("Press SPACE again to cycle through your units.");
-			break;*/
 		case 3:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT(
 					"The number of tiles worked depends on the population",
 					"and the number of free workers. Others specialize.",
 					"A city's population affects health and happiness,",
-					"which in turn, affect production efficiency.");
+					"which in turn, affect production efficiency.",
+					"Press SPACE to continue.");
 			break;
 		case 4:
 			menuSystem.messageT("------------------------------------------");
@@ -101,20 +89,6 @@ public class EconomicTutorial extends Tutorial {
 					"Queue a building.");
 			break;
 		case 5: 
-			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("Click on any technology to research it.");
-			menuSystem.messageT("Before you can go on, your civilization must research a tech.");
-			break;
-		case 6:
-			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("Now, you may advance the game with SPACE.");
-			break;
-		case 7:
-			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("until your unit is completed.");
-			menuSystem.messageT("Keep pressing SPACE to advance the game");
-			break;
-		case 8:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT("Move it outside of your territory with RMB when selecting it.");
 			menuSystem.messageT("Later units may have ranged strength.");
@@ -138,14 +112,26 @@ public class EconomicTutorial extends Tutorial {
 		else
 		{
 			//Invalid
-			if (c.equals("playerHasOneCity"))
+			if (c.equals("mouseOverHighestFood"))
 			{
-				return grid.civs[0].cities.size() > 0;
-			}
-			else if (c.equals("cityQueueWarrior"))
-			{
-				if (grid.civs[0].cities.get(0).queue != null)
-					return grid.civs[0].cities.get(0).queue.equals("Warrior");
+				if (highestFood == 0) //Calculate if not known
+				{
+					City city = grid.civs[0].cities.get(0);
+					if (city == null) return false;
+					for (int i = 0; i < city.land.size(); i++)
+					{
+						double[] yield = City.staticEval(city.land.get(i));
+						if (yield[0] > highestFood)
+							highestFood = (int)yield[0];
+					}
+				}
+				if (menuSystem.mouseHighlighted != null)
+				{
+					double[] yield = City.staticEval(menuSystem.mouseHighlighted);
+					System.out.println(yield[0] + " " + highestFood);
+					if ((int)yield[0] >= highestFood)
+						return true;
+				}
 				return false;
 			}
 			else
@@ -156,5 +142,7 @@ public class EconomicTutorial extends Tutorial {
 			}
 		}
 	}
+	
+	private int highestFood = 0;
 
 }

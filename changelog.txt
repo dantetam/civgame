@@ -6,6 +6,18 @@ X : Abandoned
 + : Addition (not planned)
 ... : Delayed
 
+2/21/2015 -> 2/27/2015
+
+Distributed networking
+	Transition to decentralized/centralized network
+	Players must keep their civilization nodes together or face penalties
+	Discourage founding cities far away and tight defenses
+	Fields and improvements act as minor nodes
+		Addition of hamlets as minor nodes (which require maintenance?)
+AI changes
+	AI should optimize fields
+	AI prioritizes war when army is strong
+		
 2/14/2015 -> 2/20/2015 (More hackathon work)
 
 A new UI that emphasizes icons and only shows text in tooltips
