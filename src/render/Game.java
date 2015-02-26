@@ -134,6 +134,7 @@ public class Game extends PApplet {
 
 		Menu menu7 = new Menu("TutorialMenu");
 		menu7.addButton("tutorial", "Beginnings", "Grasp the basics of game control, UI, and basic mechanics.", 70, 100, 210, 50);
+		menu7.addButton("economictutorial", "Economics 101", "Learn the inner workings of the world's economy.", 70, 160, 210, 50);
 		menu7.addButton("backMenu0", "Back", "Back to the main menu.", 70, 630, 210, 70);
 		menus.add(menu7); 
 

@@ -64,21 +64,21 @@ public class EconomicTutorial extends Tutorial {
 			grid.civs[0].techTree.allowedCityImprovements.clear();
 			grid.civs[0].techTree.allowedUnits.add("Warrior");
 			enable('w','a','s','d');
+			enable((char)32);
 			break;
 		case 1:
 			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("Press SPACE to continue.");
-			menuSystem.messageT("Cities produce units and improvements for the civilization.");
-			menuSystem.messageT("It is a settler, which can found a city.");
-			menuSystem.messageT("This is a unit belonging to your civilization.");
-			//enable((char)32);
+			menuSystem.messageT(
+					"Your city has a number of tiles under its rule.",
+					"These tiles produce food, gold, metal, and science",
+					"Mouse over the tile with the highest food (green apple).");
 			break;
 		case 2:
 			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("It will be founded at your settler's location.");
-			menuSystem.messageT("In the provided menu, press SETTLE to create a new city.");
-			enable((char)32);
-			enable('1','2','3','4','5');
+			menuSystem.messageT(
+					"Certain tiles are worked, meaning that the city gains",
+					"the yield, which is used on units and buildings.",
+					"Press SPACE to continue.");
 			break;
 		/*case 3:
 			menuSystem.messageT("------------------------------------------");
@@ -87,15 +87,18 @@ public class EconomicTutorial extends Tutorial {
 			break;*/
 		case 3:
 			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("which are used for creating new units. Queue a WARRIOR.");
-			menuSystem.messageT("It harvests the tiles around it for food and metal,");
-			menuSystem.messageT("This is the city menu for your first city.");
+			menuSystem.messageT(
+					"The number of tiles worked depends on the population",
+					"and the number of free workers. Others specialize.",
+					"A city's population affects health and happiness,",
+					"which in turn, affect production efficiency.");
 			break;
 		case 4:
 			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("if all your units have orders.");
-			menuSystem.messageT("press SPACE. This will advance to next turn,");
-			menuSystem.messageT("Your unit will be produced soon. To progress the game forward,");
+			menuSystem.messageT(
+					"Units, such as Warriors, can move and perform actions.",
+					"Buildings improve city yields or enable certain city actions.",
+					"Queue a building.");
 			break;
 		case 5: 
 			menuSystem.messageT("------------------------------------------");
