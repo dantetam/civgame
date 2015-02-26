@@ -18,6 +18,7 @@ import processing.core.PFont;
 import processing.core.PImage;
 import units.City;
 import menugame.MenuGame;
+import menugame.Tutorial;
 
 public class Game extends PApplet {
 

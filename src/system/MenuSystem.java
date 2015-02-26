@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import menugame.Tutorial;
 import data.ColorImage;
 import data.EntityData;
 import data.Field;
@@ -1884,7 +1885,8 @@ public class MenuSystem extends BaseSystem {
 	//Send a message from tutorial level
 	public void messageT(String... newMessages)
 	{
-		for (int i = 0; i < newMessages.length; i++)
+		if (newMessages.length == 0) return;
+		for (int i = newMessages.length - 1; i >= 0; i--)
 		{
 			String message = newMessages[i];
 			if (messages.size() == 0) messages.add(message);

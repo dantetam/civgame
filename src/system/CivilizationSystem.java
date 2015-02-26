@@ -3,11 +3,11 @@ package system;
 import java.util.ArrayList;
 
 import menugame.MenuGame;
+import menugame.Tutorial;
 import processing.core.PApplet;
 import data.EntityData;
 import data.Field;
 import render.CivGame;
-import render.Tutorial;
 import game.*;
 import units.*;
 

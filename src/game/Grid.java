@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
-import render.Tutorial;
+import menugame.Tutorial;
 import units.Caravan;
 import units.City;
 import data.EntityData;

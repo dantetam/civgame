@@ -1,12 +1,26 @@
-package render;
+package menugame;
 
 import game.Tech;
 
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import render.CivGame;
+import render.Game;
 
-//A modified copy of an actual game
+//A modified copy of an actual civgame
+
+//Override these methods to make a new tutorial:
+/*
+ * void initialize() -> Initialize keys or conditions needed to pass to the next step
+ *     path.add(list(...) or empty()) -> Add a set of keys needed to be pressed
+ *     cond.add("") -> Add a condition string
+ * void executeStep(int step) -> Allow tutorial to do something when a step is reached
+ *     enable(...) -> Enable a set of keys
+ * 	   menuSystem.messageT(...) -> Write a message
+ * boolean done(String s) -> Check a string with its conditions (if the string is x, then return if some condition is true)
+ * 
+ */
 
 public class Tutorial extends CivGame {
 
@@ -23,7 +37,12 @@ public class Tutorial extends CivGame {
 		super.options(true);
 		path = new ArrayList<ArrayList<Character>>();
 		cond = new ArrayList<String>();
-
+		initialize();
+	}
+	
+	//Unique
+	public void initialize()
+	{
 		//0
 		path.add(list(32));
 		cond.add("");
@@ -63,8 +82,20 @@ public class Tutorial extends CivGame {
 	public void step()
 	{
 		step++;
-		if (step == 0)
+
+		//println("Called " + step);
+		executeStep(step);
+	}
+	
+	//Unique
+	public void executeStep(int step)
+	{
+		switch (step)
 		{
+		case 0:
+			menuSystem.messageT( 
+					"Use WASD to move the camera around the map",
+					"When ready, press SPACE to continue.");
 			grid.revealPlayer();
 			for (int i = 0; i < grid.civs[0].units.size(); i++)
 				grid.civs[0].units.get(i).reveal();
@@ -73,14 +104,6 @@ public class Tutorial extends CivGame {
 			grid.civs[0].techTree.allowedUnits.clear();
 			grid.civs[0].techTree.allowedCityImprovements.clear();
 			grid.civs[0].techTree.allowedUnits.add("Warrior");
-		}
-
-		//println("Called " + step);
-		switch (step)
-		{
-		case 0:
-			menuSystem.messageT("When ready, press SPACE to continue.");
-			menuSystem.messageT("Use WASD to move the camera around the map");
 			enable('w','a','s','d');
 			break;
 		case 1:
@@ -144,6 +167,7 @@ public class Tutorial extends CivGame {
 		}
 	}
 
+	//Unique
 	public boolean done(String c)
 	{
 		if (c == null || c.equals(""))
@@ -208,9 +232,7 @@ public class Tutorial extends CivGame {
 				}
 		}
 		if (keysAllowed[(int)key])
-		{
 			super.keyPressed();
-		}
 		//else
 		//return; //Wrong key pressed. Restrict access to other keys
 		//check();
