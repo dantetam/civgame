@@ -396,10 +396,12 @@ public abstract class GameEntity extends BaseEntity {
 					city.health = city.maxHealth/2;
 					owner.cities.add(city);
 					city.raze = true;
-					if (owner.capital != null)
-						if (owner.capital.location != null)
-							if (city.location.dist(owner.capital.location) < 15)
-								city.raze = false;
+					//Keep cities within a certain distance from the capital; barbarians always raze
+					if (owner.id < location.grid.barbarians)
+						if (owner.capital != null)
+							if (owner.capital.location != null)
+								if (city.location.dist(owner.capital.location) < 15)
+									city.raze = false;
 					return true;
 				}
 			}

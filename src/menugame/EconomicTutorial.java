@@ -9,7 +9,7 @@ public class EconomicTutorial extends Tutorial {
 	
 	public EconomicTutorial(Game game, float width, float height) {
 		super(game, width, height);
-		enabled = false;
+		enabled = true;
 	}
 	
 	public void initialize()
@@ -52,9 +52,9 @@ public class EconomicTutorial extends Tutorial {
 				grid.civs[0].units.get(i).reveal();
 			menuSystem.rbox = grid.civs[0].revealedBox(); //Force update
 			//Tech tech = grid.civs[0].techTree.researched("Civilization");
-			//grid.civs[0].techTree.allowedUnits.clear();
-			//grid.civs[0].techTree.allowedCityImprovements.clear();
-			//grid.civs[0].techTree.allowedUnits.add("Warrior");
+			grid.civs[0].techTree.allowedUnits.clear();
+			grid.civs[0].techTree.allowedCityImprovements.clear();
+			grid.civs[0].techTree.allowedUnits.add("Warrior");
 			enable('w','a','s','d');
 			enable('1','2','3','4','5');
 			enable((char)32);
@@ -66,6 +66,7 @@ public class EconomicTutorial extends Tutorial {
 					"These tiles produce food, gold, metal, and science",
 					"Mouse over the tile with the highest food (green apple) in your city,",
 					"and press SPACE at the same time.");
+			enabled = false;
 			break;
 		case 2:
 			menuSystem.messageT("------------------------------------------");
@@ -89,6 +90,7 @@ public class EconomicTutorial extends Tutorial {
 					"Units, such as Warriors, can move and perform actions.",
 					"Buildings improve city yields or enable certain city actions.",
 					"Queue a building.");
+			enabled = true;
 			break;
 		case 5: 
 			menuSystem.messageT("------------------------------------------");
