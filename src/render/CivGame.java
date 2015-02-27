@@ -25,7 +25,8 @@ import game.Tile;
 public class CivGame extends PApplet {
 
 	public Game game;
-
+	public boolean enabled = true;
+	
 	public BaseTerrain map;
 	public String challengeType, terrainType, civChoice;
 	public int numCivs, numCityStates, difficultyLevel;

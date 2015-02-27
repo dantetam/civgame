@@ -6,9 +6,10 @@ import render.Game;
 import units.City;
 
 public class EconomicTutorial extends Tutorial {
-
+	
 	public EconomicTutorial(Game game, float width, float height) {
 		super(game, width, height);
+		enabled = false;
 	}
 	
 	public void initialize()
@@ -32,7 +33,7 @@ public class EconomicTutorial extends Tutorial {
 		
 		//5
 		path.add(list(32));
-		cond.add("");
+		cond.add("firstCityFourPop");
 
 		//last -> end tutorial
 		path.add(list(200)); //not a "key"
@@ -51,10 +52,11 @@ public class EconomicTutorial extends Tutorial {
 				grid.civs[0].units.get(i).reveal();
 			menuSystem.rbox = grid.civs[0].revealedBox(); //Force update
 			//Tech tech = grid.civs[0].techTree.researched("Civilization");
-			grid.civs[0].techTree.allowedUnits.clear();
-			grid.civs[0].techTree.allowedCityImprovements.clear();
-			grid.civs[0].techTree.allowedUnits.add("Warrior");
+			//grid.civs[0].techTree.allowedUnits.clear();
+			//grid.civs[0].techTree.allowedCityImprovements.clear();
+			//grid.civs[0].techTree.allowedUnits.add("Warrior");
 			enable('w','a','s','d');
+			enable('1','2','3','4','5');
 			enable((char)32);
 			break;
 		case 1:
@@ -90,13 +92,9 @@ public class EconomicTutorial extends Tutorial {
 			break;
 		case 5: 
 			menuSystem.messageT("------------------------------------------");
-			menuSystem.messageT("Move it outside of your territory with RMB when selecting it.");
-			menuSystem.messageT("Later units may have ranged strength.");
-			menuSystem.messageT("It has offensive and defensive values.");
-			menuSystem.messageT("Your city has produced its first combat unit.");
-			Tech t = grid.civs[0].techTree.researched("Civilization");
-			t.units("Settler", "Warrior", "Worker", "Slinger");
-			t.cImpr("Obelisk");
+			menuSystem.messageT(
+					"Improve the economy of your empire.",
+					"Reach population 4 on your first city.");
 			break;
 		default:
 			break;
@@ -133,6 +131,18 @@ public class EconomicTutorial extends Tutorial {
 						return true;
 				}
 				return false;
+			}
+			else if (c.equals("queueBuilding"))
+			{
+				City city = grid.civs[0].cities.get(0);
+				if (city == null) return false;
+				return grid.civs[0].techTree.allowedCityImprovements.contains(city.queue);
+			}
+			else if (c.equals("firstCityFourPop"))
+			{
+				City city = grid.civs[0].cities.get(0);
+				if (city == null) return false;
+				return city.population >= 4;
 			}
 			else
 			{

@@ -1067,6 +1067,7 @@ public class MenuSystem extends BaseSystem {
 		menuActivated = false;
 		for (int menu = 0; menu < menus.size(); menu++)
 		{
+			if (!main.enabled) break;
 			if (menus.get(menu).active())
 			{
 				for (int i = clicks.size() - 1; i >= 0; i--)
