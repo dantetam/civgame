@@ -1,9 +1,12 @@
 package menugame;
 
+import game.Civilization;
+import game.GameEntity;
 import game.Tech;
 import game.Tile;
 import render.Game;
 import units.City;
+import units.Worker;
 
 public class EconomicTutorial extends Tutorial {
 	
@@ -15,7 +18,7 @@ public class EconomicTutorial extends Tutorial {
 	public void initialize()
 	{
 		//if step == 0 then check the following conditions to advance to step 1
-		//0
+		//0 -> 1
 		path.add(empty());
 		cond.add("playerHasOneCity");
 
@@ -31,10 +34,19 @@ public class EconomicTutorial extends Tutorial {
 		path.add(empty());
 		cond.add("queueBuilding");
 		
-		//5
-		path.add(list(32));
+		//5 -> 6
+		path.add(empty());
+		cond.add("researchAgriculture");
+		
+		path.add(empty());
 		cond.add("firstCityFourPop");
 
+		path.add(empty());
+		cond.add("workerOnTile");
+		
+		path.add(empty());
+		cond.add("buildImprovement");
+		
 		//last -> end tutorial
 		path.add(list(200)); //not a "key"
 	}
@@ -56,7 +68,7 @@ public class EconomicTutorial extends Tutorial {
 			grid.civs[0].techTree.allowedCityImprovements.clear();
 			grid.civs[0].techTree.allowedUnits.add("Warrior");
 			enable('w','a','s','d');
-			enable('1','2','3','4','5');
+			//enable('1','2','3','4','5');
 			enable((char)32);
 			break;
 		case 1:
@@ -95,8 +107,33 @@ public class EconomicTutorial extends Tutorial {
 		case 5: 
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT(
+					"Agriculture is an early game technology that enables growth.",
+					"Research the tech Agriculture.");
+			break;
+		case 6: 
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
 					"Improve the economy of your empire.",
-					"Reach population 4 on your first city.");
+					"Reach population 4 on your first city by advancing turns.");
+			break;
+		case 7:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
+					"Another way to improve yield is to build improvements on tiles.",
+					"To do so, train a worker, and move it to a tile outside the city.");
+			break;
+		case 8:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
+					"Tile improvements increase the yield of individual tiles.",
+					"Choose improvements carefully; every improvement has an appropriate tile to be built on.",
+					"For example, a fresh water forest would be suited for a farm.",
+					"Build any improvement with a worker.");
+			break;
+		case 9:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
+					"End of tutorial");
 			break;
 		default:
 			break;
@@ -111,12 +148,12 @@ public class EconomicTutorial extends Tutorial {
 		}
 		else
 		{
-			//Invalid
+			Civilization p = grid.civs[0];
 			if (c.equals("mouseOverHighestFood"))
 			{
 				if (highestFood == 0) //Calculate if not known
 				{
-					City city = grid.civs[0].cities.get(0);
+					City city = p.cities.get(0);
 					if (city == null) return false;
 					for (int i = 0; i < city.land.size(); i++)
 					{
@@ -136,15 +173,42 @@ public class EconomicTutorial extends Tutorial {
 			}
 			else if (c.equals("queueBuilding"))
 			{
-				City city = grid.civs[0].cities.get(0);
+				City city = p.cities.get(0);
 				if (city == null) return false;
-				return grid.civs[0].techTree.allowedCityImprovements.contains(city.queue);
+				return p.techTree.allowedCityImprovements.contains(city.queue);
 			}
 			else if (c.equals("firstCityFourPop"))
 			{
-				City city = grid.civs[0].cities.get(0);
+				City city = p.cities.get(0);
 				if (city == null) return false;
 				return city.population >= 4;
+			}
+			else if (c.equals("researchAgriculture"))
+			{
+				return p.researchTech.equals("Agriculture");
+			}
+			else if (c.equals("workerOnTile"))
+			{
+				for (int i = 0; i < p.units.size(); i++)
+				{
+					GameEntity en = p.units.get(i);
+					if (en instanceof Worker)
+						if (!(en.location.improvement instanceof City))
+							return true;
+				}
+				return false;
+			}
+			else if (c.equals("buildImprovement"))
+			{
+				for (int i = 0; i < p.units.size(); i++)
+				{
+					GameEntity en = p.units.get(i);
+					if (en instanceof Worker)
+						if (en.queue != null)
+							if (!en.queue.isEmpty())
+								return true;
+				}
+				return false;
 			}
 			else
 			{
