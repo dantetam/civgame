@@ -324,7 +324,6 @@ public abstract class GameEntity extends BaseEntity {
 		if (location.improvement != null)
 		{		
 			//action--;
-			//System.out.println(owner + " " + location.improvement.owner + " Name: " + location.improvement.id);
 			if (location.improvement.owner == null && location.improvement.name.equals("Ruins"))
 			{
 				location.grid.removeUnit(location.improvement);
@@ -396,6 +395,11 @@ public abstract class GameEntity extends BaseEntity {
 					city.takeover = 5;
 					city.health = city.maxHealth/2;
 					owner.cities.add(city);
+					city.raze = true;
+					if (owner.capital != null)
+						if (owner.capital.location != null)
+							if (city.location.dist(owner.capital.location) < 15)
+								city.raze = false;
 					return true;
 				}
 			}

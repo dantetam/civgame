@@ -158,6 +158,7 @@ public class City extends TileEntity {
 	//Returns true if an enemy is in the city's land
 	public boolean enemiesInTerritory()
 	{
+		if (owner == null) return false;
 		for (int i = 0; i < land.size(); i++)
 		{
 			Tile t = land.get(i);

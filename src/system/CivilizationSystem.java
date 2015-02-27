@@ -333,6 +333,15 @@ public class CivilizationSystem extends BaseSystem {
 								}
 							}
 						}*/
+						if (c.enemiesInTerritory() && c.sortie == 0)
+						{
+							c.sortie = 1;
+						}
+						else if (!c.enemiesInTerritory() && c.sortie == 1)
+						{
+							c.sortie = 0;
+						}
+						
 						if (c.raze)
 						{
 							for (int k = 0; k < c.land.size(); k++)
@@ -355,8 +364,10 @@ public class CivilizationSystem extends BaseSystem {
 										c.owner.capital = null;
 								for (int k = c.land.size() - 1; k >= 0; k--)
 								{
-									c.land.get(k).owner = null;
-									c.land.get(k).city = null;
+									Tile t = c.land.get(k);
+									t.owner = null;
+									t.city = null;
+									t.culture = 0;
 								}
 								c.owner.cities.remove(c);
 								if (c.owner.cities.size() > 0)
@@ -365,14 +376,9 @@ public class CivilizationSystem extends BaseSystem {
 								grid.removeUnit(c);
 							}
 						}
-						if (c.enemiesInTerritory() && c.sortie == 0)
-						{
-							c.sortie = 1;
-						}
-						else if (!c.enemiesInTerritory() && c.sortie == 1)
-						{
-							c.sortie = 0;
-						}
+						if (civ.capital != null) //Safety check
+							if (civ.capital.owner == null)
+								civ.capital = null;
 					}
 					civ.health -= Math.pow(civ.cities.size(), 1.5);
 					if (civ.health < 0)
@@ -416,9 +422,10 @@ public class CivilizationSystem extends BaseSystem {
 					Civilization oCiv = grid.civs[j];
 					if (i != j)
 					{
-						if (grid.civs[j].capital != null && civ.capital != null)
+						if (oCiv.capital != null && civ.capital != null)
 						{
 							if (civ.cities.size() == 0) continue;
+							if (oCiv.capital.owner == null || civ.capital.owner == null) continue;
 							if (civ.capital.location.dist(oCiv.capital.location) < 30)
 							{
 								//baseOpinion -= 50;
@@ -477,7 +484,7 @@ public class CivilizationSystem extends BaseSystem {
 											!civ.isWar(civ2) &&
 											civ.enemies().size() < 2)
 									{
-										System.out.println("war between " + civ.name + " and " + grid.civs[j]);
+										//System.out.println("war between " + civ.name + " and " + grid.civs[j]);
 										civ.war(civ2);
 										//Call in allies
 										ArrayList<Civilization> allies = civ.allies();
@@ -515,9 +522,9 @@ public class CivilizationSystem extends BaseSystem {
 									}
 								}
 							}
-							else if (civ.opinions[j] > -(50*civ.peace) && civ.isWar(civ2))
+							else if (civ.opinions[j] > -(70*civ.peace) && civ.isWar(civ2))
 							{
-								System.out.println("peace");
+								//System.out.println("peace");
 								grid.civs[j].peace(civ);
 								civ.peace(grid.civs[j]);
 								if (guiExists)
