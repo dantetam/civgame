@@ -40,6 +40,14 @@ public class Tutorial extends CivGame {
 		initialize();
 	}
 	
+	public void step()
+	{
+		step++;
+
+		//println("Called " + step);
+		executeStep(step);
+	}
+	
 	//Unique
 	public void initialize()
 	{
@@ -77,14 +85,6 @@ public class Tutorial extends CivGame {
 
 		//10
 		path.add(list(200)); //not a "key"
-	}
-
-	public void step()
-	{
-		step++;
-
-		//println("Called " + step);
-		executeStep(step);
 	}
 	
 	//Unique

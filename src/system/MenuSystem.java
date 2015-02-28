@@ -2121,6 +2121,8 @@ public class MenuSystem extends BaseSystem {
 	//Choose which buttons to show depending on unit (e.g. only settler can settle)
 	public void updateUnitMenu(GameEntity en)
 	{
+		float height = 24;
+		
 		menus.get(1).buttons.clear();
 		//int n = 0;
 		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", 0, main.height*5/6 + 30, main.width*1/6, 30);
@@ -2203,9 +2205,9 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < menus.get(1).buttons.size(); i++)
 		{
 			TextBox b = menus.get(1).buttons.get(i);
-			b.move(b.posX, b.posY - (menus.get(1).buttons.size()+1)*30 + i*30); //Shift the buttons to their proper place
-			b.sizeX = 150; b.sizeY = 30;
-			b.origSizeX = 150; b.origSizeY = 30;
+			b.move(b.posX, b.posY - (menus.get(1).buttons.size()+1)*height + i*height); //Shift the buttons to their proper place
+			b.sizeX = 150; b.sizeY = height;
+			b.origSizeX = 150; b.origSizeY = height;
 			b.origX = b.posX; b.origY = b.posY;
 		}
 
@@ -2225,8 +2227,9 @@ public class MenuSystem extends BaseSystem {
 			menus.get(2).addButton("razeCity", "Raze", "Destroy the city, one citizen at a time.", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
 		}
 
-		float disp = c.owner.techTree.allowedUnits.size() + c.owner.techTree.allowedCityImprovements.size() + 1; disp *= 30;
-
+		float height = 24;
+		float disp = c.owner.techTree.allowedUnits.size() + c.owner.techTree.allowedCityImprovements.size() + 1; disp *= height;
+		
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		for (int i = 0; i < units.size(); i++)
 		{
@@ -2310,16 +2313,16 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < n; i++)
 		{
 			TextBox b = menus.get(2).buttons.get(i);
-			b.move(0, main.height*5/6 + i*30 - (n+1)*30); //Shift the buttons to their proper place
+			b.move(0, main.height*5/6 + i*height - (n+1)*height); //Shift the buttons to their proper place
 			b.origX = b.posX; b.origY = b.posY;
-			b.sizeX = 150; b.sizeY = 30;
+			b.sizeX = 150; b.sizeY = height;
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
 
-		menus.get(2).buttons.add(new TextBox(c.name,"",0,main.height*5/6 - 30,main.width*1/6,30));
+		menus.get(2).buttons.add(new TextBox(c.name,"",0,main.height*5/6 - height,150,height));
 
 		double[] data = EntityData.calculateYield(c);
-		TextBox t = new TextBox("Food per turn: " + (int)Math.floor(data[0]),"",0,main.height*5/6,main.width*1/6,main.height*1/6);
+		TextBox t = new TextBox("Food per turn: " + (int)Math.floor(data[0]),"",0,main.height*5/6,150,main.height*1/6);
 		t.display.add("Gold per turn: " + (int)Math.floor(data[1]));
 		t.display.add("Metal per turn: " + (int)Math.floor(data[2]));
 		t.display.add("Research per turn: " + (int)Math.floor(data[3]));
