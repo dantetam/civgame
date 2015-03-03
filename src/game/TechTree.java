@@ -171,6 +171,22 @@ public class TechTree {
 			t.governmentCivic = "Theocracy";
 	}
 
+	//Find potential unlocked items
+	public ArrayList<String> findUnlockables()
+	{
+		ArrayList<String> temp = new ArrayList<String>();
+		ArrayList<Tech> techs = findCandidates(first);
+		for (int i = 0; i < techs.size(); i++)
+		{
+			Tech t = techs.get(i);
+			String[][] data = {t.unlockUnits(), t.unlockTileImprovements(), t.unlockCityImprovements(), t.unlockFieldImprovements()};
+			for (int j = 0; j < data.length; j++)
+				for (int k = 0; k < data[j].length; k++)
+					temp.add(data[j][k]); //jk?
+		}
+		return temp;
+	}
+	
 	//Syntax shortcut for later, no need to pass first argument
 	public ArrayList<String> findCandidates()
 	{

@@ -71,6 +71,12 @@ public class Tech {
 	public void tImpr(String... t) {unlockTileImprovements = t;}
 	public void cImpr(String... t) {unlockCityImprovements = t;}
 	public void fImpr(String... t) {unlockFieldImprovements = t;}
+	
+	//Getter methods
+	public String[] unlockUnits() {return unlockUnits;}
+	public String[] unlockTileImprovements() {return unlockTileImprovements;}
+	public String[] unlockCityImprovements() {return unlockCityImprovements;}
+	public String[] unlockFieldImprovements() {return unlockFieldImprovements;}
 
 	//Set what the tech makes obsolete
 	//i.e. researching warband makes warrior unable to be built
