@@ -11,7 +11,7 @@ public class Tech {
 	public int totalR, requiredR;
 
 	private String[] unlockUnits = new String[0], unlockTileImprovements = new String[0], unlockCityImprovements = new String[0],
-			unlockFieldImprovements = new String[0], obsoleteUnits = new String[0];
+			unlockFieldImprovements = new String[0], unlockUnitImprovements = new String[0], obsoleteUnits = new String[0];
 	public String governmentCivic, economicCivic = null;
 	public Tech(String name, int requiredR, Tech... t)
 	{
@@ -44,6 +44,8 @@ public class Tech {
 			civ.techTree.allowedCityImprovements.add(unlockCityImprovements[i]);
 		for (int i = 0; i < unlockFieldImprovements.length; i++)
 			civ.techTree.allowedFields.add(unlockFieldImprovements[i]);
+		for (int i = 0; i < unlockUnitImprovements.length; i++)
+			civ.techTree.allowedUnitImprovements.add(unlockUnitImprovements[i]);
 		//Add civics
 		if (governmentCivic != null)
 		{
@@ -71,12 +73,14 @@ public class Tech {
 	public void tImpr(String... t) {unlockTileImprovements = t;}
 	public void cImpr(String... t) {unlockCityImprovements = t;}
 	public void fImpr(String... t) {unlockFieldImprovements = t;}
+	public void uImpr(String... t) {unlockUnitImprovements = t;}
 	
 	//Getter methods
 	public String[] unlockUnits() {return unlockUnits;}
 	public String[] unlockTileImprovements() {return unlockTileImprovements;}
 	public String[] unlockCityImprovements() {return unlockCityImprovements;}
 	public String[] unlockFieldImprovements() {return unlockFieldImprovements;}
+	public String[] unlockUnitImprovements() {return unlockUnitImprovements;}
 
 	//Set what the tech makes obsolete
 	//i.e. researching warband makes warrior unable to be built
@@ -98,6 +102,8 @@ public class Tech {
 			temp += unlockTileImprovements[i] + ", ";
 		for (int i = 0; i < unlockFieldImprovements.length; i++)
 			temp += unlockFieldImprovements[i] + ", ";
+		for (int i = 0; i < unlockUnitImprovements.length; i++)
+			temp += unlockUnitImprovements[i] + ", ";
 		if (temp.equals("")) return temp;
 		return temp.substring(0, temp.length() - 2);
 	}

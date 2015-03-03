@@ -17,12 +17,12 @@ public class Improvement
 	public double offensiveFlat, defensiveFlat, rangedFlat; //fixed bonuses
 	public double workerImprovementTime;
 	
-	public String requiredTech;
+	//public String requiredTech;
 	
-	public Improvement(String name, String tooltip, String tech)
+	public Improvement(String name, String tooltip)
 	{
 		this.name = name; this.tooltip = tooltip;
-		requiredTech = tech;
+		//requiredTech = tech;
 	}
 	
 	public Improvement(Improvement i)
@@ -31,7 +31,7 @@ public class Improvement
 		fit(i.units);
 		cost(i.foodPercent, i.metalPercent, i.goldPercent, i.foodFlat, i.metalFlat, i.goldFlat);
 		set(i.offensivePercent, i.defensivePercent, i.rangedPercent, i.offensiveFlat, i.defensiveFlat, i.rangedFlat, i.workerImprovementTime);
-		requiredTech = i.requiredTech;
+		//requiredTech = i.requiredTech;
 	}
 	
 	public void fit(String... types) {units = types;}

@@ -555,7 +555,7 @@ public class EntityData {
 	public static ArrayList<Improvement> getValidImprovements(Civilization civ, BaseEntity en)
 	{
 		ArrayList<Improvement> temp = new ArrayList<Improvement>();
-		for (Entry<String, Improvement> entry: unitImprovementMap.entrySet())
+		/*for (Entry<String, Improvement> entry: unitImprovementMap.entrySet())
 		{
 			String name = entry.getKey();
 			Improvement i = entry.getValue();
@@ -572,7 +572,25 @@ public class EntityData {
 			else if (i.units[0].equals("allranged") && en.rangedStr > 0)
 				temp.add(i);
 		}
-		//System.out.println(temp.size());
+		//System.out.println(temp.size());*/
+		for (int i = 0; i < civ.techTree.allowedUnitImprovements.size(); i++)
+		{
+			String name = civ.techTree.allowedUnitImprovements.get(i);
+			Improvement impr = unitImprovementMap.get(name);
+			if (impr == null) impr = cityImprovementMap.get(name);
+			//if (!civ.techTree.researched(i.requiredTech).researched()) continue;
+			//Above condition already checked; list of names can only be from unlocked techs
+			if (impr.equals("Neutral"))
+			{
+				continue;
+			}
+			if (impr.isFit(en.name))
+				temp.add(impr);
+			else if (impr.units[0].equals("allmelee") && en.offensiveStr > 0)
+				temp.add(impr);
+			else if (impr.units[0].equals("allranged") && en.rangedStr > 0)
+				temp.add(impr);
+		}
 		return temp;
 	}
 	
