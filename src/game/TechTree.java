@@ -182,7 +182,8 @@ public class TechTree {
 			String[][] data = {t.unlockUnits(), t.unlockTileImprovements(), t.unlockCityImprovements(), t.unlockFieldImprovements()};
 			for (int j = 0; j < data.length; j++)
 				for (int k = 0; k < data[j].length; k++)
-					temp.add(data[j][k]); //jk?
+					if (!temp.contains(data[j][k]))
+						temp.add(data[j][k]); //jk?
 		}
 		return temp;
 	}

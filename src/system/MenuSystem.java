@@ -2254,7 +2254,7 @@ public class MenuSystem extends BaseSystem {
 			BaseEntity example = EntityData.get(potential.get(i));
 			Improvement impr = EntityData.cityImprovementMap.get(potential.get(i));
 			Improvement impr2 = EntityData.getField(potential.get(i));
-			if (example != null)
+			if (example != null && EntityData.tileEntityMap.get(potential.get(i)) == null) //Make sure it's not a farm or something
 			{
 				unitButton(c, potential.get(i), false);
 			}
@@ -2316,7 +2316,7 @@ public class MenuSystem extends BaseSystem {
 		int turns = calcQueueTurnsInt(c, s);
 		String name = turns != -1 ? s + " <" + turns + ">" : s + " <N/A>";
 		Button b = (Button)menus.get(2).addButton("queue" + s, name, "Queue a " + s + ".", 0, 0, 0, 0);
-		if (!enabled) b.command = ""; 
+		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false;}
 		//b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) + " turns");
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
@@ -2338,7 +2338,7 @@ public class MenuSystem extends BaseSystem {
 		String name = turns != -1 ? s + " <" + calcQueueTurnsInt(c, s) + ">" : s + " <N/A>";
 		Button b = (Button)menus.get(2).addButton("queueBuilding" + s, name, "Queue a " + s + ".",
 				0, 0, 0, 0);
-		if (!enabled) b.command = "";
+		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false;}
 		//b.tooltip.add(calcQueueTurns(c));
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
@@ -2358,7 +2358,7 @@ public class MenuSystem extends BaseSystem {
 		Button b = (Button)menus.get(2).addButton("qfield" + s, "F: " + s + " <" + calcQueueTurnsInt(c,s) + ">", "Add a " + s + " field.",
 				0, 0, 0, 0);
 		//b.tooltip.add(calcQueueTurns(c));
-		if (!enabled) b.command = "";
+		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false;}
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
 

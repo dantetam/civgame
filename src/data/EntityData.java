@@ -354,6 +354,7 @@ public class EntityData {
 		else if (f.get(name) == null)
 		{
 			Improvement impr = cityImprovementMap.get(name);
+			System.out.println(name);
 			return new float[]{(float)impr.foodFlat, (float)impr.goldFlat, (float)impr.metalFlat};
 		}
 		return new float[]{f.get(name),g.get(name),m.get(name)};

@@ -21,9 +21,20 @@ public class WarTutorial extends Tutorial {
 		
 		path.add(empty());
 		cond.add("unitInEnemyTerritory");
+		
+		path.add(empty());
+		cond.add("capturedCity");
+		
+		path.add(list(32));
+		cond.add("");
+		
+		//5 -> 6
+		path.add(empty());
+		cond.add("queuedAxeman");
 
-		//10
+		//last
 		path.add(list(200)); //not a "key"
+		cond.add("");
 	}
 	
 	public void executeStep(int step)
@@ -63,11 +74,36 @@ public class WarTutorial extends Tutorial {
 		case 2:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT(
-					"Move your units into enemy territory.",
+					"Move your 4 units into enemy territory.",
 					"(You are at war with all other civilizations.)");
 			/*Tech t = grid.civs[0].techTree.researched("Civilization");
 			t.units("Settler", "Warrior", "Worker", "Slinger");
 			t.cImpr("Obelisk");*/
+			break;
+		case 3:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
+					"Your units are ready to attack.",
+					"Capture the city.");
+			break;
+		case 4:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
+					"You have a new addition to your empire.",
+					"The city will be hostile for a period and will not queue new units.",
+					"In reality, capturing cities will not be as easy.",
+					"Press SPACE to continue.");
+			break;
+		case 5:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
+					"Some technologies unlock new powerful units.",
+					"Research Mining and queue an axeman.");
+		case 6:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
+					"This concludes the tutorial on basic warfare.",
+					"The next tutorial covers advanced warfare.");
 			break;
 		default:
 			break;
@@ -90,6 +126,28 @@ public class WarTutorial extends Tutorial {
 					if (p.units.get(i).mode == 1)
 						n++;
 				return n >= 4;
+			}
+			else if (c.equals("unitInEnemyTerritory"))
+			{
+				int n = 0;
+				for (int i = 0; i < p.units.size(); i++)
+					if (p.units.get(i).location.owner.isWar(p))
+						n++;
+				return n >= 4;
+			}
+			else if (c.equals("capturedCity"))
+			{
+				for (int i = 0; i < p.cities.size(); i++)
+					if (p.cities.get(i).takeover > 0)
+						return true;
+				return false;
+			}
+			else if (c.equals("queuedAxeman"))
+			{
+				for (int i = 0; i < p.cities.size(); i++)
+					if (p.cities.get(i).queue.equals("Axeman"))
+						return true;
+				return false;
 			}
 			else
 			{
