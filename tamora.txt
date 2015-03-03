@@ -1,0 +1,53 @@
+Informal game design document and journal for development of Tamora, an upcoming 4X game heavily inspired by turn-based strategies like Civilization and Endless Legend, as well as 4X-like games full of depth such as Europa Universalis and Crusader Kings, and designed to be read without a need of deep 4X knowledge. The player controls a civilization in a pristine world, vying for economic control and domination of others. Every civilization has a set of cities that work tiles for food, gold, metal, and research, where are used to train units, build improvements, and research technologies that further the civilization’s progress. Civilizations can pursue many strategies: rush the others with low tech units, such as Warriors; build a strong economy to ultimately produce massive armies; or pursue allies and control the world together. A player’s choices ultimately determine the civilization’s course through the world.
+
+TECHNICAL DETAILS: Tamora is written in Java with Processing as a layer on top of JOGL to render. No other libraries were used. The project is organized into packages that group associated classes.
+
+TECHNICAL TERMS/KNOWLEDGE:
+4X: Stands for explore, expand, exploit, exterminate, which are common actions and paradigms in this type of strategy game. 4X games can be real-time or turn based, and the variation in the design comes in the form of new or revised mechanics. In the 4X world, many examples in this design document have defined the genre, such as these examples:
+Civ: The defining game of the 4X genre, which set the precedent for all tile and turn strategies. It is the basis and main inspiration of Tamora. The player controls a civilization seeking victory through economic growth, which can be acquired by technologies and war. Latest versions are Civ: BE which expand on the lore of Alpha Centauri and Civilization 5 which has received critical acclaim.
+EU: A 4X like game which allows the player to manage a nation in a historical context. Adopted from a board game and the latest iteration is EU4.
+CK: Not a 4X game at heart, but CK is another influential title from Paradox that allows the player to rule as a medieval dynasty, one ruler at a time, who owns troops, retinues, and holdings (or titles). In this management of economic and military power, it reflects key facets of the 4X genre. In the scope of this document, CK refers to the latest iteration, Crusader Kings 2.
+Endless Legend: A recent 4X game that has been well received. It improves on the Civilization genre with a combined combat system that allows for moving stacks and true tactical fights, a new treatment of minor civilizations, and unit customization.
+Pandora: Another recent 4X game noted for its unit customization, randomized tech tree, and distinct Alpha Centauri and science fiction feel. The full name is Pandora: First Contact.
+These examples will be cited often, usually as justification for game mechanics.
+Civilization/Civ: A nation defined by a set of cities that rule over territory. A civilization may have special benefits and disadvantages, that often affect the player’s potential strategy. Every civilization in Tamora takes its turns individually, and the human player always get the first ‘chance’ of every turn.
+Turn/Tick: In a turn-based 4X game, the player must perform some action (or inaction) in a turn before other AI players perform their actions. In the case of Civilization and Pandora, taking action with all units is required to advance. Every tick also advances the progress of automated actions, such as queued units, queued buildings, queued improvements, movement plans, and the like.
+Queue: A set of defined actions that are planned to be executed over a certain number of turns. In the context of units, it refers to planned movement, and in the special case of the Worker and similar building producing units, also refers to a planned improvement to be built on a tile after a defined number of turns. In the context of a city, it refers to the city’s list of tasks to be done regarding production. As in the previous example, cities also require a defined queue in Civ and Pandora. In the last context of civilizations, it refers to a civilization’s collective ability to research a technology.
+Technology/Tech: A defined construct that can be reached with some form of resource (usually resource or science) in return for the unlocking of new units, buildings, improvements, and other technologies to be explored. 
+Technology Tree/Tech Tree: A visual aid in determining the progress of unlocking technologies, which 
+
+PROPOSALS:
+
+PROPOSAL TEMPLATE:
+S: Subject to be examined, date considered
+EXP: The desired game experience
+    INF: Influences on the design
+    V: Potential effects of the design on game system, experience, etc.
+FM: Formalized model i.e. how to implement in a technical method
+EVAL (): Summarize the actual effects determined through playtesting (include opinions)
+APP/ITER/TRN: Idea approved; idea reiterated, needs improvement; idea removed
+[1]: Issue number 1 (append to every issue described)
+
+S: Fields, 2/27/2015 
+EXP: Develop a system where the player can develop sub-tiles that are anchored to individual tiles, which increase yield by some known, calculable effect. 
+INF: Basic improvement system found in 4X games combined with the idea of county holdings in CK as well as extractors in Endless Legends, combined with the idea of autonomy which is present in the latter game as well as EU4.
+V: Add a new dimension to the optimization process that is at the core of tile-based 4X games, namely the Civilization series. However, this process could be tedious given the number of fields in a finite world [1]; in addition, competing with a perfect, efficient AI would also require strenuous attention from the user [2].
+FM: Add new properties to tiles, that hold the maximum number of fields (for limitations to address [1]), as well as the fields themselves. The fields act as improvements on tiles as opposed to cities, yet operate in the same way. Therefore, the Field class extends Improvement. Loop through fields. Allow the player to build fields with a menu, and have the AI do so in a script. Show the fields in a GUI. Loop through fields during tile yield calculation and factor them into the expression in the way of a city improvement.
+EVAL (2/27/2015): Feature lacks depth since there is no visible reward for producing fields other than minimal gain of resources and a GUI indicator.
+APR/ITER/TRN: Add a 3D representation of the field that fits in with the dynamic model. Also, allow for a city “magistrate” to take over fields (and fields only), as well as an appropriate “mayor” that automatically queues units and buildings in a city that reflects need and availability of units, to address [2].
+
+S: Dynamic Modeling, 2/27/2015
+EXP: Provide a 3D representation of the world’s objects that are intuitive, clean, and informative in the form of displayed 3D models either built, generated, or both built and generated.
+INF: 3D models seen in the Civilization series that adapt to accurately depict buildings and population density of a city, such as when a wonder is built, as well as similar models in Endless Legend.
+V: Make the game more visually appealing and reduce the abstraction between the game system and the user. Allow the player to see the economic growth without use a 2D GUI with boring numbers. No changes to game systems. However, the models could look choppy and undetailed generated in this method [1].
+FM: Build a few models that represent different types of houses: huts, tents, etc., up to palaces and temples. Determine a city size, bound it, and then add the number of buildings appropriate to fill in the space. Calculate this model after every turn and do not recalculate while drawing (and not advancing turn).
+EVAL (): WP
+APP/ITER/TRN:
+
+S: Dynamic exploration, 3/1/2015
+EXP: Allow the player to explore with methods beside classic exploration present in many 4X games, such as buying abstract sentries that reveal and update a certain area.
+INF: The ability to purchase administration sabotage or appropriately named feature in EU4 in the late-game, as well as the late-game tech involving satellites in Civ4.
+V: Decrease the importance of early-game exploration [1], especially in potential foreign territory, or make it a late-game ambition. One issue is the decision of whether or not to allow the player to ‘spy’ in owned territories, and if so, if this action incurs a different cost in terms of resources [2]. The ability to place sentries in distant, hostile, or otherwise inaccessible lands is useful information and can be a properly balanced mechanic. This would drastically change revealing methods and the current fog of war mechanics.
+FM: Give every civilization a number of spies determined by number of cities and population (both factors must be stressed to balance playing ‘tall’ as opposed to playing ‘wide’. Allow these spies to be placed at certain locations at a determined distance (increases with roads) from the player’s cities, with set cooldown periods. Information is gained every turn, starting one turn after deployment.  
+EVAL (): Summarize the actual effects determined through playtesting (include opinions)
+APP/ITER/TRN: Idea approved; idea reiterated, needs improvement; idea removed
