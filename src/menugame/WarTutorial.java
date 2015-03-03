@@ -127,21 +127,6 @@ public class WarTutorial extends Tutorial {
 						n++;
 				return n >= 4;
 			}
-			else if (c.equals("unitInEnemyTerritory"))
-			{
-				int n = 0;
-				for (int i = 0; i < p.units.size(); i++)
-					if (p.units.get(i).location.owner.isWar(p))
-						n++;
-				return n >= 4;
-			}
-			else if (c.equals("capturedCity"))
-			{
-				for (int i = 0; i < p.cities.size(); i++)
-					if (p.cities.get(i).takeover > 0)
-						return true;
-				return false;
-			}
 			else if (c.equals("queuedAxeman"))
 			{
 				for (int i = 0; i < p.cities.size(); i++)

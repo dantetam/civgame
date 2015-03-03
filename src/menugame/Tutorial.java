@@ -1,5 +1,6 @@
 package menugame;
 
+import game.Civilization;
 import game.Tech;
 
 import java.util.ArrayList;
@@ -170,6 +171,7 @@ public class Tutorial extends CivGame {
 	//Unique
 	public boolean done(String c)
 	{
+		Civilization p = grid.civs[0];
 		if (c == null || c.equals(""))
 		{
 			return true;
@@ -179,28 +181,43 @@ public class Tutorial extends CivGame {
 			//Invalid
 			if (c.equals("playerHasOneCity"))
 			{
-				return grid.civs[0].cities.size() > 0;
+				return p.cities.size() > 0;
 			}
 			else if (c.equals("cityQueueWarrior"))
 			{
-				if (grid.civs[0].cities.get(0).queue != null)
-					return grid.civs[0].cities.get(0).queue.equals("Warrior");
+				if (p.cities.get(0).queue != null)
+					return p.cities.get(0).queue.equals("Warrior");
 				return false;
 			}
 			else if (c.equals("researchingTech"))
 			{
-				return grid.civs[0].researchTech != null &&
-						grid.civs[0].researchTech != "";
+				return p.researchTech != null &&
+						p.researchTech != "";
 			}
 			else if (c.equals("unitAndCity"))
 			{
-				return grid.civs[0].cities.size() > 0 &&
-						grid.civs[0].units.size() > 0;
+				return p.cities.size() > 0 &&
+						p.units.size() > 0;
 			}
 			else if (c.equals("unitOutsideBorders"))
 			{
-				for (int i = 0; i < grid.civs[0].units.size(); i++)
-					if (grid.civs[0].units.get(i).owner == null)
+				for (int i = 0; i < p.units.size(); i++)
+					if (p.units.get(i).owner == null)
+						return true;
+				return false;
+			}
+			else if (c.equals("unitInEnemyTerritory"))
+			{
+				int n = 0;
+				for (int i = 0; i < p.units.size(); i++)
+					if (p.units.get(i).location.owner.isWar(p))
+						n++;
+				return n >= 4;
+			}
+			else if (c.equals("capturedCity"))
+			{
+				for (int i = 0; i < p.cities.size(); i++)
+					if (p.cities.get(i).takeover > 0)
 						return true;
 				return false;
 			}

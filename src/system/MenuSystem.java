@@ -2121,7 +2121,7 @@ public class MenuSystem extends BaseSystem {
 	//Choose which buttons to show depending on unit (e.g. only settler can settle)
 	public void updateUnitMenu(GameEntity en)
 	{
-		float height = 24;
+		float height = 20;
 		
 		menus.get(1).buttons.clear();
 		//int n = 0;
@@ -2227,7 +2227,7 @@ public class MenuSystem extends BaseSystem {
 			menus.get(2).addButton("razeCity", "Raze", "Destroy the city, one citizen at a time.", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
 		}
 
-		float height = 24;
+		float height = 20;
 		float disp = c.owner.techTree.allowedUnits.size() + c.owner.techTree.allowedCityImprovements.size() + 1; disp *= height;
 		
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
@@ -2300,6 +2300,14 @@ public class MenuSystem extends BaseSystem {
 			b.sizeX = 150; b.sizeY = height;
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
+		/*for (int i = 0; i < n; i++)
+		{
+			TextBox b = menus.get(2).buttons.get(i);
+			b.move(150 + 50*i, main.height - 50); //Shift the buttons to their proper place
+			b.origX = b.posX; b.origY = b.posY;
+			b.sizeX = 50; b.sizeY = 50;
+			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
+		}*/
 
 		menus.get(2).buttons.add(new TextBox(c.name,"",0,main.height*5/6 - height,150,height));
 
