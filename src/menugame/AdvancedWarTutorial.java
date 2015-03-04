@@ -1,7 +1,11 @@
 package menugame;
 
+import java.util.Map.Entry;
+
+import data.Improvement;
 import game.Civilization;
 import render.Game;
+import units.Archer;
 import units.City;
 
 public class AdvancedWarTutorial extends Tutorial {
@@ -21,6 +25,16 @@ public class AdvancedWarTutorial extends Tutorial {
 		
 		path.add(empty());
 		cond.add("upgradedUnit");
+		
+		path.add(empty());
+		cond.add("researchedFletching");
+		
+		path.add(empty());
+		cond.add("threeArchers");
+		
+		//5 -> 6
+		
+		path.add(list(200));
 	}
 	
 	public void executeStep(int step)
@@ -54,7 +68,19 @@ public class AdvancedWarTutorial extends Tutorial {
 					"in offense and defense. It also requires the resource copper",
 					"or iron, which are strategic resources.");
 			break;
-		
+		case 3:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
+					"You have stronger melee units, but combined arms ensure victory.",
+					"The use of both melee units and archers can take down a city quickly.",
+					"Research Fletching.");
+			break;
+		case 4:
+			menuSystem.messageT("------------------------------------------");
+			menuSystem.messageT(
+					"Now, train 3 archers, which are basic ranged units that can be used",
+					"to attack units and cities from a distance.");
+			break;
 		default:
 			break;
 		}
@@ -79,9 +105,29 @@ public class AdvancedWarTutorial extends Tutorial {
 			{
 				return p.techTree.researched("Metal Working").researched();
 			}
+			else if (c.equals("researchedFletching"))
+			{
+				return p.techTree.researched("Fletching").researched();
+			}
 			else if (c.equals("upgradedUnit"))
 			{
-				for (int i = 0; i < )
+				for (Entry<String, Improvement> entry: p.unitImprovements.entrySet())
+				{
+					Improvement impr = entry.getValue();
+					if (impr != null)
+						if (!impr.name.equals("Neutral"))
+							if (impr.name.equals("CopperWeapons") || impr.name.equals("IronWeapons"))
+								return true;
+				}
+				return false;
+			}
+			else if (c.equals("threeArchers"))
+			{
+				int n = 0;
+				for (int i = 0; i < p.units.size(); i++)
+					if (p.units.get(i) instanceof Archer)
+						n++;
+				return n >= 3;
 			}
 			else 
 			{

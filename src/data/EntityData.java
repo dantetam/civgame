@@ -363,12 +363,12 @@ public class EntityData {
 	private static void setupUnitImprovementCosts()
 	{
 		Improvement temp;
-		temp = new Improvement("Neutral","No improvement","Civilization");
+		temp = new Improvement("Neutral","No improvement");
 		temp.cost(1,1,1,0,0,0);
 		temp.set(1,1,1,0,0,0,1);
 		unitImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("CopperTools","Not impl.","Metal Working");
+		temp = new Improvement("CopperTools","Not impl.");
 		temp.cost(1.25,1.25,0,0,0,0);
 		temp.set(0,0,0,0,0,0,0.8);
 		temp.fit("Worker");
@@ -379,22 +379,22 @@ public class EntityData {
 		temp.fit("Worker");
 		unitImprovementMap.put(temp.name, temp);*/
 
-		temp = new Improvement("CopperWeapons","Not impl.","Metal Working");
+		temp = new Improvement("CopperWeapons","Not impl.");
 		temp.cost(1.25,1.5,0,0,0,0);
 		temp.set(1.25,1.4,0,0,0,0,0);
 		temp.fit("allmelee");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("IronWeapons","Not impl.","Metal Working");
+		temp = new Improvement("IronWeapons","Not impl.");
 		temp.cost(1.25,2,0,0,0,0);
 		temp.set(1.5,1.5,0,0,0,0,0);
 		temp.fit("allmelee");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("CopperArrows","Not impl.","Casting");
+		temp = new Improvement("CopperArrows","Not impl.");
 		temp.cost(1.25,1.25,0,0,0,0);
 		temp.set(0,0,1.25,0,0,0,0);
 		temp.fit("allranged");
 		unitImprovementMap.put(temp.name, temp);
-		temp = new Improvement("IronArrows","Not impl.","Casting");
+		temp = new Improvement("IronArrows","Not impl.");
 		temp.cost(1.25,1.5,0,0,0,0);
 		temp.set(0,0,1.5,0,0,0,0);
 		temp.fit("allranged");
@@ -404,43 +404,43 @@ public class EntityData {
 	private static void setupCityImprovementCosts()
 	{
 		Improvement temp;
-		temp = new Improvement("Obelisk","+1 culture","Civilization");
+		temp = new Improvement("Obelisk","+1 culture");
 		temp.cost(0,0,0,10,10,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Warehouse","Not impl.","Mining");
+		temp = new Improvement("Warehouse","Not impl.");
 		temp.cost(0,0,0,5,20,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Granary","+15% to population growth","Agriculture");
+		temp = new Improvement("Granary","+15% to population growth");
 		temp.cost(0,0,0,5,20,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Metalworks","+25% to metal production","Metal Working");
+		temp = new Improvement("Metalworks","+25% to metal production");
 		temp.cost(0,0,0,10,50,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Port","+25% food from sea tiles","Fishing");
+		temp = new Improvement("Port","+25% food from sea tiles");
 		temp.cost(0,0,0,25,25,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Walls","+40% defense in city","Stone Working");
+		temp = new Improvement("Walls","+40% defense in city");
 		temp.cost(0,0,0,5,50,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Palace","+25% revenue, +1 culture","Stone Working");
+		temp = new Improvement("Palace","+25% revenue, +1 culture");
 		temp.cost(0,0,0,25,25,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Stables","Not impl.","Equestrian Practice");
+		temp = new Improvement("Stables","Not impl.");
 		temp.cost(0,0,0,25,25,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Market","+25% revenue","Currency");
+		temp = new Improvement("Market","+25% revenue");
 		temp.cost(0,0,0,30,20,0);
 		cityImprovementMap.put(temp.name, temp);
 
-		temp = new Improvement("Pyramid","+25% culture","Monument Building");
+		temp = new Improvement("Pyramid","+25% culture");
 		temp.cost(0,0,0,0,50,0);
 		cityImprovementMap.put(temp.name, temp);
 		//temp.set();
@@ -450,15 +450,15 @@ public class EntityData {
 	private static void setupFields()
 	{
 		Field temp;
-		temp = new Field(null,"TestField","Test","Agriculture");
+		temp = new Field(null,"TestField","Test");
 		temp.cost(1.25,0,0,0,20,0);
 		fieldMap.put(temp.name, temp);
 		
-		temp = new Field(null,"Stockpile","A stockpile for resources.","Agriculture");
+		temp = new Field(null,"Stockpile","A stockpile for resources.");
 		temp.cost(0,0,0,0,20,0);
 		fieldMap.put(temp.name, temp);
 		
-		temp = new Field(null,"Hamlet","A small city for workers.","Pottery");
+		temp = new Field(null,"Hamlet","A small city for workers.");
 		temp.cost(0,1.25,0,10,10,30);
 		fieldMap.put(temp.name, temp);
 	}

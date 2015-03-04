@@ -81,6 +81,7 @@ public class TechTree {
 			t.units("Settler", "Warrior", "Worker", "Slinger");
 			t.cImpr("Obelisk");
 			t.fImpr("TestField");
+			t.uImpr("Neutral");
 			t.governmentCivic = "Decentralization";
 			t.economicCivic = "Tribalism";
 
@@ -133,6 +134,7 @@ public class TechTree {
 		t = researched("Metal Working");
 			t.units("Swordsman", "Spearman");
 			t.cImpr("Metalworks");
+			t.uImpr("CopperTools", "CopperWeapons", "IronWeapons");
 			t.obsUnits("Warrior");
 			t.economicCivic = "Slavery";
 			
@@ -146,6 +148,7 @@ public class TechTree {
 		
 		t = researched("Casting");
 			t.tImpr("Forge");
+			t.uImpr("CopperArrows", "IronArrows");
 			t.units("Axe Thrower");
 		
 		t = researched("Currency");
