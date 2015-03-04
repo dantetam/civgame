@@ -131,7 +131,8 @@ public class AdvancedWarTutorial extends Tutorial {
 			}
 			else 
 			{
-				return false;
+				//return false;
+				return super.done(c);
 			}
 		}
 	}

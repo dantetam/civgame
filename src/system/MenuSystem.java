@@ -2205,7 +2205,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < menus.get(1).buttons.size(); i++)
 		{
 			TextBox b = menus.get(1).buttons.get(i);
-			b.move(b.posX, b.posY - (menus.get(1).buttons.size()+1)*height + i*height); //Shift the buttons to their proper place
+			b.move(b.posX, main.height*5/6 - (menus.get(1).buttons.size()+1)*height + i*height); //Shift the buttons to their proper place
 			b.sizeX = 150; b.sizeY = height;
 			b.origSizeX = 150; b.origSizeY = height;
 			b.origX = b.posX; b.origY = b.posY;
@@ -2295,7 +2295,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < n; i++)
 		{
 			TextBox b = menus.get(2).buttons.get(i);
-			b.move(0, main.height*5/6 + i*height - (n+1)*height); //Shift the buttons to their proper place
+			b.move(0, main.height*5/6 + i*height - (n*1 + 2)*height); //Shift the buttons to their proper place
 			b.origX = b.posX; b.origY = b.posY;
 			b.sizeX = 150; b.sizeY = height;
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;

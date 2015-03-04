@@ -58,6 +58,7 @@ public class WarTutorial extends Tutorial {
 			grid.civs[0].techTree.allowedUnits.add("Warrior");
 			enable('w','a','s','d');
 			enable('1','2','3','4','5');
+			enable((char)32);
 			break;
 		case 1:
 			menuSystem.messageT("------------------------------------------");
@@ -136,8 +137,9 @@ public class WarTutorial extends Tutorial {
 			}
 			else
 			{
-				System.out.println("Invalid condition: " + c);
-				return false;
+				//System.out.println("Invalid condition: " + c);
+				//return false;
+				return super.done(c);
 			}
 		}
 	}
