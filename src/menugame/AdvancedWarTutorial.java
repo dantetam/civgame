@@ -9,7 +9,7 @@ import units.Archer;
 import units.City;
 
 public class AdvancedWarTutorial extends Tutorial {
-
+	
 	public AdvancedWarTutorial(Game game, float width, float height) {
 		super(game, width, height);
 	}
@@ -63,7 +63,7 @@ public class AdvancedWarTutorial extends Tutorial {
 		case 2:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT(
-					"Now, in the upgrade, give any melee unit a weapons upgrade.",
+					"Now, in the loadout menu, give any melee unit a weapons upgrade.",
 					"This makes the unit harder to produce, but it gets a bonus",
 					"in offense and defense. It also requires the resource copper",
 					"or iron, which are strategic resources.");
@@ -97,8 +97,9 @@ public class AdvancedWarTutorial extends Tutorial {
 		{
 			if (c.equals("firstCityThreePop"))
 			{
+				if (p.cities.size() == 0) return false;
 				City city = p.cities.get(0);
-				if (city == null) return false;
+				//if (city == null) return false;
 				return city.population >= 3;
 			}
 			else if (c.equals("researchedMetalWorking"))

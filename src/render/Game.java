@@ -135,6 +135,7 @@ public class Game extends PApplet {
 		menu7.addButton("tutorial", "Beginnings", "Grasp the basics of game control, UI, and basic mechanics.", 70, 100, 210, 50);
 		menu7.addButton("economictutorial", "Economics", "Learn the inner workings of the world's economy.", 70, 160, 210, 50);
 		menu7.addButton("wartutorial", "War", "Learn the basics of war and fighting for economic gain.", 70, 220, 210, 50);
+		menu7.addButton("advancedwartutorial", "Advanced Warfare", "Fight with advanced strategies and powerful units.", 70, 280, 210, 50);
 		menu7.addButton("backMenu0", "Back", "Back to the main menu.", 70, 630, 210, 70);
 		menus.add(menu7); 
 
@@ -387,6 +388,10 @@ public class Game extends PApplet {
 				tutorial = new EconomicTutorial(game,width,height);
 			else if (type == 2)
 				tutorial = new WarTutorial(game,width,height);
+			else if (type == 3)
+				tutorial = new AdvancedWarTutorial(game,width,height);
+			else 
+				System.out.println("Invalid tutorial id");
 			add(tutorial);
 			setResizable(false);
 			tutorial.init();
@@ -425,18 +430,21 @@ public class Game extends PApplet {
 						{
 							PFrame f = new PFrame(this,1,1500,900);
 							f.setTitle("Tutorial");
-							//setVisible(false);
 							background(255);
-							//redraw();
 							noLoop();
 						}
 						else if (command.equals("wartutorial"))
 						{
 							PFrame f = new PFrame(this,2,1500,900);
 							f.setTitle("Tutorial");
-							//setVisible(false);
 							background(255);
-							//redraw();
+							noLoop();
+						}
+						else if (command.equals("advancedwartutorial"))
+						{
+							PFrame f = new PFrame(this,3,1500,900);
+							f.setTitle("Tutorial");
+							background(255);
 							noLoop();
 						}
 						else if (command.equals("options"))

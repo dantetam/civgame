@@ -643,9 +643,9 @@ public class MenuSystem extends BaseSystem {
 										main.rect(pos[0] - dX - 50, pos[1] - dY + 10, 100, 20);
 										float[] cost = EntityData.getCost(city.queue);
 										main.fill(0,255,0,255);
-										main.rect(pos[0] - dX - 50, pos[1] - dY + 10, 100F*(float)(1 - city.queueFood/cost[0]), 10);
+										main.rect(pos[0] - dX - 50, pos[1] - dY + 10, (float)Math.min(100F, 100F*(1 - city.queueFood/cost[0])), 10);
 										main.fill(255,150,0,255);
-										main.rect(pos[0] - dX - 50, pos[1] - dY + 20, 100F*(float)(1 - city.queueMetal/cost[2]), 10);
+										main.rect(pos[0] - dX - 50, pos[1] - dY + 20, (float)Math.min(100F, 100F*(1 - city.queueMetal/cost[2])), 10);
 										main.fill(255,255);
 										main.textAlign(main.CENTER);
 										//main.text(city.name + " <" + ((int)(city.percentGrowth*10000F)/100) + "% >", pos[0] - dX, pos[1] - dY + 3);
