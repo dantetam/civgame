@@ -290,6 +290,17 @@ public class RenderSystem extends BaseSystem {
 				if (main.menuSystem.mouseHighlighted.equals(t))
 				{
 					main.stroke(255,0,0);
+					if (main.menuSystem.candidateField != null)
+					{
+						if (!main.menuSystem.candidateField.isEmpty())
+							main.stroke(0,255,0);
+					}
+					else if (main.menuSystem.stack.size() > 0)
+					{
+						main.stroke(0,255,0);
+						//main.stroke(0,150+100*(float)Math.sin(main.frameCount/50),0);
+					}
+
 					main.strokeWeight(8);
 					strokedColor = true;
 				}
