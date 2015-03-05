@@ -346,6 +346,7 @@ public class EntityData {
 
 	public static float[] getCost(String name)
 	{
+		if (name == null) return null;
 		Field field = getField(name);
 		if (field != null)
 		{
