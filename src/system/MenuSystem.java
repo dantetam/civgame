@@ -49,7 +49,9 @@ public class MenuSystem extends BaseSystem {
 	public Tile[] settlerChoices; public ArrayList<Tile> movementChoices = new ArrayList<Tile>(), pathToHighlighted = new ArrayList<Tile>();
 	public String typeOfLastSelected = "";
 
+	//2 click type interactions
 	public String candidateField = ""; public City candidateCityField = null;
+	public ArrayList<GameEntity> stack = new ArrayList<GameEntity>(); //Select a stack of units to do an action
 
 	public int[] rbox;
 
@@ -1590,6 +1592,21 @@ public class MenuSystem extends BaseSystem {
 				if (!((Settler)selected).settle())
 					message("Cannot settle here.");
 		}
+		else if (command.equals("stack"))
+		{
+			if (stack.size() > 0)
+				stack.clear();
+			else
+			{
+				if (selected != null)
+					for (int i = 0; i < selected.location.occupants.size(); i++)
+					{
+						GameEntity entity = selected.location.occupants.get(i);
+						entity.sleep = false;
+						stack.add(entity);
+					}
+			}
+		}
 		else if (command.equals("unitSleep"))
 		{
 			if (selected != null)
@@ -2128,13 +2145,17 @@ public class MenuSystem extends BaseSystem {
 	public void updateUnitMenu(GameEntity en)
 	{
 		float height = 20;
-		
+
 		menus.get(1).buttons.clear();
 		//int n = 0;
 		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 		menus.get(1).addButton("unitSkipTurn", "Skip Turn", "Do nothing this turn.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 		menus.get(1).addButton("unitSleep", "Sleep", "This unit will be inactive until you select it again.", 0, main.height*5/6 + 30, main.width*1/6, 30);
-		
+		if (stack.size() == 0)
+			menus.get(1).addButton("stack", "Create Stack", "Group a set of units together that can be moved.", 0, main.height*5/6 + 30, main.width*1/6, 30);
+		else
+			menus.get(1).addButton("stack", "Separate Stack", "Make multiple units out of the stack.", 0, main.height*5/6 + 30, main.width*1/6, 30);
+
 		if (en.name.equals("Settler"))
 		{
 			menus.get(1).addButton("unitSettle", "Settle", "Settle a city here.", 0, main.height*5/6 + 30, main.width*1/6, 30);
@@ -2238,7 +2259,7 @@ public class MenuSystem extends BaseSystem {
 
 		float height = 20;
 		float disp = c.owner.techTree.allowedUnits.size() + c.owner.techTree.allowedCityImprovements.size() + 1; disp *= height;
-		
+
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		for (int i = 0; i < units.size(); i++)
 		{
@@ -2256,7 +2277,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			fieldButton(c, fields.get(i), true);
 		}
-		
+
 		ArrayList<String> potential = c.owner.techTree.findUnlockables();
 		for (int i = 0; i < potential.size(); i++)
 		{
@@ -2348,7 +2369,7 @@ public class MenuSystem extends BaseSystem {
 		b.tooltip.add("Ranged strength: " + example.rangedStr);
 		//menus.get(2).addButton("queue" + units.get(i), units.get(i), "", 0, main.height*5/6 - disp + 30*i, main.width*1/6, 30);
 	}
-	
+
 	private void buildingButton(City c, String s, boolean enabled)
 	{
 		int turns = calcQueueTurnsInt(c, s);
@@ -2368,7 +2389,7 @@ public class MenuSystem extends BaseSystem {
 		/*menus.get(2).addButton("queueBuilding" + s, s, "",
 				0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);*/
 	}
-	
+
 	private void fieldButton(City c, String s, boolean enabled)
 	{
 		int turns = calcQueueTurnsInt(c, s);
@@ -2387,7 +2408,7 @@ public class MenuSystem extends BaseSystem {
 		/*menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i), "",
 				0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);*/
 	}
-	
+
 	/*public void updateCreateFieldMenu(Tile t, int n)
 	{
 		menus.get(16).buttons.clear();
@@ -2538,14 +2559,14 @@ public class MenuSystem extends BaseSystem {
 			b.tooltip.add(s);
 			b.tooltip.add("Select to view the diplomatic situation of " + civ.name + ".");
 			b.dimTooltip();
-			
+
 			//Allow player to talk with other civs in this menu
 			if (i != 0)
 			{
 				TextBox textBox = menus.get(11).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + civ.name + ".", 100+width2+width*4, 280 + 25*(i), width2, 20);
 				textBox.shortcut = false;
 			}
-			
+
 			if (civ.equals(pivot)) continue;
 
 			text = new TextBox("" + pivot.opinions[i],"",100+width2,280 + 25*(i),width,20);
@@ -2563,7 +2584,7 @@ public class MenuSystem extends BaseSystem {
 			text = new TextBox(temp,"",100+width2+width*3,280 + 25*(i),width,20);
 			menus.get(11).buttons.add(text);
 		}
-		
+
 		//Bottom set
 		/*text = new TextBox("","In war","The list of nations that this nation is currently fighting.",
 				200,280 + 25*main.grid.civs.length,200,20);
@@ -2682,6 +2703,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		else
 		{
+			stack.clear();
 			textboxes.get(1).activate(false);
 			textboxes.get(1).move(main.width - 400,main.height-150);
 

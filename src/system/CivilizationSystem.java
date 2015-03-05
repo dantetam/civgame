@@ -232,25 +232,28 @@ public class CivilizationSystem extends BaseSystem {
 
 						if (c.health > -5)
 						{
-							double dGrowth = (tf - c.population*3)/(c.population*6 + Math.pow(c.population,1.5));
-							if (dGrowth > 0 && c.built("Granary")) 
-								dGrowth *= 1.15;
-							//System.out.println(dGrowth + " " + tf);
-							c.percentGrowth += dGrowth;
+							if (c.queue == null || !c.queue.equals("Settler"))
+							{
+								double dGrowth = (tf - c.population*3)/(c.population*6 + Math.pow(c.population,1.5));
+								if (dGrowth > 0 && c.built("Granary")) 
+									dGrowth *= 1.15;
+								//System.out.println(dGrowth + " " + tf);
+								c.percentGrowth += dGrowth;
 
-							if (c.percentGrowth >= 1)
-							{
-								c.percentGrowth = 0;
-								c.population++;
-								//c.focus = "Growth";
-							}
-							else if (c.percentGrowth < 0)
-							{
-								c.percentGrowth = 0;
-								if (c.population > 1)
+								if (c.percentGrowth >= 1)
 								{
-									c.percentGrowth = 0.5;
-									c.population--;
+									c.percentGrowth = 0;
+									c.population++;
+									//c.focus = "Growth";
+								}
+								else if (c.percentGrowth < 0)
+								{
+									c.percentGrowth = 0;
+									if (c.population > 1)
+									{
+										c.percentGrowth = 0.5;
+										c.population--;
+									}
 								}
 							}
 						}
@@ -341,7 +344,7 @@ public class CivilizationSystem extends BaseSystem {
 						{
 							c.sortie = 0;
 						}
-						
+
 						if (c.raze)
 						{
 							for (int k = 0; k < c.land.size(); k++)

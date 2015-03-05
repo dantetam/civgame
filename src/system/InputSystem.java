@@ -363,30 +363,22 @@ public class InputSystem extends BaseSystem {
 	}
 
 	public void passRightMouseClick(float mouseX, float mouseY)
-	{
-		if (main.menuSystem.getSelected() instanceof GameEntity && !main.menuSystem.menuActivated)
+	{	
+		ArrayList<GameEntity> s = main.menuSystem.stack;
+		if (s.size() > 0)
 		{
-			GameEntity en = (GameEntity)main.menuSystem.getSelected();
-			Tile t = main.menuSystem.mouseHighlighted;
-			if (en != null && t != null)
+			//System.out.println(s.size());
+			for (int i = 0; i < s.size(); i++)
 			{
-				if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
-				{
-					String msg = en.playerWaddleToExact(t.row, t.col);
-					if (msg == null && en.action > 0)
-					{
-						en.playerTick();
-						if (en.action <= 0)
-						{
-							timeSelection();
-							main.menuSystem.select(null);
-						}
-						main.menuSystem.rbox = en.owner.revealedBox();
-					}
-					else
-						main.menuSystem.message(msg);
-				}
+				playerAction(s.get(i), false);
 			}
+			s.clear();
+			timeSelection();
+			main.menuSystem.select(null);
+		}
+		else if (main.menuSystem.getSelected() instanceof GameEntity && !main.menuSystem.menuActivated)
+		{
+			playerAction((GameEntity)main.menuSystem.getSelected(), true);
 		}
 		else if (main.menuSystem.getSelected() == null)
 		{
@@ -404,7 +396,38 @@ public class InputSystem extends BaseSystem {
 		}
 		else
 		{
+			main.menuSystem.menus.get(0).findButtonByCommand("markTile").active = false;
 			main.menuSystem.closeMenus();
+		}
+	}
+
+	//Simulate a turn for the player's units
+	//advanceToNextUnit -> whether or not to select another unit
+	//Don't advance if moving a stack
+	private void playerAction(GameEntity en, boolean advanceToNextUnit)
+	{
+		Tile t = main.menuSystem.mouseHighlighted;
+		if (en != null && t != null)
+		{
+			if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
+			{
+				String msg = en.playerWaddleToExact(t.row, t.col); //Returns null if cleared to move
+				if (msg == null && en.action > 0)
+				{
+					en.playerTick();
+					if (en.action <= 0)
+					{
+						if (advanceToNextUnit)
+						{
+							timeSelection();
+							main.menuSystem.select(null);
+						}
+					}
+					main.menuSystem.rbox = en.owner.revealedBox();
+				}
+				else
+					main.menuSystem.message(msg);
+			}
 		}
 	}
 
