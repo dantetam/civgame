@@ -14,7 +14,7 @@ public class WarTutorial extends Tutorial {
 	{
 		//0 -> 1
 		path.add(empty());
-		cond.add("fourUnits");
+		cond.add("threeUnits");
 
 		path.add(list(32));
 		cond.add("");
@@ -47,7 +47,7 @@ public class WarTutorial extends Tutorial {
 					"yet it is important to consider. Economic expansion,",
 					"especially at higher difficulties, must be acquired through",
 					"war.",
-					"Settle a city and train 4 units.");
+					"Settle a city and train 3 units.");
 			grid.revealPlayer();
 			for (int i = 0; i < grid.civs[0].units.size(); i++)
 				grid.civs[0].units.get(i).reveal();
@@ -59,6 +59,13 @@ public class WarTutorial extends Tutorial {
 			enable('w','a','s','d');
 			enable('1','2','3','4','5');
 			enable((char)32);
+			//Make the civs passive
+			for (int i = 1; i < grid.civs.length; i++)
+			{
+				grid.civs[i].war = 0;
+				grid.civs[i].peace = 1;
+				grid.civs[i].tallwide = 0;
+			}
 			break;
 		case 1:
 			menuSystem.messageT("------------------------------------------");
@@ -69,13 +76,18 @@ public class WarTutorial extends Tutorial {
 			for (int i = 1; i < grid.civs.length; i++)
 			{
 				grid.civs[0].war(grid.civs[i]);
+				for (int j = 0; j < grid.civs[i].cities.size(); j++)
+				{
+					grid.civs[i].cities.get(j).health = 5;
+					grid.civs[i].cities.get(j).maxHealth = 5;
+				}
 			}
 			//enable((char)32);
 			break;
 		case 2:
 			menuSystem.messageT("------------------------------------------");
 			menuSystem.messageT(
-					"Move your 4 units into enemy territory.",
+					"Move your 3 units into enemy territory.",
 					"(You are at war with all other civilizations.)");
 			/*Tech t = grid.civs[0].techTree.researched("Civilization");
 			t.units("Settler", "Warrior", "Worker", "Slinger");
@@ -120,13 +132,13 @@ public class WarTutorial extends Tutorial {
 		}
 		else
 		{ 
-			if (c.equals("fourUnits"))
+			if (c.equals("threeUnits"))
 			{
 				int n = 0;
 				for (int i = 0; i < p.units.size(); i++)
 					if (p.units.get(i).mode == 1)
 						n++;
-				return n >= 4;
+				return n >= 3;
 			}
 			else if (c.equals("queuedAxeman"))
 			{

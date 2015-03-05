@@ -288,6 +288,27 @@ public class TechTree {
 		}
 		return temp;
 	}*/
+	
+	public String unlockedBy(String impr)
+	{
+		return returnIfUnlocksImpr(impr, new Tech[]{first}).name;
+	}
+	
+	private Tech returnIfUnlocksImpr(String impr, Tech[] techs)
+	{
+		for (int i = 0; i < techs.length; i++)
+		{
+			if (techs[i].unlockString().contains(impr))
+				return techs[i];
+		}
+		for (int i = 0; i < techs.length; i++)
+		{
+			Tech t = returnIfUnlocksImpr(impr, techs[i].techs);
+			if (t != null)
+				return t;
+		}
+		return null;
+	}
 
 	public Tech researched(String name)
 	{

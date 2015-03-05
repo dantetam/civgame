@@ -1590,6 +1590,12 @@ public class MenuSystem extends BaseSystem {
 				if (!((Settler)selected).settle())
 					message("Cannot settle here.");
 		}
+		else if (command.equals("unitSleep"))
+		{
+			if (selected != null)
+				selected.sleep = true;
+			select(null);
+		}
 		else if (command.contains("unitCaravan"))
 		{
 			int index = Integer.parseInt(command.substring(7));
@@ -2127,7 +2133,8 @@ public class MenuSystem extends BaseSystem {
 		//int n = 0;
 		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 		menus.get(1).addButton("unitSkipTurn", "Skip Turn", "Do nothing this turn.", 0, main.height*5/6 + 30, main.width*1/6, 30);
-
+		menus.get(1).addButton("unitSleep", "Sleep", "This unit will be inactive until you select it again.", 0, main.height*5/6 + 30, main.width*1/6, 30);
+		
 		if (en.name.equals("Settler"))
 		{
 			menus.get(1).addButton("unitSettle", "Settle", "Settle a city here.", 0, main.height*5/6 + 30, main.width*1/6, 30);
@@ -2222,6 +2229,8 @@ public class MenuSystem extends BaseSystem {
 	{
 		menus.get(2).buttons.clear();
 
+		TextBox button = menus.get(2).addButton("unitSleep", "Sleep", "Do not queue and produce anything with this city.", 0, 0, 0, 0);
+		button.tooltip.add("Not recommended.");
 		if (c.takeover > 0)
 		{
 			menus.get(2).addButton("razeCity", "Raze", "Destroy the city, one citizen at a time.", main.width/3F, (float)main.height*5F/6F + 60, 50, 50);
@@ -2324,7 +2333,7 @@ public class MenuSystem extends BaseSystem {
 		int turns = calcQueueTurnsInt(c, s);
 		String name = turns != -1 ? s + " <" + turns + ">" : s + " <N/A>";
 		Button b = (Button)menus.get(2).addButton("queue" + s, name, "Queue a " + s + ".", 0, 0, 0, 0);
-		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false;}
+		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
 		//b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) + " turns");
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
@@ -2346,7 +2355,7 @@ public class MenuSystem extends BaseSystem {
 		String name = turns != -1 ? s + " <" + calcQueueTurnsInt(c, s) + ">" : s + " <N/A>";
 		Button b = (Button)menus.get(2).addButton("queueBuilding" + s, name, "Queue a " + s + ".",
 				0, 0, 0, 0);
-		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false;}
+		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
 		//b.tooltip.add(calcQueueTurns(c));
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
@@ -2366,7 +2375,7 @@ public class MenuSystem extends BaseSystem {
 		Button b = (Button)menus.get(2).addButton("qfield" + s, "F: " + s + " <" + calcQueueTurnsInt(c,s) + ">", "Add a " + s + " field.",
 				0, 0, 0, 0);
 		//b.tooltip.add(calcQueueTurns(c));
-		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false;}
+		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
 
@@ -2654,6 +2663,7 @@ public class MenuSystem extends BaseSystem {
 		main.requestUpdate();
 		if (en != null)
 		{
+			en.sleep = false;
 			if (en instanceof Settler)
 			{
 				settlerChoices = main.grid.returnBestCityScores(en.location.row, en.location.col, 0.25);

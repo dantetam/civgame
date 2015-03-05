@@ -21,6 +21,7 @@ public abstract class BaseEntity {
 	public int health, maxHealth;
 	public float offensiveStr, defensiveStr, rangedStr;
 	public double action = 1, maxAction = 1;
+	public boolean sleep = false;
 	public int range = 0;
 
 	public City sortie = null; //If this unit was raised by a sortie order, this will hold the city it "belongs" to

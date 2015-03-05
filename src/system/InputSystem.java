@@ -493,7 +493,7 @@ public class InputSystem extends BaseSystem {
 		for (int i = 0; i < civ.units.size(); i++)
 		{
 			GameEntity en = civ.units.get(i);
-			if (en.action > 0 && en.queueTiles.size() == 0 && en.queue == null)
+			if (en.action > 0 && en.queueTiles.size() == 0 && en.queue == null && !en.sleep)
 			{
 				candidates.add(en);
 				if (t == null) return candidates.get(0);
