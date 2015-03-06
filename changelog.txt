@@ -20,6 +20,7 @@ AI changes
 Dynamic culture shifting
 	If a tile is surrounded by many others, shift culture gradually
 	Allow players to buy tiles
+Sieges like in RTW and Endless Legend
 		
 2/14/2015 -> 2/20/2015 (More hackathon work)
 
@@ -57,6 +58,8 @@ Strategy conduciveness (e.g. more horsemen if majority of tiles are steppe)
 	Encourage player to take strategy through quest (but not all the time)
 Increase resources (e.g. allow player to breed animals by not harvesting them, a gamble)
 	Allow players to spend resources on a dig which may provide coal for a limited time
+	Discourage resource rushing
+	Do not use randomness or other arbitrary factors
 Lower the number of tile evaluations by saving them every turn
 	
 2/7/2015 -> 2/13/2015 (Hackathon work)

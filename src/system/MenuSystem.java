@@ -1353,6 +1353,7 @@ public class MenuSystem extends BaseSystem {
 		for (int j = 0; j < b.display.size(); j++)
 		{
 			String text = b.display.get(j);
+			if (text == null) continue;
 			/*do
 			{
 				int index1 = text.indexOf("<!"), index2 = text.indexOf("!>");

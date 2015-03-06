@@ -263,7 +263,7 @@ public abstract class GameEntity extends BaseEntity {
 					queueTiles.clear(); //Solve some complex problems
 					int[] damages;
 					if (mode == 1)
-						damages = location.grid.conflictSystem.attack(this, enemy);
+						damages = (int[])location.grid.conflictSystem.attack(this, enemy)[0];
 					else
 						damages = location.grid.conflictSystem.fire(this, enemy);
 					if (attack(damages, enemy, r, c))

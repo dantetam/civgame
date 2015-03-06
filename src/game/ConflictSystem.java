@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+
 import units.*;
 
 public class ConflictSystem {
@@ -21,31 +23,40 @@ public class ConflictSystem {
 		}
 	}
 
+	public String[] difficultyNames = {"", "Sandbox", "Settler", "Warlord", "Monarch", "Immortal"};
 	//Return the damage inflicted by a on d in an attack, and d on a in a defense
-	public int[] attack(GameEntity a, GameEntity d)
+	public Object[] attack(GameEntity a, GameEntity d)
 	{
+		ArrayList<String> reasonsA = new ArrayList<String>();
+		ArrayList<String> reasonsD = new ArrayList<String>();
 		double off = 1, def = 1;
 		double potentialAdv = 0;
 		if (a.owner.trait("Aggressive"))
+		{
+			reasonsA.add("+10% from aggressive trait");
 			off += 0.1;
+		}
 		if (d.owner.trait("Defensive"))
+		{
+			reasonsD.add("+15% from defensive trait");
 			def += 0.15;
+		}
 		switch (grid.difficultyLevel)
 		{
 		case 1:
-			potentialAdv = 0.2;
+			potentialAdv = 0.15;
 			break;
 		case 2:
-			potentialAdv = 0.1;		
+			potentialAdv = 0.05;		
 			break;
 		case 3:
 			//do nothing since neither side gets an advantage
 			break;
 		case 4:
-			potentialAdv = -0.1;
+			potentialAdv = -0.05;
 			break;
 		case 5:
-			potentialAdv = -0.2;
+			potentialAdv = -0.15;
 			break;
 		default:
 			System.out.println("Invalid difficulty level: " + grid.difficultyLevel);
@@ -53,67 +64,120 @@ public class ConflictSystem {
 		if (a.owner.id == 0)
 		{
 			if (potentialAdv >= 0)
+			{
+				reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
 				off += potentialAdv;
+			}
 			else
+			{
+				reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
 				def += potentialAdv;
+			}
 		}
 		else if (d.owner.id == 0)
 		{
 			if (potentialAdv >= 0)
+			{
+				reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
 				def += potentialAdv;
+			}
 			else
+			{
+				reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
 				off += potentialAdv;
+			}
 		}
 		//Disadvantage to barbarians
 		if (a.owner.id >= grid.barbarians)
-			off -= 0.3;
+		{
+			reasonsA.add("-15% from barbarian traditions");
+			off -= 0.15;
+		}
 		if (d.owner.id >= grid.barbarians)
-			def -= 0.3;
+		{
+			reasonsA.add("-15% from barbarian traditions");
+			def -= 0.15;
+		}
 		//Offensive bonus
 		if (a.is("Swordsman"))
+		{
+			reasonsA.add("+25% from swordsman ability");
 			off += 0.25;
+		}
 		if (a.is("Axe Thrower"))
-			off += 0.35;
+		{
+			reasonsA.add("+30% from axe thrower ability");
+			off += 0.3;
+		}
 		//Defensive
-		if (d.is("Spearman") || d.is("Warband"))
+		if (d.is("Spearman"))
+		{
+			reasonsD.add("+25% from spearman ability");
 			def += 0.25; 
+		}
+		else if (d.is("Warband"))
+		{
+			reasonsD.add("+25% from warband ability");
+			def += 0.25;
+		}
 		//City defenses
 		if (d.location.improvement != null)
 			if (d.location.improvement instanceof City)
 			{
 				if (d.is("Warrior") || d.is("Archer"))
+				{
+					reasonsD.add("+25% from early city defense");
 					def += 0.25;
+				}
 				if (((City)d.location.improvement).built("Walls"))
+				{
+					reasonsD.add("+40% from walls");
 					def += 0.4;
+				}
 			}
 		//Specific unit advanages
 		if (a.is("Slinger") && d.is("Warrior"))
 		{
+			reasonsA.add("+25% from slinger against warrior");
 			off += 0.25;
 		}
 		if (a.is("Axeman"))
 		{
 			if (d.mode == 1)
+			{
+				reasonsA.add("+25% from axeman against melee");
 				off += 0.25;
+			}
 			else if (d.rangedStr > 0)
-				off -= 0.25;
+			{
+				reasonsA.add("-10% from axeman against ranged");
+				off -= 0.1;
+			}
 		}
 		if (d.is("Axeman") && d.mode == 1)
 		{
 			if (d.mode == 1)
+			{
+				reasonsD.add("+25% from axeman against melee");
 				def += 0.25;
+			}
 			else if (d.mode == 2)
-				def -= 0.25;
+			{
+				reasonsD.add("-10% from axeman against ranged");
+				def -= 0.1;
+			}
 		}
 		if (a.is("Spearman") && (d.name.contains("Horse") || d.is("Chariot")))
 		{
+			reasonsA.add("+50% from spearman against mounted");
 			off += 0.5;
 		}
 		if (d.is("Spearman") && (a.name.contains("Horse") || a.is("Chariot")))
 		{
+			reasonsD.add("+50% from spearman against mounted");
 			def += 0.5;
 		}
-		return attack((int)(a.offensiveStr*off), (int)(d.defensiveStr*def));
+		return new Object[]{attack((int)(a.offensiveStr*off), (int)(d.defensiveStr*def)), reasonsA, reasonsD};
 	}
 
 	//Return the damage inflicted by a ranged attack
@@ -180,13 +244,13 @@ public class ConflictSystem {
 	{
 		return attack(a.offensiveStr, c.defensiveStr);
 	}
-	
+
 	//Fire upon a city
 	public int[] fire(GameEntity a, City c)
 	{
 		return fire(a.rangedStr, c.defensiveStr);
 	}
-	
+
 	//This accepts two sets of parameters: offensive str, defensive str, and possibly evasion str later
 	//The first index is attacker on defender
 	//http://forums.civfanatics.com/showthread.php?t=432238
@@ -220,17 +284,17 @@ public class ConflictSystem {
 			return new int[]{(int)(Math.max(1,c1)),(int)(Math.max(1,c2/2))};
 		}
 	}
-	
+
 	public int[] attackNoRandomness(float a, float d)
 	{
 		float r = Math.max(a,1)/Math.max(d,1);
 		float c1 = 4*r - 1; 
 		if (c1 > (16F/3F*r - 4F/3F));
-			c1 = (float)(Math.floor(c1-1));
+		c1 = (float)(Math.floor(c1-1));
 		r = Math.max(d,1)/Math.max(a,1);
 		float c2 = 4*r - 1;
 		if (c2 > (16F/3F*r - 4F/3F));
-			c2 = (float)(Math.floor(c2-1));
+		c2 = (float)(Math.floor(c2-1));
 		if (c1 > c2)
 			return new int[]{(int)(Math.max(1,c1/2)),(int)(Math.max(1,c2))};
 		return new int[]{(int)(Math.max(1,c1)),(int)(Math.max(1,c2/2))};
