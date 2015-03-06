@@ -300,7 +300,6 @@ public class RenderSystem extends BaseSystem {
 						main.stroke(0,255,0);
 						//main.stroke(0,150+100*(float)Math.sin(main.frameCount/50),0);
 					}
-
 					main.strokeWeight(8);
 					strokedColor = true;
 				}

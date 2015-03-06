@@ -74,6 +74,14 @@ public class EntityData {
 		setupCivBonuses();
 
 		//setModels();
+		/*for (Entry<String, Integer> en : f.entrySet())
+		{
+			System.out.println(en.getKey() + ": " + en.getValue() + " food");
+		}
+		for (Entry<String, Integer> en : m.entrySet())
+		{
+			System.out.println(en.getKey() + ": " + en.getValue() + " food");
+		}*/
 	}
 
 	private static void setupColors()
@@ -319,22 +327,22 @@ public class EntityData {
 	private static void setupUnitCosts()
 	{
 		cost("Settler",35,0,0);
-		cost("Warrior",10,5,0);
+		cost("Warrior",10,0,5);
 		cost("Work Boat",15,0,0);
 		cost("Worker",25,0,0);
-		cost("Scout",10,5,0);
-		cost("Caravan",15,5,0);
+		cost("Scout",10,0,5);
+		cost("Caravan",15,0,5);
 
-		cost("Axeman",10,10,0);
-		cost("Warband",15,5,0);
-		cost("Swordsman",10,15,0);
-		cost("Spearman",10,10,0);
-		cost("Chariot",10,15,0);
-		cost("Slinger",10,5,0);
-		cost("Archer",15,10,0);
-		cost("Axe Thrower",10,15,0);
-		cost("Horseman",15,5,0);
-		cost("Horse Archer",15,10,0);
+		cost("Axeman",10,0,10);
+		cost("Warband",15,0,5);
+		cost("Swordsman",10,0,15);
+		cost("Spearman",10,0,10);
+		cost("Chariot",10,0,15);
+		cost("Slinger",10,0,5);
+		cost("Archer",15,0,10);
+		cost("Axe Thrower",10,0,15);
+		cost("Horseman",15,0,5);
+		cost("Horse Archer",15,0,10);
 	}
 
 	private static void cost(String name, int food, int gold, int metal)

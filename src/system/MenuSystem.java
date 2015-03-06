@@ -1896,16 +1896,16 @@ public class MenuSystem extends BaseSystem {
 			{
 				String message = newMessages[i];
 				/*if (message.length() < 40)
-			{
-				if (messages.size() == 0) messages.add(message);
-				if (!messages.get(0).equals(message))
-					messages.add(0,message);
-			}
-			else
-			{
-				messages.add(0,message.substring(40));
-				messages.add(0,message.substring(0,40));
-			}*/
+				{
+					if (messages.size() == 0) messages.add(message);
+					if (!messages.get(0).equals(message))
+						messages.add(0,message);
+				}
+				else
+				{
+					messages.add(0,message.substring(40));
+					messages.add(0,message.substring(0,40));
+				}*/
 				if (messages.size() == 0) messages.add(message);
 				if (!messages.get(0).equals(message))
 					messages.add(0,message);
@@ -2368,16 +2368,19 @@ public class MenuSystem extends BaseSystem {
 	{
 		int turns = calcQueueTurnsInt(c, s);
 		String name = turns != -1 ? s + " <" + turns + ">" : s + " <N/A>";
-		Button b = (Button)menus.get(2).addButton("queue" + s, name, "Queue a " + s + ".", 0, 0, 0, 0);
+		Button b = (Button)menus.get(2).addButton("queue" + s, name, "", 0, 0, 0, 0);
+		b.tooltip.clear();
 		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
 		//b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) + " turns");
+		b.tooltip.add("Queue a " + s + ".");
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
 
 		float[] cost = EntityData.getCost(s);
 		b.tooltip.add("Requires " + cost[0] + " food");
 		b.tooltip.add("Requires " + cost[2] + " metal");
-
+		//System.out.println(s + ": " + cost[0] + " " + cost[2]);
+		
 		GameEntity example = (GameEntity)EntityData.get(s);
 		b.tooltip.add("Offensive strength: " + example.offensiveStr);
 		b.tooltip.add("Defensive strength: " + example.defensiveStr);
@@ -2389,9 +2392,10 @@ public class MenuSystem extends BaseSystem {
 	{
 		int turns = calcQueueTurnsInt(c, s);
 		String name = turns != -1 ? s + " <" + calcQueueTurnsInt(c, s) + ">" : s + " <N/A>";
-		Button b = (Button)menus.get(2).addButton("queueBuilding" + s, name, "Queue a " + s + ".",
-				0, 0, 0, 0);
+		Button b = (Button)menus.get(2).addButton("queueBuilding" + s, name, "", 0, 0, 0, 0);
+		b.tooltip.clear();
 		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
+		b.tooltip.add("Queue a " + s + ".");
 		//b.tooltip.add(calcQueueTurns(c));
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
@@ -2408,10 +2412,12 @@ public class MenuSystem extends BaseSystem {
 	private void fieldButton(City c, String s, boolean enabled)
 	{
 		int turns = calcQueueTurnsInt(c, s);
-		Button b = (Button)menus.get(2).addButton("qfield" + s, "F: " + s + " <" + calcQueueTurnsInt(c,s) + ">", "Add a " + s + " field.",
+		Button b = (Button)menus.get(2).addButton("qfield" + s, "F: " + s + " <" + calcQueueTurnsInt(c,s) + ">", "",
 				0, 0, 0, 0);
+		b.tooltip.clear();
 		//b.tooltip.add(calcQueueTurns(c));
 		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
+		b.tooltip.add("Add a " + s + " field.");
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
 

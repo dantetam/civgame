@@ -17,6 +17,9 @@ Distributed networking
 AI changes
 	AI should optimize fields
 	AI prioritizes war when army is strong
+Dynamic culture shifting
+	If a tile is surrounded by many others, shift culture gradually
+	Allow players to buy tiles
 		
 2/14/2015 -> 2/20/2015 (More hackathon work)
 
@@ -48,7 +51,7 @@ Levels when building cities, fields, units
 >+ New minimap
 >+ Yield GUI with reasons
 
-Use of hashmaps to explain how yields are calculated (e.g. in index "+1 from coal" put "+1 production"
+> Use of hashmaps to explain how yields are calculated (e.g. in index "+1 from coal" put "+1 production"
 Constitution stat (i.e. morale) for units
 Strategy conduciveness (e.g. more horsemen if majority of tiles are steppe)
 	Encourage player to take strategy through quest (but not all the time)
@@ -62,7 +65,9 @@ The idea that every single island is a world, and civilizations can establish co
 Colonization as a possible mid-to-late-game mechanic
 	- Colonies require upkeep to survive
 	- Cost increases exponentially with number of colonies (EU4, Civ: BE)
-
+	Inland vs overseas colony
+		Settler acts as settler on connected territory, colonizer on far away territory
+	
 / Implement fields
 	Allow AI to optimize fields
 	> Allow player to buy and improve fields through menu

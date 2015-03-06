@@ -301,6 +301,7 @@ public class InputSystem extends BaseSystem {
 						city.queueMetal = (int)field.metalFlat;
 						city.owner.gold -= (int)field.goldFlat;
 						city.queue = field.name;
+						main.menuSystem.select(null);
 					}
 				}
 				else
