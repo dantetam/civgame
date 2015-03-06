@@ -1471,10 +1471,13 @@ public class MenuSystem extends BaseSystem {
 			}
 			else if (command.equals("techs"))
 			{
-				displayTechMenu(main.grid.civs[0]);
+				/*displayTechMenu(main.grid.civs[0]);
 				//menus.get(5).active = !menus.get(5).active;
 				menus.get(5).activate(true);
 				//menus.get(5).active = !menus.get(5).active;
+				*/			
+				techMenu.setupButtons();
+				techMenu.activate(true);
 			}
 			else if (command.equals("techsweb"))
 			{

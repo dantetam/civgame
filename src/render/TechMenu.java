@@ -11,7 +11,7 @@ public class TechMenu extends Menu {
 	public TechTree tree;
 	public ArrayList<DisplayLine> lines = new ArrayList<DisplayLine>();
 	private float sX = 80, sY = 80, space = 10; //Used for initializing buttons
-	
+
 	public TechMenu(TechTree t, String name) {
 		super(name);
 		super.name = "TechMenu";
@@ -87,9 +87,21 @@ public class TechMenu extends Menu {
 		int turns = MenuSystem.calcQueueTurnsTech(tree.civ, t);
 		String s = t.name;
 		Button b = new Button("research" + s, s, "Research " + s + ".", 0, 0, 0, 0);
-		if (t.researched()) {b.r = 75; b.g = 150; b.b = 205;} //{b.r = tree.civ.r; b.g = tree.civ.g; b.b = tree.civ.b;}
-		else if (t.totalR > 0) {b.r = 0; b.g = 175; b.b = 0;}
-		//else {b.r = 0; b.g = 0; b.b = 0;}
+		//Not researched -> black, researched -> blue, researching -> green, candidate -> gray, queuing/researching -> yellow
+		if (t.researched()) {b.color(75,150,205);} //{b.r = tree.civ.r; b.g = tree.civ.g; b.b = tree.civ.b;}
+		else if (tree.civ.researchTech != null && s.equals(tree.civ.researchTech)) {b.color(150,150,0);}
+		else if (t.totalR > 0) {b.color(0,150,0);}
+		else if (t.requisite != null)
+		{
+			if (t.requisite.researched()) 
+				b.color(150);
+		}
+		else if (t.alternative != null)
+		{
+			if (t.alternative.researched())
+				b.color(150);
+		}
+		//else {b.color(0);}
 		b.display.add("<" + turns + ">");
 		b.lock = true;
 		b.tooltip.clear();
@@ -106,13 +118,13 @@ public class TechMenu extends Menu {
 			b.tooltip.add("Unlocks " + t.unlockString());
 		return b;
 	}
-	
+
 	public class DisplayLine
 	{
 		public float x1, y1, x2, y2; 
 		public DisplayLine(float a, float b, float c, float d) {x1 = a; y1 = b; x2 = c; y2 = d;} 
 	}
-	
+
 	private void line(float a, float b, float c, float d)
 	{
 		lines.add(new DisplayLine(a,b,c,d));

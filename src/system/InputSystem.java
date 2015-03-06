@@ -42,6 +42,7 @@ public class InputSystem extends BaseSystem {
 		TOGGLE_TACTICAL ('t'),
 		ZOOM_IN			('i'),
 		ZOOM_OUT		('o'),
+		CLOSE_ALL		('x'),
 		FUNCTION_1 		('1', 131),
 		FUNCTION_2 		('2', 132),
 		FUNCTION_3 		('3', 133),
@@ -568,8 +569,11 @@ public class InputSystem extends BaseSystem {
 					main.menuSystem.textboxes.get(5).display.clear();
 					main.menuSystem.textboxes.get(5).display.add(0, "RESEARCH TECH");
 					main.menuSystem.textboxes.get(5).tooltip.set(0, "Please research a technology.");
-					main.menuSystem.displayTechMenu(civ);
-					main.menuSystem.menus.get(5).activate(true);
+					/*main.menuSystem.displayTechMenu(civ);
+					main.menuSystem.menus.get(5).activate(true);*/
+					//Switch to new tech web
+					main.menuSystem.techMenu.setupButtons();
+					main.menuSystem.techMenu.activate(true);
 					main.menuSystem.message("A tech is needed to research.");
 					//main.menuSystem.menus.get(5).requestUpdate = true;
 					return;
@@ -648,6 +652,10 @@ public class InputSystem extends BaseSystem {
 				if (main.menuSystem.sight < 20)
 					main.menuSystem.sight++;
 			}
+		}
+		else if (action.equals("CLOSE_ALL"))
+		{
+			main.menuSystem.closeMenus();
 		}
 	}
 
