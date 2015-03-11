@@ -64,15 +64,15 @@ public class Grid {
 				boolean forest = false;
 				if (biomes[r][c] == 3)
 				{
-					forest = rand.nextDouble() < 0.1;
+					forest = rand.nextDouble() < 0.1; //0.1
 				}
 				else if (biomes[r][c] >= 4 && biomes[r][c] <= 5)
 				{
-					forest = rand.nextDouble() < 0.3;
+					forest = rand.nextDouble() < 0.15; //0.3
 				}
 				else if (biomes[r][c] == 6)
 				{
-					forest = rand.nextDouble() < 0.45;
+					forest = rand.nextDouble() < 0.2; //0.45
 				}
 				if (terrain[r][c] >= cutoff)
 				{

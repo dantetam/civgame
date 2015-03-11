@@ -503,7 +503,10 @@ public class RenderSystem extends BaseSystem {
 					}
 					if (t.forest)
 					{
-						renderModel("Forest",0,0,0);
+						if (r % 2 == 0)
+							renderModel("Forest1",150,225,255,0,-15,0);
+						else
+							renderModel("Forest2",150,225,255,0,-5,0);
 					}
 				}
 			}
@@ -578,7 +581,7 @@ public class RenderSystem extends BaseSystem {
 		if (en.owner != null)
 			renderModel(en.getName(),r,c,en.owner.r,en.owner.g,en.owner.b);
 		else
-			renderModel(en.getName(),r,c,0,0,0);
+			renderModel(en.getName(),r,c,150,225,255);
 		main.noStroke();
 
 		if (en.owner != null)
