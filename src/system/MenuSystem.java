@@ -53,6 +53,9 @@ public class MenuSystem extends BaseSystem {
 	public String candidateField = ""; public City candidateCityField = null;
 	public ArrayList<GameEntity> stack = new ArrayList<GameEntity>(); //Select a stack of units to do an action
 
+	//if non-null, console is on
+	public String console = null;
+	
 	public int[] rbox;
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
@@ -1910,6 +1913,7 @@ public class MenuSystem extends BaseSystem {
 					messages.add(0,message.substring(40));
 					messages.add(0,message.substring(0,40));
 				}*/
+				if (message == null) continue;
 				if (messages.size() == 0) messages.add(message);
 				if (!messages.get(0).equals(message))
 					messages.add(0,message);

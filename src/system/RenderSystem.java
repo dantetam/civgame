@@ -830,6 +830,11 @@ public class RenderSystem extends BaseSystem {
 
 	public void renderModel(String name, float red, float green, float blue)
 	{
+		renderModel(name,red,green,blue,0,0,0);
+	}
+	
+	public void renderModel(String name, float red, float green, float blue, float dx, float dy, float dz)
+	{
 		//main.pushMatrix();
 		main.texture(textures[0][0]);
 		float[][] model = EntityData.getModel(name);
@@ -847,8 +852,10 @@ public class RenderSystem extends BaseSystem {
 				{
 					main.fill(red,green,blue);
 				}
-				main.translate(t[1],t[2],t[3]);
-				main.rotateY(t[5]);
+				main.translate(t[1]+dx,t[2]+dy,t[3]+dz);
+				main.rotateX((float)t[4]); 
+				main.rotateY((float)Math.toDegrees(t[5]));
+				main.rotateZ((float)t[6]);
 				main.box(t[7],t[8],t[9]);
 				main.popMatrix();
 			}
@@ -864,7 +871,10 @@ public class RenderSystem extends BaseSystem {
 	{
 		main.pushMatrix();
 		main.translate(r*widthBlock, (float)(main.terrain[r][c])*con, c*widthBlock);
-		renderModel(name, red, green, blue);
+		if (name.equals("City"))
+			renderModel(name, red, green, blue, 0, -5, 0);
+		else
+			renderModel(name, red, green, blue);
 		main.popMatrix();
 	}
 

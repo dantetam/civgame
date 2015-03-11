@@ -239,6 +239,7 @@ public class Grid {
 						addUnit(EntityData.get("Settler"),civs[i],nr,nc);
 					}*/
 			addUnit(en,civs[i],r,c);
+			addUnit(EntityData.get("Warrior"),civs[i],r,c);
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 
 			if (i == numCivs - 1) break;
@@ -274,6 +275,7 @@ public class Grid {
 			int r = t.row, c = t.col;*/
 
 			addUnit(EntityData.get("Settler"),civs[i],r,c);
+			addUnit(EntityData.get("Warrior"),civs[i],r,c);
 			civ.techTree.researched("Civilization").unlockForCiv(civ);
 		}
 		//Barbarian state(s)

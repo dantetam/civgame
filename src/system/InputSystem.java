@@ -43,6 +43,7 @@ public class InputSystem extends BaseSystem {
 		ZOOM_IN			('i'),
 		ZOOM_OUT		('o'),
 		CLOSE_ALL		('x'),
+		CONSOLE			('`', '~'),
 		FUNCTION_1 		('1', 131),
 		FUNCTION_2 		('2', 132),
 		FUNCTION_3 		('3', 133),
@@ -518,7 +519,7 @@ public class InputSystem extends BaseSystem {
 		for (int i = 0; i < civ.units.size(); i++)
 		{
 			GameEntity en = civ.units.get(i);
-			if (en.action > 0 && en.queueTiles.size() == 0 && en.queue == null && !en.sleep)
+			if (en.action > 0 && en.queueTiles.size() == 0 && en.queue == null && en.queueTurns <= 0 && !en.sleep)
 			{
 				candidates.add(en);
 				if (t == null) return candidates.get(0);
@@ -542,7 +543,7 @@ public class InputSystem extends BaseSystem {
 		for (int i = 0; i < civ.cities.size(); i++)
 		{
 			City c = civ.cities.get(i);
-			if (c.queue == null)
+			if (c.queue == null && !c.sleep)
 			{
 				return c;
 			}
@@ -552,6 +553,10 @@ public class InputSystem extends BaseSystem {
 
 	public void executeAction(char key)
 	{
+		if (main.menuSystem.console != null)
+		{
+			
+		}
 		String action = keyPressBinds.get(key);
 		//if (action != null) {System.out.println(action);}
 		if (action == null) return;
@@ -656,6 +661,13 @@ public class InputSystem extends BaseSystem {
 		else if (action.equals("CLOSE_ALL"))
 		{
 			main.menuSystem.closeMenus();
+		}
+		else if (action.equals("CONSOLE"))
+		{
+			if (main.menuSystem.console == null)
+				main.menuSystem.console = "";
+			else 
+				main.menuSystem.console = null;
 		}
 	}
 
