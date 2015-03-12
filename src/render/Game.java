@@ -595,7 +595,7 @@ public class Game extends PApplet {
 		fill((float)c.r*255,(float)c.g*255,(float)c.b*255);
 	}
 
-	private String[] models = {"City","Farm","Fishing Boats","Forest1","Forest2","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
+	private String[] models = {"City","Farm","Fishing Boats","Forest1","Forest2","Forest3","Forest4","Galley","Lumbermill","Mine","Ruins","Settler","Transport","Warrior","Windmill","Work Boat","Worker"};
 	private String[] icons = {"Archer","Axeman","Barbarian","Settler","Slinger","Spearman","Swordsman","Warrior","Worker",
 			"Barbarian","Capital","CityIcon",
 			"attack", "cityhealth", "defense", "health", "population", "ranged", "speed",

@@ -503,10 +503,14 @@ public class RenderSystem extends BaseSystem {
 					}
 					if (t.forest)
 					{
-						if (r % 2 == 0)
-							renderModel("Forest1",150,225,255,0,-15,0);
-						else
+						if (r*c % 5 == 1)
+							renderModel("Forest1",150,225,255,0,-5,0);
+						else if (r*c % 5 == 2)
 							renderModel("Forest2",150,225,255,0,-5,0);
+						else if (r*c % 5 == 3)
+							renderModel("Forest3",150,225,255,0,-5,0);
+						else
+							renderModel("Forest4",150,225,255,0,-5,0);
 					}
 				}
 			}
@@ -523,7 +527,8 @@ public class RenderSystem extends BaseSystem {
 			main.fill(en.owner.r,en.owner.g,en.owner.b);
 		//float dist = (float)Math.sqrt(Math.pow(player.posX - r*widthBlock, 2) + Math.pow(player.posY - main.terrain[r][c], 2) + Math.pow(player.posZ - c*widthBlock, 2));
 		main.noStroke();
-		float sizeY = widthBlock*3F;
+		float sizeY = widthBlock;
+		
 		main.pushMatrix();
 
 		main.strokeWeight(1);
