@@ -585,10 +585,17 @@ public class RenderSystem extends BaseSystem {
 			}*/
 		//System.out.println(en.name);
 		//System.out.println(EntityData.getModel(en.name));
-		if (en.owner != null)
-			renderModel(en.getName(),r,c,en.owner.r,en.owner.g,en.owner.b);
+		if (en.getName().equals("Ruins"))
+		{
+			renderUniqueModel("Ruins",r,c,en.owner.r,en.owner.g,en.owner.b);
+		}
 		else
-			renderModel(en.getName(),r,c,150,225,255);
+		{
+			if (en.owner != null)
+				renderModel(en.getName(),r,c,en.owner.r,en.owner.g,en.owner.b);
+			else
+				renderModel(en.getName(),r,c,150,225,255);
+		}
 		main.noStroke();
 
 		if (en.owner != null)
