@@ -242,8 +242,8 @@ public class RenderSystem extends BaseSystem {
 	//Hidden means not within the player's sight/revealed fog of war
 	//
 	public float con; public float cutoff;
-	private final int dist0 = 400;
-	private final int dist1 = 500; private final int dist2 = 600;
+	private final int dist0 = 200;
+	private final int dist1 = 300; private final int dist2 = 400;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
 	private float[][] vertices;
 	private PImage[][] textures;
@@ -495,22 +495,24 @@ public class RenderSystem extends BaseSystem {
 					int res = t.resource;
 					if (res != 0)
 					{
-						main.pushMatrix();
-						main.fill(EntityData.getResourceColor(res));
-						main.translate(0, 15, 0);
-						main.box(5);
-						main.popMatrix();
+						if (res >= 20 && res <= 29)
+						{
+							Color rockColor = EntityData.getResourceColor(res);
+							renderUniqueModel("Rock",(float)rockColor.r*255F,(float)rockColor.g*255F,(float)rockColor.b*255F,0,-5,0,r,c);
+						}
+						else
+						{
+							main.pushMatrix();
+							main.fill(EntityData.getResourceColor(res));
+							main.translate(0, 15, 0);
+							main.box(5);
+							main.popMatrix();
+						}
 					}
 					if (t.forest)
 					{
-						if (r*c % 5 == 1)
-							renderModel("Forest1",150,225,255,0,-5,0);
-						else if (r*c % 5 == 2)
-							renderModel("Forest2",150,225,255,0,-5,0);
-						else if (r*c % 5 == 3)
-							renderModel("Forest3",150,225,255,0,-5,0);
-						else
-							renderModel("Forest4",150,225,255,0,-5,0);
+						//renderModel("Forest4",150,225,255,0,-5,0);
+						renderUniqueModel("Forest",150,225,255,0,-5,0,r,c);
 					}
 				}
 			}
@@ -528,7 +530,7 @@ public class RenderSystem extends BaseSystem {
 		//float dist = (float)Math.sqrt(Math.pow(player.posX - r*widthBlock, 2) + Math.pow(player.posY - main.terrain[r][c], 2) + Math.pow(player.posZ - c*widthBlock, 2));
 		main.noStroke();
 		float sizeY = widthBlock;
-		
+
 		main.pushMatrix();
 
 		main.strokeWeight(1);
@@ -836,11 +838,38 @@ public class RenderSystem extends BaseSystem {
 		return temp;
 	}
 
+	//Render if there are multiple types of a model
+	public void renderUniqueModel(String name, float red, float green, float blue, float dx, float dy, float dz, int r, int c)
+	{
+		float[][] candidate = EntityData.getModel(name);
+		if (candidate == null)
+		{
+			int n = 0;
+			do
+			{
+				if (EntityData.getModel(name + (n+1)) != null)
+					n++;
+				else
+					break;
+			} while (true);
+			if (n == 0)
+				System.out.println("No models for " + name);
+			else
+			{
+				renderModel(name + ((r*c)%n + 1), red, green, blue, dx, dy, dz);
+			}
+		}
+		else
+		{
+			renderModel(name, red, green, blue, dx, dy, dz);
+		}
+	}
+	
 	public void renderModel(String name, float red, float green, float blue)
 	{
 		renderModel(name,red,green,blue,0,0,0);
 	}
-	
+
 	public void renderModel(String name, float red, float green, float blue, float dx, float dy, float dz)
 	{
 		//main.pushMatrix();
