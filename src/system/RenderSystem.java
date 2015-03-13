@@ -864,7 +864,7 @@ public class RenderSystem extends BaseSystem {
 			renderModel(name, red, green, blue, dx, dy, dz);
 		}
 	}
-	
+
 	public void renderModel(String name, float red, float green, float blue)
 	{
 		renderModel(name,red,green,blue,0,0,0);
@@ -882,17 +882,16 @@ public class RenderSystem extends BaseSystem {
 				main.pushMatrix();
 				float[] t = model[i];
 				if ((int)t[0] == 0)
-				{
 					main.fill(150);
-				}
 				else if ((int)t[0] == 1)
-				{
 					main.fill(red,green,blue);
-				}
 				main.translate(t[1]+dx,t[2]+dy,t[3]+dz);
-				main.rotateX((float)t[4]); 
+				if (name.contains("Rock") || name.contains("Ruin") || name.contains("City") || name.contains("Forest"))
+				{
+					main.rotateX((float)Math.toDegrees(t[4])); 
+					main.rotateZ((float)Math.toDegrees(t[6]));
+				}
 				main.rotateY((float)Math.toDegrees(t[5]));
-				main.rotateZ((float)t[6]);
 				main.box(t[7],t[8],t[9]);
 				main.popMatrix();
 			}

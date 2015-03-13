@@ -1154,20 +1154,14 @@ public class EntityData {
 				if (i == 0)
 				{
 					if (split[0].equals("Color"))
-					{
 						temp[line][i] = 1;
-					}
 					else
-					{
 						temp[line][i] = 0;
-					}
 				}
 				else
 				{
 					if (i >= 4 && i <= 6)
-					{
 						temp[line][i] = (float)Math.toRadians(Float.parseFloat(split[i]));
-					}
 					else
 						temp[line][i] = Float.parseFloat(split[i]);
 				}
