@@ -856,7 +856,8 @@ public class RenderSystem extends BaseSystem {
 				System.out.println("No models for " + name);
 			else
 			{
-				renderModel(name + ((r*c)%n + 1), red, green, blue, dx, dy, dz);
+				//System.out.println("Rendering " + name + (((r+c)%n) + 1) + " of " + n + " models");
+				renderModel(name + (((r+c)%n) + 1), red, green, blue, dx, dy, dz);
 			}
 		}
 		else
