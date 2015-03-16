@@ -587,7 +587,11 @@ public class RenderSystem extends BaseSystem {
 		//System.out.println(EntityData.getModel(en.name));
 		if (en.getName().equals("Ruins"))
 		{
-			renderUniqueModel("Ruins",r,c,en.owner.r,en.owner.g,en.owner.b);
+			main.pushMatrix();
+			main.translate(r*widthBlock, 0, c*widthBlock);
+			renderUniqueModel("Ruins",150,225,255,0,-5,0,r,c);
+			main.popMatrix();
+			//renderModel("Ruins3",r,c,150,225,255);
 		}
 		else
 		{
@@ -863,7 +867,6 @@ public class RenderSystem extends BaseSystem {
 				System.out.println("No models for " + name);
 			else
 			{
-				//System.out.println("Rendering " + name + (((r+c)%n) + 1) + " of " + n + " models");
 				renderModel(name + (((r+c)%n) + 1), red, green, blue, dx, dy, dz);
 			}
 		}
