@@ -31,6 +31,28 @@ public class RenderSystem extends BaseSystem {
 
 	public void tick()
 	{
+		Tile h = main.menuSystem.highlighted;
+		
+		main.background(150,225,255);
+		main.perspective(3.14F/2,15F/9F,1,10000);
+		setCamera();
+		main.noLights();
+		
+		if (h != null && requestUpdate)
+		{
+			int sight = 5;
+			for (int r = h.row - sight; r <= h.row + sight; r++)
+			{
+				for (int c = h.col - sight; c <= h.col + sight; c++)
+				{
+					main.pushMatrix();
+					main.translate(r*widthBlock, (float)main.terrain[r][c]*con/2F, c*widthBlock);
+					main.fill(0,0,255);
+					main.box(5,5,5);
+					main.popMatrix();
+				}
+			}
+		}
 		//Pre-processing
 		/*Tile tile = main.menuSystem.highlighted;
 		if (tile != null)
@@ -48,12 +70,12 @@ public class RenderSystem extends BaseSystem {
 		main.pushStyle();
 		main.perspective(3.14F/2,15F/9F,1,10000);
 		setCamera();
-		Tile tile = main.menuSystem.highlighted;
-		if (tile != null && requestUpdate)
+		if (h != null && requestUpdate)
 		{
 			requestUpdate = false;
+			//Update displacement of mouse
 			main.pushMatrix();
-			main.translate(tile.row*widthBlock, (float)main.terrain[tile.row][tile.col]*con/2F, tile.col*widthBlock);
+			main.translate(h.row*widthBlock, (float)main.terrain[h.row][h.col]*con/2F, h.col*widthBlock);
 			main.fill(255,0,0);
 			main.box(5,5,5);
 			main.popMatrix();

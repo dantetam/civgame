@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import processing.core.*;
 import data.EntityData;
 import data.Field;
 import render.CivGame;
@@ -30,6 +31,7 @@ public class InputSystem extends BaseSystem {
 
 	public boolean on = true;
 	public MouseHelper mouseHelper;
+	public PMatrix3D matrix = main.g.getMatrix((PMatrix3D)null);
 
 	public int time = 20; private int nextSelection = 0;
 	public boolean autoSelect;

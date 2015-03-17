@@ -13,8 +13,7 @@ public class MouseHelper {
 
 	public MouseHelper(float width, float height)
 	{
-		vertLines = new ArrayList<Line>(); rVertLines = new ArrayList<Line>();
-		horizonLines = new ArrayList<Line>(); rHorizonLines = new ArrayList<Line>();
+		clear();
 
 		//Allow player to select tiles
 		vertical(379,426,328,469);
@@ -72,6 +71,12 @@ public class MouseHelper {
 				shapes[i][j] = new Shape(intersections[i][j],intersections[i+1][j],intersections[i+1][j+1],intersections[i][j+1]);
 			}
 		}
+	}
+	
+	public void clear()
+	{
+		vertLines = new ArrayList<Line>(); rVertLines = new ArrayList<Line>();
+		horizonLines = new ArrayList<Line>(); rHorizonLines = new ArrayList<Line>();
 	}
 
 	public Point[][] getIntersections(ArrayList<Line> hl, ArrayList<Line> vl)
