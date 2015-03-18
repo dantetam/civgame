@@ -5,6 +5,7 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
+import processing.opengl.*;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class CivGame extends PApplet {
 	private RenderSystem renderSystem = new RenderSystem(this);
 	public float width = 1500, height = 900;
 	public float centerX = width/2, centerY = height/2; //for rendering purposes, to determine how the position of the mouse affects the camera
-	//public PGraphics pg;
+	public PGraphics pg;
 	public MenuSystem menuSystem = new MenuSystem(this);
 	public NewMenuSystem newMenuSystem = new NewMenuSystem(this);
 	public PShader lightShader, texLightShader;
@@ -140,6 +141,8 @@ public class CivGame extends PApplet {
 				civ.tallwide = Math.min(0, civ.tallwide/2);
 			}
 		}
+		
+		pg = createGraphics((int)width, (int)height, P3D);
 	}
 
 	public void draw()
@@ -160,14 +163,14 @@ public class CivGame extends PApplet {
 	public float rMouseX = -1, rMouseY = -1;
 	public void mousePressed()
 	{
-		/*if (!newLine)
+		if (!newLine)
 		{
-			print("main.line("+(int)mouseX+","+(int)mouseY);
+			print("horizontal("+(int)mouseX+","+(int)mouseY);
 		}
 		else
 		{
 			println(","+mouseX+","+mouseY+");");
-		}*/
+		}
 		newLine = !newLine;
 		//println(player.toString());
 		//println((int)mouseX+","+(int)mouseY);
@@ -277,8 +280,8 @@ public class CivGame extends PApplet {
 	public void fixCamera(int r, int c)
 	{
 		player.posX = r*renderSystem.widthBlock;
-		player.posY = 80;
-		player.posZ = (c-5)*renderSystem.widthBlock;
+		player.posY = 60;
+		player.posZ = (c-2)*renderSystem.widthBlock;
 		//player.rotY = 0;
 		//player.rotVertical = 0;
 		//player.update();

@@ -24,6 +24,7 @@ import units.City;
 import units.Settler;
 import units.Warrior;
 import units.Worker;
+import vector.Line;
 
 public class MenuSystem extends BaseSystem {
 
@@ -236,6 +237,17 @@ public class MenuSystem extends BaseSystem {
 		//main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
 		//main.image(EntityData.iconMap.get("CopperWeapons"),200,200,200,200);
 
+		MouseHelper mouseh = main.inputSystem.mouseHelper;
+		for (int i = 0; i < mouseh.horizonLines.size(); i++)
+		{
+			main.strokeWeight(5);
+			main.stroke(255,0,0);
+			MouseHelper.Line l = mouseh.horizonLines.get(i);
+			line(l.xPoint, l.yPoint, l.xPoint*l.slope, l.yPoint);
+		}
+		
+		main.strokeWeight(1);
+		
 		if (minimapMode == 1 || minimapMode == 2)
 		{
 			//main.rect(0, 700, 50, 50);

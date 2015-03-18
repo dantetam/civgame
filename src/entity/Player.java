@@ -56,7 +56,7 @@ public class Player {
 		posY = 60;
 		posZ = grid.cols/2*RenderSystem.widthBlock;
 		rotY = (float)Math.PI/2;
-		rotVertical = (float)Math.PI/8F;
+		rotVertical = (float)Math.PI/3F;
 	}
 	
 	public void update()

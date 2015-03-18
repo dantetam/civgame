@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PMatrix3D;
 import render.Button;
 import render.CivGame;
 import render.MouseHelper;
 import terrain.DiamondSquare;
+import vector.Point;
 import entity.*;
 import game.BaseEntity;
 import game.Civilization;
@@ -33,14 +35,16 @@ public class RenderSystem extends BaseSystem {
 	{
 		Tile h = main.menuSystem.highlighted;
 		
-		main.background(150,225,255);
+		main.background(255);
 		main.perspective(3.14F/2,15F/9F,1,10000);
 		setCamera();
 		main.noLights();
 		
-		if (h != null && requestUpdate)
+		/*if (h != null && requestUpdate)
 		{
 			int sight = 5;
+			main.inputSystem.mouseHelper.clear();
+			ArrayList<ArrayList<Point>> points = new ArrayList<ArrayList<Point>>();
 			for (int r = h.row - sight; r <= h.row + sight; r++)
 			{
 				for (int c = h.col - sight; c <= h.col + sight; c++)
@@ -48,11 +52,28 @@ public class RenderSystem extends BaseSystem {
 					main.pushMatrix();
 					main.translate(r*widthBlock, (float)main.terrain[r][c]*con/2F, c*widthBlock);
 					main.fill(0,0,255);
-					main.box(5,5,5);
+					main.box(10);
 					main.popMatrix();
 				}
 			}
+			for (int y = 0; y < main.height; y += 5)
+			{
+				for (int x = 0; x < main.height; x += 5)
+				{
+					if (main.get(x,y) == main.color(0,0,255))
+					{
+						
+					}
+				}
+			}
+		}*/
+		
+		if (h != null && requestUpdate)
+		{
+			//PMatrix3D projMatrix = new PMatrix3D(1,0,0,);
 		}
+		
+		main.background(150,225,255);
 		//Pre-processing
 		/*Tile tile = main.menuSystem.highlighted;
 		if (tile != null)
@@ -112,6 +133,16 @@ public class RenderSystem extends BaseSystem {
 		//System.out.println(player);
 		main.shader(main.lightShader, main.TRIANGLES);
 		setCamera();
+		
+		/*System.out.println("Yooo");
+		PMatrix3D matrix = main.pg.getMatrix((PMatrix3D)null);
+		System.out.println(matrix.m00 + ", " + matrix.m01 + ", " + matrix.m02 + ", " + matrix.m03);
+		System.out.println(matrix.m10 + ", " + matrix.m11 + ", " + matrix.m12 + ", " + matrix.m13);
+		System.out.println(matrix.m20 + ", " + matrix.m21 + ", " + matrix.m22 + ", " + matrix.m23);
+		System.out.println(matrix.m30 + ", " + matrix.m31 + ", " + matrix.m32 + ", " + matrix.m33);
+		main.printMatrix();
+		System.out.println("----");
+		System.out.println(main.player.tarX + " " + main.player.tarY + " " + main.player.tarZ);*/
 		/*for (int i = 0; i < terrain.entities.size(); i++)
 		{
 			renderBlock(terrain.entities.get(i));

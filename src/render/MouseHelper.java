@@ -15,8 +15,9 @@ public class MouseHelper {
 	{
 		clear();
 
+		//Temporary hard coded numbers
 		//Allow player to select tiles
-		vertical(379,426,328,469);
+		/*vertical(379,426,328,469);
 		vertical(445,426,402,469);
 		vertical(513,424,479,464);
 		vertical(581,426,556,468);
@@ -27,17 +28,33 @@ public class MouseHelper {
 		vertical(919,425,943,466);
 		vertical(988,425,1019,466);
 		vertical(1050,424,1094,471);
-		vertical(1120,424,1174,468);
+		vertical(1120,424,1174,468);*/
+		vertical(329,360,262,467);
+		vertical(487,361,449,464);
+		vertical(564,359,539,466);
+		vertical(693,360,678,460);
+		vertical(812,354,820,465);
+		vertical(931,362,963,464);
+		vertical(1057,359,1099,460);
+		vertical(1175,361,1252,466);
 
-		horizontal(0,340,width,340);
+		/*horizontal(0,340,width,340);
 		horizontal(0,364,width,364);
 		horizontal(0,392,width,392);
 		horizontal(0,424,width,424);
 		horizontal(0,468,width,468);
 		horizontal(0,527,width,527);
 		horizontal(0,602,width,602);
-		horizontal(0,720,width,720);
-
+		horizontal(0,720,width,720);*/
+		horizontal(707,159,790,159);
+		horizontal(702,211,797,211);
+		horizontal(697,277,803,277);
+		horizontal(687,355,812,355);
+		horizontal(676,462,824,462);
+		horizontal(665,612,834,612);
+		horizontal(652,800,851,800);
+		horizontal(652,1000,851,1000);
+		
 		//Provide reference for 2d GUIs 
 		rVertical(463,446,420,498);
 		rVertical(534,442,505,492);
