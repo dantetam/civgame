@@ -296,7 +296,7 @@ public class RenderSystem extends BaseSystem {
 	//
 	public float con; public float cutoff;
 	private final int dist0 = 200;
-	private final int dist1 = 300; private final int dist2 = 400;
+	private final int dist1 = 250; private final int dist2 = 300;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
 	private float[][] vertices;
 	private PImage[][] textures;
@@ -396,7 +396,7 @@ public class RenderSystem extends BaseSystem {
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
-			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
+			//main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 
 			if (t.biome == -1)
 			{
@@ -483,7 +483,7 @@ public class RenderSystem extends BaseSystem {
 
 			main.popMatrix();
 
-			/*for (int nr = r*m; nr < r*m + m; nr++)
+			for (int nr = r*m; nr < r*m + m; nr++)
 			{
 				for (int nc = c*m; nc < c*m + m; nc++)
 				{
@@ -520,7 +520,7 @@ public class RenderSystem extends BaseSystem {
 						main.popMatrix();
 					} catch (Exception e) {main.popMatrix();}
 				}
-			}*/
+			}
 			//main.texture(textures[nr][nc]);
 
 			main.popMatrix();

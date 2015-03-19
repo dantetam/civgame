@@ -541,7 +541,7 @@ public class MenuSystem extends BaseSystem {
 								if (!main.tacticalView)
 								{
 									double[] y = City.staticEval(t);
-									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY+50, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
 									PImage img = EntityData.iconMap.get(EntityData.getBiomeName((t.biome)));
 									int len = 20;
 									float iX = pos[0]-dX-len/2, iY = pos[1]-dY+10;										
@@ -1223,7 +1223,7 @@ public class MenuSystem extends BaseSystem {
 				main.endShape();
 			}
 		}*/
-		MouseHelper mouseh = main.inputSystem.mouseHelper;
+		/*MouseHelper mouseh = main.inputSystem.mouseHelper;
 		for (int i = 0; i < mouseh.rHorizonLines.size(); i++)
 		{
 			main.strokeWeight(5);
@@ -1246,7 +1246,7 @@ public class MenuSystem extends BaseSystem {
 				main.fill(0);
 				main.rect(p.x, p.y, 10, 10);
 			}
-		}
+		}*/
 		
 		main.strokeWeight(1);
 	}

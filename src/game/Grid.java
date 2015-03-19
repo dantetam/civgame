@@ -53,11 +53,11 @@ public class Grid {
 				int hill = 0;
 				double random = rand.nextDouble();
 				//Assign a shape
-				if (random < 0.025)
+				if (random < 0.03)
 				{
 					hill = 2;
 				}
-				else if (random < 0.3)
+				else if (random < 0.2)
 				{
 					hill = 1;
 				}
