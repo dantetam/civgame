@@ -86,17 +86,20 @@ public class MouseHelper {
 		rHorizontal(667,495,752,494);
 		rHorizontal(653,553,750,553);
 		rHorizontal(626,648,749,649);*/
-		
-		rHorizontal(710,142,792,141);
+		/*rHorizontal(710,142,792,141);
 		rHorizontal(720,185,798,183);
 		rHorizontal(710,239,805,241);
 		rHorizontal(700,314,807,313);
 		rHorizontal(685,407,815,407);
 		rHorizontal(671,516,824,525);
-		rHorizontal(657,709,839,708);
+		rHorizontal(657,709,839,708);*/
+		for (int i = 0; i < horizonLines.size() - 1; i++)
+		{
+			float h = (horizonLines.get(i).yPoint + horizonLines.get(i+1).yPoint)/2;
+			rHorizontal(0, h, width, h);
+		}
 
 		//horizontal(751,373,807,374);
-
 
 		intersections = getIntersections(horizonLines, vertLines);
 		guiPositions = getIntersections(rHorizonLines, rVertLines);

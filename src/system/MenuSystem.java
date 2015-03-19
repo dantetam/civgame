@@ -519,6 +519,7 @@ public class MenuSystem extends BaseSystem {
 
 							//float[] disp = mh.center();
 							float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
+							//float dX = 0, dY = 0;
 							//System.out.println(dX + " " + dY + " " + highlightDispX + " " + highlightDispY);
 
 							Tile t = main.grid.getTile(h.row + dR, h.col - dC);
@@ -540,7 +541,7 @@ public class MenuSystem extends BaseSystem {
 								if (!main.tacticalView)
 								{
 									double[] y = City.staticEval(t);
-									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY+30, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY+50, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
 									PImage img = EntityData.iconMap.get(EntityData.getBiomeName((t.biome)));
 									int len = 20;
 									float iX = pos[0]-dX-len/2, iY = pos[1]-dY+10;										
@@ -1222,6 +1223,30 @@ public class MenuSystem extends BaseSystem {
 				main.endShape();
 			}
 		}*/
+		MouseHelper mouseh = main.inputSystem.mouseHelper;
+		for (int i = 0; i < mouseh.rHorizonLines.size(); i++)
+		{
+			main.strokeWeight(5);
+			main.stroke(255,0,0);
+			MouseHelper.Line l = mouseh.rHorizonLines.get(i);
+			main.line((float)l.xPoint - 200, (float)l.yPoint - 200*l.slope, (float)l.xPoint + 200, (float)l.yPoint + 200*l.slope);
+		}
+		for (int i = 0; i < mouseh.rVertLines.size(); i++)
+		{
+			main.strokeWeight(5);
+			main.stroke(255,0,0);
+			MouseHelper.Line l = mouseh.rVertLines.get(i);
+			main.line((float)l.xPoint - 200, (float)l.yPoint - 200*l.slope, (float)l.xPoint + 200, (float)l.yPoint + 200*l.slope);
+		}
+		for (int i = 0; i < mouseh.guiPositions.length; i++)
+		{
+			for (int j = 0; j < mouseh.guiPositions[0].length; j++)
+			{
+				Point p = mouseh.guiPositions[i][j];
+				main.fill(0);
+				main.rect(p.x, p.y, 10, 10);
+			}
+		}
 		
 		main.strokeWeight(1);
 	}
