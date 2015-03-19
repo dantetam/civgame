@@ -58,7 +58,7 @@ public class MenuSystem extends BaseSystem {
 
 	//if non-null, console is on
 	public String console = null;
-	
+
 	public int[] rbox;
 
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
@@ -238,7 +238,7 @@ public class MenuSystem extends BaseSystem {
 		main.textAlign(main.CENTER);
 		//main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
 		//main.image(EntityData.iconMap.get("CopperWeapons"),200,200,200,200);
-		
+
 		if (minimapMode == 1 || minimapMode == 2)
 		{
 			//main.rect(0, 700, 50, 50);
@@ -541,7 +541,7 @@ public class MenuSystem extends BaseSystem {
 								if (!main.tacticalView)
 								{
 									double[] y = City.staticEval(t);
-									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY-dC*5, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
 									PImage img = EntityData.iconMap.get(EntityData.getBiomeName((t.biome)));
 									int len = 20;
 									float iX = pos[0]-dX-len/2, iY = pos[1]-dY+10;										
@@ -1180,32 +1180,35 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 		clicks.clear();
-		
-		/*MouseHelper mouseh = main.inputSystem.mouseHelper;
-		for (int i = 0; i < mouseh.horizonLines.size(); i++)
+
+		if (main.testing)
 		{
-			main.strokeWeight(5);
-			main.stroke(255,0,0);
-			MouseHelper.Line l = mouseh.horizonLines.get(i);
-			main.line((float)l.xPoint, (float)l.yPoint, (float)l.xPoint+100, (float)l.yPoint);
-		}
-		for (int i = 0; i < mouseh.vertLines.size(); i++)
-		{
-			main.strokeWeight(5);
-			main.stroke(255,0,0);
-			MouseHelper.Line l = mouseh.vertLines.get(i);
-			main.line((float)l.xPoint - 200, (float)l.yPoint - 200*l.slope, (float)l.xPoint + 200, (float)l.yPoint + 200*l.slope);
-		}
-		for (int i = 0; i < mouseh.intersections.length; i++)
-		{
-			for (int j = 0; j < mouseh.intersections[0].length; j++)
+			MouseHelper mouseh = main.inputSystem.mouseHelper;
+			for (int i = 0; i < mouseh.horizonLines.size(); i++)
 			{
-				Point p = mouseh.intersections[i][j];
-				main.fill(0);
-				main.rect(p.x, p.y, 10, 10);
+				main.strokeWeight(5);
+				main.stroke(255,0,0);
+				MouseHelper.Line l = mouseh.horizonLines.get(i);
+				main.line((float)l.xPoint - 1000, (float)l.yPoint - 1000*l.slope, (float)l.xPoint + 1000, (float)l.yPoint + 1000*l.slope);
 			}
-		}*/
-		/*MouseHelper mouseHelper = mouseh;
+			for (int i = 0; i < mouseh.vertLines.size(); i++)
+			{
+				main.strokeWeight(5);
+				main.stroke(255,0,0);
+				MouseHelper.Line l = mouseh.vertLines.get(i);
+				main.line((float)l.xPoint - 200, (float)l.yPoint - 200*l.slope, (float)l.xPoint + 200, (float)l.yPoint + 200*l.slope);
+			}
+			for (int i = 0; i < mouseh.intersections.length; i++)
+			{
+				for (int j = 0; j < mouseh.intersections[0].length; j++)
+				{
+					Point p = mouseh.intersections[i][j];
+					main.fill(0);
+					main.rect(p.x, p.y, 10, 10);
+				}
+			}
+		}
+		/*MouseHelper mouseHelper = main.inputSystem.mouseHelper;
 		for (int row = 0; row < mouseHelper.shapes.length; row++)
 		{
 			for (int col = 0; col < mouseHelper.shapes[0].length; col++)
@@ -1229,7 +1232,7 @@ public class MenuSystem extends BaseSystem {
 			main.strokeWeight(5);
 			main.stroke(255,0,0);
 			MouseHelper.Line l = mouseh.rHorizonLines.get(i);
-			main.line((float)l.xPoint - 200, (float)l.yPoint - 200*l.slope, (float)l.xPoint + 200, (float)l.yPoint + 200*l.slope);
+			main.line(0F, (float)l.yPoint - 200*l.slope, 1000F, (float)l.yPoint + 200*l.slope);
 		}
 		for (int i = 0; i < mouseh.rVertLines.size(); i++)
 		{
@@ -1247,7 +1250,7 @@ public class MenuSystem extends BaseSystem {
 				main.rect(p.x, p.y, 10, 10);
 			}
 		}*/
-		
+
 		main.strokeWeight(1);
 	}
 
@@ -1552,7 +1555,7 @@ public class MenuSystem extends BaseSystem {
 				//menus.get(5).active = !menus.get(5).active;
 				menus.get(5).activate(true);
 				//menus.get(5).active = !menus.get(5).active;
-				*/			
+				 */			
 				techMenu.setupButtons();
 				techMenu.activate(true);
 			}
@@ -2461,7 +2464,7 @@ public class MenuSystem extends BaseSystem {
 		b.tooltip.add("Requires " + cost[0] + " food");
 		b.tooltip.add("Requires " + cost[2] + " metal");
 		//System.out.println(s + ": " + cost[0] + " " + cost[2]);
-		
+
 		GameEntity example = (GameEntity)EntityData.get(s);
 		b.tooltip.add("Offensive strength: " + example.offensiveStr);
 		b.tooltip.add("Defensive strength: " + example.defensiveStr);

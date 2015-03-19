@@ -98,13 +98,13 @@ public class RenderSystem extends BaseSystem {
 			main.pushMatrix();
 			main.translate(h.row*widthBlock, (float)main.terrain[h.row][h.col]*con/2F, h.col*widthBlock);
 			main.fill(255,0,0);
-			main.box(5,5,5);
+			main.box(2,5,2);
 			main.popMatrix();
 			search:
 			{
-				for (int r = 0; r < main.width; r += 5)
+				for (int r = (int)(main.width*2/5); r < (int)(main.width*3/5); r += 2)
 				{
-					for (int c = 0; c < main.height; c += 5)
+					for (int c = (int)(main.height*2/5); c < (int)(main.height*3/5); c += 5)
 					{
 						if (main.get(r,c) == main.color(255,0,0))
 						{
@@ -487,13 +487,15 @@ public class RenderSystem extends BaseSystem {
 			{
 				for (int nc = c*m; nc < c*m + m; nc++)
 				{
+					/*
+					//Add snow caps
 					if (nr == r*m + 1 && nc == c*m + 1)
 					{
 						if (vertices[nr][nc] > 5) 
 						{
 							main.fill(255);
 						}
-					}
+					}*/
 					//
 					try
 					{
