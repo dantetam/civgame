@@ -19,6 +19,8 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
 import render.*;
+import render.MouseHelper.Point;
+import render.MouseHelper.Shape;
 import units.Caravan;
 import units.City;
 import units.Settler;
@@ -236,17 +238,6 @@ public class MenuSystem extends BaseSystem {
 		main.textAlign(main.CENTER);
 		//main.text("When selecting a unit, hold Q to bring out the quick menu. Drag with right click to the desired tile.", 500, 80);
 		//main.image(EntityData.iconMap.get("CopperWeapons"),200,200,200,200);
-
-		MouseHelper mouseh = main.inputSystem.mouseHelper;
-		for (int i = 0; i < mouseh.horizonLines.size(); i++)
-		{
-			main.strokeWeight(5);
-			main.stroke(255,0,0);
-			MouseHelper.Line l = mouseh.horizonLines.get(i);
-			line(l.xPoint, l.yPoint, l.xPoint*l.slope, l.yPoint);
-		}
-		
-		main.strokeWeight(1);
 		
 		if (minimapMode == 1 || minimapMode == 2)
 		{
@@ -1188,6 +1179,51 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 		clicks.clear();
+		
+		/*MouseHelper mouseh = main.inputSystem.mouseHelper;
+		for (int i = 0; i < mouseh.horizonLines.size(); i++)
+		{
+			main.strokeWeight(5);
+			main.stroke(255,0,0);
+			MouseHelper.Line l = mouseh.horizonLines.get(i);
+			main.line((float)l.xPoint, (float)l.yPoint, (float)l.xPoint+100, (float)l.yPoint);
+		}
+		for (int i = 0; i < mouseh.vertLines.size(); i++)
+		{
+			main.strokeWeight(5);
+			main.stroke(255,0,0);
+			MouseHelper.Line l = mouseh.vertLines.get(i);
+			main.line((float)l.xPoint - 200, (float)l.yPoint - 200*l.slope, (float)l.xPoint + 200, (float)l.yPoint + 200*l.slope);
+		}
+		for (int i = 0; i < mouseh.intersections.length; i++)
+		{
+			for (int j = 0; j < mouseh.intersections[0].length; j++)
+			{
+				Point p = mouseh.intersections[i][j];
+				main.fill(0);
+				main.rect(p.x, p.y, 10, 10);
+			}
+		}*/
+		/*MouseHelper mouseHelper = mouseh;
+		for (int row = 0; row < mouseHelper.shapes.length; row++)
+		{
+			for (int col = 0; col < mouseHelper.shapes[0].length; col++)
+			{
+				//if (r != activeX || c != activeY) continue;
+				Shape shape = mouseHelper.shapes[row][col];
+				//if (s == null) continue;
+				main.fill(150*col/15,225*row/15,255*row/15);
+				main.beginShape(main.QUADS);
+				for (int i = 0; i < shape.x.length; i++)
+				{
+					main.vertex(shape.x[i],shape.y[i]);
+				}
+				main.vertex(shape.x[0],shape.y[0]);
+				main.endShape();
+			}
+		}*/
+		
+		main.strokeWeight(1);
 	}
 
 	public void displayMenu(int menu)

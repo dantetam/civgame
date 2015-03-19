@@ -165,7 +165,7 @@ public class CivGame extends PApplet {
 	{
 		if (!newLine)
 		{
-			print("horizontal("+(int)mouseX+","+(int)mouseY);
+			print("rHorizontal("+(int)mouseX+","+(int)mouseY);
 		}
 		else
 		{

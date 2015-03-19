@@ -396,7 +396,7 @@ public class RenderSystem extends BaseSystem {
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
-			//main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
+			main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 
 			if (t.biome == -1)
 			{
@@ -483,17 +483,17 @@ public class RenderSystem extends BaseSystem {
 
 			main.popMatrix();
 
-			for (int nr = r*m; nr < r*m + m; nr++)
+			/*for (int nr = r*m; nr < r*m + m; nr++)
 			{
 				for (int nc = c*m; nc < c*m + m; nc++)
 				{
-					/*if (nr == r*m + 1 && nc == c*m + 1)
+					if (nr == r*m + 1 && nc == c*m + 1)
 					{
 						if (vertices[nr][nc] > 5) 
 						{
 							main.fill(255);
 						}
-					}*/
+					}
 					//
 					try
 					{
@@ -510,17 +510,17 @@ public class RenderSystem extends BaseSystem {
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock,widthBlock,0);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
-						/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
+						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
-						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
+						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
 						main.endShape();
 						main.popMatrix();
 					} catch (Exception e) {main.popMatrix();}
 				}
-			}
+			}*/
 			//main.texture(textures[nr][nc]);
 
 			main.popMatrix();

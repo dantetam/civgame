@@ -43,14 +43,16 @@ public class Test extends PApplet {
 				fill(0,0,255);
 				stroke(0,0,255);
 				//println(mouseHelper.intersections[r][c].x + "," + mouseHelper.intersections[r][c].y);
-				point(mouseHelper.guiPositions[r][c].x,mouseHelper.guiPositions[r][c].y);
+				if (mouseHelper.guiPositions[r][c] != null)
+					point(mouseHelper.guiPositions[r][c].x,mouseHelper.guiPositions[r][c].y);
 			}
 		}
 		//println(mouseHelper.shapes.length + " " + mouseHelper.shapes[0].length);
-		/*for (int r = 0; r < mouseHelper.shapes.length; r++)
+		for (int r = 0; r < mouseHelper.shapes.length; r++)
 		{
 			for (int c = 0; c < mouseHelper.shapes[0].length; c++)
 			{
+				if (r != activeX || c != activeY) continue;
 				Shape s = mouseHelper.shapes[r][c];
 				//if (s == null) continue;
 				fill(150*c/15,225*r/15,255*r/15);
@@ -62,9 +64,16 @@ public class Test extends PApplet {
 				vertex(s.x[0],s.y[0]);
 				endShape();
 			}
-		}*/
+		}
+		int[] s = mouseHelper.findTile(mouseX, mouseY);
+		if (s != null)
+		{
+			activeX = s[0] + mouseHelper.shapes.length/2; activeY = s[1] + mouseHelper.shapes.length/2;
+			
+		}
 	}
 	
+	public int activeX, activeY;
 	public void mousePressed()
 	{
 		int[] s = mouseHelper.findTile(mouseX, mouseY);

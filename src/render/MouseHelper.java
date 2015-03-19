@@ -29,15 +29,18 @@ public class MouseHelper {
 		vertical(988,425,1019,466);
 		vertical(1050,424,1094,471);
 		vertical(1120,424,1174,468);*/
+		
+		vertical(206,361,124,465);
 		vertical(329,360,262,467);
-		vertical(487,361,449,464);
-		vertical(564,359,539,466);
-		vertical(693,360,678,460);
+		vertical(447,359,342,612);
+		vertical(541,464,500,611);
+		vertical(693,360,685,460);
 		vertical(812,354,820,465);
-		vertical(931,362,963,464);
-		vertical(1057,359,1099,460);
-		vertical(1175,361,1252,466);
-
+		vertical(937,362,963,464);
+		vertical(1054,359,1099,460);
+		vertical(1120,275,1165,354);
+		vertical(1295,360,1385,469);
+		
 		/*horizontal(0,340,width,340);
 		horizontal(0,364,width,364);
 		horizontal(0,392,width,392);
@@ -52,11 +55,11 @@ public class MouseHelper {
 		horizontal(687,355,812,355);
 		horizontal(676,462,824,462);
 		horizontal(665,612,834,612);
-		horizontal(652,800,851,800);
+		horizontal(652,810,851,810);
 		horizontal(652,1000,851,1000);
 		
 		//Provide reference for 2d GUIs 
-		rVertical(463,446,420,498);
+		/*rVertical(463,446,420,498);
 		rVertical(534,442,505,492);
 		rVertical(604,443,585,493);
 		rVertical(678,439,666,493);
@@ -64,30 +67,59 @@ public class MouseHelper {
 		rVertical(821,444,834,497);
 		rVertical(896,444,916,492);
 		rVertical(964,437,997,486);
-		rVertical(1040,441,1082,492);
+		rVertical(1040,441,1082,492);*/
+		
+		rVertical(200,466,279,360);
+		rVertical(336,466,394,359);
+		rVertical(475,467,514,360);
+		rVertical(617,464,637,360);
+		rVertical(752,462,754,357);
+		rVertical(895,463,879,360);
+		rVertical(1036,464,998,360);
+		rVertical(1171,465,1112,358);
+		rVertical(1310,466,1234,360);
 
-		rHorizontal(801,349,750,348);
+		/*rHorizontal(801,349,750,348);
 		rHorizontal(691,370,749,370);
 		rHorizontal(748,407,814,405);
 		rHorizontal(678,440,749,440);
 		rHorizontal(667,495,752,494);
 		rHorizontal(653,553,750,553);
-		rHorizontal(626,648,749,649);
+		rHorizontal(626,648,749,649);*/
+		
+		rHorizontal(710,142,792,141);
+		rHorizontal(720,185,798,183);
+		rHorizontal(710,239,805,241);
+		rHorizontal(700,314,807,313);
+		rHorizontal(685,407,815,407);
+		rHorizontal(671,516,824,525);
+		rHorizontal(657,709,839,708);
 
 		//horizontal(751,373,807,374);
 
 
 		intersections = getIntersections(horizonLines, vertLines);
 		guiPositions = getIntersections(rHorizonLines, rVertLines);
-
+		//guiPositions = new Point[(horizonLines.size())][(vertLines.size()-1)];
+		
 		shapes = new Shape[(horizonLines.size()-1)][(vertLines.size()-1)];
 		for (int i = 0; i < intersections.length - 1; i++)
 		{
 			for (int j = 0; j < intersections[0].length - 1; j++)
 			{
-				shapes[i][j] = new Shape(intersections[i][j],intersections[i+1][j],intersections[i+1][j+1],intersections[i][j+1]);
+				Shape shape = new Shape(intersections[i][j],intersections[i+1][j],intersections[i+1][j+1],intersections[i][j+1]);
+				shapes[i][j] = shape;
+				
+				/*Point a = new Point((intersections[i][j].x + intersections[i+1][j].x)/2, (intersections[i][j].y + intersections[i+1][j].y)/2);
+				Point c = new Point((intersections[i+1][j].x + intersections[i+1][j+1].x)/2, (intersections[i+1][j].y + intersections[i+1][j+1].y)/2);
+				
+				Point b = new Point((intersections[i][j].x + intersections[i][j+1].x)/2, (intersections[i][j].y + intersections[i][j+1].y)/2);
+				Line h = new Line(b,0);
+				Line v = new Line(a,c);
+				guiPositions[i][j] = h.intersect(v)*/;
 			}
 		}
+		
 	}
 	
 	public void clear()
@@ -205,6 +237,13 @@ public class MouseHelper {
 	{
 		public float slope, xPoint, yPoint;
 
+		public Line(Point a, float slope)
+		{
+			this.slope = slope;
+			xPoint = a.x;
+			yPoint = a.y;
+		}
+		
 		public Line(Point a, Point b)
 		{
 			slope = (b.y-a.y)/(b.x-a.x);
