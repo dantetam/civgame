@@ -396,13 +396,13 @@ public class RenderSystem extends BaseSystem {
 			//main.translate(en.posX + widthBlock, en.posY*con, en.posZ + widthBlock);
 			//main.translate(en.posX, en.posY*con, en.posZ);
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
-			//main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
+			if (main.testing) main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 
 			if (t.biome == -1)
 			{
 				if (main.grid.adjacentLand(t.row, t.col).size() > 0)
 				{
-
+					//Render coast with code later on
 				}
 				else
 				{
@@ -550,7 +550,7 @@ public class RenderSystem extends BaseSystem {
 					int res = t.resource;
 					if (res != 0)
 					{
-						if (res >= 20 && res <= 29)
+						if (res >= 20 && res <= 29 && !main.testing)
 						{
 							Color rockColor = EntityData.getResourceColor(res);
 							renderUniqueModel("Rock",(float)rockColor.r*255F,(float)rockColor.g*255F,(float)rockColor.b*255F,0,-5,0,r,c);
@@ -567,7 +567,10 @@ public class RenderSystem extends BaseSystem {
 					if (t.forest)
 					{
 						//renderModel("Forest4",150,225,255,0,-5,0);
-						renderUniqueModel("Forest",150,225,255,0,-5,0,r,c);
+						if (main.testing)
+							renderModel("OldForest",150,225,255,0,-5,0);
+						else
+							renderUniqueModel("Forest",150,225,255,0,-5,0,r,c);
 					}
 				}
 			}
@@ -644,9 +647,11 @@ public class RenderSystem extends BaseSystem {
 		{
 			main.pushMatrix();
 			main.translate(r*widthBlock, 0, c*widthBlock);
-			renderUniqueModel("Ruins",150,225,255,0,-5,0,r,c);
+			if (main.testing)
+				renderModel("Ruins3",r,c,150,225,255);
+			else
+				renderUniqueModel("Ruins",150,225,255,0,-5,0,r,c);
 			main.popMatrix();
-			//renderModel("Ruins3",r,c,150,225,255);
 		}
 		else
 		{

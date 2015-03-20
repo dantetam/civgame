@@ -207,7 +207,7 @@ public class MenuSystem extends BaseSystem {
 
 		TextBox text8 = new TextBox(new ArrayList<String>(),"",main.width/6,50,300,30);
 		textboxes.add(text8);
-		
+
 		text4.activate(false);
 
 		updateEncyclopedia();
@@ -559,6 +559,7 @@ public class MenuSystem extends BaseSystem {
 									int len = 20;
 									float iX = pos[0]-dX-len/2, iY = pos[1]-dY+10;										
 									main.tint(255,255,255,100);
+									//Make way for the appropriate GUIs
 									if (t.forest || t.freshWater)
 									{
 										if (img != null)
@@ -1275,33 +1276,30 @@ public class MenuSystem extends BaseSystem {
 			{
 				//Display tech tree
 				main.pushStyle();
-				if (techMenu.active())
+				main.strokeWeight(3);
+				//System.out.println("yaaaa");
+				main.stroke(255,255,255,50);
+				for (int i = 0; i < techMenu.lines.size(); i++)
 				{
-					main.strokeWeight(3);
-					main.fill(255,255,255,100); main.stroke(255,255,255,100);
-					//System.out.println("yaaaa");
-					for (int i = 0; i < techMenu.lines.size(); i++)
-					{
-						main.line(techMenu.lines.get(i).x1, techMenu.lines.get(i).y1, techMenu.lines.get(i).x2, techMenu.lines.get(i).y2);
-					}
-					main.fill(255); main.noStroke(); //Reset alpha
-					for (int i = 0; i < techMenu.buttons.size(); i++)
-					{
-						TextBox b = techMenu.buttons.get(i);
-						main.fill(b.r, b.g, b.b);
-						//main.stroke(b.borderR, b.borderG, b.borderB);
-						if (b.shape == 0)
-							main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-						else if (b.shape == 1)
-							main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
-						else
-							System.out.println("Invalid button shape: " + b.shape);
-						main.textAlign(PApplet.CENTER, PApplet.CENTER);
-						main.fill(255);
-						displayText(b);
-						main.fill(255,0,0);
-						//System.out.println(b.display.get(0) + ": " + b.posX + " " + b.posY + " " + b.sizeX + " " + b.sizeY);
-					}
+					main.line(techMenu.lines.get(i).x1, techMenu.lines.get(i).y1, techMenu.lines.get(i).x2, techMenu.lines.get(i).y2);
+				}
+				main.fill(255,255,255,255); main.noStroke(); //Reset alpha
+				for (int i = 0; i < techMenu.buttons.size(); i++)
+				{
+					TextBox b = techMenu.buttons.get(i);
+					main.fill(b.r, b.g, b.b);
+					//main.stroke(b.borderR, b.borderG, b.borderB);
+					if (b.shape == 0)
+						main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+					else if (b.shape == 1)
+						main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+					else
+						System.out.println("Invalid button shape: " + b.shape);
+					main.textAlign(PApplet.CENTER, PApplet.CENTER);
+					main.fill(255);
+					displayText(b);
+					main.fill(255,0,0);
+					//System.out.println(b.display.get(0) + ": " + b.posX + " " + b.posY + " " + b.sizeX + " " + b.sizeY);
 				}
 				main.popStyle();
 			}
@@ -2815,6 +2813,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				updateCity((City)en);
 			}
+			textboxes.get(1).orders.clear();
 			textboxes.get(1).activate(true);
 			textboxes.get(1).move(main.width - 400,main.height);
 			textboxes.get(1).moveTo(textboxes.get(1).origX,textboxes.get(1).origY,20);
@@ -2822,6 +2821,7 @@ public class MenuSystem extends BaseSystem {
 		else
 		{
 			stack.clear();
+			textboxes.get(1).orders.clear();
 			textboxes.get(1).activate(false);
 			textboxes.get(1).move(main.width - 400,main.height-150);
 
