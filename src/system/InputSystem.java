@@ -125,66 +125,74 @@ public class InputSystem extends BaseSystem {
 			executeAction(keyPresses.get(i));
 			keyPresses.remove(i);
 		}
-		for (int i = 0; i < keyHeld.length; i++)
+		//Prevent key presses
+		if (main.menuSystem.console != null)
 		{
-			if (keyHeld[i])
+
+		}
+		else
+		{
+			for (int i = 0; i < keyHeld.length; i++)
 			{
-				float dist = 15;
-				//System.out.println(i+97);
-				if (i == 97 - 97) //a
+				if (keyHeld[i])
 				{
-					//Limit movement to an axis
-					main.player.posX += dist*Math.cos(main.player.rotY + Math.PI/2);
-					main.player.tarX += dist*Math.cos(main.player.rotY + Math.PI/2);
-					main.player.posZ += dist*Math.sin(main.player.rotY + Math.PI/2);
-					main.player.tarZ += dist*Math.sin(main.player.rotY + Math.PI/2);
+					float dist = 15;
+					//System.out.println(i+97);
+					if (i == 97 - 97) //a
+					{
+						//Limit movement to an axis
+						main.player.posX += dist*Math.cos(main.player.rotY + Math.PI/2);
+						main.player.tarX += dist*Math.cos(main.player.rotY + Math.PI/2);
+						main.player.posZ += dist*Math.sin(main.player.rotY + Math.PI/2);
+						main.player.tarZ += dist*Math.sin(main.player.rotY + Math.PI/2);
+					}
+					else if (i == 100 - 97) //d
+					{
+						//Limit movement to an axis
+						main.player.posX += dist*Math.cos(main.player.rotY - Math.PI/2);
+						main.player.tarX += dist*Math.cos(main.player.rotY - Math.PI/2);
+						main.player.posZ += dist*Math.sin(main.player.rotY - Math.PI/2);
+						main.player.tarZ += dist*Math.sin(main.player.rotY - Math.PI/2);
+					}
+					else if (i == 115 - 97) //s
+					{
+						//Limit movement to an axis
+						main.player.posX -= dist*Math.cos(main.player.rotY);
+						main.player.tarX -= dist*Math.cos(main.player.rotY);
+						main.player.posZ -= dist*Math.sin(main.player.rotY);
+						main.player.tarZ -= dist*Math.sin(main.player.rotY);
+					}
+					else if (i == 119 - 97) //w
+					{
+						//Limit movement to an axis
+						main.player.posX += dist*Math.cos(main.player.rotY);
+						main.player.tarX += dist*Math.cos(main.player.rotY);
+						main.player.posZ += dist*Math.sin(main.player.rotY);
+						main.player.tarZ += dist*Math.sin(main.player.rotY);
+					}
+					//Prevent height changes to make mousing over tiles easier
+					else if (i == 113 - 97) //q
+					{
+						//Limit movement to an axis
+						main.player.posY -= dist;
+						main.player.tarY -= dist;
+					}
+					else if (i == 101 - 97) //e
+					{
+						//Limit movement to an axis
+						main.player.posY += dist;
+						main.player.tarY += dist;
+					}
+					//if (i == 0 || i == 3 || i == 4 || i == 16 || i == 18 || i == 22)
+					if (i == 0 || i == 3 || i == 18 || i == 22)
+					{
+						//main.setUpdateFrame(50);
+						//if (moving) main.setUpdateFrame(10);
+						moving = true;
+					}
+					//System.out.println(moving);
+					//main.redraw();
 				}
-				else if (i == 100 - 97) //d
-				{
-					//Limit movement to an axis
-					main.player.posX += dist*Math.cos(main.player.rotY - Math.PI/2);
-					main.player.tarX += dist*Math.cos(main.player.rotY - Math.PI/2);
-					main.player.posZ += dist*Math.sin(main.player.rotY - Math.PI/2);
-					main.player.tarZ += dist*Math.sin(main.player.rotY - Math.PI/2);
-				}
-				else if (i == 115 - 97) //s
-				{
-					//Limit movement to an axis
-					main.player.posX -= dist*Math.cos(main.player.rotY);
-					main.player.tarX -= dist*Math.cos(main.player.rotY);
-					main.player.posZ -= dist*Math.sin(main.player.rotY);
-					main.player.tarZ -= dist*Math.sin(main.player.rotY);
-				}
-				else if (i == 119 - 97) //w
-				{
-					//Limit movement to an axis
-					main.player.posX += dist*Math.cos(main.player.rotY);
-					main.player.tarX += dist*Math.cos(main.player.rotY);
-					main.player.posZ += dist*Math.sin(main.player.rotY);
-					main.player.tarZ += dist*Math.sin(main.player.rotY);
-				}
-				//Prevent height changes to make mousing over tiles easier
-				else if (i == 113 - 97) //q
-				{
-					//Limit movement to an axis
-					main.player.posY -= dist;
-					main.player.tarY -= dist;
-				}
-				else if (i == 101 - 97) //e
-				{
-					//Limit movement to an axis
-					main.player.posY += dist;
-					main.player.tarY += dist;
-				}
-				//if (i == 0 || i == 3 || i == 4 || i == 16 || i == 18 || i == 22)
-				if (i == 0 || i == 3 || i == 18 || i == 22)
-				{
-					//main.setUpdateFrame(50);
-					//if (moving) main.setUpdateFrame(10);
-					moving = true;
-				}
-				//System.out.println(moving);
-				//main.redraw();
 			}
 		}
 		if (moving == false && lastMoving) //if the player has stopped moving
@@ -558,13 +566,22 @@ public class InputSystem extends BaseSystem {
 
 	public void executeAction(char key)
 	{
-		if (main.menuSystem.console != null)
-		{
-			
-		}
 		String action = keyPressBinds.get(key);
 		//if (action != null) {System.out.println(action);}
 		if (action == null) return;
+		if (main.menuSystem.console != null) //Give priority to toggling console
+		{
+			if (action.equals("CONSOLE"))
+			{
+				main.menuSystem.console = null;
+				return;
+			}
+			if (key == main.BACKSPACE && !main.menuSystem.console.isEmpty())
+				main.menuSystem.console = main.menuSystem.console.substring(0, main.menuSystem.console.length()-1);
+			else
+				main.menuSystem.console += key;
+			return;
+		}
 		if (action.equals("ADVANCE_TURN"))
 		{
 			Civilization civ = main.grid.civs[0];
@@ -671,8 +688,6 @@ public class InputSystem extends BaseSystem {
 		{
 			if (main.menuSystem.console == null)
 				main.menuSystem.console = "";
-			else 
-				main.menuSystem.console = null;
 		}
 	}
 

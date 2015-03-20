@@ -24,7 +24,7 @@ public class Game extends PApplet {
 	//public String gameMode = "MainMenu";
 	public String challengeType = "", civChoice = "";
 	public int numCivs = 2, numCityStates = 0, difficultyLevel = 1;
-	public boolean automaticSelection = true;
+	public boolean automaticSelection = true, testing = false;
 	public ArrayList<Menu> menus;
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public Menu activeMenu;
@@ -100,7 +100,9 @@ public class Game extends PApplet {
 
 		menu4.addButton("randomSeed", "Random Seed", "Get a new random number.", 70, 160, 210, 50);
 		menu4.addButton("useCurrentSeed", "Use Current Seed", "Use the seed of the simulation (must choose terrain).", 70, 220, 210, 50);
-		menu4.addButton("instantSelection", "Toggle Automatic Selection: On", "Allow the game to cycle to the next unit automatically.", 70, 280, 210, 50);
+		menu4.addButton("instantSelection", "Automatic Selection: On", "Allow the game to cycle to the next unit automatically.", 70, 280, 210, 50);
+		TextBox t = menu4.addButton("toggleTesting", "Testing: Off", "Enable developer mode. Gives access to extra graphical display,", 70, 340, 210, 50);
+		t.tooltip.add("as well as the developer console.");
 		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 70, 630, 210, 70);
 
 		menus.add(menu4);
@@ -371,13 +373,17 @@ public class Game extends PApplet {
 	public class PFrame extends JFrame {
 		public PFrame(Game game, int width, int height, int numCivs, int numCityStates, int difficultyLevel, String challengeType, String terrainType, String civChoice, long seed) {
 			setBounds(0, 0, width, height);
-			renderer = new CivGame(game, numCivs, numCityStates, difficultyLevel, challengeType, terrainType, civChoice, seed);
-			renderer.options(automaticSelection);
-			add(renderer);
-			setResizable(false);
-			renderer.init();
-			//setTitle("Survival: Civilization");
-			show();
+			try
+			{
+				renderer = new CivGame(game, numCivs, numCityStates, difficultyLevel, challengeType, terrainType, civChoice, seed);
+				renderer.options(automaticSelection, testing);
+				add(renderer);
+				setResizable(false);
+				renderer.init();
+				//setTitle("Survival: Civilization");
+				show();
+			}
+			catch (Exception e) {e.getLocalizedMessage();}
 		}
 		public PFrame(Game game, int type, int width, int height)
 		{
@@ -562,12 +568,26 @@ public class Game extends PApplet {
 							if (automaticSelection)
 							{
 								automaticSelection = false;
-								b.display.set(0, "Toggle Automatic Selection: Off");
+								b.display.set(0, "Automatic Selection: Off");
 							}
 							else
 							{
 								automaticSelection = true;
-								b.display.set(0, "Toggle Automatic Selection: On");
+								b.display.set(0, "Automatic Selection: On");
+							}
+						}
+						else if (command.equals("toggleTesting"))
+						{
+							TextBox b = menus.get(4).findButtonByCommand("toggleTesting");
+							if (testing)
+							{
+								testing = false;
+								b.display.set(0, "Testing: Off");
+							}
+							else
+							{
+								testing = true;
+								b.display.set(0, "Testing: On");
 							}
 						}
 						else if (command.equals("randomSeed"))

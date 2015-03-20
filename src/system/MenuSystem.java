@@ -205,6 +205,9 @@ public class MenuSystem extends BaseSystem {
 		text7.monospace = true;
 		textboxes.add(text7);
 
+		TextBox text8 = new TextBox(new ArrayList<String>(),"",main.width/6,50,300,30);
+		textboxes.add(text8);
+		
 		text4.activate(false);
 
 		updateEncyclopedia();
@@ -322,6 +325,16 @@ public class MenuSystem extends BaseSystem {
 		if (textboxes.get(4).active)
 		{
 			updateCivStats();
+		}
+		if (console != null)
+		{
+			textboxes.get(8).active = true;
+			textboxes.get(8).display.clear();
+			textboxes.get(8).display.add(console);
+		}
+		else
+		{
+			textboxes.get(8).active = false;
 		}
 		//menus.get(6).active = ledgerMenu;
 		//System.out.println(loadout + " " + loadoutDisplay);
@@ -541,7 +554,7 @@ public class MenuSystem extends BaseSystem {
 								if (!main.tacticalView)
 								{
 									double[] y = City.staticEval(t);
-									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY-dC*5, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY+dC*5, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
 									PImage img = EntityData.iconMap.get(EntityData.getBiomeName((t.biome)));
 									int len = 20;
 									float iX = pos[0]-dX-len/2, iY = pos[1]-dY+10;										

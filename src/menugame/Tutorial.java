@@ -35,7 +35,7 @@ public class Tutorial extends CivGame {
 	{
 		super(game, 2, 1, 1, "survival", "terrain11", "Athens", 8700L);
 		//keysAllowed[97] = true;
-		super.options(true);
+		super.options(true, false);
 		path = new ArrayList<ArrayList<Character>>();
 		cond = new ArrayList<String>();
 		initialize();
