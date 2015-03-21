@@ -164,7 +164,7 @@ public class CivGame extends PApplet {
 	public float rMouseX = -1, rMouseY = -1;
 	public void mousePressed()
 	{
-		if (!newLine)
+		/*if (!newLine)
 		{
 			print("rHorizontal("+(int)mouseX+","+(int)mouseY);
 		}
@@ -172,7 +172,7 @@ public class CivGame extends PApplet {
 		{
 			println(","+mouseX+","+mouseY+");");
 		}
-		newLine = !newLine;
+		newLine = !newLine;*/
 		//println(player.toString());
 		//println((int)mouseX+","+(int)mouseY);
 		menuSystem.queueClick(mouseX, mouseY);

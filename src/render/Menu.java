@@ -76,7 +76,7 @@ public class Menu {
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			TextBox b = buttons.get(i);
-			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY)
+			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && b.active)
 			{
 				return b;
 			}

@@ -216,7 +216,7 @@ public class MenuSystem extends BaseSystem {
 
 	public PFont arial;
 
-	public boolean menuActivated = false;
+	public boolean menuActivated = false, menuHighlighted = false;
 	public void tick()
 	{
 		//main.textFont(arial);
@@ -1194,6 +1194,15 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 		clicks.clear();
+		
+		menuHighlighted = false;
+		for (int index = 0; index < menus.size(); index++)
+			if (menus.get(index).active())
+				if (menus.get(index).within(main.mouseX, main.mouseY) != null)
+				{
+					menuHighlighted = true;
+					break;
+				}
 
 		if (main.testing)
 		{

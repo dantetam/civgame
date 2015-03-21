@@ -262,7 +262,7 @@ public class InputSystem extends BaseSystem {
 		int[] tile = mouseHelper.findTile(mouseX, mouseY);
 		//System.out.println(":" + mouseX);
 		//System.out.println(mouseX + main.menuSystem.highlightDispX);
-		if (tile == null)
+		if (tile == null || main.menuSystem.menuHighlighted)
 		{
 			main.menuSystem.mouseHighlighted = null;
 		}
