@@ -563,25 +563,9 @@ public class InputSystem extends BaseSystem {
 		}
 		return null;
 	}
-
-	public void executeAction(char key)
+	
+	public void executeAction(String action)
 	{
-		String action = keyPressBinds.get(key);
-		//if (action != null) {System.out.println(action);}
-		if (action == null) return;
-		if (main.menuSystem.console != null) //Give priority to toggling console
-		{
-			if (action.equals("CONSOLE"))
-			{
-				main.menuSystem.console = null;
-				return;
-			}
-			if (key == main.BACKSPACE && !main.menuSystem.console.isEmpty())
-				main.menuSystem.console = main.menuSystem.console.substring(0, main.menuSystem.console.length()-1);
-			else
-				main.menuSystem.console += key;
-			return;
-		}
 		if (action.equals("ADVANCE_TURN"))
 		{
 			Civilization civ = main.grid.civs[0];
@@ -689,6 +673,30 @@ public class InputSystem extends BaseSystem {
 			if (main.menuSystem.console == null)
 				main.menuSystem.console = "";
 		}
+	}
+
+	public void executeAction(char key)
+	{
+		String action = keyPressBinds.get(key);
+		//if (action != null) {System.out.println(action);}
+		if (main.menuSystem.console != null) //Give priority to toggling console
+		{
+			if (action != null)
+			{
+				if (action.equals("CONSOLE"))
+				{
+					main.menuSystem.console = null;
+					return; //Do not add the tilde key to console
+				}
+			}
+			if (key == main.BACKSPACE && !main.menuSystem.console.isEmpty())
+				main.menuSystem.console = main.menuSystem.console.substring(0, main.menuSystem.console.length()-1);
+			else
+				main.menuSystem.console += key;
+			return;
+		}
+		if (action == null) return;
+		executeAction(action);
 	}
 
 }

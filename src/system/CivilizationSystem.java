@@ -783,6 +783,8 @@ public class CivilizationSystem extends BaseSystem {
 					}
 				}
 			}
+			if (main != null)
+				main.inputSystem.executeAction("ADVANCE_TURN"); //Simulate a press of the space bar, which advances to next unit
 		}
 		if (main != null)
 			main.menuSystem.techMenu.setupButtons();
