@@ -1071,6 +1071,7 @@ public class EntityData {
 	//Temp. replace with a hashmap
 	public static void queueTileImprovement(GameEntity en, String tileImpr)
 	{
+		//System.out.println(">>> " + tileImpr);
 		en.queue = tileImpr;
 		en.queueTurns = tileImprovementTime(en, tileImpr);
 	}

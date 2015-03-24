@@ -1194,7 +1194,7 @@ public class MenuSystem extends BaseSystem {
 			}
 		}
 		clicks.clear();
-		
+
 		menuHighlighted = false;
 		for (int index = 0; index < menus.size(); index++)
 			if (menus.get(index).active())
@@ -1659,7 +1659,8 @@ public class MenuSystem extends BaseSystem {
 			{
 				EntityData.queueTileImprovement(en, "Farm");
 			}
-			en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
+			if (en.queue != null && !en.queue.isEmpty())
+				en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 		}
 		else if (command.equals("buildMine"))
 		{
@@ -1678,7 +1679,8 @@ public class MenuSystem extends BaseSystem {
 					EntityData.queueTileImprovement(en, "Mine");
 				}
 			}
-			en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
+			if (en.queue != null && !en.queue.isEmpty())
+				en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 		}
 		else if (command.equals("buildRoad"))
 		{
@@ -1816,15 +1818,18 @@ public class MenuSystem extends BaseSystem {
 		else if (command.contains("research"))
 		{
 			Tech t = main.grid.civs[0].techTree.researched(command.substring(8));
-			if (t.requisite.researched() || t.alternative.researched())
+			if (t.requisite != null && t.requisite.researched())
+			{
+				main.grid.civs[0].researchTech = command.substring(8);
+				menus.get(5).activate(false); techMenu.activate(false);
+			} 
+			else if (t.alternative != null && t.alternative.researched())
 			{
 				main.grid.civs[0].researchTech = command.substring(8);
 				menus.get(5).activate(false); techMenu.activate(false);
 			} 
 			else
-			{
 				message(t.name + " is not unlocked.");
-			}
 		}
 		//Change a government or economic civic
 		else if (command.contains("gCivic"))

@@ -955,6 +955,7 @@ public class RenderSystem extends BaseSystem {
 	{
 		//main.pushMatrix();
 		main.texture(textures[0][0]);
+		main.noStroke();
 		float[][] model = EntityData.getModel(name);
 		if (model != null)
 		{
