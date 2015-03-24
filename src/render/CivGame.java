@@ -133,7 +133,13 @@ public class CivGame extends PApplet {
 		Tile t = grid.civs[0].units.get(0).location; //First settler
 		fixCamera(t.row, t.col); //Center the camera at the appropriate location
 
-		if (testing)
+		for (int i = 0; i < grid.civs.length; i++)
+		{
+			Civilization civ = grid.civs[i];
+			civ.war = Math.min(1, civ.war*2);
+			civ.tallwide = Math.min(0, civ.tallwide/2);
+		}
+		/*if (testing)
 		{
 			for (int i = 0; i < grid.civs.length; i++)
 			{
@@ -141,7 +147,7 @@ public class CivGame extends PApplet {
 				civ.war = Math.min(1, civ.war*2);
 				civ.tallwide = Math.min(0, civ.tallwide/2);
 			}
-		}
+		}*/
 		
 		pg = createGraphics((int)width, (int)height, P3D);
 	}

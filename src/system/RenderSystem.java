@@ -653,6 +653,16 @@ public class RenderSystem extends BaseSystem {
 				renderUniqueModel("Ruins",150,225,255,0,-5,0,r,c);
 			main.popMatrix();
 		}
+		else if (en.getName().equals("Farm"))
+		{
+			main.pushMatrix();
+			main.translate(r*widthBlock, 0, c*widthBlock);
+			if (main.testing)
+				renderModel("OldFarm",r,c,150,225,255);
+			else
+				renderUniqueModel("Farm",150,225,255,0,-5,0,r,c);
+			main.popMatrix();
+		}
 		else
 		{
 			if (en.owner != null)
