@@ -4,7 +4,6 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 import processing.opengl.*;
 
 import java.awt.event.KeyEvent;
@@ -13,6 +12,7 @@ import java.util.Random;
 
 import data.Color;
 import data.ColorImage;
+import data.EntityData;
 import terrain.*;
 import system.*;
 import entity.Player;
@@ -593,7 +593,7 @@ public class CivGame extends PApplet {
 				{
 					if (candidates[i])
 					{
-						if (Math.random() < 0.0125)
+						if (Math.random() < EntityData.resourceLevels[i])
 						{
 							resources[r][c] = i;
 						}

@@ -554,7 +554,12 @@ public class MenuSystem extends BaseSystem {
 								if (!main.tacticalView)
 								{
 									double[] y = City.staticEval(t);
-									main.newMenuSystem.tileIcon(pos[0]-dX, pos[1]-dY+dC*5, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									//float height = pos[1]-dY+(5-dC)*8;
+									float height = pos[1]-dY+25;
+									//if (dC >= 1)
+										//height += 20*dC; //height = pos[1]-dY;
+									main.newMenuSystem.tileIcon(pos[0]-dX, height, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
+									//main.rect(pos[0]-dX-5, height-5+25, 10, 10);
 									PImage img = EntityData.iconMap.get(EntityData.getBiomeName((t.biome)));
 									int len = 20;
 									float iX = pos[0]-dX-len/2, iY = pos[1]-dY+10;										

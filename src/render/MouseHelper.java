@@ -98,6 +98,7 @@ public class MouseHelper {
 			float h = (horizonLines.get(i).yPoint + horizonLines.get(i+1).yPoint)/2;
 			rHorizontal(0, h, width, h);
 		}
+		//rHorizontal(0, 900, width, 900);
 
 		//horizontal(751,373,807,374);
 

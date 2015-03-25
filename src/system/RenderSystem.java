@@ -549,13 +549,17 @@ public class RenderSystem extends BaseSystem {
 					}*/
 					int res = t.resource;
 					if (res != 0)
-					{
-						if (res >= 20 && res <= 29 && !main.testing)
+					{							
+						Color cr = EntityData.getResourceColor(res);
+						if (res >= 0 && res <= 9 && !main.testing) //Organics
 						{
-							Color rockColor = EntityData.getResourceColor(res);
-							renderUniqueModel("Rock",(float)rockColor.r*255F,(float)rockColor.g*255F,(float)rockColor.b*255F,0,-5,0,r,c);
+							renderUniqueModel("Wheat",(float)cr.r*255F,(float)cr.g*255F,(float)cr.b*255F,0,-2,0,r,c);
 						}
-						else
+						else if (res >= 20 && res <= 29 && !main.testing) //Rocks
+						{
+							renderUniqueModel("Rock",(float)cr.r*255F,(float)cr.g*255F,(float)cr.b*255F,0,-5,0,r,c);
+						}
+						else //Default
 						{
 							main.pushMatrix();
 							main.fill(EntityData.getResourceColor(res));
@@ -968,7 +972,9 @@ public class RenderSystem extends BaseSystem {
 				else if ((int)t[0] == 1)
 					main.fill(red,green,blue);
 				main.translate(t[1]+dx,t[2]+dy,t[3]+dz);
-				if (name.contains("Rock") || name.contains("Ruin") || name.contains("City") || name.contains("Forest"))
+				//if (name.contains("Rock") || name.contains("Ruin") || name.contains("City") || name.contains("Forest"))
+				//Distinguish unique models; is the last character a digit?
+				if (Character.isDigit(name.substring(name.length() - 1).toCharArray()[0])) 
 				{
 					main.rotateX((float)Math.toDegrees(t[4])); 
 					main.rotateZ((float)Math.toDegrees(t[6]));

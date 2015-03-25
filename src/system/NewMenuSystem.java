@@ -78,7 +78,7 @@ public class NewMenuSystem extends BaseSystem {
 		//Show biome
 		//image = EntityData.iconMap.get("Capital");
 		//main.image(image, posX - 3*len/2, posY - 30 - len/2, len, len);
-		int len = 24;
+		int len = 24, off = 0; //off = -30
 		
 		int i = 0;
 		//main.image(image, posX - len/2 - len, posY - 30 - i*30 - len/2, len, len);
@@ -86,13 +86,13 @@ public class NewMenuSystem extends BaseSystem {
 		//f g
 		//m r
 		main.tint(0,255,0,alpha);
-		main.image(EntityData.iconMap.get("food"), posX - len/2, posY - 30 - i*30 - len/2, len/2, len/2);
+		main.image(EntityData.iconMap.get("food"), posX - len/2, posY + off - i*30 - len/2, len/2, len/2);
 		main.tint(255,150,0,alpha);
-		main.image(EntityData.iconMap.get("metal"), posX - len/2, posY - 30 - i*30, len/2, len/2);
+		main.image(EntityData.iconMap.get("metal"), posX - len/2, posY + off - i*30, len/2, len/2);
 		main.tint(255,255,0,alpha);
-		main.image(EntityData.iconMap.get("gold"), posX - len/2 + len, posY - 30 - i*30 - len/2, len/2, len/2);
+		main.image(EntityData.iconMap.get("gold"), posX - len/2 + len, posY + off - i*30 - len/2, len/2, len/2);
 		main.tint(150,225,255,alpha);
-		main.image(EntityData.iconMap.get("research"), posX - len/2 + len, posY - 30 - i*30, len/2, len/2);
+		main.image(EntityData.iconMap.get("research"), posX - len/2 + len, posY + off - i*30, len/2, len/2);
 
 		alpha = 155;
 		
@@ -105,10 +105,10 @@ public class NewMenuSystem extends BaseSystem {
 		main.fill(255,255,255,alpha);
 		main.pushStyle();
 		main.textSize(12);
-		main.text(f, posX, posY - 30 - i*10 - len/2);
-		main.text(m, posX, posY - 30 - i*10);
-		main.text(g, posX + len, posY - 30 - i*10 - len/2);
-		main.text(r, posX + len, posY - 30 - i*10);
+		main.text(f, posX, posY + off - i*10 - len/2);
+		main.text(m, posX, posY + off - i*10);
+		main.text(g, posX + len, posY + off - i*10 - len/2);
+		main.text(r, posX + len, posY + off - i*10);
 		main.popStyle();
 	}
 	

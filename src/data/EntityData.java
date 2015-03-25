@@ -33,6 +33,7 @@ public class EntityData {
 	public static HashMap<String,CityState> cityStates;
 	
 	public static HashMap<String,int[]> yield;
+	public static double[] resourceLevels;
 
 	public EntityData()
 	{
@@ -72,6 +73,7 @@ public class EntityData {
 		setYields();
 		setupFields();
 		setupCivBonuses();
+		setResourceLevels();
 
 		//setModels();
 		/*for (Entry<String, Integer> en : f.entrySet())
@@ -915,6 +917,7 @@ public class EntityData {
 	}
 
 	//Decide which city improvement is best
+	//Use a loop to iterate through candidates
 	public static String bestBuilding(City c)
 	{
 		ArrayList<String> allowed = c.owner.techTree.allowedCityImprovements;
@@ -922,7 +925,8 @@ public class EntityData {
 		if (c.cityFocus == 3)
 		{
 			if (Math.random() < 0.25)
-				if (allowed(c,"Warehouse")) return "Warehouse";
+				if (allowed(c,"Warehouse")) 
+					return "Warehouse";
 			if (allowed(c,"Port")) return "Port";
 			if (allowed(c,"Market")) return "Market";
 			if (allowed(c,"Metalworks")) return "Metalworks";
@@ -931,7 +935,8 @@ public class EntityData {
 		else if (c.cityFocus == 2)
 		{
 			if (Math.random() < 0.25)
-				if (allowed(c,"Warehouse")) return "Warehouse";
+				if (allowed(c,"Warehouse")) 
+					return "Warehouse";
 			if (allowed(c,"Metalworks")) return "Metalworks";
 			if (allowed(c,"Walls")) return "Walls";
 			if (allowed(c,"Stables")) return "Stables";
@@ -947,7 +952,8 @@ public class EntityData {
 		else
 		{
 			if (Math.random() < 0.25)
-				if (allowed(c,"Warehouse")) return "Warehouse";
+				if (allowed(c,"Warehouse")) 
+					return "Warehouse";
 			if (allowed(c,"Port")) return "Port";
 			if (allowed(c,"Market")) return "Market";
 		}
@@ -1142,6 +1148,15 @@ public class EntityData {
 			//System.err.println("Invalid resource " + res);
 			return null;
 		}
+	}
+	
+	public static void setResourceLevels()
+	{
+		resourceLevels = new double[41];
+		for (int i = 0; i < resourceLevels.length; i++)
+			resourceLevels[i] = 0.0125;
+		resourceLevels[1] = 0.04;
+		resourceLevels[2] = 0.03;
 	}
 
 	public static void passModelData(String name, String[] data)
