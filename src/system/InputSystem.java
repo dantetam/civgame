@@ -606,13 +606,7 @@ public class InputSystem extends BaseSystem {
 			}
 			else
 			{
-				main.menuSystem.textboxes.get(5).display.clear();
-				main.menuSystem.textboxes.get(5).display.add(0, "A UNIT NEEDS ORDERS");
-				main.menuSystem.textboxes.get(5).tooltip.set(0, "Please order your unit.");
-				main.fixCamera(selected.location.row, selected.location.col);
-				main.menuSystem.select(selected);
-				main.chunkSystem.update();
-				main.requestUpdate();
+				main.menuSystem.selectAndFocus(selected);
 			}
 		}
 		/*else if (key == 'c')

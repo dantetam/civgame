@@ -312,7 +312,7 @@ public class Game extends PApplet {
 					tooltip.sizeY = d[1];
 					tooltip.posX = mouseX;
 					tooltip.posY = mouseY;
-					fill(0);
+					fill(0,100);
 					stroke(255);
 					rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
 					fill(255);
@@ -321,7 +321,7 @@ public class Game extends PApplet {
 						text(hover.tooltip.get(0), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10);
 					else
 						for (int i = 0; i < hover.tooltip.size(); i++)
-							text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 14*i);
+							text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 7 + 14*i);
 				}
 			}
 			/*float len = 100;
@@ -616,7 +616,7 @@ public class Game extends PApplet {
 	}
 
 	//No alternative solution for looking in files yet
-	private String[] models = {"Fishing Boats","Galley","Lumbermill","Mine","Settler","Transport","Warrior","Windmill","Work Boat","Worker",
+	private String[] models = {"FishingBoats","Galley","Lumbermill","Mine","Settler","Transport","Warrior","Windmill","WorkBoat","Worker",
 			"City","OldCity","OldFarm","OldForest","OldRuins",
 			"Farm1","Farm2","Farm3","Farm4","Farm5",
 			"Forest1","Forest2","Forest3","Forest4",
@@ -628,7 +628,7 @@ public class Game extends PApplet {
 			"attack", "cityhealth", "defense", "health", "population", "ranged", "speed",
 			"food", "gold", "metal", "research",
 			"Fish", "Rice", "Rock", "Spring", "Stones", "Tree", "Wheat",
-			"Ice", "Taiga", "Desert", "Steppe", "Dry Forest", "Forest", "Rainforest"};
+			"Ice", "Taiga", "Desert", "Steppe", "DryForest", "Forest", "Rainforest"};
 	private void setModels()
 	{
 		for (int i = 0; i < models.length; i++)
@@ -652,6 +652,7 @@ public class Game extends PApplet {
 		colorImage("IronTools", "Worker", 255, 255, 255);
 
 		colorImage("Wheat", "Wheat", 255, 150, 0);
+		colorImage("Rice", "Wheat", 255, 255, 255);
 		colorImage("Copper", "Stones", 255, 150, 0);
 		colorImage("Iron", "Stones", 255, 255, 255);
 		colorImage("Coal", "Rock", 50, 50, 50);

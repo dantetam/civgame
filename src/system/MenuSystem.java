@@ -705,6 +705,11 @@ public class MenuSystem extends BaseSystem {
 												//main.rectMode(main.LEFT);
 												if (en.mode != 0)
 												{
+													//TODO
+													//Redefine this type of unit stat rendering
+													//as a function which accepts a unit and some of its stat types as input
+													//and renders in correct order at the appropriate location
+														
 													//4*len to compensate for unit strength GUI
 													iX = pos[0] - dX - len/2 - len; iY = pos[1] - dY - 30 - i*30 - len/2;
 													main.image(image, iX, iY, len, len);
@@ -2812,6 +2817,17 @@ public class MenuSystem extends BaseSystem {
 		return selected;
 	}
 
+	public void selectAndFocus(BaseEntity en)
+	{
+		textboxes.get(5).display.clear();
+		textboxes.get(5).display.add(0, "A UNIT NEEDS ORDERS");
+		textboxes.get(5).tooltip.set(0, "Please order your unit.");
+		select(en);
+		main.fixCamera(en.location.row, en.location.col);
+		main.chunkSystem.update();
+		main.requestUpdate();
+	}
+	
 	public void select(BaseEntity en)
 	{
 		selected = en;
