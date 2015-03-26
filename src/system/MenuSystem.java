@@ -719,23 +719,23 @@ public class MenuSystem extends BaseSystem {
 													main.image(EntityData.iconMap.get("health"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30, len/2, len/2);
 
 													main.fill(0);
-													main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
-													main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10, len/2, len/2);
-													main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
-													main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10, len/2, len/2);
+													main.rect(pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+													main.rect(pos[0] - dX, pos[1] - dY - 30 - i*30, len/2, len/2);
+													main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+													main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*30, len/2, len/2);
 													main.textAlign(main.LEFT, main.TOP);
 													main.fill(255);
-													main.text((int)en.offensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2);
-													main.text((int)en.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10);
-													main.text((int)en.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2);
-													main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*10);
+													main.text((int)en.offensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2);
+													main.text((int)en.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30);
+													main.text((int)en.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2);
+													main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*30);
 
 													//image = EntityData.iconMap.get("CopperWeapons");
 													//main.image(image, iX + len*0.6F, iY + len*0.6F, len*0.4F, len*0.4F);
 												}
 												else
 												{
-													iX = pos[0] - dX - len/2; iY = pos[1] - dY - 60 - i*10 - len/2;
+													iX = pos[0] - dX - len/2; iY = pos[1] - dY - 30 - i*30 - len/2;
 													main.image(image, iX, iY, len, len);
 												}
 												main.popStyle();
@@ -784,16 +784,16 @@ public class MenuSystem extends BaseSystem {
 										main.image(EntityData.iconMap.get("cityhealth"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30, len/2, len/2);
 
 										main.fill(0);
-										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
-										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*10, len/2, len/2);
-										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2, len/2, len/2);
-										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*10, len/2, len/2);
+										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*30, len/2, len/2);
+										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*30, len/2, len/2);
 										main.textAlign(main.LEFT, main.TOP);
 										main.fill(255);
-										main.text((int)city.population, pos[0] - dX, pos[1] - dY - 30 - i*10 - len/2);
-										main.text((int)city.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*10);
-										main.text((int)city.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*10 - len/2);
-										main.text((int)city.health, pos[0] - dX + len, pos[1] - dY - 30 - i*10);
+										main.text((int)city.population, pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2);
+										main.text((int)city.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30);
+										main.text((int)city.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2);
+										main.text((int)city.health, pos[0] - dX + len, pos[1] - dY - 30 - i*30);
 									}
 								}
 							}
