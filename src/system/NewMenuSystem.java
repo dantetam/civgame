@@ -78,6 +78,7 @@ public class NewMenuSystem extends BaseSystem {
 		//Show biome
 		//image = EntityData.iconMap.get("Capital");
 		//main.image(image, posX - 3*len/2, posY - 30 - len/2, len, len);
+		main.noStroke();
 		int len = 24, off = 0; //off = -30
 		
 		int i = 0;
@@ -298,6 +299,7 @@ public class NewMenuSystem extends BaseSystem {
 
 	public void largeFieldIcon(float posX, float posY, Tile t, float len)
 	{
+		main.noStroke();
 		float[] fill = new float[4];
 		if (t.owner == null)
 		{

@@ -34,12 +34,12 @@ public class RenderSystem extends BaseSystem {
 	public void tick()
 	{
 		Tile h = main.menuSystem.highlighted;
-		
+
 		main.background(255);
 		main.perspective(3.14F/2,15F/9F,1,10000);
 		setCamera();
 		main.noLights();
-		
+
 		/*if (h != null && requestUpdate)
 		{
 			int sight = 5;
@@ -62,17 +62,17 @@ public class RenderSystem extends BaseSystem {
 				{
 					if (main.get(x,y) == main.color(0,0,255))
 					{
-						
+
 					}
 				}
 			}
 		}*/
-		
+
 		if (h != null && requestUpdate)
 		{
 			//PMatrix3D projMatrix = new PMatrix3D(1,0,0,);
 		}
-		
+
 		main.background(150,225,255);
 		//Pre-processing
 		/*Tile tile = main.menuSystem.highlighted;
@@ -133,7 +133,7 @@ public class RenderSystem extends BaseSystem {
 		//System.out.println(player);
 		main.shader(main.lightShader, main.TRIANGLES);
 		setCamera();
-		
+
 		/*System.out.println("Yooo");
 		PMatrix3D matrix = main.pg.getMatrix((PMatrix3D)null);
 		System.out.println(matrix.m00 + ", " + matrix.m01 + ", " + matrix.m02 + ", " + matrix.m03);
@@ -309,6 +309,7 @@ public class RenderSystem extends BaseSystem {
 			Tile t = main.grid.getTile(r,c);
 			boolean strokedColor = false; 
 			float sampleSize = 1;
+			int n = 1; //Number of 3D squares display
 			Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(t.biome));
 			if (t.shape == 2) color = new Color(1,1,1);
 			if (!hidden)
@@ -357,6 +358,13 @@ public class RenderSystem extends BaseSystem {
 					strokedColor = true;
 				}
 			}
+			if (main.menuSystem.getSelected() != null)
+				if (main.menuSystem.getSelected().location.equals(t))
+				{
+					main.stroke(150,225,255);
+					n = 3;
+					strokedColor = true;
+				}
 			if (!strokedColor) //Don't overwrite a previous stroke
 			{
 				if (civ != null && !hidden)
@@ -435,25 +443,30 @@ public class RenderSystem extends BaseSystem {
 				main.endShape();*/
 				//Replace with 4 loops later
 				//done
-				for (float i = 0; i < m; i++)
+				//Render sets of multiple sets
+				float off = 3;
+				for (int layer = 0; layer < n; layer++)
 				{
-					if (!strokedColor && civ != null)
+					for (float i = 0; i < m; i++)
 					{
-						if (i % 2 == 0)
+						if (!strokedColor && civ != null)
 						{
-							main.stroke(civ.r, civ.g, civ.b);
+							if (i % 2 == 0)
+							{
+								main.stroke(civ.r, civ.g, civ.b);
+							}
+							else
+							{
+								main.stroke(civ.sR, civ.sG, civ.sB);
+							}
 						}
-						else
-						{
-							main.stroke(civ.sR, civ.sG, civ.sB);
-						}
+						main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m]+layer*off, c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m]+layer*off, c*widthBlock);
+						main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m]+layer*off, (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m]+layer*off, (c+1)*widthBlock);
+						main.line(r*widthBlock, vertices[r*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
+						main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
+						//main.line((r+1)*widthBlock, vertices[r*m + (int)i][c*m], (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1], (c+(((float)i+1)/m))*widthBlock);
+						//main.line((r+(i/m))*widthBlock, (float)vertices[r*m + i][(c+1)*m], (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, (float)vertices[r*m + i + 1][(c+1)*m], (c+1)*widthBlock);
 					}
-					main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m], c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m], c*widthBlock);
-					main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m], (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m], (c+1)*widthBlock);
-					main.line(r*widthBlock, vertices[r*m][c*m + (int)i], (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1], (c+(((float)i+1)/m))*widthBlock);
-					main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i], (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1], (c+(((float)i+1)/m))*widthBlock);
-					//main.line((r+1)*widthBlock, vertices[r*m + (int)i][c*m], (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1], (c+(((float)i+1)/m))*widthBlock);
-					//main.line((r+(i/m))*widthBlock, (float)vertices[r*m + i][(c+1)*m], (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, (float)vertices[r*m + i + 1][(c+1)*m], (c+1)*widthBlock);
 				}
 				//only for case 3
 				/*main.line(r*widthBlock, (float)vertices[r*m][c*m], c*widthBlock, (r+(1F/m))*widthBlock, (float)vertices[r*m + 1][c*m], c*widthBlock);

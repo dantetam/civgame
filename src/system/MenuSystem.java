@@ -621,7 +621,8 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(14).buttons.clear();
 		}
-
+		
+		main.strokeWeight(1);
 		if (h != null)
 		{
 			for (int r = 0; r < mh.guiPositions.length; r++)

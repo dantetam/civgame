@@ -63,6 +63,7 @@ public class Tile {
 	
 	public boolean equals(Tile t)
 	{
+		if (t == null) return false;
 		return row == t.row && col == t.col;
 	}
 	
