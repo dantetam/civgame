@@ -1,3 +1,0 @@
-
-render.Game
-Game.jar,gluegen-rt-natives-windows-amd64.jar,gluegen-rt-natives-windows-i586.jar,gluegen-rt.jar,jogl-all-natives-windows-amd64.jar,jogl-all-natives-windows-i586.jar,jogl-all.jar,core.jar,gluegen-rt-natives-macosx-universal.jar,jogl-all-natives-macosx-universal.jar

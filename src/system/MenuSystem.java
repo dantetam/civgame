@@ -487,6 +487,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		Tile h = highlighted;
 		MouseHelper mh = main.inputSystem.mouseHelper;
+		main.noStroke();
 		if (selected != null) //Allow GUI to show elements specific to selected unit
 		{
 			if (selected.owner != null && !(selected instanceof City))
@@ -557,7 +558,7 @@ public class MenuSystem extends BaseSystem {
 									//float height = pos[1]-dY+(5-dC)*8;
 									float height = pos[1]-dY+25;
 									//if (dC >= 1)
-										//height += 20*dC; //height = pos[1]-dY;
+									//height += 20*dC; //height = pos[1]-dY;
 									main.newMenuSystem.tileIcon(pos[0]-dX, height, (int)y[0], (int)y[1], (int)y[2], (int)y[3]);
 									//main.rect(pos[0]-dX-5, height-5+25, 10, 10);
 									PImage img = EntityData.iconMap.get(EntityData.getBiomeName((t.biome)));
@@ -582,14 +583,14 @@ public class MenuSystem extends BaseSystem {
 									{
 										main.tint(255,255,255,255);
 										main.pushStyle();
-										if (t.owner != null)
+										/*if (t.owner != null)
 										{
 											main.strokeWeight(3);
 											main.noFill();
 											main.stroke(t.owner.r, t.owner.g, t.owner.b);
 											main.rect(iX, iY, len, len);
-										}
-										main.image(img, iX, iY, len, len);
+										}*/
+										main.image(img, iX, iY + 2*len, len, len);
 										main.popStyle();
 										//iX = pos[0]-dX-len/2; iY = pos[1]-dY+20-len/2;
 									}
@@ -621,7 +622,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			menus.get(14).buttons.clear();
 		}
-		
+
 		main.strokeWeight(1);
 		if (h != null)
 		{
@@ -710,7 +711,7 @@ public class MenuSystem extends BaseSystem {
 													//Redefine this type of unit stat rendering
 													//as a function which accepts a unit and some of its stat types as input
 													//and renders in correct order at the appropriate location
-														
+
 													//4*len to compensate for unit strength GUI
 													iX = pos[0] - dX - len/2 - len; iY = pos[1] - dY - 30 - i*30 - len/2;
 													main.image(image, iX, iY, len, len);
@@ -1178,32 +1179,11 @@ public class MenuSystem extends BaseSystem {
 				shortcuts = new Button[10];
 				//System.out.println(menu);
 				if (menus.get(menu).active() && !menus.get(menu).noShortcuts)
-				{
-					int iter = 1;
-					for (int i = 0; i < menus.get(menu).buttons.size(); i++)
-						//for (int i = menus.get(menu).buttons.size() - 1; i >= 0; i--)
-					{
-						//if (i >= menus.get(menu).buttons.size()) break;
-						TextBox b = menus.get(menu).buttons.get(i);
-						if (b instanceof Button && b.shortcut)
-						{
-							shortcuts[iter] = (Button)b;
-							if (iter == 9) //Loop from 1 to 9 to 0 for shortcut keys
-								iter = 0;
-							else if (iter == 0)
-								break;
-							else
-								iter++;
-						}
-						//System.out.println("Assign shortcut " + iter);
-					}
-				}
-				else
-				{
-
-				}
+					makeShortcut(menus.get(menu));
 			}
 		}
+		if (techMenu.active())
+			makeShortcut(techMenu);
 		clicks.clear();
 
 		menuHighlighted = false;
@@ -1288,6 +1268,28 @@ public class MenuSystem extends BaseSystem {
 		main.strokeWeight(1);
 	}
 
+	public void makeShortcut(Menu menu)
+	{
+		int iter = 1;
+		for (int i = 0; i < menu.buttons.size(); i++)
+			//for (int i = menus.get(menu).buttons.size() - 1; i >= 0; i--)
+		{
+			//if (i >= menus.get(menu).buttons.size()) break;
+			TextBox b = menu.buttons.get(i);
+			if (b instanceof Button && b.shortcut)
+			{
+				shortcuts[iter] = (Button)b;
+				if (iter == 9) //Loop from 1 to 9 to 0 for shortcut keys
+					iter = 0;
+				else if (iter == 0)
+					break;
+				else
+					iter++;
+			}
+			//System.out.println("Assign shortcut " + iter);
+		}
+	}
+
 	public void displayMenu(int menu)
 	{
 		if (menus.get(menu).active())
@@ -1307,19 +1309,23 @@ public class MenuSystem extends BaseSystem {
 				for (int i = 0; i < techMenu.buttons.size(); i++)
 				{
 					TextBox b = techMenu.buttons.get(i);
-					main.fill(b.r, b.g, b.b);
-					//main.stroke(b.borderR, b.borderG, b.borderB);
-					if (b.shape == 0)
-						main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
-					else if (b.shape == 1)
-						main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
-					else
-						System.out.println("Invalid button shape: " + b.shape);
-					main.textAlign(PApplet.CENTER, PApplet.CENTER);
-					main.fill(255);
-					displayText(b);
-					main.fill(255,0,0);
-					//System.out.println(b.display.get(0) + ": " + b.posX + " " + b.posY + " " + b.sizeX + " " + b.sizeY);
+					if (b.active)
+					{
+						main.fill(b.r, b.g, b.b);
+						//main.stroke(b.borderR, b.borderG, b.borderB);
+						if (b.shape == 0)
+							main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+						else if (b.shape == 1)
+							main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+						else
+							System.out.println("Invalid button shape: " + b.shape);
+						main.textAlign(PApplet.CENTER, PApplet.CENTER);
+						main.fill(255);
+						displayText(b);
+						main.fill(255,0,0);
+						//System.out.println(b.display.get(0) + ": " + b.posX + " " + b.posY + " " + b.sizeX + " " + b.sizeY);
+						shortcutText(b);
+					}
 				}
 				main.popStyle();
 			}
@@ -1388,20 +1394,25 @@ public class MenuSystem extends BaseSystem {
 									}
 								}
 							}
-							for (int j = 0; j < shortcuts.length; j++)
-							{
-								//System.out.println(shortcuts[j]); 
-								if (shortcuts[j] != null)
-									if (shortcuts[j].equals(b))
-									{
-										main.text("[" + j + "]", b.posX + b.sizeX*0.9F, b.posY + b.sizeY/2);
-										//System.out.println("Text");
-									}
-							}
+							shortcutText(b);
 						}
 					}
 				}
 			}
+		}
+	}
+	
+	private void shortcutText(TextBox b)
+	{
+		for (int j = 0; j < shortcuts.length; j++)
+		{
+			//System.out.println(shortcuts[j]); 
+			if (shortcuts[j] != null)
+				if (shortcuts[j].equals(b))
+				{
+					main.text("[" + j + "]", b.posX + b.sizeX*0.9F, b.posY + b.sizeY/2);
+					//System.out.println("Text");
+				}
 		}
 	}
 
@@ -2828,7 +2839,7 @@ public class MenuSystem extends BaseSystem {
 		main.chunkSystem.update();
 		main.requestUpdate();
 	}
-	
+
 	public void select(BaseEntity en)
 	{
 		selected = en;

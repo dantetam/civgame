@@ -358,13 +358,24 @@ public class RenderSystem extends BaseSystem {
 					strokedColor = true;
 				}
 			}
-			if (main.menuSystem.getSelected() != null)
+			if (main.menuSystem.stack != null && main.menuSystem.stack.size() > 0)
+			{
+				if (main.menuSystem.stack.get(0).location.equals(t))
+				{
+					main.stroke(0,100,255);
+					n = 5;
+					strokedColor = true;
+				}
+			}
+			else if (main.menuSystem.getSelected() != null)
+			{
 				if (main.menuSystem.getSelected().location.equals(t))
 				{
 					main.stroke(150,225,255);
 					n = 3;
 					strokedColor = true;
 				}
+			}
 			if (!strokedColor) //Don't overwrite a previous stroke
 			{
 				if (civ != null && !hidden)
@@ -571,6 +582,10 @@ public class RenderSystem extends BaseSystem {
 						else if (res >= 20 && res <= 29 && !main.testing) //Rocks
 						{
 							renderUniqueModel("Rock",(float)cr.r*255F,(float)cr.g*255F,(float)cr.b*255F,0,-5,0,r,c);
+						}
+						else if (res == 30) //Redwood
+						{
+							renderUniqueModel("Forest",200,0,0,0,-2,0,r,c);
 						}
 						else //Default
 						{

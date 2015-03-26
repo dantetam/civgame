@@ -87,19 +87,27 @@ public class TechMenu extends Menu {
 		int turns = MenuSystem.calcQueueTurnsTech(tree.civ, t);
 		String s = t.name;
 		Button b = new Button("research" + s, s, "Research " + s + ".", 0, 0, 0, 0);
+		b.shortcut = false;
 		//Not researched -> black, researched -> blue, researching -> green, candidate -> gray, queuing/researching -> yellow
+		//Give player shortcut buttons for candidates and researching
 		if (t.researched()) {b.color(75,150,205);} //{b.r = tree.civ.r; b.g = tree.civ.g; b.b = tree.civ.b;}
-		else if (tree.civ.researchTech != null && s.equals(tree.civ.researchTech)) {b.color(150,150,0);}
-		else if (t.totalR > 0) {b.color(0,150,0);}
+		else if (tree.civ.researchTech != null && s.equals(tree.civ.researchTech)) {b.color(150,150,0); b.shortcut = true;}
+		else if (t.totalR > 0) {b.color(0,150,0); b.shortcut = true;}
 		else if (t.requisite != null)
 		{
 			if (t.requisite.researched()) 
+			{
 				b.color(150);
+				b.shortcut = true;
+			}
 		}
 		else if (t.alternative != null)
 		{
 			if (t.alternative.researched())
+			{
 				b.color(150);
+				b.shortcut = true;
+			}
 		}
 		//else {b.color(0);}
 		b.display.add("<" + turns + ">");
