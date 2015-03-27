@@ -90,7 +90,7 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu0);
 		int height = 30;
 		//menu0.addButton("exitgame", "Exit", "Exit this session of the game.", main.width - 100, 0, 100, height).lock = true;
-		menu0.addButton("close", "Close", "Close all open menus.", main.width - 100, 70, 100, height).lock = true;
+		menu0.addButton("close", "Close All", "Close all open menus.", main.width - 100, 70, 100, height).lock = true;
 		menu0.addButton("minimap", "Minimap", "Open the minimap of the world.", main.width - 100, 100, 100, height).lock = true;
 		menu0.addButton("info", "Information", "", main.width - 100, 130, 100, height).lock = true;
 		//menu0.buttons.add(new Button("loadout", "Loadout", "Change loadouts of certain units.", main.width - 100, 160, 100, height, 3, 4));
@@ -685,7 +685,41 @@ public class MenuSystem extends BaseSystem {
 							//if (!main.tacticalView)
 							if (true)
 							{
-								float len = 30;
+								float len = 30; boolean cityGui = false;
+								if (t.improvement != null)
+								{
+									if (t.improvement instanceof City)
+									{
+										City city = (City)t.improvement;
+										main.tint(t.improvement.owner.r, t.improvement.owner.g, t.improvement.owner.b);
+										PImage image = city.owner.id >= main.grid.barbarians ? EntityData.iconMap.get("CityIcon") : EntityData.iconMap.get("Barbarian");
+										if (t.improvement.owner.capital != null)
+											if (t.improvement.owner.capital.equals(t.improvement))
+												image = EntityData.iconMap.get("Capital");
+										main.image(image, pos[0] - dX - 3*len/2, pos[1] - dY - 30 - len/2, len, len);
+
+										int i = 0;
+										main.image(image, pos[0] - dX - len/2 - len, pos[1] - dY - 30 - i*30 - len/2, len, len);
+										main.image(EntityData.iconMap.get("population"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+										main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
+										main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+										main.image(EntityData.iconMap.get("cityhealth"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30, len/2, len/2);
+
+										main.fill(0);
+										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*30, len/2, len/2);
+										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
+										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*30, len/2, len/2);
+										main.textAlign(main.LEFT, main.TOP);
+										main.fill(255);
+										main.text((int)city.population, pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2);
+										main.text((int)city.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30);
+										main.text((int)city.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2);
+										main.text((int)city.health, pos[0] - dX + len, pos[1] - dY - 30 - i*30);
+										
+										cityGui = true;
+									}
+								}
 								if (t.occupants.size() > 0)
 								{
 									//for (int i = 0; i < t.occupants.size(); i++)
@@ -713,8 +747,11 @@ public class MenuSystem extends BaseSystem {
 													//and renders in correct order at the appropriate location
 
 													//4*len to compensate for unit strength GUI
-													iX = pos[0] - dX - len/2 - len; iY = pos[1] - dY - 30 - i*30 - len/2;
-													main.image(image, iX, iY, len, len);
+													iX = pos[0] - dX - len/2 - len; iY = pos[1] - dY - (i+1)*len - len/2;
+													if (cityGui)
+														iY -= len;
+													unitStats(en, iX, iY, len);
+													/*main.image(image, iX, iY, len, len);
 													main.image(EntityData.iconMap.get("attack"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
 													main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
 													main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
@@ -730,7 +767,7 @@ public class MenuSystem extends BaseSystem {
 													main.text((int)en.offensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2);
 													main.text((int)en.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30);
 													main.text((int)en.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2);
-													main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*30);
+													main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*30);*/
 
 													//image = EntityData.iconMap.get("CopperWeapons");
 													//main.image(image, iX + len*0.6F, iY + len*0.6F, len*0.4F, len*0.4F);
@@ -764,38 +801,6 @@ public class MenuSystem extends BaseSystem {
 											main.rect(iX + len/4, iY + len/4, len/2, len/2);
 											main.noStroke();
 										}
-									}
-								}
-								if (t.improvement != null)
-								{
-									if (t.improvement instanceof City)
-									{
-										City city = (City)t.improvement;
-										main.tint(t.improvement.owner.r, t.improvement.owner.g, t.improvement.owner.b);
-										PImage image = city.owner.id >= main.grid.barbarians ? EntityData.iconMap.get("CityIcon") : EntityData.iconMap.get("Barbarian");
-										if (t.improvement.owner.capital != null)
-											if (t.improvement.owner.capital.equals(t.improvement))
-												image = EntityData.iconMap.get("Capital");
-										main.image(image, pos[0] - dX - 3*len/2, pos[1] - dY - 30 - len/2, len, len);
-
-										int i = 0;
-										main.image(image, pos[0] - dX - len/2 - len, pos[1] - dY - 30 - i*30 - len/2, len, len);
-										main.image(EntityData.iconMap.get("population"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
-										main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
-										main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
-										main.image(EntityData.iconMap.get("cityhealth"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30, len/2, len/2);
-
-										main.fill(0);
-										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
-										main.rect(pos[0] - dX, pos[1] - dY - 30 - i*30, len/2, len/2);
-										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
-										main.rect(pos[0] - dX + len, pos[1] - dY - 30 - i*30, len/2, len/2);
-										main.textAlign(main.LEFT, main.TOP);
-										main.fill(255);
-										main.text((int)city.population, pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2);
-										main.text((int)city.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30);
-										main.text((int)city.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2);
-										main.text((int)city.health, pos[0] - dX + len, pos[1] - dY - 30 - i*30);
 									}
 								}
 							}
@@ -1424,12 +1429,24 @@ public class MenuSystem extends BaseSystem {
 		main.image(EntityData.iconMap.get("ranged"), iX + len*2, iY, len/2, len/2);
 		main.image(EntityData.iconMap.get("health"), iX + len*2, iY + len/2, len/2, len/2);
 
-		main.textAlign(main.LEFT, main.TOP);
+		/*main.textAlign(main.LEFT, main.TOP);
 		main.fill(255);
 		main.text((int)en.offensiveStr, iX + len/2, iY + len);
 		main.text((int)en.defensiveStr, iX + len/2, iY + len*3/2);
 		main.text((int)en.rangedStr, iX + len*3/2, iY + len);
-		main.text((int)en.health, iX + len*3/2, iY + len*3/2);
+		main.text((int)en.health, iX + len*3/2, iY + len*3/2);*/
+
+		main.fill(0);
+		main.rect(iX + 3*len/2, iY, len/2, len/2);
+		main.rect(iX + 3*len/2, iY + len/2, len/2, len/2);
+		main.rect(iX + 5*len/2, iY, len/2, len/2);
+		main.rect(iX + 5*len/2, iY + len/2, len/2, len/2);
+		main.textAlign(main.LEFT, main.TOP);
+		main.fill(255);
+		main.text((int)en.offensiveStr, iX + 3*len/2, iY);
+		main.text((int)en.defensiveStr, iX + 3*len/2, iY + len/2);
+		main.text((int)en.rangedStr, iX + 5*len/2, iY);
+		main.text((int)en.health, iX + 5*len/2, iY + len/2);
 	}
 
 	public ArrayList<PImage> icon(Tile t)
@@ -1513,6 +1530,7 @@ public class MenuSystem extends BaseSystem {
 
 	public boolean executeAction(String command)
 	{
+		if (command.equals("")) return true;
 		System.out.println(command);
 		GameEntity en = null;
 		menuActivated = true;
@@ -1530,6 +1548,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			//TODO: Replace with a loop later
 			closeMenus();
+			select(null);
 		}
 		else if (command.equals("markTile"))
 		{
@@ -2379,7 +2398,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < menus.get(1).buttons.size(); i++)
 		{
 			TextBox b = menus.get(1).buttons.get(i);
-			b.move(b.posX, main.height*5/6 - (menus.get(1).buttons.size()+1)*height + i*height); //Shift the buttons to their proper place
+			b.move(b.posX, main.height*5/6 - (menus.get(1).buttons.size()+2)*height + i*height); //Shift the buttons to their proper place
 			b.sizeX = 150; b.sizeY = height;
 			b.origSizeX = 150; b.origSizeY = height;
 			b.origX = b.posX; b.origY = b.posY;
@@ -2388,6 +2407,11 @@ public class MenuSystem extends BaseSystem {
 		ImageBox img = new ImageBox(en.name,0,main.height*5/6,main.height/6,main.height/6);
 		img.tint(en.owner.r, en.owner.g, en.owner.b);
 		menus.get(1).buttons.add(img);
+		
+		//TODO: Add encyclopedia entries
+		//TextBox b = menus.get(1).addButton("encyclopedia"+en.name, en.name, "Encyclopedia entry for "+en.name+" >",0,main.height*5/6-height,main.height/6,height);
+		TextBox b = menus.get(1).addButton("", en.name, "Encyclopedia entry for "+en.name+" >",0,main.height*5/6-height,main.height/6,height);
+		b.shortcut = false;
 		//System.out.println(menus.get(1).buttons.size());
 	}
 

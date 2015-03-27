@@ -585,7 +585,7 @@ public class RenderSystem extends BaseSystem {
 						}
 						else if (res == 30) //Redwood
 						{
-							renderUniqueModel("Forest",200,0,0,0,-2,0,r,c);
+							renderUniqueModel("Forest",200,0,0,0,0,0,r,c);
 						}
 						else //Default
 						{
@@ -994,6 +994,7 @@ public class RenderSystem extends BaseSystem {
 			for (int i = 0; i < model.length; i++)
 			{
 				main.pushMatrix();
+				if (name.equals("Redwood")) main.scale(2); //TODO: Quick solution
 				float[] t = model[i];
 				if ((int)t[0] == 0)
 					main.fill(150);
