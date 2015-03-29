@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import units.City;
 
-//the following may or may not actually be a "tree"
+//the following may or may not actually be a "tree" data structure
 
 public class TechTree {
 

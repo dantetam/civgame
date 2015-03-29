@@ -1273,6 +1273,7 @@ public class MenuSystem extends BaseSystem {
 		main.strokeWeight(1);
 	}
 
+	//TODO: Possibly sort shortcuts; higher buttons get lower numbers for shortcuts
 	public void makeShortcut(Menu menu)
 	{
 		int iter = 1;

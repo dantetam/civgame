@@ -274,6 +274,16 @@ public class Civilization {
 		return openBorders.contains(other);
 	}
 
+	//Unlock techs; return the civ for easy chaining
+	public Civilization tech(String tech, double research)
+	{
+		Tech t = techTree.researched(tech);
+		//if (t != null)
+		t.totalR += t.requiredR*research;
+		if (t.researched()) t.unlockForCiv(this);
+		return this;
+	}
+	
 	public void traits(String p, String s)
 	{
 		primaryTrait = p; 

@@ -196,6 +196,17 @@ public class EntityData {
 		civs.get("Rhodes").traits("Defensive", "Industrious");
 		civs.get("Sparta").traits("Aggressive", "Traditional");
 		civs.get("Thrace").traits("Traditional", "Imperialistic");
+		
+		civs.get("Achaea").tech("Agriculture", 1);
+		civs.get("Athens").tech("Polytheism", 1);
+		civs.get("Corinth").tech("Currency", 0.5);
+		civs.get("Crete").tech("Sailing", 1).tech("Metal Working", 0.25);
+		civs.get("Epirus").tech("Metal Working", 0.5);
+		civs.get("Illyria").tech("Hunting", 0.5);
+		civs.get("Macedonia").tech("Metal Working", 0.5);
+		civs.get("Rhodes").tech("Sailing", 1).tech("Fishing", 0.5);
+		civs.get("Sparta").tech("Mining", 1).tech("Metal Working", 0.25);
+		civs.get("Thrace").tech("Mining", 0.5).tech("Casting", 0.5);
 		//civs.get("TEST").traits("Aggressive", "Prosperous");
 
 		for (int i = 0; i < 30; i++)
@@ -366,7 +377,10 @@ public class EntityData {
 		{
 			Improvement impr = cityImprovementMap.get(name);
 			//System.out.println(name);
+			try
+			{
 			return new float[]{(float)impr.foodFlat, (float)impr.goldFlat, (float)impr.metalFlat};
+			} catch (Exception e) {System.out.println("No cost data for improvement " + name); e.printStackTrace();}
 		}
 		return new float[]{f.get(name),g.get(name),m.get(name)};
 	}
