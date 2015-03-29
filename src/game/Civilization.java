@@ -275,12 +275,25 @@ public class Civilization {
 	}
 
 	//Unlock techs; return the civ for easy chaining
+	//Store in memory for reference
+	public String firstTech = null, secondTech = null;
+	public double tech1 = 0, tech2 = 0;
 	public Civilization tech(String tech, double research)
 	{
 		Tech t = techTree.researched(tech);
 		//if (t != null)
 		t.totalR += t.requiredR*research;
 		if (t.researched()) t.unlockForCiv(this);
+		if (firstTech == null)
+		{
+			firstTech = tech;
+			tech1 = research;
+		}
+		else if (secondTech == null)
+		{
+			secondTech = tech;
+			tech2 = research;
+		}
 		return this;
 	}
 	

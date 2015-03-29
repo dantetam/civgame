@@ -118,6 +118,7 @@ public class Game extends PApplet {
 			b.tooltip.add(i.getValue().name);
 			b.tooltip.add(i.getValue().primaryTrait + ": " + t1[0] + ", " + t1[1]);
 			b.tooltip.add(i.getValue().secondaryTrait + ": " + t2[0] + ", " + t2[1]);
+			b.tooltip.add(getUnlockedTechs(i.getValue()));
 			n++;
 		}
 		menu5.addButton("backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
@@ -707,6 +708,25 @@ public class Game extends PApplet {
 			}
 			EntityData.encyclopediaEntries.put(entries[i], temp);
 		}
+	}
+	
+	private String getUnlockedTechs(Civilization c)
+	{
+		String t = "";
+		if (c.firstTech != null)
+		{
+			t += c.firstTech;
+			if (c.tech1 == 1)
+				t += " (unlocked)";
+			else
+				t += " (" + (int)(c.tech1*100D) + "%)";
+		}
+		if (c.secondTech != null)
+		{
+			t += " ; " + c.secondTech;
+			t += " (" + (int)(c.tech2*100D) + "%)";
+		}
+		return t;
 	}
 
 }
