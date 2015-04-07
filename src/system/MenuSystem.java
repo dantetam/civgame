@@ -516,7 +516,8 @@ public class MenuSystem extends BaseSystem {
 				if (menus.get(1).active())
 					menus.get(1).activate(false);
 			}
-			if ((getSelected() instanceof City || getSelected() instanceof Settler) && h != null && (main.grid.civs[0].revealed[h.row][h.col] != 0 || main.showAll))
+			if ((getSelected() instanceof City || getSelected() instanceof Settler || getSelected() instanceof Worker) 
+					&& h != null && (main.grid.civs[0].revealed[h.row][h.col] != 0 || main.showAll))
 			{
 				for (int r = 0; r < mh.guiPositions.length; r++)
 				{
@@ -1539,6 +1540,11 @@ public class MenuSystem extends BaseSystem {
 		{
 			if (selected instanceof GameEntity)
 				en = (GameEntity)selected;
+		}
+		if (command.contains("unit")) //Specific unit orders
+		{
+			if (selected == null)
+				return false;
 		}
 		if (command.equals("exitgame"))
 		{

@@ -710,6 +710,7 @@ public class Game extends PApplet {
 		}
 	}
 	
+	//Get the tooltip string for the unique techs unlocked or partially researched for the tooltip
 	private String getUnlockedTechs(Civilization c)
 	{
 		String t = "";
