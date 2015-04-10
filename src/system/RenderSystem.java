@@ -536,12 +536,12 @@ public class RenderSystem extends BaseSystem {
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock,widthBlock,0);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
-						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
+						/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
-						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
+						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
 						main.endShape();
 						main.popMatrix();
 					} catch (Exception e) {main.popMatrix();}
@@ -850,7 +850,8 @@ public class RenderSystem extends BaseSystem {
 				if (t.biome == -1) continue;
 				if (t.shape == 2)
 				{
-					double[][] renderHill = map.generate(DiamondSquare.makeTable(5, 5, 5, 5, multiply), new double[]{0, 0, 2, 8, 0.7, 1});
+					double[][] renderHill = map.generate(DiamondSquare.makeTable(5, 5, 5, 5, multiply), new double[]{0, 0, 2, 7, 0.7, 1});
+					renderHill = DiamondSquare.max(renderHill, 20);
 					DiamondSquare.printTable(renderHill);
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
@@ -870,7 +871,8 @@ public class RenderSystem extends BaseSystem {
 					//System.out.println(seed);
 					//map.seed(870L);
 					//double[][] renderHill = map.generate(new double[]{0, 0, 2, 6, 0.5});
-					double[][] renderHill = map.generate(DiamondSquare.makeTable(0, 0, 0, 0, multiply), new double[]{0, 0, 2, 5, 0.5, 0});
+					double[][] renderHill = map.generate(DiamondSquare.makeTable(0, 0, 0, 0, multiply), new double[]{0, 0, 2, 4, 0.5, 1});
+					renderHill = DiamondSquare.max(renderHill, 13);
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)

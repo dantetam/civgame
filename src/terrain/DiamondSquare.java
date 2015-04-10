@@ -74,7 +74,37 @@ public class DiamondSquare extends BaseTerrain {
 			System.out.println();
 		}
 	}
+	
+	public static double[][] max(double[][] t, double maxHeight)
+	{
+		double[][] temp = new double[t.length][t[0].length];
+		for (int r = 0; r < temp.length; r++)
+		{
+			for (int c = 0; c < temp[0].length; c++)
+			{
+				if (t[r][c] > maxHeight) 
+					temp[r][c] = maxHeight;
+				else
+					temp[r][c] = t[r][c];
+			}
+		}
+		return temp;
+	}
 
+	/*
+	 t = {
+	 3 6 0
+	 3 0 3
+	 9 6 0
+	 }
+	 normalize(t, 9, 1) -> t = {1/3, 2/3, 0, 1/3, 0, 1/3, 1, 2/3, 0}
+	 normalize(t, 9, 0) -> t = {0 0 0 ... 0}  
+	 */
+	public static double[][] normalize(double[][] t, double maxHeight, double newMax)
+	{
+		return null;
+	}
+	
 	//Starts the iterative loop over the terrain that modifies it
 	//Returns a list of the tables between each diamond-square cycle
 	public ArrayList<byte[][]> dS(int sX, int sY, int width, double startAmp, double ratio, boolean recording, boolean positiveOnly)
