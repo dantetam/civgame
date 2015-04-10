@@ -404,6 +404,7 @@ public class CivGame extends PApplet {
 
 		//Odd numbers only
 		renderSystem.generateRoughTerrain(terrain, 3);
+		//renderSystem.smoothRoughTerrain(1);
 		renderSystem.generateTextures(3);
 		//grid.setupTiles(terrain);
 		//grid.setupCivs();

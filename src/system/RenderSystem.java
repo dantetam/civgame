@@ -842,21 +842,24 @@ public class RenderSystem extends BaseSystem {
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
+				map = new DiamondSquare(temp2);
+				map.seed(870L);
+				map.random.setSeed((long)(System.currentTimeMillis()*Math.random()*100F));
 				Tile t = main.grid.getTile(r,c);
 				//map = null;
 				if (t.biome == -1) continue;
 				if (t.shape == 2)
 				{
-					map = new DiamondSquare(temp2);
-					//long seed = (long)(System.currentTimeMillis()*Math.random());
-					map.seed(870L);
-					double[][] renderHill = map.generate(new double[]{0, 0, 2, 24, 0.7});
+					double[][] renderHill = map.generate(DiamondSquare.makeTable(5, 5, 5, 5, multiply), new double[]{0, 0, 2, 8, 0.7, 1});
+					DiamondSquare.printTable(renderHill);
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
 							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
+							//System.out.print(renderHill[nr - r*multiply][nc - c*multiply] + " ");
 						}
+						//System.out.println();
 					}
 				}
 				else if (t.shape == 1)
@@ -866,7 +869,8 @@ public class RenderSystem extends BaseSystem {
 					map.seed(seed);
 					//System.out.println(seed);
 					//map.seed(870L);
-					double[][] renderHill = map.generate(new double[]{0, 0, 2, 6, 0.5});
+					//double[][] renderHill = map.generate(new double[]{0, 0, 2, 6, 0.5});
+					double[][] renderHill = map.generate(DiamondSquare.makeTable(0, 0, 0, 0, multiply), new double[]{0, 0, 2, 5, 0.5, 0});
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
@@ -909,6 +913,29 @@ public class RenderSystem extends BaseSystem {
 			System.out.println();
 		}*/
 		this.multiply = multiply;
+	}
+
+	public void smoothRoughTerrain(int len)
+	{
+		float[][] temp = new float[vertices.length][vertices[0].length];
+		for (int r = 0; r < vertices.length; r++)
+		{
+			for (int c = 0; c < vertices.length; c++)
+			{
+				float sum = 0, n = 0;
+				for (int i = r - len; i <= r + len; i++)
+					for (int j = c - len; j <= c + len; j++)
+						if (i >= 0 && i < vertices.length && j >= 0 && j < vertices[0].length)
+						{
+							sum += vertices[i][j]; 
+							n++;
+						}
+				sum /= n;
+				temp[r][c] = sum;
+				if (temp[r][c] < 0.25) temp[r][c] = 0;
+			}
+		}
+		vertices = temp;
 	}
 
 	public void generateTextures(int n)
