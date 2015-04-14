@@ -179,6 +179,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.activate(true);
 
 		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 250,200,100); //"HintText"
+		text0.alpha = 0;
 		textboxes.add(text0);
 
 		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width - 400,main.height - 150,200,150); //"SelectedText"
@@ -1007,6 +1008,7 @@ public class MenuSystem extends BaseSystem {
 			if (b.active)
 			{
 				main.fill(b.r, b.g, b.b, b.alpha);
+				strokeTextbox(b.borderR, b.borderG, b.borderB);
 				if (b.shape == 0)
 					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
 				else if (b.shape == 1)
@@ -1320,6 +1322,7 @@ public class MenuSystem extends BaseSystem {
 					{
 						main.fill(b.r, b.g, b.b);
 						//main.stroke(b.borderR, b.borderG, b.borderB);
+						strokeTextbox(b.borderR, b.borderG, b.borderB);
 						if (b.shape == 0)
 							main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
 						else if (b.shape == 1)
@@ -1407,6 +1410,15 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
+		main.hint(main.DISABLE_DEPTH_TEST);
+	}
+	
+	private void strokeTextbox(float r, float g, float b)
+	{
+		if (r == -1 || g == -1 || b == -1)
+			main.noStroke();
+		else
+			main.stroke(r,g,b);
 	}
 	
 	private void shortcutText(TextBox b)

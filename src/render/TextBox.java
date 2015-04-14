@@ -21,7 +21,7 @@ public class TextBox {
 	public boolean shortcut = true, monospace = false;
 	
 	public float r = 0, g = 0, b = 0, alpha = 255;
-	public float borderR = 255, borderG = 255, borderB = 255;
+	public float borderR = -1, borderG = -1, borderB = -1; //default nostroke
 	public int shape = 0; //0 -> rectangle (default), 1 -> ellipse
 	
 	public TextBox(String displayString, String t, float a, float b, float c, float d)

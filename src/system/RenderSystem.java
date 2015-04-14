@@ -295,8 +295,7 @@ public class RenderSystem extends BaseSystem {
 	//Hidden means not within the player's sight/revealed fog of war
 	//
 	public float con; public float cutoff;
-	private final int dist0 = 200;
-	private final int dist1 = 250; private final int dist2 = 300;
+	private int dist0 = 200, dist1 = 250, dist2 = 300;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
 	private float[][] vertices;
 	private PImage[][] textures;

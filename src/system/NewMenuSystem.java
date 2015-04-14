@@ -39,6 +39,7 @@ public class NewMenuSystem extends BaseSystem {
 
 	public void tick() 
 	{
+		main.hint(main.DISABLE_DEPTH_TEST);
 		for (int i = 0; i < menus.size(); i++)
 		{
 			for (int j = 0; j < menus.get(i).buttons.size(); j++)
