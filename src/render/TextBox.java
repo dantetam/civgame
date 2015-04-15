@@ -16,9 +16,9 @@ public class TextBox {
 	public float origX, origY, origSizeX, origSizeY; //Public or private?
 	public boolean expanded = false;
 	public int[] noOrdersIfMenu = null;
-	public boolean lock = false;
-	public boolean active = true, autoClear = true;
-	public boolean shortcut = true, monospace = false;
+	public boolean lock = false, shortcut = true;
+	public boolean autoClear = true;
+	public boolean active = true, monospace = false, noOverlap = false;
 	
 	public float r = 0, g = 0, b = 0, alpha = 255;
 	public float borderR = -1, borderG = -1, borderB = -1; //default nostroke
@@ -213,6 +213,11 @@ public class TextBox {
 			if (orders.get(i).name.equals(type))
 				return true;
 		return false;
+	}
+	
+	public boolean within(float x, float y)
+	{
+		return x > posX && x < posX + sizeX && y > posY && y < posY + sizeY;
 	}
 
 	public void move(float x, float y)

@@ -65,6 +65,7 @@ public class MenuSystem extends BaseSystem {
 	public boolean[][] markedTiles;
 
 	public Button[] shortcuts = new Button[10];
+	public ArrayList<TextBox> noOverlap = new ArrayList<TextBox>();
 
 	public boolean requestFieldsUpdate = false;
 
@@ -212,6 +213,23 @@ public class MenuSystem extends BaseSystem {
 		text4.activate(false);
 
 		updateEncyclopedia();
+		
+		for (int i = 0; i < textboxes.size(); i++)
+		{
+			TextBox t = textboxes.get(i);
+			t.alpha = 150;
+			t.noOverlap = true;
+		}
+		for (int i = 0; i < menus.size(); i++)
+		{
+			for (int j = 0; j < menus.get(i).buttons.size(); j++)
+			{
+				TextBox t = menus.get(i).buttons.get(j);
+				if (i != 0)
+					t.alpha = 150;
+				t.noOverlap = true;
+			}
+		}
 		//arial = main.loadFont("ArialMT-48.vlw");
 	}
 
@@ -1120,6 +1138,27 @@ public class MenuSystem extends BaseSystem {
 					}
 				}
 			}
+		}
+		
+		//Update the rectangular regions where there will be no extra elements shown
+		noOverlap.clear();
+		for (int i = 0; i < menus.size(); i++)
+		{
+			if (menus.get(i).active())
+			{
+				for (int j = 0; j < menus.get(i).buttons.size(); j++)
+				{
+					TextBox t = menus.get(i).buttons.get(j);
+					if (t.active && t.noOverlap)
+						noOverlap.add(t);
+				}
+			}
+		}
+		for (int i = 0; i < textboxes.size(); i++)
+		{
+			TextBox t = textboxes.get(i);
+			if (t.active && t.noOverlap)
+				noOverlap.add(t);
 		}
 
 		menuActivated = false;

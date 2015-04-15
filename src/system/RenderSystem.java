@@ -851,7 +851,7 @@ public class RenderSystem extends BaseSystem {
 				{
 					double[][] renderHill = map.generate(DiamondSquare.makeTable(5, 5, 5, 5, multiply), new double[]{0, 0, 2, 7, 0.7, 1});
 					renderHill = DiamondSquare.max(renderHill, 20);
-					DiamondSquare.printTable(renderHill);
+					//DiamondSquare.printTable(renderHill);
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)

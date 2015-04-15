@@ -73,8 +73,8 @@ public class CivGame extends PApplet {
 
 		systems.add(civilizationSystem);
 		systems.add(renderSystem);
-		systems.add(newMenuSystem);
 		systems.add(menuSystem);
+		systems.add(newMenuSystem);
 		systems.add(inputSystem);
 	}
 

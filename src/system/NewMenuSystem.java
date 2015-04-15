@@ -13,6 +13,7 @@ import render.CivGame;
 import render.MouseHelper;
 import render.Rune;
 import render.Menu;
+import render.TextBox;
 import units.City;
 import units.Settler;
 
@@ -74,12 +75,25 @@ public class NewMenuSystem extends BaseSystem {
 		}
 	}
 	
+	public boolean notOverlapping(float x, float y)
+	{
+		for (int i = 0; i < main.menuSystem.noOverlap.size(); i++)
+		{
+			TextBox t = main.menuSystem.noOverlap.get(i);
+			if (t.within(x, y))
+				return false;
+		}
+		return true;
+	}
+	
 	public void tileIcon(float posX, float posY, int f, int g, int m, int r)
 	{
 		//Show biome
 		//image = EntityData.iconMap.get("Capital");
 		//main.image(image, posX - 3*len/2, posY - 30 - len/2, len, len);
 		main.noStroke();
+		if (!notOverlapping(posX, posY)) return;
+		
 		int len = 24, off = 0; //off = -30
 		
 		int i = 0;
@@ -301,6 +315,7 @@ public class NewMenuSystem extends BaseSystem {
 	public void largeFieldIcon(float posX, float posY, Tile t, float len)
 	{
 		main.noStroke();
+		if (!notOverlapping(posX, posY)) return;
 		float[] fill = new float[4];
 		if (t.owner == null)
 		{
