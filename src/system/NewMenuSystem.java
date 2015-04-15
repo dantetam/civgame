@@ -235,6 +235,7 @@ public class NewMenuSystem extends BaseSystem {
 	//Another method that shows GUIs for a tile's fields
 	public void fieldIcon(float posX, float posY, Tile t, int n, float len1, float len2)
 	{ 
+		if (!notOverlapping(posX, posY)) return;
 		int space = 0;
 		boolean exists = false;
 		if (n >= t.fields.size())

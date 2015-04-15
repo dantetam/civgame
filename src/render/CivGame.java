@@ -27,7 +27,7 @@ public class CivGame extends PApplet {
 
 	public Game game;
 	public boolean enabled = true;
-	
+
 	public BaseTerrain map;
 	public String challengeType, terrainType, civChoice;
 	public int numCivs, numCityStates, difficultyLevel;
@@ -55,7 +55,7 @@ public class CivGame extends PApplet {
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public ChunkSystem chunkSystem;
 
-	public boolean testing = false, tacticalView = false, keyMenu = false; //tacticalView -> display special tile yield and tile ownership GUIs
+	public boolean testing = false, tacticalView = false, keyMenu = false, forceCursor = false; //tacticalView -> display special tile yield and tile ownership GUIs
 
 	public CivGame(Game game, int numCivs, int numCityStates, int difficultyLevel, String challengeType, String terrainType, String civChoice, long seed)
 	{
@@ -78,10 +78,11 @@ public class CivGame extends PApplet {
 		systems.add(inputSystem);
 	}
 
-	public void options(boolean autoSelect, boolean testing)
+	public void options(boolean autoSelect, boolean t, boolean fc)
 	{
 		inputSystem.autoSelect = autoSelect;
-		this.testing = testing;
+		testing = t;
+		forceCursor = fc;
 	}
 
 	public void setup()
@@ -104,7 +105,7 @@ public class CivGame extends PApplet {
 		generate(terrainType);
 		//Force update
 		menuSystem.rbox = grid.civs[0].revealedBox();
-		
+
 		menuSystem.techMenu = new TechMenu(grid.civs[0].techTree, "TechMenu");
 		menuSystem.menus.add(menuSystem.techMenu); //Not including it is a violation of OOP principles
 		//makeRivers(terrain);
@@ -116,7 +117,7 @@ public class CivGame extends PApplet {
 			}
 			println();
 		}*/
-		
+
 		chunkSystem = new ChunkSystem(this);
 		systems.add(chunkSystem);
 		erosion = new Erosion(terrain,1);
@@ -148,7 +149,7 @@ public class CivGame extends PApplet {
 				civ.tallwide = Math.min(0, civ.tallwide/2);
 			}
 		}*/
-		
+
 		pg = createGraphics((int)width, (int)height, P3D);
 	}
 
@@ -157,6 +158,10 @@ public class CivGame extends PApplet {
 		background(255);
 		inputSystem.passMouse(mouseX, mouseY);
 		menuSystem.queueMousePass(mouseX, mouseY);
+		if (menuSystem.menuHighlighted) 
+			cursor();
+		else 
+			noCursor();
 		for (int i = 0; i < systems.size(); i++)
 		{
 			systems.get(i).tick();
@@ -207,7 +212,7 @@ public class CivGame extends PApplet {
 			}
 		}
 	}
-	
+
 	public void image(PImage image, float a, float b, float c, float d)
 	{
 		if (image instanceof ColorImage)
@@ -253,6 +258,11 @@ public class CivGame extends PApplet {
 
 	public void keyPressed()
 	{
+		if (keyCode == ESC || key == ESC)
+		{
+			key = 0;
+			keyCode = 0;
+		}
 		if (keyCode == KeyEvent.VK_F1) inputSystem.queueKey((char)131);
 		else if (keyCode == KeyEvent.VK_F2) inputSystem.queueKey((char)132);
 		else if (keyCode == KeyEvent.VK_F3) inputSystem.queueKey((char)133);
@@ -270,7 +280,22 @@ public class CivGame extends PApplet {
 
 	public void keyReleased()
 	{
-		inputSystem.keyReleased(key);
+		if (keyCode == ESC || key == ESC)
+		{
+			key = 0;
+			keyCode = 0;
+		}
+		else
+			inputSystem.keyReleased(key);
+	}
+	
+	public void keyTyped()
+	{
+		if (keyCode == ESC || key == ESC)
+		{
+			key = 0;
+			keyCode = 0;
+		}
 	}
 
 	public void fill(Color c)

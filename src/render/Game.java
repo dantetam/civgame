@@ -24,7 +24,7 @@ public class Game extends PApplet {
 	//public String gameMode = "MainMenu";
 	public String challengeType = "", civChoice = "";
 	public int numCivs = 2, numCityStates = 0, difficultyLevel = 1;
-	public boolean automaticSelection = true, testing = false;
+	public boolean automaticSelection = true, testing = false, forceCursor = false;
 	public ArrayList<Menu> menus;
 	public Tooltip tooltip = new Tooltip("",0,0,80,20);
 	public Menu activeMenu;
@@ -103,6 +103,8 @@ public class Game extends PApplet {
 		menu4.addButton("instantSelection", "Automatic Selection: On", "Allow the game to cycle to the next unit automatically.", 70, 280, 210, 50);
 		TextBox t = menu4.addButton("toggleTesting", "Testing: Off", "Enable developer mode. Gives access to extra graphical display,", 70, 340, 210, 50);
 		t.tooltip.add("as well as the developer console.");
+		menu4.addButton("toggleForceCursor", "Force Cursor: Off", "Bring back the cursor if you can't function with it.", 70, 400, 210, 50);
+
 		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 70, 630, 210, 70);
 
 		menus.add(menu4);
@@ -377,7 +379,7 @@ public class Game extends PApplet {
 			try
 			{
 				renderer = new CivGame(game, numCivs, numCityStates, difficultyLevel, challengeType, terrainType, civChoice, seed);
-				renderer.options(automaticSelection, testing);
+				renderer.options(automaticSelection, testing, forceCursor);
 				add(renderer);
 				setResizable(false);
 				renderer.init();
@@ -399,6 +401,7 @@ public class Game extends PApplet {
 				tutorial = new AdvancedWarTutorial(game,width,height);
 			else 
 				System.out.println("Invalid tutorial id");
+			tutorial.options(automaticSelection, testing, forceCursor);
 			add(tutorial);
 			setResizable(false);
 			tutorial.init();
@@ -567,29 +570,28 @@ public class Game extends PApplet {
 						{
 							TextBox b = menus.get(4).findButtonByCommand("instantSelection");
 							if (automaticSelection)
-							{
-								automaticSelection = false;
 								b.display.set(0, "Automatic Selection: Off");
-							}
 							else
-							{
-								automaticSelection = true;
 								b.display.set(0, "Automatic Selection: On");
-							}
+							automaticSelection = !automaticSelection;
 						}
 						else if (command.equals("toggleTesting"))
 						{
 							TextBox b = menus.get(4).findButtonByCommand("toggleTesting");
 							if (testing)
-							{
-								testing = false;
 								b.display.set(0, "Testing: Off");
-							}
 							else
-							{
-								testing = true;
 								b.display.set(0, "Testing: On");
-							}
+							testing = !testing;
+						}
+						else if (command.equals("toggleForceCursor"))
+						{
+							TextBox b = menus.get(4).findButtonByCommand("toggleForceCursor");
+							if (forceCursor)
+								b.display.set(0, "Force Cursor: Off");
+							else
+								b.display.set(0, "Force Cursor: On");
+							forceCursor = !forceCursor;
 						}
 						else if (command.equals("randomSeed"))
 						{
