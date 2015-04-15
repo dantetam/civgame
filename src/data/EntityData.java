@@ -380,7 +380,7 @@ public class EntityData {
 			try
 			{
 			return new float[]{(float)impr.foodFlat, (float)impr.goldFlat, (float)impr.metalFlat};
-			} catch (Exception e) {System.out.println("No cost data for improvement " + name); e.printStackTrace();}
+			} catch (Exception e) {System.out.println("No cost data for improvement " + name); e.printStackTrace(); return null;}
 		}
 		return new float[]{f.get(name),g.get(name),m.get(name)};
 	}
@@ -799,7 +799,7 @@ public class EntityData {
 	//Edit: Returns an improvement (could be neutral) if successfully queued
 	public static Improvement queue(City c, String queue)
 	{
-		if (queue == null) return null;
+		if (queue == null || c == null) return null;
 		if (c.takeover <= 0 || c.raze)
 		{
 			c.queue = queue;

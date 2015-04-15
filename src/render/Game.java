@@ -51,7 +51,7 @@ public class Game extends PApplet {
 		EntityData.init();
 		setModels();
 		getEncyclopedia();
-		frame.setTitle("Survival: Civilization");
+		frame.setTitle("Tamora");
 		menus = new ArrayList<Menu>();
 
 		Menu menu0 = new Menu("MainMenu");
@@ -384,7 +384,6 @@ public class Game extends PApplet {
 				add(renderer);
 				setResizable(false);
 				renderer.init();
-				//setTitle("Survival: Civilization");
 				show();
 			}
 			catch (Exception e) {e.getLocalizedMessage();}
@@ -466,7 +465,7 @@ public class Game extends PApplet {
 						else if (command.equals("quickgame"))
 						{
 							PFrame f = new PFrame(this,1500,900,3,4,3,"Conquest","terrain11","Corinth",System.currentTimeMillis());
-							f.setTitle("Survival: Civilization");
+							f.setTitle("Tamora");
 							background(255);
 							noLoop();
 						}
@@ -548,7 +547,7 @@ public class Game extends PApplet {
 						else if (command.contains("terrain"))
 						{
 							PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,difficultyLevel,challengeType,command,civChoice,Long.parseLong(seed));
-							f.setTitle("Survival: Civilization");
+							f.setTitle("Tamora");
 							//setVisible(false);
 							background(255);
 							//redraw();

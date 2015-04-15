@@ -74,7 +74,7 @@ public class NewMenuSystem extends BaseSystem {
 			}
 		}
 	}
-	
+
 	public boolean notOverlapping(float x, float y)
 	{
 		for (int i = 0; i < main.menuSystem.noOverlap.size(); i++)
@@ -85,20 +85,20 @@ public class NewMenuSystem extends BaseSystem {
 		}
 		return true;
 	}
-	
-	public void tileIcon(float posX, float posY, int f, int g, int m, int r)
+
+	public void tileIcon(float posX, float posY, int f, int g, int m, int r, boolean bold)
 	{
 		//Show biome
 		//image = EntityData.iconMap.get("Capital");
 		//main.image(image, posX - 3*len/2, posY - 30 - len/2, len, len);
 		main.noStroke();
 		if (!notOverlapping(posX, posY)) return;
-		
+
 		int len = 24, off = 0; //off = -30
-		
+
 		int i = 0;
 		//main.image(image, posX - len/2 - len, posY - 30 - i*30 - len/2, len, len);
-		float alpha = 150;
+		float alpha = bold ? 255 : 70;
 		//f g
 		//m r
 		main.tint(0,255,0,alpha);
@@ -110,25 +110,33 @@ public class NewMenuSystem extends BaseSystem {
 		main.tint(150,225,255,alpha);
 		main.image(EntityData.iconMap.get("research"), posX - len/2 + len, posY + off - i*30, len/2, len/2);
 
-		alpha = 255;
-		
-		main.fill(0,0,0,alpha);
-		/*main.rect(posX, posY - 30 - i*10 - len/2, len/2, len/2);
-		main.rect(posX, posY - 30 - i*10, len/2, len/2);
-		main.rect(posX + len, posY - 30 - i*10 - len/2, len/2, len/2);
-		main.rect(posX + len, posY - 30 - i*10, len/2, len/2);*/
-		main.textSize(14);
+		alpha = bold ? 255 : 70;
+
 		main.textAlign(main.LEFT, main.TOP);
-		main.fill(255,255,255,alpha);
+		if (bold)
+		{
+			main.fill(0,0,0,100);
+			main.rect(posX, posY + off - i*30 - len/2, len/2, len/2);
+			main.rect(posX, posY + off - i*30, len/2, len/2);
+			main.rect(posX + len, posY + off - i*30 - len/2, len/2, len/2);
+			main.rect(posX + len, posY + off - i*30, len/2, len/2);
+			main.textSize(16);
+			main.fill(200,0,0,alpha);
+		}
+		else
+		{
+			main.textSize(12);
+			main.fill(255,255,255,alpha);
+		}
 		main.pushStyle();
-		main.textSize(12);
 		main.text(f, posX, posY + off - i*10 - len/2);
 		main.text(m, posX, posY + off - i*10);
 		main.text(g, posX + len, posY + off - i*10 - len/2);
 		main.text(r, posX + len, posY + off - i*10);
+		main.textSize(12);
 		main.popStyle();
 	}
-	
+
 	//X position of center, Y position of center, which resource is being shown,
 	//Number of the resource yielded from harvest, total number of icons, and the position of showing (i.e. left most is 1)
 	/*public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
@@ -304,7 +312,7 @@ public class NewMenuSystem extends BaseSystem {
 		else {System.out.println("Error: newmenusystem, no tile icon"); x = 0; y = 0;} 
 		//Replace with an actual error later?
 		//y += len2;
-		
+
 		main.rect(x, y, len1, len1);
 		if (!exists)
 		{
