@@ -462,18 +462,44 @@ public class RenderSystem extends BaseSystem {
 						if (!strokedColor && civ != null)
 						{
 							if (i % 2 == 0)
-							{
 								main.stroke(civ.r, civ.g, civ.b);
-							}
 							else
-							{
 								main.stroke(civ.sR, civ.sG, civ.sB);
-							}
 						}
-						main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m]+layer*off, c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m]+layer*off, c*widthBlock);
-						main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m]+layer*off, (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m]+layer*off, (c+1)*widthBlock);
-						main.line(r*widthBlock, vertices[r*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
-						main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
+						//Renders horizontal squares with equal displacements
+						if (n <= 1)
+						{
+							main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m]+layer*off, c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m]+layer*off, c*widthBlock);
+							main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m]+layer*off, (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m]+layer*off, (c+1)*widthBlock);
+							main.line(r*widthBlock, vertices[r*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
+							main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
+						}
+						else
+						{
+							main.line(r*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, c*widthBlock, 
+									(r+1)*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, c*widthBlock);
+							main.line((r+1)*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, c*widthBlock, 
+									(r+1)*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, (c+1)*widthBlock);
+							main.line((r+1)*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, (c+1)*widthBlock, 
+									r*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, (c+1)*widthBlock);
+							main.line(r*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, (c+1)*widthBlock, 
+									r*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, c*widthBlock);
+						}
+
+						/*main.line(r*widthBlock, vertices[r*m][c*m]+layer*off, c*widthBlock, 
+								(r+1)*widthBlock, vertices[(r+1)*m][c*m]+layer*off, c*widthBlock);
+						main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m]+layer*off, c*widthBlock, 
+								(r+1)*widthBlock, vertices[(r+1)*m][(c+1)*m]+layer*off, (c+1)*widthBlock);
+						main.line((r+1)*widthBlock, vertices[(r+1)*m][(c+1)*m]+layer*off, (c+1)*widthBlock, 
+								r*widthBlock, vertices[r*m][(c+1)*m]+layer*off, (c+1)*widthBlock);
+						main.line(r*widthBlock, vertices[r*m][(c+1)*m]+layer*off, (c+1)*widthBlock, 
+								r*widthBlock, vertices[r*m][c*m]+layer*off, c*widthBlock);*/
+
+						//main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m]+layer*off, c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m]+layer*off, c*widthBlock);
+						//main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m]+layer*off, (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m]+layer*off, (c+1)*widthBlock);
+						//main.line(r*widthBlock, vertices[r*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
+						//main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
+
 						//main.line((r+1)*widthBlock, vertices[r*m + (int)i][c*m], (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1], (c+(((float)i+1)/m))*widthBlock);
 						//main.line((r+(i/m))*widthBlock, (float)vertices[r*m + i][(c+1)*m], (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, (float)vertices[r*m + i + 1][(c+1)*m], (c+1)*widthBlock);
 					}

@@ -380,6 +380,7 @@ public class Game extends PApplet {
 			{
 				renderer = new CivGame(game, numCivs, numCityStates, difficultyLevel, challengeType, terrainType, civChoice, seed);
 				renderer.options(automaticSelection, testing, forceCursor);
+				//renderer.width = width; renderer.height = height;
 				add(renderer);
 				setResizable(false);
 				renderer.init();

@@ -98,7 +98,7 @@ public class NewMenuSystem extends BaseSystem {
 		
 		int i = 0;
 		//main.image(image, posX - len/2 - len, posY - 30 - i*30 - len/2, len, len);
-		float alpha = 80;
+		float alpha = 150;
 		//f g
 		//m r
 		main.tint(0,255,0,alpha);
@@ -110,13 +110,14 @@ public class NewMenuSystem extends BaseSystem {
 		main.tint(150,225,255,alpha);
 		main.image(EntityData.iconMap.get("research"), posX - len/2 + len, posY + off - i*30, len/2, len/2);
 
-		alpha = 155;
+		alpha = 255;
 		
 		main.fill(0,0,0,alpha);
 		/*main.rect(posX, posY - 30 - i*10 - len/2, len/2, len/2);
 		main.rect(posX, posY - 30 - i*10, len/2, len/2);
 		main.rect(posX + len, posY - 30 - i*10 - len/2, len/2, len/2);
 		main.rect(posX + len, posY - 30 - i*10, len/2, len/2);*/
+		main.textSize(14);
 		main.textAlign(main.LEFT, main.TOP);
 		main.fill(255,255,255,alpha);
 		main.pushStyle();

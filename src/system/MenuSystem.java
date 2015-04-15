@@ -217,7 +217,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < textboxes.size(); i++)
 		{
 			TextBox t = textboxes.get(i);
-			t.alpha = 150;
+			t.alpha = 100;
 			t.noOverlap = true;
 		}
 		for (int i = 0; i < menus.size(); i++)
@@ -226,7 +226,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				TextBox t = menus.get(i).buttons.get(j);
 				if (i != 0)
-					t.alpha = 150;
+					t.alpha = 100;
 				t.noOverlap = true;
 			}
 		}
@@ -545,6 +545,7 @@ public class MenuSystem extends BaseSystem {
 						float[] pos = mh.positionGui(r,c);
 						if (pos != null)
 						{
+							if (!main.newMenuSystem.notOverlapping(pos[0], pos[1])) continue;
 							main.textAlign(main.CENTER);
 							main.textSize(18);
 							main.fill(255,0,0);
@@ -653,6 +654,7 @@ public class MenuSystem extends BaseSystem {
 					float[] pos = mh.positionGui(r,c);
 					if (pos != null)
 					{
+						if (!main.newMenuSystem.notOverlapping(pos[0], pos[1])) continue;
 						main.textAlign(main.CENTER);
 						main.textSize(18);
 						main.fill(255,0,0);
@@ -866,6 +868,7 @@ public class MenuSystem extends BaseSystem {
 				{
 					if (atk.mode != 0)
 					{
+						//Preview of calculated damage
 						int[] offensiveDamage = main.grid.conflictSystem.attackNoRandomness(atk.offensiveStr, def.defensiveStr);
 						int[] defensiveDamage = main.grid.conflictSystem.attackNoRandomness(def.offensiveStr, atk.defensiveStr);
 
@@ -1035,7 +1038,7 @@ public class MenuSystem extends BaseSystem {
 					System.out.println("Invalid button shape: " + b.shape);
 				//main.textAlign(PApplet.LEFT, PApplet.UP);
 				main.fill(255);
-				if (i == 7)
+				if (i == 7) //Monospaced GUI?
 				{
 					main.pushStyle();
 					main.textFont(main.dvs, 18);
@@ -1604,9 +1607,10 @@ public class MenuSystem extends BaseSystem {
 		}
 		else if (command.equals("close"))
 		{
-			//TODO: Replace with a loop later
+			//Replace with a loop later
+			//done
 			closeMenus();
-			select(null);
+			//select(null);
 		}
 		else if (command.equals("markTile"))
 		{
@@ -2060,6 +2064,7 @@ public class MenuSystem extends BaseSystem {
 
 	public void closeMenus()
 	{
+		select(null);
 		textboxes.get(2).activate(true);
 		info = false;
 		minimapMode = 0;
@@ -2915,6 +2920,7 @@ public class MenuSystem extends BaseSystem {
 	{
 		textboxes.get(5).display.clear();
 		textboxes.get(5).display.add(0, "A UNIT NEEDS ORDERS");
+		textboxes.get(5).display.add("PRESS SPACE");
 		textboxes.get(5).tooltip.set(0, "Please order your unit.");
 		select(en);
 		main.fixCamera(en.location.row, en.location.col);
