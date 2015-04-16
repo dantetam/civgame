@@ -295,8 +295,8 @@ public class RenderSystem extends BaseSystem {
 	//Hidden means not within the player's sight/revealed fog of war
 	//
 	public float con; public float cutoff;
-	//private int dist0 = 200, dist1 = 250, dist2 = 300;
-	private int dist0 = 500, dist1 = 750, dist2 = 1000;
+	private int dist0 = 200, dist1 = 250, dist2 = 300;
+	//private int dist0 = 500, dist1 = 750, dist2 = 1000;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
 	private Point[][] vertices;
 	private PImage[][] textures;
@@ -417,7 +417,7 @@ public class RenderSystem extends BaseSystem {
 			main.translate(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			if (main.testing) main.box(widthBlock*sampleSize, (float)main.terrain[r][c]*con, widthBlock*sampleSize);
 
-			if (t.biome == -1)
+			if (t.biome == -1 && main.grid.coastal(t.row, t.col).size() == 0)
 			{
 				if (main.grid.adjacentLand(t.row, t.col).size() > 0)
 				{
@@ -552,6 +552,7 @@ public class RenderSystem extends BaseSystem {
 					//try
 					{
 						main.pushMatrix();
+						
 						main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
 						main.beginShape(main.TRIANGLES);
 						//main.texture(textures[nr][nc]);
@@ -564,14 +565,28 @@ public class RenderSystem extends BaseSystem {
 						main.vertex(vertices[nr-1][nc-1]);
 						main.vertex(vertices[nr+1-1][nc-1]);
 						main.vertex(vertices[nr+1-1][nc+1-1]);*/
+						//Correct coast/sea tiles with non-zero height to render as beach
+						main.pushStyle();
+						if (t != null && vertices[nr][nc] != null && vertices[nr][nc+1] != null && vertices[nr+1][nc+1] != null)
+							if (t.biome == -1 && (vertices[nr][nc].y > 0 || vertices[nr][nc+1].y > 0 || vertices[nr+1][nc+1].y > 0))
+								main.fill(245,245,140);
 						
 						main.vertex(vertices[nr][nc]);
 						main.vertex(vertices[nr][nc+1]);
 						main.vertex(vertices[nr+1][nc+1]);
 						
+						main.popStyle();
+						
+						main.pushStyle();
+						if (t != null && vertices[nr][nc] != null && vertices[nr][nc+1] != null && vertices[nr+1][nc+1] != null)
+							if (t.biome == -1 && (vertices[nr][nc].y > 0 || vertices[nr+1][nc].y > 0 || vertices[nr+1][nc+1].y > 0))
+								main.fill(245,245,140);
+						
 						main.vertex(vertices[nr][nc]);
 						main.vertex(vertices[nr+1][nc]);
 						main.vertex(vertices[nr+1][nc+1]);
+						
+						main.popStyle();
 						/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
@@ -625,11 +640,11 @@ public class RenderSystem extends BaseSystem {
 						}
 						else //Default
 						{
-							main.pushMatrix();
+							/*main.pushMatrix();
 							main.fill(EntityData.getResourceColor(res));
 							main.translate(0, 15, 0);
 							main.box(5);
-							main.popMatrix();
+							main.popMatrix();*/
 						}
 					}
 					if (t.forest)
@@ -969,6 +984,20 @@ public class RenderSystem extends BaseSystem {
 			System.out.println();
 		}*/
 		this.multiply = multiply;
+		for (int nr = 0; nr < vertices.length; nr++)
+		{
+			for (int nc = 0; nc < vertices[0].length; nc++)
+			{
+				Tile t = main.grid.getTile(nr / multiply, nc / multiply);
+				if (t != null && t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0) continue;
+				if (nr % multiply != 0 || nc % multiply != 0) continue;
+				Point p = vertices[nr][nc];
+				if (p != null)
+				{
+					vertices[nr][nc] = new Point(p.x + Math.random()*4D - 2, p.y, p.z + Math.random()*4D - 2);
+				}
+			}
+		}
 	}
 
 	public void smoothRoughTerrain(int len)

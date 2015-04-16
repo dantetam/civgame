@@ -28,11 +28,14 @@ public class NewMenuSystem extends BaseSystem {
 		menus = new ArrayList<Menu>();
 
 		Menu menu0 = new Menu("UnitMenu");
+		Menu menu1 = new Menu("AdvisorMenu");
+		
 		menus.add(menu0);
+		menus.add(menu1);
+		/*menus.add(menu0);
 		menus.get(0).buttons.add(new Rune("image","tileMove",675,425,50,50).color(0,255,0));
 
-		Menu menu1 = new Menu("AdvisorMenu");
-		menus.add(menu1);
+		menus.add(menu1);*/
 		/*menus.get(1).buttons.add(new Rune("diplomat","tileDiplomat",600,10,50,50).color(0,0,255));
 		menus.get(1).buttons.add(new Rune("war","tileWar",660,10,50,50).color(255,0,0));
 		menus.get(1).buttons.add(new Rune("trader","tileTrader",720,10,50,50).color(200,200,0));*/
@@ -63,6 +66,7 @@ public class NewMenuSystem extends BaseSystem {
 		}
 		else
 		{
+			//if (menus.get(0).buttons.size() > 0)
 			for (int i = 0; i < menus.get(0).buttons.size(); i++)
 			{
 				Rune rune = (Rune)menus.get(0).buttons.get(i);

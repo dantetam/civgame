@@ -69,6 +69,8 @@ public class MenuSystem extends BaseSystem {
 
 	public boolean requestFieldsUpdate = false;
 
+	public float height = 100;
+	
 	//public City citySelected;
 
 	//public TextBox hintTextBox;
@@ -535,8 +537,8 @@ public class MenuSystem extends BaseSystem {
 				if (menus.get(1).active())
 					menus.get(1).activate(false);
 			}
-			if ((getSelected() instanceof City || getSelected() instanceof Settler || getSelected() instanceof Worker) 
-					&& h != null && (main.grid.civs[0].revealed[h.row][h.col] != 0 || main.showAll))
+			if ((getSelected() instanceof City || getSelected() instanceof Settler || getSelected() instanceof Worker) && h != null && 
+					(main.grid.civs[0].revealed[h.row][h.col] != 0 || main.showAll) && main.player.posY < height)
 			{
 				for (int r = 0; r < mh.guiPositions.length; r++)
 				{
@@ -645,7 +647,7 @@ public class MenuSystem extends BaseSystem {
 		}
 
 		main.strokeWeight(1);
-		if (h != null)
+		if (h != null && main.player.posY < height)
 		{
 			for (int r = 0; r < mh.guiPositions.length; r++)
 			{

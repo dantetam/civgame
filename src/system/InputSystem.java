@@ -171,7 +171,7 @@ public class InputSystem extends BaseSystem {
 						main.player.tarZ += dist*Math.sin(main.player.rotY);
 					}
 					//Prevent height changes to make mousing over tiles easier
-					else if (i == 113 - 97) //q
+					/*else if (i == 113 - 97) //q
 					{
 						//Limit movement to an axis
 						main.player.posY -= dist;
@@ -182,7 +182,7 @@ public class InputSystem extends BaseSystem {
 						//Limit movement to an axis
 						main.player.posY += dist;
 						main.player.tarY += dist;
-					}
+					}*/
 					//if (i == 0 || i == 3 || i == 4 || i == 16 || i == 18 || i == 22)
 					if (i == 0 || i == 3 || i == 18 || i == 22)
 					{
