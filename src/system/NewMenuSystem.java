@@ -115,13 +115,14 @@ public class NewMenuSystem extends BaseSystem {
 		main.textAlign(main.LEFT, main.TOP);
 		if (bold)
 		{
-			main.fill(0,0,0,100);
+			/*main.fill(0,0,0,100);
 			main.rect(posX, posY + off - i*30 - len/2, len/2, len/2);
 			main.rect(posX, posY + off - i*30, len/2, len/2);
 			main.rect(posX + len, posY + off - i*30 - len/2, len/2, len/2);
-			main.rect(posX + len, posY + off - i*30, len/2, len/2);
-			main.textSize(16);
-			main.fill(200,0,0,alpha);
+			main.rect(posX + len, posY + off - i*30, len/2, len/2);*/
+			main.textSize(18);
+			//main.fill(200,0,0,alpha);
+			main.fill(255,255,255,alpha);
 		}
 		else
 		{

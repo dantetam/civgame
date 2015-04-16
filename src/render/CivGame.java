@@ -14,6 +14,7 @@ import data.Color;
 import data.ColorImage;
 import data.EntityData;
 import terrain.*;
+import vector.Point;
 import system.*;
 import entity.Player;
 import game.BaseEntity;
@@ -302,7 +303,19 @@ public class CivGame extends PApplet {
 	{
 		fill((float)c.r*255F,(float)c.g*255F,(float)c.b*255F);
 	}
+	
+	public void line(Point x, Point y, float yOffset)
+	{
+		if (x == null || y == null) return;
+		line((float)x.x, (float)x.y + yOffset, (float)x.z, (float)y.x, (float)y.y + yOffset, (float)y.z);
+	}
 
+	public void vertex(Point x)
+	{
+		if (x == null) return;
+		vertex((float)x.x, (float)x.y, (float)x.z);	
+	}
+	
 	public void stop()
 	{
 		game.exit();

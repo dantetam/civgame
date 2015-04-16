@@ -298,7 +298,7 @@ public class RenderSystem extends BaseSystem {
 	//private int dist0 = 200, dist1 = 250, dist2 = 300;
 	private int dist0 = 500, dist1 = 750, dist2 = 1000;
 	private double viewAngle = Math.PI/2 + Math.PI/12;
-	private float[][] vertices;
+	private Point[][] vertices;
 	private PImage[][] textures;
 	public void renderBlock(float dist, int r, int c, boolean hidden, boolean lazy)
 	{
@@ -468,24 +468,26 @@ public class RenderSystem extends BaseSystem {
 								main.stroke(civ.sR, civ.sG, civ.sB);
 						}
 						//Renders horizontal squares with equal displacements
+						//try {
 						if (n <= 1)
 						{
-							main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m]+layer*off, c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m]+layer*off, c*widthBlock);
+							/*main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m]+layer*off, c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m]+layer*off, c*widthBlock);
 							main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m]+layer*off, (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m]+layer*off, (c+1)*widthBlock);
 							main.line(r*widthBlock, vertices[r*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
-							main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
+							main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);*/
+							main.line(vertices[r*m + (int)i][c*m], vertices[r*m + (int)i + 1][c*m], layer*off);
+							main.line(vertices[r*m + (int)i][(c+1)*m], vertices[r*m + (int)i + 1][(c+1)*m], layer*off);
+							main.line(vertices[r*m][c*m + (int)i], vertices[r*m][c*m + (int)i + 1], layer*off);
+							main.line(vertices[(r+1)*m][c*m + (int)i], vertices[(r+1)*m][c*m + (int)i + 1], layer*off);
 						}
 						else
 						{
-							main.line(r*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, c*widthBlock, 
-									(r+1)*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, c*widthBlock);
-							main.line((r+1)*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, c*widthBlock, 
-									(r+1)*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, (c+1)*widthBlock);
-							main.line((r+1)*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, (c+1)*widthBlock, 
-									r*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, (c+1)*widthBlock);
-							main.line(r*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, (c+1)*widthBlock, 
-									r*widthBlock, vertices[r*m][c*m]+(layer+0.5F)*off, c*widthBlock);
+							main.line(vertices[r*m][c*m], vertices[(r+1)*m][c*m], (layer+0.5F)*off);
+							main.line(vertices[(r+1)*m][c*m], vertices[(r+1)*m][(c+1)*m], (layer+0.5F)*off);
+							main.line(vertices[(r+1)*m][(c+1)*m], vertices[r*m][(c+1)*m], (layer+0.5F)*off);
+							main.line(vertices[r*m][(c+1)*m], vertices[r*m][c*m], (layer+0.5F)*off);
 						}
+						//} catch (Exception e) {if (main.frameCount % 25 == 0) {e.printStackTrace();} continue;}
 
 						/*main.line(r*widthBlock, vertices[r*m][c*m]+layer*off, c*widthBlock, 
 								(r+1)*widthBlock, vertices[(r+1)*m][c*m]+layer*off, c*widthBlock);
@@ -547,21 +549,29 @@ public class RenderSystem extends BaseSystem {
 						}
 					}*/
 					//
-					try
+					//try
 					{
 						main.pushMatrix();
 						main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
 						main.beginShape(main.TRIANGLES);
 						//main.texture(textures[nr][nc]);
-						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
-						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
-						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,widthBlock,widthBlock);
+						/*main.vertex(vertices[nr-1][nc-1]);
+						main.vertex(vertices[nr-1][nc+1-1]);
+						main.vertex(vertices[nr+1-1][nc+1-1]);
 						//main.endShape();
 						//main.beginShape(main.TRIANGLES);
 						//main.texture(textures[nr][nc]);
-						main.vertex((float)nr/m*widthBlock,(float)vertices[nr-1][nc-1],(float)nc/m*widthBlock,0,0);
-						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc-1],(float)nc/m*widthBlock,widthBlock,0);
-						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1-1][nc+1-1],(float)(nc+1)/m*widthBlock,0,widthBlock);
+						main.vertex(vertices[nr-1][nc-1]);
+						main.vertex(vertices[nr+1-1][nc-1]);
+						main.vertex(vertices[nr+1-1][nc+1-1]);*/
+						
+						main.vertex(vertices[nr][nc]);
+						main.vertex(vertices[nr][nc+1]);
+						main.vertex(vertices[nr+1][nc+1]);
+						
+						main.vertex(vertices[nr][nc]);
+						main.vertex(vertices[nr+1][nc]);
+						main.vertex(vertices[nr+1][nc+1]);
 						/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
@@ -570,7 +580,7 @@ public class RenderSystem extends BaseSystem {
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
 						main.endShape();
 						main.popMatrix();
-					} catch (Exception e) {main.popMatrix();}
+					} //catch (Exception e) {main.popMatrix();}
 				}
 			}
 			//main.texture(textures[nr][nc]);
@@ -793,7 +803,7 @@ public class RenderSystem extends BaseSystem {
 	private int multiply;
 	public void generateRoughTerrain(double[][] terrain, int multiply)
 	{
-		vertices = new float[terrain.length*multiply + 10][terrain.length*multiply + 10];
+		vertices = new Point[terrain.length*multiply + 10][terrain.length*multiply + 10];
 		double[][] temp1 = DiamondSquare.makeTable(2,2,2,2,multiply);
 		temp1[temp1.length/2][temp1.length/2] = 8;
 		double[][] temp2 = DiamondSquare.makeTable(2,2,2,2,multiply);
@@ -806,13 +816,15 @@ public class RenderSystem extends BaseSystem {
 				Tile t = main.grid.getTile(r,c);
 				if (t.biome == -1)
 				{
-					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
-					{
+					/*for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-						{
-							vertices[nr][nc] = 0;
-						}
-					}
+							vertices[nr][nc] = null;*/
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+							vertices[nr][nc] = new Point((r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+									0,
+									(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+									);
 				}
 				//Check to see if there is a land and sea split
 				/*ArrayList<Tile> sea = main.grid.coastal(r, c);
@@ -883,7 +895,11 @@ public class RenderSystem extends BaseSystem {
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
-							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
+							vertices[nr][nc] = new Point(
+									(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+									(float)renderHill[nr - r*multiply][nc - c*multiply],
+									(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+									);
 							//System.out.print(renderHill[nr - r*multiply][nc - c*multiply] + " ");
 						}
 						//System.out.println();
@@ -903,7 +919,11 @@ public class RenderSystem extends BaseSystem {
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
-							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
+							vertices[nr][nc] = new Point(
+									(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+									(float)renderHill[nr - r*multiply][nc - c*multiply],
+									(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+									);
 						}
 					}
 				}
@@ -917,9 +937,17 @@ public class RenderSystem extends BaseSystem {
 							//double height = 2;
 							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
 							if (rough)
-								vertices[nr][nc] = (float)(Math.random()*2);
+								vertices[nr][nc] = new Point(
+										(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+										(float)(Math.random()*2),
+										(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+										);
 							else
-								vertices[nr][nc] = (float)(Math.random()*0.5);
+								vertices[nr][nc] = new Point(
+										(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+										(float)(Math.random()*0.5),
+										(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+										);
 							//vertices[nr][nc] = 1;
 						}
 					}
@@ -927,11 +955,11 @@ public class RenderSystem extends BaseSystem {
 			}
 		}
 		//Make the top & left border zero
-		for (int i = 0; i < vertices.length; i++)
+		/*for (int i = 0; i < vertices.length; i++)
 		{
-			vertices[i][0] = 0;
-			vertices[0][i] = 0;
-		}
+			vertices[i][0].y = 0;
+			vertices[0][i].y = 0;
+		}*/
 		/*for (int r = 0; r < vertices.length; r++)
 		{
 			for (int c = 0; c < vertices[0].length; c++)
@@ -945,7 +973,7 @@ public class RenderSystem extends BaseSystem {
 
 	public void smoothRoughTerrain(int len)
 	{
-		float[][] temp = new float[vertices.length][vertices[0].length];
+		Point[][] temp = new Point[vertices.length][vertices[0].length];
 		for (int r = 0; r < vertices.length; r++)
 		{
 			for (int c = 0; c < vertices.length; c++)
@@ -955,12 +983,12 @@ public class RenderSystem extends BaseSystem {
 					for (int j = c - len; j <= c + len; j++)
 						if (i >= 0 && i < vertices.length && j >= 0 && j < vertices[0].length)
 						{
-							sum += vertices[i][j]; 
+							sum += vertices[i][j].y; 
 							n++;
 						}
 				sum /= n;
-				temp[r][c] = sum;
-				if (temp[r][c] < 0.25) temp[r][c] = 0;
+				temp[r][c].y = sum;
+				if (temp[r][c].y < 0.25) temp[r][c].y = 0;
 			}
 		}
 		vertices = temp;
@@ -1128,7 +1156,7 @@ public class RenderSystem extends BaseSystem {
 	}
 
 	//Make a model of entities with a height map
-	public static float widthBlock = 21;
+	public static final float widthBlock = 21;
 	/*public void addTerrain(double[][] t, float con, float cutoff)
 	{
 		terrain = new GridModel(t.length, t[0].length);
