@@ -413,6 +413,33 @@ public class Grid {
 		//civ.tiles.add(tile);
 	}
 
+	public boolean stackAttack(ArrayList<GameEntity> attacker, ArrayList<GameEntity> defender)
+	{
+		if (attacker.size() == 0) return false;
+		if (defender.size() == 0) return true;
+		int iDef = 0;
+		for (int i = 0; i < attacker.size(); i++)
+		{
+			//attacker.get(i).attack(conflictSystem.attack(attacker.get(i), defender.get(iDef)), defender.get(iDef), r, c);
+			attacker.get(i).attackAndDamage(defender.get(iDef));
+			//Don't attack defenders that are dead
+			for (int j = 0; j < defender.size(); j++)
+			{
+				if (defender.get(j).health <= 0)
+				{
+					defender.remove(j);
+					j--;
+				}
+			}
+			//End the attack and return true
+			if (defender.size() == 0) return true;
+			if (++i >= defender.size())
+				iDef = 0;
+		}
+		//Some defenders are still alive, return that the attack has 'failed' i.e. no passage
+		return false;
+	}
+
 	public GameEntity hasEnemy(GameEntity attacker, int r, int c)
 	{
 		if (getTile(r,c) != null)
@@ -421,9 +448,7 @@ public class Grid {
 			{
 				GameEntity occupant = tiles[r][c].occupants.get(i);
 				if (occupant.owner.isWar(attacker.owner))
-				{
 					return occupant;
-				}
 			}
 		}
 		return null;

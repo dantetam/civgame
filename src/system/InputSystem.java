@@ -384,13 +384,20 @@ public class InputSystem extends BaseSystem {
 		if (s.size() > 0)
 		{
 			//System.out.println(s.size());
-			for (int i = 0; i < s.size(); i++)
+			Tile t = main.menuSystem.mouseHighlighted;
+			if (t != null)
 			{
-				playerAction(s.get(i), false);
+				if (main.grid.hasEnemy(s.get(0), t.row, t.col) != null)
+				{
+					if (!s.get(0).attackWithTheStack(s, t.row, t.col));
+						return;
+				}
+				for (int i = 0; i < s.size(); i++)
+					playerAction(s.get(i), false);
+				s.clear();
+				timeSelection();
+				main.menuSystem.select(null);
 			}
-			s.clear();
-			timeSelection();
-			main.menuSystem.select(null);
 		}
 		else if (main.menuSystem.getSelected() instanceof GameEntity && !main.menuSystem.menuActivated)
 		{
@@ -564,7 +571,7 @@ public class InputSystem extends BaseSystem {
 		}
 		return null;
 	}
-	
+
 	public void executeAction(String action)
 	{
 		if (action.equals("ADVANCE_TURN"))

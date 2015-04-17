@@ -261,24 +261,55 @@ public abstract class GameEntity extends BaseEntity {
 				if (enemy != null)
 				{
 					queueTiles.clear(); //Solve some complex problems
-					int[] damages;
-					if (mode == 1)
-						damages = (int[])location.grid.conflictSystem.attack(this, enemy)[0];
-					else
-						damages = location.grid.conflictSystem.fire(this, enemy);
-					if (attack(damages, enemy, r, c))
-					{
+					/*if (attackAndDamage(enemy))
+						passiveWaddle(r,c);*/
+					if (attackWithTheStack(r,c))
 						passiveWaddle(r,c);
-					}
 					if (owner == null) return false; 
 				}
 			}
 		}
 		return true;
 	}
+	
+	//Get all allied units at this tile and attack the enemy stack
+	private boolean attackWithTheStack(int r, int c)
+	{
+		ArrayList<GameEntity> attacker = new ArrayList<GameEntity>(), defender = new ArrayList<GameEntity>();
+		for (int i = 0; i < location.occupants.size(); i++)
+			if (location.occupants.get(i).mode != 0) //Only attack with combat units
+				attacker.add(location.occupants.get(i));
+		Tile t = location.grid.getTile(r,c);
+		for (int i = 0; i < t.occupants.size(); i++)
+			if (owner.isWar(t.occupants.get(i).owner)) //if (location.occupants.get(i).mode != 0) //No mercy. Kill the innocent!
+				defender.add(t.occupants.get(i));
+		return location.grid.stackAttack(attacker, defender);
+	}
 
+	//Manual attacker stack
+	public boolean attackWithTheStack(ArrayList<GameEntity> attacker, int r, int c)
+	{
+		ArrayList<GameEntity> defender = new ArrayList<GameEntity>();
+		Tile t = location.grid.getTile(r,c);
+		for (int i = 0; i < t.occupants.size(); i++)
+			if (owner.isWar(t.occupants.get(i).owner)) //if (location.occupants.get(i).mode != 0) //No mercy. Kill the innocent!
+				defender.add(t.occupants.get(i));
+		return location.grid.stackAttack(attacker, defender);
+	}
+	
+	//Attack a unit individually with this unit and return if it's destroyed
+	public boolean attackAndDamage(GameEntity enemy)
+	{
+		int[] damages;
+		if (mode == 1)
+			damages = (int[])location.grid.conflictSystem.attack(this, enemy)[0];
+		else
+			damages = location.grid.conflictSystem.fire(this, enemy);
+		return attack(damages, enemy, enemy.location.row, enemy.location.col);
+	}
+	
 	//Deal damage and return true if there was a kill
-	public boolean attack(int[] damages, BaseEntity enemy, int r, int c)
+	protected boolean attack(int[] damages, BaseEntity enemy, int r, int c)
 	{
 		if (enemy.health - damages[0] <= 0 && health - damages[1] <= 0) //Both may kill each other
 		{

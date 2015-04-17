@@ -990,7 +990,7 @@ public class RenderSystem extends BaseSystem {
 			{
 				Tile t = main.grid.getTile(nr / multiply, nc / multiply);
 				if (t != null && t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0) continue;
-				if (nr % multiply != 0 || nc % multiply != 0) continue;
+				//if (nr % multiply != 0 || nc % multiply != 0) continue;
 				Point p = vertices[nr][nc];
 				if (p != null)
 				{

@@ -102,7 +102,7 @@ public class NewMenuSystem extends BaseSystem {
 
 		int i = 0;
 		//main.image(image, posX - len/2 - len, posY - 30 - i*30 - len/2, len, len);
-		float alpha = bold ? 255 : 70;
+		float alpha = bold ? 255 : 150;
 		//f g
 		//m r
 		main.tint(0,255,0,alpha);
@@ -114,7 +114,7 @@ public class NewMenuSystem extends BaseSystem {
 		main.tint(150,225,255,alpha);
 		main.image(EntityData.iconMap.get("research"), posX - len/2 + len, posY + off - i*30, len/2, len/2);
 
-		alpha = bold ? 255 : 70;
+		alpha = bold ? 255 : 150;
 
 		main.textAlign(main.LEFT, main.TOP);
 		if (bold)
