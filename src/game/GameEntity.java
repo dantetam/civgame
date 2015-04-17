@@ -263,7 +263,7 @@ public abstract class GameEntity extends BaseEntity {
 					queueTiles.clear(); //Solve some complex problems
 					/*if (attackAndDamage(enemy))
 						passiveWaddle(r,c);*/
-					if (attackWithTheStack(r,c))
+					if (attackWithTheStack(en.location.row+r,en.location.col+c))
 						passiveWaddle(r,c);
 					if (owner == null) return false; 
 				}

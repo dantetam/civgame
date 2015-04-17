@@ -61,6 +61,7 @@ public class Game extends PApplet {
 		menu0.addButton("backMenu7", "Tutorials", "Learn about the game through play.", 70, 160, 210, 50);
 		menu0.addButton("options", "Options", "Change options such as the level seed.", 70, 220, 210, 50);
 		menu0.addButton("quickgame", "Quick Game", "Conquest - Tiny - Corinth - Warlord - Pangaea", 70, 280, 210, 50);
+		menu0.addButton("observergame", "Spectate Game", "Simulate a random game world with AI civilizations only.", 70, 340, 210, 50);
 		menu0.addButton("exitgame", "Exit", "Exit the game.", 70, 630, 210, 70);
 		menu0.addButton("retract", "<<<", "Hide the menu.", 0, 0, 50, 50);
 		menu0.addButton("pause", "||", "Pause the simulation.", 50, 0, 50, 50);
@@ -374,6 +375,7 @@ public class Game extends PApplet {
 	private Tutorial tutorial;
 	//Taken from stack overflow
 	public class PFrame extends JFrame {
+		//Creating full games
 		public PFrame(Game game, int width, int height, int numCivs, int numCityStates, int difficultyLevel, String challengeType, String terrainType, String civChoice, long seed) {
 			setBounds(0, 0, width, height);
 			try
@@ -388,6 +390,7 @@ public class Game extends PApplet {
 			}
 			catch (Exception e) {e.getLocalizedMessage();}
 		}
+		//Creating tutorials
 		public PFrame(Game game, int type, int width, int height)
 		{
 			setBounds(0, 0, width, height);
@@ -406,6 +409,29 @@ public class Game extends PApplet {
 			setResizable(false);
 			tutorial.init();
 			show();
+		}
+		//Creating observer game
+		public PFrame(Game game, int width, int height) {
+			setBounds(0, 0, width, height);
+			String[] terrain = {"terrain11"};
+			try
+			{
+				renderer = new CivGame(game, 
+						(Math.random()*7) + 2, 
+						(Math.random()*10) + 2, 
+						1, 
+						"conquestgame", 
+						terrain[(int)(Math.random()*terrain.length)], 
+						"", 
+						System.currentTimeMillis()*Math.random());
+				renderer.options(false, false, false);
+				//renderer.width = width; renderer.height = height;
+				add(renderer);
+				setResizable(false);
+				renderer.init();
+				show();
+			}
+			catch (Exception e) {e.getLocalizedMessage();}
 		}
 	}
 
@@ -426,6 +452,10 @@ public class Game extends PApplet {
 						{
 							//gameMode = "challengeTypeMenu";
 							activeMenu = menus.get(1);
+						}
+						else if (command.equals("observergame"))
+						{
+							
 						}
 						else if (command.equals("tutorial"))
 						{

@@ -421,19 +421,21 @@ public class Grid {
 		for (int i = 0; i < attacker.size(); i++)
 		{
 			//attacker.get(i).attack(conflictSystem.attack(attacker.get(i), defender.get(iDef)), defender.get(iDef), r, c);
+			System.out.println(defender.get(iDef).owner);
 			attacker.get(i).attackAndDamage(defender.get(iDef));
 			//Don't attack defenders that are dead
 			for (int j = 0; j < defender.size(); j++)
 			{
-				if (defender.get(j).health <= 0)
+				if (defender.get(j).health <= 0 || defender.get(j).owner == null)
 				{
 					defender.remove(j);
 					j--;
+					iDef--;
 				}
 			}
 			//End the attack and return true
 			if (defender.size() == 0) return true;
-			if (++i >= defender.size())
+			if (++iDef >= defender.size())
 				iDef = 0;
 		}
 		//Some defenders are still alive, return that the attack has 'failed' i.e. no passage
