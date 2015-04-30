@@ -2927,14 +2927,14 @@ public class MenuSystem extends BaseSystem {
 		select(en);
 		main.fixCamera(en.location.row, en.location.col);
 		main.chunkSystem.update();
-		main.requestUpdate();
+		//main.requestUpdate();
 	}
 
 	public void select(BaseEntity en)
 	{
 		selected = en;
 		main.newMenuSystem.updateUnitMenu(en);
-		main.requestUpdate();
+		//main.requestUpdate();
 		if (en != null)
 		{
 			en.sleep = false;

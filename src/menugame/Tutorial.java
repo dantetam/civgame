@@ -239,7 +239,7 @@ public class Tutorial extends CivGame {
 
 	public void keyPressed()
 	{
-		if (step < path.size())
+		/*if (step < path.size())
 		{
 			if (path.get(step).size() != 0)
 				if (path.get(step).get(0) == key)
@@ -249,17 +249,12 @@ public class Tutorial extends CivGame {
 				}
 		}
 		if (keysAllowed[(int)key])
-			super.keyPressed();
+			super.keyPressed();*/
 		//else
 		//return; //Wrong key pressed. Restrict access to other keys
 		//check();
 	}
-
-	public void keyReleased()
-	{
-		super.keyReleased();
-	}
-
+	
 	public void setup()
 	{
 		super.setup();

@@ -43,7 +43,7 @@ public class NewMenuSystem extends BaseSystem {
 
 	public void tick() 
 	{
-		main.hint(main.DISABLE_DEPTH_TEST);
+		/*main.hint(main.DISABLE_DEPTH_TEST);
 		for (int i = 0; i < menus.size(); i++)
 		{
 			for (int j = 0; j < menus.get(i).buttons.size(); j++)
@@ -76,10 +76,10 @@ public class NewMenuSystem extends BaseSystem {
 					//menus.get(0).buttons.get(i).orderOriginal(false);
 				}
 			}
-		}
+		}*/
 	}
 
-	public boolean notOverlapping(float x, float y)
+	/*public boolean notOverlapping(float x, float y)
 	{
 		for (int i = 0; i < main.menuSystem.noOverlap.size(); i++)
 		{
@@ -119,11 +119,11 @@ public class NewMenuSystem extends BaseSystem {
 		main.textAlign(main.LEFT, main.TOP);
 		if (bold)
 		{
-			/*main.fill(0,0,0,100);
+			main.fill(0,0,0,100);
 			main.rect(posX, posY + off - i*30 - len/2, len/2, len/2);
 			main.rect(posX, posY + off - i*30, len/2, len/2);
 			main.rect(posX + len, posY + off - i*30 - len/2, len/2, len/2);
-			main.rect(posX + len, posY + off - i*30, len/2, len/2);*/
+			main.rect(posX + len, posY + off - i*30, len/2, len/2);
 			main.textSize(18);
 			//main.fill(200,0,0,alpha);
 			main.fill(255,255,255,alpha);
@@ -144,7 +144,7 @@ public class NewMenuSystem extends BaseSystem {
 
 	//X position of center, Y position of center, which resource is being shown,
 	//Number of the resource yielded from harvest, total number of icons, and the position of showing (i.e. left most is 1)
-	/*public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
+	public void tileIcon(float posX, float posY, int type, int numBlocks, int n, int i)
 	{
 		float size = 10, space = 0, alpha = 75;
 		main.rectMode(main.CENTER);
@@ -244,7 +244,7 @@ public class NewMenuSystem extends BaseSystem {
 		main.fill(255);
 		main.rectMode(main.CORNER);
 		main.ellipseMode(main.CORNER);
-	}*/
+	}
 
 	//Another method that shows GUIs for a tile's fields
 	public void fieldIcon(float posX, float posY, Tile t, int n, float len1, float len2)
@@ -367,10 +367,10 @@ public class NewMenuSystem extends BaseSystem {
 	public void updateUnitMenu(BaseEntity en)
 	{
 		//menus.get(0).buttons.clear();
-		/*for (int i = 0; i < menus.get(0).buttons.size(); i++)
+		for (int i = 0; i < menus.get(0).buttons.size(); i++)
 		{
 			menus.get(0).buttons.get(i).orderOriginal(false);
-		}*/
+		}
 	}
 
 	public float lastMouseX, lastMouseY;
@@ -469,6 +469,6 @@ public class NewMenuSystem extends BaseSystem {
 			}
 		}
 		return null;
-	}
+	}*/
 
 }

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import org.lwjgl.input.Keyboard;
+
 import processing.core.*;
 import data.EntityData;
 import data.Field;
@@ -114,7 +116,7 @@ public class InputSystem extends BaseSystem {
 		}
 		else
 		{
-			if (nextSelection == main.frameCount)
+			if (nextSelection == main.lwjglSystem.frameCount)
 			{
 				nextSelection = 0;
 				selectAvailableUnit();
@@ -198,7 +200,7 @@ public class InputSystem extends BaseSystem {
 		if (moving == false && lastMoving) //if the player has stopped moving
 		{
 			main.chunkSystem.update();
-			main.requestUpdate();
+			//main.requestUpdate();
 			//System.out.println("Update");
 		}
 		lastMoving = moving;
@@ -405,7 +407,7 @@ public class InputSystem extends BaseSystem {
 		}
 		else if (main.menuSystem.getSelected() == null)
 		{
-			TextBox b = main.menuSystem.menus.get(0).findButtonByCommand("markTile");
+			/*TextBox b = main.menuSystem.menus.get(0).findButtonByCommand("markTile");
 			if (b.active)
 			{
 				//b.activate(false);
@@ -415,7 +417,7 @@ public class InputSystem extends BaseSystem {
 				b.active = true;
 				b.posX = main.mouseX; b.posY = main.mouseY;
 				b.origX = main.mouseX; b.origY = main.mouseY;
-			}
+			}*/
 		}
 		else
 		{
@@ -477,7 +479,7 @@ public class InputSystem extends BaseSystem {
 		main.menuSystem.textboxes.get(5).display.add(0, "...");
 		main.menuSystem.textboxes.get(5).tooltip.set(0, "Please wait...");
 		if (autoSelect)
-			nextSelection = main.frameCount + time;
+			nextSelection = main.lwjglSystem.frameCount + time;
 		else
 			nextSelection = 0;
 	}
@@ -691,7 +693,7 @@ public class InputSystem extends BaseSystem {
 					return; //Do not add the tilde key to console
 				}
 			}
-			if (key == main.BACKSPACE && !main.menuSystem.console.isEmpty())
+			if (key == Keyboard.KEY_BACK && !main.menuSystem.console.isEmpty())
 				main.menuSystem.console = main.menuSystem.console.substring(0, main.menuSystem.console.length()-1);
 			else
 				main.menuSystem.console += key;

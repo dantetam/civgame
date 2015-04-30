@@ -102,7 +102,7 @@ public class ChunkSystem extends BaseSystem {
 		//50, 1000
 		//20, 100
 		//if (main.frameCount % (main.player.posY-100)/30 + 20 == 0)
-		if (main.frameCount % updateFrame == 0)
+		if (main.lwjglSystem.frameCount % updateFrame == 0)
 		{
 			update();
 		}
@@ -111,9 +111,9 @@ public class ChunkSystem extends BaseSystem {
 	public void update()
 	{
 		//System.out.print("Updating...");
-		if (main.frameCount - lastUpdate < 10)
+		if (main.lwjglSystem.frameCount - lastUpdate < 10)
 			return;
-		lastUpdate = main.frameCount;
+		lastUpdate = main.lwjglSystem.frameCount;
 		for (int i = 0; i < dist.length; i++)
 		{
 			int[] dists = locationFromChunk(i);

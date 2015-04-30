@@ -17,6 +17,7 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
 import units.City;
+import lwjglEngine.render.DisplayManager;
 import menugame.*;
 
 public class Game extends PApplet {
@@ -370,6 +371,12 @@ public class Game extends PApplet {
 			}
 		}
 	}
+	
+	public void stop()
+	{
+		renderer.lwjglSystem.stop();
+		super.stop();
+	}
 
 	private CivGame renderer;
 	private Tutorial tutorial;
@@ -382,10 +389,6 @@ public class Game extends PApplet {
 			{
 				renderer = new CivGame(game, numCivs, numCityStates, difficultyLevel, challengeType, terrainType, civChoice, seed);
 				renderer.options(automaticSelection, testing, forceCursor);
-				//renderer.width = width; renderer.height = height;
-				add(renderer);
-				setResizable(false);
-				renderer.init();
 				show();
 			}
 			catch (Exception e) {e.getLocalizedMessage();}
@@ -405,9 +408,6 @@ public class Game extends PApplet {
 			else 
 				System.out.println("Invalid tutorial id");
 			tutorial.options(automaticSelection, testing, forceCursor);
-			add(tutorial);
-			setResizable(false);
-			tutorial.init();
 			show();
 		}
 		//Creating observer game
@@ -426,9 +426,6 @@ public class Game extends PApplet {
 						System.currentTimeMillis()*(long)Math.random());
 				renderer.options(false, false, false);
 				//renderer.width = width; renderer.height = height;
-				add(renderer);
-				setResizable(false);
-				renderer.init();
 				show();
 			}
 			catch (Exception e) {e.getLocalizedMessage();}

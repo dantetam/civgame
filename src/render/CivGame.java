@@ -1,15 +1,11 @@
 package render;
 
-import processing.core.PApplet;
-import processing.core.PFont;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.opengl.*;
-
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
+import lwjglEngine.render.DisplayManager;
+import lwjglEngine.tests.MainGameLoop;
 import data.Color;
 import data.ColorImage;
 import data.EntityData;
@@ -24,7 +20,7 @@ import game.Grid;
 import game.Pathfinder;
 import game.Tile;
 
-public class CivGame extends PApplet {
+public class CivGame {
 
 	public Game game;
 	public boolean enabled = true;
@@ -43,14 +39,13 @@ public class CivGame extends PApplet {
 	public boolean showAll = false;
 
 	public ArrayList<BaseSystem> systems;
-	private RenderSystem renderSystem = new RenderSystem(this);
+	//private RenderSystem renderSystem = new RenderSystem(this);
+	public MainGameLoop lwjglSystem = new MainGameLoop(this);
 	public float width = 1500, height = 900;
 	public float centerX = width/2, centerY = height/2; //for rendering purposes, to determine how the position of the mouse affects the camera
-	public PGraphics pg;
+
 	public MenuSystem menuSystem = new MenuSystem(this);
 	public NewMenuSystem newMenuSystem = new NewMenuSystem(this);
-	public PShader lightShader, texLightShader;
-	public PFont arial, dvs;
 
 	public InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
@@ -73,10 +68,12 @@ public class CivGame extends PApplet {
 		systems = new ArrayList<BaseSystem>();
 
 		systems.add(civilizationSystem);
-		systems.add(renderSystem);
+		systems.add(lwjglSystem);
 		systems.add(menuSystem);
 		systems.add(newMenuSystem);
 		systems.add(inputSystem);
+	
+		setup();
 	}
 
 	public void options(boolean autoSelect, boolean t, boolean fc)
@@ -88,20 +85,8 @@ public class CivGame extends PApplet {
 
 	public void setup()
 	{
-		size((int)width,(int)height,P3D);
-		//size(1500,900,P3D); //TODO: Processing will not take variables for size(); use a JFrame/PFrame w/ embedded applet to work around this
-		//frameRate(60);
-		arial = createFont("ArialMT-48.vlw", 48);
-		//dvs = createFont("DejaVuSansMono-48.vlw", 48);
-		dvs = createFont("ProggyClean.ttf", 48);
-		textFont(arial);
-		//pg = createGraphics(1500,900,P2D);
-		lightShader = loadShader("fragtest.glsl", "verttest.glsl");
-		texLightShader = loadShader("fragtest2", "verttest2");
-		frameRate(25);
-		background(150,225,255);
-		camera(500,500,500,0,0,0,0,-1,0);
-		box(100,100,100);
+		DisplayManager.createDisplay();
+		
 		//redraw();
 		generate(terrainType);
 		//Force update
@@ -150,13 +135,11 @@ public class CivGame extends PApplet {
 				civ.tallwide = Math.min(0, civ.tallwide/2);
 			}
 		}*/
-
-		pg = createGraphics((int)width, (int)height, P3D);
 	}
 
 	public void draw()
 	{
-		background(255);
+		/*background(255);
 		inputSystem.passMouse(mouseX, mouseY);
 		menuSystem.queueMousePass(mouseX, mouseY);
 		if (menuSystem.menuHighlighted) 
@@ -169,7 +152,7 @@ public class CivGame extends PApplet {
 		}
 		if (frameCount == 10 && inputSystem.autoSelect)
 			inputSystem.queueKey((char)32);
-		newMenuSystem.lastMouseX = mouseX; newMenuSystem.lastMouseY = mouseY;
+		newMenuSystem.lastMouseX = mouseX; newMenuSystem.lastMouseY = mouseY;*/
 	}
 
 	public boolean newLine = false;
@@ -187,7 +170,7 @@ public class CivGame extends PApplet {
 		newLine = !newLine;*/
 		//println(player.toString());
 		//println((int)mouseX+","+(int)mouseY);
-		menuSystem.queueClick(mouseX, mouseY);
+		/*menuSystem.queueClick(mouseX, mouseY);
 		if (newMenuSystem.within(mouseX, mouseY) != null)
 			menuSystem.menuActivated = true;
 		else
@@ -211,37 +194,19 @@ public class CivGame extends PApplet {
 				}
 				//inputSystem.queueRightClick(mouseX, mouseY);
 			}
-		}
-	}
-
-	public void image(PImage image, float a, float b, float c, float d)
-	{
-		if (image instanceof ColorImage)
-		{
-			ColorImage col = (ColorImage)image;
-			tint(col.r, col.g, col.b);
-			super.image(col.image, a, b, c, d);
-		}
-		else
-			super.image(image, a, b, c, d);
-	}
-
-	public void mouseMoved()
-	{
-		rMouseX = mouseX; rMouseY = mouseY;
-		//if (menuSystem.lastMouseHighlighted)
+		}*/
 	}
 
 	public void mouseDragged()
 	{
 		//println("Dragging " + mouseX + "," + mouseY);
 		menuSystem.menuActivated = true;
-		newMenuSystem.mouseDragged(mouseX, mouseY);
+		//newMenuSystem.mouseDragged(mouseX, mouseY);
 	}
 
 	public void mouseReleased()
 	{
-		if (mouseButton == RIGHT)
+		/*if (mouseButton == RIGHT)
 		{
 			inputSystem.queueRightClick(rMouseX, rMouseY);
 			rMouseX = -1; rMouseY = -1;
@@ -249,7 +214,7 @@ public class CivGame extends PApplet {
 			menuSystem.pathToHighlighted.clear();
 			//menuSystem.menuActivated = false;
 			newMenuSystem.mouseReleased(rMouseX, rMouseY);
-		}
+		}*/
 	}
 
 	/*public void mouseMoved()
@@ -259,7 +224,7 @@ public class CivGame extends PApplet {
 
 	public void keyPressed()
 	{
-		if (keyCode == ESC || key == ESC)
+		/*if (keyCode == ESC || key == ESC)
 		{
 			key = 0;
 			keyCode = 0;
@@ -277,9 +242,9 @@ public class CivGame extends PApplet {
 		else
 			inputSystem.queueKey(key);
 		//inputSystem.test();
-	}
+*/	}
 
-	public void keyReleased()
+	/*public void keyReleased()
 	{
 		if (keyCode == ESC || key == ESC)
 		{
@@ -297,9 +262,9 @@ public class CivGame extends PApplet {
 			key = 0;
 			keyCode = 0;
 		}
-	}
+	}*/
 
-	public void fill(Color c)
+	/*public void fill(Color c)
 	{
 		fill((float)c.r*255F,(float)c.g*255F,(float)c.b*255F);
 	}
@@ -314,7 +279,7 @@ public class CivGame extends PApplet {
 	{
 		if (x == null) return;
 		vertex((float)x.x, (float)x.y, (float)x.z);	
-	}
+	}*/
 	
 	public void stop()
 	{
@@ -324,9 +289,9 @@ public class CivGame extends PApplet {
 
 	public void fixCamera(int r, int c)
 	{
-		player.posX = r*renderSystem.widthBlock;
-		player.posY = 60;
-		player.posZ = (c-2)*renderSystem.widthBlock;
+		lwjglSystem.camera.position.x = r*lwjglSystem.widthBlock;
+		lwjglSystem.camera.position.y = 60;
+		lwjglSystem.camera.position.x = (c-2)*lwjglSystem.widthBlock;
 		//player.rotY = 0;
 		//player.rotVertical = 0;
 		//player.update();
@@ -334,8 +299,8 @@ public class CivGame extends PApplet {
 
 	public void resetCamera()
 	{
-		centerX = mouseX/(1 - player.rotY/(float)Math.PI);
-		centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
+		//centerX = mouseX/(1 - player.rotY/(float)Math.PI);
+		//centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
 	}
 
 	//Use the appropriate terrain to make a table and then render it by making some entities
@@ -439,14 +404,6 @@ public class CivGame extends PApplet {
 		civilizationSystem.theGrid = grid;
 		//player = new Player(grid.civs[0]);
 		makeRivers(biomes); 
-
-		//Odd numbers only
-		renderSystem.generateRoughTerrain(terrain, 3);
-		//renderSystem.smoothRoughTerrain(1);
-		renderSystem.generateTextures(3);
-		//grid.setupTiles(terrain);
-		//grid.setupCivs();
-		//renderSystem.addTerrain(terrain, con, cutoff);
 	}
 
 	public int[][] assignFields(int[][] biomes)
@@ -769,8 +726,7 @@ public class CivGame extends PApplet {
 		}
 	}
 
-	public float widthBlock() {return renderSystem.widthBlock;}
+	public float widthBlock() {return lwjglSystem.widthBlock;}
 	public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
-	public void requestUpdate() {renderSystem.requestUpdate = true;}
 
 }

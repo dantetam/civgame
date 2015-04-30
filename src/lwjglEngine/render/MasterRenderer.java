@@ -105,7 +105,6 @@ public class MasterRenderer {
 			processEntities(group.entities);
 	}
 	
-	
 	public void prepare()
 	{
 		GL11.glEnable(GL11.GL_DEPTH_TEST);

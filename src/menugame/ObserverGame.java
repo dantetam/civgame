@@ -12,7 +12,7 @@ public class ObserverGame extends CivGame {
 				terrainType, civChoice, seed);
 	}
 
-	public void setup()
+	/*public void setup()
 	{
 		super.setup();
 		menuSystem.menus.clear();
@@ -29,6 +29,6 @@ public class ObserverGame extends CivGame {
 	
 	//Override old methods of normal game
 	public void keyPressed() {}
-	public void keyReleased() {}
+	public void keyReleased() {}*/
 
 }
