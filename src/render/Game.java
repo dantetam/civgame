@@ -416,14 +416,14 @@ public class Game extends PApplet {
 			String[] terrain = {"terrain11"};
 			try
 			{
-				renderer = new CivGame(game, 
-						(Math.random()*7) + 2, 
-						(Math.random()*10) + 2, 
+				renderer = new ObserverGame(game, 
+						(int)(Math.random()*7) + 2, 
+						(int)(Math.random()*10) + 2, 
 						1, 
 						"conquestgame", 
 						terrain[(int)(Math.random()*terrain.length)], 
 						"", 
-						System.currentTimeMillis()*Math.random());
+						System.currentTimeMillis()*(long)Math.random());
 				renderer.options(false, false, false);
 				//renderer.width = width; renderer.height = height;
 				add(renderer);

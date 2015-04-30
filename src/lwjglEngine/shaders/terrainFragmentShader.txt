@@ -1,0 +1,53 @@
+#version 400 core
+
+//in vec3 color;
+in vec2 passTextureCoords;
+in vec3 surfaceNormal;
+in vec3 toLightVector;
+in vec3 toCameraVector;
+
+out vec4 outColor;
+
+uniform sampler2D backgroundTexture;
+uniform sampler2D rTexture;
+uniform sampler2D gTexture;
+uniform sampler2D bTexture;
+uniform sampler2D blendMap;
+
+uniform vec3 lightColor;
+uniform float shineDamper;
+uniform float reflectness;
+
+void main(void)
+{
+	vec4 blendMapColor = texture(blendMap, passTextureCoords);
+	
+	float backTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
+	vec2 tiledCoords = passTextureCoords * 20.0;
+	vec4 backgroundTextureColor = texture(backgroundTexture, tiledCoords)*backTextureAmount;
+	vec4 rTextureColor = texture(rTexture, tiledCoords)*blendMapColor.r;
+	vec4 gTextureColor = texture(gTexture, tiledCoords)*blendMapColor.g;
+	vec4 bTextureColor = texture(bTexture, tiledCoords)*blendMapColor.b;
+
+	vec4 totalColor = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
+
+	vec3 unitNormal = normalize(surfaceNormal);
+	vec3 unitLightVector = normalize(toLightVector);
+
+	float nDot1 = dot(unitNormal, unitLightVector);
+	float brightness = max(nDot1, 0.2);
+	vec3 diffuse = brightness * lightColor;
+
+	vec3 unitToCameraVector = normalize(toCameraVector);
+	vec3 lightDirection = -unitLightVector;
+	vec3 reflectedLight = reflect(lightDirection, unitNormal);
+	
+	float specular = dot(reflectedLight, unitToCameraVector);
+	specular = max(specular, 0.0);
+	float dampedFactor = pow(specular, shineDamper);
+	vec3 finalSpecular = dampedFactor * reflectness * lightColor;
+
+	//outColor = vec4(color,1.0);
+	//Linear interpolation of textures, by sampling the 2D texture by input coordinates
+	outColor = vec4(diffuse,1.0) * totalColor + vec4(finalSpecular, 1.0);
+}
