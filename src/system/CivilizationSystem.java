@@ -792,8 +792,13 @@ public class CivilizationSystem extends BaseSystem {
 					main.menuSystem.selectAndFocus(en);
 			}
 		}
-		if (main != null)
-			main.menuSystem.techMenu.setupButtons();
+		/*TODO:
+		 * 
+		 * Figure out why this broke the code
+		 * 
+		 * if (main != null)
+			main.menuSystem.techMenu.setupButtons();*/
+		//if (guiExists) System.out.println("ticked");
 	}	
 
 	public void spawnBarbarians(Grid grid, int index, int r, int c)

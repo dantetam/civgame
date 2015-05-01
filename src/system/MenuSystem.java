@@ -240,7 +240,7 @@ public class MenuSystem extends BaseSystem {
 	public boolean menuActivated = false, menuHighlighted = false;
 	public void tick()
 	{
-		//main.textFont(arial);
+		/*//main.textFont(arial);
 		//main.resetShader();
 		main.hint(PApplet.DISABLE_DEPTH_TEST);
 		//main.textSize(20);
@@ -361,13 +361,13 @@ public class MenuSystem extends BaseSystem {
 		//System.out.println(loadout + " " + loadoutDisplay);
 
 		//Render the cursor
-		/*if (!menus.get(7).active && !menus.get(9).active)
+		if (!menus.get(7).active && !menus.get(9).active)
 		{
 			int width = 6;
 			main.stroke(255);
 			main.fill(0);
 			main.rect((main.width - width)/2, (main.height - width)/2, width, width);
-		}*/
+		}
 
 		main.noStroke();
 
@@ -406,7 +406,7 @@ public class MenuSystem extends BaseSystem {
 			else
 				hintText.add("Pristine");
 
-			/*if (mouseHighlighted.city != null)
+			if (mouseHighlighted.city != null)
 			{
 				if (mouseHighlighted.city.owner != null)
 				{
@@ -418,7 +418,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				double[] data = City.staticEval(mouseHighlighted);
 				hintText.add((int)data[0] + " F, " + (int)data[1] + " G, " + (int)data[2] + " M, " + (int)data[3] + " R");
-			}*/
+			}
 			//Same check as above, really
 			if (mouseHighlighted.owner != null)
 				hintText.add("Relations: " + mouseHighlighted.owner.opinions[0]);
@@ -606,20 +606,20 @@ public class MenuSystem extends BaseSystem {
 									{
 										main.tint(255,255,255,255);
 										main.pushStyle();
-										/*if (t.owner != null)
+										if (t.owner != null)
 										{
 											main.strokeWeight(3);
 											main.noFill();
 											main.stroke(t.owner.r, t.owner.g, t.owner.b);
 											main.rect(iX, iY, len, len);
-										}*/
+										}
 										main.image(img, iX, iY + 2*len, len, len);
 										main.popStyle();
 										//iX = pos[0]-dX-len/2; iY = pos[1]-dY+20-len/2;
 									}
 									main.tint(255,255,255,255);
 									//main.rect(pos[0]-dX, pos[1]-dY, 10, 10);
-									/*int n = 0;
+									int n = 0;
 									for (int i = 0; i < y.length; i++)
 										if (y[i] > 0)
 											n++;
@@ -629,7 +629,7 @@ public class MenuSystem extends BaseSystem {
 										{
 											main.newMenuSystem.tileIcon(pos[0] - dX,pos[1] - dY,i,(int)y[i],n,iter);
 											iter++;
-										}*/
+										}
 								}
 							}
 						}
@@ -775,7 +775,7 @@ public class MenuSystem extends BaseSystem {
 													if (cityGui)
 														iY -= len;
 													unitStats(en, iX, iY, len);
-													/*main.image(image, iX, iY, len, len);
+													main.image(image, iX, iY, len, len);
 													main.image(EntityData.iconMap.get("attack"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
 													main.image(EntityData.iconMap.get("defense"), pos[0] - dX - len/2, pos[1] - dY - 30 - i*30, len/2, len/2);
 													main.image(EntityData.iconMap.get("ranged"), pos[0] - dX - len/2 + len, pos[1] - dY - 30 - i*30 - len/2, len/2, len/2);
@@ -791,7 +791,7 @@ public class MenuSystem extends BaseSystem {
 													main.text((int)en.offensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30 - len/2);
 													main.text((int)en.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30);
 													main.text((int)en.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2);
-													main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*30);*/
+													main.text((int)en.health, pos[0] - dX + len, pos[1] - dY - 30 - i*30);
 
 													//image = EntityData.iconMap.get("CopperWeapons");
 													//main.image(image, iX + len*0.6F, iY + len*0.6F, len*0.4F, len*0.4F);
@@ -838,8 +838,8 @@ public class MenuSystem extends BaseSystem {
 								{
 									//requestFieldsUpdate = false;
 									main.newMenuSystem.largeFieldIcon(pos[0]-dX,pos[1]-dY + len*1.5F,t,(int)(len*1.5));
-									/*if (Math.random() < 0.01)
-										System.out.println(t.maxFields);*/
+									if (Math.random() < 0.01)
+										System.out.println(t.maxFields);
 								}
 								for (int i = 0; i <= 3; i++)
 								{
@@ -921,7 +921,7 @@ public class MenuSystem extends BaseSystem {
 		//Show the possible tiles that a unit can move to
 		//Make this a function to stop code repeats
 		//System.out.println(movementChoices.size());
-		/*for (int i = 0; i < movementChoices.size(); i++)
+		for (int i = 0; i < movementChoices.size(); i++)
 		{
 			Tile t = movementChoices.get(i);
 			//System.out.println((t.row - h.row - (mh.guiPositions.length-1)/2) + " " + (t.col - h.col + (mh.guiPositions[0].length-1)/2));
@@ -936,11 +936,11 @@ public class MenuSystem extends BaseSystem {
 				float dX = main.width/2 - highlightDispX, dY = main.height/2 - highlightDispY;
 				main.text("1", pos[0] - dX,pos[1] - dY);
 			}
-		}*/
+		}
 
 		//Show the city queue food/metal menu and associated UI
 		//More repeating code
-		/*if (h != null)
+		if (h != null)
 		{
 			for (int r = 0; r < mh.guiPositions.length; r++)
 			{
@@ -966,7 +966,7 @@ public class MenuSystem extends BaseSystem {
 					}
 				}
 			}
-		}*/
+		}
 
 		if (menus.get(2).active())
 			menus.get(2).activate(false);
@@ -1131,9 +1131,9 @@ public class MenuSystem extends BaseSystem {
 							for (int i = 0; i < mouseHighlighted.occupants.size(); i++)
 							{
 								GameEntity en = mouseHighlighted.occupants.get(i);
-								/*if (i != mouseHighlighted.occupants.size() - 1)
+								if (i != mouseHighlighted.occupants.size() - 1)
 								main.text(en.name + "(" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + tooltip.sizeY/2 + 14*i);
-								else*/
+								else
 								if (impr != null)
 									main.text(en.name + " (" + en.owner + ")", tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10 + 14*(i+1));
 								else
@@ -1205,7 +1205,7 @@ public class MenuSystem extends BaseSystem {
 					}
 				}
 				menus.get(menu).origPosIfNoMouse();
-				/*for (int i = 0; i < menus.get(menu).buttons.size(); i++)
+				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
 					main.fill(0);
 					Button b = menus.get(menu).buttons.get(i);
@@ -1213,7 +1213,7 @@ public class MenuSystem extends BaseSystem {
 					main.textAlign(PApplet.CENTER, PApplet.CENTER);
 					main.fill(255);
 					main.text(b.display, b.posX + b.sizeX/2, b.posY + b.sizeY/2);
-				}*/
+				}
 				for (int i = 0; i < menus.get(menu).buttons.size(); i++)
 				{
 					TextBox b = menus.get(menu).buttons.get(i);
@@ -1274,7 +1274,7 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
-		/*MouseHelper mouseHelper = main.inputSystem.mouseHelper;
+		MouseHelper mouseHelper = main.inputSystem.mouseHelper;
 		for (int row = 0; row < mouseHelper.shapes.length; row++)
 		{
 			for (int col = 0; col < mouseHelper.shapes[0].length; col++)
@@ -1291,8 +1291,8 @@ public class MenuSystem extends BaseSystem {
 				main.vertex(shape.x[0],shape.y[0]);
 				main.endShape();
 			}
-		}*/
-		/*MouseHelper mouseh = main.inputSystem.mouseHelper;
+		}
+		MouseHelper mouseh = main.inputSystem.mouseHelper;
 		for (int i = 0; i < mouseh.rHorizonLines.size(); i++)
 		{
 			main.strokeWeight(5);
@@ -1315,9 +1315,9 @@ public class MenuSystem extends BaseSystem {
 				main.fill(0);
 				main.rect(p.x, p.y, 10, 10);
 			}
-		}*/
+		}
 
-		main.strokeWeight(1);
+		main.strokeWeight(1);*/
 	}
 
 	//TODO: Possibly sort shortcuts; higher buttons get lower numbers for shortcuts
@@ -1345,7 +1345,7 @@ public class MenuSystem extends BaseSystem {
 
 	public void displayMenu(int menu)
 	{
-		if (menus.get(menu).active())
+		/*if (menus.get(menu).active())
 		{
 			if (menus.get(menu) instanceof TechMenu)
 			{
@@ -1454,10 +1454,10 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
-		main.hint(main.DISABLE_DEPTH_TEST);
+		main.hint(main.DISABLE_DEPTH_TEST);*/
 	}
 	
-	private void strokeTextbox(float r, float g, float b)
+	/*private void strokeTextbox(float r, float g, float b)
 	{
 		if (r == -1 || g == -1 || b == -1)
 			main.noStroke();
@@ -1487,12 +1487,12 @@ public class MenuSystem extends BaseSystem {
 		main.image(EntityData.iconMap.get("ranged"), iX + len*2, iY, len/2, len/2);
 		main.image(EntityData.iconMap.get("health"), iX + len*2, iY + len/2, len/2, len/2);
 
-		/*main.textAlign(main.LEFT, main.TOP);
+		main.textAlign(main.LEFT, main.TOP);
 		main.fill(255);
 		main.text((int)en.offensiveStr, iX + len/2, iY + len);
 		main.text((int)en.defensiveStr, iX + len/2, iY + len*3/2);
 		main.text((int)en.rangedStr, iX + len*3/2, iY + len);
-		main.text((int)en.health, iX + len*3/2, iY + len*3/2);*/
+		main.text((int)en.health, iX + len*3/2, iY + len*3/2);
 
 		main.fill(0);
 		main.rect(iX + 3*len/2, iY, len/2, len/2);
@@ -1550,7 +1550,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			String text = b.display.get(j);
 			if (text == null) continue;
-			/*do
+			do
 			{
 				int index1 = text.indexOf("<!"), index2 = text.indexOf("!>");
 				if (index1 != -1 && index2 != -1)
@@ -1569,11 +1569,11 @@ public class MenuSystem extends BaseSystem {
 				}
 				else
 					break;
-			} while (true);*/
+			} while (true);
 			main.textAlign(main.CENTER, main.CENTER);
 			main.text(text, b.posX + b.sizeX/2, b.posY + 10 + j*15);
 		}
-	}
+	}*/
 
 	public class Click {float mouseX, mouseY; boolean click; Click(boolean click, float x, float y) {this.click = click; mouseX = x; mouseY = y;}}
 	public void queueClick(float mouseX, float mouseY)
@@ -1889,7 +1889,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			int index = command.indexOf(',');
 			int r = Integer.parseInt(command.substring(9,index)), c = Integer.parseInt(command.substring(index+1));
-			updateFieldMenu(main.grid.getTile(r,c));
+			//updateFieldMenu(main.grid.getTile(r,c));
 		}
 		/*else if (command.contains("editField"))
 		{
@@ -2215,7 +2215,7 @@ public class MenuSystem extends BaseSystem {
 		}
 	}
 
-	public void displayCity(City citySelected)
+	/*public void displayCity(City citySelected)
 	{
 		//Selection vs highlight
 		if (citySelected.equals(selected))
@@ -2256,7 +2256,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			temp.add("Nothing queued.");
 		}
-	}
+	}*/
 
 	public int calcQueueTurnsInt(City citySelected, String name)
 	{
@@ -2682,7 +2682,7 @@ public class MenuSystem extends BaseSystem {
 	}*/
 
 	//private Tile editingFields; //The tile that the player wants to improve
-	public void updateFieldMenu(Tile t)
+	/*public void updateFieldMenu(Tile t)
 	{
 		if (t.maxFields == 0) return;
 		closeMenus();
@@ -2695,9 +2695,9 @@ public class MenuSystem extends BaseSystem {
 			Field f = null;
 			if (i < t.fields.size())
 				f = t.fields.get(i);
-			/*if (f == null)
+			if (f == null)
 				menus.get(15).addButton("editField"+i, "Add field", "There is no field built here. Add a new one.", i*150, 0, 100, 30);
-			else*/
+			else
 			TextBox b = new TextBox("", "", i*150, 30, 150, 100);
 			b.display = new ArrayList<String>();
 			if (f != null)
@@ -2721,7 +2721,7 @@ public class MenuSystem extends BaseSystem {
 			//b.sizeX = 100; b.sizeY = 30;
 			//b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
-	}
+	}*/
 
 	public void updateLoadoutDisplay(String name)
 	{
@@ -2926,13 +2926,13 @@ public class MenuSystem extends BaseSystem {
 		textboxes.get(5).tooltip.set(0, "Please order your unit.");
 		select(en);
 		main.fixCamera(en.location.row, en.location.col);
-		main.chunkSystem.update();
+		//main.chunkSystem.update();
 		//main.requestUpdate();
 	}
 
 	public void select(BaseEntity en)
 	{
-		selected = en;
+		/*selected = en;
 		main.newMenuSystem.updateUnitMenu(en);
 		//main.requestUpdate();
 		if (en != null)
@@ -2963,7 +2963,7 @@ public class MenuSystem extends BaseSystem {
 			textboxes.get(1).move(main.width - 400,main.height-150);
 
 			menus.get(1).buttons.clear();
-		}
+		}*/
 	}
 
 

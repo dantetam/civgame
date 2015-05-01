@@ -199,7 +199,7 @@ public class InputSystem extends BaseSystem {
 		}
 		if (moving == false && lastMoving) //if the player has stopped moving
 		{
-			main.chunkSystem.update();
+			//main.chunkSystem.update();
 			//main.requestUpdate();
 			//System.out.println("Update");
 		}
@@ -254,7 +254,7 @@ public class InputSystem extends BaseSystem {
 			main.player.rotVertical = (float)Math.PI/4*dY;
 			if (Math.abs(dX) <= 20)
 			{
-				main.chunkSystem.update();
+				//main.chunkSystem.update();
 			}
 		}
 		main.player.update();
@@ -645,7 +645,7 @@ public class InputSystem extends BaseSystem {
 		{
 			main.tacticalView = !main.tacticalView;
 			//main.menuSystem.menus.get(14).activate(main.tacticalView);
-			main.chunkSystem.update(); //Update the fields menu
+			//main.chunkSystem.update(); //Update the fields menu
 		}
 		else if (action.contains("FUNCTION_"))
 		{

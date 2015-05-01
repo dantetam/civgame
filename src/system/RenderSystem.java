@@ -1,4 +1,4 @@
-package system;
+/*package system;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class RenderSystem extends BaseSystem {
 		setCamera();
 		main.noLights();
 
-		/*if (h != null && requestUpdate)
+		if (h != null && requestUpdate)
 		{
 			int sight = 5;
 			main.inputSystem.mouseHelper.clear();
@@ -66,7 +66,7 @@ public class RenderSystem extends BaseSystem {
 					}
 				}
 			}
-		}*/
+		}
 
 		if (h != null && requestUpdate)
 		{
@@ -75,7 +75,7 @@ public class RenderSystem extends BaseSystem {
 
 		main.background(150,225,255);
 		//Pre-processing
-		/*Tile tile = main.menuSystem.highlighted;
+		Tile tile = main.menuSystem.highlighted;
 		if (tile != null)
 		{
 
@@ -85,7 +85,7 @@ public class RenderSystem extends BaseSystem {
 			main.box(widthBlock,widthBlock,widthBlock);
 			main.popMatrix();
 			//return;
-		}*/
+		}
 		main.background(150,225,255);
 
 		main.pushStyle();
@@ -134,7 +134,7 @@ public class RenderSystem extends BaseSystem {
 		main.shader(main.lightShader, main.TRIANGLES);
 		setCamera();
 
-		/*System.out.println("Yooo");
+		System.out.println("Yooo");
 		PMatrix3D matrix = main.pg.getMatrix((PMatrix3D)null);
 		System.out.println(matrix.m00 + ", " + matrix.m01 + ", " + matrix.m02 + ", " + matrix.m03);
 		System.out.println(matrix.m10 + ", " + matrix.m11 + ", " + matrix.m12 + ", " + matrix.m13);
@@ -142,11 +142,11 @@ public class RenderSystem extends BaseSystem {
 		System.out.println(matrix.m30 + ", " + matrix.m31 + ", " + matrix.m32 + ", " + matrix.m33);
 		main.printMatrix();
 		System.out.println("----");
-		System.out.println(main.player.tarX + " " + main.player.tarY + " " + main.player.tarZ);*/
-		/*for (int i = 0; i < terrain.entities.size(); i++)
+		System.out.println(main.player.tarX + " " + main.player.tarY + " " + main.player.tarZ);
+		for (int i = 0; i < terrain.entities.size(); i++)
 		{
 			renderBlock(terrain.entities.get(i));
-		}*/
+		}
 		//Look to see if the entity is both within the player's vision and is a close enough distance
 		main.menuSystem.highlighted = null;
 		for (int r = 0; r < main.terrain.length; r++)
@@ -167,10 +167,10 @@ public class RenderSystem extends BaseSystem {
 				else if ((main.player.posY <= 150 && dist < dist0 && angle(main.chunkSystem.angle[chunk]+Math.PI, main.chunkSystem.playerAngle+Math.PI) && main.chunkSystem.angle[chunk] != -10) ||
 						(dist < dist1))
 				{
-					/*if (!main.grid.civs[0].revealed[r][c] || main.showAll)
+					if (!main.grid.civs[0].revealed[r][c] || main.showAll)
 					{
 						continue;
-					}*/
+					}
 					if (main.grid.civs[0].revealed[r][c] == 0 && !main.showAll)
 					{
 						continue;
@@ -199,10 +199,10 @@ public class RenderSystem extends BaseSystem {
 					{
 						if (main.grid.verticalRivers[r][c]) renderRiver(r,c,r,c+1);
 					}
-					/*if (!main.grid.civs[0].revealed[r][c] || main.showAll)
+					if (!main.grid.civs[0].revealed[r][c] || main.showAll)
 					{
 						continue;
-					}*/
+					}
 					if (t.road)
 						renderRoad(r,c);
 					if (t.occupants.size() > 0)
@@ -220,15 +220,15 @@ public class RenderSystem extends BaseSystem {
 		//Rough approximation of where the mouse is
 		//Tile h = main.menuSystem.lastHighlighted;
 
-		/*if (h != null)
+		if (h != null)
 		{
 			int dX = (int)(main.mouseX - main.centerX);
 			int dY = (int)(main.mouseY - main.centerY);
 			//main.menuSystem.mouseHighlighted = main.grid.getTile(h.row + dX/70, h.col);
-		}*/
+		}
 
 		main.resetShader();
-		/*main.strokeWeight(5);
+		main.strokeWeight(5);
 		for (int r = 0; r < main.terrain.length; r++)
 		{
 			for (int c = 0; c < main.terrain[0].length; c++)
@@ -252,8 +252,8 @@ public class RenderSystem extends BaseSystem {
 				}
 				main.popMatrix();
 			}
-		}*/
-		/*for (int r = 0; r < main.verticalRivers.length; r++)
+		}
+		for (int r = 0; r < main.verticalRivers.length; r++)
 		{
 			for (int c = 0; c < main.verticalRivers[0].length; c++)
 			{
@@ -266,8 +266,8 @@ public class RenderSystem extends BaseSystem {
 			{
 				if (main.horizontalRivers[r][c]) renderRiver(r+1,c,r+1,c);
 			}
-		}*/
-		/*for (int r = 0; r < main.grid.rows; r++)
+		}
+		for (int r = 0; r < main.grid.rows; r++)
 		{
 			for (int c = 0; c < main.grid.cols; c++)
 			{
@@ -278,12 +278,12 @@ public class RenderSystem extends BaseSystem {
 
 				}
 			}
-		}*/
-		/*main.hint(PApplet.DISABLE_DEPTH_TEST);
+		}
+		main.hint(PApplet.DISABLE_DEPTH_TEST);
 		main.camera();
 		main.perspective();
 		main.rect(500, 500, 500, 500);
-		main.hint(PApplet.ENABLE_DEPTH_TEST);*/
+		main.hint(PApplet.ENABLE_DEPTH_TEST);
 		//main.perspective();
 		//main.ortho();
 		//main.stroke(255);
@@ -325,11 +325,11 @@ public class RenderSystem extends BaseSystem {
 			temp.moveTo(r*widthBlock*sampleSize, (float)main.terrain[r][c]*con/2F, c*widthBlock*sampleSize);
 			if (main.player.lookingAtEntity(temp))
 			{
-				/*main.menuSystem.target = main.grid.getTile(r, c);
+				main.menuSystem.target = main.grid.getTile(r, c);
 				//main.fill(0);
 				main.stroke(0,0,255);
 				main.strokeWeight(8);
-				strokedColor = true;*/
+				strokedColor = true;
 				if (t != null)
 				{
 					//if ((main.grid.civs[0].revealed[t.row][t.col] == 0 && !main.showAll) || main.menuSystem.findButtonWithin(main.mouseX, main.mouseY) != null)
@@ -446,12 +446,12 @@ public class RenderSystem extends BaseSystem {
 			}
 			else
 			{
-				/*main.beginShape(main.QUADS);
+				main.beginShape(main.QUADS);
 				main.vertex(r*widthBlock, 0, c*widthBlock);
 				main.vertex((r+1)*widthBlock, 0, (c)*widthBlock);
 				main.vertex((r+1)*widthBlock, 0, (c+1)*widthBlock);
 				main.vertex((r)*widthBlock, 0, (c+1)*widthBlock);
-				main.endShape();*/
+				main.endShape();
 				//Replace with 4 loops later
 				//done
 				//Render sets of multiple sets
@@ -471,10 +471,10 @@ public class RenderSystem extends BaseSystem {
 						//try {
 						if (n <= 1)
 						{
-							/*main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m]+layer*off, c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m]+layer*off, c*widthBlock);
+							main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m]+layer*off, c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m]+layer*off, c*widthBlock);
 							main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m]+layer*off, (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m]+layer*off, (c+1)*widthBlock);
 							main.line(r*widthBlock, vertices[r*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, r*widthBlock, vertices[r*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
-							main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);*/
+							main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i]+layer*off, (c+i/m)*widthBlock, (r+1)*widthBlock, vertices[(r+1)*m][c*m + (int)i + 1]+layer*off, (c+(((float)i+1)/m))*widthBlock);
 							main.line(vertices[r*m + (int)i][c*m], vertices[r*m + (int)i + 1][c*m], layer*off);
 							main.line(vertices[r*m + (int)i][(c+1)*m], vertices[r*m + (int)i + 1][(c+1)*m], layer*off);
 							main.line(vertices[r*m][c*m + (int)i], vertices[r*m][c*m + (int)i + 1], layer*off);
@@ -489,14 +489,14 @@ public class RenderSystem extends BaseSystem {
 						}
 						//} catch (Exception e) {if (main.frameCount % 25 == 0) {e.printStackTrace();} continue;}
 
-						/*main.line(r*widthBlock, vertices[r*m][c*m]+layer*off, c*widthBlock, 
+						main.line(r*widthBlock, vertices[r*m][c*m]+layer*off, c*widthBlock, 
 								(r+1)*widthBlock, vertices[(r+1)*m][c*m]+layer*off, c*widthBlock);
 						main.line((r+1)*widthBlock, vertices[(r+1)*m][c*m]+layer*off, c*widthBlock, 
 								(r+1)*widthBlock, vertices[(r+1)*m][(c+1)*m]+layer*off, (c+1)*widthBlock);
 						main.line((r+1)*widthBlock, vertices[(r+1)*m][(c+1)*m]+layer*off, (c+1)*widthBlock, 
 								r*widthBlock, vertices[r*m][(c+1)*m]+layer*off, (c+1)*widthBlock);
 						main.line(r*widthBlock, vertices[r*m][(c+1)*m]+layer*off, (c+1)*widthBlock, 
-								r*widthBlock, vertices[r*m][c*m]+layer*off, c*widthBlock);*/
+								r*widthBlock, vertices[r*m][c*m]+layer*off, c*widthBlock);
 
 						//main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][c*m]+layer*off, c*widthBlock, (r+(((float)i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][c*m]+layer*off, c*widthBlock);
 						//main.line((r+(i/m))*widthBlock, vertices[r*m + (int)i][(c+1)*m]+layer*off, (c+1)*widthBlock, (r+((i+1)/m))*widthBlock, vertices[r*m + (int)i + 1][(c+1)*m]+layer*off, (c+1)*widthBlock);
@@ -508,7 +508,7 @@ public class RenderSystem extends BaseSystem {
 					}
 				}
 				//only for case 3
-				/*main.line(r*widthBlock, (float)vertices[r*m][c*m], c*widthBlock, (r+(1F/m))*widthBlock, (float)vertices[r*m + 1][c*m], c*widthBlock);
+				main.line(r*widthBlock, (float)vertices[r*m][c*m], c*widthBlock, (r+(1F/m))*widthBlock, (float)vertices[r*m + 1][c*m], c*widthBlock);
 				main.line((r+(1F/m))*widthBlock, (float)vertices[r*m + 1][c*m], c*widthBlock, (r+(2F/m))*widthBlock, (float)vertices[r*m + 2][c*m], c*widthBlock);
 				main.line((r+(2F/m))*widthBlock, (float)vertices[r*m + 2][c*m], c*widthBlock, (r+(m/m))*widthBlock, (float)vertices[r*m + m][c*m], c*widthBlock);
 
@@ -522,7 +522,7 @@ public class RenderSystem extends BaseSystem {
 
 				main.line((r+1)*widthBlock, (float)vertices[(r+1)*m][c*m], c*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 1], (c+(1F/m))*widthBlock);
 				main.line((r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 1], (c+(1F/m))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 2], (c+(2F/m))*widthBlock);
-				main.line((r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 2], (c+(2F/m))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + m], (c+(m/m))*widthBlock);*/
+				main.line((r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + 2], (c+(2F/m))*widthBlock, (r+1)*widthBlock, (float)vertices[(r+1)*m][c*m + m], (c+(m/m))*widthBlock);
 				main.noStroke();
 				if (t.city != null)
 				{
@@ -539,7 +539,7 @@ public class RenderSystem extends BaseSystem {
 			{
 				for (int nc = c*m; nc < c*m + m; nc++)
 				{
-					/*
+					
 					//Add snow caps
 					if (nr == r*m + 1 && nc == c*m + 1)
 					{
@@ -547,7 +547,7 @@ public class RenderSystem extends BaseSystem {
 						{
 							main.fill(255);
 						}
-					}*/
+					}
 					//
 					//try
 					{
@@ -556,7 +556,7 @@ public class RenderSystem extends BaseSystem {
 						main.translate((float)(nr - nr%m)*-widthBlock/m, 0, (float)(nc - nc%m)*-widthBlock/m);
 						main.beginShape(main.TRIANGLES);
 						//main.texture(textures[nr][nc]);
-						/*main.vertex(vertices[nr-1][nc-1]);
+						main.vertex(vertices[nr-1][nc-1]);
 						main.vertex(vertices[nr-1][nc+1-1]);
 						main.vertex(vertices[nr+1-1][nc+1-1]);
 						//main.endShape();
@@ -564,7 +564,7 @@ public class RenderSystem extends BaseSystem {
 						//main.texture(textures[nr][nc]);
 						main.vertex(vertices[nr-1][nc-1]);
 						main.vertex(vertices[nr+1-1][nc-1]);
-						main.vertex(vertices[nr+1-1][nc+1-1]);*/
+						main.vertex(vertices[nr+1-1][nc+1-1]);
 						//Correct coast/sea tiles with non-zero height to render as beach
 						main.pushStyle();
 						if (t != null && vertices[nr][nc] != null && vertices[nr][nc+1] != null && vertices[nr+1][nc+1] != null)
@@ -587,12 +587,12 @@ public class RenderSystem extends BaseSystem {
 						main.vertex(vertices[nr+1][nc+1]);
 						
 						main.popStyle();
-						/*main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
+						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc+1],(float)(nc+1)/m*widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
 						main.vertex((float)nr/m*widthBlock,(float)vertices[nr][nc],(float)nc/m*widthBlock);
 						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc],(float)nc/m*widthBlock);
-						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);*/
+						main.vertex((float)(nr+1)/m*widthBlock,(float)vertices[nr+1][nc+1],(float)(nc+1)/m*widthBlock);
 						main.endShape();
 						main.popMatrix();
 					} //catch (Exception e) {main.popMatrix();}
@@ -607,7 +607,7 @@ public class RenderSystem extends BaseSystem {
 			{
 				if (sampleSize == 1)
 				{
-					/*if (t.shape == 1)
+					if (t.shape == 1)
 					{
 						main.pushMatrix();
 						main.translate(0, (float)main.terrain[r][c]*con/2, 0);
@@ -621,7 +621,7 @@ public class RenderSystem extends BaseSystem {
 						main.translate(0, widthBlock*sampleSize/4, 0);
 						main.box(widthBlock/2*sampleSize, widthBlock*sampleSize*1.5F, widthBlock/2*sampleSize);
 						main.popMatrix();
-					}*/
+					}
 					int res = t.resource;
 					if (res != 0)
 					{							
@@ -640,11 +640,11 @@ public class RenderSystem extends BaseSystem {
 						}
 						else //Default
 						{
-							/*main.pushMatrix();
+							main.pushMatrix();
 							main.fill(EntityData.getResourceColor(res));
 							main.translate(0, 15, 0);
 							main.box(5);
-							main.popMatrix();*/
+							main.popMatrix();
 						}
 					}
 					if (t.forest)
@@ -676,7 +676,7 @@ public class RenderSystem extends BaseSystem {
 
 		main.strokeWeight(1);
 
-		/*if (en instanceof GameEntity && en.owner.id == 0)
+		if (en instanceof GameEntity && en.owner.id == 0)
 		{
 			GameEntity gameEn = (GameEntity)en;
 			if (gameEn.queueTiles.size() > 0)
@@ -692,7 +692,7 @@ public class RenderSystem extends BaseSystem {
 					main.popMatrix();
 				}
 			}
-		}*/
+		}
 
 		if (main.menuSystem.getSelected() != null)
 			if (en.equals(main.menuSystem.getSelected()))
@@ -717,13 +717,13 @@ public class RenderSystem extends BaseSystem {
 					}
 				}
 			}
-		/*if (en.name.equals("City"))
+		if (en.name.equals("City"))
 			{
 				main.fill(0);
 				main.stroke(en.owner.r,en.owner.g,en.owner.b);
 				main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
 				main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
-			}*/
+			}
 		//System.out.println(en.name);
 		//System.out.println(EntityData.getModel(en.name));
 		if (en.getName().equals("Ruins"))
@@ -766,7 +766,7 @@ public class RenderSystem extends BaseSystem {
 
 		float health = (float)en.health/(float)en.maxHealth;
 		//Shown in GUI now
-		/*if (en.owner != null && health < 1)
+		if (en.owner != null && health < 1)
 		{
 			main.pushMatrix();
 			main.translate(r*widthBlock, 25, c*widthBlock);
@@ -779,15 +779,15 @@ public class RenderSystem extends BaseSystem {
 			main.fill(0,255,0);
 			main.box(widthBlock*health + 2,3,3);
 			main.popMatrix();
-		}*/
-		/*else
+		}
+		else
 		{
 			main.fill(0);
 			main.stroke(en.owner.r,en.owner.g,en.owner.b);
 			main.translate(r*widthBlock, (float)(main.terrain[r][c])*con, c*widthBlock);
 			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
-		}*/
-		/*else
+		}
+		else
 		{
 			main.translate(r*widthBlock, (float)(main.terrain[r][c]-cutoff)*con + sizeY/2, c*widthBlock);
 			main.box(widthBlock*0.4F,sizeY,widthBlock*0.4F);
@@ -809,7 +809,7 @@ public class RenderSystem extends BaseSystem {
 				main.fill(255,0,0);
 				main.box(widthBlock*0.4F);
 			}
-		}*/
+		}
 		main.popMatrix();
 	}
 
@@ -831,9 +831,9 @@ public class RenderSystem extends BaseSystem {
 				Tile t = main.grid.getTile(r,c);
 				if (t.biome == -1)
 				{
-					/*for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-							vertices[nr][nc] = null;*/
+							vertices[nr][nc] = null;
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 							vertices[nr][nc] = new Point((r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
@@ -842,7 +842,7 @@ public class RenderSystem extends BaseSystem {
 									);
 				}
 				//Check to see if there is a land and sea split
-				/*ArrayList<Tile> sea = main.grid.coastal(r, c);
+				ArrayList<Tile> sea = main.grid.coastal(r, c);
 				if (sea.size() > 0)
 				{
 					//Diagonal
@@ -888,7 +888,7 @@ public class RenderSystem extends BaseSystem {
 							System.out.println("impossible");
 						}
 					}
-				}*/
+				}
 			}
 		}
 		for (int r = 0; r < terrain.length; r++)
@@ -970,19 +970,19 @@ public class RenderSystem extends BaseSystem {
 			}
 		}
 		//Make the top & left border zero
-		/*for (int i = 0; i < vertices.length; i++)
+		for (int i = 0; i < vertices.length; i++)
 		{
 			vertices[i][0].y = 0;
 			vertices[0][i].y = 0;
-		}*/
-		/*for (int r = 0; r < vertices.length; r++)
+		}
+		for (int r = 0; r < vertices.length; r++)
 		{
 			for (int c = 0; c < vertices[0].length; c++)
 			{
 				System.out.print((int)vertices[r][c] + " ");
 			}
 			System.out.println();
-		}*/
+		}
 		this.multiply = multiply;
 		for (int nr = 0; nr < vertices.length; nr++)
 		{
@@ -1186,7 +1186,7 @@ public class RenderSystem extends BaseSystem {
 
 	//Make a model of entities with a height map
 	public static final float widthBlock = 21;
-	/*public void addTerrain(double[][] t, float con, float cutoff)
+	public void addTerrain(double[][] t, float con, float cutoff)
 	{
 		terrain = new GridModel(t.length, t[0].length);
 		for (int r = 0; r < t.length; r++)
@@ -1205,7 +1205,7 @@ public class RenderSystem extends BaseSystem {
 				this.cutoff = cutoff;
 			}
 		}
-	}*/
+	}
 
 	//Compares two angles between 0 and 6.28 (2*Math.PI)
 	public boolean angle(double a1, double a2)
@@ -1221,3 +1221,4 @@ public class RenderSystem extends BaseSystem {
 	}
 
 }
+*/

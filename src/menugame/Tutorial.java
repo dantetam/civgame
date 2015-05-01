@@ -260,13 +260,7 @@ public class Tutorial extends CivGame {
 		super.setup();
 		step();
 	}
-
-	public void draw()
-	{
-		super.draw();
-		check();
-	}
-
+	
 	public ArrayList<Character> list(char... keys)
 	{
 		ArrayList<Character> temp = new ArrayList<Character>();

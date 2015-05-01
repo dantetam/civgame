@@ -81,12 +81,12 @@ public class LevelManager {
 				Entity en = newBox(pos, rot, size, "bluePlasma");
 				entities.add(en);
 				
-				String output = "";
+				/*String output = "";
 				for (int i = 0; i < data.length; i++)
 				{
 					output += data[i] + ",";
 				}
-				System.out.println(output);
+				System.out.println(output);*/
 			}
 			reader.close();
 		} catch (Exception e) {e.printStackTrace();}

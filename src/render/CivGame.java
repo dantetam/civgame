@@ -40,7 +40,7 @@ public class CivGame {
 
 	public ArrayList<BaseSystem> systems;
 	//private RenderSystem renderSystem = new RenderSystem(this);
-	public MainGameLoop lwjglSystem = new MainGameLoop(this);
+	public MainGameLoop lwjglSystem;
 	public float width = 1500, height = 900;
 	public float centerX = width/2, centerY = height/2; //for rendering purposes, to determine how the position of the mouse affects the camera
 
@@ -49,7 +49,7 @@ public class CivGame {
 
 	public InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
-	public ChunkSystem chunkSystem;
+	//public ChunkSystem chunkSystem;
 
 	public boolean testing = false, tacticalView = false, keyMenu = false, forceCursor = false; //tacticalView -> display special tile yield and tile ownership GUIs
 
@@ -68,10 +68,10 @@ public class CivGame {
 		systems = new ArrayList<BaseSystem>();
 
 		systems.add(civilizationSystem);
-		systems.add(lwjglSystem);
-		systems.add(menuSystem);
-		systems.add(newMenuSystem);
-		systems.add(inputSystem);
+		//systems.add(lwjglSystem);
+		//systems.add(menuSystem);
+		//systems.add(newMenuSystem);
+		//systems.add(inputSystem);
 	
 		setup();
 	}
@@ -86,6 +86,7 @@ public class CivGame {
 	public void setup()
 	{
 		DisplayManager.createDisplay();
+		lwjglSystem = new MainGameLoop(this);
 		
 		//redraw();
 		generate(terrainType);
@@ -104,19 +105,19 @@ public class CivGame {
 			println();
 		}*/
 
-		chunkSystem = new ChunkSystem(this);
-		systems.add(chunkSystem);
+		//chunkSystem = new ChunkSystem(this);
+		//systems.add(chunkSystem);
 		erosion = new Erosion(terrain,1);
 		erode();
-		chunkSystem.tick();
+		//chunkSystem.tick();
 
 		//Set it manually
 		player.civ = grid.civs[0];
 		player.civ.name = "Player";
-		player.orient(grid);
+		player.orient(grid, lwjglSystem.widthBlock);
 		inputSystem.on = false;
 		menuSystem.select(null); //Fix the selection menu
-		chunkSystem.update(); //Update once
+		//chunkSystem.update(); //Update once
 		Tile t = grid.civs[0].units.get(0).location; //First settler
 		fixCamera(t.row, t.col); //Center the camera at the appropriate location
 
@@ -137,8 +138,12 @@ public class CivGame {
 		}*/
 	}
 
-	public void draw()
-	{
+	//public void draw()
+	{		
+		/*for (int i = 0; i < systems.size(); i++)
+		{
+			systems.get(i).tick();
+		}*/
 		/*background(255);
 		inputSystem.passMouse(mouseX, mouseY);
 		menuSystem.queueMousePass(mouseX, mouseY);
@@ -727,6 +732,6 @@ public class CivGame {
 	}
 
 	public float widthBlock() {return lwjglSystem.widthBlock;}
-	public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
+	//public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
 
 }

@@ -381,7 +381,7 @@ public class Game extends PApplet {
 	private CivGame renderer;
 	private Tutorial tutorial;
 	//Taken from stack overflow
-	public class PFrame extends JFrame {
+	public class PFrame {
 		//Creating full games
 		public PFrame(Game game, int width, int height, int numCivs, int numCityStates, int difficultyLevel, String challengeType, String terrainType, String civChoice, long seed) {
 			setBounds(0, 0, width, height);
@@ -457,7 +457,7 @@ public class Game extends PApplet {
 						else if (command.equals("tutorial"))
 						{
 							PFrame f = new PFrame(this,0,1500,900);
-							f.setTitle("Tutorial");
+							//f.setTitle("Tutorial");
 							//setVisible(false);
 							background(255);
 							//redraw();
@@ -466,21 +466,21 @@ public class Game extends PApplet {
 						else if (command.equals("economictutorial"))
 						{
 							PFrame f = new PFrame(this,1,1500,900);
-							f.setTitle("Tutorial");
+							//f.setTitle("Tutorial");
 							background(255);
 							noLoop();
 						}
 						else if (command.equals("wartutorial"))
 						{
 							PFrame f = new PFrame(this,2,1500,900);
-							f.setTitle("Tutorial");
+							//f.setTitle("Tutorial");
 							background(255);
 							noLoop();
 						}
 						else if (command.equals("advancedwartutorial"))
 						{
 							PFrame f = new PFrame(this,3,1500,900);
-							f.setTitle("Tutorial");
+							//f.setTitle("Tutorial");
 							background(255);
 							noLoop();
 						}
@@ -492,7 +492,7 @@ public class Game extends PApplet {
 						else if (command.equals("quickgame"))
 						{
 							PFrame f = new PFrame(this,1500,900,3,4,3,"Conquest","terrain11","Corinth",System.currentTimeMillis());
-							f.setTitle("Tamora");
+							//f.setTitle("Tamora");
 							background(255);
 							noLoop();
 						}
@@ -574,7 +574,7 @@ public class Game extends PApplet {
 						else if (command.contains("terrain"))
 						{
 							PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,difficultyLevel,challengeType,command,civChoice,Long.parseLong(seed));
-							f.setTitle("Tamora");
+							//f.setTitle("Tamora");
 							//setVisible(false);
 							background(255);
 							//redraw();

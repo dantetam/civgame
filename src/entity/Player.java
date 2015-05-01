@@ -6,7 +6,6 @@ import game.Grid;
 
 import java.util.ArrayList;
 
-import system.RenderSystem;
 import vector.*;
 
 public class Player {
@@ -50,11 +49,11 @@ public class Player {
 	}*/
 	
 	//Orient the player to the middle of the grid
-	public void orient(Grid grid)
+	public void orient(Grid grid, int widthBlock)
 	{
-		posX = grid.rows/2*RenderSystem.widthBlock;
+		posX = grid.rows/2*widthBlock;
 		posY = 60;
-		posZ = grid.cols/2*RenderSystem.widthBlock;
+		posZ = grid.cols/2*widthBlock;
 		rotY = (float)Math.PI/2;
 		rotVertical = (float)Math.PI/3F;
 	}
