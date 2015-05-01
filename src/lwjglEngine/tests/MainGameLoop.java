@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import render.CivGame;
 import system.BaseSystem;
+import terrain.BicubicInterpolator;
 import lwjglEngine.entities.Camera;
 import lwjglEngine.entities.Entity;
 import lwjglEngine.entities.Light;
@@ -18,6 +19,11 @@ import lwjglEngine.terrain.Terrain;
 import lwjglEngine.textures.ModelTexture;
 import lwjglEngine.textures.TerrainTexture;
 import lwjglEngine.textures.TerrainTexturePack;
+
+import java.util.ArrayList;
+import terrain.DiamondSquare;
+import vector.Point;
+import game.Tile;
 
 public class MainGameLoop {
 
@@ -152,6 +158,185 @@ public class MainGameLoop {
 			DisplayManager.updateDisplay();
 			frameCount++;
 		}
+	}
+
+	public Point[][] generateRoughTerrain(double[][] terrain, int multiply)
+	{
+		Point[][] vertices = new Point[terrain.length*multiply + 10][terrain.length*multiply + 10];
+		double[][] temp1 = DiamondSquare.makeTable(2,2,2,2,multiply);
+		temp1[temp1.length/2][temp1.length/2] = 8;
+		double[][] temp2 = DiamondSquare.makeTable(2,2,2,2,multiply);
+		temp2[temp1.length/2][temp1.length/2] = 24;
+		DiamondSquare map;
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				Tile t = main.grid.getTile(r,c);
+				if (t.biome == -1)
+				{
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+							vertices[nr][nc] = null;
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+							vertices[nr][nc] = new Point((r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+									0,
+									(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+									);
+				}
+				//Check to see if there is a land and sea split
+				ArrayList<Tile> sea = main.grid.coastal(r, c);
+				if (sea.size() > 0)
+				{
+					//Diagonal
+					//damn these variables
+					for (int i = 0; i < sea.size(); i++)
+					{
+						int dr = sea.get(i).row - r, dc = sea.get(i).col - c;
+						int pr = 0, pc = 0;
+						if (dr != 0 && dc != 0)
+						{
+
+						}
+						else if (dr != 0) // && dc == 0
+						{
+							if (dr == 1)
+							{
+								//for (int j = 0; j < )
+							}
+							else //dr == -1
+							{
+
+							}
+						}
+						else if (dc != 0) // && dr == 0
+						{
+							if (dc == 1)
+							{
+
+							}
+							else //dc == -1
+							{
+
+							}
+						}
+						else
+						{
+							System.out.println("impossible");
+						}
+					}
+				}
+			}
+		}
+		for (int r = 0; r < terrain.length; r++)
+		{
+			for (int c = 0; c < terrain[0].length; c++)
+			{
+				map = new DiamondSquare(temp2);
+				map.seed(870L);
+				map.random.setSeed((long)(System.currentTimeMillis()*Math.random()*100F));
+				Tile t = main.grid.getTile(r,c);
+				//map = null;
+				if (t.biome == -1) continue;
+				if (t.shape == 2)
+				{
+					double[][] renderHill = map.generate(DiamondSquare.makeTable(5, 5, 5, 5, multiply), new double[]{0, 0, 2, 7, 0.7, 1});
+					renderHill = DiamondSquare.max(renderHill, 20);
+					//DiamondSquare.printTable(renderHill);
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					{
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+						{
+							vertices[nr][nc] = new Point(
+									(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+									(float)renderHill[nr - r*multiply][nc - c*multiply],
+									(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+									);
+							//System.out.print(renderHill[nr - r*multiply][nc - c*multiply] + " ");
+						}
+						//System.out.println();
+					}
+				}
+				else if (t.shape == 1)
+				{
+					map = new DiamondSquare(temp1);
+					long seed = (long)(System.currentTimeMillis()*Math.random());
+					map.seed(seed);
+					//System.out.println(seed);
+					//map.seed(870L);
+					//double[][] renderHill = map.generate(new double[]{0, 0, 2, 6, 0.5});
+					double[][] renderHill = map.generate(DiamondSquare.makeTable(0, 0, 0, 0, multiply), new double[]{0, 0, 2, 4, 0.5, 1});
+					renderHill = DiamondSquare.max(renderHill, 13);
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					{
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+						{
+							vertices[nr][nc] = new Point(
+									(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+									(float)renderHill[nr - r*multiply][nc - c*multiply],
+									(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+									);
+						}
+					}
+				}
+				else
+				{
+					boolean rough = Math.random() < 0.2;
+					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					{
+						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+						{
+							//double height = 2;
+							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
+							if (rough)
+								vertices[nr][nc] = new Point(
+										(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+										(float)(Math.random()*2),
+										(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+										);
+							else
+								vertices[nr][nc] = new Point(
+										(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
+										(float)(Math.random()*0.5),
+										(c + (float)(nc%multiply)/(float)multiply)*widthBlock
+										);
+							//vertices[nr][nc] = 1;
+						}
+					}
+				}
+			}
+		}
+		//Make the top & left border zero
+		/*for (int i = 0; i < vertices.length; i++)
+		{
+			vertices[i][0].y = 0;
+			vertices[0][i].y = 0;
+		}
+		for (int r = 0; r < vertices.length; r++)
+		{
+			for (int c = 0; c < vertices[0].length; c++)
+			{
+				System.out.print((int)vertices[r][c] + " ");
+			}
+			System.out.println();
+		}
+		this.multiply = multiply;
+		for (int nr = 0; nr < vertices.length; nr++)
+		{
+			for (int nc = 0; nc < vertices[0].length; nc++)
+			{
+				Tile t = main.grid.getTile(nr / multiply, nc / multiply);
+				if (t != null && t.biome == -1 && main.grid.adjacentLand(t.row, t.col).size() == 0) continue;
+				//if (nr % multiply != 0 || nc % multiply != 0) continue;
+				Point p = vertices[nr][nc];
+				if (p != null)
+				{
+					vertices[nr][nc] = new Point(p.x + Math.random()*4D - 2, p.y, p.z + Math.random()*4D - 2);
+				}
+			}
+		}*/
+		return vertices;
 	}
 
 }

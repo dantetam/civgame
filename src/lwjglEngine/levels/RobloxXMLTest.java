@@ -14,7 +14,7 @@ public class RobloxXMLTest {
 
 	public static void main(String[] args)
 	{
-		loadModel("res/obj/islands.rbxm");
+		loadModel("islands");
 		System.out.println("Done, refresh for files.");
 	}
 	
@@ -75,7 +75,7 @@ public class RobloxXMLTest {
 	public static void loadModel(String fileName)
 	{
 		try {
-			xml = new XML(new File(fileName));
+			xml = new XML(new File("res/obj/"+fileName+".rbxm"));
 		} catch (Exception e) {e.printStackTrace();} 
 		XML child = xml.getChild("Item"); //workspace?
 		XML[] children = child.getChildren("Item");
@@ -96,7 +96,7 @@ public class RobloxXMLTest {
 		/*String[] toFile = new String[temp.size()];
 		for (int i = 0; i < temp.size(); i++)
 			toFile[i] = temp.get(i);*/
-		saveStrings("res/parsedObj/islands",temp);
+		saveStrings("res/parsedObj/"+fileName,temp);
 	}
 
 	private static void saveStrings(String fileName, ArrayList<String> files)
@@ -106,8 +106,9 @@ public class RobloxXMLTest {
 		try {
 			file = new File(fileName);
 			fileOut = new FileOutputStream(file);
-			if (!file.exists()) file.createNewFile();
-
+			if (file.exists()) file.delete();
+			file.createNewFile();
+			
 			for (int i = 0; i < files.size(); i++)
 			{
 				files.set(i, files.get(i) + "\n");

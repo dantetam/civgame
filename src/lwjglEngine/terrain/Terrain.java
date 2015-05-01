@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import terrain.BicubicInterpolator;
 import lwjglEngine.models.RawModel;
 import lwjglEngine.render.Loader;
 import lwjglEngine.textures.ModelTexture;
@@ -16,9 +17,10 @@ import lwjglEngine.textures.TerrainTexturePack;
 
 public class Terrain {
 
-	private static final int SIZE = 800, MAX_HEIGHT = 40, MIN_HEIGHT = -40;
-	private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
-
+	protected static final int SIZE = 800, MAX_HEIGHT = 40, MIN_HEIGHT = -40;
+	protected static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
+	protected BicubicInterpolator interpolator;
+	
 	public float x,z;
 	public RawModel model;
 	public TerrainTexturePack texturePack;

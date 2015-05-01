@@ -567,7 +567,7 @@ public class Game extends PApplet {
 						//Coosing difficulty
 						else if (command.contains("level"))
 						{
-							difficultyLevel = Integer.parseInt(command.substring(5));
+							difficultyLevel = Integer.parseInt(command.substring(5));         
 							activeMenu = menus.get(3);
 							redraw();
 						}
