@@ -14,7 +14,7 @@ public class RobloxXMLTest {
 
 	public static void main(String[] args)
 	{
-		loadModel("/moredata/islands.rbxm");
+		loadModel("res/obj/islands.rbxm");
 		System.out.println("Done, refresh for files.");
 	}
 	
@@ -96,13 +96,13 @@ public class RobloxXMLTest {
 		/*String[] toFile = new String[temp.size()];
 		for (int i = 0; i < temp.size(); i++)
 			toFile[i] = temp.get(i);*/
-		saveStrings("islands",temp);
+		saveStrings("res/parsedObj/islands",temp);
 	}
 
 	private static void saveStrings(String fileName, ArrayList<String> files)
 	{
 		FileOutputStream fileOut = null;
-		File file;
+		File file = null;
 		try {
 			file = new File(fileName);
 			fileOut = new FileOutputStream(file);
@@ -110,6 +110,7 @@ public class RobloxXMLTest {
 
 			for (int i = 0; i < files.size(); i++)
 			{
+				files.set(i, files.get(i) + "\n");
 				byte[] contentInBytes = files.get(i).getBytes();
 				fileOut.write(contentInBytes);
 			}
@@ -120,6 +121,7 @@ public class RobloxXMLTest {
 		} finally {
 			try {if (fileOut != null) fileOut.close();} catch (Exception e) {e.printStackTrace();}
 		}
+		System.out.println("Made file " + file.getName() + " at path: " + file.getAbsolutePath());
 	}
 
 }
