@@ -1,88 +1,36 @@
 package lwjglEngine.levels;
 
-import processing.core.PApplet;
 import processing.data.XML;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class XMLParser {
-	
-	private double minX = 0, maxX = 0, minY = 0, maxY = 0, minZ = 0, maxZ = 0;
-	
+public class RobloxXMLTest {
+
+	private static XML xml;
+	private static double minX = 0, maxX = 0, minY = 0, maxY = 0, minZ = 0, maxZ = 0;
+
 	public static void main(String[] args)
 	{
-		File test = new XMLParser().loadXMLModel("/data/moredata/ant4.rbxm");
-	}
-	
-	public XMLParser() {
-		
-	}
-	
-	public File loadXMLModel(String fileName)
-	{	
-		XML xml = null;
-		ArrayList<String> data;
-		
-		//xml = XML.parse("/moredata/ant4.rbxm");
-		try {xml = XML.parse(fileName);} catch (Exception e) {e.printStackTrace();}
-		
-		XML child = xml.getChild("Item"); //workspace?
-		XML[] children = child.getChildren("Item");
-		data = new ArrayList<String>();
-
-		for (int i = 0; i < children.length; i++) 
-		{
-			if (children[i].getString("class").equals("Part"))
-				XMLToText(children[i], data);
-			else if (children[i].getString("class").equals("Model"))
-			{
-				for (int j = 0; j < children[i].getChildCount(); j++)
-					if (children[i].getString("class").equals("Part"))
-						XMLToText(children[i].getChild(j), data);
-			}
-		}
-		data.add(0,Math.abs(maxX-minX)/2 + "," + maxX + "," + Math.abs(maxY-minY)/2 + "," + maxY + "," + Math.abs(maxZ-minZ)/2 + "," + maxZ);
-		
-		String[] temp = new String[data.size()];
-		for (int i = 0; i < data.size(); i++)
-		{
-			temp[i] = data.get(i);
-		}
-		
-		File file = new File(fileName);
-		try
-		{
-			FileWriter fw = new FileWriter(file);
-			for (String stringy: temp)
-				fw.write(stringy);
-			//fw.flush();
-			fw.close();
-		} catch (IOException e) {e.getStackTrace();}
-		
+		loadModel("/moredata/islands.rbxm");
 		System.out.println("Done, refresh for files.");
-		
-		return file;
 	}
-
-	private XML findChild(XML xml, String name)
+	
+	private static XML findChild(XML xml, String name)
 	{
 		for (int i = 0; i < xml.getChildren().length; i++)
 		{
 			if (xml.getChildren()[i].hasChildren())
-			{
-				//println(xml.getChildren()[i]);
 				if (xml.getChildren()[i].hasAttribute("name"))
 					if (xml.getChildren()[i].getString("name").equals(name))
 						return xml.getChildren()[i];
-			}
 		}
 		return null;
 	}
 
-	private void XMLToText(XML xml, ArrayList<String> data)
+	private static String XMLToText(XML xml)
 	{
 		XML properties = xml.getChild("Properties");
 		XML size = findChild(properties,"size");
@@ -113,25 +61,65 @@ public class XMLParser {
 		double sizeY = round(Double.parseDouble(size.getChild("Y").getContent()));
 		double sizeZ = round(Double.parseDouble(size.getChild("Z").getContent()));
 		int brickColor = Integer.parseInt(properties.getChild("int").getContent());
-		
+
 		String name = properties.getChild("string").getContent();
-		
-		data.add(posX + "," + posY + "," + posZ + "," + rotX + "," + rotY + "," + rotZ + "," + sizeX + "," + sizeY + "," + sizeZ + "," + brickColor + "," + name);
+
+		return new String(posX + "," + posY + "," + posZ + "," + rotX + "," + rotY + "," + rotZ + "," + sizeX + "," + sizeY + "," + sizeZ + "," + brickColor + "," + name);
 	}
 
-	private double round(double num)
+	private static double round(double num)
 	{
-		/*if (Math.abs(num - Math.floor(num)) < 0.001)
-			return Math.floor(num);
-		else if (Math.abs(num - Math.ceil(num)) < 0.001)
-			return Math.ceil(num);
-		else if (Math.abs(Math.floor(num) - num) < 0.01)
-			return Math.floor(num);
-		else if (Math.abs(Math.ceil(num) - num) < 0.01)
-			return Math.ceil(num);
-		else
-			return num;*/
-		return (double)Math.round(num * 10000) / 10000;
+		return (double)Math.round(num * 10000) / 10000; //10000s intentionally left as integers
+	}
+
+	public static void loadModel(String fileName)
+	{
+		try {
+			xml = new XML(new File(fileName));
+		} catch (Exception e) {e.printStackTrace();} 
+		XML child = xml.getChild("Item"); //workspace?
+		XML[] children = child.getChildren("Item");
+		ArrayList<String> temp = new ArrayList<String>();
+
+		for (int i = 0; i < children.length; i++) 
+		{
+			if (children[i].getString("class").equals("Part"))
+				temp.add(XMLToText(children[i]));
+			else if (children[i].getString("class").equals("Model"))
+			{
+				for (int j = 0; j < children[i].getChildCount(); j++)
+					if (children[i].getString("class").equals("Part"))
+						temp.add(XMLToText(children[i].getChild(j)));
+			}
+		}
+		temp.add(0,Math.abs(maxX-minX)/2 + "," + maxX + "," + Math.abs(maxY-minY)/2 + "," + maxY + "," + Math.abs(maxZ-minZ)/2 + "," + maxZ);
+		/*String[] toFile = new String[temp.size()];
+		for (int i = 0; i < temp.size(); i++)
+			toFile[i] = temp.get(i);*/
+		saveStrings("islands",temp);
+	}
+
+	private static void saveStrings(String fileName, ArrayList<String> files)
+	{
+		FileOutputStream fileOut = null;
+		File file;
+		try {
+			file = new File(fileName);
+			fileOut = new FileOutputStream(file);
+			if (!file.exists()) file.createNewFile();
+
+			for (int i = 0; i < files.size(); i++)
+			{
+				byte[] contentInBytes = files.get(i).getBytes();
+				fileOut.write(contentInBytes);
+			}
+			fileOut.flush();
+			fileOut.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {if (fileOut != null) fileOut.close();} catch (Exception e) {e.printStackTrace();}
+		}
 	}
 
 }
