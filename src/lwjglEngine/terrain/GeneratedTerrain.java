@@ -8,44 +8,24 @@ import javax.imageio.ImageIO;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import terrain.BicubicInterpolator;
 import lwjglEngine.models.RawModel;
 import lwjglEngine.render.Loader;
-import lwjglEngine.textures.ModelTexture;
 import lwjglEngine.textures.TerrainTexture;
 import lwjglEngine.textures.TerrainTexturePack;
+import terrain.BicubicInterpolator;
 
-public class Terrain {
+public class GeneratedTerrain extends Terrain {
 
-	protected static final int SIZE = 800, MAX_HEIGHT = 40, MIN_HEIGHT = -40;
-	protected static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
-	
-	public float x,z;
-	public RawModel model;
-	public TerrainTexturePack texturePack;
-	public TerrainTexture blendMap;
-
-	public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
-			TerrainTexture blendMap, String heightMap)
-	{
-		this.texturePack = texturePack;
-		this.blendMap = blendMap;
-		x = gridX * SIZE;
-		z = gridZ * SIZE;
-		model = generateTerrain(loader, heightMap);
+	public GeneratedTerrain(int gridX, int gridZ, Loader loader,
+			TerrainTexturePack texturePack, TerrainTexture blendMap,
+			double[][] heightMap) {
+		super(gridX, gridZ, loader, texturePack, blendMap, null);
+		generateTerrain(loader, heightMap);
 	}
-
-	protected RawModel generateTerrain(Loader loader, String heightMap)
+	
+	protected RawModel generateTerrain(Loader loader, double[][] terrain)
 	{
-		if (heightMap == null) return null;
-		BufferedImage image = null;
-		try {
-			image = ImageIO.read(new File("res/"+heightMap+".png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		int VERTEX_COUNT = image.getHeight();
+		int VERTEX_COUNT = terrain.length;
 		
 		int count = VERTEX_COUNT * VERTEX_COUNT;
 		float[] vertices = new float[count*3];
@@ -56,9 +36,9 @@ public class Terrain {
 		for (int i = 0; i < VERTEX_COUNT; i++) {
 			for (int j = 0; j < VERTEX_COUNT; j++) {
 				vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT-1) * SIZE;
-				vertices[vertexPointer*3+1] = getHeight(j, i, image);
+				vertices[vertexPointer*3+1] = getTerrainHeight(terrain,j,i);
 				vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT-1) * SIZE;
-				Vector3f normal = calculateNormal(j, i, image);
+				Vector3f normal = calculateNormal(terrain, j, i);
 				normals[vertexPointer*3] = normal.x;
 				normals[vertexPointer*3+1] = normal.y;
 				normals[vertexPointer*3+2] = normal.z;
@@ -85,28 +65,24 @@ public class Terrain {
 		return loader.loadToVAO(vertices, textureCoords, normals, indices);
 	}
 	
-	protected Vector3f calculateNormal(int x, int y, BufferedImage image)
+	protected Vector3f calculateNormal(double[][] terrain, int x, int y)
 	{
-		float hl = getHeight(x-1, y, image);
-		float hr = getHeight(x+1, y, image);
-		float hd = getHeight(x, y-1, image);
-		float hu = getHeight(x, y+1, image);
+		float hl = getTerrainHeight(terrain, x-1, y);
+		float hr = getTerrainHeight(terrain, x+1, y);
+		float hd = getTerrainHeight(terrain, x, y-1);
+		float hu = getTerrainHeight(terrain, x, y+1);
 		Vector3f normal = new Vector3f(hl-hr, 2, hd-hu);
 		normal.normalise();
 		return normal;
 	}
 	
-	private float getHeight(int x, int y, BufferedImage image)
+	protected double[][] terrain;
+	private BicubicInterpolator inter;
+	private float getTerrainHeight(double[][] terrain, int r, int c)
 	{
-		if (x < 0 || x >= image.getHeight() || y < 0 || y >= image.getHeight())
-		{
+		if (r < 0 || r >= terrain.length || c < 0 || c >= terrain.length)
 			return 0;
-		}
-		float height = image.getRGB(x, y);
-		height += MAX_PIXEL_COLOR/2f;
-		height /= MAX_PIXEL_COLOR/2f;
-		height *= MAX_HEIGHT;
-		return height;
+		return (float)inter.getValue(terrain, r, c);
 	}
 
 }
