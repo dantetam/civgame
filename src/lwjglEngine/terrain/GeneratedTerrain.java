@@ -20,7 +20,7 @@ public class GeneratedTerrain extends Terrain {
 			TerrainTexturePack texturePack, TerrainTexture blendMap,
 			double[][] heightMap) {
 		super(gridX, gridZ, loader, texturePack, blendMap, null);
-		generateTerrain(loader, heightMap);
+		super.model = generateTerrain(loader, heightMap);
 	}
 	
 	protected RawModel generateTerrain(Loader loader, double[][] terrain)
@@ -77,7 +77,7 @@ public class GeneratedTerrain extends Terrain {
 	}
 	
 	protected double[][] terrain;
-	private BicubicInterpolator inter;
+	private BicubicInterpolator inter = new BicubicInterpolator();
 	private float getTerrainHeight(double[][] terrain, int r, int c)
 	{
 		if (r < 0 || r >= terrain.length || c < 0 || c >= terrain.length)

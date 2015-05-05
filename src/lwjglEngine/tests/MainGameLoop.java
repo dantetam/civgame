@@ -15,12 +15,14 @@ import lwjglEngine.entities.Entity;
 import lwjglEngine.entities.Light;
 import lwjglEngine.render.*;
 import lwjglEngine.shaders.StaticShader;
+import lwjglEngine.terrain.GeneratedTerrain;
 import lwjglEngine.terrain.Terrain;
 import lwjglEngine.textures.ModelTexture;
 import lwjglEngine.textures.TerrainTexture;
 import lwjglEngine.textures.TerrainTexturePack;
 
 import java.util.ArrayList;
+
 import terrain.DiamondSquare;
 import vector.Point;
 import game.Tile;
@@ -56,6 +58,7 @@ public class MainGameLoop {
 	float[] textureCoords = {0,0,0,1,1,1,1,0};*/
 
 	Terrain terrain1, terrain2, terrain3, terrain4;
+	GeneratedTerrain terrain0; 
 
 	Light light; public Camera camera;
 	public int widthBlock = 21;
@@ -97,10 +100,16 @@ public class MainGameLoop {
 		//respective u,v vertex of texture to map to
 		float[] textureCoords = {0,0,0,1,1,1,1,0};*/
 
-		terrain1 = new Terrain(0,0,loader,texturePack,blendMap,"heightmap");
-		terrain2 = new Terrain(-1,0,loader,texturePack,blendMap,"heightmap");
-		terrain3 = new Terrain(0,-1,loader,texturePack,blendMap,"heightmap");
-		terrain4 = new Terrain(-1,-1,loader,texturePack,blendMap,"heightmap");
+		//terrain1 = new Terrain(0,0,loader,texturePack,blendMap,"heightmap");
+		//terrain2 = new Terrain(-1,0,loader,texturePack,blendMap,"heightmap");
+		//terrain3 = new Terrain(0,-1,loader,texturePack,blendMap,"heightmap");
+		//terrain4 = new Terrain(-1,-1,loader,texturePack,blendMap,"heightmap");
+		double[][] temp2 = DiamondSquare.makeTable(0, 0, 0, 0, 33);
+		DiamondSquare ds = new DiamondSquare();
+		ds = new DiamondSquare(temp2);
+		ds.seed(870L);
+		double[][] heightMap = ds.generate(new double[]{0, 0, 2, 7, 0.7, 1});
+		terrain0 = new GeneratedTerrain(0, 0, loader, texturePack, bTexture, heightMap);
 
 		light = new Light(new Vector3f(0,50,0), new Vector3f(1,1,1));
 		camera = new Camera();
@@ -142,10 +151,11 @@ public class MainGameLoop {
 			camera.move();
 			//camera.yaw += 0.1;
 			
-			renderer.processTerrain(terrain1);
-			renderer.processTerrain(terrain2);
-			renderer.processTerrain(terrain3);
-			renderer.processTerrain(terrain4);
+			renderer.processTerrain(terrain0);
+			//renderer.processTerrain(terrain1);
+			//renderer.processTerrain(terrain2);
+			//renderer.processTerrain(terrain3);
+			//renderer.processTerrain(terrain4);
 			//renderer.processEntity(levelManager.entities);
 			renderer.processGroups(levelManager.groups);
 			//levelManager.groups.get(0).move(0,80+(float)(40*Math.sin((float)frameCount/250F)),0);
@@ -153,8 +163,9 @@ public class MainGameLoop {
 			{
 				en.rotate(0,1F,0);
 			}*/
+			
 			renderer.render(light, camera);
-
+			
 			DisplayManager.updateDisplay();
 			frameCount++;
 		}
