@@ -34,16 +34,11 @@ public class TerrainRenderer {
 	
 	public void render(ArrayList<Terrain> terrains)
 	{
-		System.out.println("dont do it yo");
 		for (Terrain terrain: terrains)
 		{
-			System.out.println("dont do it hoe");
 			prepareTerrain(terrain);
-			System.out.println("dont do it hoe2");
 			loadModelMatrix(terrain);
-			System.out.println("dont do it hoe3");
 			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.model.vertexCount, GL11.GL_UNSIGNED_INT, 0);
-			System.out.println("dont do it hoe4");
 			unbindTexturedModel();
 		}
 	}

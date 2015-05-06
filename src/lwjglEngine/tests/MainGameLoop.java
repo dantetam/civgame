@@ -108,9 +108,12 @@ public class MainGameLoop {
 		DiamondSquare ds = new DiamondSquare();
 		ds = new DiamondSquare(temp2);
 		ds.seed(870L);
-		double[][] heightMap = ds.generate(new double[]{0, 0, 2, 7, 0.7, 1});
+		//double[][] heightMap = ds.generate(new double[]{0, 0, 2, 7, 0.7, 1});
+		System.out.println("wo");
+		double[][] heightMap = generateRoughTerrain(main.terrain, 3);
+		System.out.println("xo");
 		terrain0 = new GeneratedTerrain(0, 0, loader, texturePack, bTexture, heightMap);
-
+		System.out.println("zo");
 		light = new Light(new Vector3f(0,50,0), new Vector3f(1,1,1));
 		camera = new Camera();
 
@@ -171,9 +174,9 @@ public class MainGameLoop {
 		}
 	}
 
-	public Point[][] generateRoughTerrain(double[][] terrain, int multiply)
+	public double[][] generateRoughTerrain(double[][] terrain, int multiply)
 	{
-		Point[][] vertices = new Point[terrain.length*multiply + 10][terrain.length*multiply + 10];
+		double[][] vertices = new double[terrain.length*multiply + 1][terrain.length*multiply + 1];
 		double[][] temp1 = DiamondSquare.makeTable(2,2,2,2,multiply);
 		temp1[temp1.length/2][temp1.length/2] = 8;
 		double[][] temp2 = DiamondSquare.makeTable(2,2,2,2,multiply);
@@ -188,13 +191,10 @@ public class MainGameLoop {
 				{
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-							vertices[nr][nc] = null;
+							vertices[nr][nc] = 0;
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-							vertices[nr][nc] = new Point((r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
-									0,
-									(c + (float)(nc%multiply)/(float)multiply)*widthBlock
-									);
+							vertices[nr][nc] = (c + (float)(nc%multiply)/(float)multiply)*widthBlock;
 				}
 				//Check to see if there is a land and sea split
 				ArrayList<Tile> sea = main.grid.coastal(r, c);
@@ -259,11 +259,7 @@ public class MainGameLoop {
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
-							vertices[nr][nc] = new Point(
-									(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
-									(float)renderHill[nr - r*multiply][nc - c*multiply],
-									(c + (float)(nc%multiply)/(float)multiply)*widthBlock
-									);
+							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
 							//System.out.print(renderHill[nr - r*multiply][nc - c*multiply] + " ");
 						}
 						//System.out.println();
@@ -283,11 +279,7 @@ public class MainGameLoop {
 					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 						{
-							vertices[nr][nc] = new Point(
-									(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
-									(float)renderHill[nr - r*multiply][nc - c*multiply],
-									(c + (float)(nc%multiply)/(float)multiply)*widthBlock
-									);
+							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
 						}
 					}
 				}
@@ -301,17 +293,9 @@ public class MainGameLoop {
 							//double height = 2;
 							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
 							if (rough)
-								vertices[nr][nc] = new Point(
-										(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
-										(float)(Math.random()*2),
-										(c + (float)(nc%multiply)/(float)multiply)*widthBlock
-										);
+								vertices[nr][nc] = (float)(Math.random()*2);
 							else
-								vertices[nr][nc] = new Point(
-										(r + (float)(nr%multiply)/(float)multiply)*widthBlock, 
-										(float)(Math.random()*0.5),
-										(c + (float)(nc%multiply)/(float)multiply)*widthBlock
-										);
+								vertices[nr][nc] = (float)(Math.random()*0.5);
 							//vertices[nr][nc] = 1;
 						}
 					}
