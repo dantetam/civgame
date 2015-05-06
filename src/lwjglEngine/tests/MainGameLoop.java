@@ -66,6 +66,8 @@ public class MainGameLoop {
 
 	public MainGameLoop(CivGame game)
 	{
+		try
+		{
 		main = game;
 		
 		loader = new Loader();
@@ -109,11 +111,9 @@ public class MainGameLoop {
 		ds = new DiamondSquare(temp2);
 		ds.seed(870L);
 		//double[][] heightMap = ds.generate(new double[]{0, 0, 2, 7, 0.7, 1});
-		System.out.println("wo");
-		double[][] heightMap = generateRoughTerrain(main.terrain, 3);
-		System.out.println("xo");
-		terrain0 = new GeneratedTerrain(0, 0, loader, texturePack, bTexture, heightMap);
-		System.out.println("zo");
+		double[][] heightMap = average(generateRoughTerrain(main.terrain, 9));
+		terrain0 = new GeneratedTerrain(0, 0, loader, texturePack, blendMap, heightMap);
+
 		light = new Light(new Vector3f(0,50,0), new Vector3f(1,1,1));
 		camera = new Camera();
 
@@ -123,6 +123,9 @@ public class MainGameLoop {
 		tick();
 
 		stop();
+		
+		} catch (Exception e) {e.printStackTrace();} //LWJGL seems to not catch errors for some reason
+		//Probably has to do with the fact that's as close to C++ as possible
 	}
 
 	public void stop()
@@ -173,14 +176,32 @@ public class MainGameLoop {
 			frameCount++;
 		}
 	}
+	
+	private double[][] average(double[][] t)
+	{
+		double[][] temp = new double[t.length][t[0].length];
+		for (int r = 0; r < t.length; r++)
+		{
+			for (int c = 0; c < t[0].length; c++)
+			{
+				double sum = 0, n = 0;
+				if (r - 1 >= 0) {sum += t[r-1][c]; n++;}
+				if (c - 1 >= 0) {sum += t[r][c-1]; n++;}
+				if (r + 1 < t.length) {sum += t[r+1][c]; n++;}
+				if (c + 1 < t[0].length) {sum += t[r][c+1]; n++;}
+				temp[r][c] = sum/n;
+			}
+		}
+		return temp;
+	}
 
 	public double[][] generateRoughTerrain(double[][] terrain, int multiply)
 	{
 		double[][] vertices = new double[terrain.length*multiply + 1][terrain.length*multiply + 1];
 		double[][] temp1 = DiamondSquare.makeTable(2,2,2,2,multiply);
-		temp1[temp1.length/2][temp1.length/2] = 8;
+		temp1[temp1.length/2][temp1.length/2] = 20;
 		double[][] temp2 = DiamondSquare.makeTable(2,2,2,2,multiply);
-		temp2[temp1.length/2][temp1.length/2] = 24;
+		temp2[temp1.length/2][temp1.length/2] = 40;
 		DiamondSquare map;
 		for (int r = 0; r < terrain.length; r++)
 		{
@@ -192,9 +213,9 @@ public class MainGameLoop {
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 							vertices[nr][nc] = 0;
-					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+					/*for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-							vertices[nr][nc] = (c + (float)(nc%multiply)/(float)multiply)*widthBlock;
+							vertices[nr][nc] = (c + (float)(nc%multiply)/(float)multiply)*widthBlock;*/
 				}
 				//Check to see if there is a land and sea split
 				ArrayList<Tile> sea = main.grid.coastal(r, c);
@@ -253,7 +274,7 @@ public class MainGameLoop {
 				if (t.shape == 2)
 				{
 					double[][] renderHill = map.generate(DiamondSquare.makeTable(5, 5, 5, 5, multiply), new double[]{0, 0, 2, 7, 0.7, 1});
-					renderHill = DiamondSquare.max(renderHill, 20);
+					renderHill = DiamondSquare.max(renderHill, 40);
 					//DiamondSquare.printTable(renderHill);
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 					{
@@ -293,9 +314,9 @@ public class MainGameLoop {
 							//double height = 2;
 							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
 							if (rough)
-								vertices[nr][nc] = (float)(Math.random()*2);
+								vertices[nr][nc] = (float)(Math.random()*5);
 							else
-								vertices[nr][nc] = (float)(Math.random()*0.5);
+								vertices[nr][nc] = (float)(Math.random()*2.5F);
 							//vertices[nr][nc] = 1;
 						}
 					}

@@ -21,7 +21,7 @@ public class GeneratedTerrain extends Terrain {
 			TerrainTexturePack texturePack, TerrainTexture blendMap,
 			double[][] heightMap) {
 		super(gridX, gridZ, loader, texturePack, blendMap, null);
-		super.model = generateTerrain(loader, heightMap, 1);
+		super.model = generateTerrain(loader, heightMap, 3);
 		for (int r = 0; r < heightMap.length; r++)
 		{
 			for (int c = 0; c < heightMap[0].length; c++)
@@ -63,7 +63,7 @@ public class GeneratedTerrain extends Terrain {
 				vertices[vertexPointer*3+1] = getTerrainHeight(terrain,
 						(float)(j + (j%multiply)) / (float)multiply,
 						(float)(i + (i%multiply)) / (float)multiply
-						);
+						)*2;
 				vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT-1) * SIZE;
 				Vector3f normal = calculateNormal(terrain, j, i);
 				normals[vertexPointer*3] = normal.x;

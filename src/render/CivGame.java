@@ -84,12 +84,13 @@ public class CivGame {
 	}
 
 	public void setup()
-	{
+	{		
+		//redraw();
+		generate(terrainType);
+		
 		DisplayManager.createDisplay();
 		lwjglSystem = new MainGameLoop(this);
 		
-		//redraw();
-		generate(terrainType);
 		//Force update
 		menuSystem.rbox = grid.civs[0].revealedBox();
 
