@@ -2,8 +2,10 @@ package render;
 
 import game.Civilization;
 import game.GameEntity;
+import game.Grid;
 import game.Tile;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map.Entry;
@@ -389,6 +391,7 @@ public class Game extends PApplet {
 			{
 				renderer = new CivGame(game, numCivs, numCityStates, difficultyLevel, challengeType, terrainType, civChoice, seed);
 				renderer.options(automaticSelection, testing, forceCursor);
+				sendBlendMap(renderer.grid);
 				show();
 			}
 			catch (Exception e) {e.getLocalizedMessage();}
@@ -431,8 +434,51 @@ public class Game extends PApplet {
 			catch (Exception e) {e.getLocalizedMessage();}
 		}
 	}
+	
+	private static final int blendMapWidth = 256, blendMapHeight = 256;
+	private void sendBlendMap(Grid grid)
+	{
+		BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_ARGB);
+		int chunkWidth = (int)((float)blendMapWidth/(float)grid.rows), 
+				chunkHeight = (int)((float)blendMapHeight/(float)grid.cols);
+		int[][] colors = new int[blendMapWidth][blendMapHeight];
+		for (int r = 0; r < grid.rows; r++)
+		{
+			for (int c = 0; c < grid.cols; c++)
+			{
+				//Get the raw color by brick color by biome
+				//Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(grid.getTile(r,c).biome));
+				//int intColor = getIntColor((int)(color.r*255), (int)(color.g*255), (int)(color.b*255));	
+				int gray = (int)Math.max(1,(float)grid.getTile(r,c).biome/6F*255F);
+				int intColor = getIntColor(gray, gray, gray);
+				for (int rr = r*chunkWidth; rr < (r+1)*chunkWidth; rr++)
+				{
+					for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; rr++)
+					{
+						colors[rr][cc] = intColor;
+					}
+				}
+			}
+		}
+		for (int r = 0; r < colors.length; r++)
+		{
+			for (int c = 0; c < colors[0].length; c++)
+			{
+				img.setRGB(r, c, colors[r][c]);
+			}
+		}
+		renderer.takeBlendMap(img);
+	}
+	
+	private int getIntColor(int r, int g, int b)
+	{
+		r = r < 0 ? 0 : r; g = g < 0 ? 0 : g; b = b < 0 ? 0 : b; //Ternary hell...
+		r = r > 255 ? 255 : r; g = g > 255 ? 255 : g; b = b > 255 ? 255 : b;
+		int col = (r << 16) | (g << 8) | b;
+		return col;
+	}
 
-	public boolean retract = false;
+	public boolean retract = false; //Retract the menu GUI in the 2D menu display
 	public void mousePressed()
 	{
 		if (mouseButton == LEFT)

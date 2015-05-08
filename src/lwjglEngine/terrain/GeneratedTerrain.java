@@ -21,15 +21,15 @@ public class GeneratedTerrain extends Terrain {
 			TerrainTexturePack texturePack, TerrainTexture blendMap,
 			double[][] heightMap) {
 		super(gridX, gridZ, loader, texturePack, blendMap, null);
-		super.model = generateTerrain(loader, heightMap, 3);
-		for (int r = 0; r < heightMap.length; r++)
+		super.model = generateTerrain(loader, heightMap, 1);
+		/*for (int r = 0; r < heightMap.length; r++)
 		{
 			for (int c = 0; c < heightMap[0].length; c++)
 			{
 				System.out.print((int)heightMap[r][c] + " ");
 			}
 			System.out.println();
-		}
+		}*/
 	}
 	
 	public GeneratedTerrain(int gridX, int gridZ, Loader loader,

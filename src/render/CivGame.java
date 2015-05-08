@@ -1,6 +1,7 @@
 package render;
 
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -307,6 +308,11 @@ public class CivGame {
 	{
 		//centerX = mouseX/(1 - player.rotY/(float)Math.PI);
 		//centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
+	}
+	
+	public void takeBlendMap(BufferedImage image)
+	{
+		
 	}
 
 	//Use the appropriate terrain to make a table and then render it by making some entities
