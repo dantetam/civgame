@@ -2,8 +2,12 @@ package render;
 
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import lwjglEngine.render.DisplayManager;
 import lwjglEngine.tests.MainGameLoop;
@@ -88,6 +92,10 @@ public class CivGame {
 	{		
 		//redraw();
 		generate(terrainType);
+		try
+		{
+		takeBlendMap(sendBlendMap(grid));
+		} catch (Exception e) {e.printStackTrace();}
 		
 		DisplayManager.createDisplay();
 		lwjglSystem = new MainGameLoop(this);
@@ -310,9 +318,57 @@ public class CivGame {
 		//centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
 	}
 	
-	public void takeBlendMap(BufferedImage image)
+	private static final int blendMapWidth = 256, blendMapHeight = 256;
+	private BufferedImage sendBlendMap(Grid grid)
 	{
-		
+		BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_ARGB);
+		int chunkWidth = (int)((float)blendMapWidth/(float)grid.rows), 
+				chunkHeight = (int)((float)blendMapHeight/(float)grid.cols);
+		int[][] colors = new int[blendMapWidth][blendMapHeight];
+		for (int r = 0; r < grid.rows; r++)
+		{
+			for (int c = 0; c < grid.cols; c++)
+			{
+				//Get the raw color by brick color by biome
+				//Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(grid.getTile(r,c).biome));
+				//int intColor = getIntColor((int)(color.r*255), (int)(color.g*255), (int)(color.b*255));	
+				int gray = (int)Math.max(1,(float)grid.getTile(r,c).biome/6F*255F);
+				int intColor = getIntColor(gray, gray, gray);
+				for (int rr = r*chunkWidth; rr < (r+1)*chunkWidth; rr++)
+				{
+					for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; rr++)
+					{
+						colors[rr][cc] = intColor;
+					}
+				}
+			}
+		}
+		for (int r = 0; r < colors.length; r++)
+		{
+			for (int c = 0; c < colors[0].length; c++)
+			{
+				img.setRGB(r, c, colors[r][c]);
+			}
+		}
+		return img;
+	}
+	private int getIntColor(int r, int g, int b)
+	{
+		r = r < 0 ? 0 : r; g = g < 0 ? 0 : g; b = b < 0 ? 0 : b; //Ternary hell...
+		r = r > 255 ? 255 : r; g = g > 255 ? 255 : g; b = b > 255 ? 255 : b;
+		int col = (r << 16) | (g << 8) | b;
+		return col;
+	}
+	private CivGame takeBlendMap(BufferedImage image)
+	{
+		File file = new File("res/generatedBlendMap.png");
+		try {
+			if (!file.exists()) file.createNewFile();
+			ImageIO.write(image, "png", file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return this;
 	}
 
 	//Use the appropriate terrain to make a table and then render it by making some entities
