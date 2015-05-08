@@ -91,11 +91,11 @@ public class CivGame {
 	public void setup()
 	{		
 		//redraw();
-		generate(terrainType);
 		try
 		{
+			
+		generate(terrainType);
 		takeBlendMap(sendBlendMap(grid));
-		} catch (Exception e) {e.printStackTrace();}
 		
 		DisplayManager.createDisplay();
 		lwjglSystem = new MainGameLoop(this);
@@ -146,6 +146,7 @@ public class CivGame {
 				civ.tallwide = Math.min(0, civ.tallwide/2);
 			}
 		}*/
+		} catch (Exception e) {e.printStackTrace();}
 	}
 
 	//public void draw()
@@ -321,6 +322,8 @@ public class CivGame {
 	private static final int blendMapWidth = 256, blendMapHeight = 256;
 	private BufferedImage sendBlendMap(Grid grid)
 	{
+		try
+		{
 		BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_ARGB);
 		int chunkWidth = (int)((float)blendMapWidth/(float)grid.rows), 
 				chunkHeight = (int)((float)blendMapHeight/(float)grid.cols);
@@ -338,6 +341,8 @@ public class CivGame {
 				{
 					for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; rr++)
 					{
+						if (rr >= colors.length || cc >= colors[0].length) break;
+						if (rr < 0 || cc < 0) continue;
 						colors[rr][cc] = intColor;
 					}
 				}
@@ -351,6 +356,7 @@ public class CivGame {
 			}
 		}
 		return img;
+		} catch (Exception e) {e.printStackTrace(); return null;}
 	}
 	private int getIntColor(int r, int g, int b)
 	{
@@ -359,16 +365,16 @@ public class CivGame {
 		int col = (r << 16) | (g << 8) | b;
 		return col;
 	}
-	private CivGame takeBlendMap(BufferedImage image)
+	private void takeBlendMap(BufferedImage image)
 	{
-		File file = new File("res/generatedBlendMap.png");
 		try {
+			File file = new File("res/generatedBlendMap.png");
 			if (!file.exists()) file.createNewFile();
 			ImageIO.write(image, "png", file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return this;
+		return;
 	}
 
 	//Use the appropriate terrain to make a table and then render it by making some entities
