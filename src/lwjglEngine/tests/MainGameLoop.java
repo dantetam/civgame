@@ -20,6 +20,7 @@ import lwjglEngine.terrain.Terrain;
 import lwjglEngine.textures.ModelTexture;
 import lwjglEngine.textures.TerrainTexture;
 import lwjglEngine.textures.TerrainTexturePack;
+import lwjglEngine.textures.WhiteTerrainTexturePack;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,8 @@ public class MainGameLoop {
 
 	LevelManager levelManager;
 
-	TerrainTexture backTexture, rTexture, gTexture, bTexture;
+	//TerrainTexture backTexture, rTexture, gTexture, bTexture;
+	TerrainTexture t1,t2,t3,t4,t5,t6,t7;
 	TerrainTexturePack texturePack;
 	TerrainTexture blendMap;
 
@@ -74,18 +76,30 @@ public class MainGameLoop {
 
 		levelManager = new LevelManager();
 
-		backTexture = new TerrainTexture(loader.loadTexture("grassy"));
-		rTexture = new TerrainTexture(loader.loadTexture("dirt"));
-		gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
-		bTexture = new TerrainTexture(loader.loadTexture("path"));
-
-		texturePack = new TerrainTexturePack(
+		//rTexture = new TerrainTexture(loader.loadTexture("dirt"));
+		//gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
+		//bTexture = new TerrainTexture(loader.loadTexture("path"));
+		TerrainTexture backTexture = new TerrainTexture(loader.loadTexture("seaTexture"));
+		TerrainTexture t1 = new TerrainTexture(loader.loadTexture("iceTexture"));
+		TerrainTexture t2 = new TerrainTexture(loader.loadTexture("taigaTexture"));
+		TerrainTexture t3 = new TerrainTexture(loader.loadTexture("desertTexture"));
+		TerrainTexture t4 = new TerrainTexture(loader.loadTexture("steppeTexture"));
+		TerrainTexture t5 = new TerrainTexture(loader.loadTexture("dryforestTexture"));
+		TerrainTexture t6 = new TerrainTexture(loader.loadTexture("forestTexture"));
+		TerrainTexture t7 = new TerrainTexture(loader.loadTexture("rainforestTexture"));
+		
+		texturePack = new WhiteTerrainTexturePack(
 				backTexture,
-				rTexture,
-				gTexture,
-				bTexture
+				t1,
+				t2,
+				t3,
+				t4,
+				t5,
+				t6,
+				t7
 				);
-		blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+		
+		blendMap = new TerrainTexture(loader.loadTexture("generatedBlendMap"));
 
 		/*//counter clockwise vertices
 		float[] vertices = {

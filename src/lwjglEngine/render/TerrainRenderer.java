@@ -13,22 +13,25 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import lwjglEngine.entities.Entity;
+import lwjglEngine.shaders.ShaderProgram;
 import lwjglEngine.shaders.TerrainShader;
+import lwjglEngine.shaders.WhiteTerrainShader;
 import lwjglEngine.terrain.Terrain;
 import lwjglEngine.textures.ModelTexture;
 import lwjglEngine.textures.TerrainTexturePack;
+import lwjglEngine.textures.WhiteTerrainTexturePack;
 import lwjglEngine.toolbox.Maths;
 
 public class TerrainRenderer {
 
-	private TerrainShader shader;
+	private ShaderProgram shader;
 	
-	public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix)
+	public TerrainRenderer(ShaderProgram shader, Matrix4f projectionMatrix)
 	{
 		this.shader = shader;
 		shader.start();
-		shader.loadProjectionMatrix(projectionMatrix);
-		shader.connectTextures();
+		((WhiteTerrainShader) shader).loadProjectionMatrix(projectionMatrix);
+		((WhiteTerrainShader) shader).connectTextures();
 		shader.stop();
 	}
 	
@@ -56,23 +59,31 @@ public class TerrainRenderer {
 		GL20.glEnableVertexAttribArray(2);
 		
 		bindTextures(terrain);
-		shader.loadShineVariables(1,0);
+		((WhiteTerrainShader) shader).loadShineVariables(1,0);
 		//ModelTexture texture = terrain.texture;
 		//shader.loadShineVariables(texture.shineDamper, texture.reflectiveness);
 	}
 	
 	private void bindTextures(Terrain terrain)
 	{
-		TerrainTexturePack textures = terrain.texturePack;
+		WhiteTerrainTexturePack textures = (WhiteTerrainTexturePack)terrain.texturePack;
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.backgroundTexture.textureID);
 		GL13.glActiveTexture(GL13.GL_TEXTURE1);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.rTexture.textureID);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.texture1.textureID);
 		GL13.glActiveTexture(GL13.GL_TEXTURE2);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.gTexture.textureID);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.texture2.textureID);
 		GL13.glActiveTexture(GL13.GL_TEXTURE3);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.bTexture.textureID);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.texture3.textureID);
 		GL13.glActiveTexture(GL13.GL_TEXTURE4);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.texture4.textureID);
+		GL13.glActiveTexture(GL13.GL_TEXTURE5);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.texture5.textureID);
+		GL13.glActiveTexture(GL13.GL_TEXTURE6);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.texture6.textureID);
+		GL13.glActiveTexture(GL13.GL_TEXTURE7);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.texture7.textureID);
+		GL13.glActiveTexture(GL13.GL_TEXTURE8);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.blendMap.textureID);
 	}
 	
@@ -96,7 +107,7 @@ public class TerrainRenderer {
 				0,
 				1
 				);
-		shader.loadTransformMatrix(transformMatrix);
+		((WhiteTerrainShader) shader).loadTransformMatrix(transformMatrix);
 	}
 	
 }

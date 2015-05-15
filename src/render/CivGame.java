@@ -339,7 +339,7 @@ public class CivGame {
 				int intColor = getIntColor(gray, gray, gray);
 				for (int rr = r*chunkWidth; rr < (r+1)*chunkWidth; rr++)
 				{
-					for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; rr++)
+					for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; cc++)
 					{
 						if (rr >= colors.length || cc >= colors[0].length) break;
 						if (rr < 0 || cc < 0) continue;
@@ -369,7 +369,8 @@ public class CivGame {
 	{
 		try {
 			File file = new File("res/generatedBlendMap.png");
-			if (!file.exists()) file.createNewFile();
+			if (!file.exists()) 
+				file.createNewFile();
 			ImageIO.write(image, "png", file);
 		} catch (Exception e) {
 			e.printStackTrace();

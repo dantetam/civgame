@@ -9,8 +9,10 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import lwjglEngine.entities.*;
 import lwjglEngine.models.TexturedModel;
+import lwjglEngine.shaders.ShaderProgram;
 import lwjglEngine.shaders.StaticShader;
 import lwjglEngine.shaders.TerrainShader;
+import lwjglEngine.shaders.WhiteTerrainShader;
 import lwjglEngine.terrain.Terrain;
 
 public class MasterRenderer {
@@ -20,7 +22,7 @@ public class MasterRenderer {
 	
 	//Specific objects for rendering terrain only
 	private TerrainRenderer terrainRenderer;
-	private TerrainShader terrainShader = new TerrainShader();
+	private ShaderProgram terrainShader = new WhiteTerrainShader();
 	
 	private Matrix4f projectionMatrix;
 	
@@ -62,8 +64,8 @@ public class MasterRenderer {
 		shader.stop();
 		
 		terrainShader.start();
-		terrainShader.loadLight(light);
-		terrainShader.loadViewMatrix(camera);
+		((WhiteTerrainShader) terrainShader).loadLight(light);
+		((WhiteTerrainShader) terrainShader).loadViewMatrix(camera);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
 		terrains.clear();
