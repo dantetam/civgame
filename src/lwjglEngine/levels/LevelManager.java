@@ -23,6 +23,7 @@ public class LevelManager {
 	public ArrayList<Group> groups;
 
 	private static Loader loader = new Loader();
+	private ModelManager modelManager;
 	
 	public LevelManager() {
 		groups = new ArrayList<Group>();
@@ -43,10 +44,10 @@ public class LevelManager {
 				"stall",
 				"stallTexture"
 				));*/
-		Group group1 = loadFromXML("someisland.txt");
+		/*Group group1 = loadFromXML("someisland.txt");
 		group1.move(0, 35, 0);
-		groups.add(group1);
-		
+		groups.add(group1);*/
+		modelManager = new ModelManager(this);
 	}
 	
 	public static Group loadFromXML(String fileName)
@@ -70,6 +71,10 @@ public class LevelManager {
 				float[] data = new float[currentLine.length];
 				for (int i = 0; i < currentLine.length; i++)
 					data[i] = Float.parseFloat(currentLine[i]);
+				
+				int off = 1; //Depends on format of converted XML file
+				for (int i = 0; i < currentLine.length - off; i++)
+					currentLine[i] = currentLine[i+off];
 				
 				Vector3f pos = new Vector3f(data[0], data[1], data[2]);
 				Vector3f rot = new Vector3f(
