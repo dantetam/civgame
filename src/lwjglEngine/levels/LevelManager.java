@@ -56,7 +56,7 @@ public class LevelManager {
 		FileReader fr = null;
 		try {
 			fr = new FileReader(new File("res/"+fileName));
-		} catch (FileNotFoundException e) {e.printStackTrace();}
+		} catch (FileNotFoundException e) {e.printStackTrace(); return null;}
 		BufferedReader reader = new BufferedReader(fr);
 		String line;
 		try
@@ -94,7 +94,7 @@ public class LevelManager {
 				System.out.println(output);*/
 			}
 			reader.close();
-		} catch (Exception e) {e.printStackTrace();}
+		} catch (Exception e) {e.printStackTrace(); return null;}
 		return new Group(entities);
 	}
 
