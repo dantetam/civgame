@@ -1,5 +1,7 @@
 package lwjglEngine.levels;
 
+import game.Grid;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +27,7 @@ public class LevelManager {
 	private static Loader loader = new Loader();
 	private ModelManager modelManager;
 	
-	public LevelManager() {
+	public LevelManager(Grid grid) {
 		groups = new ArrayList<Group>();
 		/*for (int i = 0; i < 50; i++)
 		{
@@ -47,7 +49,7 @@ public class LevelManager {
 		/*Group group1 = loadFromXML("someisland.txt");
 		group1.move(0, 35, 0);
 		groups.add(group1);*/
-		modelManager = new ModelManager(this);
+		modelManager = new ModelManager(this, grid);
 	}
 	
 	public static Group loadFromXML(String fileName)

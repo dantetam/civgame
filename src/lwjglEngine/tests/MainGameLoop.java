@@ -74,7 +74,7 @@ public class MainGameLoop {
 		
 		loader = new Loader();
 
-		levelManager = new LevelManager();
+		levelManager = new LevelManager(game.grid);
 
 		//rTexture = new TerrainTexture(loader.loadTexture("dirt"));
 		//gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
