@@ -26,7 +26,7 @@ public class LevelManager {
 
 	private static Loader loader = new Loader();
 	private ModelManager modelManager;
-	
+
 	public LevelManager(Grid grid) {
 		groups = new ArrayList<Group>();
 		/*for (int i = 0; i < 50; i++)
@@ -51,33 +51,43 @@ public class LevelManager {
 		groups.add(group1);*/
 		modelManager = new ModelManager(this, grid);
 	}
-	
+
 	public static Group loadFromXML(String fileName)
 	{
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 		FileReader fr = null;
 		try {
 			fr = new FileReader(new File("res/"+fileName));
-		} catch (FileNotFoundException e) {e.printStackTrace(); return null;}
+		} catch (FileNotFoundException e) 
+		{
+
+		}
+		if (fr == null)
+		{
+			try {
+				fr = new FileReader(new File("res/parsedObj/"+fileName));
+			} catch (Exception ex) {System.out.println("Unsuccessful" + fileName); return null;}
+		}
 		BufferedReader reader = new BufferedReader(fr);
 		String line;
 		try
 		{
 			while ((line = reader.readLine()) != null)
 			{
-				String[] currentLine = line.split(",");
+				int off = 1; //Depends on format of converted XML file
 				
+				String[] currentLine = line.split(",");
+
 				//First data line only gives relative position of model in world
 				if (currentLine.length < 10) continue; 
-				
-				float[] data = new float[currentLine.length];
-				for (int i = 0; i < currentLine.length; i++)
-					data[i] = Float.parseFloat(currentLine[i]);
-				
-				int off = 1; //Depends on format of converted XML file
+
 				for (int i = 0; i < currentLine.length - off; i++)
 					currentLine[i] = currentLine[i+off];
 				
+				float[] data = new float[currentLine.length];
+				for (int i = 0; i < currentLine.length - off; i++)
+					data[i] = Float.parseFloat(currentLine[i]);
+
 				Vector3f pos = new Vector3f(data[0], data[1], data[2]);
 				Vector3f rot = new Vector3f(
 						(float)Math.toDegrees(data[3]), 
@@ -87,7 +97,7 @@ public class LevelManager {
 				Vector3f size = new Vector3f(data[6], data[7], data[8]);
 				Entity en = newBox(pos, rot, size, "bluePlasma");
 				entities.add(en);
-				
+
 				/*String output = "";
 				for (int i = 0; i < data.length; i++)
 				{
@@ -97,6 +107,7 @@ public class LevelManager {
 			}
 			reader.close();
 		} catch (Exception e) {e.printStackTrace(); return null;}
+		System.out.println("Successful" + fileName);
 		return new Group(entities);
 	}
 
@@ -109,7 +120,7 @@ public class LevelManager {
 		entity.scale = scale;
 		return entity;
 	}
-	
+
 	public static Entity newBox(Vector3f position, Vector3f rotation, Vector3f size, String textureName)
 	{
 		float x = size.x/2, y = size.y/2, z = size.z/2;
@@ -118,107 +129,107 @@ public class LevelManager {
 				-x,-y,-z,	
 				x,-y,-z,	
 				x,y,-z,		
-				
+
 				-x,y,z,	
 				-x,-y,z,	
 				x,-y,z,	
 				x,y,z,
-				
+
 				x,y,-z,	
 				x,-y,-z,	
 				x,-y,z,	
 				x,y,z,
-				
+
 				-x,y,-z,	
 				-x,-y,-z,	
 				-x,-y,z,	
 				-x,y,z,
-				
+
 				-x,y,z,
 				-x,y,-z,
 				x,y,-z,
 				x,y,z,
-				
+
 				-x,-y,z,
 				-x,-y,-z,
 				x,-y,-z,
 				x,-y,z
 		};
-		
+
 		/*float[] normals = {
 				0,0,-1,
 				0,0,-1,
 				0,0,-1,
 				0,0,-1,
-				
+
 				0,0,1,
 				0,0,1,
 				0,0,1,
 				0,0,1,
-				
+
 				1,0,0,
 				1,0,0,
 				1,0,0,
 				1,0,0,
-				
+
 				-1,0,0,
 				-1,0,0,
 				-1,0,0,
 				-1,0,0,
-				
+
 				0,1,0,
 				0,1,0,
 				0,1,0,
 				0,1,0,
-				
+
 				0,-1,0,
 				0,-1,0,
 				0,-1,0,
 				0,-1,0,
-				
+
 				//1,0,0,
 				//1,0,0,
 				//-1,0,0,
 				//-1,0,0,
-				
+
 				//0,1,0,
 				//0,1,0,
 				//0,-1,0,
 				//0,-1,0
 			};*/
-		
+
 		float[] normals = {
 				0,0,1,
 				0,0,1,
 				0,0,1,
 				0,0,1,
-				
+
 				0,0,-1,
 				0,0,-1,
 				0,0,-1,
 				0,0,-1,
-				
+
 				-1,0,0,
 				-1,0,0,
 				-1,0,0,
 				-1,0,0,
-				
+
 				1,0,0,
 				1,0,0,
 				1,0,0,
 				1,0,0,
-				
+
 				0,-1,0,
 				0,-1,0,
 				0,-1,0,
 				0,-1,0,
-				
+
 				0,1,0,
 				0,1,0,
 				0,1,0,
 				0,1,0,
-			};
-		
+		};
+
 		int[] indices = {
 				0,1,3,	
 				3,1,2,	
@@ -233,8 +244,8 @@ public class LevelManager {
 				20,21,23,
 				23,21,22
 		};
-		
-		
+
+
 		float[] textureCoords = {
 				0,0,
 				0,1,
@@ -261,19 +272,19 @@ public class LevelManager {
 				1,1,
 				1,0
 		};
-	
+
 		RawModel model = loader.loadToVAO(vertices, textureCoords, normals, indices);
 		ModelTexture texture = new ModelTexture(loader.loadTexture(textureName));
-		
+
 		//TODO: texture.transparent = true;
 		//TODO: texture.fastLighting = true;
 		texture.shineDamper = 10;
 		texture.reflectiveness = 1;
-		
+
 		TexturedModel texturedModel = new TexturedModel(model, texture);
 		Entity entity = new Entity(texturedModel,position,rotation.x,rotation.y,rotation.z,1);
 		entity.scale = 1;
-		
+
 		return entity;
 	}
 

@@ -1,5 +1,6 @@
 package lwjglEngine.levels;
 
+import lwjglEngine.entities.Group;
 import game.Grid;
 import game.Tile;
 
@@ -21,11 +22,28 @@ public class ModelManager {
 		{
 			for (int c = 0; c < grid.cols; c++)
 			{
-				String temp = getModels(grid.getTile(r,c));
-				String[] models = temp.split(" ");
-				for (int i = 0; i < models.length; i++)
+				//String temp = getModels(grid.getTile(r,c));
+				String temp = null;
+				if (Math.random() < 0.1)
 				{
-					if (lm.loadFromXML(models[i]) != null)
+					temp = "Farm1";
+				}
+				if (temp != null)
+				{
+					String[] models = temp.split(" ");
+					for (int i = 0; i < models.length; i++)
+					{
+						Group candidate = LevelManager.loadFromXML(models[i]);
+						/*if (candidate == null)
+						{
+							candidate = LevelManager.loadFromXML("Old" + models[i]);
+						}*/
+						if (candidate != null)
+						{
+							candidate.move((float)r/(float)grid.rows*1600F, 10, (float)c/(float)grid.cols*1600F);
+							lm.groups.add(candidate);
+						}
+					}
 				}
 			}
 		}
@@ -45,8 +63,9 @@ public class ModelManager {
 			if (t.resource == 1 || t.resource == 2)
 				temp += " " + "Wheat";
 			if (t.resource >= 20 || t.resource <= 22)
-				temp += " " + "Wheat";
+				temp += " " + "Rock";
 		}
+		if (temp.equals("")) return null;
 		return temp.substring(1);
 	}
 
