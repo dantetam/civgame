@@ -82,6 +82,10 @@ public class Terrain {
 				indices[pointer++] = bottomRight;
 			}
 		}
+		for (int i = 0; i < vertices.length; i+=3)
+		{
+			System.out.println(vertices[i] + " " + vertices[i+1] + " " + vertices[i+2]);
+		}
 		return loader.loadToVAO(vertices, textureCoords, normals, indices);
 	}
 	

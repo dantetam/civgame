@@ -32,7 +32,7 @@ public class GeneratedTerrain extends Terrain {
 		}*/
 	}
 	
-	public GeneratedTerrain(int gridX, int gridZ, Loader loader,
+	public GeneratedTerrain(int gridX, int d, int gridZ, Loader loader,
 			TerrainTexturePack texturePack, TerrainTexture blendMap,
 			Point[][] points) {
 		super(gridX, gridZ, loader, texturePack, blendMap, null);
@@ -89,6 +89,7 @@ public class GeneratedTerrain extends Terrain {
 				indices[pointer++] = bottomRight;
 			}
 		}
+		//for (int i = 0; i < vertices.length; i+=3) System.out.println(vertices[i] + "," + vertices[i+1] + "," + vertices[i+2] + ",");
 		return loader.loadToVAO(vertices, textureCoords, normals, indices);
 	}
 	

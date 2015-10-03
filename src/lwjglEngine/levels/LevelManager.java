@@ -107,7 +107,7 @@ public class LevelManager {
 			}
 			reader.close();
 		} catch (Exception e) {e.printStackTrace(); return null;}
-		System.out.println("Successful" + fileName);
+		//System.out.println("Successful" + fileName);
 		return new Group(entities);
 	}
 

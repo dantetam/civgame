@@ -208,6 +208,24 @@ public class MainGameLoop {
 		}
 		return temp;
 	}
+	
+	private double[][] flatten(double[][] t)
+	{
+		double[][] temp = new double[t.length][t[0].length];
+		for (int r = 0; r < t.length; r++)
+		{
+			for (int c = 0; c < t[0].length; c++)
+			{
+				double sum = 0, n = 0;
+				if (r - 1 >= 0) {sum += t[r-1][c]; n++;}
+				if (c - 1 >= 0) {sum += t[r][c-1]; n++;}
+				if (r + 1 < t.length) {sum += t[r+1][c]; n++;}
+				if (c + 1 < t[0].length) {sum += t[r][c+1]; n++;}
+				temp[r][c] = sum/n;
+			}
+		}
+		return temp;
+	}
 
 	public double[][] generateRoughTerrain(double[][] terrain, int multiply)
 	{
@@ -285,55 +303,33 @@ public class MainGameLoop {
 				Tile t = main.grid.getTile(r,c);
 				//map = null;
 				if (t.biome == -1) continue;
+				for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
+				{
+					for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
+					{
+						vertices[nr][nc] = (terrain[r][c] - 100F)/3F;
+						//System.out.print(terrain[r][c] + " ");
+					}
+					//System.out.println();
+				}
 				if (t.shape == 2)
 				{
 					double[][] renderHill = map.generate(DiamondSquare.makeTable(5, 5, 5, 5, multiply), new double[]{0, 0, 2, 7, 0.7, 1});
 					renderHill = DiamondSquare.max(renderHill, 40);
-					//DiamondSquare.printTable(renderHill);
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
-					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-						{
-							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
-							//System.out.print(renderHill[nr - r*multiply][nc - c*multiply] + " ");
-						}
-						//System.out.println();
-					}
+							vertices[nr][nc] += (float)renderHill[nr - r*multiply][nc - c*multiply];
 				}
 				else if (t.shape == 1)
 				{
 					map = new DiamondSquare(temp1);
 					long seed = (long)(System.currentTimeMillis()*Math.random());
 					map.seed(seed);
-					//System.out.println(seed);
-					//map.seed(870L);
-					//double[][] renderHill = map.generate(new double[]{0, 0, 2, 6, 0.5});
 					double[][] renderHill = map.generate(DiamondSquare.makeTable(0, 0, 0, 0, multiply), new double[]{0, 0, 2, 4, 0.5, 1});
 					renderHill = DiamondSquare.max(renderHill, 13);
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
-					{
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-						{
-							vertices[nr][nc] = (float)renderHill[nr - r*multiply][nc - c*multiply];
-						}
-					}
-				}
-				else
-				{
-					boolean rough = Math.random() < 0.2;
-					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
-					{
-						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-						{
-							//double height = 2;
-							//vertices[nr][nc] = terrain[r][c] + Math.random()*height*2 - height;
-							if (rough)
-								vertices[nr][nc] = (float)(Math.random()*5);
-							else
-								vertices[nr][nc] = (float)(Math.random()*2.5F);
-							//vertices[nr][nc] = 1;
-						}
-					}
+							vertices[nr][nc] += (float)renderHill[nr - r*multiply][nc - c*multiply];
 				}
 			}
 		}

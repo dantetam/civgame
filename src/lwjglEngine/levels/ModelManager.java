@@ -40,7 +40,7 @@ public class ModelManager {
 						}*/
 						if (candidate != null)
 						{
-							candidate.move((float)r/(float)grid.rows*1600F, 10, (float)c/(float)grid.cols*1600F);
+							candidate.move(((float)r+0.5F)/(float)grid.rows*1600F, -50, ((float)c+0.5F)/(float)grid.cols*1600F);
 							lm.groups.add(candidate);
 						}
 					}

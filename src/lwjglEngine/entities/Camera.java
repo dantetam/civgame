@@ -8,7 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 
-	public Vector3f position = new Vector3f(0,20,0);
+	public Vector3f position = new Vector3f(1000,20,1000);
 	public float pitch, yaw, roll; //High-low, left-right, tilt
 	
 	public Camera() {}
