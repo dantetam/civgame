@@ -1,6 +1,7 @@
 package lwjglEngine.levels;
 
 import lwjglEngine.entities.Group;
+import lwjglEngine.tests.MainGameLoop;
 import game.Grid;
 import game.Tile;
 
@@ -10,21 +11,21 @@ public class ModelManager {
 
 	private LevelManager lm;
 
-	public ModelManager(LevelManager main, Grid grid) 
+	public ModelManager(LevelManager main, Grid grid, double[][] heightMap) 
 	{
 		lm = main;
-		modelsFromGrid(grid);
+		modelsFromGrid(grid, heightMap);
 	}
 
-	private void modelsFromGrid(Grid grid)
+	private void modelsFromGrid(Grid grid, double[][] heightMap)
 	{
 		for (int r = 0; r < grid.rows; r++)
 		{
 			for (int c = 0; c < grid.cols; c++)
 			{
 				//String temp = getModels(grid.getTile(r,c));
-				String temp = null;
-				if (Math.random() < 0.1)
+				String temp = null; 
+				if ((r > 10 && r < 15 && c > 10 && c < 36) && grid.getTile(r,c).biome != -1)
 				{
 					temp = "Farm1";
 				}
@@ -40,7 +41,21 @@ public class ModelManager {
 						}*/
 						if (candidate != null)
 						{
-							candidate.move(((float)r+0.5F)/(float)grid.rows*1600F, -50, ((float)c+0.5F)/(float)grid.cols*1600F);
+							int m = MainGameLoop.multiply; int n = 0;
+							float height = 0;
+							for (int nr = r*m; nr < r*(m+1); nr++)
+							{
+								for (int nc = c*m; nc < c*(m+1); nc++)
+								{
+									if (nr < heightMap.length || nc < heightMap[0].length)
+									{
+										height += heightMap[nr][nc];
+										n++;
+									}
+								}
+							}
+							height /= (float)(n);
+							candidate.move(((float)r+0.5F)/(float)grid.rows*1600F*0.9F, height, ((float)c+0.5F)/(float)grid.cols*1600F*0.9F);
 							lm.groups.add(candidate);
 						}
 					}

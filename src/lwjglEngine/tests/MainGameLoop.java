@@ -31,6 +31,8 @@ import game.Tile;
 public class MainGameLoop {
 
 	public CivGame main;
+
+	public static int multiply = 9;
 	
 	public int frameCount = 0;
 	public boolean stop = false;
@@ -70,38 +72,36 @@ public class MainGameLoop {
 	{
 		try
 		{
-		main = game;
-		
-		loader = new Loader();
+			main = game;
 
-		levelManager = new LevelManager(game.grid);
+			loader = new Loader();
 
-		//rTexture = new TerrainTexture(loader.loadTexture("dirt"));
-		//gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
-		//bTexture = new TerrainTexture(loader.loadTexture("path"));
-		TerrainTexture backTexture = new TerrainTexture(loader.loadTexture("seaTexture"));
-		TerrainTexture t1 = new TerrainTexture(loader.loadTexture("iceTexture"));
-		TerrainTexture t2 = new TerrainTexture(loader.loadTexture("taigaTexture"));
-		TerrainTexture t3 = new TerrainTexture(loader.loadTexture("desertTexture"));
-		TerrainTexture t4 = new TerrainTexture(loader.loadTexture("steppeTexture"));
-		TerrainTexture t5 = new TerrainTexture(loader.loadTexture("dryforestTexture"));
-		TerrainTexture t6 = new TerrainTexture(loader.loadTexture("forestTexture"));
-		TerrainTexture t7 = new TerrainTexture(loader.loadTexture("rainforestTexture"));
-		
-		texturePack = new WhiteTerrainTexturePack(
-				backTexture,
-				t1,
-				t2,
-				t3,
-				t4,
-				t5,
-				t6,
-				t7
-				);
-		
-		blendMap = new TerrainTexture(loader.loadTexture("generatedBlendMap"));
+			//rTexture = new TerrainTexture(loader.loadTexture("dirt"));
+			//gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
+			//bTexture = new TerrainTexture(loader.loadTexture("path"));
+			TerrainTexture backTexture = new TerrainTexture(loader.loadTexture("seaTexture"));
+			TerrainTexture t1 = new TerrainTexture(loader.loadTexture("iceTexture"));
+			TerrainTexture t2 = new TerrainTexture(loader.loadTexture("taigaTexture"));
+			TerrainTexture t3 = new TerrainTexture(loader.loadTexture("desertTexture"));
+			TerrainTexture t4 = new TerrainTexture(loader.loadTexture("steppeTexture"));
+			TerrainTexture t5 = new TerrainTexture(loader.loadTexture("dryforestTexture"));
+			TerrainTexture t6 = new TerrainTexture(loader.loadTexture("forestTexture"));
+			TerrainTexture t7 = new TerrainTexture(loader.loadTexture("rainforestTexture"));
 
-		/*//counter clockwise vertices
+			texturePack = new WhiteTerrainTexturePack(
+					backTexture,
+					t1,
+					t2,
+					t3,
+					t4,
+					t5,
+					t6,
+					t7
+					);
+
+			blendMap = new TerrainTexture(loader.loadTexture("generatedBlendMap"));
+
+			/*//counter clockwise vertices
 		float[] vertices = {
 				//Left bottom and top right, resp.
 			-0.5f, 0.5f, 0f,	
@@ -116,28 +116,31 @@ public class MainGameLoop {
 		//respective u,v vertex of texture to map to
 		float[] textureCoords = {0,0,0,1,1,1,1,0};*/
 
-		//terrain1 = new Terrain(0,0,loader,texturePack,blendMap,"heightmap");
-		//terrain2 = new Terrain(-1,0,loader,texturePack,blendMap,"heightmap");
-		//terrain3 = new Terrain(0,-1,loader,texturePack,blendMap,"heightmap");
-		//terrain4 = new Terrain(-1,-1,loader,texturePack,blendMap,"heightmap");
-		double[][] temp2 = DiamondSquare.makeTable(0, 0, 0, 0, 33);
-		DiamondSquare ds = new DiamondSquare();
-		ds = new DiamondSquare(temp2);
-		ds.seed(870L);
-		//double[][] heightMap = ds.generate(new double[]{0, 0, 2, 7, 0.7, 1});
-		double[][] heightMap = average(generateRoughTerrain(main.terrain, 9));
-		terrain0 = new GeneratedTerrain(0, 0, loader, texturePack, blendMap, heightMap);
+			//terrain1 = new Terrain(0,0,loader,texturePack,blendMap,"heightmap");
+			//terrain2 = new Terrain(-1,0,loader,texturePack,blendMap,"heightmap");
+			//terrain3 = new Terrain(0,-1,loader,texturePack,blendMap,"heightmap");
+			//terrain4 = new Terrain(-1,-1,loader,texturePack,blendMap,"heightmap");
+			double[][] temp2 = DiamondSquare.makeTable(0, 0, 0, 0, 33);
+			DiamondSquare ds = new DiamondSquare();
+			ds = new DiamondSquare(temp2);
+			ds.seed(870L);
+			//double[][] heightMap = ds.generate(new double[]{0, 0, 2, 7, 0.7, 1});
+			double[][] heightMap = average(generateRoughTerrain(main.terrain, multiply));
+			terrain0 = new GeneratedTerrain(0, 0, loader, texturePack, blendMap, heightMap);
+			//HeightMap is a more detailed version of the terrain map
 
-		light = new Light(new Vector3f(0,50,0), new Vector3f(1,1,1));
-		camera = new Camera();
+			levelManager = new LevelManager(game.grid, heightMap);
 
-		//Keep updating the display until the user exits
-		renderer = new MasterRenderer();
-		
-		tick();
+			light = new Light(new Vector3f(500,500,500), new Vector3f(1,1,1));
+			camera = new Camera();
 
-		stop();
-		
+			//Keep updating the display until the user exits
+			renderer = new MasterRenderer();
+
+			tick();
+
+			stop();
+
 		} catch (Exception e) {e.printStackTrace();} //LWJGL seems to not catch errors for some reason
 		//Probably has to do with the fact that's as close to C++ as possible
 	}
@@ -161,7 +164,7 @@ public class MainGameLoop {
 				break;
 			}
 			if (stop) break;
-			
+
 			for (int i = 0; i < main.systems.size(); i++)
 			{
 				main.systems.get(i).tick();
@@ -170,7 +173,7 @@ public class MainGameLoop {
 			//entity.rotate(0,0.3F,0);
 			camera.move();
 			//camera.yaw += 0.1;
-			
+
 			renderer.processTerrain(terrain0);
 			//renderer.processTerrain(terrain1);
 			//renderer.processTerrain(terrain2);
@@ -183,33 +186,15 @@ public class MainGameLoop {
 			{
 				en.rotate(0,1F,0);
 			}*/
-			
+
 			renderer.render(light, camera);
-			
+
 			DisplayManager.updateDisplay();
 			frameCount++;
 		}
 	}
-	
+
 	private double[][] average(double[][] t)
-	{
-		double[][] temp = new double[t.length][t[0].length];
-		for (int r = 0; r < t.length; r++)
-		{
-			for (int c = 0; c < t[0].length; c++)
-			{
-				double sum = 0, n = 0;
-				if (r - 1 >= 0) {sum += t[r-1][c]; n++;}
-				if (c - 1 >= 0) {sum += t[r][c-1]; n++;}
-				if (r + 1 < t.length) {sum += t[r+1][c]; n++;}
-				if (c + 1 < t[0].length) {sum += t[r][c+1]; n++;}
-				temp[r][c] = sum/n;
-			}
-		}
-		return temp;
-	}
-	
-	private double[][] flatten(double[][] t)
 	{
 		double[][] temp = new double[t.length][t[0].length];
 		for (int r = 0; r < t.length; r++)
@@ -307,18 +292,22 @@ public class MainGameLoop {
 				{
 					for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 					{
-						vertices[nr][nc] = (terrain[r][c] - 100F)/3F;
+						vertices[nr][nc] = 0;
+						//vertices[nr][nc] = (terrain[r][c] - 100F)/3F;
 						//System.out.print(terrain[r][c] + " ");
 					}
 					//System.out.println();
 				}
-				if (t.shape == 2)
+				/*if (t.shape == 2)
 				{
 					double[][] renderHill = map.generate(DiamondSquare.makeTable(5, 5, 5, 5, multiply), new double[]{0, 0, 2, 7, 0.7, 1});
 					renderHill = DiamondSquare.max(renderHill, 40);
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-							vertices[nr][nc] += (float)renderHill[nr - r*multiply][nc - c*multiply];
+						{
+							float rough = (float)renderHill[nr - r*multiply][nc - c*multiply];
+							vertices[nr][nc] += rough*2D*Math.random() - rough;
+						}
 				}
 				else if (t.shape == 1)
 				{
@@ -329,8 +318,11 @@ public class MainGameLoop {
 					renderHill = DiamondSquare.max(renderHill, 13);
 					for (int nr = r*multiply; nr < r*multiply + multiply; nr++)
 						for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
-							vertices[nr][nc] += (float)renderHill[nr - r*multiply][nc - c*multiply];
-				}
+						{
+							float rough = (float)renderHill[nr - r*multiply][nc - c*multiply];
+							vertices[nr][nc] += rough*2D*Math.random() - rough;
+						}
+				}*/
 			}
 		}
 		//Make the top & left border zero

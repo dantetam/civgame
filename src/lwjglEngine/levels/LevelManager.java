@@ -27,7 +27,7 @@ public class LevelManager {
 	private static Loader loader = new Loader();
 	private ModelManager modelManager;
 
-	public LevelManager(Grid grid) {
+	public LevelManager(Grid grid, double[][] heightMap) {
 		groups = new ArrayList<Group>();
 		/*for (int i = 0; i < 50; i++)
 		{
@@ -49,7 +49,7 @@ public class LevelManager {
 		/*Group group1 = loadFromXML("someisland.txt");
 		group1.move(0, 35, 0);
 		groups.add(group1);*/
-		modelManager = new ModelManager(this, grid);
+		modelManager = new ModelManager(this, grid, heightMap);
 	}
 
 	public static Group loadFromXML(String fileName)

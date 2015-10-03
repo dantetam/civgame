@@ -17,7 +17,7 @@ import lwjglEngine.textures.TerrainTexturePack;
 
 public class Terrain {
 
-	protected static final int SIZE = 1600, MAX_HEIGHT = 40, MIN_HEIGHT = -40;
+	protected static final float SIZE = 1600, MAX_HEIGHT = 40, MIN_HEIGHT = -40;
 	protected static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 	
 	public float x,z;
@@ -30,8 +30,8 @@ public class Terrain {
 	{
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
-		x = gridX * SIZE;
-		z = gridZ * SIZE;
+		x = (float)gridX * SIZE;
+		z = (float)gridZ * SIZE;
 		model = generateTerrain(loader, heightMap);
 	}
 

@@ -5,6 +5,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import lwjglEngine.entities.Camera;
 
+//Courtesy of ThinMatrix. Hope his kickstarter goes well.
+
 public class Maths {
 
 	//Rotate normally by a certain translation
