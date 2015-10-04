@@ -29,6 +29,19 @@ public class LevelManager {
 
 	public LevelManager(Grid grid, double[][] heightMap) {
 		groups = new ArrayList<Group>();
+		
+		Group group = new Group();
+		for (int r = 0; r < heightMap.length; r += 9)
+		{
+			for (int c = 0; c < heightMap[0].length; c += 9)
+			{
+				Vector3f pos = new Vector3f((float)r/(float)heightMap.length*1600F, (float)heightMap[r][c], (float)c/(float)heightMap[0].length*1600F);
+				Vector3f rot = new Vector3f(0,0,0);
+				Vector3f size = new Vector3f(2,2,2);
+				group.entities.add(newBox(pos, rot, size, "bluePlasma"));
+			}
+		}
+		groups.add(group);
 		/*for (int i = 0; i < 50; i++)
 		{
 			Vector3f pos = new Vector3f((int)(Math.random()*250 - 125), (int)(Math.random()*250), (int)(Math.random()*250 - 125));
@@ -73,29 +86,29 @@ public class LevelManager {
 		try
 		{
 			while ((line = reader.readLine()) != null)
-			{
-				int off = 1; //Depends on format of converted XML file
-				
+			{	
 				String[] currentLine = line.split(",");
 
-				//First data line only gives relative position of model in world
-				if (currentLine.length < 10) continue; 
+				if (currentLine.length < 10) continue;
+				
+				/*int off = 1; //Depends on format of converted XML file
+				//First data line only gives relative position of model in world 
 
 				for (int i = 0; i < currentLine.length - off; i++)
-					currentLine[i] = currentLine[i+off];
+					currentLine[i] = currentLine[i+off];*/
 				
 				float[] data = new float[currentLine.length];
-				for (int i = 0; i < currentLine.length - off; i++)
+				for (int i = 1; i < currentLine.length; i++)
 					data[i] = Float.parseFloat(currentLine[i]);
 
-				Vector3f pos = new Vector3f(data[0], data[1], data[2]);
+				Vector3f pos = new Vector3f(data[1], data[2], data[3]);
 				Vector3f rot = new Vector3f(
-						(float)Math.toDegrees(data[3]), 
 						(float)Math.toDegrees(data[4]), 
-						(float)Math.toDegrees(data[5])
+						(float)Math.toDegrees(data[5]), 
+						(float)Math.toDegrees(data[6])
 						);
-				Vector3f size = new Vector3f(data[6], data[7], data[8]);
-				Entity en = newBox(pos, rot, size, "bluePlasma");
+				Vector3f size = new Vector3f(data[7], data[8], data[9]);
+				Entity en = newBox(pos, rot, size, "partTexture");
 				entities.add(en);
 
 				/*String output = "";
@@ -108,6 +121,47 @@ public class LevelManager {
 			reader.close();
 		} catch (Exception e) {e.printStackTrace(); return null;}
 		//System.out.println("Successful" + fileName);
+		return new Group(entities);
+	}
+	
+	public static Group loadFromXML(String fileName, String partTexture, String colorTexture) //For monochromatic colored models
+	{
+		ArrayList<Entity> entities = new ArrayList<Entity>();
+		FileReader fr = null;
+		try {fr = new FileReader(new File("res/"+fileName));} catch (FileNotFoundException e) {}
+		if (fr == null)
+		{
+			try {fr = new FileReader(new File("res/parsedObj/"+fileName));} catch (Exception ex) {System.out.println("Unsuccessful" + fileName); return null;}
+		}
+		BufferedReader reader = new BufferedReader(fr);
+		String line;
+		try
+		{
+			while ((line = reader.readLine()) != null)
+			{	
+				String[] currentLine = line.split(",");
+				if (currentLine.length < 10) continue;
+				
+				float[] data = new float[currentLine.length];
+				for (int i = 1; i < currentLine.length; i++)
+					data[i] = Float.parseFloat(currentLine[i]);
+
+				Vector3f pos = new Vector3f(data[1], data[2], data[3]);
+				Vector3f rot = new Vector3f(
+						(float)Math.toDegrees(data[4]), 
+						(float)Math.toDegrees(data[5]), 
+						(float)Math.toDegrees(data[6])
+						);
+				Vector3f size = new Vector3f(data[7], data[8], data[9]);
+				Entity en;
+				if (currentLine[0].equals("Color"))
+					en = newBox(pos, rot, size, colorTexture);
+				else
+					en = newBox(pos, rot, size, partTexture);
+				entities.add(en);
+			}
+			reader.close();
+		} catch (Exception e) {e.printStackTrace(); return null;}
 		return new Group(entities);
 	}
 

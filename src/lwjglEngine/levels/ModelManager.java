@@ -55,7 +55,8 @@ public class ModelManager {
 								}
 							}
 							height /= (float)(n);
-							candidate.move(((float)r+0.5F)/(float)grid.rows*1600F*0.9F, height, ((float)c+0.5F)/(float)grid.cols*1600F*0.9F);
+							float modelHeight = candidate.boundingBox()[4]/2F;
+							candidate.move(((float)r+0.5F)/(float)grid.rows*1600F*0.9F, height+modelHeight, ((float)c+0.5F)/(float)grid.cols*1600F*0.9F);
 							lm.groups.add(candidate);
 						}
 					}

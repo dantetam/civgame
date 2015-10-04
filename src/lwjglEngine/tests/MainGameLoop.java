@@ -292,8 +292,8 @@ public class MainGameLoop {
 				{
 					for (int nc = c*multiply; nc < c*multiply + multiply; nc++)
 					{
-						vertices[nr][nc] = 0;
-						//vertices[nr][nc] = (terrain[r][c] - 100F)/3F;
+						//vertices[nr][nc] = 0;
+						vertices[nr][nc] = (terrain[r][c] - 100F)/3F;
 						//System.out.print(terrain[r][c] + " ");
 					}
 					//System.out.println();
