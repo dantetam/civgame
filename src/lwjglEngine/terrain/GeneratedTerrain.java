@@ -164,7 +164,8 @@ public class GeneratedTerrain extends Terrain {
 	{
 		if (r < 0 || r >= terrain.length || c < 0 || c >= terrain.length)
 			return 0;
-		return (float)inter.getValue(terrain, r, c);
+		//return (float)inter.getValue(terrain, r, c);
+		return 0; 
 	}
 	
 	private float getTerrainHeight(Point[][] points, double r, double c)

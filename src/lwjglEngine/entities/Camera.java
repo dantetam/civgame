@@ -11,7 +11,7 @@ public class Camera {
 	public Vector3f position = new Vector3f(1000,20,1000);
 	public float pitch, yaw, roll; //High-low, left-right, tilt
 	
-	public Camera() {}
+	public Camera() {yaw = (float)Math.PI/4F;}
 	//public Camera(Vector3f p, float a, float b, float c) {}
 	
 	public void move()

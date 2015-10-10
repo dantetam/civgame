@@ -116,7 +116,7 @@ public class MainGameLoop {
 		//respective u,v vertex of texture to map to
 		float[] textureCoords = {0,0,0,1,1,1,1,0};*/
 
-			//terrain1 = new Terrain(0,0,loader,texturePack,blendMap,"heightmap");
+			//terrain1 = new Terrain(0,0,loader,texturePack,blendMap,"heightmap");0
 			//terrain2 = new Terrain(-1,0,loader,texturePack,blendMap,"heightmap");
 			//terrain3 = new Terrain(0,-1,loader,texturePack,blendMap,"heightmap");
 			//terrain4 = new Terrain(-1,-1,loader,texturePack,blendMap,"heightmap");

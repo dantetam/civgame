@@ -24,8 +24,8 @@ public class ModelManager {
 			for (int c = 0; c < grid.cols; c++)
 			{
 				//String temp = getModels(grid.getTile(r,c));
-				String temp = null; 
-				if ((r > 10 && r < 15 && c > 10 && c < 36) && grid.getTile(r,c).biome != -1)
+				String temp = null;
+				if ((r > 10 && r < 15 && c > 10 && c < 16) && grid.getTile(r,c).biome != -1)
 				{
 					temp = "Farm1";
 				}
@@ -56,7 +56,7 @@ public class ModelManager {
 							}
 							height /= (float)(n);
 							float modelHeight = candidate.boundingBox()[4]/2F;
-							candidate.move(((float)r+0.5F)/(float)grid.rows*1600F*0.9F, height+modelHeight, ((float)c+0.5F)/(float)grid.cols*1600F*0.9F);
+							candidate.move(((float)r+0.5F)/(float)grid.rows*1600F*0.9F, -candidate.boundingBox()[1], ((float)c+0.5F)/(float)grid.cols*1600F*0.9F);
 							lm.groups.add(candidate);
 						}
 					}

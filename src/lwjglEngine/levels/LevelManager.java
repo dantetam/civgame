@@ -30,18 +30,23 @@ public class LevelManager {
 	public LevelManager(Grid grid, double[][] heightMap) {
 		groups = new ArrayList<Group>();
 		
-		Group group = new Group();
-		for (int r = 0; r < heightMap.length; r += 9)
+		/*Group group = new Group();
+		for (int r = 100; r < 120; r ++)
 		{
-			for (int c = 0; c < heightMap[0].length; c += 9)
+			for (int c = 100; c < 120; c ++)
 			{
 				Vector3f pos = new Vector3f((float)r/(float)heightMap.length*1600F, (float)heightMap[r][c], (float)c/(float)heightMap[0].length*1600F);
 				Vector3f rot = new Vector3f(0,0,0);
-				Vector3f size = new Vector3f(2,2,2);
+				Vector3f size = new Vector3f(1,1,1);
+				group.entities.add(newBox(pos, rot, size, "bluePlasma"));
+				
+				pos = new Vector3f((float)r/(float)heightMap.length*1600F + 2, (float)heightMap[r][c], (float)c/(float)heightMap[0].length*1600F);
+				rot = new Vector3f(0,0,0);
+				size = new Vector3f(1,4,1);
 				group.entities.add(newBox(pos, rot, size, "bluePlasma"));
 			}
 		}
-		groups.add(group);
+		groups.add(group);*/
 		/*for (int i = 0; i < 50; i++)
 		{
 			Vector3f pos = new Vector3f((int)(Math.random()*250 - 125), (int)(Math.random()*250), (int)(Math.random()*250 - 125));
@@ -177,7 +182,7 @@ public class LevelManager {
 
 	public static Entity newBox(Vector3f position, Vector3f rotation, Vector3f size, String textureName)
 	{
-		float x = size.x/2, y = size.y/2, z = size.z/2;
+		float x = size.x/2F, y = size.y/2F, z = size.z/2F;
 		float[] vertices = {			
 				-x,y,-z,	
 				-x,-y,-z,	
