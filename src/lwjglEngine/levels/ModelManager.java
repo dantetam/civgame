@@ -41,7 +41,7 @@ public class ModelManager {
 						}*/
 						if (candidate != null)
 						{
-							int m = MainGameLoop.multiply; int n = 0;
+							/*int m = MainGameLoop.multiply; int n = 0;
 							float height = 0;
 							for (int nr = r*m; nr < r*(m+1); nr++)
 							{
@@ -55,7 +55,7 @@ public class ModelManager {
 								}
 							}
 							height /= (float)(n);
-							float modelHeight = candidate.boundingBox()[4]/2F;
+							float modelHeight = candidate.boundingBox()[4]/2F;*/
 							candidate.move(((float)r+0.5F)/(float)grid.rows*1600F*0.9F, -candidate.boundingBox()[1], ((float)c+0.5F)/(float)grid.cols*1600F*0.9F);
 							lm.groups.add(candidate);
 						}

@@ -8,6 +8,7 @@ public class Group {
 
 	public ArrayList<Entity> entities;
 	public Vector3f position = new Vector3f(0,0,0);
+	public float rotX, rotY, rotZ = 0;
 	
 	public Group() {
 		entities = new ArrayList<Entity>();
@@ -21,7 +22,7 @@ public class Group {
 	{
 		//Undo the previous translation
 		for (Entity en: entities)
-		{
+		{ 
 			en.position.x -= position.x;
 			en.position.y -= position.y;
 			en.position.z -= position.z;
@@ -36,6 +37,24 @@ public class Group {
 			en.position.x += position.x;
 			en.position.y += position.y;
 			en.position.z += position.z;
+		}
+	}
+	
+	public void rotateToRadiansY(float angle)
+	{
+		rotateAllPartsY(-rotY); //Undo previous translation
+		rotY = angle;
+		rotateAllPartsY(angle); //Make the new rotation
+	}
+	private void rotateAllPartsY(float byAngle) //rot(x) undoes rot(-x) and vice-versa
+	{
+		for (Entity en: entities)
+		{
+			float x = en.position.x, z = en.position.z; //Store in memory since these change after rotation
+			//Mr. Chan's precalculus was finally useful in application
+			en.position.x = (float)(x*Math.cos(byAngle) - z*Math.sin(byAngle));
+			en.position.z = (float)(x*Math.sin(byAngle) + z*Math.cos(byAngle));
+			en.rotY += byAngle;
 		}
 	}
 	
