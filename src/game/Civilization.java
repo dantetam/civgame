@@ -12,6 +12,7 @@ public class Civilization {
 	public String name;
 	public int id;
 	public float r,g,b; //primary colors
+	public float primaryBrickColor; //for reference only when coloring
 	public float sR,sG,sB; //secondary colors
 
 	public ArrayList<City> cities;
@@ -75,6 +76,7 @@ public class Civilization {
 		}*/
 		//System.out.println(techTree.researched("Agriculture"));
 		this.r = r; this.g = g; this.b = b;
+		primaryBrickColor = EntityData.brickColorFromRGB(r,g,b);
 		this.bonuses = bonuses;
 		war = (float)w; peace = (float)p; tallwide = (float)t;
 		EntityData.queueTechAi(this);

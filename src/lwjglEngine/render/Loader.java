@@ -19,6 +19,8 @@ import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import data.EntityData;
+
 public class Loader {
 
 	//Store VAOs and VBOs indices as reference for future clean up
@@ -77,8 +79,16 @@ public class Loader {
 			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
+			//System.out.println("Successfully loaded texture " + "res/"+fileName+".png");
 		} 
-		catch (Exception e) {e.printStackTrace();}
+		catch (Exception e) 
+		{
+			EntityData.createTexture(Integer.parseInt(fileName.substring(12)));
+			try {texture = TextureLoader.getTexture("PNG",new FileInputStream("res/"+fileName+".png"));} catch (IOException e1) {e1.printStackTrace();}
+			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
+		}
 		int textureID = texture.getTextureID();
 		textures.add(textureID);
 		return textureID;

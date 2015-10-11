@@ -1,12 +1,18 @@
 package data;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.imageio.ImageIO;
+
 import processing.core.PApplet;
 import processing.core.PImage;
+
+import terrain.DiamondSquare;
 //import processing.core.PShape;
 import game.*;
 import units.*;
@@ -229,7 +235,7 @@ public class EntityData {
 		}
 
 	}
-
+	
 	public static String[] traitDesc(String trait)
 	{
 		/*
@@ -261,6 +267,27 @@ public class EntityData {
 			System.out.println("Invalid trait: " + trait);
 			return null;
 		}
+	}
+	
+	public static int brickColorFromRGB(float r, float g, float b) //input is 0-255
+	{
+		int bestGuess = 1;
+		int bestError = (int)(Math.abs(brickColorMap.get(bestGuess).r*255 - r) + 
+				Math.abs(brickColorMap.get(bestGuess).g*255 - g) + 
+				Math.abs(brickColorMap.get(bestGuess).b*255 - b));
+		for (Entry<Integer, Color> entry: brickColorMap.entrySet())
+		{
+			Color c = entry.getValue();
+			int error = (int)(Math.abs(c.r*255 - r) + 
+					Math.abs(c.g*255 - g) + 
+					Math.abs(c.b*255 - b));
+			if (error < bestError)
+			{
+				bestGuess = entry.getKey();
+				bestError = error;
+			}
+		}
+		return bestGuess;
 	}
 
 	public static ArrayList<String> list(String... strings)
@@ -1114,6 +1141,77 @@ public class EntityData {
 		}
 		temp = Math.max(1,(int)(temp*((Worker)en).workTime));
 		return temp;
+	}
+	
+	public static String createTexture(int brickColor)
+	{
+		try {
+			int width = 256;
+			BufferedImage bi = new BufferedImage(width, width, BufferedImage.TYPE_INT_RGB); //no alpha here
+			Color color = brickColorMap.get(brickColor);
+			int red = (int)(color.r*255);
+			int green = (int)(color.g*255);
+			int blue = (int)(color.b*255);
+			//int alpha = 255;
+			//int col = (alpha << 24) | (red << 16) | (green << 8) | blue;
+			int col = (red << 16) | (green << 8) | blue;
+			for (int r = 0; r < width; r++)
+				for (int c = 0; c < width; c++)
+					bi.setRGB(r, c, col);
+			File outputfile = new File("res/colorTexture"+brickColor+".png");
+			ImageIO.write(bi, "png", outputfile);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return "res/colorTexture"+brickColor+".png";
+	}
+	/*private static int tempTextureIndex = 0;
+	public static String createTexture(int red, int green, int blue)
+	{
+		String name = null;
+		try {
+			int width = 256;
+			BufferedImage bi = new BufferedImage(width, width, BufferedImage.TYPE_INT_RGB); //no alpha here
+			int col = (red << 16) | (green << 8) | blue;
+			for (int r = 0; r < width; r++)
+				for (int c = 0; c < width; c++)
+					bi.setRGB(r, c, col);
+			name = "res/rgbTexture"+(int)(System.currentTimeMillis()*Math.random())+".png";
+			File outputfile = new File(name);
+			ImageIO.write(bi, "png", outputfile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return name;
+	}*/
+
+	public static void createHeightMap(String fileLocation)
+	{
+		//Why Math.floor() returns a double is beyond me...
+		//int adj = (int)Math.floor(Math.log(width)/Math.log(2)) + 1;
+		try {
+			BufferedImage bi = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB); //no alpha here
+
+			double[][] temp = DiamondSquare.makeTable(0,0,0,0,257); //default size is 256^2
+			DiamondSquare ds = new DiamondSquare(temp);
+			//ds.diamond(0, 0, 4);
+			ds.dS(0, 0, 256, 80, 0.6, false, true);
+
+			for (int r = 0; r < 256; r++)
+				for (int c = 0; c < 256; c++)
+				{
+					//if (r % 8 == 0) System.out.println(ds.t[r][c]);
+					if (ds.t[r][c] > 255) ds.t[r][c] = 255; //upper and lower bound on white -> 0-255
+					else if (ds.t[r][c] < 0) ds.t[r][c] = 0;
+					int col = ((int)(ds.t[r][c]) << 16) | ((int)(ds.t[r][c]) << 8) | (int)(ds.t[r][c]);
+					bi.setRGB(r, c, col);
+				}
+			File outputfile = new File(fileLocation);
+			ImageIO.write(bi, "png", outputfile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static Color getResourceColor(int res)

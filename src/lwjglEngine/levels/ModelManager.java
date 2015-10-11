@@ -23,18 +23,26 @@ public class ModelManager {
 		{
 			for (int c = 0; c < grid.cols; c++)
 			{
-				//String temp = getModels(grid.getTile(r,c));
-				String temp = null;
-				if ((r > 10 && r < 15 && c > 10 && c < 16) && grid.getTile(r,c).biome != -1)
+				String[] data = getModels(grid.getTile(r,c));
+				//String temp = null;
+				/*if ((r > 10 && r < 15 && c > 10 && c < 16) && grid.getTile(r,c).biome != -1)
 				{
 					temp = "Farm1";
-				}
-				if (temp != null)
+				}*/
+				if (data != null)
 				{
-					String[] models = temp.split(" ");
+					String[] models = data[0].split(" ");
+					String[] stringColors = data[1].split(" ");
+					int[] colors = new int[stringColors.length];
+					for (int i = 0; i < colors.length; i++) colors[i] = (int)Double.parseDouble(stringColors[i]);
+					
 					for (int i = 0; i < models.length; i++)
 					{
-						Group candidate = LevelManager.loadFromXML(models[i]);
+						Group candidate;
+						if (colors[i] < 0) //no color or missing color
+							 candidate = LevelManager.loadFromXML(models[i], "partTexture", "partTexture");
+						else
+							 candidate = LevelManager.loadFromXML(models[i], "partTexture", "colorTexture" + colors[i]);
 						/*if (candidate == null)
 						{
 							candidate = LevelManager.loadFromXML("Old" + models[i]);
@@ -65,7 +73,8 @@ public class ModelManager {
 		}
 	}
 
-	private String getModels(Tile t)
+	//Not used because coloring requires knowing color of owner
+	/*private String getModels(Tile t)
 	{
 		String temp = "";
 		if (t.improvement != null)
@@ -83,6 +92,42 @@ public class ModelManager {
 		}
 		if (temp.equals("")) return null;
 		return temp.substring(1);
+	}*/
+
+	private String[] getModels(Tile t)
+	{
+		String temp = "", temp1 = "";
+		if (t.improvement != null)
+		{
+			temp += " " + t.improvement.name;
+			if (t.owner != null)
+				temp1 += " " + t.owner.primaryBrickColor;
+			else
+				temp1 += " -1";
+		}
+		if (t.occupants.size() > 0)
+		{
+			temp += " " + t.occupants.get(0).name;
+			temp1 += " " + t.occupants.get(0).owner.primaryBrickColor;
+		}
+		if (t.forest)
+		{
+			temp += " " + "Forest";
+			if (t.owner != null)
+				temp1 += " " + t.owner.primaryBrickColor;
+			else
+				temp1 += " -1";
+		}
+		if (t.resource != 0)
+		{
+			if (t.resource == 1 || t.resource == 2)
+				temp += " " + "Wheat";
+			else if (t.resource >= 20 || t.resource <= 22)
+				temp += " " + "Rock";
+			temp1 += " -1";
+		}
+		if (temp.equals("")) return null;
+		return new String[]{temp.substring(1),temp1.substring(1)};
 	}
 
 }
