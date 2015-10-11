@@ -310,9 +310,10 @@ public class CivGame {
 
 	public void fixCamera(int r, int c)
 	{
-		lwjglSystem.camera.position.x = r*lwjglSystem.widthBlock;
+		lwjglSystem.camera.focusCamera(r*1600F/(float)grid.rows, c*1600F/(float)grid.cols);
+		/*lwjglSystem.camera.position.x = r*lwjglSystem.widthBlock;
 		lwjglSystem.camera.position.y = 60;
-		lwjglSystem.camera.position.x = (c-2)*lwjglSystem.widthBlock;
+		lwjglSystem.camera.position.x = (c-2)*lwjglSystem.widthBlock;*/
 		//player.rotY = 0;
 		//player.rotVertical = 0;
 		//player.update();

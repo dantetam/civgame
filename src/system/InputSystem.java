@@ -421,7 +421,7 @@ public class InputSystem extends BaseSystem {
 				for (int i = 0; i < s.size(); i++)
 					playerAction(s.get(i), false);
 				s.clear();
-				timeSelection();
+				//timeSelection();
 				main.menuSystem.select(null);
 			}
 		}
@@ -468,7 +468,7 @@ public class InputSystem extends BaseSystem {
 					{
 						if (advanceToNextUnit)
 						{
-							timeSelection();
+							//timeSelection();
 							main.menuSystem.select(null);
 						}
 					}
@@ -497,7 +497,7 @@ public class InputSystem extends BaseSystem {
 		}
 	}*/
 
-	public void timeSelection()
+	/*public void timeSelection()
 	{
 		main.menuSystem.textboxes.get(5).display.clear();
 		main.menuSystem.textboxes.get(5).display.add(0, "...");
@@ -506,7 +506,7 @@ public class InputSystem extends BaseSystem {
 			nextSelection = main.lwjglSystem.frameCount + time;
 		else
 			nextSelection = 0;
-	}
+	}*/
 
 	private void selectAvailableUnit()
 	{

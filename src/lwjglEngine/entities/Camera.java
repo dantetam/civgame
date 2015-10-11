@@ -15,7 +15,7 @@ public class Camera {
 	public Camera() {}
 	//public Camera(Vector3f p, float a, float b, float c) {}
 
-	public void focusCamera(int x, int z)
+	public void focusCamera(float x, float z)
 	{
 		position = new Vector3f(x,10,z);
 		turnsPitch = 20; turnsYaw = 20;

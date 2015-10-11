@@ -2051,7 +2051,7 @@ public class MenuSystem extends BaseSystem {
 		if (command.contains("build") || command.contains("unit") || command.contains("queue"))
 		{
 			main.menuSystem.select(null);
-			main.inputSystem.timeSelection();
+			//main.inputSystem.timeSelection();
 		}
 		return true;
 	}
@@ -2932,6 +2932,38 @@ public class MenuSystem extends BaseSystem {
 
 	public void select(BaseEntity en)
 	{
+		selected = en;
+		//main.newMenuSystem.updateUnitMenu(en);
+		//main.requestUpdate();
+		if (en != null)
+		{
+			en.sleep = false;
+			if (en instanceof Settler)
+			{
+				settlerChoices = main.grid.returnBestCityScores(en.location.row, en.location.col, 0.25);
+			}
+			else
+			{
+				settlerChoices = null;
+			}
+			if (en instanceof City)
+			{
+				updateCity((City)en);
+			}
+			textboxes.get(1).orders.clear();
+			textboxes.get(1).activate(true);
+			textboxes.get(1).move(main.width - 400,main.height);
+			textboxes.get(1).moveTo(textboxes.get(1).origX,textboxes.get(1).origY,20);
+		}
+		else
+		{
+			stack.clear();
+			textboxes.get(1).orders.clear();
+			textboxes.get(1).activate(false);
+			textboxes.get(1).move(main.width - 400,main.height-150);
+
+			menus.get(1).buttons.clear();
+		}
 		/*selected = en;
 		main.newMenuSystem.updateUnitMenu(en);
 		//main.requestUpdate();
