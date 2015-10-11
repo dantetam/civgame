@@ -24,8 +24,8 @@ import units.Settler;
 
 public class InputSystem extends BaseSystem {
 
-	private ArrayList<Character> keyPresses;
-	public HashMap<Character,String> keyPressBinds = new HashMap<Character,String>();
+	private ArrayList<Integer> keyPresses;
+	public HashMap<Integer,String> keyPressBinds = new HashMap<Integer,String>();
 	public HashMap<Character,String> keyHoldBinds = new HashMap<Character,String>();
 
 	public boolean moving = false;
@@ -40,13 +40,24 @@ public class InputSystem extends BaseSystem {
 
 	public enum KeyPressBind
 	{
-		ADVANCE_TURN   	(32, 0),
-		TOGGLE_MINIMAP 	('m'),
-		TOGGLE_FOG		('r'),
-		TOGGLE_TACTICAL ('t'),
-		ZOOM_IN			('i'),
-		ZOOM_OUT		('o'),
-		CLOSE_ALL		('x'),
+		ADVANCE_TURN   	(Keyboard.KEY_SPACE, 0),
+		TOGGLE_MINIMAP 	(Keyboard.KEY_M),
+		TOGGLE_FOG		(Keyboard.KEY_R),
+		TOGGLE_TACTICAL (Keyboard.KEY_T),
+		ZOOM_IN			(Keyboard.KEY_I),
+		ZOOM_OUT		(Keyboard.KEY_O),
+		CLOSE_ALL		(Keyboard.KEY_X),
+		FUNCTION_1 		(Keyboard.KEY_1),
+		FUNCTION_2 		(Keyboard.KEY_2),
+		FUNCTION_3 		(Keyboard.KEY_3),
+		FUNCTION_4 		(Keyboard.KEY_4),
+		FUNCTION_5 		(Keyboard.KEY_5),
+		FUNCTION_6 		(Keyboard.KEY_6),
+		FUNCTION_7 		(Keyboard.KEY_7),
+		FUNCTION_8 		(Keyboard.KEY_8),
+		FUNCTION_9 		(Keyboard.KEY_9),
+		FUNCTION_0 		(Keyboard.KEY_0),
+		/*
 		CONSOLE			('`', '~'),
 		FUNCTION_1 		('1', 131),
 		FUNCTION_2 		('2', 132),
@@ -59,12 +70,14 @@ public class InputSystem extends BaseSystem {
 		FUNCTION_9 		('9', 139),
 		FUNCTION_0 		('0', 140),
 		TOGGLE_KEY_MENU (9, 0),
+		*/
 		;
 		private KeyPressBind(char k1, char k2) {key1 = k1; key2 = k2;}
 		private KeyPressBind(char k1) {key1 = k1; key2 = (char)0;}
+		private KeyPressBind(int k1) {key1 = k1; key2 = (char)0;}
 		private KeyPressBind(int k1, int k2) {key1 = (char)k1; key2 = (char)k2;}
 		private KeyPressBind(char k1, int k2) {key1 = k1; key2 = (char)k2;}
-		public char key1, key2;
+		public int key1, key2;
 	}
 
 	public enum KeyHoldBind
@@ -84,31 +97,41 @@ public class InputSystem extends BaseSystem {
 	public InputSystem(CivGame main)
 	{
 		super(main);
-		keyPresses = new ArrayList<Character>();
+		keyPresses = new ArrayList<Integer>();
 		mouseHelper = new MouseHelper(main.width, main.height);
 		setKeyBinds();
 	}
 
 	public void setKeyBinds()
 	{
-		keyPressBinds.clear(); keyHoldBinds.clear();
+		keyPressBinds.clear(); keyHoldBinds.clear(); //reset any old key bindings
 		for (KeyPressBind kb: KeyPressBind.values())
 		{
 			keyPressBinds.put(kb.key1, kb.toString());
 			if (kb.key2 != (char)0)
 				keyPressBinds.put(kb.key2, kb.toString());
 		}
-		for (KeyHoldBind kb: KeyHoldBind.values())
+		/*for (KeyHoldBind kb: KeyHoldBind.values())
 		{
 			keyHoldBinds.put(kb.key1, kb.toString());
 			if (kb.key2 != (char)0)
 				keyHoldBinds.put(kb.key2, kb.toString());
-		}
+		}*/
 	}
 
 	//Goes through keys backwards to avoid arraylist trap
 	public void tick()
 	{
+		while (Keyboard.next()) {
+		    if (Keyboard.getEventKeyState()) {
+				keyPresses.add(0,Keyboard.getEventKey());
+		    }
+		    else {
+		        if (Keyboard.getEventKey() == Keyboard.KEY_A) {
+			    System.out.println("A Key Released");
+		        }
+		    }
+		}
 		
 		moving = false;
 		if (!autoSelect)
@@ -227,14 +250,14 @@ public class InputSystem extends BaseSystem {
 
 	//Stores which keys are being held (such as panning with WASD)
 	public boolean[] keyHeld = new boolean[200];
-	public void queueKey(char key)
+	/*public void queueKey(char key)
 	{
 		if (key >= 97 && key <= 122)
 		{
 			keyHeld[key-97] = true;
 		}
 		keyPresses.add(0,key);
-	}
+	}*/
 
 	public void keyReleased(char key)
 	{
@@ -680,11 +703,11 @@ public class InputSystem extends BaseSystem {
 		}
 	}
 
-	public void executeAction(char key)
+	public void executeAction(int key)
 	{
 		String action = keyPressBinds.get(key);
 		//if (action != null) {System.out.println(action);}
-		if (main.menuSystem.console != null) //Give priority to toggling console
+		/*if (main.menuSystem.console != null) //Give priority to toggling console
 		{
 			if (action != null)
 			{
@@ -699,7 +722,7 @@ public class InputSystem extends BaseSystem {
 			else
 				main.menuSystem.console += key;
 			return;
-		}
+		}*/
 		if (action == null) return;
 		executeAction(action);
 	}

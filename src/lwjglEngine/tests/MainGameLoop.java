@@ -165,19 +165,6 @@ public class MainGameLoop {
 				break;
 			}
 			if (stop) break;
-
-			while (Keyboard.next()) {
-			    if (Keyboard.getEventKeyState()) {
-			        if (Keyboard.getEventKey() == Keyboard.KEY_A) {
-				    System.out.println("A Key Pressed");
-			        }
-			    }
-			    else {
-			        if (Keyboard.getEventKey() == Keyboard.KEY_A) {
-				    System.out.println("A Key Released");
-			        }
-			    }
-			}
 			
 			for (int i = 0; i < main.systems.size(); i++)
 			{
