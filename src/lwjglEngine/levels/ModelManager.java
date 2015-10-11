@@ -1,5 +1,6 @@
 package lwjglEngine.levels;
 
+import data.EntityData;
 import lwjglEngine.entities.Group;
 import lwjglEngine.tests.MainGameLoop;
 import game.Grid;
@@ -39,10 +40,13 @@ public class ModelManager {
 					for (int i = 0; i < models.length; i++)
 					{
 						Group candidate;
-						if (colors[i] < 0) //no color or missing color
-							 candidate = LevelManager.loadFromXML(models[i], "partTexture", "partTexture");
+						if (colors[i] <= 0) //no color or missing color
+							candidate = LevelManager.loadFromXML(EntityData.getUniqueModel(models[i]), "partTexture", "partTexture");
 						else
-							 candidate = LevelManager.loadFromXML(models[i], "partTexture", "colorTexture" + colors[i]);
+						{
+							//System.out.println(colors[i]);
+							candidate = LevelManager.loadFromXML(EntityData.getUniqueModel(models[i]), "partTexture", "colorTexture" + colors[i]);
+						}
 						/*if (candidate == null)
 						{
 							candidate = LevelManager.loadFromXML("Old" + models[i]);
@@ -101,22 +105,23 @@ public class ModelManager {
 		{
 			temp += " " + t.improvement.name;
 			if (t.owner != null)
-				temp1 += " " + t.owner.primaryBrickColor;
+				temp1 += " " + (int)t.owner.primaryBrickColor;
 			else
 				temp1 += " -1";
 		}
 		if (t.occupants.size() > 0)
 		{
 			temp += " " + t.occupants.get(0).name;
-			temp1 += " " + t.occupants.get(0).owner.primaryBrickColor;
+			temp1 += " " + (int)t.occupants.get(0).owner.primaryBrickColor;
 		}
 		if (t.forest)
 		{
 			temp += " " + "Forest";
-			if (t.owner != null)
-				temp1 += " " + t.owner.primaryBrickColor;
+			/*if (t.owner != null)
+				temp1 += " " + (int)t.owner.primaryBrickColor;
 			else
-				temp1 += " -1";
+				temp1 += " -1";*/
+			temp1 += " 102";
 		}
 		if (t.resource != 0)
 		{
@@ -124,9 +129,10 @@ public class ModelManager {
 				temp += " " + "Wheat";
 			else if (t.resource >= 20 || t.resource <= 22)
 				temp += " " + "Rock";
-			temp1 += " -1";
+			temp1 += " " + EntityData.getResourceBrickColor(t.resource);
 		}
 		if (temp.equals("")) return null;
+		//System.out.println(temp1);
 		return new String[]{temp.substring(1),temp1.substring(1)};
 	}
 

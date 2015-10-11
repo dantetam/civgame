@@ -109,6 +109,7 @@ public class InputSystem extends BaseSystem {
 	//Goes through keys backwards to avoid arraylist trap
 	public void tick()
 	{
+		
 		moving = false;
 		if (!autoSelect)
 		{

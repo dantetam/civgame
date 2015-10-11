@@ -149,6 +149,11 @@ public class CivGame {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 
+	/*public void loop()
+	{ 
+		//Functions here already present in maingameloop
+	}*/
+	
 	//public void draw()
 	{		
 		/*for (int i = 0; i < systems.size(); i++)

@@ -4,6 +4,7 @@ import lwjglEngine.levels.LevelManager;
 import lwjglEngine.models.RawModel;
 import lwjglEngine.models.TexturedModel;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -165,11 +166,24 @@ public class MainGameLoop {
 			}
 			if (stop) break;
 
+			while (Keyboard.next()) {
+			    if (Keyboard.getEventKeyState()) {
+			        if (Keyboard.getEventKey() == Keyboard.KEY_A) {
+				    System.out.println("A Key Pressed");
+			        }
+			    }
+			    else {
+			        if (Keyboard.getEventKey() == Keyboard.KEY_A) {
+				    System.out.println("A Key Released");
+			        }
+			    }
+			}
+			
 			for (int i = 0; i < main.systems.size(); i++)
 			{
 				main.systems.get(i).tick();
 			}
-
+			
 			//entity.rotate(0,0.3F,0);
 			camera.move();
 			//camera.yaw += 0.1;

@@ -111,6 +111,7 @@ public class Civilization {
 		war = c.war; peace = c.peace; tallwide = c.tallwide;
 		traits(c.primaryTrait, c.secondaryTrait);
 		r = c.r; g = c.g; b = c.b;
+		primaryBrickColor = c.primaryBrickColor;
 		EntityData.queueTechAi(this);
 	}
 	

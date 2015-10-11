@@ -272,21 +272,24 @@ public class EntityData {
 	public static int brickColorFromRGB(float r, float g, float b) //input is 0-255
 	{
 		int bestGuess = 1;
-		int bestError = (int)(Math.abs(brickColorMap.get(bestGuess).r*255 - r) + 
-				Math.abs(brickColorMap.get(bestGuess).g*255 - g) + 
-				Math.abs(brickColorMap.get(bestGuess).b*255 - b));
+		int bestError = (int)(Math.pow(brickColorMap.get(bestGuess).r*255 - r, 2) + 
+				Math.pow(brickColorMap.get(bestGuess).g*255 - g, 2) + 
+				Math.pow(brickColorMap.get(bestGuess).b*255 - b, 2));
 		for (Entry<Integer, Color> entry: brickColorMap.entrySet())
 		{
 			Color c = entry.getValue();
-			int error = (int)(Math.abs(c.r*255 - r) + 
-					Math.abs(c.g*255 - g) + 
-					Math.abs(c.b*255 - b));
+			int error = (int)(Math.pow(c.r*255 - r, 2) + 
+					Math.pow(c.g*255 - g, 2) + 
+					Math.pow(c.b*255 - b, 2));
 			if (error < bestError)
 			{
 				bestGuess = entry.getKey();
 				bestError = error;
 			}
 		}
+		/*System.out.println("---");
+		System.out.println(brickColorMap.get(bestGuess).r*255 + "," + brickColorMap.get(bestGuess).g*255 + "," + brickColorMap.get(bestGuess).b*255);
+		System.out.println(r + "," + g + "," + b);*/
 		return bestGuess;
 	}
 
@@ -1216,25 +1219,35 @@ public class EntityData {
 
 	public static Color getResourceColor(int res)
 	{
+		int brickColor = getResourceBrickColor(res);
+		if (brickColor == -1)
+		{
+			System.err.println("Invalid resource " + res);
+			return null;
+		}
+		return EntityData.brickColorMap.get(brickColor);
+	}
+	public static int getResourceBrickColor(int res)
+	{
 		switch (res)
 		{
-		case 1: return EntityData.brickColorMap.get(106);
-		case 2: return EntityData.brickColorMap.get(1);
+		case 1: return 106;
+		case 2: return 1;
 
-		case 10: return EntityData.brickColorMap.get(23);
-		case 11: return EntityData.brickColorMap.get(1011);
+		case 10: return 23;
+		case 11: return 1011;
 
-		case 20: return EntityData.brickColorMap.get(1014);
-		case 21: return EntityData.brickColorMap.get(194);
-		case 22: return EntityData.brickColorMap.get(26);
+		case 20: return 1014;
+		case 21: return 194;
+		case 22: return 26;
 
-		case 30: return EntityData.brickColorMap.get(21);
+		case 30: return 21;
 
-		case 40: return EntityData.brickColorMap.get(45);
+		case 40: return 45;
 
 		default: 
 			System.err.println("Invalid resource " + res);
-			return null;
+			return -1;
 		}
 	}
 
@@ -1296,6 +1309,22 @@ public class EntityData {
 			}
 		}
 		unitModelMap.put(name, temp);
+	}
+	public static String getUniqueModel(String generic)
+	{
+		if (unitModelMap.get(generic) != null) return generic; //One singular model, assumed to be no numbered extras
+		ArrayList<String> candidates = new ArrayList<String>();
+		for (String en: unitModelMap.keySet())
+		{
+			if (en.contains(generic))
+				candidates.add(en);
+		}
+		if (candidates.size() == 0)
+		{
+			System.out.println("Model " + generic + " not found");
+			return null;
+		}
+		return candidates.get((int)(candidates.size()*Math.random()));
 	}
 
 	public static String[] allUnitNames()
