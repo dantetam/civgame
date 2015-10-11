@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 
 import lwjglEngine.entities.*;
+import lwjglEngine.gui.GuiRenderer;
 import lwjglEngine.models.TexturedModel;
 import lwjglEngine.shaders.ShaderProgram;
 import lwjglEngine.shaders.StaticShader;
@@ -19,6 +20,7 @@ public class MasterRenderer {
 
 	private StaticShader shader = new StaticShader();
 	private EntityRenderer renderer;
+	public GuiRenderer guiRenderer;
 	
 	//Specific objects for rendering terrain only
 	private TerrainRenderer terrainRenderer;
@@ -27,10 +29,10 @@ public class MasterRenderer {
 	private Matrix4f projectionMatrix;
 	
 	private HashMap<TexturedModel,ArrayList<Entity>> entities = 
-			new HashMap<TexturedModel, ArrayList<Entity>>();
+			new HashMap<TexturedModel,ArrayList<Entity>>();
 	private ArrayList<Terrain> terrains = new ArrayList<Terrain>();
 	
-	public MasterRenderer()
+	public MasterRenderer(Loader loader) //Loader is needed by GuiRenderer
 	{	
 		//Back culling; do not render faces that are hidden from camera
 		enableCulling();
@@ -39,6 +41,7 @@ public class MasterRenderer {
 		createProjectionMatrix();
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+		guiRenderer = new GuiRenderer(loader);
 	}
 	
 	public static void enableCulling()
@@ -117,6 +120,7 @@ public class MasterRenderer {
 	{
 		shader.cleanUp();
 		terrainShader.cleanUp();
+		guiRenderer.cleanUp();
 	}
 	
 	private static final float FOV = 70, NEAR_PLANE = 0.1f, FAR_PLANE = 3000f;

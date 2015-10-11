@@ -9,7 +9,10 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import lwjglEngine.entities.Camera;
+import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.render.DisplayManager;
 import lwjglEngine.tests.MainGameLoop;
 import data.Color;
@@ -52,6 +55,7 @@ public class CivGame {
 	public float centerX = width/2, centerY = height/2; //for rendering purposes, to determine how the position of the mouse affects the camera
 
 	public MenuSystem menuSystem = new MenuSystem(this);
+	public ArrayList<GuiTexture> guis = new ArrayList<GuiTexture>();
 	public NewMenuSystem newMenuSystem = new NewMenuSystem(this);
 
 	public InputSystem inputSystem = new InputSystem(this);

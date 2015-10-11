@@ -6,6 +6,7 @@ import lwjglEngine.models.TexturedModel;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import render.CivGame;
@@ -14,6 +15,7 @@ import terrain.BicubicInterpolator;
 import lwjglEngine.entities.Camera;
 import lwjglEngine.entities.Entity;
 import lwjglEngine.entities.Light;
+import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.render.*;
 import lwjglEngine.shaders.StaticShader;
 import lwjglEngine.terrain.GeneratedTerrain;
@@ -136,8 +138,11 @@ public class MainGameLoop {
 			camera = new Camera();
 			main.camera = camera; //manually assign this since the while loop belows halts all processes (i.e. no stopping) in civgame
 
+			GuiTexture test = new GuiTexture(loader.loadTexture("partTexture"), new Vector2f(0.5f,0.5f), new Vector2f(0.2f,0.2f));
+			main.guis.add(test);
+			
 			//Keep updating the display until the user exits
-			renderer = new MasterRenderer();
+			renderer = new MasterRenderer(loader);
 
 			tick();
 
@@ -190,6 +195,8 @@ public class MainGameLoop {
 			}*/
 
 			renderer.render(light, camera);
+			
+			renderer.guiRenderer.render(main.guis);
 
 			DisplayManager.updateDisplay();
 			frameCount++;

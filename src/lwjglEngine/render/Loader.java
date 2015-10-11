@@ -41,6 +41,14 @@ public class Loader {
 		return new RawModel(vaoID,indices.length);
 	}
 	
+	public RawModel loadToVao(float[] positions)
+	{
+		int vaoID = createVAO();
+		this.storeData(0,2,positions);
+		unbindVAO();
+		return new RawModel(vaoID,positions.length/2);
+	}
+	
 	//Generate new data with no normals
 	/*public RawModel loadToVAO(float[] pos, float[] textureCoords, int[] indices)
 	{
