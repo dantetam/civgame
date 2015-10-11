@@ -9,6 +9,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import lwjglEngine.entities.Camera;
 import lwjglEngine.render.DisplayManager;
 import lwjglEngine.tests.MainGameLoop;
 import data.Color;
@@ -46,6 +47,7 @@ public class CivGame {
 	public ArrayList<BaseSystem> systems;
 	//private RenderSystem renderSystem = new RenderSystem(this);
 	public MainGameLoop lwjglSystem;
+	public Camera camera; //double reference for quick fix
 	public float width = 1500, height = 900;
 	public float centerX = width/2, centerY = height/2; //for rendering purposes, to determine how the position of the mouse affects the camera
 
@@ -76,7 +78,7 @@ public class CivGame {
 		//systems.add(lwjglSystem);
 		//systems.add(menuSystem);
 		//systems.add(newMenuSystem);
-		//systems.add(inputSystem);
+		systems.add(inputSystem);
 	
 		setup();
 	}
@@ -99,6 +101,7 @@ public class CivGame {
 		
 		DisplayManager.createDisplay();
 		lwjglSystem = new MainGameLoop(this);
+		camera = lwjglSystem.camera;
 		
 		//Force update
 		menuSystem.rbox = grid.civs[0].revealedBox();
@@ -310,7 +313,7 @@ public class CivGame {
 
 	public void fixCamera(int r, int c)
 	{
-		lwjglSystem.camera.focusCamera(r*1600F/(float)grid.rows, c*1600F/(float)grid.cols);
+		camera.focusCamera(r*1600F/(float)grid.rows, c*1600F/(float)grid.cols);
 		/*lwjglSystem.camera.position.x = r*lwjglSystem.widthBlock;
 		lwjglSystem.camera.position.y = 60;
 		lwjglSystem.camera.position.x = (c-2)*lwjglSystem.widthBlock;*/

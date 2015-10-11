@@ -40,7 +40,7 @@ public class InputSystem extends BaseSystem {
 
 	public enum KeyPressBind
 	{
-		ADVANCE_TURN   	(Keyboard.KEY_SPACE, 0),
+		ADVANCE_TURN   	(Keyboard.KEY_Z, 0),
 		TOGGLE_MINIMAP 	(Keyboard.KEY_M),
 		TOGGLE_FOG		(Keyboard.KEY_R),
 		TOGGLE_TACTICAL (Keyboard.KEY_T),
@@ -600,8 +600,10 @@ public class InputSystem extends BaseSystem {
 
 	public void executeAction(String action)
 	{
+		System.out.println("inputsystem ke0");
 		if (action.equals("ADVANCE_TURN"))
 		{
+			System.out.println("inputsystem ke1");
 			Civilization civ = main.grid.civs[0];
 			BaseEntity selected = availableUnit();
 			if (selected == null)
@@ -634,12 +636,9 @@ public class InputSystem extends BaseSystem {
 					main.menuSystem.message("You have no cities or units!");
 				}
 			}
-			else if (nextSelection != 0)
-			{
-				return;
-			}
 			else
 			{
+				System.out.println("inputsystem ke2");
 				main.menuSystem.selectAndFocus(selected);
 			}
 		}

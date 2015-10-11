@@ -134,6 +134,7 @@ public class MainGameLoop {
 
 			light = new Light(new Vector3f(500,500,500), new Vector3f(1,1,1));
 			camera = new Camera();
+			main.camera = camera;
 
 			//Keep updating the display until the user exits
 			renderer = new MasterRenderer();
