@@ -134,7 +134,7 @@ public class MainGameLoop {
 
 			light = new Light(new Vector3f(500,500,500), new Vector3f(1,1,1));
 			camera = new Camera();
-			main.camera = camera;
+			main.camera = camera; //manually assign this since the while loop belows halts all processes (i.e. no stopping) in civgame
 
 			//Keep updating the display until the user exits
 			renderer = new MasterRenderer();

@@ -311,9 +311,12 @@ public class CivGame {
 		//super.stop();
 	}
 
-	public void fixCamera(int r, int c)
+	public void fixCamera(float r, float c)
 	{
-		camera.focusCamera(r*1600F/(float)grid.rows, c*1600F/(float)grid.cols);
+		if (camera.position.y < 25)
+			camera.focusCamera((r-0.5F)*1600F/(float)grid.rows, (c+0.5F)*1600F/(float)grid.cols, -10);
+		else
+			camera.focusCamera((r-0.5F)*1600F/(float)grid.rows, (c+0.5F)*1600F/(float)grid.cols + camera.position.y, -45);
 		/*lwjglSystem.camera.position.x = r*lwjglSystem.widthBlock;
 		lwjglSystem.camera.position.y = 60;
 		lwjglSystem.camera.position.x = (c-2)*lwjglSystem.widthBlock;*/

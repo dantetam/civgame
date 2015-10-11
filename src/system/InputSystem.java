@@ -123,12 +123,11 @@ public class InputSystem extends BaseSystem {
 	public void tick()
 	{
 		while (Keyboard.next()) {
-		    if (Keyboard.getEventKeyState()) {
+		    if (Keyboard.getEventKeyState()) 
 				keyPresses.add(0,Keyboard.getEventKey());
-		    }
 		    else {
-		        if (Keyboard.getEventKey() == Keyboard.KEY_A) {
-			    System.out.println("A Key Released");
+		        if (Keyboard.getEventKey() == Keyboard.KEY_A) 
+		        {
 		        }
 		    }
 		}
@@ -600,10 +599,8 @@ public class InputSystem extends BaseSystem {
 
 	public void executeAction(String action)
 	{
-		System.out.println("inputsystem ke0");
 		if (action.equals("ADVANCE_TURN"))
 		{
-			System.out.println("inputsystem ke1");
 			Civilization civ = main.grid.civs[0];
 			BaseEntity selected = availableUnit();
 			if (selected == null)
@@ -638,7 +635,6 @@ public class InputSystem extends BaseSystem {
 			}
 			else
 			{
-				System.out.println("inputsystem ke2");
 				main.menuSystem.selectAndFocus(selected);
 			}
 		}

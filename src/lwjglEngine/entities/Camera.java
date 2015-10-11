@@ -8,19 +8,20 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 
-	public Vector3f position = new Vector3f(500,10,500);
-	public float pitch, yaw, roll; //High-low, left-right, tilt
+	public Vector3f position = new Vector3f(500,20,500);
+	public float pitch = -10, yaw = 0, roll = 0; //High-low, left-right, tilt
 	private float jerkPitch, jerkYaw; private int turnsPitch, turnsYaw;
 
 	public Camera() {}
 	//public Camera(Vector3f p, float a, float b, float c) {}
 
-	public void focusCamera(float x, float z)
+	public void focusCamera(float x, float z, float angPitch)
 	{
-		position = new Vector3f(x,10,z);
+		position = new Vector3f(x,position.y,z);
 		turnsPitch = 20; turnsYaw = 20;
-		jerkPitch = -pitch/(float)turnsPitch; 
-		jerkYaw = -yaw/(float)turnsYaw;
+		//jerkPitch = -(pitch-(float)Math.toDegrees(Math.atan(position.y/20F)))/(float)turnsPitch; 
+		jerkPitch = -(pitch+angPitch)/(float)turnsPitch; 
+		jerkYaw = -(yaw)/(float)turnsYaw;
 		//pitch = 0; yaw = 0; roll = 0;
 	}
 
