@@ -1,5 +1,7 @@
 package lwjglEngine.levels;
 
+import java.util.HashMap;
+
 import data.EntityData;
 import lwjglEngine.entities.Group;
 import lwjglEngine.tests.MainGameLoop;
@@ -12,10 +14,15 @@ public class ModelManager {
 
 	private LevelManager lm;
 
+	private HashMap<Tile, Group> improvements, resources, features;
+	
 	public ModelManager(LevelManager main, Grid grid, double[][] heightMap) 
 	{
 		lm = main;
 		modelsFromGrid(grid, heightMap);
+		improvements = new HashMap<Tile, Group>();
+		resources = new HashMap<Tile, Group>();
+		features = new HashMap<Tile, Group>();
 	}
 
 	private void modelsFromGrid(Grid grid, double[][] heightMap)
