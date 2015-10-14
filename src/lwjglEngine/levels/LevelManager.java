@@ -1,6 +1,7 @@
 package lwjglEngine.levels;
 
 import game.Grid;
+import game.LwjglGrid;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,9 +26,9 @@ public class LevelManager {
 	public ArrayList<Group> groups;
 
 	private static Loader loader = new Loader();
-	private ModelManager modelManager;
+	public ModelManager modelManager;
 
-	public LevelManager(Grid grid, double[][] heightMap) {
+	public LevelManager(LwjglGrid grid, double[][] heightMap) {
 		groups = new ArrayList<Group>();
 		
 		/*Group group = new Group();

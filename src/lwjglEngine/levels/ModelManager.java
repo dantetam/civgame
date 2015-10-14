@@ -5,7 +5,9 @@ import java.util.HashMap;
 import data.EntityData;
 import lwjglEngine.entities.Group;
 import lwjglEngine.tests.MainGameLoop;
+import game.BaseEntity;
 import game.Grid;
+import game.LwjglGrid;
 import game.Tile;
 
 //Loads models into the world based on a grid and given 'OBJ' files
@@ -13,16 +15,53 @@ import game.Tile;
 public class ModelManager {
 
 	private LevelManager lm;
+	private int rows, cols; //For reference by this class only
 
-	private HashMap<Tile, Group> improvements, resources, features;
+	private HashMap<BaseEntity, Group> units, improvements, resources, features;
 	
-	public ModelManager(LevelManager main, Grid grid, double[][] heightMap) 
+	public ModelManager(LevelManager main, LwjglGrid grid, double[][] heightMap) 
 	{
 		lm = main;
 		modelsFromGrid(grid, heightMap);
-		improvements = new HashMap<Tile, Group>();
-		resources = new HashMap<Tile, Group>();
-		features = new HashMap<Tile, Group>();
+		rows = grid.rows; cols = grid.cols;
+		units = new HashMap<BaseEntity, Group>();
+		improvements = new HashMap<BaseEntity, Group>();
+		resources = new HashMap<BaseEntity, Group>();
+		features = new HashMap<BaseEntity, Group>();
+	}
+	
+	public void addUnit(BaseEntity en, int r, int c)
+	{
+		Group candidate = LevelManager.loadFromXML(EntityData.getUniqueModel(en.name), "partTexture", "colorTexture" + (int)en.owner.primaryBrickColor);
+		units.put(en, candidate);
+		moveUnitTo(en,r,c);
+	}
+	public void removeUnit(BaseEntity en)
+	{
+		Group candidate = access(en);
+		if (candidate != null)
+			lm.groups.remove(candidate);
+		units.put(en, null);
+	}
+	public void moveUnitTo(BaseEntity en, int r, int c)
+	{
+		Group candidate = access(en);
+		candidate.move(((float)r+0.5F)/(float)rows*1600F*0.9F, -candidate.boundingBox()[1], ((float)c+0.5F)/(float)cols*1600F*0.9F);
+	}
+	public void moveUnitBy(BaseEntity en, int r, int c)
+	{
+		Group candidate = access(en);
+		candidate.move(((float)(en.location.row+r)+0.5F)/(float)rows*1600F*0.9F, -candidate.boundingBox()[1], ((float)(en.location.col+c)+0.5F)/(float)cols*1600F*0.9F);
+	}
+	
+	private Group access(BaseEntity en)
+	{
+		Group candidate = null;
+		if (units.get(en) != null) candidate = units.get(en); 
+		else if (improvements.get(en) != null) candidate = improvements.get(en); 
+		else if (resources.get(en) != null) candidate = resources.get(en); 
+		else if (features.get(en) != null) candidate = features.get(en); 
+		return candidate;
 	}
 
 	private void modelsFromGrid(Grid grid, double[][] heightMap)

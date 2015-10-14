@@ -42,7 +42,7 @@ public class MainGameLoop {
 
 	Loader loader;
 
-	LevelManager levelManager;
+	public LevelManager levelManager;
 
 	//TerrainTexture backTexture, rTexture, gTexture, bTexture;
 	TerrainTexture t1,t2,t3,t4,t5,t6,t7;

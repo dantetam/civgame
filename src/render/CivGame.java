@@ -26,6 +26,7 @@ import game.BaseEntity;
 import game.Civilization;
 import game.GameEntity;
 import game.Grid;
+import game.LwjglGrid;
 import game.Pathfinder;
 import game.Tile;
 
@@ -41,7 +42,7 @@ public class CivGame {
 	//public boolean[][] rivers;
 	public Erosion erosion;
 
-	public Grid grid;
+	public LwjglGrid grid;
 	public long seed; 
 
 	public Player player = new Player();
@@ -106,6 +107,8 @@ public class CivGame {
 		DisplayManager.createDisplay();
 		lwjglSystem = new MainGameLoop(this);
 		camera = lwjglSystem.camera;
+		
+		grid.setManager(lwjglSystem.levelManager); //Manually assign this since the levelmanager is created after the grid
 		
 		//Force update
 		menuSystem.rbox = grid.civs[0].revealedBox();
@@ -491,7 +494,7 @@ public class CivGame {
 		menuSystem.multiplier = n;
 		menuSystem.markedTiles = new boolean[terrain.length][terrain[0].length];
 		int[][] biomes = assignBiome(terrain);
-		grid = new Grid(civChoice, terrain, biomes, assignResources(biomes), assignFields(biomes), numCivs, numCityStates, difficultyLevel, 3, (int)cutoff, seed);
+		grid = new LwjglGrid(civChoice, terrain, biomes, assignResources(biomes), assignFields(biomes), numCivs, numCityStates, difficultyLevel, 3, (int)cutoff, seed);
 		civilizationSystem.theGrid = grid;
 		//player = new Player(grid.civs[0]);
 		makeRivers(biomes); 
