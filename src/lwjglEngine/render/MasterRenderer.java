@@ -103,6 +103,11 @@ public class MasterRenderer {
 			processEntity(en);
 	}
 	
+	public void processGroups(LevelManager lm)
+	{
+		for (Group group: groups)
+			processEntities(group.entities);
+	}
 	public void processGroups(ArrayList<Group> groups)
 	{
 		for (Group group: groups)

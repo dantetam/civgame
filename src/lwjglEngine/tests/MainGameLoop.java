@@ -180,6 +180,11 @@ public class MainGameLoop {
 			//entity.rotate(0,0.3F,0);
 			camera.move();
 			//camera.yaw += 0.1;
+			
+			if (frameCount % 50 == 0)
+			{
+				Base
+			}
 
 			renderer.processTerrain(terrain0);
 			//renderer.processTerrain(terrain1);
@@ -187,7 +192,7 @@ public class MainGameLoop {
 			//renderer.processTerrain(terrain3);
 			//renderer.processTerrain(terrain4);
 			//renderer.processEntity(levelManager.entities);
-			renderer.processGroups(levelManager.groups);
+			renderer.processGroups(levelManager);
 			//levelManager.groups.get(0).move(0,80+(float)(40*Math.sin((float)frameCount/250F)),0);
 			/*for (Entity en: levelManager.entities)
 			{

@@ -23,13 +23,13 @@ import lwjglEngine.entities.Group;
 
 public class LevelManager {
 
-	public ArrayList<Group> groups;
+	//public ArrayList<Group> groups;
 
 	private static Loader loader = new Loader();
 	public ModelManager modelManager;
 
 	public LevelManager(LwjglGrid grid, double[][] heightMap) {
-		groups = new ArrayList<Group>();
+		//groups = new ArrayList<Group>();
 		
 		/*Group group = new Group();
 		for (int r = 100; r < 120; r ++)
