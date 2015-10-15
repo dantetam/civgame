@@ -69,13 +69,13 @@ public class Camera {
 			position.z -= step*Math.sin(Math.toRadians(yaw+90));
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_Q))
-			yaw -= tilt;
+			yaw -= tilt*2f;
 		if (Keyboard.isKeyDown(Keyboard.KEY_E))
-			yaw += tilt;
+			yaw += tilt*2f;
 		if (Keyboard.isKeyDown(Keyboard.KEY_H))
-			yaw -= tilt;
+			yaw -= tilt*2f;
 		if (Keyboard.isKeyDown(Keyboard.KEY_K))
-			yaw += tilt;
+			yaw += tilt*2f;
 		if (Keyboard.isKeyDown(Keyboard.KEY_U))
 			pitch -= tilt;
 		if (Keyboard.isKeyDown(Keyboard.KEY_J))

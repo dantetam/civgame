@@ -183,7 +183,7 @@ public class MainGameLoop {
 			
 			if (frameCount % 50 == 0)
 			{
-				Base
+				
 			}
 
 			renderer.processTerrain(terrain0);

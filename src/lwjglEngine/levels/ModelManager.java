@@ -17,18 +17,19 @@ public class ModelManager {
 	private LevelManager lm;
 	private int rows, cols; //For reference by this class only
 
-	private HashMap<BaseEntity, Group> units, improvements;
-	private HashMap<Tile, Group> resources, features;
+	public HashMap<BaseEntity, Group> units, improvements;
+	public HashMap<Tile, Group> resources, features;
 
 	public ModelManager(LevelManager main, LwjglGrid grid, double[][] heightMap) 
 	{
 		lm = main;
-		modelsFromGrid(grid, heightMap);
 		rows = grid.rows; cols = grid.cols;
 		units = new HashMap<BaseEntity, Group>();
 		improvements = new HashMap<BaseEntity, Group>();
 		resources = new HashMap<Tile, Group>();
 		features = new HashMap<Tile, Group>();
+		
+		modelsFromGrid(grid, heightMap);
 	}
 
 	public void addUnit(BaseEntity en, int r, int c)
@@ -36,6 +37,7 @@ public class ModelManager {
 		Group candidate = LevelManager.loadFromXML(EntityData.getUniqueModel(en.name), "partTexture", "colorTexture" + (int)en.owner.primaryBrickColor);
 		units.put(en, candidate);
 		moveUnitTo(en,r,c);
+		System.out.println("sss");
 	}
 	public void removeUnit(BaseEntity en)
 	{
@@ -58,6 +60,8 @@ public class ModelManager {
 
 	private void moveCandidate(Group candidate, int r, int c)
 	{
+		//Accidentally did not set rows and cols to non-zero value. Did not call div zero error.
+		//Floating point precision? Infinity vector?
 		candidate.move(((float)r+0.5F)/(float)rows*1600F*0.9F, -candidate.boundingBox()[1], ((float)c+0.5F)/(float)cols*1600F*0.9F);
 	}
 
@@ -148,9 +152,9 @@ public class ModelManager {
 		if (t.resource != 0)
 		{
 			if (t.resource == 1 || t.resource == 2)
-				candidate = LevelManager.loadFromXML(EntityData.getUniqueModel("Wheat"), "partTexture", "colorTexture"+EntityData.getResourceColor(t.resource));
+				candidate = LevelManager.loadFromXML(EntityData.getUniqueModel("Wheat"), "partTexture", "colorTexture"+EntityData.getResourceBrickColor(t.resource));
 			else if (t.resource >= 20 || t.resource <= 22)
-				candidate = LevelManager.loadFromXML(EntityData.getUniqueModel("Rock"), "partTexture", "colorTexture"+EntityData.getResourceColor(t.resource));
+				candidate = LevelManager.loadFromXML(EntityData.getUniqueModel("Rock"), "partTexture", "colorTexture"+EntityData.getResourceBrickColor(t.resource));
 		}
 		return candidate;
 	}
