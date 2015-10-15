@@ -46,7 +46,7 @@ public class Galley extends GameEntity {
 					if (Math.random() < 0.6)
 					{
 						location.grid.removeUnit(enemy);
-						location.grid.move(en,r,c);
+						location.grid.moveBy(en,r,c);
 					}
 					else
 					{
@@ -56,7 +56,7 @@ public class Galley extends GameEntity {
 				}
 				else
 				{
-					location.grid.move(en,r,c);
+					location.grid.moveBy(en,r,c);
 				}
 			}
 		}

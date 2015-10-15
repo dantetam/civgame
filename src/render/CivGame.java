@@ -108,7 +108,7 @@ public class CivGame {
 		lwjglSystem = new MainGameLoop(this);
 		camera = lwjglSystem.camera;
 		
-		grid.setManager(lwjglSystem.levelManager); //Manually assign this since the levelmanager is created after the grid
+		//grid.setManager(lwjglSystem.levelManager); //Manually assign this since the levelmanager is created after the grid
 		
 		//Force update
 		menuSystem.rbox = grid.civs[0].revealedBox();

@@ -37,7 +37,6 @@ public class ModelManager {
 		Group candidate = LevelManager.loadFromXML(EntityData.getUniqueModel(en.name), "partTexture", "colorTexture" + (int)en.owner.primaryBrickColor);
 		units.put(en, candidate);
 		moveUnitTo(en,r,c);
-		System.out.println("sss");
 	}
 	public void removeUnit(BaseEntity en)
 	{

@@ -347,7 +347,7 @@ public class Grid {
 		return tiles[r][c];
 	}
 
-	public void move(BaseEntity en, int rDis, int cDis)
+	public void moveBy(BaseEntity en, int rDis, int cDis)
 	{
 		int r = en.location.row; int c = en.location.col;
 		if (r+rDis >= 0 && r+rDis < tiles.length && c+cDis >= 0 && c+cDis < tiles.length)

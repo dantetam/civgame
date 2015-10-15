@@ -213,7 +213,7 @@ public abstract class GameEntity extends BaseEntity {
 						action -= 0.5;
 					else
 						action--;
-					location.grid.move(this, r, c);
+					location.grid.moveBy(this, r, c);
 				}
 			}
 		}

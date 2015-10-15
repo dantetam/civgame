@@ -50,7 +50,7 @@ public class WorkBoat extends GameEntity {
 				{
 					if (queue == null)
 					{
-						location.grid.move(en,r,c);
+						location.grid.moveBy(en,r,c);
 						//System.out.println(location.grid.getTile(en.location.row+r,en.location.col+c));
 						//if (location == null) return;
 						if (location.resource == 10 ||

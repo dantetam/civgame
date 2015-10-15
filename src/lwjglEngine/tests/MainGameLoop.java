@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import terrain.DiamondSquare;
 import vector.Point;
+import game.GameEntity;
 import game.Tile;
 
 public class MainGameLoop {
@@ -36,7 +37,7 @@ public class MainGameLoop {
 	public CivGame main;
 
 	public static int multiply = 9;
-	
+
 	public int frameCount = 0;
 	public boolean stop = false;
 
@@ -133,6 +134,7 @@ public class MainGameLoop {
 			//HeightMap is a more detailed version of the terrain map
 
 			levelManager = new LevelManager(game.grid, heightMap);
+			main.grid.setManager(levelManager); //Manually assign this since the levelmanager is created after the grid
 
 			light = new Light(new Vector3f(500,500,500), new Vector3f(1,1,1));
 			camera = new Camera();
@@ -140,7 +142,7 @@ public class MainGameLoop {
 
 			GuiTexture test = new GuiTexture(loader.loadTexture("partTexture"), new Vector2f(0.5f,0.5f), new Vector2f(0.2f,0.2f));
 			main.guis.add(test);
-			
+
 			//Keep updating the display until the user exits
 			renderer = new MasterRenderer(loader);
 
@@ -171,19 +173,28 @@ public class MainGameLoop {
 				break;
 			}
 			if (stop) break;
-			
+
 			for (int i = 0; i < main.systems.size(); i++)
 			{
 				main.systems.get(i).tick();
 			}
-			
+
 			//entity.rotate(0,0.3F,0);
 			camera.move();
 			//camera.yaw += 0.1;
-			
+
 			if (frameCount % 50 == 0)
 			{
-				
+				if (main.grid.civs.length > 1)
+					for (int i = 0; i < 1; i++)
+					{
+						ArrayList<GameEntity> list = main.grid.civs[i].units;
+						if (list.size() == 0) continue;
+						GameEntity random = list.get(0);
+						//Tile t = main.grid.findIsolated();
+						main.grid.moveTo(random, random.location.row + 1, random.location.col + 1);
+						System.out.println(random.location.row + " " + random.location.col);
+					}
 			}
 
 			renderer.processTerrain(terrain0);
@@ -200,7 +211,7 @@ public class MainGameLoop {
 			}*/
 
 			renderer.render(light, camera);
-			
+
 			renderer.guiRenderer.render(main.guis);
 
 			DisplayManager.updateDisplay();

@@ -54,13 +54,13 @@ public class LwjglGrid extends Grid {
 		super.moveTo(en, r, c);
 	}
 	
-	public void move(BaseEntity en, int rDis, int cDis)
+	public void moveBy(BaseEntity en, int rDis, int cDis)
 	{
 		if (level != null)
 		{
 			models.moveUnitBy(en, rDis, cDis);
 		}	
-		super.move(en, rDis, cDis);
+		super.moveBy(en, rDis, cDis);
 	}
 	
 	public boolean stackAttack(ArrayList<GameEntity> attacker, ArrayList<GameEntity> defender)
