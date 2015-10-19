@@ -2,10 +2,12 @@ package render;
 
 import java.util.ArrayList;
 
-public class TextBox {
+import org.lwjgl.util.vector.Vector2f;
 
-	public float posX, posY;
-	public float sizeX, sizeY;
+import lwjglEngine.gui.GuiTexture;
+
+public class TextBox extends GuiTexture {
+	
 	public String name;
 	public ArrayList<String> tooltip;
 	public ArrayList<String> display;
@@ -13,7 +15,7 @@ public class TextBox {
 	//public boolean enabled;
 	public ArrayList<Order> orders;
 
-	public float origX, origY, origSizeX, origSizeY; //Public or private?
+	//public float origX, origY, origSizeX, origSizeY; //Public or private?
 	public boolean expanded = false;
 	public int[] noOrdersIfMenu = null;
 	public boolean lock = false, shortcut = true;
@@ -24,81 +26,20 @@ public class TextBox {
 	public float borderR = -1, borderG = -1, borderB = -1; //default nostroke
 	public int shape = 0; //0 -> rectangle (default), 1 -> ellipse
 	
-	public TextBox(String displayString, String t, float a, float b, float c, float d)
+	public TextBox(int texture, String t, float a, float b, float c, float d)
 	{
+		super(texture, new Vector2f(a,b), new Vector2f(c,d));
 		display = new ArrayList<String>();
-		display.add(displayString);
+		display.add(t);
 		tooltip = new ArrayList<String>();
 		tooltip.add(t);
-		posX = a;
-		posY = b;
-		sizeX = c;
-		sizeY = d;
-		origX = a;
-		origY = b;
-		origSizeX = c;
-		origSizeY = d;
-		//enabled = false;
-		orders = new ArrayList<Order>();
-	}
-
-	public TextBox(ArrayList<String> display, String t, float a, float b, float c, float d)
-	{
-		this.display = display;
-		tooltip = new ArrayList<String>();
-		tooltip.add(t);
-		posX = a;
-		posY = b;
-		sizeX = c;
-		sizeY = d;
-		origX = a;
-		origY = b;
-		origSizeX = c;
-		origSizeY = d;
-		//enabled = false;
-		orders = new ArrayList<Order>();
-	}
-
-	public TextBox(ArrayList<String> display, String t, float a, float b, float c, float d, int[] n)
-	{
-		this.display = display;
-		tooltip = new ArrayList<String>();
-		tooltip.add(t);
-		noOrdersIfMenu = n;
-		posX = a;
-		posY = b;
-		sizeX = c;
-		sizeY = d;
-		origX = a;
-		origY = b;
-		origSizeX = c;
-		origSizeY = d;
-		//enabled = false;
-		orders = new ArrayList<Order>();
-	}
-
-	public TextBox(String displayString, String t, float a, float b, float c, float d, int[] n)
-	{
-		display = new ArrayList<String>();
-		display.add(displayString);
-		tooltip = new ArrayList<String>();
-		tooltip.add(t);
-		noOrdersIfMenu = n;
-		posX = a;
-		posY = b;
-		sizeX = c;
-		sizeY = d;
-		origX = a;
-		origY = b;
-		origSizeX = c;
-		origSizeY = d;
 		//enabled = false;
 		orders = new ArrayList<Order>();
 	}
 	
 	public boolean equals(TextBox o)
 	{
-		return origX == o.origX && origY == o.origY && origSizeX == o.origSizeX && origSizeY == o.origSizeY;
+		return pos.equals(o.pos) && size.equals(o.size);
 	}
 	
 	public int[] dimTooltip()

@@ -5,6 +5,7 @@ import game.Civilization;
 import game.GameEntity;
 import game.Tech;
 import game.Tile;
+import lwjglEngine.gui.GuiTexture;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class MenuSystem extends BaseSystem {
 
 	public ArrayList<Menu> menus;
 	public TechMenu techMenu;
-	public ArrayList<TextBox> textboxes;
+	public ArrayList<GuiTexture> textboxes;
 
 	private ArrayList<Click> clicks;
 
