@@ -41,7 +41,8 @@ public class MainGameLoop {
 	public int frameCount = 0;
 	public boolean stop = false;
 
-	Loader loader;
+	//Public for loading textures
+	public Loader loader;
 
 	public LevelManager levelManager;
 

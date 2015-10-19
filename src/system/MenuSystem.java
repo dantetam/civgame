@@ -6,6 +6,7 @@ import game.GameEntity;
 import game.Tech;
 import game.Tile;
 import lwjglEngine.gui.GuiTexture;
+import lwjglEngine.render.Loader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class MenuSystem extends BaseSystem {
 
 	public ArrayList<Menu> menus;
 	public TechMenu techMenu;
-	public ArrayList<GuiTexture> textboxes;
+	public ArrayList<TextBox> textboxes;
 
 	private ArrayList<Click> clicks;
 
@@ -72,6 +73,8 @@ public class MenuSystem extends BaseSystem {
 
 	public float height = 100;
 	
+	private Loader loader;
+	
 	//public City citySelected;
 
 	//public TextBox hintTextBox;
@@ -81,6 +84,7 @@ public class MenuSystem extends BaseSystem {
 
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
+		loader = main.lwjglSystem.loader;
 		menus = new ArrayList<Menu>();
 		textboxes = new ArrayList<TextBox>();
 		clicks = new ArrayList<Click>();
@@ -113,8 +117,6 @@ public class MenuSystem extends BaseSystem {
 		{
 			TextBox b = menu0.buttons.get(i);
 			b.move(0, 70 + (i)*height);
-			b.origX = b.posX; b.origY = b.posY;
-			//System.out.println(b.posX + " " + b.posY);
 		}
 
 		TextBox b = menu0.addButton("markTile", "MarkTile", "Mark this tile", main.width - 100, 70, 100, height);
@@ -145,7 +147,7 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu6);
 
 		Menu menu7 = new Menu("EncyclopediaMenu");
-		TextBox temp = new TextBox(new ArrayList<String>(),"",100,190,700,500); //"EncyclopediaText",
+		TextBox temp = new TextBox(loader.loadTexture("partTexture"),"",100,190,700,500); //"EncyclopediaText",
 		//System.out.println("Found " + menu7.findButtonByCommand("EncyclopediaText"));
 		temp.name = "EncyclopediaText";
 		menu7.buttons.add(temp);
@@ -182,35 +184,35 @@ public class MenuSystem extends BaseSystem {
 
 		menu0.activate(true);
 
-		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 250,200,100); //"HintText"
+		TextBox text0 = new TextBox(loader.loadTexture("partTexture"),"",main.width - 200,main.height - 250,200,100); //"HintText"
 		text0.alpha = 0;
 		textboxes.add(text0);
 
-		TextBox text1 = new TextBox(new ArrayList<String>(),"",main.width - 400,main.height - 150,200,150); //"SelectedText"
+		TextBox text1 = new TextBox(loader.loadTexture("partTexture"),"",main.width - 400,main.height - 150,200,150); //"SelectedText"
 		textboxes.add(text1);
 
-		TextBox text2 = new TextBox(new ArrayList<String>(),"",main.width*3/4,30,main.width/4,100); //"Messages"
+		TextBox text2 = new TextBox(loader.loadTexture("partTexture"),"",main.width*3/4,30,main.width/4,100); //"Messages"
 		textboxes.add(text2);
 
-		TextBox text3 = new TextBox(new ArrayList<String>(),"",main.width/6,0,300,50); //"PlayerStatus"
+		TextBox text3 = new TextBox(loader.loadTexture("partTexture"),"",main.width/6,0,300,50); //"PlayerStatus"
 		textboxes.add(text3);
 
-		TextBox text4 = new TextBox(new ArrayList<String>(),"",100,190,500,250); //"LedgerText"
+		TextBox text4 = new TextBox(loader.loadTexture("partTexture"),"",100,190,500,250); //"LedgerText"
 		textboxes.add(text4);
 
-		TextBox text5 = new TextBox("...","",main.width - 400,main.height - 200 + 15,200,35); //"ConditionText"
+		TextBox text5 = new TextBox(loader.loadTexture("partTexture"),"...",main.width - 400,main.height - 200 + 15,200,35); //"ConditionText"
 		//ArrayList<String> stringy = new ArrayList<String>(); stringy.add("..."); text5.display = stringy;
 		text5.autoClear = false;
 		textboxes.add(text5);
 
-		TextBox text6 = new TextBox(new ArrayList<String>(),"",main.width - 200,main.height - 150,100,150); //"Detail1Text" (goes with HintText)
+		TextBox text6 = new TextBox(loader.loadTexture("partTexture"),"",main.width - 200,main.height - 150,100,150); //"Detail1Text" (goes with HintText)
 		textboxes.add(text6);
 
-		TextBox text7 = new TextBox(new ArrayList<String>(),"",main.width - 100,main.height - 150,100,150); //"Detail2Text" (goes with HintText)
+		TextBox text7 = new TextBox(loader.loadTexture("partTexture"),"",main.width - 100,main.height - 150,100,150); //"Detail2Text" (goes with HintText)
 		text7.monospace = true;
 		textboxes.add(text7);
 
-		TextBox text8 = new TextBox(new ArrayList<String>(),"",main.width/6,50,300,30);
+		TextBox text8 = new TextBox(loader.loadTexture("partTexture"),"",main.width/6,50,300,30);
 		textboxes.add(text8);
 
 		text4.activate(false);
@@ -2128,11 +2130,12 @@ public class MenuSystem extends BaseSystem {
 			}
 			if (!main.grid.civs[0].observe) //Do not shake the GUI if player is not alive
 			{
-				textboxes.get(2).moveDis(0,-5,2);
+				//TODO: Revise
+				/*textboxes.get(2).moveDis(0,-5,2);
 				for (int i = 0; i < 10; i++)
 					textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
 				textboxes.get(2).moveDis(0,5,2);
-				textboxes.get(2).orderOriginal(false);
+				textboxes.get(2).orderOriginal(false);*/
 			}
 		}
 	}
@@ -2150,11 +2153,12 @@ public class MenuSystem extends BaseSystem {
 		}
 		if (!main.grid.civs[0].observe) //Do not shake the GUI if player is not alive
 		{
-			textboxes.get(2).moveDis(0,-5,2);
+			//TODO: Revise
+			/*textboxes.get(2).moveDis(0,-5,2);
 			for (int i = 0; i < 10; i++)
 				textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
 			textboxes.get(2).moveDis(0,5,2);
-			textboxes.get(2).orderOriginal(false);
+			textboxes.get(2).orderOriginal(false);*/
 		}
 	}
 
@@ -2164,7 +2168,7 @@ public class MenuSystem extends BaseSystem {
 		menus.get(10).buttons.clear();
 		for (int i = 0; i < messages.size(); i++)
 		{
-			TextBox msg = new TextBox(messages.get(i), "", main.width*4.5F/6, 30 + 14*i, main.width*1.5F/6, 14);
+			TextBox msg = new TextBox(loader.loadTexture("partTexture"), messages.get(i), main.width*4.5F/6, 30 + 14*i, main.width*1.5F/6, 14);
 			menus.get(10).buttons.add(msg);
 			if (i == 19) break;
 		}
@@ -2178,7 +2182,9 @@ public class MenuSystem extends BaseSystem {
 			{
 				TextBox b = menus.get(i).buttons.get(j);
 				if (b.autoClear)
-					b.orderOriginal(true);
+				{
+					//b.orderOriginal(true);
+				}
 			}
 		}
 	}
@@ -2361,7 +2367,7 @@ public class MenuSystem extends BaseSystem {
 			textboxes.get(4).display.add(s);
 			//menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + c.name + ".", 600, 190+60+15*(i-1), 90, 15);
 		}
-		textboxes.get(4).sizeY = (main.grid.civs.length - 1 + 4)*15 + 15;
+		textboxes.get(4).size.y = (main.grid.civs.length - 1 + 4)*15 + 15;
 		//menus.get(8).activate(true);
 		//100,190,500,250
 	}
@@ -2464,10 +2470,10 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < menus.get(1).buttons.size(); i++)
 		{
 			TextBox b = menus.get(1).buttons.get(i);
-			b.move(b.posX, main.height*5/6 - (menus.get(1).buttons.size()+2)*height + i*height); //Shift the buttons to their proper place
-			b.sizeX = 150; b.sizeY = height;
-			b.origSizeX = 150; b.origSizeY = height;
-			b.origX = b.posX; b.origY = b.posY;
+			b.move(b.pos.x, main.height*5/6 - (menus.get(1).buttons.size()+2)*height + i*height); //Shift the buttons to their proper place
+			b.size.x = 150; b.size.y = height;
+			/*b.origSizeX = 150; b.origSizeY = height;
+			b.origX = b.posX; b.origY = b.posY;*/
 		}
 
 		ImageBox img = new ImageBox(en.name,0,main.height*5/6,main.height/6,main.height/6);
@@ -2562,9 +2568,9 @@ public class MenuSystem extends BaseSystem {
 		{
 			TextBox b = menus.get(2).buttons.get(i);
 			b.move(0, main.height*5/6 + i*height - (n*1 + 2)*height); //Shift the buttons to their proper place
-			b.origX = b.posX; b.origY = b.posY;
-			b.sizeX = 150; b.sizeY = height;
-			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
+			b.size.x = 150; b.size.y = height;
+			/*b.origX = b.posX; b.origY = b.posY;
+			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;*/
 		}
 		/*for (int i = 0; i < n; i++)
 		{
@@ -2575,10 +2581,10 @@ public class MenuSystem extends BaseSystem {
 			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}*/
 
-		menus.get(2).buttons.add(new TextBox(c.name,"",0,main.height*5/6 - height,150,height));
+		menus.get(2).buttons.add(new TextBox(loader.loadTexture("partTexture"),c.name,0,main.height*5/6 - height,150,height));
 
 		double[] data = EntityData.calculateYield(c);
-		TextBox t = new TextBox("Food per turn: " + (int)Math.floor(data[0]),"",0,main.height*5/6,150,main.height*1/6);
+		TextBox t = new TextBox(loader.loadTexture("partTexture"), "Food per turn: " + (int)Math.floor(data[0]),0,main.height*5/6,150,main.height*1/6);
 		t.display.add("Gold per turn: " + (int)Math.floor(data[1]));
 		t.display.add("Metal per turn: " + (int)Math.floor(data[2]));
 		t.display.add("Research per turn: " + (int)Math.floor(data[3]));
@@ -2741,7 +2747,7 @@ public class MenuSystem extends BaseSystem {
 		Civilization plr = main.grid.civs[0];
 		menus.get(9).buttons.clear();
 
-		TextBox text0 = new TextBox(new ArrayList<String>(),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height/12); //"HintText"
+		TextBox text0 = new TextBox(loader.loadTexture("partTexture"),"",main.width*2/6,main.height*2/6,main.width*2/6,main.height/12); //"HintText"
 		text0.display.add(civ.name);
 
 		menus.get(9).addButton("openBorders"+civ.id, 
@@ -2780,13 +2786,13 @@ public class MenuSystem extends BaseSystem {
 
 		//Top set
 		int width = 60, width2 = 120;
-		TextBox text = new TextBox("Opinion","Your relations with this nation (-200 to 200).",100+width2,255,width,20);
+		TextBox text = new TextBox(loader.loadTexture("partTexture"),"Opinion","Your relations with this nation (-200 to 200).",100+width2,255,width,20);
 		menus.get(11).buttons.add(text);
-		text = new TextBox("Border","Your ability to access this nation's lands.",100+width2+width,255,width,20);
+		text = new TextBox(loader.loadTexture("partTexture"),"Border","Your ability to access this nation's lands.",100+width2+width,255,width,20);
 		menus.get(11).buttons.add(text);
-		text = new TextBox("War","The formal declaration of hostility between you and this nation.",100+width2+width*2,255,width,20);
+		text = new TextBox(loader.loadTexture("partTexture"),"War","The formal declaration of hostility between you and this nation.",100+width2+width*2,255,width,20);
 		menus.get(11).buttons.add(text);
-		text = new TextBox("Ally","The existence of a formal alliance between you and this nation.",100+width2+width*3,255,width,20);
+		text = new TextBox(loader.loadTexture("partTexture"),"Ally","The existence of a formal alliance between you and this nation.",100+width2+width*3,255,width,20);
 		menus.get(11).buttons.add(text);
 
 		for (int i = 0; i < main.grid.civs.length; i++)
@@ -2811,19 +2817,19 @@ public class MenuSystem extends BaseSystem {
 
 			if (civ.equals(pivot)) continue;
 
-			text = new TextBox("" + pivot.opinions[i],"",100+width2,280 + 25*(i),width,20);
+			text = new TextBox(loader.loadTexture("partTexture"),"" + pivot.opinions[i],100+width2,280 + 25*(i),width,20);
 			menus.get(11).buttons.add(text);
 
 			String temp = pivot.isOpenBorder(civ) ? "Open" : "Closed";
-			text = new TextBox(temp,"",100+width2+width,280 + 25*(i),width,20);
+			text = new TextBox(loader.loadTexture("partTexture"),temp,100+width2+width,280 + 25*(i),width,20);
 			menus.get(11).buttons.add(text);
 
 			temp = pivot.isWar(civ) ? "WAR" : "";
-			text = new TextBox(temp,"",100+width2+width*2,280 + 25*(i),width,20);
+			text = new TextBox(loader.loadTexture("partTexture"),temp,100+width2+width*2,280 + 25*(i),width,20);
 			menus.get(11).buttons.add(text);
 
 			temp = pivot.isAlly(civ) ? "Yes" : "No";
-			text = new TextBox(temp,"",100+width2+width*3,280 + 25*(i),width,20);
+			text = new TextBox(loader.loadTexture("partTexture"),temp,100+width2+width*3,280 + 25*(i),width,20);
 			menus.get(11).buttons.add(text);
 		}
 
@@ -2951,15 +2957,15 @@ public class MenuSystem extends BaseSystem {
 			{
 				updateCity((City)en);
 			}
-			textboxes.get(1).orders.clear();
+			//textboxes.get(1).orders.clear();
 			textboxes.get(1).activate(true);
 			textboxes.get(1).move(main.width - 400,main.height);
-			textboxes.get(1).moveTo(textboxes.get(1).origX,textboxes.get(1).origY,20);
+			//textboxes.get(1).moveTo(textboxes.get(1).origX,textboxes.get(1).origY,20);
 		}
 		else
 		{
 			stack.clear();
-			textboxes.get(1).orders.clear();
+			//textboxes.get(1).orders.clear();
 			textboxes.get(1).activate(false);
 			textboxes.get(1).move(main.width - 400,main.height-150);
 

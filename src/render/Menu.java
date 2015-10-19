@@ -63,7 +63,7 @@ public class Menu {
 		{
 			TextBox b = buttons.get(i);
 			if (b instanceof Button)
-				if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY)
+				if (mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y)
 				{
 					return ((Button)b).command;
 				}
@@ -76,7 +76,7 @@ public class Menu {
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			TextBox b = buttons.get(i);
-			if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && b.active)
+			if (mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y && b.active)
 			{
 				return b;
 			}
@@ -97,29 +97,12 @@ public class Menu {
 						skip = true;
 						break;
 					}
-			if (!skip)
-				if (mouseX > b.posX && mouseX < b.posX+b.sizeX && mouseY > b.posY && mouseY < b.posY+b.sizeY && !b.orderOfType("expand"))
-					b.expand(b.origSizeX*2, b.origSizeY, 10);
 		}
 	}
 
 	public boolean equals(Menu other)
 	{
 		return name.equals(other.name);
-	}
-
-	//Returns the buttons to their original positions if there is no tween order
-	public void origPosIfNoMouse()
-	{
-		for (int i = 0; i < buttons.size(); i++)
-		{
-			TextBox b = buttons.get(i);
-			if (b.orders.size() == 0)
-			{
-				buttons.get(i).orderOriginal(false);
-				//buttons.get(i).setOriginal();
-			}
-		}
 	}
 	
 	public boolean requestUpdate = false;

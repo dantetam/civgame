@@ -13,7 +13,6 @@ public class TextBox extends GuiTexture {
 	public ArrayList<String> display;
 	public Menu menu;
 	//public boolean enabled;
-	public ArrayList<Order> orders;
 
 	//public float origX, origY, origSizeX, origSizeY; //Public or private?
 	public boolean expanded = false;
@@ -26,15 +25,24 @@ public class TextBox extends GuiTexture {
 	public float borderR = -1, borderG = -1, borderB = -1; //default nostroke
 	public int shape = 0; //0 -> rectangle (default), 1 -> ellipse
 	
-	public TextBox(int texture, String t, float a, float b, float c, float d)
+	public TextBox(int texture, String text, float a, float b, float c, float d)
 	{
 		super(texture, new Vector2f(a,b), new Vector2f(c,d));
 		display = new ArrayList<String>();
-		display.add(t);
+		display.add(text);
 		tooltip = new ArrayList<String>();
-		tooltip.add(t);
+		//tooltip.add(text);
 		//enabled = false;
-		orders = new ArrayList<Order>();
+	}
+	
+	public TextBox(int texture, String text, String tip, float a, float b, float c, float d)
+	{
+		super(texture, new Vector2f(a,b), new Vector2f(c,d));
+		display = new ArrayList<String>();
+		display.add(text);
+		tooltip = new ArrayList<String>();
+		tooltip.add(tip);
+		//enabled = false;
 	}
 	
 	public boolean equals(TextBox o)
@@ -57,7 +65,21 @@ public class TextBox extends GuiTexture {
 		return new int[]{7*tooltip.get(index).length(),14*tooltip.size()};
 	}
 
-	public void tick()
+	public boolean within(float x, float y)
+	{
+		return x > pos.x && x < pos.x + size.x && y > pos.y && y < pos.y + size.y;
+	}
+
+	public void move(float x, float y)
+	{
+		pos.x = x;
+		pos.y = y;
+	}
+	
+	//Legacy methods
+	public void activate(boolean a) {active = a;}
+	
+	/*public void tick()
 	{
 		for (int i = 0; i < orders.size(); i++)
 		{
@@ -89,8 +111,8 @@ public class TextBox extends GuiTexture {
 	{
 		if (frames == 0) return null;
 		Order temp = new Order(this,"move");
-		temp.dirX = (x-posX)/frames;
-		temp.dirY = (y-posY)/frames;
+		temp.dirX = (x-pos.x)/frames;
+		temp.dirY = (y-pos.y)/frames;
 		temp.frames = (int)frames;
 		orders.add(temp);
 		return temp;
@@ -120,14 +142,14 @@ public class TextBox extends GuiTexture {
 		//System.out.println(temp.expX + " " + temp.expY);
 	}
 
-	/*public void shake(float x, float y)
+	public void shake(float x, float y)
 	{
 		Order temp = new Order(this,"move");
 		temp.expX = x;
 		temp.expY = y;
 		temp.frames = 2;
 		orders.add(temp);
-	}*/
+	}
 
 	public Order orderOriginal(boolean yn)
 	{
@@ -154,17 +176,6 @@ public class TextBox extends GuiTexture {
 			if (orders.get(i).name.equals(type))
 				return true;
 		return false;
-	}
-	
-	public boolean within(float x, float y)
-	{
-		return x > posX && x < posX + sizeX && y > posY && y < posY + sizeY;
-	}
-
-	public void move(float x, float y)
-	{
-		posX = x;
-		posY = y;
 	}
 	
 	public void activate(boolean yn) {active = yn;}
@@ -216,6 +227,6 @@ public class TextBox extends GuiTexture {
 			}
 			//System.out.println("Frames: " + frames);
 		}
-	}
+	}*/
 
 }
