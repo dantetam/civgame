@@ -74,6 +74,7 @@ public class MenuSystem extends BaseSystem {
 	public float height = 100;
 	
 	private Loader loader;
+	public void setupLoader(Loader l) {loader = l;} //Encapsulate so I know not to access this class for the loader
 	
 	//public City citySelected;
 
@@ -84,7 +85,7 @@ public class MenuSystem extends BaseSystem {
 
 	public MenuSystem(CivGame civGame) {
 		super(civGame);
-		loader = main.lwjglSystem.loader;
+
 		menus = new ArrayList<Menu>();
 		textboxes = new ArrayList<TextBox>();
 		clicks = new ArrayList<Click>();
@@ -93,6 +94,11 @@ public class MenuSystem extends BaseSystem {
 		messages = new ArrayList<String>();
 		//highlighted = null;
 
+		//arial = main.loadFont("ArialMT-48.vlw");
+	}
+	
+	public void setupMenus()
+	{
 		//Keep track of the menu's indices in list
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
@@ -235,7 +241,6 @@ public class MenuSystem extends BaseSystem {
 				t.noOverlap = true;
 			}
 		}
-		//arial = main.loadFont("ArialMT-48.vlw");
 	}
 
 	public PFont arial;
@@ -2476,7 +2481,7 @@ public class MenuSystem extends BaseSystem {
 			b.origX = b.posX; b.origY = b.posY;*/
 		}
 
-		ImageBox img = new ImageBox(en.name,0,main.height*5/6,main.height/6,main.height/6);
+		ImageBox img = new ImageBox(loader.loadTexture("en.name"),"",0,main.height*5/6,main.height/6,main.height/6);
 		img.tint(en.owner.r, en.owner.g, en.owner.b);
 		menus.get(1).buttons.add(img);
 		
@@ -2799,7 +2804,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			Civilization civ = main.grid.civs[i];
 
-			Button b = new Button("pivot"+i,civ.name,"",100,280 + 25*(i),width2,20);
+			Button b = new Button(loader.loadTexture("partTexture"),"pivot"+i,civ.name,"",100,280 + 25*(i),width2,20);
 			menus.get(11).buttons.add(b);
 
 			b.tooltip.clear();

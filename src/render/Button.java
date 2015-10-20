@@ -9,18 +9,8 @@ public class Button extends TextBox {
 	
 	public String command;
 	
-	public Button(String command, ArrayList<String> display, String tooltip, float a, float b, float c, float d) {
-		super(display, tooltip, a, b, c, d);
-		this.command = command;
-	}
-	
-	public Button(String command, String display, String tooltip, float a, float b, float c, float d) {
-		super(display, tooltip, a, b, c, d);
-		this.command = command;
-	}
-	
-	public Button(String command, String display, String tooltip, float a, float b, float c, float d, int... n) {
-		super(display, tooltip, a, b, c, d, n);
+	public Button(int texture, String command, String display, String tooltip, float a, float b, float c, float d) {
+		super(texture, display, tooltip, a, b, c, d);
 		this.command = command;
 	}
 	

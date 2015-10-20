@@ -77,8 +77,8 @@ public class TechMenu extends Menu {
 			//Do nothing, no other techs to show
 		}
 		Button b = getTechButton(t);
-		b.posX = x; b.origX = x; b.posY = y; b.origY = y;
-		b.sizeX = sX; b.sizeY = sY; b.origSizeX = sX; b.origSizeY = sY;
+		b.pos.x = x; b.pos.y = y;
+		b.size.x = sX; b.size.y = sY;
 		addButton(b);
 	}
 
@@ -86,7 +86,7 @@ public class TechMenu extends Menu {
 	{
 		int turns = MenuSystem.calcQueueTurnsTech(tree.civ, t);
 		String s = t.name;
-		Button b = new Button("research" + s, s, "Research " + s + ".", 0, 0, 0, 0);
+		Button b = new Button(-1,"research" + s, s, "Research " + s + ".", 0, 0, 0, 0);
 		b.shortcut = false;
 		//Not researched -> black, researched -> blue, researching -> green, candidate -> gray, queuing/researching -> yellow
 		//Give player shortcut buttons for candidates and researching

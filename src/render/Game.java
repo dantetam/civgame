@@ -293,11 +293,11 @@ public class Game extends PApplet {
 			TextBox b = activeMenu.buttons.get(i);
 			fill(b.r, b.g, b.b);
 			stroke(b.borderR, b.borderG, b.borderB);
-			rect(b.posX, b.posY, b.sizeX, b.sizeY);
+			rect(b.pos.x, b.pos.y, b.size.x, b.size.y);
 			textAlign(CENTER, CENTER);
 			fill(255);
 			for (int j = 0; j < b.display.size(); j++)
-				text(b.display.get(j), b.posX + b.sizeX/2, b.posY + b.sizeY/2);
+				text(b.display.get(j), b.pos.x + b.size.x/2, b.pos.y + b.size.y/2);
 		}
 
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
@@ -393,7 +393,7 @@ public class Game extends PApplet {
 				renderer.options(automaticSelection, testing, forceCursor);
 				show();
 			}
-			catch (Exception e) {e.getStackTrace();}
+			catch (Exception e) {e.printStackTrace();}
 		}
 		//Creating tutorials
 		public PFrame(Game game, int type, int width, int height)
@@ -528,10 +528,11 @@ public class Game extends PApplet {
 									continue;
 								else
 								{
-									if (retract)
-										b.move(-b.sizeX, b.posY);
+									b.move(-b.pos.x, b.pos.y);
+									/*if (retract)
+										b.move(-b.pos.x, b.pos.y);
 									else
-										b.move(b.origX, b.posY);
+										b.move(-b.pos.x, b.pos.y);*/
 								}
 							}
 						}

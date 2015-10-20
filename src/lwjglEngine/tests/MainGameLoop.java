@@ -80,7 +80,9 @@ public class MainGameLoop {
 			main = game;
 
 			loader = new Loader();
-
+			main.menuSystem.setupLoader(loader);
+			main.menuSystem.setupMenus(); //Set up menus once loader is not null
+			
 			//rTexture = new TerrainTexture(loader.loadTexture("dirt"));
 			//gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
 			//bTexture = new TerrainTexture(loader.loadTexture("path"));

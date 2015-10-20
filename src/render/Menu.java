@@ -16,9 +16,17 @@ public class Menu {
 		active = false;
 	}
 
+	public TextBox addButton(int texture, String command, String display, String tooltip, float a, float b, float c, float d)
+	{
+		Button temp = new Button(texture,command,display,tooltip,a,b,c,d);
+		temp.menu = this;
+		buttons.add(temp);
+		return temp;
+	}
+	
 	public TextBox addButton(String command, String display, String tooltip, float a, float b, float c, float d)
 	{
-		Button temp = new Button(command,display,tooltip,a,b,c,d);
+		Button temp = new Button(-1,command,display,tooltip,a,b,c,d);
 		temp.menu = this;
 		buttons.add(temp);
 		return temp;

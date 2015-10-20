@@ -76,6 +76,12 @@ public class TextBox extends GuiTexture {
 		pos.y = y;
 	}
 	
+	//Return itself for convienence
+	public TextBox color(float x, float y, float z) {r = x; g = y; b = z; return this;}
+	public TextBox color(float w) {return color(w,w,w);}
+	public TextBox borderColor(float x, float y, float z) {borderR = x; borderG = y; borderB = z; return this;}
+	public TextBox borderColor(float w) {return borderColor(w,w,w);}
+	
 	//Legacy methods
 	public void activate(boolean a) {active = a;}
 	
@@ -180,12 +186,6 @@ public class TextBox extends GuiTexture {
 	
 	public void activate(boolean yn) {active = yn;}
 	public boolean active() {return active;}
-	
-	//Return itself for convienence
-	public TextBox color(float x, float y, float z) {r = x; g = y; b = z; return this;}
-	public TextBox color(float w) {return color(w,w,w);}
-	public TextBox borderColor(float x, float y, float z) {borderR = x; borderG = y; borderB = z; return this;}
-	public TextBox borderColor(float w) {return borderColor(w,w,w);}
 	
 	public class Order
 	{

@@ -19,7 +19,7 @@ public class KeyMenu extends Menu {
 		int i = 0;
 		for (KeyPressBind kb: InputSystem.KeyPressBind.values())
 		{
-			Button b = new Button("bind"+kb, kb + ": [" + kb.key1 + "] ; [", "" + kb.key2 + "]", 100, 100 + 30*i, 200, 30);
+			Button b = new Button(-1, "bind"+kb, kb + ": [" + kb.key1 + "] ; [", "" + kb.key2 + "]", 100, 100 + 30*i, 200, 30);
 			b.autoClear = false;
 			buttons.add(b);
 			i++;
