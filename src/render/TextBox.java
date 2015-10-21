@@ -19,7 +19,7 @@ public class TextBox extends GuiTexture {
 	public int[] noOrdersIfMenu = null;
 	public boolean lock = false, shortcut = true;
 	public boolean autoClear = true;
-	public boolean active = true, monospace = false, noOverlap = false;
+	public boolean active = false, monospace = false, noOverlap = false;
 	
 	public float r = 0, g = 0, b = 0, alpha = 255;
 	public float borderR = -1, borderG = -1, borderB = -1; //default nostroke

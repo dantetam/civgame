@@ -215,7 +215,7 @@ public class MainGameLoop {
 
 			renderer.render(light, camera);
 
-			renderer.guiRenderer.render(main.guis);
+			renderer.guiRenderer.render(main.menuSystem);
 
 			DisplayManager.updateDisplay();
 			frameCount++;

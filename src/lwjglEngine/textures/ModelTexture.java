@@ -10,6 +10,7 @@ public class ModelTexture {
 	
 	public ModelTexture(int id)
 	{
+		if (id < 0) id = 0; //-1 "default" id
 		textureID = id;
 	}
 
