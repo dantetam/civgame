@@ -102,12 +102,12 @@ public class CivGame {
 		//redraw();
 		try
 		{
-
+			DisplayManager.createDisplay();
+			
 			generate(terrainType);
 			takeBlendMap(sendBlendMap(grid), "res/generatedBlendMap.png");
 			takeBlendMap(sendHighlightMap(grid), "res/generatedHighlightMap.png");
 
-			DisplayManager.createDisplay();
 			lwjglSystem = new MainGameLoop(this);
 			camera = lwjglSystem.camera;
 
@@ -396,7 +396,7 @@ public class CivGame {
 			{
 				for (int c = 0; c < grid.cols; c++)
 				{
-					int red = 255, green = 0, blue = 0;
+					int red = 0, green = 0, blue = 0;
 					Tile t = grid.getTile(r, c);
 					if (t.owner != null)
 					{
@@ -410,7 +410,7 @@ public class CivGame {
 							{
 								red += 50; green += 50; blue += 50;
 							}
-							else if (t.equals(menuSystem.mouseHighlighted))
+							else if (t.equals(menuSystem.getMouseHighlighted()))
 							{
 								red += 20; green += 20; blue += 20;
 							}

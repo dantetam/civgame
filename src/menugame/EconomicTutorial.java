@@ -162,9 +162,9 @@ public class EconomicTutorial extends Tutorial {
 							highestFood = (int)yield[0];
 					}
 				}
-				if (menuSystem.mouseHighlighted != null)
+				if (menuSystem.getMouseHighlighted() != null)
 				{
-					double[] yield = City.staticEval(menuSystem.mouseHighlighted);
+					double[] yield = City.staticEval(menuSystem.getMouseHighlighted());
 					System.out.println(yield[0] + " " + highestFood);
 					if ((int)yield[0] >= highestFood)
 						return true;

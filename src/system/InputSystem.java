@@ -284,7 +284,7 @@ public class InputSystem extends BaseSystem {
 	//public float lastMouseX = main.width/2; //public float lastMouseY = main.height/2;
 	public void passMouse(float mouseX, float mouseY)
 	{
-		if (on) //&& main.menuSystem.selected == null)
+		/*if (on) //&& main.menuSystem.selected == null)
 		{
 			float dX = (mouseX - main.centerX)/(main.centerX);
 			float dY = (mouseY - main.centerY)/(main.centerY);
@@ -304,20 +304,20 @@ public class InputSystem extends BaseSystem {
 		//System.out.println(mouseX + main.menuSystem.highlightDispX);
 		if (tile == null || main.menuSystem.menuHighlighted)
 		{
-			main.menuSystem.mouseHighlighted = null;
+			main.menuSystem.setMouseHighlighted(null);
 		}
 		else
 		{
 			Tile h = main.menuSystem.highlighted;
 			if (h != null)
-				main.menuSystem.mouseHighlighted = main.grid.getTile(h.row + tile[1], h.col - tile[0]);
+				main.menuSystem.setMouseHighlighted(main.grid.getTile(h.row + tile[1], h.col - tile[0]);
 			if (main.rMouseX != -1 && main.rMouseY != -1)
 			{
-				if (main.menuSystem.lastMouseHighlighted != null && main.menuSystem.mouseHighlighted != null)
-					if (!main.menuSystem.lastMouseHighlighted.equals(main.menuSystem.mouseHighlighted) && main.menuSystem.getSelected() != null)
-						main.menuSystem.pathTo(main.menuSystem.mouseHighlighted);
+				if (main.menuSystem.lastMouseHighlighted != null && main.menuSystem.getMouseHighlighted() != null)
+					if (!main.menuSystem.lastMouseHighlighted.equals(main.menuSystem.getMouseHighlighted()) && main.menuSystem.getSelected() != null)
+						main.menuSystem.pathTo(main.menuSystem.getMouseHighlighted());
 			}
-		}
+		}*/
 	}
 
 	public ArrayList<Click> clicks = new ArrayList<Click>();
@@ -339,10 +339,10 @@ public class InputSystem extends BaseSystem {
 		Field field = EntityData.getField(main.menuSystem.candidateField);
 		if (field != null)
 		{
-			Tile t = main.menuSystem.mouseHighlighted;
+			Tile t = main.menuSystem.getMouseHighlighted();
 			if (t != null)
 			{
-				if (main.menuSystem.candidateCityField.land.contains(main.menuSystem.mouseHighlighted))
+				if (main.menuSystem.candidateCityField.land.contains(main.menuSystem.getMouseHighlighted()))
 				{
 					City city = (City)main.menuSystem.candidateCityField;
 					if (city.owner.gold < (int)field.goldFlat)
@@ -368,24 +368,24 @@ public class InputSystem extends BaseSystem {
 			}
 			return;
 		}
-		if (main.menuSystem.mouseHighlighted != null && !main.menuSystem.menuActivated)
+		if (main.menuSystem.getMouseHighlighted() != null && !main.menuSystem.menuActivated)
 		{
-			if (main.menuSystem.mouseHighlighted.occupants.size() > 0)
+			if (main.menuSystem.getMouseHighlighted().occupants.size() > 0)
 			{
-				int r = (int)(main.menuSystem.mouseHighlighted.occupants.size()*Math.random()); 
-				if (main.menuSystem.mouseHighlighted.occupants.get(r).owner.equals(main.grid.civs[0]))
+				int r = (int)(main.menuSystem.getMouseHighlighted().occupants.size()*Math.random()); 
+				if (main.menuSystem.getMouseHighlighted().occupants.get(r).owner.equals(main.grid.civs[0]))
 				{
 					if (main.menuSystem.getSelected() != null)
 					{
-						if (!main.menuSystem.getSelected().equals(main.menuSystem.mouseHighlighted.occupants.get(r)))
+						if (!main.menuSystem.getSelected().equals(main.menuSystem.getMouseHighlighted().occupants.get(r)))
 						{
-							main.menuSystem.select(main.menuSystem.mouseHighlighted.occupants.get(r));
+							main.menuSystem.select(main.menuSystem.getMouseHighlighted().occupants.get(r));
 							return;
 						}
 					}
 					else
 					{
-						main.menuSystem.select(main.menuSystem.mouseHighlighted.occupants.get(r));
+						main.menuSystem.select(main.menuSystem.getMouseHighlighted().occupants.get(r));
 						//continue on to the next if statement
 					}
 				}
@@ -395,10 +395,10 @@ public class InputSystem extends BaseSystem {
 				main.menuSystem.select(null);
 				main.resetCamera();
 			}
-			if (main.menuSystem.mouseHighlighted.improvement != null)
-				if (main.grid.civs[0].cities.contains(main.menuSystem.mouseHighlighted.improvement))
+			if (main.menuSystem.getMouseHighlighted().improvement != null)
+				if (main.grid.civs[0].cities.contains(main.menuSystem.getMouseHighlighted().improvement))
 				{
-					City c = (City)main.menuSystem.mouseHighlighted.improvement;
+					City c = (City)main.menuSystem.getMouseHighlighted().improvement;
 					main.menuSystem.select(c);
 					//return;
 				}
@@ -424,7 +424,7 @@ public class InputSystem extends BaseSystem {
 		if (s.size() > 0)
 		{
 			//System.out.println(s.size());
-			Tile t = main.menuSystem.mouseHighlighted;
+			Tile t = main.menuSystem.getMouseHighlighted();
 			if (t != null)
 			{
 				if (main.grid.hasEnemy(s.get(0), t.row, t.col) != null)
@@ -469,7 +469,7 @@ public class InputSystem extends BaseSystem {
 	//Don't advance if moving a stack
 	private void playerAction(GameEntity en, boolean advanceToNextUnit)
 	{
-		Tile t = main.menuSystem.mouseHighlighted;
+		Tile t = main.menuSystem.getMouseHighlighted();
 		if (en != null && t != null)
 		{
 			if (t.biome != -1 && en.owner != null) //Removing does not seem to clear from memory, check if owner is null then
@@ -576,7 +576,7 @@ public class InputSystem extends BaseSystem {
 	{
 		Civilization civ = main.grid.civs[0];
 		ArrayList<GameEntity> candidates = new ArrayList<GameEntity>();
-		Tile t = main.menuSystem.mouseHighlighted;
+		Tile t = main.menuSystem.getMouseHighlighted();
 		for (int i = 0; i < civ.units.size(); i++)
 		{
 			GameEntity en = civ.units.get(i);

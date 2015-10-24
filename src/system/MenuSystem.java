@@ -47,7 +47,8 @@ public class MenuSystem extends BaseSystem {
 	public Tile target;
 	//public ArrayList<String> hintText;
 	public Tile highlighted;
-	public Tile mouseHighlighted; //Under the player's crosshair versus under the player's mouse
+	private Tile mouseHighlighted; //Under the player's crosshair versus under the player's mouse
+	public Tile getMouseHighlighted() {return mouseHighlighted;}
 	public Tile lastMouseHighlighted;
 	public Tile lastHighlighted;
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
@@ -72,10 +73,10 @@ public class MenuSystem extends BaseSystem {
 	public boolean requestFieldsUpdate = false;
 
 	public float height = 100;
-	
+
 	private Loader loader;
 	public void setupLoader(Loader l) {loader = l;} //Encapsulate so I know not to access this class for the loader
-	
+
 	//public City citySelected;
 
 	//public TextBox hintTextBox;
@@ -96,7 +97,7 @@ public class MenuSystem extends BaseSystem {
 
 		//arial = main.loadFont("ArialMT-48.vlw");
 	}
-	
+
 	public void setupMenus()
 	{
 		//Keep track of the menu's indices in list
@@ -224,7 +225,7 @@ public class MenuSystem extends BaseSystem {
 		text4.activate(false);
 
 		updateEncyclopedia();
-		
+
 		for (int i = 0; i < textboxes.size(); i++)
 		{
 			TextBox t = textboxes.get(i);
@@ -748,7 +749,7 @@ public class MenuSystem extends BaseSystem {
 										main.text((int)city.defensiveStr, pos[0] - dX, pos[1] - dY - 30 - i*30);
 										main.text((int)city.rangedStr, pos[0] - dX + len, pos[1] - dY - 30 - i*30 - len/2);
 										main.text((int)city.health, pos[0] - dX + len, pos[1] - dY - 30 - i*30);
-										
+
 										cityGui = true;
 									}
 								}
@@ -1152,7 +1153,7 @@ public class MenuSystem extends BaseSystem {
 				}
 			}
 		}
-		
+
 		//Update the rectangular regions where there will be no extra elements shown
 		noOverlap.clear();
 		for (int i = 0; i < menus.size(); i++)
@@ -1464,7 +1465,7 @@ public class MenuSystem extends BaseSystem {
 		}
 		main.hint(main.DISABLE_DEPTH_TEST);*/
 	}
-	
+
 	/*private void strokeTextbox(float r, float g, float b)
 	{
 		if (r == -1 || g == -1 || b == -1)
@@ -1472,7 +1473,7 @@ public class MenuSystem extends BaseSystem {
 		else
 			main.stroke(r,g,b);
 	}
-	
+
 	private void shortcutText(TextBox b)
 	{
 		for (int j = 0; j < shortcuts.length; j++)
@@ -2484,7 +2485,7 @@ public class MenuSystem extends BaseSystem {
 		ImageBox img = new ImageBox(loader.loadTexture("en.name"),"",0,main.height*5/6,main.height/6,main.height/6);
 		img.tint(en.owner.r, en.owner.g, en.owner.b);
 		menus.get(1).buttons.add(img);
-		
+
 		//TODO: Add encyclopedia entries
 		//TextBox b = menus.get(1).addButton("encyclopedia"+en.name, en.name, "Encyclopedia entry for "+en.name+" >",0,main.height*5/6-height,main.height/6,height);
 		TextBox b = menus.get(1).addButton("", en.name, "Encyclopedia entry for "+en.name+" >",0,main.height*5/6-height,main.height/6,height);
@@ -2940,6 +2941,15 @@ public class MenuSystem extends BaseSystem {
 		main.fixCamera(en.location.row, en.location.col);
 		//main.chunkSystem.update();
 		//main.requestUpdate();
+	}
+
+	public void setMouseHighlighted(Tile t)
+	{
+		if (mouseHighlighted == null && t == null) return;
+		if (mouseHighlighted == null || !mouseHighlighted.equals(t)) 
+		{
+			mouseHighlighted = t;
+		}
 	}
 
 	public void select(BaseEntity en)
