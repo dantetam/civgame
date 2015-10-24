@@ -3,6 +3,8 @@ package system;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import game.Tile;
+import lwjglEngine.terrain.Terrain;
 import lwjglEngine.toolbox.MousePicker;
 import render.CivGame;
 
@@ -43,7 +45,9 @@ public class RenderSystem extends BaseSystem {
 		Vector3f ray = mousePicker.currentRay;
 		Vector3f camPos = mousePicker.camera.position;
 		Vector3f rayCast = new Vector3f(camPos.x + camPos.y/ray.y*ray.x,0,camPos.z + camPos.y/ray.y*ray.z);
-		System.out.println(rayCast);
+		Tile t = main.grid.getTile((int)(rayCast.x/Terrain.SIZE*main.grid.rows),(int)(rayCast.z/Terrain.SIZE*main.grid.cols));
+		main.menuSystem.mouseHighlighted = t;
+		//System.out.println(rayCast);
 		//main.menuSystem.mouseHighlighted
 	}
 	

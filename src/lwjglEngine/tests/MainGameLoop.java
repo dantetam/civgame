@@ -146,8 +146,8 @@ public class MainGameLoop {
 			camera = new Camera();
 			main.camera = camera; //manually assign this since the while loop belows halts all processes (i.e. no stopping) in civgame
 
-			GuiTexture test = new GuiTexture(loader.loadTexture("partTexture"), new Vector2f(0.5f,0.5f), new Vector2f(0.2f,0.2f));
-			main.guis.add(test);
+			//GuiTexture test = new GuiTexture(loader.loadTexture("partTexture"), new Vector2f(0.5f,0.5f), new Vector2f(0.2f,0.2f));
+			//main.guis.add(test);
 
 			//Keep updating the display until the user exits
 			renderer = new MasterRenderer(loader);

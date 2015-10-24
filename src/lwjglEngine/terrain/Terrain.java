@@ -17,7 +17,9 @@ import lwjglEngine.textures.TerrainTexturePack;
 
 public class Terrain {
 
-	protected static final float SIZE = 1600, MAX_HEIGHT = 40, MIN_HEIGHT = -40;
+	public static final float SIZE = 1600;
+	protected static final float MAX_HEIGHT = 40;
+	protected static final float MIN_HEIGHT = -40;
 	protected static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 	
 	public float x,z;

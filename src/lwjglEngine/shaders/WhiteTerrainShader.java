@@ -15,8 +15,7 @@ public class WhiteTerrainShader extends ShaderProgram {
 	private int locationLightPosition, locationLightColor;
 	private int locationShineDamper, locationReflectiveness;
 	
-	private int locationBackTexture, 
-	locationTexture1, locationTexture2, locationTexture3, locationTexture4, locationTexture5, locationTexture6, locationTexture7;
+	private int locationBackTexture, locationTexture1, locationTexture2, locationTexture3, locationTexture4, locationTexture5, locationTexture6, locationTexture7;
 	
 	private int locationBlendMap;
 
