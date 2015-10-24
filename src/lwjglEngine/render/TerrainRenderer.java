@@ -16,6 +16,7 @@ import lwjglEngine.entities.Entity;
 import lwjglEngine.shaders.ShaderProgram;
 import lwjglEngine.shaders.TerrainShader;
 import lwjglEngine.shaders.WhiteTerrainShader;
+import lwjglEngine.terrain.GeneratedTerrain;
 import lwjglEngine.terrain.Terrain;
 import lwjglEngine.textures.ModelTexture;
 import lwjglEngine.textures.TerrainTexturePack;
@@ -58,13 +59,13 @@ public class TerrainRenderer {
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
 		
-		bindTextures(terrain);
+		bindTextures((GeneratedTerrain)terrain);
 		((WhiteTerrainShader) shader).loadShineVariables(1,0);
 		//ModelTexture texture = terrain.texture;
 		//shader.loadShineVariables(texture.shineDamper, texture.reflectiveness);
 	}
 	
-	private void bindTextures(Terrain terrain)
+	private void bindTextures(GeneratedTerrain terrain)
 	{
 		WhiteTerrainTexturePack textures = (WhiteTerrainTexturePack)terrain.texturePack;
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -85,6 +86,8 @@ public class TerrainRenderer {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.texture7.textureID);
 		GL13.glActiveTexture(GL13.GL_TEXTURE8);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.blendMap.textureID);
+		GL13.glActiveTexture(GL13.GL_TEXTURE9);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, ((GeneratedTerrain)terrain).blendMap2.textureID); //Oops. Forgot to bind second blend map. Durr.
 	}
 	
 	private void unbindTexturedModel()
