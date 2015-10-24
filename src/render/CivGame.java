@@ -86,7 +86,7 @@ public class CivGame {
 		//systems.add(menuSystem);
 		//systems.add(newMenuSystem);
 		systems.add(inputSystem);
-	
+
 		setup();
 	}
 
@@ -102,23 +102,24 @@ public class CivGame {
 		//redraw();
 		try
 		{
-			
-		generate(terrainType);
-		takeBlendMap(sendBlendMap(grid), "res/generatedBlendMap.png");
-		
-		DisplayManager.createDisplay();
-		lwjglSystem = new MainGameLoop(this);
-		camera = lwjglSystem.camera;
-		
-		//grid.setManager(lwjglSystem.levelManager); //Manually assign this since the levelmanager is created after the grid
-		
-		//Force update
-		menuSystem.rbox = grid.civs[0].revealedBox();
 
-		menuSystem.techMenu = new TechMenu(grid.civs[0].techTree, "TechMenu");
-		menuSystem.menus.add(menuSystem.techMenu); //Not including it is a violation of OOP principles
-		//makeRivers(terrain);
-		/*for (int r = 0; r < terrain.length; r++)
+			generate(terrainType);
+			takeBlendMap(sendBlendMap(grid), "res/generatedBlendMap.png");
+			takeBlendMap(sendHighlightMap(grid), "res/generatedHighlightMap.png");
+
+			DisplayManager.createDisplay();
+			lwjglSystem = new MainGameLoop(this);
+			camera = lwjglSystem.camera;
+
+			//grid.setManager(lwjglSystem.levelManager); //Manually assign this since the levelmanager is created after the grid
+
+			//Force update
+			menuSystem.rbox = grid.civs[0].revealedBox();
+
+			menuSystem.techMenu = new TechMenu(grid.civs[0].techTree, "TechMenu");
+			menuSystem.menus.add(menuSystem.techMenu); //Not including it is a violation of OOP principles
+			//makeRivers(terrain);
+			/*for (int r = 0; r < terrain.length; r++)
 		{
 			for (int c = 0; c < terrain[0].length; c++)
 			{
@@ -127,29 +128,29 @@ public class CivGame {
 			println();
 		}*/
 
-		//chunkSystem = new ChunkSystem(this);
-		//systems.add(chunkSystem);
-		erosion = new Erosion(terrain,1);
-		erode();
-		//chunkSystem.tick();
+			//chunkSystem = new ChunkSystem(this);
+			//systems.add(chunkSystem);
+			erosion = new Erosion(terrain,1);
+			erode();
+			//chunkSystem.tick();
 
-		//Set it manually
-		player.civ = grid.civs[0];
-		player.civ.name = "Player";
-		player.orient(grid, lwjglSystem.widthBlock);
-		inputSystem.on = false;
-		menuSystem.select(null); //Fix the selection menu
-		//chunkSystem.update(); //Update once
-		Tile t = grid.civs[0].units.get(0).location; //First settler
-		fixCamera(t.row, t.col); //Center the camera at the appropriate location
+			//Set it manually
+			player.civ = grid.civs[0];
+			player.civ.name = "Player";
+			player.orient(grid, lwjglSystem.widthBlock);
+			inputSystem.on = false;
+			menuSystem.select(null); //Fix the selection menu
+			//chunkSystem.update(); //Update once
+			Tile t = grid.civs[0].units.get(0).location; //First settler
+			fixCamera(t.row, t.col); //Center the camera at the appropriate location
 
-		for (int i = 0; i < grid.civs.length; i++)
-		{
-			Civilization civ = grid.civs[i];
-			civ.war = Math.min(1, civ.war*2);
-			civ.tallwide = Math.min(0, civ.tallwide/2);
-		}
-		/*if (testing)
+			for (int i = 0; i < grid.civs.length; i++)
+			{
+				Civilization civ = grid.civs[i];
+				civ.war = Math.min(1, civ.war*2);
+				civ.tallwide = Math.min(0, civ.tallwide/2);
+			}
+			/*if (testing)
 		{
 			for (int i = 0; i < grid.civs.length; i++)
 			{
@@ -165,7 +166,7 @@ public class CivGame {
 	{ 
 		//Functions here already present in maingameloop
 	}*/
-	
+
 	//public void draw()
 	{		
 		/*for (int i = 0; i < systems.size(); i++)
@@ -275,7 +276,7 @@ public class CivGame {
 		else
 			inputSystem.queueKey(key);
 		//inputSystem.test();
-*/	}
+		 */	}
 
 	/*public void keyReleased()
 	{
@@ -287,7 +288,7 @@ public class CivGame {
 		else
 			inputSystem.keyReleased(key);
 	}
-	
+
 	public void keyTyped()
 	{
 		if (keyCode == ESC || key == ESC)
@@ -301,7 +302,7 @@ public class CivGame {
 	{
 		fill((float)c.r*255F,(float)c.g*255F,(float)c.b*255F);
 	}
-	
+
 	public void line(Point x, Point y, float yOffset)
 	{
 		if (x == null || y == null) return;
@@ -313,7 +314,7 @@ public class CivGame {
 		if (x == null) return;
 		vertex((float)x.x, (float)x.y, (float)x.z);	
 	}*/
-	
+
 	public void stop()
 	{
 		game.exit();
@@ -339,94 +340,92 @@ public class CivGame {
 		//centerX = mouseX/(1 - player.rotY/(float)Math.PI);
 		//centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
 	}
-	
+
 	private static final int blendMapWidth = 256, blendMapHeight = 256;
 	private BufferedImage sendBlendMap(Grid grid)
 	{
 		try
 		{
-		BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_ARGB);
-		int chunkWidth = (int)((float)blendMapWidth/(float)grid.rows), 
-				chunkHeight = (int)((float)blendMapHeight/(float)grid.cols);
-		int[][] colors = new int[blendMapWidth][blendMapHeight];
-		for (int r = 0; r < grid.rows; r++)
-		{
-			for (int c = 0; c < grid.cols; c++)
+			BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_ARGB);
+			int chunkWidth = (int)((float)blendMapWidth/(float)grid.rows), 
+					chunkHeight = (int)((float)blendMapHeight/(float)grid.cols);
+			int[][] colors = new int[blendMapWidth][blendMapHeight];
+			for (int r = 0; r < grid.rows; r++)
 			{
-				//Get the raw color by brick color by biome
-				//Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(grid.getTile(r,c).biome));
-				//int intColor = getIntColor((int)(color.r*255), (int)(color.g*255), (int)(color.b*255));	
-				int gray = (int)Math.max(1,(float)grid.getTile(r,c).biome/6F*255F);
-				int intColor = getIntColor(gray, gray, gray);
-				for (int rr = r*chunkWidth; rr < (r+1)*chunkWidth; rr++)
+				for (int c = 0; c < grid.cols; c++)
 				{
-					for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; cc++)
+					//Get the raw color by brick color by biome
+					//Color color = EntityData.brickColorMap.get(EntityData.groundColorMap.get(grid.getTile(r,c).biome));
+					//int intColor = getIntColor((int)(color.r*255), (int)(color.g*255), (int)(color.b*255));	
+					int gray = (int)Math.max(1,(float)grid.getTile(r,c).biome/6F*255F);
+					int intColor = getIntColor(gray, gray, gray);
+					for (int rr = r*chunkWidth; rr < (r+1)*chunkWidth; rr++)
 					{
-						if (rr >= colors.length || cc >= colors[0].length) break;
-						if (rr < 0 || cc < 0) continue;
-						colors[rr][cc] = intColor;
+						for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; cc++)
+						{
+							if (rr >= colors.length || cc >= colors[0].length) break;
+							if (rr < 0 || cc < 0) continue;
+							colors[rr][cc] = intColor;
+						}
 					}
 				}
 			}
-		}
-		for (int r = 0; r < colors.length; r++)
-		{
-			for (int c = 0; c < colors[0].length; c++)
+			for (int r = 0; r < colors.length; r++)
 			{
-				img.setRGB(r, c, colors[r][c]);
+				for (int c = 0; c < colors[0].length; c++)
+				{
+					img.setRGB(r, c, colors[r][c]);
+				}
 			}
-		}
-		return img;
+			return img;
 		} catch (Exception e) {e.printStackTrace(); return null;}
 	}
 	private BufferedImage sendHighlightMap(Grid grid)
 	{
 		try
 		{
-		BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_ARGB);
-		int chunkWidth = (int)((float)blendMapWidth/(float)grid.rows), 
-				chunkHeight = (int)((float)blendMapHeight/(float)grid.cols);
-		int[][] colors = new int[blendMapWidth][blendMapHeight];
-		for (int r = 0; r < grid.rows; r++)
-		{
-			for (int c = 0; c < grid.cols; c++)
+			BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_ARGB);
+			int chunkWidth = (int)((float)blendMapWidth/(float)grid.rows), 
+					chunkHeight = (int)((float)blendMapHeight/(float)grid.cols);
+			int[][] colors = new int[blendMapWidth][blendMapHeight];
+			for (int r = 0; r < grid.rows; r++)
 			{
-				int red = 0, green = 0, blue = 0;
-				Tile t = grid.getTile(r, c);
-				if (t.owner != null)
+				for (int c = 0; c < grid.cols; c++)
 				{
-					red = (int)t.owner.r;
-					green = (int)t.owner.g;
-					blue = (int)t.owner.b;
-				}
-				if (t.equals(menuSystem.getSelected().location))
-				{
-					red += 50; green += 50; blue += 50;
-				}
-				else if (t.equals(menuSystem.mouseHighlighted))
-				{
-					red += 20; green += 20; blue += 20;
-				}
-				int intColor = getIntColor(red, green, blue);
-				for (int rr = r*chunkWidth; rr < (r+1)*chunkWidth; rr++)
-				{
-					for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; cc++)
+					int red = 0, green = 0, blue = 0;
+					Tile t = grid.getTile(r, c);
+					if (t.owner != null)
 					{
-						if (rr >= colors.length || cc >= colors[0].length) break;
-						if (rr < 0 || cc < 0) continue;
-						colors[rr][cc] = intColor;
+						red = (int)t.owner.r;
+						green = (int)t.owner.g;
+						blue = (int)t.owner.b;
+					}
+					if (menuSystem != null)
+						if (menuSystem.getSelected() != null)
+							if (t.equals(menuSystem.getSelected().location))
+							{
+								red += 50; green += 50; blue += 50;
+							}
+							else if (t.equals(menuSystem.mouseHighlighted))
+							{
+								red += 20; green += 20; blue += 20;
+							}
+					int intColor = getIntColor(red, green, blue);
+					for (int rr = r*chunkWidth; rr < (r+1)*chunkWidth; rr++)
+					{
+						for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; cc++)
+						{
+							if (rr >= colors.length || cc >= colors[0].length) break;
+							if (rr < 0 || cc < 0) continue;
+							colors[rr][cc] = intColor;
+						}
 					}
 				}
 			}
-		}
-		for (int r = 0; r < colors.length; r++)
-		{
-			for (int c = 0; c < colors[0].length; c++)
-			{
-				img.setRGB(r, c, colors[r][c]);
-			}
-		}
-		return img;
+			for (int r = 0; r < colors.length; r++)
+				for (int c = 0; c < colors[0].length; c++)
+					img.setRGB(r, c, colors[r][c]);
+			return img;
 		} catch (Exception e) {e.printStackTrace(); return null;}
 	}
 	private int getIntColor(int r, int g, int b)
