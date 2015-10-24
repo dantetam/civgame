@@ -341,7 +341,7 @@ public class CivGame {
 		//centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
 	}
 
-	private static final int blendMapWidth = 256, blendMapHeight = 256;
+	private static final int blendMapWidth = 512, blendMapHeight = 512;
 	private BufferedImage sendBlendMap(Grid grid)
 	{
 		try
@@ -384,15 +384,19 @@ public class CivGame {
 	{
 		try
 		{
-			int width = 16;
+			BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_RGB);
+			int chunkWidth = (int)(((float)blendMapWidth)/((float)grid.rows)), chunkHeight = (int)(((float)blendMapHeight)/((float)grid.cols));
+			int[][] colors = new int[blendMapWidth][blendMapHeight];
+			//System.out.println(chunkWidth + " " + chunkWidth*grid.rows + " " + grid.rows);
+			/*int width = 16;
 			BufferedImage img = new BufferedImage(width*grid.rows, width*grid.cols, BufferedImage.TYPE_INT_RGB);
 			int chunkWidth = 16, chunkHeight = 16;
-			int[][] colors = new int[width*grid.rows][width*grid.cols];
+			int[][] colors = new int[width*grid.rows][width*grid.cols];*/
 			for (int r = 0; r < grid.rows; r++)
 			{
 				for (int c = 0; c < grid.cols; c++)
 				{
-					int red = (int)(Math.random()*255), green = (int)(Math.random()*255), blue = (int)(Math.random()*255);
+					int red = 0, green = 0, blue = 0;
 					Tile t = grid.getTile(r, c);
 					if (t.owner != null)
 					{
