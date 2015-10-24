@@ -17,11 +17,14 @@ import terrain.BicubicInterpolator;
 
 public class GeneratedTerrain extends Terrain {
 
+	public TerrainTexture blendMap2;
+	
 	public GeneratedTerrain(int gridX, int gridZ, Loader loader,
-			TerrainTexturePack texturePack, TerrainTexture blendMap,
+			TerrainTexturePack texturePack, TerrainTexture blendMap, TerrainTexture blendMap2,
 			double[][] heightMap) 
 	{ 
 		super(gridX, gridZ, loader, texturePack, blendMap, null);
+		this.blendMap2 = blendMap2;
 		super.model = generateTerrain(loader, heightMap, 1);
 		/*for (int r = 0; r < heightMap.length; r++)
 		{
@@ -33,20 +36,20 @@ public class GeneratedTerrain extends Terrain {
 		}*/
 	}
 	
-	public GeneratedTerrain(int gridX, int d, int gridZ, Loader loader,
+	/*public GeneratedTerrain(int gridX, int d, int gridZ, Loader loader,
 			TerrainTexturePack texturePack, TerrainTexture blendMap,
 			Point[][] points) {
 		super(gridX, gridZ, loader, texturePack, blendMap, null);
 		super.model = generateTerrain(loader, points, 6);
-		/*for (int r = 0; r < points.length; r++)
+		for (int r = 0; r < points.length; r++)
 		{
 			for (int c = 0; c < points[0].length; c++)
 			{
 				System.out.print((int)points[r][c].y + " ");
 			}
 			System.out.println();
-		}*/
-	}
+		}
+	}*/
 	
 	protected RawModel generateTerrain(Loader loader, double[][] terrain, float multiply)
 	{

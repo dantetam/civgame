@@ -104,7 +104,7 @@ public class CivGame {
 		{
 			
 		generate(terrainType);
-		takeBlendMap(sendBlendMap(grid));
+		takeBlendMap(sendBlendMap(grid), "res/generatedBlendMap.png");
 		
 		DisplayManager.createDisplay();
 		lwjglSystem = new MainGameLoop(this);
@@ -379,6 +379,56 @@ public class CivGame {
 		return img;
 		} catch (Exception e) {e.printStackTrace(); return null;}
 	}
+	private BufferedImage sendHighlightMap(Grid grid)
+	{
+		try
+		{
+		BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_ARGB);
+		int chunkWidth = (int)((float)blendMapWidth/(float)grid.rows), 
+				chunkHeight = (int)((float)blendMapHeight/(float)grid.cols);
+		int[][] colors = new int[blendMapWidth][blendMapHeight];
+		for (int r = 0; r < grid.rows; r++)
+		{
+			for (int c = 0; c < grid.cols; c++)
+			{
+				int red = 0, green = 0, blue = 0;
+				Tile t = grid.getTile(r, c);
+				if (t.owner != null)
+				{
+					red = (int)t.owner.r;
+					green = (int)t.owner.g;
+					blue = (int)t.owner.b;
+				}
+				if (t.equals(menuSystem.getSelected().location))
+				{
+					red += 50; green += 50; blue += 50;
+				}
+				else if (t.equals(menuSystem.mouseHighlighted))
+				{
+					red += 20; green += 20; blue += 20;
+				}
+				int intColor = getIntColor(red, green, blue);
+				for (int rr = r*chunkWidth; rr < (r+1)*chunkWidth; rr++)
+				{
+					for (int cc = c*chunkHeight; cc < (c+1)*chunkHeight; cc++)
+					{
+						if (rr >= colors.length || cc >= colors[0].length) break;
+						if (rr < 0 || cc < 0) continue;
+						colors[rr][cc] = intColor;
+					}
+				}
+			}
+		}
+		for (int r = 0; r < colors.length; r++)
+		{
+			for (int c = 0; c < colors[0].length; c++)
+			{
+				img.setRGB(r, c, colors[r][c]);
+			}
+		}
+		return img;
+		} catch (Exception e) {e.printStackTrace(); return null;}
+	}
 	private int getIntColor(int r, int g, int b)
 	{
 		r = r < 0 ? 0 : r; g = g < 0 ? 0 : g; b = b < 0 ? 0 : b; //Ternary hell...
@@ -386,17 +436,17 @@ public class CivGame {
 		int col = (r << 16) | (g << 8) | b;
 		return col;
 	}
-	private void takeBlendMap(BufferedImage image)
+	private void takeBlendMap(BufferedImage image, String fileName)
 	{
 		try {
-			File file = new File("res/generatedBlendMap.png");
+			File file = new File(fileName);
 			if (!file.exists()) 
 				file.createNewFile();
 			ImageIO.write(image, "png", file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return;
+		return; //?? Did this method return something originally?
 	}
 
 	//Use the appropriate terrain to make a table and then render it by making some entities

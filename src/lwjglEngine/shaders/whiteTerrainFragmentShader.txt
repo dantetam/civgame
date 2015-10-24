@@ -17,6 +17,7 @@ uniform sampler2D texture5;
 uniform sampler2D texture6;
 uniform sampler2D texture7;
 uniform sampler2D blendMap;
+uniform sampler2D blendMap2;
 
 uniform vec3 lightColor;
 uniform float shineDamper;

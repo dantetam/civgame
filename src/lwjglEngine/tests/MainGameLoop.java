@@ -51,7 +51,7 @@ public class MainGameLoop {
 	//TerrainTexture backTexture, rTexture, gTexture, bTexture;
 	TerrainTexture t1,t2,t3,t4,t5,t6,t7;
 	TerrainTexturePack texturePack;
-	TerrainTexture blendMap;
+	TerrainTexture blendMap, blendMap2;
 
 	/*//counter clockwise vertices
 	float[] vertices = {
@@ -110,6 +110,7 @@ public class MainGameLoop {
 					);
 
 			blendMap = new TerrainTexture(loader.loadTexture("generatedBlendMap"));
+			blendMap2 = new TerrainTexture(loader.loadTexture("generatedHighlightMap"));
 
 			/*//counter clockwise vertices
 		float[] vertices = {
@@ -136,7 +137,7 @@ public class MainGameLoop {
 			ds.seed(870L);
 			//double[][] heightMap = ds.generate(new double[]{0, 0, 2, 7, 0.7, 1});
 			double[][] heightMap = average(generateRoughTerrain(main.terrain, multiply));
-			terrain0 = new GeneratedTerrain(0, 0, loader, texturePack, blendMap, heightMap);
+			terrain0 = new GeneratedTerrain(0, 0, loader, texturePack, blendMap, blendMap2, heightMap);
 			//HeightMap is a more detailed version of the terrain map
 
 			levelManager = new LevelManager(game.grid, heightMap);

@@ -17,7 +17,7 @@ public class WhiteTerrainShader extends ShaderProgram {
 	
 	private int locationBackTexture, locationTexture1, locationTexture2, locationTexture3, locationTexture4, locationTexture5, locationTexture6, locationTexture7;
 	
-	private int locationBlendMap;
+	private int locationBlendMap, locationBlendMap2; //First blend map represents biome, second represents highlighting
 
 	public WhiteTerrainShader() 
 	{
@@ -50,6 +50,7 @@ public class WhiteTerrainShader extends ShaderProgram {
 		locationTexture6 = super.getUniformLocation("texture6");
 		locationTexture7 = super.getUniformLocation("texture7");
 		locationBlendMap = super.getUniformLocation("blendMap");
+		locationBlendMap2 = super.getUniformLocation("blendMap2");
 	}
 
 	public void connectTextures()
@@ -63,6 +64,7 @@ public class WhiteTerrainShader extends ShaderProgram {
 		super.loadInt(locationTexture6, 6);
 		super.loadInt(locationTexture7, 7);
 		super.loadInt(locationBlendMap, 8);
+		super.loadInt(locationBlendMap2, 9);
 	}
 	public void loadTransformMatrix(Matrix4f matrix) {super.loadMatrix(locationTransformMatrix, matrix);}
 	public void loadProjectionMatrix(Matrix4f matrix) {super.loadMatrix(locationProjectionMatrix, matrix);}
