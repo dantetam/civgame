@@ -61,6 +61,7 @@ public class CivGame {
 
 	public InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
+	public RenderSystem renderSystem = new RenderSystem(this);
 	//public ChunkSystem chunkSystem;
 
 	public boolean testing = false, tacticalView = false, keyMenu = false, forceCursor = false; //tacticalView -> display special tile yield and tile ownership GUIs

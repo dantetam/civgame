@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 
 import lwjglEngine.models.RawModel;
+import lwjglEngine.render.DisplayManager;
 import lwjglEngine.render.Loader;
 import lwjglEngine.toolbox.Maths;
 import render.Menu;
@@ -35,7 +36,7 @@ public class GuiRenderer {
 		{
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.texture);
-			Matrix4f matrix = Maths.createTransformationMatrix(normalize(new Vector2f(gui.pos.x + gui.size.x/2, gui.pos.y + gui.size.y/2)), normalize(gui.size));
+			Matrix4f matrix = Maths.createTransformationMatrix(normalize(new Vector2f(gui.pos.x + gui.size.x/2, gui.pos.y + gui.size.y/2)), normalizeSize(gui.size));
 			shader.loadTransformation(matrix);
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.vertexCount);
 		}
@@ -43,10 +44,13 @@ public class GuiRenderer {
 		GL30.glBindVertexArray(0);
 		shader.stop();
 	}
-	private static float width = 1500, height = 900;
 	private Vector2f normalize(Vector2f v)
 	{
-		return new Vector2f(v.x*2/width - 1, v.y*2/height - 1);
+		return new Vector2f(v.x*2/DisplayManager.width - 1, v.y*2/DisplayManager.height - 1);
+	}
+	private Vector2f normalizeSize(Vector2f v)
+	{
+		return new Vector2f(v.x/DisplayManager.width, v.y/DisplayManager.height);
 	}
 	
 	public void render(MenuSystem menuSystem)
@@ -54,9 +58,10 @@ public class GuiRenderer {
 		ArrayList<GuiTexture> guis = new ArrayList<GuiTexture>();
 		for (Menu menu: menuSystem.menus)
 		{
-			for (GuiTexture gui: menu.buttons)
-				if (gui.active)
-					guis.add(gui);
+			if (menu.active())
+				for (GuiTexture gui: menu.buttons)
+					if (gui.active)
+						guis.add(gui);
 		}
 		for (GuiTexture gui: menuSystem.textboxes)
 			if (gui.active)

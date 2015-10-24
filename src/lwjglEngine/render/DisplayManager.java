@@ -9,7 +9,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class DisplayManager {
 
-	private static final int width = 1500, height = 900;
+	public static final int width = 1500, height = 900;
 	
 	public static void createDisplay()
 	{

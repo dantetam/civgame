@@ -4,6 +4,7 @@ import game.BaseEntity;
 import game.Civilization;
 import game.GameEntity;
 import game.Tile;
+import lwjglEngine.render.DisplayManager;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import processing.core.*;
 import data.EntityData;
@@ -128,8 +130,21 @@ public class InputSystem extends BaseSystem {
 		    else {
 		        if (Keyboard.getEventKey() == Keyboard.KEY_A) 
 		        {
+		        	//Simulate dragging of key 'a'?
 		        }
 		    }
+		}
+		
+		while (Mouse.next()) {
+			if (Mouse.getEventButtonState())
+			{
+				if (Mouse.getEventButton() == 0)
+					queueLeftClick(Mouse.getEventX(), DisplayManager.height - Mouse.getEventY()); //Get the negative because of OpenGL coord system
+				else if (Mouse.getEventButton() == 1)
+					queueRightClick(Mouse.getEventX(), DisplayManager.height - Mouse.getEventY());
+				//else //do nothing for scroll wheel (2)
+				//queueLeftClick();
+			}
 		}
 		
 		moving = false;

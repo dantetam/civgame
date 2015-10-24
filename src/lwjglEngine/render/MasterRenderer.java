@@ -16,6 +16,7 @@ import lwjglEngine.shaders.StaticShader;
 import lwjglEngine.shaders.TerrainShader;
 import lwjglEngine.shaders.WhiteTerrainShader;
 import lwjglEngine.terrain.Terrain;
+import lwjglEngine.toolbox.MousePicker;
 
 public class MasterRenderer {
 
@@ -27,7 +28,7 @@ public class MasterRenderer {
 	private TerrainRenderer terrainRenderer;
 	private ShaderProgram terrainShader = new WhiteTerrainShader();
 
-	private Matrix4f projectionMatrix;
+	public Matrix4f projectionMatrix;
 
 	private HashMap<TexturedModel,ArrayList<Entity>> entities = 
 			new HashMap<TexturedModel,ArrayList<Entity>>();
@@ -55,6 +56,13 @@ public class MasterRenderer {
 	public static void disableCulling()
 	{
 		//GL11.glDisable(GL11.GL_CULL_FACE);
+	}
+	
+	//Return a new MousePicker 
+	public MousePicker setupMousePicker(Camera c)
+	{
+		MousePicker temp = new MousePicker(projectionMatrix, c);
+		return temp;
 	}
 
 	public void render(Light light, Camera camera)

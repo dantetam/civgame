@@ -1,3 +1,9 @@
+package system;
+
+import org.lwjgl.input.Mouse;
+
+import render.CivGame;
+
 /*package system;
 
 import java.util.ArrayList;
@@ -18,6 +24,24 @@ import game.Tile;
 import game.TileEntity;
 import data.Color;
 import data.EntityData;
+*/
+
+public class RenderSystem extends BaseSystem {
+
+	public RenderSystem(CivGame civGame) {
+		super(civGame);
+		// TODO Auto-generated constructor stub
+	}
+
+	public void tick() 
+	{
+		System.out.println(Mouse.getX() + " " + Mouse.getY());
+		//main.menuSystem.mouseHighlighted
+	}
+	
+}
+
+/*
 
 public class RenderSystem extends BaseSystem {
 

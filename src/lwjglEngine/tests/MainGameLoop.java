@@ -5,6 +5,7 @@ import lwjglEngine.models.RawModel;
 import lwjglEngine.models.TexturedModel;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -24,6 +25,7 @@ import lwjglEngine.textures.ModelTexture;
 import lwjglEngine.textures.TerrainTexture;
 import lwjglEngine.textures.TerrainTexturePack;
 import lwjglEngine.textures.WhiteTerrainTexturePack;
+import lwjglEngine.toolbox.MousePicker;
 
 import java.util.ArrayList;
 
@@ -70,8 +72,9 @@ public class MainGameLoop {
 	GeneratedTerrain terrain0; 
 
 	Light light; public Camera camera;
+	public MousePicker mousePicker;
 	public int widthBlock = 21;
-	MasterRenderer renderer;
+	public MasterRenderer renderer;
 
 	public MainGameLoop(CivGame game)
 	{
@@ -148,6 +151,7 @@ public class MainGameLoop {
 
 			//Keep updating the display until the user exits
 			renderer = new MasterRenderer(loader);
+			mousePicker = renderer.setupMousePicker(camera);
 
 			tick();
 
@@ -186,7 +190,7 @@ public class MainGameLoop {
 			camera.move();
 			//camera.yaw += 0.1;
 
-			if (frameCount % 50 == 0)
+			/*if (frameCount % 50 == 0)
 			{
 				if (main.grid.civs.length > 1)
 					for (int i = 0; i < 1; i++)
@@ -194,11 +198,11 @@ public class MainGameLoop {
 						ArrayList<GameEntity> list = main.grid.civs[i].units;
 						if (list.size() == 0) continue;
 						GameEntity random = list.get(0);
-						//Tile t = main.grid.findIsolated();
+						Tile t = main.grid.findIsolated(); //Testing unit 'animations'
 						main.grid.moveTo(random, random.location.row + 1, random.location.col + 1);
 						System.out.println(random.location.row + " " + random.location.col);
 					}
-			}
+			}*/
 
 			renderer.processTerrain(terrain0);
 			//renderer.processTerrain(terrain1);
