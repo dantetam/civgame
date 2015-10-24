@@ -16,7 +16,7 @@ public class MousePicker {
 	public Vector3f currentRay;
 	
 	private Matrix4f projMatrix, viewMatrix;
-	private Camera camera;
+	public Camera camera;
 	
 	public MousePicker(Matrix4f p, Camera c) {
 		camera = c;

@@ -81,6 +81,7 @@ public class CivGame {
 		systems = new ArrayList<BaseSystem>();
 
 		systems.add(civilizationSystem);
+		systems.add(renderSystem);
 		//systems.add(lwjglSystem);
 		//systems.add(menuSystem);
 		//systems.add(newMenuSystem);

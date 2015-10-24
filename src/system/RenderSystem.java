@@ -1,7 +1,9 @@
 package system;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector3f;
 
+import lwjglEngine.toolbox.MousePicker;
 import render.CivGame;
 
 /*package system;
@@ -28,6 +30,8 @@ import data.EntityData;
 
 public class RenderSystem extends BaseSystem {
 
+	public MousePicker mousePicker;
+	
 	public RenderSystem(CivGame civGame) {
 		super(civGame);
 		// TODO Auto-generated constructor stub
@@ -35,7 +39,11 @@ public class RenderSystem extends BaseSystem {
 
 	public void tick() 
 	{
-		System.out.println(Mouse.getX() + " " + Mouse.getY());
+		mousePicker.update();
+		Vector3f ray = mousePicker.currentRay;
+		Vector3f camPos = mousePicker.camera.position;
+		Vector3f rayCast = new Vector3f(camPos.x + camPos.y/ray.y*ray.x,0,camPos.z + camPos.y/ray.y*ray.z);
+		System.out.println(rayCast);
 		//main.menuSystem.mouseHighlighted
 	}
 	

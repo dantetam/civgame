@@ -152,6 +152,7 @@ public class MainGameLoop {
 			//Keep updating the display until the user exits
 			renderer = new MasterRenderer(loader);
 			mousePicker = renderer.setupMousePicker(camera);
+			main.renderSystem.mousePicker = mousePicker;
 
 			tick();
 
