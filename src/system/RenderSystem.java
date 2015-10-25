@@ -44,10 +44,17 @@ public class RenderSystem extends BaseSystem {
 		mousePicker.update();
 		Vector3f ray = mousePicker.currentRay;
 		Vector3f camPos = mousePicker.camera.position;
-		Vector3f rayCast = new Vector3f(camPos.x + camPos.y/ray.y*ray.x,0,camPos.z + camPos.y/ray.y*ray.z);
+
+		Vector3f rayCast = new Vector3f(camPos.x - camPos.y/ray.y*ray.x,0,camPos.z - camPos.y/ray.y*ray.z);
+		//float dist = (float)Math.sqrt(Math.pow(ray.x, 2) + Math.pow(ray.z, 2));
+		//float angle = (float)Math.atan2(ray.z, ray.x);
+		//Vector3f rayCast = new Vector3f(camPos.x + camPos.y/ray.y*dist*(float)Math.cos(angle),0,camPos.z + camPos.y/ray.y*dist*(float)Math.sin(angle));
 		Tile t = main.grid.getTile((int)(rayCast.x/Terrain.SIZE*main.grid.rows),(int)(rayCast.z/Terrain.SIZE*main.grid.cols));
 		main.menuSystem.setMouseHighlighted(t);
-		//System.out.println(rayCast);
+		if (main != null)
+			if (main.lwjglSystem != null)
+				if (main.lwjglSystem.frameCount % 50 == 25)
+					System.out.println(rayCast);
 		//main.menuSystem.mouseHighlighted
 	}
 	

@@ -399,7 +399,7 @@ public class CivGame {
 			{
 				for (int c = 0; c < grid.cols; c++)
 				{
-					int red = 0, green = 0, blue = 0;
+					int red = 255, green = 0, blue = 0;
 					Tile t = grid.getTile(r, c);
 					if (t.owner != null)
 					{
@@ -471,9 +471,8 @@ public class CivGame {
 				file.createNewFile();
 			ImageIO.write(image, "png", file);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
-		System.out.println("made new");
 		return; //?? Did this method return something originally?
 	}
 

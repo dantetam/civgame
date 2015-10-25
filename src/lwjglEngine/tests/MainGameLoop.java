@@ -81,11 +81,12 @@ public class MainGameLoop {
 		try
 		{
 			main = game;
+			main.lwjglSystem = this;
 
 			loader = new Loader();
 			main.menuSystem.setupLoader(loader);
 			main.menuSystem.setupMenus(); //Set up menus once loader is not null
-			
+
 			//rTexture = new TerrainTexture(loader.loadTexture("dirt"));
 			//gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
 			//bTexture = new TerrainTexture(loader.loadTexture("path"));
@@ -191,6 +192,22 @@ public class MainGameLoop {
 			//entity.rotate(0,0.3F,0);
 			camera.move();
 			//camera.yaw += 0.1;
+
+			/*if (main.grid.civs.length > 1)
+				for (int i = 0; i < 1; i++)
+				{
+					ArrayList<GameEntity> list = main.grid.civs[i].units;
+					if (list.size() == 0) continue;
+					GameEntity random = list.get(0);
+					Tile t = main.menuSystem.getMouseHighlighted();
+					if (t != null)
+					{
+						main.grid.moveTo(random, t.row, t.col);
+						System.out.println(random.location.row + " " + random.location.col);
+					}
+				}
+			 */
+
 
 			/*if (frameCount % 50 == 0)
 			{
