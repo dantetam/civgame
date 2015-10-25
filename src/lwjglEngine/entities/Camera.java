@@ -41,7 +41,7 @@ public class Camera {
 			}
 			return; //Override keyboard when camera is being shifted
 		}
-		float step = 2.5f, tilt = 0.5f;
+		float step = 5f, tilt = 1f;
 		if (Keyboard.isKeyDown(Keyboard.KEY_I))
 			position.y -= step;
 		if (Keyboard.isKeyDown(Keyboard.KEY_O))

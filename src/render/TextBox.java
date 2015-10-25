@@ -31,6 +31,7 @@ public class TextBox extends GuiTexture {
 		display = new ArrayList<String>();
 		display.add(text);
 		tooltip = new ArrayList<String>();
+		tooltip.add("");
 		//tooltip.add(text);
 		//enabled = false;
 	}

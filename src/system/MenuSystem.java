@@ -2946,15 +2946,24 @@ public class MenuSystem extends BaseSystem {
 	public void setMouseHighlighted(Tile t)
 	{
 		if (mouseHighlighted == null && t == null) return;
-		if (mouseHighlighted == null || !mouseHighlighted.equals(t)) 
+		if (mouseHighlighted == null) 
 		{
 			mouseHighlighted = t;
+			
+			//Give a new highlight map to give a different color to the tile underneath mouse, and other events
+			main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
+		}
+		else if (!mouseHighlighted.equals(t))
+		{
+			mouseHighlighted = t;
+			main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
 		}
 	}
 
 	public void select(BaseEntity en)
 	{
 		selected = en;
+		main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
 		//main.newMenuSystem.updateUnitMenu(en);
 		//main.requestUpdate();
 		if (en != null)

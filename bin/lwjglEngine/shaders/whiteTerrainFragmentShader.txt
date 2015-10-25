@@ -70,7 +70,7 @@ void main(void)
 	vec4 highlightColor = texture(blendMap2, passTextureCoords);
 	if (highlightColor.r > 0.02 || highlightColor.g > 0.02 || highlightColor.b > 0.02)
 	{
-		totalColor = totalColor*0.6 + highlightColor*0.4;
+		totalColor = highlightColor;
 	}
 	
 	//float backTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);

@@ -103,7 +103,7 @@ public class CivGame {
 		try
 		{
 			DisplayManager.createDisplay();
-			
+
 			generate(terrainType);
 			takeBlendMap(sendBlendMap(grid), "res/generatedBlendMap.png");
 			takeBlendMap(sendHighlightMap(grid), "res/generatedHighlightMap.png");
@@ -380,8 +380,11 @@ public class CivGame {
 			return img;
 		} catch (Exception e) {e.printStackTrace(); return null;}
 	}
-	private BufferedImage sendHighlightMap(Grid grid)
+	public boolean availableUpdate = true;
+	public BufferedImage sendHighlightMap(Grid grid)
 	{
+		if (!availableUpdate) return null;
+		availableUpdate = false;
 		try
 		{
 			BufferedImage img = new BufferedImage(blendMapWidth*2, blendMapHeight*2, BufferedImage.TYPE_INT_RGB);
@@ -405,15 +408,34 @@ public class CivGame {
 						blue = (int)t.owner.b;
 					}
 					if (menuSystem != null)
+					{
 						if (menuSystem.getSelected() != null)
+						{
 							if (t.equals(menuSystem.getSelected().location))
 							{
-								red += 50; green += 50; blue += 50;
+								if (t.owner == null)
+								{
+									red = 255; green = 255; blue = 255;
+								}
+								else
+								{
+									red += 50; green += 50; blue += 50;
+								}
 							}
-							else if (t.equals(menuSystem.getMouseHighlighted()))
+						}
+						if (t.equals(menuSystem.getMouseHighlighted()))
+						{
+							if (t.owner == null)
+							{
+								red = 255; green = 255; blue = 255;
+							}
+							else
 							{
 								red += 20; green += 20; blue += 20;
 							}
+						}
+					}
+
 					int intColor = getIntColor(red, green, blue);
 					for (int rr = r*chunkWidth; rr < (r+1)*chunkWidth; rr++)
 					{
@@ -429,8 +451,9 @@ public class CivGame {
 			for (int r = 0; r < colors.length; r++)
 				for (int c = 0; c < colors[0].length; c++)
 					img.setRGB(r, c, colors[r][c]);
+			availableUpdate = true;
 			return img;
-		} catch (Exception e) {e.printStackTrace(); return null;}
+		} catch (Exception e) {availableUpdate = true; e.printStackTrace(); return null;}
 	}
 	private int getIntColor(int r, int g, int b)
 	{
@@ -439,8 +462,9 @@ public class CivGame {
 		int col = (r << 16) | (g << 8) | b;
 		return col;
 	}
-	private void takeBlendMap(BufferedImage image, String fileName)
+	public void takeBlendMap(BufferedImage image, String fileName)
 	{
+		if (image == null) return;
 		try {
 			File file = new File(fileName);
 			if (!file.exists()) 
@@ -449,6 +473,7 @@ public class CivGame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("made new");
 		return; //?? Did this method return something originally?
 	}
 

@@ -791,6 +791,9 @@ public class CivilizationSystem extends BaseSystem {
 				if (en != null)
 					main.menuSystem.selectAndFocus(en);
 			}
+			
+			if (main != null)
+				main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
 		}
 		/*TODO:
 		 * 
