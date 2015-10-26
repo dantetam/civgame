@@ -80,12 +80,14 @@ public class CivGame {
 
 		systems = new ArrayList<BaseSystem>();
 
+		//original order, civ, render, (menu), input
+		
 		systems.add(civilizationSystem);
+		systems.add(inputSystem);
 		systems.add(renderSystem);
 		//systems.add(lwjglSystem);
-		//systems.add(menuSystem);
+		systems.add(menuSystem);
 		//systems.add(newMenuSystem);
-		systems.add(inputSystem);
 
 		setup();
 	}
@@ -108,15 +110,16 @@ public class CivGame {
 			takeBlendMap(sendBlendMap(grid), "res/generatedBlendMap.png");
 			takeBlendMap(sendHighlightMap(grid), "res/generatedHighlightMap.png");
 
+			//Force update
+			menuSystem.rbox = grid.civs[0].revealedBox();
+			
+			menuSystem.techMenu = new TechMenu(grid.civs[0].techTree, "TechMenu");
+			
 			lwjglSystem = new MainGameLoop(this);
 			camera = lwjglSystem.camera;
 
 			//grid.setManager(lwjglSystem.levelManager); //Manually assign this since the levelmanager is created after the grid
-
-			//Force update
-			menuSystem.rbox = grid.civs[0].revealedBox();
-
-			menuSystem.techMenu = new TechMenu(grid.civs[0].techTree, "TechMenu");
+			
 			menuSystem.menus.add(menuSystem.techMenu); //Not including it is a violation of OOP principles
 			//makeRivers(terrain);
 			/*for (int r = 0; r < terrain.length; r++)

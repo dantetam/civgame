@@ -249,7 +249,33 @@ public class MenuSystem extends BaseSystem {
 	public boolean menuActivated = false, menuHighlighted = false;
 	public void tick()
 	{
-		/*//main.textFont(arial);
+		for (int menu = 0; menu < menus.size(); menu++)
+		{
+			//if (!main.enabled) break;
+			if (menus.get(menu).active())
+			{
+				for (int i = clicks.size() - 1; i >= 0; i--)
+				{
+					String command = menus.get(menu).click(clicks.get(i).mouseX, clicks.get(i).mouseY);
+					if (command != null && !command.equals(""))
+					{
+						menuActivated = true;
+						//Replace with function that returns true if the menu resetting should happen
+						if (executeAction(command))
+						{
+							main.resetCamera();
+						}
+					}
+				}
+			}
+			if (menus.get(menu).active() && !menus.get(menu).noShortcuts)
+				makeShortcut(menus.get(menu));
+		}
+		if (techMenu.active())
+			makeShortcut(techMenu);
+		clicks.clear();
+		/*
+		//main.textFont(arial);
 		//main.resetShader();
 		main.hint(PApplet.DISABLE_DEPTH_TEST);
 		//main.textSize(20);
@@ -1598,7 +1624,6 @@ public class MenuSystem extends BaseSystem {
 	public boolean executeAction(String command)
 	{
 		if (command.equals("")) return true;
-		System.out.println(command);
 		GameEntity en = null;
 		menuActivated = true;
 		if (selected != null) 
@@ -2949,7 +2974,7 @@ public class MenuSystem extends BaseSystem {
 		if (mouseHighlighted == null) 
 		{
 			mouseHighlighted = t;
-			
+
 			//Give a new highlight map to give a different color to the tile underneath mouse, and other events
 			main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
 		}

@@ -139,9 +139,10 @@ public class InputSystem extends BaseSystem {
 			if (Mouse.getEventButtonState())
 			{
 				if (Mouse.getEventButton() == 0)
-					queueLeftClick(Mouse.getEventX(), DisplayManager.height - Mouse.getEventY()); //Get the negative because of OpenGL coord system
+					queueLeftClick(Mouse.getEventX(), Mouse.getEventY()); //Get the negative because of OpenGL coord system
 				else if (Mouse.getEventButton() == 1)
-					queueRightClick(Mouse.getEventX(), DisplayManager.height - Mouse.getEventY());
+					queueRightClick(Mouse.getEventX(), Mouse.getEventY());
+				main.menuSystem.queueClick(Mouse.getEventX(), Mouse.getEventY()); 
 				//else //do nothing for scroll wheel (2)
 				//queueLeftClick();
 			}
@@ -349,7 +350,7 @@ public class InputSystem extends BaseSystem {
 						main.menuSystem.message("Cannot afford field");
 					else if (t.fields.size() + 1 > t.maxFields)
 						main.menuSystem.message("Maximum number of fields built");
-					else
+					else                                                                                                                                                         
 					{
 						city.potentialField = t;
 						city.queueFood = (int)field.foodFlat;

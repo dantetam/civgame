@@ -67,11 +67,11 @@ void main(void)
 		totalColor = texture(texture1, tiledCoords);	
 	}
 	
-	vec4 highlightColor = texture(blendMap2, passTextureCoords);
+	/*vec4 highlightColor = texture(blendMap2, passTextureCoords);
 	if (highlightColor.r > 0.02 || highlightColor.g > 0.02 || highlightColor.b > 0.02)
 	{
 		totalColor = highlightColor;
-	}
+	}*/
 	
 	//float backTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
 	//vec4 backgroundTextureColor = texture(backgroundTexture, tiledCoords)*backTextureAmount;

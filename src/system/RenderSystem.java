@@ -51,10 +51,10 @@ public class RenderSystem extends BaseSystem {
 		//Vector3f rayCast = new Vector3f(camPos.x + camPos.y/ray.y*dist*(float)Math.cos(angle),0,camPos.z + camPos.y/ray.y*dist*(float)Math.sin(angle));
 		Tile t = main.grid.getTile((int)(rayCast.x/Terrain.SIZE*main.grid.rows),(int)(rayCast.z/Terrain.SIZE*main.grid.cols));
 		main.menuSystem.setMouseHighlighted(t);
-		if (main != null)
+		/*if (main != null)
 			if (main.lwjglSystem != null)
 				if (main.lwjglSystem.frameCount % 50 == 25)
-					System.out.println(rayCast);
+					System.out.println(rayCast);*/
 		//main.menuSystem.mouseHighlighted
 	}
 	
