@@ -61,7 +61,7 @@ public abstract class ShaderProgram {
 		matrix.store(matrixBuffer);
 		matrixBuffer.flip();
 		//GL20.glUniformMatrix2(location, false, matrixBuffer); //SHOOT ME!!!
-		GL20.glUniformMatrix4(location, false, matrixBuffer);
+		GL20.glUniformMatrix4fv(location, false, matrixBuffer);
 	}
 	
 	public void start()
@@ -115,7 +115,7 @@ public abstract class ShaderProgram {
 		int shaderID = GL20.glCreateShader(type);
 		GL20.glShaderSource(shaderID, shaderSource);
 		GL20.glCompileShader(shaderID);
-		if (GL20.glGetShader(shaderID,GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE)
+		if (GL20.glGetShaderi(shaderID,GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE)
 		{
 			System.out.println(GL20.glGetShaderInfoLog(shaderID, 500));
 			System.err.println("Could not compile shader");
