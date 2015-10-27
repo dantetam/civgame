@@ -3,7 +3,6 @@ package lwjglEngine.render;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 

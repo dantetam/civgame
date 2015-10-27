@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
 import processing.core.*;
 import data.EntityData;
 import data.Field;

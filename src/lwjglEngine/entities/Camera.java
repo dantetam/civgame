@@ -1,6 +1,5 @@
 package lwjglEngine.entities;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 //There is no real camera in OpenGL
