@@ -9,6 +9,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.opengl.GL11;
 
 import render.CivGame;
 import system.BaseSystem;
@@ -177,7 +178,7 @@ public class MainGameLoop {
 	{
 		while (true)
 		{
-			if (Display.isCloseRequested())
+			if (DisplayManager.requestClose())
 			{
 				stop = true;
 				break;
