@@ -22,16 +22,20 @@ import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
 
 import org.lwjgl.glfw.Callbacks;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
+import lwjglEngine.gui.Keyboard;
+
 public class DisplayManager {
 
 	public static final int width = 1500, height = 900;
-	private static GLFWErrorCallback errorCallback;
 	public static long window;
+	
+	private static GLFWErrorCallback errorCallback;
 	private static GLFWKeyCallback keyCallback;
 	
 	public static void createDisplay()
@@ -42,7 +46,7 @@ public class DisplayManager {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); 
-		window = glfwCreateWindow(width, height, "Pong - LWJGL3", 0, 0);
+		window = glfwCreateWindow(width, height, "", 0, 0);
 		glfwMakeContextCurrent(window);
 		GLContext.createFromCurrent();
 		glfwShowWindow(window);
@@ -57,8 +61,8 @@ public class DisplayManager {
 
 		    @Override
 		    public void invoke(long window, int key, int scancode, int action, int mods) {
-		        if(key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
-
+		        if(key == GLFW_KEY_SPACE && action == GLFW.GLFW_PRESS) {
+		        	System.out.println("space");
 		        }
 		    }
 
@@ -67,6 +71,10 @@ public class DisplayManager {
 	
 	public static void updateDisplay()
 	{
+		for (int i = GLFW.GLFW_KEY_0; i <= GLFW.GLFW_KEY_Z; i++)
+		{
+			Keyboard.keys[i] = GLFW.glfwGetKey(window, i) == GLFW.GLFW_PRESS;
+		}
 		/*Display.sync(120);
 		Display.update();*/
 		glfwPollEvents();

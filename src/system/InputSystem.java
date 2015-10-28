@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import org.lwjgl.glfw.GLFW;
+
 import processing.core.*;
 import data.EntityData;
 import data.Field;
@@ -39,23 +41,23 @@ public class InputSystem extends BaseSystem {
 
 	public enum KeyPressBind
 	{
-		ADVANCE_TURN   	(Keyboard.KEY_Z, 0),
-		TOGGLE_MINIMAP 	(Keyboard.KEY_M),
-		TOGGLE_FOG		(Keyboard.KEY_R),
-		TOGGLE_TACTICAL (Keyboard.KEY_T),
-		ZOOM_IN			(Keyboard.KEY_I),
-		ZOOM_OUT		(Keyboard.KEY_O),
-		CLOSE_ALL		(Keyboard.KEY_X),
-		FUNCTION_1 		(Keyboard.KEY_1),
-		FUNCTION_2 		(Keyboard.KEY_2),
-		FUNCTION_3 		(Keyboard.KEY_3),
-		FUNCTION_4 		(Keyboard.KEY_4),
-		FUNCTION_5 		(Keyboard.KEY_5),
-		FUNCTION_6 		(Keyboard.KEY_6),
-		FUNCTION_7 		(Keyboard.KEY_7),
-		FUNCTION_8 		(Keyboard.KEY_8),
-		FUNCTION_9 		(Keyboard.KEY_9),
-		FUNCTION_0 		(Keyboard.KEY_0),
+		ADVANCE_TURN   	(GLFW.GLFW_KEY_SPACE, 0),
+		TOGGLE_MINIMAP 	(GLFW.GLFW_KEY_M),
+		TOGGLE_FOG		(GLFW.GLFW_KEY_R),
+		TOGGLE_TACTICAL (GLFW.GLFW_KEY_T),
+		ZOOM_IN			(GLFW.GLFW_KEY_I),
+		ZOOM_OUT		(GLFW.GLFW_KEY_O),
+		CLOSE_ALL		(GLFW.GLFW_KEY_X),
+		FUNCTION_1 		(GLFW.GLFW_KEY_F1),
+		FUNCTION_2 		(GLFW.GLFW_KEY_F2),
+		FUNCTION_3 		(GLFW.GLFW_KEY_F3),
+		FUNCTION_4 		(GLFW.GLFW_KEY_F4),
+		FUNCTION_5 		(GLFW.GLFW_KEY_F5),
+		FUNCTION_6 		(GLFW.GLFW_KEY_F6),
+		FUNCTION_7 		(GLFW.GLFW_KEY_F7),
+		FUNCTION_8 		(GLFW.GLFW_KEY_F8),
+		FUNCTION_9 		(GLFW.GLFW_KEY_F9),
+		FUNCTION_0 		(GLFW.GLFW_KEY_F10),
 		/*
 		CONSOLE			('`', '~'),
 		FUNCTION_1 		('1', 131),
@@ -121,7 +123,7 @@ public class InputSystem extends BaseSystem {
 	//Goes through keys backwards to avoid arraylist trap
 	public void tick()
 	{
-		while (Keyboard.next()) {
+		/*while (Keyboard.next()) {
 		    if (Keyboard.getEventKeyState()) 
 				keyPresses.add(0,Keyboard.getEventKey());
 		    else {
@@ -130,7 +132,7 @@ public class InputSystem extends BaseSystem {
 		        	//Simulate dragging of key 'a'?
 		        }
 		    }
-		}
+		}*/
 		
 		while (Mouse.next()) {
 			if (Mouse.getEventButtonState())

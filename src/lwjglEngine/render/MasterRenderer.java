@@ -142,7 +142,7 @@ public class MasterRenderer {
 	private static final float FOV = 70, NEAR_PLANE = 0.1f, FAR_PLANE = 3000f;
 	private void createProjectionMatrix()
 	{
-		float ar = (float)Display.getWidth()/(float)Display.getHeight();
+		float ar = (float)DisplayManager.width/(float)DisplayManager.height;
 		float yScale = (float)(1f/Math.tan(Math.toRadians(FOV/2f)))*ar;
 		float xScale = yScale/ar;
 		float frustumLength = FAR_PLANE - NEAR_PLANE;

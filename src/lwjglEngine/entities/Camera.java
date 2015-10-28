@@ -1,6 +1,9 @@
 package lwjglEngine.entities;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.util.vector.Vector3f;
+
+import lwjglEngine.gui.Keyboard;
 
 //There is no real camera in OpenGL
 //Every object in the world must be moved in the opposite direction of the camera's movement
@@ -41,43 +44,43 @@ public class Camera {
 			return; //Override keyboard when camera is being shifted
 		}
 		float step = 5f, tilt = 1f;
-		if (Keyboard.isKeyDown(Keyboard.KEY_I))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_I))
 			position.y -= step;
-		if (Keyboard.isKeyDown(Keyboard.KEY_O))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_O))
 			position.y += step;
-		if (Keyboard.isKeyDown(Keyboard.KEY_A))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_A))
 		{
 			position.x -= step*Math.cos(Math.toRadians(yaw));
 			position.z -= step*Math.sin(Math.toRadians(yaw));
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_D))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_D))
 		{
 			position.x += step*Math.cos(Math.toRadians(yaw));
 			position.z += step*Math.sin(Math.toRadians(yaw));
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_S))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_S))
 		{
 			//laziness, oops
 			position.x -= step*Math.cos(Math.toRadians(yaw-90));
 			position.z -= step*Math.sin(Math.toRadians(yaw-90));
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_W))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_W))
 		{
 			//+90 is clockwise, this is a right turn from pointing left (the 'a' command)
 			position.x -= step*Math.cos(Math.toRadians(yaw+90));
 			position.z -= step*Math.sin(Math.toRadians(yaw+90));
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_Q))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_Q))
 			yaw -= tilt*2f;
-		if (Keyboard.isKeyDown(Keyboard.KEY_E))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_E))
 			yaw += tilt*2f;
-		if (Keyboard.isKeyDown(Keyboard.KEY_H))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_H))
 			yaw -= tilt*2f;
-		if (Keyboard.isKeyDown(Keyboard.KEY_K))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_K))
 			yaw += tilt*2f;
-		if (Keyboard.isKeyDown(Keyboard.KEY_U))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_U))
 			pitch -= tilt;
-		if (Keyboard.isKeyDown(Keyboard.KEY_J))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_J))
 			pitch += tilt;
 	}
 
