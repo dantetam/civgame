@@ -9,10 +9,13 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.util.vector.Vector2f;
 
 import lwjglEngine.entities.Camera;
 import lwjglEngine.gui.GuiTexture;
+import lwjglEngine.gui.Mouse;
 import lwjglEngine.render.DisplayManager;
 import lwjglEngine.tests.MainGameLoop;
 import data.Color;
@@ -105,6 +108,8 @@ public class CivGame {
 		try
 		{
 			DisplayManager.createDisplay();
+			setMouseCallback();
+	        GLFW.glfwShowWindow(DisplayManager.window);
 
 			generate(terrainType);
 			takeBlendMap(sendBlendMap(grid), "res/generatedBlendMap.png");
@@ -164,7 +169,19 @@ public class CivGame {
 		}*/
 		} catch (Exception e) {e.printStackTrace();}
 	}
-
+	public void setMouseCallback()
+	{
+		GLFW.glfwSetMouseButtonCallback(DisplayManager.window, (DisplayManager.mouseButtonCallback = new GLFWMouseButtonCallback() {
+		    public void invoke(long window, int button, int action, int mods) {
+		        if(button == 0) {
+		            if(action == GLFW.GLFW_PRESS) {
+		            	inputSystem.passLeftMouseClick(Mouse.getX(), Mouse.getY());
+		            } 
+		        }
+		    }
+		}));
+	}
+	
 	/*public void loop()
 	{ 
 		//Functions here already present in maingameloop
