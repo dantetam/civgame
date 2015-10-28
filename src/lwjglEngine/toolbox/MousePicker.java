@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import lwjglEngine.entities.Camera;
+import lwjglEngine.gui.Mouse;
 import lwjglEngine.render.DisplayManager;
 
 //Also courtesy of ThinMatrix.

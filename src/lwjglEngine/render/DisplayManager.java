@@ -23,12 +23,14 @@ import static org.lwjgl.opengl.GL11.GL_TRUE;
 
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
 import lwjglEngine.gui.Keyboard;
+import lwjglEngine.gui.Mouse;
 
 public class DisplayManager {
 
@@ -37,6 +39,7 @@ public class DisplayManager {
 	
 	private static GLFWErrorCallback errorCallback;
 	private static GLFWKeyCallback keyCallback;
+	private static GLFWCursorPosCallback cursorPosCallback;
 	
 	public static void createDisplay()
 	{
@@ -67,6 +70,12 @@ public class DisplayManager {
 		    }
 
 		}));
+		
+		GLFW.glfwSetCursorPosCallback(window, (cursorPosCallback = new GLFWCursorPosCallback() {
+		    public void invoke(long window, double xpos, double ypos) {
+		        Mouse.setMouse((float)xpos, height - (float)ypos);
+		    }
+		}));
 	}
 	
 	public static void updateDisplay()
@@ -75,6 +84,20 @@ public class DisplayManager {
 		{
 			Keyboard.keys[i] = GLFW.glfwGetKey(window, i) == GLFW.GLFW_PRESS;
 		}
+		glfwSetMouseButtonCallback(window, (mouseButtonCallback = new GLFWMouseButtonCallback() {
+
+		    @Override
+		    public void invoke(long window, int button, int action, int mods) {
+		        if(button == 0) {
+		            if(action == GLFW_PRESS && addBall == null) {
+		                onNewBall(cursorPos.x, cursorPos.y);
+		            } else if(action == GLFW_RELEASE && addBall != null) {
+		                onNewBallRelease(cursorPos.x, cursorPos.y);
+		            }
+		        }
+		    }
+
+		}));
 		/*Display.sync(120);
 		Display.update();*/
 		glfwPollEvents();

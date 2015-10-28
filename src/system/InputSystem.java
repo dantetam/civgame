@@ -134,7 +134,7 @@ public class InputSystem extends BaseSystem {
 		    }
 		}*/
 		
-		while (Mouse.next()) {
+		/*while (Mouse.next()) {
 			if (Mouse.getEventButtonState())
 			{
 				if (Mouse.getEventButton() == 0)
@@ -145,7 +145,7 @@ public class InputSystem extends BaseSystem {
 				//else //do nothing for scroll wheel (2)
 				//queueLeftClick();
 			}
-		}
+		}*/
 		
 		moving = false;
 		if (!autoSelect)
