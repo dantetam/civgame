@@ -3,7 +3,9 @@ package render;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -104,9 +106,10 @@ public class CivGame {
 
 	public void setup()
 	{		
-		//redraw();
-		try
+		try 
 		{
+	        System.setProperty("org.lwjgl.librarypath", "lib/natives");
+			
 			DisplayManager.createDisplay();
 			setMouseCallback();
 	        GLFW.glfwShowWindow(DisplayManager.window);

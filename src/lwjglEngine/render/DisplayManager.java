@@ -43,6 +43,11 @@ public class DisplayManager {
 	private static GLFWCursorPosCallback cursorPosCallback;
 	public static GLFWMouseButtonCallback mouseButtonCallback;
 	
+	public DisplayManager()
+	{
+		
+	}
+	
 	public static void createDisplay()
 	{
 		glfwInit();

@@ -1,11 +1,16 @@
 package lwjglEngine.render;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import lwjglEngine.models.RawModel;
 
@@ -16,8 +21,9 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
+
+import org.lwjgl.stb.*;
+//import org.newdawn.slick.opengl.TextureLoader;
 
 import data.EntityData;
 
@@ -80,7 +86,7 @@ public class Loader {
 	
 	public int loadTexture(String fileName)
 	{
-		Texture texture = null;
+		/*Texture texture = null;
 		try 
 		{
 			texture = TextureLoader.getTexture("PNG",new FileInputStream("res/"+fileName+".png"));
@@ -99,7 +105,49 @@ public class Loader {
 		}
 		int textureID = texture.getTextureID();
 		textures.add(textureID);
-		return textureID;
+		return textureID;*/
+		BufferedImage image = null;
+		try {
+		    File file = new File("res/"+fileName+".png");
+		    image = ImageIO.read(file); 
+		} catch (IOException e) { 
+		    e.printStackTrace(); 
+		}
+		final int BYTES_PER_PIXEL = 4;
+
+        int[] pixels = new int[image.getWidth() * image.getHeight()];
+        image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
+
+        ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB
+        for(int y = 0; y < image.getHeight(); y++){
+           for(int x = 0; x < image.getWidth(); x++){
+               int pixel = pixels[y * image.getWidth() + x];
+               buffer.put((byte) ((pixel >> 16) & 0xFF));   
+               buffer.put((byte) ((pixel >> 8) & 0xFF));      
+               buffer.put((byte) (pixel & 0xFF));            
+               buffer.put((byte) ((pixel >> 24) & 0xFF));   
+           }
+        }
+        buffer.flip();
+ 
+        int textureID = glGenTextures(); //Generate texture ID
+        glBindTexture(GL11.GL_TEXTURE_2D, textureID); //Bind texture ID
+        
+        //Setup wrap mode
+        glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP_TO_EDGE);
+
+        //Setup texture scaling filtering
+        glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        
+        //Send texel data to OpenGL
+        glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+        
+        //Store later for deleting
+        textures.add(textureID);
+        //Return the texture ID so we can bind it later again
+        return textureID;
 	}
 	
 	//Delete VAOs and VBOs by finding their vertices
