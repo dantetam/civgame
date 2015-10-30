@@ -9,8 +9,6 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.SlickException;
 
 import lwjglEngine.models.RawModel;
 import lwjglEngine.render.DisplayManager;

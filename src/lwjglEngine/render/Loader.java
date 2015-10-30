@@ -110,7 +110,8 @@ public class Loader {
 		try {
 		    File file = new File("res/"+fileName+".png");
 		    image = ImageIO.read(file); 
-		} catch (IOException e) { 
+		} catch (IOException e) {
+			System.out.println("res/"+fileName+".png");
 		    e.printStackTrace(); 
 		}
 		final int BYTES_PER_PIXEL = 4;
@@ -130,19 +131,19 @@ public class Loader {
         }
         buffer.flip();
  
-        int textureID = glGenTextures(); //Generate texture ID
-        glBindTexture(GL11.GL_TEXTURE_2D, textureID); //Bind texture ID
+        int textureID = GL11.glGenTextures(); //Generate texture ID
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID); //Bind texture ID
         
         //Setup wrap mode
-        glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
 
         //Setup texture scaling filtering
-        glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         
         //Send texel data to OpenGL
-        glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
         
         //Store later for deleting
         textures.add(textureID);
