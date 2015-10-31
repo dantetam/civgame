@@ -101,16 +101,17 @@ public class GuiRenderer {
 		//glEnableClientState(GL_VERTEX_ARRAY);
 		//glVertexPointer(2, GL_FLOAT, 16, charBuffer);
 
-		glClearColor(43f / 255f, 43f / 255f, 43f / 255f, 0f); // BG color
+		glClearColor(150f / 255f, 225f / 255f, 255f / 255f, 0f); // BG color
 		//glColor3f(169f / 255f, 183f / 255f, 198f / 255f); // Text color
-
-		float scaleFactor = 1.25f;
 
 		//glPushMatrix();
 		// Zoom
 		//GL11.glglScalef(scaleFactor, scaleFactor, 1f);
 		// Scroll
 		//glTranslatef(4.0f, 4.0f - getLineOffset() * getFontHeight(), 0f);
+		
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, quads);
 
 		Matrix4f matrix = Maths.createTransformationMatrix(normalize(new Vector2f(gui.pos.x + gui.size.x/2, gui.pos.y + gui.size.y/2)), normalizeSize(gui.size));
 		shader.loadTransformation(matrix);
