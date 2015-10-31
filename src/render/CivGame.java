@@ -181,9 +181,10 @@ public class CivGame {
 	{
 		GLFW.glfwSetMouseButtonCallback(DisplayManager.window, (DisplayManager.mouseButtonCallback = new GLFWMouseButtonCallback() {
 		    public void invoke(long window, int button, int action, int mods) {
-		        if(button == 0) {
-		            if(action == GLFW.GLFW_PRESS) {
+		        if (button == 0) {
+		            if (action == GLFW.GLFW_PRESS) {
 		            	inputSystem.passLeftMouseClick(Mouse.getX(), Mouse.getY());
+		            	menuSystem.queueMousePass(Mouse.getX(), Mouse.getY());
 		            } 
 		        }
 		    }
@@ -437,7 +438,7 @@ public class CivGame {
 			{
 				for (int c = 0; c < grid.cols; c++)
 				{
-					int red = 255, green = 0, blue = 0;
+					int red = 0, green = 0, blue = 0;
 					Tile t = grid.getTile(r, c);
 					if (t.owner != null)
 					{
@@ -449,7 +450,7 @@ public class CivGame {
 					{
 						if (menuSystem.getSelected() != null)
 						{
-							if (t.equals(menuSystem.getSelected().location))
+							if (t.equals(menuSystem.getSelected().location) || t.dist(menuSystem.getSelected().location) < 2)
 							{
 								if (t.owner == null)
 								{
@@ -461,7 +462,7 @@ public class CivGame {
 								}
 							}
 						}
-						if (t.equals(menuSystem.getMouseHighlighted()))
+						if (t.equals(menuSystem.getMouseHighlighted()) || t.dist(menuSystem.getMouseHighlighted()) < 2)
 						{
 							if (t.owner == null)
 							{

@@ -40,6 +40,7 @@ public class DisplayManager {
 	public static long window;
 	private static CivGame main;
 	
+	//Store the callbacks in memory
 	private static GLFWErrorCallback errorCallback;
 	public static GLFWKeyCallback keyCallback;
 	private static GLFWCursorPosCallback cursorPosCallback;

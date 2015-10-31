@@ -69,6 +69,7 @@ public class Tile {
 	
 	public double dist(Tile t)
 	{
+		if (t == null) return 9999;
 		return Math.sqrt(Math.pow(row-t.row,2) + Math.pow(col-t.col,2));
 	}
 	

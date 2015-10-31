@@ -2976,12 +2976,12 @@ public class MenuSystem extends BaseSystem {
 			mouseHighlighted = t;
 
 			//Give a new highlight map to give a different color to the tile underneath mouse, and other events
-			main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
+			//main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
 		}
 		else if (!mouseHighlighted.equals(t))
 		{
 			mouseHighlighted = t;
-			main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
+			//main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
 		}
 	}
 

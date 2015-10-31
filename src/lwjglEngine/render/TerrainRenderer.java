@@ -86,8 +86,8 @@ public class TerrainRenderer {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textures.texture7.textureID);
 		GL13.glActiveTexture(GL13.GL_TEXTURE8);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.blendMap.textureID);
-		GL13.glActiveTexture(GL13.GL_TEXTURE9);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, ((GeneratedTerrain)terrain).blendMap2.textureID); //Oops. Forgot to bind second blend map. Durr.
+		//GL13.glActiveTexture(GL13.GL_TEXTURE9);
+		//GL11.glBindTexture(GL11.GL_TEXTURE_2D, ((GeneratedTerrain)terrain).blendMap2.textureID); //Oops. Forgot to bind second blend map. Durr.
 	}
 	
 	private void unbindTexturedModel()

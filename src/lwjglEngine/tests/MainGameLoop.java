@@ -67,7 +67,7 @@ public class MainGameLoop {
 	float[] textureCoords = {0,0,0,1,1,1,1,0};*/
 
 	Terrain terrain1, terrain2, terrain3, terrain4;
-	GeneratedTerrain terrain0; 
+	public GeneratedTerrain terrain0; 
 
 	Light light; public Camera camera;
 	public MousePicker mousePicker;
@@ -234,7 +234,8 @@ public class MainGameLoop {
 				en.rotate(0,1F,0);
 			}*/
 
-			renderer.render(light, camera);
+			Tile sel = main.menuSystem.getSelected() != null ? main.menuSystem.getSelected().location : null;
+			renderer.render(light, camera, sel, main.menuSystem.getMouseHighlighted(), main.grid.rows, main.grid.cols);
 
 			renderer.guiRenderer.render(main.menuSystem);
 

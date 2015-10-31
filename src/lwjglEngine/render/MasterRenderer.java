@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 
+import game.Tile;
 import lwjglEngine.entities.*;
 import lwjglEngine.gui.GuiRenderer;
 import lwjglEngine.levels.LevelManager;
@@ -64,7 +65,7 @@ public class MasterRenderer {
 		return temp;
 	}
 
-	public void render(Light light, Camera camera)
+	public void render(Light light, Camera camera, Tile sel, Tile hi, float rows, float cols)
 	{
 		prepare();
 
@@ -77,6 +78,7 @@ public class MasterRenderer {
 		terrainShader.start();
 		((WhiteTerrainShader) terrainShader).loadLight(light);
 		((WhiteTerrainShader) terrainShader).loadViewMatrix(camera);
+		((WhiteTerrainShader) terrainShader).loadCoords(sel, hi, rows, cols);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
 		terrains.clear();
