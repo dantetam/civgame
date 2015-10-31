@@ -73,11 +73,14 @@ public class GuiRenderer {
 			Matrix4f matrix = Maths.createTransformationMatrix(normalize(new Vector2f(gui.pos.x + gui.size.x/2, gui.pos.y + gui.size.y/2)), normalizeSize(gui.size));
 			shader.loadTransformation(matrix);
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.vertexCount);
-			if (gui instanceof TextBox)
-				showText((TextBox)gui);
 		}
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
+		for (GuiTexture gui: guis)
+		{
+			if (gui instanceof TextBox)
+				showText((TextBox)gui);
+		}
 		shader.stop();
 		/*for (GuiTexture gui: guis)
 		{
@@ -101,7 +104,7 @@ public class GuiRenderer {
 		//glEnableClientState(GL_VERTEX_ARRAY);
 		//glVertexPointer(2, GL_FLOAT, 16, charBuffer);
 
-		glClearColor(150f / 255f, 225f / 255f, 255f / 255f, 0f); // BG color
+		//glClearColor(150f / 255f, 225f / 255f, 255f / 255f, 0f); // BG color
 		//glColor3f(169f / 255f, 183f / 255f, 198f / 255f); // Text color
 
 		//glPushMatrix();
@@ -113,7 +116,10 @@ public class GuiRenderer {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, quads);
 
-		Matrix4f matrix = Maths.createTransformationMatrix(normalize(new Vector2f(gui.pos.x + gui.size.x/2, gui.pos.y + gui.size.y/2)), normalizeSize(gui.size));
+		//Matrix4f matrix = Maths.createTransformationMatrix(normalize(new Vector2f(gui.pos.x + gui.size.x/2, gui.pos.y + gui.size.y/2)), normalizeSize(gui.size));
+		
+		Matrix4f matrix = Maths.createTransformationMatrix(gui.pos, gui.size);
+		
 		shader.loadTransformation(matrix);
 		
 		glDrawArrays(GL_QUADS, 0, quads * 4);

@@ -32,20 +32,22 @@ import org.lwjgl.opengl.GLContext;
 
 import lwjglEngine.gui.Keyboard;
 import lwjglEngine.gui.Mouse;
+import render.CivGame;
 
 public class DisplayManager {
 
 	public static final int width = 1500, height = 900;
 	public static long window;
+	private static CivGame main;
 	
 	private static GLFWErrorCallback errorCallback;
-	private static GLFWKeyCallback keyCallback;
+	public static GLFWKeyCallback keyCallback;
 	private static GLFWCursorPosCallback cursorPosCallback;
 	public static GLFWMouseButtonCallback mouseButtonCallback;
 	
-	public DisplayManager()
+	public DisplayManager(CivGame m)
 	{
-		
+		main = m;
 	}
 	
 	public static void createDisplay()
@@ -61,22 +63,11 @@ public class DisplayManager {
 		GLContext.createFromCurrent();
 		glfwShowWindow(window);
 
-		if(window == 0) {
+		if (window == 0) {
 		    throw new RuntimeException("Failed to create window");
 		}
 
 		GL11.glViewport(0, 0, width, height);
-		
-		glfwSetKeyCallback(window, (keyCallback = new GLFWKeyCallback() {
-
-		    @Override
-		    public void invoke(long window, int key, int scancode, int action, int mods) {
-		        if(key == GLFW_KEY_SPACE && action == GLFW.GLFW_PRESS) {
-		        	System.out.println("space");
-		        }
-		    }
-
-		}));
 		
 		GLFW.glfwSetCursorPosCallback(window, (cursorPosCallback = new GLFWCursorPosCallback() {
 		    public void invoke(long window, double xpos, double ypos) {

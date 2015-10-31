@@ -272,6 +272,11 @@ public class InputSystem extends BaseSystem {
 		}
 		keyPresses.add(0,key);
 	}*/
+	
+	public void keyPressed(int key)
+	{
+		keyPresses.add(0,key);
+	}
 
 	public void keyReleased(char key)
 	{

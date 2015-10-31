@@ -1,5 +1,8 @@
 package render;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,6 +15,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -112,6 +116,7 @@ public class CivGame {
 			
 			DisplayManager.createDisplay();
 			setMouseCallback();
+			setKeyCallback();
 	        GLFW.glfwShowWindow(DisplayManager.window);
 
 			generate(terrainType);
@@ -180,6 +185,16 @@ public class CivGame {
 		            if(action == GLFW.GLFW_PRESS) {
 		            	inputSystem.passLeftMouseClick(Mouse.getX(), Mouse.getY());
 		            } 
+		        }
+		    }
+		}));
+	}
+	public void setKeyCallback()
+	{
+		GLFW.glfwSetKeyCallback(DisplayManager.window, (DisplayManager.keyCallback = new GLFWKeyCallback() {
+		    public void invoke(long window, int key, int scancode, int action, int mods) {
+		        if (action == GLFW.GLFW_PRESS) {
+		        	inputSystem.keyPressed(key);
 		        }
 		    }
 		}));
