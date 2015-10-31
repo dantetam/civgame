@@ -111,7 +111,7 @@ public class Loader {
 		    File file = new File("res/"+fileName+".png");
 		    image = ImageIO.read(file); 
 		} catch (IOException e) {
-			//System.out.println("res/"+fileName+".png");
+			System.out.println("Could not load res/"+fileName+".png");
 		    e.printStackTrace(); 
 		}
 		final int BYTES_PER_PIXEL = 4;
