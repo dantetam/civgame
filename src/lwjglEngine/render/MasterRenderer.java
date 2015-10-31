@@ -65,7 +65,7 @@ public class MasterRenderer {
 		return temp;
 	}
 
-	public void render(Light light, Camera camera, Tile sel, Tile hi, float rows, float cols)
+	public void render(Light light, Camera camera, Tile sel, Tile hi, float rows, float cols, MousePicker mp)
 	{
 		prepare();
 
@@ -78,7 +78,7 @@ public class MasterRenderer {
 		terrainShader.start();
 		((WhiteTerrainShader) terrainShader).loadLight(light);
 		((WhiteTerrainShader) terrainShader).loadViewMatrix(camera);
-		((WhiteTerrainShader) terrainShader).loadCoords(sel, hi, rows, cols);
+		((WhiteTerrainShader) terrainShader).loadCoords(sel, hi, rows, cols, mp);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
 		terrains.clear();

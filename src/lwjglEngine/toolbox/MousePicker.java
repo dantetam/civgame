@@ -14,6 +14,8 @@ import lwjglEngine.render.DisplayManager;
 public class MousePicker {
 
 	public Vector3f currentRay;
+	public Vector3f rayCastHit;
+	public static float constant = 1.0f;
 	
 	private Matrix4f projMatrix, viewMatrix, transformMatrix;
 	public Camera camera;
@@ -28,6 +30,13 @@ public class MousePicker {
 	{
 		viewMatrix = Maths.createViewMatrix(camera);
 		currentRay = calculateMouseRay(Mouse.getX(), Mouse.getY());
+
+		rayCastHit = new Vector3f(
+				camera.position.x - camera.position.y/currentRay.y*currentRay.x,
+				0,
+				camera.position.z - camera.position.y/currentRay.y*currentRay.z
+				);
+		rayCastHit.scale(constant);
 	}
 	
 	private Vector3f calculateMouseRay(float mouseX, float mouseY)

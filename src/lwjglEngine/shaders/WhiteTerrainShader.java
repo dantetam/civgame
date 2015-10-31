@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import game.Tile;
 import lwjglEngine.toolbox.Maths;
+import lwjglEngine.toolbox.MousePicker;
 import lwjglEngine.entities.Camera;
 import lwjglEngine.entities.Light;
 
@@ -92,7 +93,7 @@ public class WhiteTerrainShader extends ShaderProgram {
 	}
 
 	//Send the selected and mouse highlighted coordinates
-	public void loadCoords(Tile sel, Tile hi, float rows, float cols)
+	public void loadCoords(Tile sel, Tile hi, float rows, float cols, MousePicker mousePicker)
 	{
 		if (sel == null)
 			super.loadVector2f(locationSelectedCoord, new Vector2f(-1f, -1f));
@@ -101,7 +102,10 @@ public class WhiteTerrainShader extends ShaderProgram {
 		if (hi == null)
 			super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(-1f, -1f));
 		else
-			super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(hi.row/rows, hi.col/cols));
+		{
+			super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(mousePicker.rayCastHit.x/1600f, mousePicker.rayCastHit.z/1600f));
+			//super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(hi.row/rows, hi.col/cols));
+		}
 	}
 
 }

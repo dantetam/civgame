@@ -80,9 +80,17 @@ void main(void)
 	
 	if (mouseHighlightedCoord.x > 0)
 	{
-		if (distance(mouseHighlightedCoord, passTextureCoords) < 0.02) 
+		if (distance(mouseHighlightedCoord, passTextureCoords) < 0.015) 
 		{
-			totalColor = totalColor*0.4 + 0.6*vec4(1,1,1,0);
+			totalColor = totalColor*0.6 + 0.4*vec4(1,1,1,0);
+		}
+	}
+	if (selectedCoord.x > 0)
+	{
+		float radius = distance(selectedCoord, passTextureCoords);
+		if (radius > 0.025 && radius < 0.045) 
+		{
+			totalColor = totalColor*0.4 + 0.7*vec4(1,1,1,0);
 		}
 	}
 	

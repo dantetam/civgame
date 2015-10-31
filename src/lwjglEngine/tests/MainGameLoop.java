@@ -235,7 +235,7 @@ public class MainGameLoop {
 			}*/
 
 			Tile sel = main.menuSystem.getSelected() != null ? main.menuSystem.getSelected().location : null;
-			renderer.render(light, camera, sel, main.menuSystem.getMouseHighlighted(), main.grid.rows, main.grid.cols);
+			renderer.render(light, camera, sel, main.menuSystem.getMouseHighlighted(), main.grid.rows, main.grid.cols, mousePicker);
 
 			renderer.guiRenderer.render(main.menuSystem);
 

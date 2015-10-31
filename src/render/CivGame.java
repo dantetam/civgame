@@ -196,6 +196,16 @@ public class CivGame {
 		    public void invoke(long window, int key, int scancode, int action, int mods) {
 		        if (action == GLFW.GLFW_PRESS) {
 		        	inputSystem.keyPressed(key);
+	            	if (key == GLFW.GLFW_KEY_T)
+	            	{
+	            		renderSystem.mousePicker.constant -= 0.01f;
+	            		System.out.println(renderSystem.mousePicker.constant);
+	            	}
+	            	else if (key == GLFW.GLFW_KEY_Y)
+	            	{
+	            		renderSystem.mousePicker.constant += 0.01f;
+	            		System.out.println(renderSystem.mousePicker.constant);
+	            	}
 		        }
 		    }
 		}));
