@@ -47,7 +47,7 @@ public class GuiRenderer {
 	public GuiRenderer(Loader loader) {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		float[] positions = {-1,1,-1,-1,1,1,1,-1};
-		quad = loader.loadToVao(positions);
+		quad = loader.loadToVAO(positions);
 		shader = new GuiShader();
 
 		/*try {
