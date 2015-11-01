@@ -9,11 +9,12 @@ import lwjglEngine.fontMeshCreator.FontType;
 import lwjglEngine.fontMeshCreator.GUIText;
 import lwjglEngine.fontMeshCreator.TextMeshData;
 import lwjglEngine.render.Loader;
+import render.TextBox;
 
 public class TextMaster {
 	
 	private static Loader loader;
-	private static Map<FontType, List<GUIText>> texts = new HashMap<FontType, List<GUIText>>();
+	private static Map<FontType, List<TextBox>> texts = new HashMap<FontType, List<TextBox>>();
 	private static FontRenderer renderer;
 	
 	public static void init(Loader theLoader){
@@ -25,20 +26,20 @@ public class TextMaster {
 		renderer.render(texts);
 	}
 	
-	public static void loadText(GUIText text){
-		FontType font = text.getFont();
-		TextMeshData data = font.loadText(text);
+	public static void loadText(TextBox text){
+		TextMeshData data = text.font.loadText(text);
 		int vao = loader.loadToVAO(data.getVertexPositions(), data.getTextureCoords());
-		text.setMeshInfo(vao, data.getVertexCount());
-		List<GUIText> textBatch = texts.get(font);
+		text.textMeshVao = vao;
+		text.vertexCount = data.getVertexCount();
+		List<TextBox> textBatch = texts.get(font);
 		if(textBatch == null){
-			textBatch = new ArrayList<GUIText>();
+			textBatch = new ArrayList<TextBox>();
 			texts.put(font, textBatch);
 		}
 		textBatch.add(text);
 	}
 	
-	public static void removeText(GUIText text){
+	public static void removeText(TextBox text){
 		List<GUIText> textBatch = texts.get(text.getFont());
 		textBatch.remove(text);
 		if(textBatch.isEmpty()){

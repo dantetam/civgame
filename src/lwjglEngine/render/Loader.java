@@ -47,6 +47,15 @@ public class Loader {
 		return new RawModel(vaoID,indices.length);
 	}
 	
+	//For 2D text
+	public int loadToVAO(float[] positions, float[] textureCoords) {
+		int vaoID = createVAO();
+		storeData(0, 2, positions);
+		storeData(1, 2, textureCoords);
+		unbindVAO();
+		return vaoID;
+	}
+	
 	public RawModel loadToVAO(float[] positions)
 	{
 		int vaoID = createVAO();
