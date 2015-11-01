@@ -67,17 +67,33 @@ public class TextBox extends GuiTexture {
 		TextMaster.removeText(this);
 	}
 	
-	public TextBox(int fontSize, FontType font, int maxLineLength, boolean centered, String text, int texture, float a, float b, float c, float d)
+	public TextBox(int fontSize, FontType font, int maxLineLength, boolean centered, int texture, String text, String tip, float a, float b, float c, float d)
+	{
+		super(texture, new Vector2f(a,b), new Vector2f(c,d));
+		display = new ArrayList<String>();
+		display.add(text);
+		tooltip = new ArrayList<String>();
+		tooltip.add(tip);
+		//tooltip.add(text);
+		//enabled = false;
+		
+		this.fontSize = fontSize;
+		this.font = font;
+		this.lineMaxSize = maxLineLength;
+		this.centerText = centered;
+		TextMaster.loadText(this);
+	}
+	
+	/*public TextBox(int texture, String text, float a, float b, float c, float d)
 	{
 		super(texture, new Vector2f(a,b), new Vector2f(c,d));
 		display = new ArrayList<String>();
 		display.add(text);
 		tooltip = new ArrayList<String>();
 		tooltip.add("");
-		//tooltip.add(text);
 		//enabled = false;
 		
-		this.fontSize = fontSize;
+		this.fontSize = 12;
 		this.font = font;
 		this.lineMaxSize = maxLineLength;
 		this.centerText = centered;
@@ -92,7 +108,12 @@ public class TextBox extends GuiTexture {
 		tooltip = new ArrayList<String>();
 		tooltip.add(tip);
 		//enabled = false;
-	}
+		this.fontSize = fontSize;
+		this.font = font;
+		this.lineMaxSize = maxLineLength;
+		this.centerText = centered;
+		TextMaster.loadText(this);
+	}*/
 	
 	public boolean equals(TextBox o)
 	{
