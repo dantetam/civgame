@@ -2,6 +2,8 @@ package lwjglEngine.fontMeshCreator;
 
 import java.io.File;
 
+import render.TextBox;
+
 /**
  * Represents a font. It holds the font's texture atlas as well as having the
  * ability to create the quad vertices for any text using this font.
@@ -45,7 +47,7 @@ public class FontType {
 	 *            - the unloaded text.
 	 * @return Information about the vertices of all the quads.
 	 */
-	public TextMeshData loadText(GUIText text) {
+	public TextMeshData loadText(TextBox text) {
 		return loader.createTextMesh(text);
 	}
 

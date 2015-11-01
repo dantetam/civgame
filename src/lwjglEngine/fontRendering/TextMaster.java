@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import lwjglEngine.fontMeshCreator.FontType;
-import lwjglEngine.fontMeshCreator.GUIText;
 import lwjglEngine.fontMeshCreator.TextMeshData;
 import lwjglEngine.render.Loader;
 import render.TextBox;
@@ -31,19 +30,19 @@ public class TextMaster {
 		int vao = loader.loadToVAO(data.getVertexPositions(), data.getTextureCoords());
 		text.textMeshVao = vao;
 		text.vertexCount = data.getVertexCount();
-		List<TextBox> textBatch = texts.get(font);
+		List<TextBox> textBatch = texts.get(text.font);
 		if(textBatch == null){
 			textBatch = new ArrayList<TextBox>();
-			texts.put(font, textBatch);
+			texts.put(text.font, textBatch);
 		}
 		textBatch.add(text);
 	}
 	
 	public static void removeText(TextBox text){
-		List<GUIText> textBatch = texts.get(text.getFont());
+		List<TextBox> textBatch = texts.get(text.font);
 		textBatch.remove(text);
 		if(textBatch.isEmpty()){
-			texts.remove(texts.get(text.getFont()));
+			texts.remove(texts.get(text.font));
 		}
 	}
 	
