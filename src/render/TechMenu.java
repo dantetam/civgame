@@ -86,7 +86,7 @@ public class TechMenu extends Menu {
 	{
 		int turns = MenuSystem.calcQueueTurnsTech(tree.civ, t);
 		String s = t.name;
-		Button b = new Button(-1,"research" + s, s, "Research " + s + ".", 0, 0, 0, 0);
+		Button b = new Button(0, null, 0, false, -1,"research" + s, s, "Research " + s + ".", 0, 0, 0, 0);
 		b.shortcut = false;
 		//Not researched -> black, researched -> blue, researching -> green, candidate -> gray, queuing/researching -> yellow
 		//Give player shortcut buttons for candidates and researching

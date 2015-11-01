@@ -2,6 +2,8 @@ package render;
 
 import java.util.ArrayList;
 
+import lwjglEngine.fontMeshCreator.FontType;
+
 public class Menu {
 
 	public ArrayList<TextBox> buttons;
@@ -15,18 +17,26 @@ public class Menu {
 		buttons = new ArrayList<TextBox>();
 		active = false;
 	}
-
+	
 	public TextBox addButton(int texture, String command, String display, String tooltip, float a, float b, float c, float d)
 	{
-		Button temp = new Button(texture,command,display,tooltip,a,b,c,d);
+		Button temp = new Button(12,x,display.length(),true,texture,command,display,tooltip,a,b,c,d);
+		temp.menu = this;
+		buttons.add(temp);
+		return temp;
+	}
+
+	public TextBox addButton(int w, FontType x, int y, boolean z, int texture, String command, String display, String tooltip, float a, float b, float c, float d)
+	{
+		Button temp = new Button(w,x,y,z,texture,command,display,tooltip,a,b,c,d);
 		temp.menu = this;
 		buttons.add(temp);
 		return temp;
 	}
 	
-	public TextBox addButton(String command, String display, String tooltip, float a, float b, float c, float d)
+	public TextBox addButton(int w, FontType x, int y, boolean z, String command, String display, String tooltip, float a, float b, float c, float d)
 	{
-		Button temp = new Button(-1,command,display,tooltip,a,b,c,d);
+		Button temp = new Button(w,x,y,z,-1,command,display,tooltip,a,b,c,d);
 		temp.menu = this;
 		buttons.add(temp);
 		return temp;

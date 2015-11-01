@@ -7,7 +7,7 @@ public class Rune extends Button {
 	public String imageName;
 	
 	public Rune(int texture, String imageName, String command, float a, float b, float c, float d) {
-		super(texture, command, "", "", a, b, c, d);
+		super(0, null, 0, false, texture, command, "", "", a, b, c, d);
 		// TODO Auto-generated constructor stub
 		this.imageName = imageName;
 	}
