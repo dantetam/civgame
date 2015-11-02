@@ -16,6 +16,11 @@ public class Button extends TextBox {
 		this.command = command;
 	}
 	
+	public Button(int texture, String command, String display, String tooltip, float a, float b, float c, float d) {
+		super(texture, display, tooltip, a, b, c, d);
+		this.command = command;
+	}
+	
 	/*public Button(String name, String display, String tooltip, float a, float b, float c, float d) {
 		super(name, dtooltip, a, b, c, d);
 		this.display.add(display);

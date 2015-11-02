@@ -1,5 +1,6 @@
 package lwjglEngine.fontRendering;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,16 +17,21 @@ public class TextMaster {
 	private static Map<FontType, List<TextBox>> texts = new HashMap<FontType, List<TextBox>>();
 	private static FontRenderer renderer;
 	
+	public static FontType defaultFont;
+	
 	public static void init(Loader theLoader){
 		renderer = new FontRenderer();
 		loader = theLoader;
+		defaultFont = new FontType(loader.loadTexture("dejavusans"), new File("res/dejavusans.fnt"));
 	}
 	
 	public static void render(){
 		renderer.render(texts);
 	}
 	
-	public static void loadText(TextBox text){
+	public static void loadText(TextBox text) {
+		if (text.font == null)
+			text.font = defaultFont;
 		TextMeshData data = text.font.loadText(text);
 		int vao = loader.loadToVAO(data.getVertexPositions(), data.getTextureCoords());
 		text.textMeshVao = vao;

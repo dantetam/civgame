@@ -154,7 +154,7 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu6);
 
 		Menu menu7 = new Menu("EncyclopediaMenu");
-		TextBox temp = new TextBox(loader.loadTexture("partTexture"),"",100,190,700,500); //"EncyclopediaText",
+		TextBox temp = new TextBox(loader.loadTexture("partTexture"),"","",100,190,700,500); //"EncyclopediaText",
 		//System.out.println("Found " + menu7.findButtonByCommand("EncyclopediaText"));
 		temp.name = "EncyclopediaText";
 		menu7.buttons.add(temp);
@@ -191,7 +191,7 @@ public class MenuSystem extends BaseSystem {
 
 		menu0.activate(true);
 
-		TextBox text0 = new TextBox(loader.loadTexture("partTexture"),"",main.width - 200,main.height - 250,200,100); //"HintText"
+		TextBox text0 = new TextBox(loader.loadTexture("partTexture"),"","",main.width - 200,main.height - 250,200,100); //"HintText"
 		text0.alpha = 0;
 		textboxes.add(text0);
 

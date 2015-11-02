@@ -84,7 +84,7 @@ public class TextBox extends GuiTexture {
 		TextMaster.loadText(this);
 	}
 	
-	/*public TextBox(int texture, String text, float a, float b, float c, float d)
+	public TextBox(int texture, String text, float a, float b, float c, float d)
 	{
 		super(texture, new Vector2f(a,b), new Vector2f(c,d));
 		display = new ArrayList<String>();
@@ -94,9 +94,7 @@ public class TextBox extends GuiTexture {
 		//enabled = false;
 		
 		this.fontSize = 12;
-		this.font = font;
-		this.lineMaxSize = maxLineLength;
-		this.centerText = centered;
+		this.centerText = true;
 		TextMaster.loadText(this);
 	}
 	
@@ -108,12 +106,10 @@ public class TextBox extends GuiTexture {
 		tooltip = new ArrayList<String>();
 		tooltip.add(tip);
 		//enabled = false;
-		this.fontSize = fontSize;
-		this.font = font;
-		this.lineMaxSize = maxLineLength;
-		this.centerText = centered;
+		this.fontSize = 12;
+		this.centerText = true;
 		TextMaster.loadText(this);
-	}*/
+	}
 	
 	public boolean equals(TextBox o)
 	{

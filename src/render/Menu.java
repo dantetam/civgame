@@ -18,9 +18,17 @@ public class Menu {
 		active = false;
 	}
 	
+	/*public TextBox addButton(String command, String display, String tooltip, float a, float b, float c, float d)
+	{
+		Button temp = new Button(12,null,display.length(),true,-1,command,display,tooltip,a,b,c,d);
+		temp.menu = this;
+		buttons.add(temp);
+		return temp;
+	}*/
+	
 	public TextBox addButton(int texture, String command, String display, String tooltip, float a, float b, float c, float d)
 	{
-		Button temp = new Button(12,x,display.length(),true,texture,command,display,tooltip,a,b,c,d);
+		Button temp = new Button(12,null,display.length(),true,texture,command,display,tooltip,a,b,c,d);
 		temp.menu = this;
 		buttons.add(temp);
 		return temp;
@@ -34,9 +42,17 @@ public class Menu {
 		return temp;
 	}
 	
-	public TextBox addButton(int w, FontType x, int y, boolean z, String command, String display, String tooltip, float a, float b, float c, float d)
+	/*public TextBox addButton(int w, FontType x, int y, boolean z, String command, String display, String tooltip, float a, float b, float c, float d)
 	{
 		Button temp = new Button(w,x,y,z,-1,command,display,tooltip,a,b,c,d);
+		temp.menu = this;
+		buttons.add(temp);
+		return temp;
+	}*/
+	
+	public TextBox addButton(String command, String display, String tooltip, float a, float b, float c, float d)
+	{
+		Button temp = new Button(12,null,display.length(),true,-1,command,display,tooltip,a,b,c,d);
 		temp.menu = this;
 		buttons.add(temp);
 		return temp;
