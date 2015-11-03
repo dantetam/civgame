@@ -8,6 +8,7 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import game.Tile;
 import lwjglEngine.entities.*;
+import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.gui.GuiRenderer;
 import lwjglEngine.levels.LevelManager;
 import lwjglEngine.models.TexturedModel;
@@ -23,6 +24,7 @@ public class MasterRenderer {
 	private StaticShader shader = new StaticShader();
 	private EntityRenderer renderer;
 	public GuiRenderer guiRenderer;
+	//private TextMaster textMaster;
 
 	//Specific objects for rendering terrain only
 	private TerrainRenderer terrainRenderer;
@@ -44,6 +46,8 @@ public class MasterRenderer {
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
 		guiRenderer = new GuiRenderer(loader);
+		//textMaster = new TextMaster();
+		TextMaster.init(loader);
 	}
 
 	public static void enableCulling()
@@ -81,6 +85,9 @@ public class MasterRenderer {
 		((WhiteTerrainShader) terrainShader).loadCoords(sel, hi, rows, cols, mp);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
+		
+		TextMaster.render();
+		
 		terrains.clear();
 		entities.clear();
 	}

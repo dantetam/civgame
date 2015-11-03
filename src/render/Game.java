@@ -19,6 +19,7 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
 import units.City;
+import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.render.DisplayManager;
 import menugame.*;
 
@@ -293,11 +294,11 @@ public class Game extends PApplet {
 			TextBox b = activeMenu.buttons.get(i);
 			fill(b.r, b.g, b.b);
 			stroke(b.borderR, b.borderG, b.borderB);
-			rect(b.pos.x, b.pos.y, b.size.x, b.size.y);
+			rect(b.pixelPos.x, b.pixelPos.y, b.pixelSize.x, b.pixelSize.y);
 			textAlign(CENTER, CENTER);
 			fill(255);
 			for (int j = 0; j < b.display.size(); j++)
-				text(b.display.get(j), b.pos.x + b.size.x/2, b.pos.y + b.size.y/2);
+				text(b.display.get(j), b.pixelPos.x + b.pixelSize.x/2, b.pixelPos.y + b.pixelSize.y/2);
 		}
 
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
@@ -528,7 +529,7 @@ public class Game extends PApplet {
 									continue;
 								else
 								{
-									b.move(-b.pos.x, b.pos.y);
+									b.pixelPos.x = -b.pixelPos.x;
 									/*if (retract)
 										b.move(-b.pos.x, b.pos.y);
 									else

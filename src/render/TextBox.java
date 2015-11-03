@@ -8,6 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
 import lwjglEngine.fontMeshCreator.FontType;
 import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.gui.GuiTexture;
+import lwjglEngine.render.DisplayManager;
 
 public class TextBox extends GuiTexture {
 	
@@ -130,16 +131,13 @@ public class TextBox extends GuiTexture {
 		}
 		return new int[]{7*tooltip.get(index).length(),14*tooltip.size()};
 	}
-
-	public boolean within(float x, float y)
-	{
-		return x > pos.x && x < pos.x + size.x && y > pos.y && y < pos.y + size.y;
-	}
-
+	
 	public void move(float x, float y)
 	{
-		pos.x = x;
-		pos.y = y;
+		pos.x = x/DisplayManager.width;
+		pos.y = y/DisplayManager.height;
+		pixelPos.x = x;
+		pixelSize.y = y;
 	}
 	
 	//Return itself for convienence

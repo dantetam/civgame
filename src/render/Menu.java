@@ -2,6 +2,8 @@ package render;
 
 import java.util.ArrayList;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import lwjglEngine.fontMeshCreator.FontType;
 
 public class Menu {
@@ -96,11 +98,10 @@ public class Menu {
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			TextBox b = buttons.get(i);
+			//System.out.println(b.pixelPos + " " + new Vector2f(b.pixelPos.x + b.pixelSize.x, b.pixelPos.y + b.pixelSize.y) + " " + mouseX + "," + mouseY);
 			if (b instanceof Button)
-				if (mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y)
-				{
+				if (b.within(mouseX, mouseY)) //mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y
 					return ((Button)b).command;
-				}
 		}
 		return null;
 	}
@@ -110,10 +111,8 @@ public class Menu {
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			TextBox b = buttons.get(i);
-			if (mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y && b.active)
-			{
+			if (b.within(mouseX, mouseY))
 				return b;
-			}
 		}
 		return null;
 	}

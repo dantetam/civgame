@@ -32,6 +32,7 @@ public class TextMaster {
 	public static void loadText(TextBox text) {
 		if (text.font == null)
 			text.font = defaultFont;
+		if (loader == null) return;
 		TextMeshData data = text.font.loadText(text);
 		int vao = loader.loadToVAO(data.getVertexPositions(), data.getTextureCoords());
 		text.textMeshVao = vao;
