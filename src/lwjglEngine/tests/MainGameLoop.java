@@ -7,6 +7,7 @@ import lwjglEngine.models.TexturedModel;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 
 import render.CivGame;
 import system.BaseSystem;
@@ -14,6 +15,7 @@ import terrain.BicubicInterpolator;
 import lwjglEngine.entities.Camera;
 import lwjglEngine.entities.Entity;
 import lwjglEngine.entities.Light;
+import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.render.*;
 import lwjglEngine.shaders.StaticShader;
@@ -82,6 +84,7 @@ public class MainGameLoop {
 			main.lwjglSystem = this;
 
 			loader = new Loader();
+			TextMaster.init(loader);
 			main.menuSystem.setupLoader(loader);
 			main.menuSystem.setupMenus(); //Set up menus once loader is not null
 
@@ -153,7 +156,7 @@ public class MainGameLoop {
 			renderer = new MasterRenderer(loader);
 			mousePicker = renderer.setupMousePicker(camera);
 			main.renderSystem.mousePicker = mousePicker;
-
+			
 			tick();
 
 			stop();
@@ -166,6 +169,7 @@ public class MainGameLoop {
 	{
 		//TODO: Remember to stop
 		//Do some clean up of all data
+		TextMaster.cleanUp();
 		renderer.cleanUp();
 		loader.cleanData();
 		DisplayManager.closeDisplay();
@@ -235,10 +239,15 @@ public class MainGameLoop {
 			}*/
 
 			Tile sel = main.menuSystem.getSelected() != null ? main.menuSystem.getSelected().location : null;
-			renderer.render(light, camera, sel, main.menuSystem.getMouseHighlighted(), main.grid.rows, main.grid.cols, mousePicker);
+			renderer.render(light, camera, sel, main.menuSystem.getMouseHighlighted(), main.grid.rows, main.grid.cols, mousePicker, main.menuSystem);
 
-			renderer.guiRenderer.render(main.menuSystem);
+			//renderer.guiRenderer.render(main.menuSystem);
 
+			//GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
+			TextMaster.update(main.menuSystem);
+			TextMaster.render();
+			//GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+			
 			DisplayManager.updateDisplay();
 			frameCount++;
 		}

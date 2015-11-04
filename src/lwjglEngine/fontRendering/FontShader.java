@@ -7,8 +7,8 @@ import lwjglEngine.shaders.ShaderProgram;
 
 public class FontShader extends lwjglEngine.shaders.ShaderProgram {
 
-	private static final String VERTEX_FILE = "src/fontRendering/fontVertex.txt";
-	private static final String FRAGMENT_FILE = "src/fontRendering/fontFragment.txt";
+	private static final String VERTEX_FILE = "src/lwjglEngine/fontRendering/fontVertex.txt";
+	private static final String FRAGMENT_FILE = "src/lwjglEngine/fontRendering/fontFragment.txt";
 	
 	private int location_colour;
 	private int location_translation;

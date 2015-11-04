@@ -18,6 +18,7 @@ import lwjglEngine.shaders.TerrainShader;
 import lwjglEngine.shaders.WhiteTerrainShader;
 import lwjglEngine.terrain.Terrain;
 import lwjglEngine.toolbox.MousePicker;
+import system.MenuSystem;
 
 public class MasterRenderer {
 
@@ -47,7 +48,7 @@ public class MasterRenderer {
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
 		guiRenderer = new GuiRenderer(loader);
 		//textMaster = new TextMaster();
-		TextMaster.init(loader);
+		//TextMaster.init(loader);
 	}
 
 	public static void enableCulling()
@@ -69,7 +70,7 @@ public class MasterRenderer {
 		return temp;
 	}
 
-	public void render(Light light, Camera camera, Tile sel, Tile hi, float rows, float cols, MousePicker mp)
+	public void render(Light light, Camera camera, Tile sel, Tile hi, float rows, float cols, MousePicker mp, MenuSystem menuSystem)
 	{
 		prepare();
 
@@ -85,8 +86,6 @@ public class MasterRenderer {
 		((WhiteTerrainShader) terrainShader).loadCoords(sel, hi, rows, cols, mp);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
-		
-		TextMaster.render();
 		
 		terrains.clear();
 		entities.clear();

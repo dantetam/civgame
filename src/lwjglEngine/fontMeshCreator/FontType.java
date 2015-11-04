@@ -14,7 +14,7 @@ import render.TextBox;
 public class FontType {
 
 	private int textureAtlas;
-	private TextMeshCreator loader;
+	private TextMeshCreator creator;
 
 	/**
 	 * Creates a new font and loads up the data about each character from the
@@ -28,7 +28,7 @@ public class FontType {
 	 */
 	public FontType(int textureAtlas, File fontFile) {
 		this.textureAtlas = textureAtlas;
-		this.loader = new TextMeshCreator(fontFile);
+		this.creator = new TextMeshCreator(fontFile);
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class FontType {
 	 * @return Information about the vertices of all the quads.
 	 */
 	public TextMeshData loadText(TextBox text) {
-		return loader.createTextMesh(text);
+		return creator.createTextMesh(text);
 	}
 
 }

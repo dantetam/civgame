@@ -10,30 +10,64 @@ import lwjglEngine.fontMeshCreator.FontType;
 import lwjglEngine.fontMeshCreator.TextMeshData;
 import lwjglEngine.render.Loader;
 import render.TextBox;
+import system.MenuSystem;
 
 public class TextMaster {
-	
+
 	private static Loader loader;
 	private static Map<FontType, List<TextBox>> texts = new HashMap<FontType, List<TextBox>>();
 	private static FontRenderer renderer;
-	
+
 	public static FontType defaultFont;
-	
-	public static void init(Loader theLoader){
-		renderer = new FontRenderer();
-		loader = theLoader;
-		defaultFont = new FontType(loader.loadTexture("dejavusans"), new File("res/dejavusans.fnt"));
+
+	public static boolean init = false;
+
+	public static void init(Loader theLoader) {
+		if (!init)
+		{
+			init = true;
+			renderer = new FontRenderer();
+			loader = theLoader;
+			defaultFont = new FontType(loader.loadTexture("dejavusans"), new File("res/dejavusans.fnt"));
+		}
 	}
-	
+
 	public static void render(){
 		renderer.render(texts);
 	}
-	
+
+	public static void update(MenuSystem menuSystem)
+	{
+		for (int i = 0; i < menuSystem.menus.size(); i++)
+		{
+			for (int j = 0; j < menuSystem.menus.get(i).buttons.size(); j++)
+			{
+				TextBox text = menuSystem.menus.get(i).buttons.get(j);
+				if ((text.active || menuSystem.menus.get(i).active()) && text.textMeshVao <= 0) //needs to be loaded and not already loaded
+				{
+					loadText(text);
+				}
+				else if ((!text.active && !menuSystem.menus.get(i).active()) & text.textMeshVao > 0) //needs to be unloaded and already loaded
+				{
+					//System.out.println("removing");
+					removeText(text);
+					text.textMeshVao = -1;
+				}
+			}
+		}
+	}
+
 	public static void loadText(TextBox text) {
 		if (text.font == null)
 			text.font = defaultFont;
-		if (loader == null) return;
+		/*if (text.lineMaxSize <= 1)
+		{
+			for (int i = 0; i < text.display.size(); i++)
+				if (text.lineMaxSize < text.display.get(i).length())
+					text.lineMaxSize = text.display.get(i).length();
+		}*/
 		TextMeshData data = text.font.loadText(text);
+		//System.out.println(data.getVertexPositions() + " " + data.getTextureCoords());
 		int vao = loader.loadToVAO(data.getVertexPositions(), data.getTextureCoords());
 		text.textMeshVao = vao;
 		text.vertexCount = data.getVertexCount();
@@ -44,7 +78,7 @@ public class TextMaster {
 		}
 		textBatch.add(text);
 	}
-	
+
 	public static void removeText(TextBox text){
 		List<TextBox> textBatch = texts.get(text.font);
 		textBatch.remove(text);
@@ -52,7 +86,7 @@ public class TextMaster {
 			texts.remove(texts.get(text.font));
 		}
 	}
-	
+
 	public static void cleanUp(){
 		renderer.cleanUp();
 	}

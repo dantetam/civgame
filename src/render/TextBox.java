@@ -79,10 +79,12 @@ public class TextBox extends GuiTexture {
 		//enabled = false;
 		
 		this.fontSize = fontSize;
-		this.font = font;
-		this.lineMaxSize = maxLineLength;
+		//this.font = font;
+		this.fontSize = 1;
+		this.lineMaxSize = 1;
 		this.centerText = centered;
-		TextMaster.loadText(this);
+		if (TextMaster.init)
+			TextMaster.loadText(this);
 	}
 	
 	public TextBox(int texture, String text, float a, float b, float c, float d)
@@ -94,9 +96,11 @@ public class TextBox extends GuiTexture {
 		tooltip.add("");
 		//enabled = false;
 		
-		this.fontSize = 12;
+		this.fontSize = 1;
 		this.centerText = true;
-		TextMaster.loadText(this);
+		this.lineMaxSize = 1;
+		if (TextMaster.init)
+			TextMaster.loadText(this);
 	}
 	
 	public TextBox(int texture, String text, String tip, float a, float b, float c, float d)
@@ -107,9 +111,11 @@ public class TextBox extends GuiTexture {
 		tooltip = new ArrayList<String>();
 		tooltip.add(tip);
 		//enabled = false;
-		this.fontSize = 12;
+		this.fontSize = 1;
 		this.centerText = true;
-		TextMaster.loadText(this);
+		this.lineMaxSize = 1;
+		if (TextMaster.init)
+			TextMaster.loadText(this);
 	}
 	
 	public boolean equals(TextBox o)

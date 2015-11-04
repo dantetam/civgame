@@ -17,9 +17,13 @@ import lwjglEngine.render.DisplayManager;
  */
 public class MetaFile {
 
-	private static final int PAD_TOP = 0;
+	/*private static final int PAD_TOP = 0;
 	private static final int PAD_LEFT = 1;
 	private static final int PAD_BOTTOM = 2;
+	private static final int PAD_RIGHT = 3;*/
+	private static final int PAD_TOP = 3;
+	private static final int PAD_LEFT = 3;
+	private static final int PAD_BOTTOM = 3;
 	private static final int PAD_RIGHT = 3;
 
 	private static final int DESIRED_PADDING = 3;
