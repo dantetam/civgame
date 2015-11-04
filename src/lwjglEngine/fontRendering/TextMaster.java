@@ -55,9 +55,36 @@ public class TextMaster {
 				}
 			}
 		}
+		for (int i = 0; i < menuSystem.textboxes.size(); i++)
+		{
+			loadTextBox(menuSystem.textboxes.get(i));
+		}
 	}
 
-	public static void loadText(TextBox text) {
+	//Lots of code duplication but this is the most simple way to avoid null pointer because of free floating textbox
+	public static void loadTextBox(TextBox text)
+	{
+		if (text.menu == null)
+		{
+			if (text.active && text.textMeshVao <= 0)
+				loadText(text);
+			else if (!text.active && text.textMeshVao > 0)
+			{
+				removeText(text);
+				text.textMeshVao = -1;
+			}
+			return;
+		}
+		if ((text.active || text.menu.active()) && text.textMeshVao <= 0) //needs to be loaded and not already loaded
+			loadText(text);
+		else if ((!text.active && !text.menu.active()) && text.textMeshVao > 0) //needs to be unloaded and already loaded
+		{
+			removeText(text);
+			text.textMeshVao = -1;
+		}
+	}
+
+	private static void loadText(TextBox text) {
 		if (text.font == null)
 			text.font = defaultFont;
 		/*if (text.lineMaxSize <= 1)
