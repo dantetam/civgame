@@ -29,7 +29,7 @@ public class MousePicker {
 	public void update()
 	{
 		viewMatrix = Maths.createViewMatrix(camera);
-		currentRay = calculateMouseRay(Mouse.getX(), Mouse.getY());
+		currentRay = calculateMouseRay(Mouse.getX(), DisplayManager.height - Mouse.getY());
 
 		rayCastHit = new Vector3f(
 				camera.position.x - camera.position.y/currentRay.y*currentRay.x,

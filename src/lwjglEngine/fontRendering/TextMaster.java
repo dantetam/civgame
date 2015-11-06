@@ -43,7 +43,7 @@ public class TextMaster {
 			for (int j = 0; j < menuSystem.menus.get(i).buttons.size(); j++)
 			{
 				TextBox text = menuSystem.menus.get(i).buttons.get(j);
-				if ((text.active || menuSystem.menus.get(i).active()) && text.textMeshVao <= 0) //needs to be loaded and not already loaded
+				if ((text.active || menuSystem.menus.get(i).active()) && menuSystem.menus.get(i).active() && text.textMeshVao <= 0) //needs to be loaded and not already loaded
 				{
 					loadText(text);
 				}

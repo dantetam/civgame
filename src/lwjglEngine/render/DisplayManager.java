@@ -72,7 +72,7 @@ public class DisplayManager {
 		
 		GLFW.glfwSetCursorPosCallback(window, (cursorPosCallback = new GLFWCursorPosCallback() {
 		    public void invoke(long window, double xpos, double ypos) {
-		        Mouse.setMouse((float)xpos, height - (float)ypos);
+		        Mouse.setMouse((float)xpos, (float)ypos);
 		    }
 		}));
 	}

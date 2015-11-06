@@ -83,7 +83,7 @@ public class TextBox extends GuiTexture {
 		this.fontSize = 0.5f;
 		this.lineMaxSize = 1f;
 		//this.lineMaxSize = c/DisplayManager.width;
-		this.centerText = centered;
+		this.centerText = true;
 		if (TextMaster.init)
 			TextMaster.loadTextBox(this);
 	}

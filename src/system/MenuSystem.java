@@ -1623,6 +1623,7 @@ public class MenuSystem extends BaseSystem {
 
 	public boolean executeAction(String command)
 	{
+		System.out.println(command);
 		if (command.equals("")) return true;
 		GameEntity en = null;
 		menuActivated = true;
