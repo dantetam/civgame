@@ -292,7 +292,7 @@ public class Game extends PApplet {
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
 		{
 			TextBox b = activeMenu.buttons.get(i);
-			fill(b.r, b.g, b.b);
+			fill(b.color.x, b.color.y, b.color.z);
 			stroke(b.borderR, b.borderG, b.borderB);
 			rect(b.pixelPos.x, b.pixelPos.y, b.pixelSize.x, b.pixelSize.y);
 			textAlign(CENTER, CENTER);

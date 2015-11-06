@@ -1,6 +1,7 @@
 package lwjglEngine.gui;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import lwjglEngine.shaders.ShaderProgram;
 
@@ -9,7 +10,7 @@ public class GuiShader extends ShaderProgram {
 	private static final String VERTEX_FILE = "src/lwjglEngine/gui/guiVertexShader.txt";
 	private static final String FRAGMENT_FILE = "src/lwjglEngine/gui/guiFragmentShader.txt";
 	
-	private int location_transformationMatrix;
+	private int location_transformationMatrix, location_colour;
 
 	public GuiShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -22,6 +23,11 @@ public class GuiShader extends ShaderProgram {
 	@Override
 	protected void getAllUniformLocations() {
 		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
+		location_colour = super.getUniformLocation("colour");
+	}
+	
+	protected void loadColor(Vector3f colour){
+		super.loadVector(location_colour, colour);
 	}
 
 	@Override

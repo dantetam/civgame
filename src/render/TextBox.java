@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 
 import lwjglEngine.fontMeshCreator.FontType;
 import lwjglEngine.fontRendering.TextMaster;
@@ -25,7 +26,8 @@ public class TextBox extends GuiTexture {
 	public boolean autoClear = true;
 	public boolean active = false, monospace = false, noOverlap = false;
 	
-	public float r = 255, g = 255, b = 255, alpha = 255;
+	//0-255
+	public Vector3f textColor = new Vector3f(255,0,0); 
 	public float borderR = -1, borderG = -1, borderB = -1; //default nostroke
 	public int shape = 0; //0 -> rectangle (default), 1 -> ellipse
 	
@@ -146,11 +148,11 @@ public class TextBox extends GuiTexture {
 		pos.x = x/DisplayManager.width;
 		pos.y = y/DisplayManager.height;
 		pixelPos.x = x;
-		pixelSize.y = y;
+		pixelPos.y = y; //pixelSize.y = y haha
 	}
 	
 	//Return itself for convienence
-	public TextBox color(float x, float y, float z) {r = x; g = y; b = z; return this;}
+	public TextBox color(float x, float y, float z) {color.x = x; color.y = y; color.z = z; return this;}
 	public TextBox color(float w) {return color(w,w,w);}
 	public TextBox borderColor(float x, float y, float z) {borderR = x; borderG = y; borderB = z; return this;}
 	public TextBox borderColor(float w) {return borderColor(w,w,w);}

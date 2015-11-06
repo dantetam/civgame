@@ -192,7 +192,7 @@ public class MenuSystem extends BaseSystem {
 		menu0.activate(true);
 
 		TextBox text0 = new TextBox(loader.loadTexture("partTexture"),"","",main.width - 200,main.height - 250,200,100); //"HintText"
-		text0.alpha = 0;
+		text0.color.w = 0;
 		textboxes.add(text0);
 
 		TextBox text1 = new TextBox(loader.loadTexture("partTexture"),"",main.width - 400,main.height - 150,200,150); //"SelectedText"
@@ -229,7 +229,7 @@ public class MenuSystem extends BaseSystem {
 		for (int i = 0; i < textboxes.size(); i++)
 		{
 			TextBox t = textboxes.get(i);
-			t.alpha = 100;
+			t.color.w = 100;
 			t.noOverlap = true;
 		}
 		for (int i = 0; i < menus.size(); i++)
@@ -238,7 +238,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				TextBox t = menus.get(i).buttons.get(j);
 				if (i != 0)
-					t.alpha = 100;
+					t.color.w = 100;
 				t.noOverlap = true;
 			}
 		}
@@ -2629,7 +2629,7 @@ public class MenuSystem extends BaseSystem {
 		String name = turns != -1 ? s + " <" + turns + ">" : s + " <N/A>";
 		Button b = (Button)menus.get(2).addButton("queue" + s, name, "", 0, 0, 0, 0);
 		b.tooltip.clear();
-		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
+		if (!enabled) {b.command = ""; b.color.w = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
 		//b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) + " turns");
 		b.tooltip.add("Queue a " + s + ".");
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
@@ -2653,7 +2653,7 @@ public class MenuSystem extends BaseSystem {
 		String name = turns != -1 ? s + " <" + calcQueueTurnsInt(c, s) + ">" : s + " <N/A>";
 		Button b = (Button)menus.get(2).addButton("queueBuilding" + s, name, "", 0, 0, 0, 0);
 		b.tooltip.clear();
-		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
+		if (!enabled) {b.command = ""; b.color.w = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
 		b.tooltip.add("Queue a " + s + ".");
 		//b.tooltip.add(calcQueueTurns(c));
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
@@ -2675,7 +2675,7 @@ public class MenuSystem extends BaseSystem {
 				0, 0, 0, 0);
 		b.tooltip.clear();
 		//b.tooltip.add(calcQueueTurns(c));
-		if (!enabled) {b.command = ""; b.alpha = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
+		if (!enabled) {b.command = ""; b.color.w = 100; b.shortcut = false; b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));}
 		b.tooltip.add("Add a " + s + " field.");
 		if (turns != -1) b.tooltip.add("Estimated build time: " + turns + " turns");
 		else b.tooltip.add("Estimated build time: N/A");
@@ -2989,7 +2989,7 @@ public class MenuSystem extends BaseSystem {
 	public void select(BaseEntity en)
 	{
 		selected = en;
-		main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
+		//main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
 		//main.newMenuSystem.updateUnitMenu(en);
 		//main.requestUpdate();
 		if (en != null)

@@ -1,6 +1,7 @@
 package lwjglEngine.gui;
 
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector4f;
 
 import lwjglEngine.render.DisplayManager;
 
@@ -12,11 +13,12 @@ public class GuiTexture {
 	public Vector2f pos, size;
 	public Vector2f pixelPos, pixelSize;
 	public boolean active = true;
+	public Vector4f color = new Vector4f(0,0,0,255);
 	
 	public GuiTexture(int t, Vector2f p, Vector2f s) {
 		texture = t;
-		pos = new Vector2f(p.x/DisplayManager.width, p.y/DisplayManager.height); size = new Vector2f(s.x/DisplayManager.width, s.y/DisplayManager.height);
 		pixelPos = p; pixelSize = s;
+		pos = new Vector2f(p.x/DisplayManager.width, p.y/DisplayManager.height); size = new Vector2f(s.x/DisplayManager.width, s.y/DisplayManager.height);
 		active = true;
 	}
 	

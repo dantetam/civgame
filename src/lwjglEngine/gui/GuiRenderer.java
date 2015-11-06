@@ -22,6 +22,7 @@ import org.lwjgl.stb.STBTTAlignedQuad;
 import org.lwjgl.stb.STBTTBakedChar;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -74,6 +75,7 @@ public class GuiRenderer {
 					normalize(new Vector2f(gui.pixelPos.x + gui.pixelSize.x/2, DisplayManager.height - (gui.pixelPos.y + gui.pixelSize.y/2))), 
 					normalizeSize(gui.pixelSize)
 					);
+			shader.loadColor(new Vector3f(gui.color.x/255f, gui.color.y/255f, gui.color.z/255f));
 			shader.loadTransformation(matrix);
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.vertexCount);
 		}
