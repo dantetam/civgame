@@ -71,7 +71,7 @@ public class GuiRenderer {
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.texture);
 			Matrix4f matrix = Maths.createTransformationMatrix(
-					normalize(new Vector2f(gui.pixelPos.x + gui.pixelSize.x/2, gui.pixelPos.y + gui.pixelSize.y/2)), 
+					normalize(new Vector2f(gui.pixelPos.x + gui.pixelSize.x/2, DisplayManager.height - (gui.pixelPos.y + gui.pixelSize.y/2))), 
 					normalizeSize(gui.pixelSize)
 					);
 			shader.loadTransformation(matrix);

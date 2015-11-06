@@ -201,6 +201,7 @@ public abstract class GameEntity extends BaseEntity {
 	public void passiveWaddle(int r, int c)
 	{
 		GameEntity en = this;
+		if (location == null) return;
 		Tile t = location.grid.getTile(en.location.row+r,en.location.col+c);
 		if (t != null)
 		{

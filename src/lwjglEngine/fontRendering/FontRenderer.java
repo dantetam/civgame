@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import lwjglEngine.fontMeshCreator.FontType;
@@ -49,7 +50,7 @@ public class FontRenderer {
 		GL20.glEnableVertexAttribArray(1);
 		shader.loadColour(new Vector3f(text.r/255f, text.g/255f, text.b/255f));
 		shader.loadTranslation(text.pos);
-		System.out.println(text.pos);
+		//System.out.println(text.pos + " " + text.display.get(0) + " " + new Vector2f(text.pos.x*2 - 1, text.pos.y*-4));
 		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, text.vertexCount); //problem probably has to do with incorrect setting of maxlines and other textbox properties (lwjgl inherited)
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);

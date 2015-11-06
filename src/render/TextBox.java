@@ -25,7 +25,7 @@ public class TextBox extends GuiTexture {
 	public boolean autoClear = true;
 	public boolean active = false, monospace = false, noOverlap = false;
 	
-	public float r = 0, g = 0, b = 0, alpha = 255;
+	public float r = 255, g = 255, b = 255, alpha = 255;
 	public float borderR = -1, borderG = -1, borderB = -1; //default nostroke
 	public int shape = 0; //0 -> rectangle (default), 1 -> ellipse
 	

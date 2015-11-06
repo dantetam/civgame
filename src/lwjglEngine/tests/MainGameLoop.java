@@ -241,7 +241,7 @@ public class MainGameLoop {
 			Tile sel = main.menuSystem.getSelected() != null ? main.menuSystem.getSelected().location : null;
 			renderer.render(light, camera, sel, main.menuSystem.getMouseHighlighted(), main.grid.rows, main.grid.cols, mousePicker, main.menuSystem);
 
-			//renderer.guiRenderer.render(main.menuSystem);
+			renderer.guiRenderer.render(main.menuSystem);
 
 			//GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 			TextMaster.update(main.menuSystem);
