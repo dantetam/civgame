@@ -76,16 +76,18 @@ public class GuiRenderer {
 					normalizeSize(gui.pixelSize)
 					);
 			shader.loadColor(new Vector3f(gui.color.x/255f, gui.color.y/255f, gui.color.z/255f));
+			//if (gui instanceof TextBox)
+				//System.out.println(gui.color + " " + ((TextBox)gui).display.get(0));
 			shader.loadTransformation(matrix);
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.vertexCount);
 		}
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
-		for (GuiTexture gui: guis)
+		/*for (GuiTexture gui: guis)
 		{
 			if (gui instanceof TextBox)
 				showText((TextBox)gui);
-		}
+		}*/
 		shader.stop();
 		/*for (GuiTexture gui: guis)
 		{
@@ -101,7 +103,7 @@ public class GuiRenderer {
 		return new Vector2f(v.x/DisplayManager.width, v.y/DisplayManager.height);
 	}
 
-	private void showText(TextBox gui)
+	/*private void showText(TextBox gui)
 	{
 		ByteBuffer charBuffer = BufferUtils.createByteBuffer(gui.display.get(0).length() * 270);
 		int quads = stb_easy_font_print(0, 0, gui.display.get(0), null, charBuffer);
@@ -132,7 +134,7 @@ public class GuiRenderer {
 		//glTranslatef(-4.0f, -4.0f + getLineOffset() * getFontHeight(), 0f);
 
 		//glPopMatrix();
-	}
+	}*/
 
 	public void render(MenuSystem menuSystem)
 	{

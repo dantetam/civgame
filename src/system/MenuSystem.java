@@ -223,6 +223,11 @@ public class MenuSystem extends BaseSystem {
 		textboxes.add(text8);
 
 		text4.activate(false);
+		
+		for (int i = 3; i <= 8; i++)
+		{
+			textboxes.get(i).active = false;
+		}
 
 		updateEncyclopedia();
 
@@ -1711,7 +1716,8 @@ public class MenuSystem extends BaseSystem {
 			}
 			else if (command.equals("techs"))
 			{
-				/*displayTechMenu(main.grid.civs[0]);
+				/*
+				displayTechMenu(main.grid.civs[0]);
 				//menus.get(5).active = !menus.get(5).active;
 				menus.get(5).activate(true);
 				//menus.get(5).active = !menus.get(5).active;
@@ -2114,6 +2120,10 @@ public class MenuSystem extends BaseSystem {
 		menus.get(15).activate(false);
 		menus.get(16).activate(false);
 		techMenu.activate(false);
+		for (int i = 3; i <= 8; i++)
+		{
+			textboxes.get(i).active = false;
+		}
 		//Clear all but the main menu and encyclopedia
 		//for (int i = 1; i < menus.size(); i++)
 	}

@@ -43,11 +43,13 @@ public class TextMaster {
 			for (int j = 0; j < menuSystem.menus.get(i).buttons.size(); j++)
 			{
 				TextBox text = menuSystem.menus.get(i).buttons.get(j);
-				if (text.active && menuSystem.menus.get(i).active() && text.textMeshVao <= 0) //needs to be loaded and not already loaded
+				//if ((text.active || menuSystem.menus.get(i).active()) && text.textMeshVao <= 0) //needs to be loaded and not already loaded
+				if (menuSystem.menus.get(i).active() && text.textMeshVao <= 0)
 				{
 					loadText(text);
 				}
-				else if ((!text.active || !menuSystem.menus.get(i).active()) && text.textMeshVao > 0) //needs to be unloaded and already loaded
+				//else if ((!text.active && !menuSystem.menus.get(i).active()) && text.textMeshVao > 0) //needs to be unloaded and already loaded
+				else if (!menuSystem.menus.get(i).active() && text.textMeshVao > 0) 
 				{
 					//System.out.println("removing");
 					removeText(text);
