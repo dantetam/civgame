@@ -43,11 +43,11 @@ public class TextMaster {
 			for (int j = 0; j < menuSystem.menus.get(i).buttons.size(); j++)
 			{
 				TextBox text = menuSystem.menus.get(i).buttons.get(j);
-				if ((text.active || menuSystem.menus.get(i).active()) && menuSystem.menus.get(i).active() && text.textMeshVao <= 0) //needs to be loaded and not already loaded
+				if (text.active && menuSystem.menus.get(i).active() && text.textMeshVao <= 0) //needs to be loaded and not already loaded
 				{
 					loadText(text);
 				}
-				else if ((!text.active && !menuSystem.menus.get(i).active()) & text.textMeshVao > 0) //needs to be unloaded and already loaded
+				else if ((!text.active || !menuSystem.menus.get(i).active()) && text.textMeshVao > 0) //needs to be unloaded and already loaded
 				{
 					//System.out.println("removing");
 					removeText(text);
@@ -57,15 +57,7 @@ public class TextMaster {
 		}
 		for (int i = 0; i < menuSystem.textboxes.size(); i++)
 		{
-			loadTextBox(menuSystem.textboxes.get(i));
-		}
-	}
-
-	//Lots of code duplication but this is the most simple way to avoid null pointer because of free floating textbox
-	public static void loadTextBox(TextBox text)
-	{
-		if (text.menu == null)
-		{
+			TextBox text = menuSystem.textboxes.get(i);
 			if (text.active && text.textMeshVao <= 0)
 				loadText(text);
 			else if (!text.active && text.textMeshVao > 0)
@@ -73,8 +65,12 @@ public class TextMaster {
 				removeText(text);
 				text.textMeshVao = -1;
 			}
-			return;
 		}
+	}
+
+	//Lots of code duplication but this is the most simple way to avoid null pointer because of free floating textbox
+	/*public static void loadTextBox(TextBox text)
+	{
 		if ((text.active || text.menu.active()) && text.textMeshVao <= 0) //needs to be loaded and not already loaded
 			loadText(text);
 		else if ((!text.active && !text.menu.active()) && text.textMeshVao > 0) //needs to be unloaded and already loaded
@@ -82,9 +78,9 @@ public class TextMaster {
 			removeText(text);
 			text.textMeshVao = -1;
 		}
-	}
+	}*/
 
-	private static void loadText(TextBox text) {
+	public static void loadText(TextBox text) {
 		if (text.font == null)
 			text.font = defaultFont;
 		/*if (text.lineMaxSize <= 1)

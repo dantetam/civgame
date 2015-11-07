@@ -87,7 +87,7 @@ public class TextBox extends GuiTexture {
 		//this.lineMaxSize = c/DisplayManager.width;
 		this.centerText = true;
 		if (TextMaster.init)
-			TextMaster.loadTextBox(this);
+			TextMaster.loadText(this);
 	}
 	
 	public TextBox(int texture, String text, float a, float b, float c, float d)
@@ -104,7 +104,7 @@ public class TextBox extends GuiTexture {
 		this.lineMaxSize = 1f;
 		//this.lineMaxSize = c/DisplayManager.width;
 		if (TextMaster.init)
-			TextMaster.loadTextBox(this);
+			TextMaster.loadText(this);
 	}
 	
 	public TextBox(int texture, String text, String tip, float a, float b, float c, float d)
@@ -120,7 +120,7 @@ public class TextBox extends GuiTexture {
 		this.lineMaxSize = 1f;
 		//this.lineMaxSize = c/DisplayManager.width;
 		if (TextMaster.init)
-			TextMaster.loadTextBox(this);
+			TextMaster.loadText(this);
 	}
 	
 	public boolean equals(TextBox o)
