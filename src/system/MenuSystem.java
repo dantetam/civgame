@@ -224,10 +224,10 @@ public class MenuSystem extends BaseSystem {
 
 		text4.activate(false);
 		
-		for (int i = 3; i <= 8; i++)
+		/*for (int i = 3; i <= 8; i++)
 		{
-			textboxes.get(i).active = false;
-		}
+			textboxes.get(i).activate(false);
+		}*/
 
 		updateEncyclopedia();
 
@@ -1716,12 +1716,9 @@ public class MenuSystem extends BaseSystem {
 			}
 			else if (command.equals("techs"))
 			{
-				/*
 				displayTechMenu(main.grid.civs[0]);
-				//menus.get(5).active = !menus.get(5).active;
 				menus.get(5).activate(true);
-				//menus.get(5).active = !menus.get(5).active;
-				 */			
+				
 				techMenu.setupButtons();
 				techMenu.activate(true);
 			}
@@ -2225,7 +2222,7 @@ public class MenuSystem extends BaseSystem {
 				TextBox b = menus.get(i).buttons.get(j);
 				if (b.autoClear)
 				{
-					//b.orderOriginal(true);
+					b.orderOriginal();
 				}
 			}
 		}
@@ -2514,6 +2511,10 @@ public class MenuSystem extends BaseSystem {
 			TextBox b = menus.get(1).buttons.get(i);
 			b.move(b.pos.x, main.height*5/6 - (menus.get(1).buttons.size()+2)*height + i*height); //Shift the buttons to their proper place
 			b.size.x = 150; b.size.y = height;
+			
+			b.origPos.x = b.pixelPos.x; b.origPos.y = b.pixelPos.y;
+			//b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
+			
 			/*b.origSizeX = 150; b.origSizeY = height;
 			b.origX = b.posX; b.origY = b.posY;*/
 		}
@@ -2526,6 +2527,8 @@ public class MenuSystem extends BaseSystem {
 		//TextBox b = menus.get(1).addButton("encyclopedia"+en.name, en.name, "Encyclopedia entry for "+en.name+" >",0,main.height*5/6-height,main.height/6,height);
 		TextBox b = menus.get(1).addButton("", en.name, "Encyclopedia entry for "+en.name+" >",0,main.height*5/6-height,main.height/6,height);
 		b.shortcut = false;
+		
+		menus.get(1).activate(true);
 		//System.out.println(menus.get(1).buttons.size());
 	}
 
@@ -2611,8 +2614,9 @@ public class MenuSystem extends BaseSystem {
 			TextBox b = menus.get(2).buttons.get(i);
 			b.move(0, main.height*5/6 + i*height - (n*1 + 2)*height); //Shift the buttons to their proper place
 			b.size.x = 150; b.size.y = height;
-			/*b.origX = b.posX; b.origY = b.posY;
-			b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;*/
+			
+			b.origPos.x = b.pixelPos.x; b.origPos.y = b.pixelPos.y;
+			//b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
 		/*for (int i = 0; i < n; i++)
 		{

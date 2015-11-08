@@ -90,7 +90,7 @@ public class CivGame {
 		systems = new ArrayList<BaseSystem>();
 
 		//original order, civ, render, (menu), input
-		
+
 		systems.add(civilizationSystem);
 		systems.add(inputSystem);
 		systems.add(renderSystem);
@@ -112,12 +112,12 @@ public class CivGame {
 	{		
 		try 
 		{
-	        System.setProperty("org.lwjgl.librarypath", "lib/natives");
-			
+			System.setProperty("org.lwjgl.librarypath", "lib/natives");
+
 			DisplayManager.createDisplay();
 			setMouseCallback();
 			setKeyCallback();
-	        GLFW.glfwShowWindow(DisplayManager.window);
+			GLFW.glfwShowWindow(DisplayManager.window);
 
 			generate(terrainType);
 			takeBlendMap(sendBlendMap(grid), "res/generatedBlendMap.png");
@@ -125,15 +125,15 @@ public class CivGame {
 
 			//Force update
 			menuSystem.rbox = grid.civs[0].revealedBox();
-			
+
 			menuSystem.techMenu = new TechMenu(grid.civs[0].techTree, "TechMenu");
+			menuSystem.menus.add(menuSystem.techMenu); //Not including it is a violation of OOP principles
 			
 			lwjglSystem = new MainGameLoop(this);
 			camera = lwjglSystem.camera;
 
 			//grid.setManager(lwjglSystem.levelManager); //Manually assign this since the levelmanager is created after the grid
 			
-			menuSystem.menus.add(menuSystem.techMenu); //Not including it is a violation of OOP principles
 			//makeRivers(terrain);
 			/*for (int r = 0; r < terrain.length; r++)
 		{
@@ -180,37 +180,41 @@ public class CivGame {
 	public void setMouseCallback()
 	{
 		GLFW.glfwSetMouseButtonCallback(DisplayManager.window, (DisplayManager.mouseButtonCallback = new GLFWMouseButtonCallback() {
-		    public void invoke(long window, int button, int action, int mods) {
-		        if (button == 0) {
-		            if (action == GLFW.GLFW_PRESS) {
-		            	inputSystem.passLeftMouseClick(Mouse.getX(), Mouse.getY());
-		            	menuSystem.queueMousePass(Mouse.getX(), Mouse.getY());
-		            } 
-		        }
-		    }
+			public void invoke(long window, int button, int action, int mods) {
+				if (action == GLFW.GLFW_PRESS) {
+					menuSystem.queueMousePass(Mouse.getX(), Mouse.getY()); //includes button == 2 i.e. scroll wheel
+					if (button == 0) {
+						inputSystem.passLeftMouseClick(Mouse.getX(), Mouse.getY());
+					} 
+					else if (button == 1) {
+						inputSystem.passRightMouseClick(Mouse.getX(), Mouse.getY());
+					}
+				} 
+
+			}
 		}));
 	}
 	public void setKeyCallback()
 	{
 		GLFW.glfwSetKeyCallback(DisplayManager.window, (DisplayManager.keyCallback = new GLFWKeyCallback() {
-		    public void invoke(long window, int key, int scancode, int action, int mods) {
-		        if (action == GLFW.GLFW_PRESS) {
-		        	inputSystem.keyPressed(key);
-	            	if (key == GLFW.GLFW_KEY_T)
-	            	{
-	            		renderSystem.mousePicker.constant -= 0.01f;
-	            		System.out.println(renderSystem.mousePicker.constant);
-	            	}
-	            	else if (key == GLFW.GLFW_KEY_Y)
-	            	{
-	            		renderSystem.mousePicker.constant += 0.01f;
-	            		System.out.println(renderSystem.mousePicker.constant);
-	            	}
-		        }
-		    }
+			public void invoke(long window, int key, int scancode, int action, int mods) {
+				if (action == GLFW.GLFW_PRESS) {
+					inputSystem.keyPressed(key);
+					if (key == GLFW.GLFW_KEY_T)
+					{
+						renderSystem.mousePicker.constant -= 0.01f;
+						System.out.println(renderSystem.mousePicker.constant);
+					}
+					else if (key == GLFW.GLFW_KEY_Y)
+					{
+						renderSystem.mousePicker.constant += 0.01f;
+						System.out.println(renderSystem.mousePicker.constant);
+					}
+				}
+			}
 		}));
 	}
-	
+
 	/*public void loop()
 	{ 
 		//Functions here already present in maingameloop

@@ -2,6 +2,7 @@ package lwjglEngine.gui;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 
 import lwjglEngine.shaders.ShaderProgram;
 
@@ -26,8 +27,8 @@ public class GuiShader extends ShaderProgram {
 		location_colour = super.getUniformLocation("colour");
 	}
 	
-	protected void loadColor(Vector3f colour){
-		super.loadVector(location_colour, colour);
+	protected void loadColor(Vector4f vector4f){
+		super.loadVector4f(location_colour, vector4f);
 	}
 
 	@Override

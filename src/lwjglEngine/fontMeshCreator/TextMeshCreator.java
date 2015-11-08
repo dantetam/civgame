@@ -24,26 +24,29 @@ public class TextMeshCreator {
 	}
 
 	private List<Line> createStructure(TextBox text) {
-		char[] chars = text.display.get(0).toCharArray();
 		List<Line> lines = new ArrayList<Line>();
-		Line currentLine = new Line(metaData.getSpaceWidth(), text.fontSize, text.lineMaxSize);
-		Word currentWord = new Word(text.fontSize);
-		for (char c : chars) {
-			int ascii = (int) c;
-			if (ascii == SPACE_ASCII) {
-				boolean added = currentLine.attemptToAddWord(currentWord);
-				if (!added) {
-					lines.add(currentLine);
-					currentLine = new Line(metaData.getSpaceWidth(), text.fontSize, text.lineMaxSize);
-					currentLine.attemptToAddWord(currentWord);
+		for (int i = 0; i < text.display.size(); i++)
+		{
+			char[] chars = text.display.get(i).toCharArray();
+			Line currentLine = new Line(metaData.getSpaceWidth(), text.fontSize, text.lineMaxSize);
+			Word currentWord = new Word(text.fontSize);
+			for (char c : chars) {
+				int ascii = (int) c;
+				if (ascii == SPACE_ASCII) {
+					boolean added = currentLine.attemptToAddWord(currentWord);
+					if (!added) {
+						lines.add(currentLine);
+						currentLine = new Line(metaData.getSpaceWidth(), text.fontSize, text.lineMaxSize);
+						currentLine.attemptToAddWord(currentWord);
+					}
+					currentWord = new Word(text.fontSize);
+					continue;
 				}
-				currentWord = new Word(text.fontSize);
-				continue;
+				Character character = metaData.getCharacter(ascii);
+				currentWord.addCharacter(character);
 			}
-			Character character = metaData.getCharacter(ascii);
-			currentWord.addCharacter(character);
+			completeStructure(lines, currentLine, currentWord, text);
 		}
-		completeStructure(lines, currentLine, currentWord, text);
 		return lines;
 	}
 
@@ -124,7 +127,7 @@ public class TextMeshCreator {
 		texCoords.add((float) y);
 	}
 
-	
+
 	private static float[] listToArray(List<Float> listOfFloats) {
 		float[] array = new float[listOfFloats.size()];
 		for (int i = 0; i < array.length; i++) {

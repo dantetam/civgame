@@ -244,7 +244,8 @@ public class MainGameLoop {
 			renderer.guiRenderer.render(main.menuSystem);
 
 			//GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
-			TextMaster.update(main.menuSystem);
+			if (main.lwjglSystem.frameCount % 100 == 0)
+				TextMaster.update(main.menuSystem);
 			TextMaster.render();
 			//GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 			

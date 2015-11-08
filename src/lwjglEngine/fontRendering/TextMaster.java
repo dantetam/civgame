@@ -46,6 +46,7 @@ public class TextMaster {
 				//if ((text.active || menuSystem.menus.get(i).active()) && text.textMeshVao <= 0) //needs to be loaded and not already loaded
 				if (menuSystem.menus.get(i).active() && text.textMeshVao <= 0)
 				{
+					//System.out.println("loading");
 					loadText(text);
 				}
 				//else if ((!text.active && !menuSystem.menus.get(i).active()) && text.textMeshVao > 0) //needs to be unloaded and already loaded

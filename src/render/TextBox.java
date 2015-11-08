@@ -24,7 +24,7 @@ public class TextBox extends GuiTexture {
 	public int[] noOrdersIfMenu = null;
 	public boolean lock = false, shortcut = true;
 	public boolean autoClear = true;
-	public boolean active = false, monospace = false, noOverlap = false;
+	public boolean monospace = false, noOverlap = false;
 	
 	//0-255
 	public Vector3f textColor = new Vector3f(255,0,0); 
@@ -151,7 +151,7 @@ public class TextBox extends GuiTexture {
 		pixelPos.y = y; //pixelSize.y = y haha
 	}
 	
-	//Return itself for convienence
+	//Return itself for conveinence
 	public TextBox color(float x, float y, float z) {color.x = x; color.y = y; color.z = z; return this;}
 	public TextBox color(float w) {return color(w,w,w);}
 	public TextBox borderColor(float x, float y, float z) {borderR = x; borderG = y; borderB = z; return this;}
@@ -159,6 +159,11 @@ public class TextBox extends GuiTexture {
 	
 	//Legacy methods
 	public void activate(boolean a) {active = a;}
+	
+	public void orderOriginal() 
+	{
+		pos = origPos;
+	}
 	
 	/*public void tick()
 	{

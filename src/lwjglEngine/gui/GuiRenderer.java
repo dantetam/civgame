@@ -23,6 +23,7 @@ import org.lwjgl.stb.STBTTBakedChar;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -75,7 +76,7 @@ public class GuiRenderer {
 					normalize(new Vector2f(gui.pixelPos.x + gui.pixelSize.x/2, DisplayManager.height - (gui.pixelPos.y + gui.pixelSize.y/2))), 
 					normalizeSize(gui.pixelSize)
 					);
-			shader.loadColor(new Vector3f(gui.color.x/255f, gui.color.y/255f, gui.color.z/255f));
+			shader.loadColor(new Vector4f(gui.color.x/255f, gui.color.y/255f, gui.color.z/255f, gui.color.w/255f));
 			//if (gui instanceof TextBox)
 				//System.out.println(gui.color + " " + ((TextBox)gui).display.get(0));
 			shader.loadTransformation(matrix);
