@@ -37,6 +37,7 @@ import lwjglEngine.render.DisplayManager;
 import lwjglEngine.render.Loader;
 import lwjglEngine.toolbox.Maths;
 import render.Menu;
+import render.TechMenu;
 import render.TextBox;
 import system.MenuSystem;
 
@@ -147,11 +148,51 @@ public class GuiRenderer {
 					if (gui.active)
 						guis.add(gui);
 		}
+		//ArrayList<GuiTexture> techMenuGuis = renderTechMenu(menuSystem.techMenu);
+		if (menuSystem.techMenu.active())
+			for (GuiTexture gui: menuSystem.techMenu.buttons)
+				guis.add(gui);
 		for (GuiTexture gui: menuSystem.textboxes)
 			if (gui.active)
 				guis.add(gui);
 		render(guis);
 	}
+	/*public ArrayList<GuiTexture> renderTechMenu(TechMenu techMenu)
+	{
+		//Display tech tree
+		main.pushStyle();
+		main.strokeWeight(3);
+		//System.out.println("yaaaa");
+		main.stroke(255,255,255,50);
+		for (int i = 0; i < techMenu.lines.size(); i++)
+		{
+			main.line(techMenu.lines.get(i).x1, techMenu.lines.get(i).y1, techMenu.lines.get(i).x2, techMenu.lines.get(i).y2);
+		}
+		main.fill(255,255,255,255); main.noStroke(); //Reset alpha
+		for (int i = 0; i < techMenu.buttons.size(); i++)
+		{
+			TextBox b = techMenu.buttons.get(i);
+			if (b.active)
+			{
+				main.fill(b.r, b.g, b.b);
+				//main.stroke(b.borderR, b.borderG, b.borderB);
+				strokeTextbox(b.borderR, b.borderG, b.borderB);
+				if (b.shape == 0)
+					main.rect(b.posX, b.posY, b.sizeX, b.sizeY);
+				else if (b.shape == 1)
+					main.ellipse(b.posX, b.posY, b.sizeX, b.sizeY);
+				else
+					System.out.println("Invalid button shape: " + b.shape);
+				main.textAlign(PApplet.CENTER, PApplet.CENTER);
+				main.fill(255);
+				displayText(b);
+				main.fill(255,0,0);
+				//System.out.println(b.display.get(0) + ": " + b.posX + " " + b.posY + " " + b.sizeX + " " + b.sizeY);
+				shortcutText(b);
+			}
+		}
+		main.popStyle();
+	}*/
 
 	public int getFontHeight()
 	{
