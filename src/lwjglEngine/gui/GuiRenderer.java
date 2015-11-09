@@ -146,14 +146,14 @@ public class GuiRenderer {
 			if (menu.active())
 				for (GuiTexture gui: menu.buttons)
 					guis.add(gui);
-			if (menu.name.equals("MainMenu"))
+			if (menu.name.equals("UnitMenu"))
 			{
 				for (GuiTexture gui: menu.buttons)
 				{
 					String text = ((TextBox)gui).display.size() > 0 ? ((TextBox)gui).display.get(0) : null;
-					System.out.println("Moving: " + text + " " + ((TextBox)gui).pos + " " + ((TextBox)gui).size);
+					//System.out.println("Moving: " + text + " " + ((TextBox)gui).pos + " " + ((TextBox)gui).size);
 				}
-				System.out.println(menu.buttons.size());
+				//System.out.println(menu.buttons.size());
 			}
 		}
 		//System.out.println("*");

@@ -2511,7 +2511,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			TextBox b = menus.get(1).buttons.get(i);
 			b.move(b.pos.x, main.height*5/6 - (menus.get(1).buttons.size()+2)*height + i*height); //Shift the buttons to their proper place
-			b.size.x = 150; b.size.y = height;
+			b.resize(150, height);
 			
 			b.origPos.x = b.pixelPos.x; b.origPos.y = b.pixelPos.y;
 			//b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
@@ -2520,9 +2520,9 @@ public class MenuSystem extends BaseSystem {
 			b.origX = b.posX; b.origY = b.posY;*/
 		}
 
-		ImageBox img = new ImageBox(loader.loadTexture("en.name"),"",0,main.height*5/6,main.height/6,main.height/6);
+		/*ImageBox img = new ImageBox(loader.loadTexture(en.name),"",0,main.height*5/6,main.height/6,main.height/6);
 		img.tint(en.owner.r, en.owner.g, en.owner.b);
-		menus.get(1).buttons.add(img);
+		menus.get(1).buttons.add(img);*/
 
 		//TODO: Add encyclopedia entries
 		//TextBox b = menus.get(1).addButton("encyclopedia"+en.name, en.name, "Encyclopedia entry for "+en.name+" >",0,main.height*5/6-height,main.height/6,height);
@@ -3019,9 +3019,9 @@ public class MenuSystem extends BaseSystem {
 				settlerChoices = null;
 			}
 			if (en instanceof City)
-			{
 				updateCity((City)en);
-			}
+			else
+				updateUnitMenu((GameEntity)en);
 			//textboxes.get(1).orders.clear();
 			textboxes.get(1).activate(true);
 			textboxes.get(1).move(main.width - 400,main.height);

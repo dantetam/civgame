@@ -19,6 +19,7 @@ public class GuiTexture {
 	public GuiTexture(int t, Vector2f p, Vector2f s) {
 		texture = t;
 		pixelPos = p; pixelSize = s;
+		origPos = p; 
 		pos = new Vector2f(p.x/DisplayManager.width, p.y/DisplayManager.height); size = new Vector2f(s.x/DisplayManager.width, s.y/DisplayManager.height);
 		active = true;
 	}
