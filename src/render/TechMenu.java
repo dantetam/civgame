@@ -2,9 +2,12 @@ package render;
 
 import java.util.ArrayList;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import system.MenuSystem;
 import game.Tech;
 import game.TechTree;
+import lwjglEngine.fontRendering.TextMaster;
 
 public class TechMenu extends Menu {
 
@@ -77,9 +80,12 @@ public class TechMenu extends Menu {
 			//Do nothing, no other techs to show
 		}
 		Button b = getTechButton(t);
-		b.pos.x = x; b.pos.y = y;
-		b.size.x = sX; b.size.y = sY;
+		b.move(x, y);
+		b.resize(sX, sY);
+		b.origPos = new Vector2f(x,y);
 		addButton(b);
+		System.out.println("loading " + b.pos + " " + b.size + " " + b.color);
+		TextMaster.loadText(b);
 	}
 
 	private Button getTechButton(Tech t)

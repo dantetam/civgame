@@ -150,6 +150,12 @@ public class TextBox extends GuiTexture {
 		pixelPos.x = x;
 		pixelPos.y = y; //pixelSize.y = y haha
 	}
+	public void resize(float x, float y)
+	{
+		size.x = x/DisplayManager.width;
+		size.y = y/DisplayManager.height;
+		pixelSize = new Vector2f(x,y);
+	}
 	
 	//Return itself for conveinence
 	public TextBox color(float x, float y, float z) {color.x = x; color.y = y; color.z = z; return this;}

@@ -127,7 +127,7 @@ public class CivGame {
 			menuSystem.rbox = grid.civs[0].revealedBox();
 
 			menuSystem.techMenu = new TechMenu(grid.civs[0].techTree, "TechMenu");
-			//menuSystem.menus.add(menuSystem.techMenu); //Not including it is a violation of OOP principles
+			menuSystem.menus.add(menuSystem.techMenu); //Not including it is a violation of OOP principles
 			
 			lwjglSystem = new MainGameLoop(this);
 			camera = lwjglSystem.camera;

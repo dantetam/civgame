@@ -79,7 +79,7 @@ public class GuiRenderer {
 					);
 			shader.loadColor(new Vector4f(gui.color.x/255f, gui.color.y/255f, gui.color.z/255f, gui.color.w/255f));
 			//if (gui instanceof TextBox)
-				//System.out.println(gui.color + " " + ((TextBox)gui).display.get(0));
+			//System.out.println(gui.color + " " + ((TextBox)gui).display.get(0));
 			shader.loadTransformation(matrix);
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.vertexCount);
 		}
@@ -121,18 +121,18 @@ public class GuiRenderer {
 		//GL11.glglScalef(scaleFactor, scaleFactor, 1f);
 		// Scroll
 		//glTranslatef(4.0f, 4.0f - getLineOffset() * getFontHeight(), 0f);
-		
+
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, quads);
 
 		//Matrix4f matrix = Maths.createTransformationMatrix(normalize(new Vector2f(gui.pos.x + gui.size.x/2, gui.pos.y + gui.size.y/2)), normalizeSize(gui.size));
-		
+
 		Matrix4f matrix = Maths.createTransformationMatrix(gui.pos, gui.size);
-		
+
 		shader.loadTransformation(matrix);
-		
+
 		glDrawArrays(GL_QUADS, 0, quads * 4);
-		
+
 		//glTranslatef(-4.0f, -4.0f + getLineOffset() * getFontHeight(), 0f);
 
 		//glPopMatrix();
@@ -145,13 +145,12 @@ public class GuiRenderer {
 		{
 			if (menu.active())
 				for (GuiTexture gui: menu.buttons)
-					if (gui.active)
-						guis.add(gui);
+					guis.add(gui);
 		}
 		//ArrayList<GuiTexture> techMenuGuis = renderTechMenu(menuSystem.techMenu);
-		if (menuSystem.techMenu.active())
+		/*if (menuSystem.techMenu.active())
 			for (GuiTexture gui: menuSystem.techMenu.buttons)
-				guis.add(gui);
+				guis.add(gui);*/
 		for (GuiTexture gui: menuSystem.textboxes)
 			if (gui.active)
 				guis.add(gui);
