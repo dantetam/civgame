@@ -34,7 +34,10 @@ public class ModelManager {
 
 	public void addUnit(BaseEntity en, int r, int c)
 	{
-		Group candidate = LevelManager.loadFromXML(EntityData.getUniqueModel(en.name), "partTexture", "colorTexture" + (int)en.owner.primaryBrickColor);
+		String texture = "partTexture";
+		if (en.owner != null)
+			texture = "colorTexture" + (int)en.owner.primaryBrickColor;
+		Group candidate = LevelManager.loadFromXML(EntityData.getUniqueModel(en.name), "partTexture", texture);
 		units.put(en, candidate);
 		moveUnitTo(en,r,c);
 	}
@@ -43,8 +46,8 @@ public class ModelManager {
 		/*Group candidate = access(en);
 		if (candidate != null)
 			lm.groups.remove(candidate);*/
-		units.put(en, null);
-		improvements.put(en, null);
+		units.remove(en);
+		improvements.remove(en);
 	}
 	public void moveUnitTo(BaseEntity en, int r, int c)
 	{

@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import render.CivGame;
+import render.TechMenu;
 import system.BaseSystem;
 import terrain.BicubicInterpolator;
 import lwjglEngine.entities.Camera;
@@ -87,6 +88,10 @@ public class MainGameLoop {
 			TextMaster.init(loader);
 			main.menuSystem.setupLoader(loader);
 			main.menuSystem.setupMenus(); //Set up menus once loader is not null
+			
+			//Always insert the tech menu last
+			main.menuSystem.techMenu = new TechMenu(main.grid.civs[0].techTree, "TechMenu");
+			main.menuSystem.menus.add(main.menuSystem.techMenu); //Not including it is a violation of OOP principles
 
 			//rTexture = new TerrainTexture(loader.loadTexture("dirt"));
 			//gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));

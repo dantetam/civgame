@@ -6,6 +6,7 @@ import game.GameEntity;
 import game.Tech;
 import game.Tile;
 import lwjglEngine.gui.GuiTexture;
+import lwjglEngine.render.DisplayManager;
 import lwjglEngine.render.Loader;
 
 import java.util.ArrayList;
@@ -2406,7 +2407,7 @@ public class MenuSystem extends BaseSystem {
 			textboxes.get(4).display.add(s);
 			//menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " + c.name + ".", 600, 190+60+15*(i-1), 90, 15);
 		}
-		textboxes.get(4).size.y = (main.grid.civs.length - 1 + 4)*15 + 15;
+		textboxes.get(4).move(textboxes.get(4).pixelPos.x, (main.grid.civs.length - 1 + 4)*15 + 15);
 		//menus.get(8).activate(true);
 		//100,190,500,250
 	}
@@ -3031,7 +3032,7 @@ public class MenuSystem extends BaseSystem {
 			stack.clear();
 			//textboxes.get(1).orders.clear();
 			textboxes.get(1).activate(false);
-			textboxes.get(1).move(main.width - 400,main.height-150);
+			textboxes.get(1).move(DisplayManager.width - 400,DisplayManager.height-150);
 
 			menus.get(1).buttons.clear();
 		}

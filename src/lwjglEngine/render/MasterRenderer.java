@@ -62,7 +62,7 @@ public class MasterRenderer {
 	{
 		//GL11.glDisable(GL11.GL_CULL_FACE);
 	}
-	
+
 	//Return a new MousePicker 
 	public MousePicker setupMousePicker(Camera c)
 	{
@@ -86,7 +86,7 @@ public class MasterRenderer {
 		((WhiteTerrainShader) terrainShader).loadCoords(sel, hi, rows, cols, mp);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
-		
+
 		terrains.clear();
 		entities.clear();
 	}
@@ -122,15 +122,19 @@ public class MasterRenderer {
 	{
 		for (Group group: lm.modelManager.units.values())
 		{
-			processEntities(group.entities);
 			//System.out.println(group.position);
+			if (group != null)
+				processEntities(group.entities);
 		}
 		for (Group group: lm.modelManager.improvements.values())
-			processEntities(group.entities);
+			if (group != null)
+				processEntities(group.entities);
 		for (Group group: lm.modelManager.resources.values())
-			processEntities(group.entities);
+			if (group != null)
+				processEntities(group.entities);
 		for (Group group: lm.modelManager.features.values())
-			processEntities(group.entities);
+			if (group != null)
+				processEntities(group.entities);
 	}
 
 	public void prepare()

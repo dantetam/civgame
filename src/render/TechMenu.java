@@ -84,7 +84,7 @@ public class TechMenu extends Menu {
 		b.resize(sX, sY);
 		b.origPos = new Vector2f(x,y);
 		addButton(b);
-		System.out.println("loading " + b.pos + " " + b.size + " " + b.color);
+		//System.out.println("loading " + b.pos + " " + b.size + " " + b.color);
 		TextMaster.loadText(b);
 	}
 
