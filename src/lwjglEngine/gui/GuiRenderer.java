@@ -47,6 +47,8 @@ public class GuiRenderer {
 	private GuiShader shader;
 	//private UnicodeFont unicodeFont;
 
+	public ArrayList<GuiTexture> guisActive = new ArrayList<GuiTexture>();
+	
 	public GuiRenderer(Loader loader) {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		float[] positions = {-1,1,-1,-1,1,1,1,-1};
@@ -63,13 +65,13 @@ public class GuiRenderer {
 			e.printStackTrace();
 		}*/
 	}
-
-	public void render(ArrayList<GuiTexture> guis)
+	
+	public void render()
 	{
 		shader.start();
 		GL30.glBindVertexArray(quad.vaoID);
 		GL20.glEnableVertexAttribArray(0);
-		for (GuiTexture gui: guis)
+		for (GuiTexture gui: guisActive)
 		{
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.texture);
@@ -138,23 +140,23 @@ public class GuiRenderer {
 		//glPopMatrix();
 	}*/
 
-	public void render(MenuSystem menuSystem)
+	public void update(MenuSystem menuSystem)
 	{
-		ArrayList<GuiTexture> guis = new ArrayList<GuiTexture>();
+		guisActive.clear();
 		for (Menu menu: menuSystem.menus)
 		{
 			if (menu.active())
 				for (GuiTexture gui: menu.buttons)
-					guis.add(gui);
-			if (menu.name.equals("UnitMenu"))
+					guisActive.add(gui);
+			/*if (menu.name.equals("UnitMenu"))
 			{
 				for (GuiTexture gui: menu.buttons)
 				{
 					String text = ((TextBox)gui).display.size() > 0 ? ((TextBox)gui).display.get(0) : null;
-					//System.out.println("Moving: " + text + " " + ((TextBox)gui).pos + " " + ((TextBox)gui).size);
+					System.out.println("Moving: " + text + " " + ((TextBox)gui).pos + " " + ((TextBox)gui).size);
 				}
-				//System.out.println(menu.buttons.size());
-			}
+				System.out.println(menu.buttons.size());
+			}*/
 		}
 		//System.out.println("*");
 		//ArrayList<GuiTexture> techMenuGuis = renderTechMenu(menuSystem.techMenu);
@@ -163,8 +165,7 @@ public class GuiRenderer {
 				guis.add(gui);*/
 		for (GuiTexture gui: menuSystem.textboxes)
 			if (gui.active)
-				guis.add(gui);
-		render(guis);
+				guisActive.add(gui);
 	}
 	/*public ArrayList<GuiTexture> renderTechMenu(TechMenu techMenu)
 	{

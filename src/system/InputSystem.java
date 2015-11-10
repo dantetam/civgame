@@ -619,7 +619,7 @@ public class InputSystem extends BaseSystem {
 
 	public void executeAction(String action)
 	{
-		System.out.println("InputSystem executed " + action);
+		//System.out.println("InputSystem executed " + action);
 		if (action.equals("ADVANCE_TURN"))
 		{
 			Civilization civ = main.grid.civs[0];

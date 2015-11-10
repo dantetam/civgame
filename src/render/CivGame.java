@@ -20,6 +20,7 @@ import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.util.vector.Vector2f;
 
 import lwjglEngine.entities.Camera;
+import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.gui.Mouse;
 import lwjglEngine.render.DisplayManager;
@@ -186,6 +187,8 @@ public class CivGame {
 					else if (button == 1) {
 						inputSystem.passRightMouseClick(Mouse.getX(), Mouse.getY());
 					}
+					TextMaster.update(menuSystem);
+					lwjglSystem.renderer.guiRenderer.update(menuSystem);
 				} 
 
 			}
@@ -207,6 +210,8 @@ public class CivGame {
 						renderSystem.mousePicker.constant += 0.01f;
 						System.out.println(renderSystem.mousePicker.constant);
 					}
+					TextMaster.update(menuSystem);
+					lwjglSystem.renderer.guiRenderer.update(menuSystem);
 				}
 			}
 		}));

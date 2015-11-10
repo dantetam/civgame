@@ -1852,9 +1852,11 @@ public class MenuSystem extends BaseSystem {
 		}
 		else if (command.equals("unitSettle"))
 		{
+			System.out.println(selected);
 			if (selected != null) 
 				if (!((Settler)selected).settle())
 					message("Cannot settle here.");
+			select(null);
 		}
 		else if (command.equals("stack"))
 		{
