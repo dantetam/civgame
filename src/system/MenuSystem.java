@@ -260,6 +260,7 @@ public class MenuSystem extends BaseSystem {
 			//if (!main.enabled) break;
 			if (menus.get(menu).active())
 			{
+				//System.out.println("Menu " + menu);
 				for (int i = clicks.size() - 1; i >= 0; i--)
 				{
 					String command = menus.get(menu).click(clicks.get(i).mouseX, clicks.get(i).mouseY);
@@ -1630,6 +1631,7 @@ public class MenuSystem extends BaseSystem {
 	public boolean executeAction(String command)
 	{
 		System.out.println("MenuSystem executed " + command);
+		//closeMenus();
 		if (command.equals("")) return true;
 		GameEntity en = null;
 		menuActivated = true;
@@ -2425,6 +2427,8 @@ public class MenuSystem extends BaseSystem {
 	{
 		float height = 20;
 
+		System.out.println("call");
+		
 		menus.get(1).buttons.clear();
 		//int n = 0;
 		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", 0, main.height*5/6 + 30, main.width*1/6, 30);
@@ -2616,7 +2620,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			TextBox b = menus.get(2).buttons.get(i);
 			b.move(0, main.height*5/6 + i*height - (n*1 + 2)*height); //Shift the buttons to their proper place
-			b.size.x = 150; b.size.y = height;
+			b.resize(150, height);
 			
 			b.origPos.x = b.pixelPos.x; b.origPos.y = b.pixelPos.y;
 			//b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
@@ -3036,7 +3040,7 @@ public class MenuSystem extends BaseSystem {
 			textboxes.get(1).activate(false);
 			textboxes.get(1).move(DisplayManager.width - 400,DisplayManager.height-150);
 
-			menus.get(1).buttons.clear();
+			//menus.get(1).buttons.clear();
 		}
 		/*selected = en;
 		main.newMenuSystem.updateUnitMenu(en);

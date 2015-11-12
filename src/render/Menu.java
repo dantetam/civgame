@@ -98,7 +98,8 @@ public class Menu {
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			TextBox b = buttons.get(i);
-			//System.out.println("Pos: " + b.pixelPos + "; Size: " + b.pixelSize + "; Bounding Box: " + new Vector2f(b.pixelPos.x + b.pixelSize.x, b.pixelPos.y + b.pixelSize.y) + "; Mouse: " + mouseX + "," + mouseY);
+			if (this.name.equals("UnitMenu"))
+				System.out.println("Pos: " + b.pixelPos + "; Size: " + b.pixelSize + "; Bounding Box: " + new Vector2f(b.pixelPos.x + b.pixelSize.x, b.pixelPos.y + b.pixelSize.y) + "; Mouse: " + mouseX + "," + mouseY);
 			if (b instanceof Button)
 				if (b.within(mouseX, mouseY)) //mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y
 					return ((Button)b).command;

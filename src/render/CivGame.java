@@ -189,6 +189,7 @@ public class CivGame {
 					}
 					TextMaster.update(menuSystem);
 					lwjglSystem.renderer.guiRenderer.update(menuSystem);
+					//menuSystem.closeMenus();
 				} 
 
 			}
@@ -212,6 +213,7 @@ public class CivGame {
 					}
 					TextMaster.update(menuSystem);
 					lwjglSystem.renderer.guiRenderer.update(menuSystem);
+					//menuSystem.closeMenus();
 				}
 			}
 		}));
