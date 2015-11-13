@@ -73,15 +73,16 @@ public class TextMaster {
 		}
 		ArrayList<TextBox> allGuis = new ArrayList<TextBox>();
 		for (Menu menu: menuSystem.menus)
-			for (TextBox textBox: menu.buttons)
-				allGuis.add(textBox);
+			if (menu.active())
+				for (TextBox textBox: menu.buttons)
+					allGuis.add(textBox);
 		for (Entry<FontType, List<TextBox>> en: texts.entrySet())
 		{
 			List<TextBox> guis = en.getValue();
 			for (int i = guis.size() - 1; i >= 0; i--) //Backwards for arraylist trap
 				if (!allGuis.contains(guis.get(i)))
-					guis.remove(guis.get(i));
-			texts.put(en.getKey(), guis);
+					removeText(guis.get(i));
+			//texts.put(en.getKey(), guis);
 		}
 	}
 

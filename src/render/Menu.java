@@ -19,7 +19,7 @@ public class Menu {
 		buttons = new ArrayList<TextBox>();
 		active = false;
 	}
-	
+
 	/*public TextBox addButton(String command, String display, String tooltip, float a, float b, float c, float d)
 	{
 		Button temp = new Button(12,null,display.length(),true,-1,command,display,tooltip,a,b,c,d);
@@ -27,7 +27,7 @@ public class Menu {
 		buttons.add(temp);
 		return temp;
 	}*/
-	
+
 	public TextBox addButton(int texture, String command, String display, String tooltip, float a, float b, float c, float d)
 	{
 		Button temp = new Button(12,null,display.length(),true,texture,command,display,tooltip,a,b,c,d);
@@ -43,7 +43,7 @@ public class Menu {
 		buttons.add(temp);
 		return temp;
 	}
-	
+
 	/*public TextBox addButton(int w, FontType x, int y, boolean z, String command, String display, String tooltip, float a, float b, float c, float d)
 	{
 		Button temp = new Button(w,x,y,z,-1,command,display,tooltip,a,b,c,d);
@@ -51,7 +51,7 @@ public class Menu {
 		buttons.add(temp);
 		return temp;
 	}*/
-	
+
 	public TextBox addButton(String command, String display, String tooltip, float a, float b, float c, float d)
 	{
 		Button temp = new Button(12,null,display.length(),true,-1,command,display,tooltip,a,b,c,d);
@@ -59,7 +59,7 @@ public class Menu {
 		buttons.add(temp);
 		return temp;
 	}
-	
+
 	public TextBox addButton(TextBox temp)
 	{
 		temp.menu = this;
@@ -84,7 +84,7 @@ public class Menu {
 		}
 		return null;
 	}
-	
+
 	public TextBox findButtonByName(String name)
 	{
 		for (int i = 0; i < buttons.size(); i++)
@@ -92,21 +92,25 @@ public class Menu {
 				return buttons.get(i);
 		return null;
 	}
-	
+
 	public String click(float mouseX, float mouseY)
 	{
+		if (this.name.equals("UnitMenu"))
+			System.out.println(buttons.size());
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			TextBox b = buttons.get(i);
 			if (this.name.equals("UnitMenu"))
-				System.out.println("Pos: " + b.pixelPos + "; Size: " + b.pixelSize + "; Bounding Box: " + new Vector2f(b.pixelPos.x + b.pixelSize.x, b.pixelPos.y + b.pixelSize.y) + "; Mouse: " + mouseX + "," + mouseY);
+			{
+				System.out.println(b.display.get(0) + "; Pos: " + b.pixelPos + "; Size: " + b.pixelSize + "; Bounding Box: " + new Vector2f(b.pixelPos.x + b.pixelSize.x, b.pixelPos.y + b.pixelSize.y) + "; Mouse: " + mouseX + "," + mouseY);
+			}
 			if (b instanceof Button)
 				if (b.within(mouseX, mouseY)) //mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y
 					return ((Button)b).command;
 		}
 		return null;
 	}
-	
+
 	public TextBox within(float mouseX, float mouseY)
 	{
 		for (int i = 0; i < buttons.size(); i++)
@@ -138,7 +142,7 @@ public class Menu {
 	{
 		return name.equals(other.name);
 	}
-	
+
 	public boolean requestUpdate = false;
 	public void activate(boolean yn) {active = yn; if (yn) requestUpdate = true;}
 	public boolean active() {return active;}

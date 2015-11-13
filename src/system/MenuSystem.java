@@ -224,7 +224,7 @@ public class MenuSystem extends BaseSystem {
 		textboxes.add(text8);
 
 		text4.activate(false);
-		
+
 		/*for (int i = 3; i <= 8; i++)
 		{
 			textboxes.get(i).activate(false);
@@ -1721,7 +1721,7 @@ public class MenuSystem extends BaseSystem {
 			{
 				displayTechMenu(main.grid.civs[0]);
 				menus.get(5).activate(true);
-				
+
 				techMenu.setupButtons();
 				techMenu.activate(true);
 			}
@@ -2427,9 +2427,14 @@ public class MenuSystem extends BaseSystem {
 	{
 		float height = 20;
 
-		System.out.println("call");
-		
 		menus.get(1).buttons.clear();
+		
+		if (en == null)
+		{
+			menus.get(1).activate(false);
+			return;
+		}
+		
 		//int n = 0;
 		menus.get(1).addButton("unitKill", "Destroy", "Destroy this unit.", 0, main.height*5/6 + 30, main.width*1/6, 30);
 		menus.get(1).addButton("unitSkipTurn", "Skip Turn", "Do nothing this turn.", 0, main.height*5/6 + 30, main.width*1/6, 30);
@@ -2518,10 +2523,10 @@ public class MenuSystem extends BaseSystem {
 			TextBox b = menus.get(1).buttons.get(i);
 			b.move(b.pos.x, main.height*5/6 - (menus.get(1).buttons.size()+2)*height + i*height); //Shift the buttons to their proper place
 			b.resize(150, height);
-			
+
 			b.origPos.x = b.pixelPos.x; b.origPos.y = b.pixelPos.y;
 			//b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
-			
+
 			/*b.origSizeX = 150; b.origSizeY = height;
 			b.origX = b.posX; b.origY = b.posY;*/
 		}
@@ -2534,7 +2539,7 @@ public class MenuSystem extends BaseSystem {
 		//TextBox b = menus.get(1).addButton("encyclopedia"+en.name, en.name, "Encyclopedia entry for "+en.name+" >",0,main.height*5/6-height,main.height/6,height);
 		TextBox b = menus.get(1).addButton("", en.name, "Encyclopedia entry for "+en.name+" >",0,main.height*5/6-height,main.height/6,height);
 		b.shortcut = false;
-		
+
 		menus.get(1).activate(true);
 		//System.out.println(menus.get(1).buttons.size());
 	}
@@ -2543,6 +2548,11 @@ public class MenuSystem extends BaseSystem {
 	public void updateCity(City c)
 	{
 		menus.get(2).buttons.clear();
+		if (c == null)
+		{
+			menus.get(2).activate(false);
+			return;
+		}
 
 		TextBox button = menus.get(2).addButton("unitSleep", "Sleep", "Do not queue and produce anything with this city.", 0, 0, 0, 0);
 		button.tooltip.add("Not recommended.");
@@ -2621,7 +2631,7 @@ public class MenuSystem extends BaseSystem {
 			TextBox b = menus.get(2).buttons.get(i);
 			b.move(0, main.height*5/6 + i*height - (n*1 + 2)*height); //Shift the buttons to their proper place
 			b.resize(150, height);
-			
+
 			b.origPos.x = b.pixelPos.x; b.origPos.y = b.pixelPos.y;
 			//b.origSizeX = b.sizeX; b.origSizeY = b.sizeY;
 		}
@@ -2642,6 +2652,8 @@ public class MenuSystem extends BaseSystem {
 		t.display.add("Metal per turn: " + (int)Math.floor(data[2]));
 		t.display.add("Research per turn: " + (int)Math.floor(data[3]));
 		menus.get(2).buttons.add(t);
+
+		menus.get(2).activate(true);
 	}
 
 	private void unitButton(City c, String s, boolean enabled)
@@ -3025,9 +3037,15 @@ public class MenuSystem extends BaseSystem {
 				settlerChoices = null;
 			}
 			if (en instanceof City)
+			{
 				updateCity((City)en);
+				updateUnitMenu(null);
+			}
 			else
+			{
 				updateUnitMenu((GameEntity)en);
+				updateCity(null);
+			}
 			//textboxes.get(1).orders.clear();
 			textboxes.get(1).activate(true);
 			textboxes.get(1).move(main.width - 400,main.height);
@@ -3040,6 +3058,8 @@ public class MenuSystem extends BaseSystem {
 			textboxes.get(1).activate(false);
 			textboxes.get(1).move(DisplayManager.width - 400,DisplayManager.height-150);
 
+			updateUnitMenu(null);
+			updateCity(null);
 			//menus.get(1).buttons.clear();
 		}
 		/*selected = en;
