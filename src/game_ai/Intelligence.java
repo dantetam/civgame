@@ -6,6 +6,13 @@ import game.Civilization;
 
 public class Intelligence {
 	
+	private Civilization civilization;
+	
+	public Intelligence(Civilization civ)
+	{
+		civilization = civ;
+	}
+	
 	public int prosperityScore(Civilization civ)
 	{
 		
