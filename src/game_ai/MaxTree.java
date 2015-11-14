@@ -14,17 +14,33 @@ public class MaxTree {
 		
 	}
 	
-	public int value(State state)
+	public float value(State state)
 	{
-		
+		if (state.type == StateType.TERMINAL)
+			return state.event.value;
+		else if (state.type == StateType.MAX)
+			return maxValue(state);
+		else if (state.type == StateType.EXP)
+			return expValue(state);
+		System.err.println("Invalid state type, data: " );
+		System.err.print("; " + state.event.value);
+		return -1;
+		//for (Event event: state.events)
+			//System.out.print("; " + event.name + " " + event.value + " " + event.chance);
 	}
 	
-	public int maxValue(State state)
+	public float maxValue(State state)
 	{
-		
+		float max = -1;
+		for (State child: state.children)
+		{
+			float value = value(child);
+			if (value > max) max = value;
+		}
+		return max;
 	}
 	
-	public int expValue(State state)
+	public float expValue(State state)
 	{
 		
 	}
@@ -34,12 +50,13 @@ public class MaxTree {
 		public StateType type;
 		public ArrayList<State> children = new ArrayList<State>();
 		
-		public float value;
-		public ArrayList<Event> events = new ArrayList<Event>();
+		public Event event;
+		//public ArrayList<Event> events = new ArrayList<Event>();
 	}
 	public class Event
 	{
 		public String name; public float chance, value;
+		public Event(String n, float c, float v) {name = n; chance = c; value = v;}
 	}
 	
 	public enum StateType
