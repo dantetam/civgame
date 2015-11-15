@@ -184,6 +184,11 @@ public class ConflictSystem {
 	//Changed a to BaseEntity to account for city firing on units
 	public int[] fire(BaseEntity a, GameEntity d)
 	{
+		double[] offDef = calcOffDefMod(a,d);
+		return fire((int)(a.rangedStr*offDef[0]), (int)(d.defensiveStr*offDef[1]));
+	}
+	public double[] calcOffDefMod(BaseEntity a, GameEntity d)
+	{
 		double off = 1, def = 1;
 		double potentialAdv = 0;
 		if (a.is("City"))
@@ -236,7 +241,7 @@ public class ConflictSystem {
 				off += 0.25;
 			}
 		}
-		return fire((int)(a.rangedStr*off), (int)(d.defensiveStr*def));
+		return new int[]{off,def};
 	}
 
 	//Attack a city
