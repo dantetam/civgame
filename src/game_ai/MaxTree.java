@@ -11,24 +11,24 @@ public class MaxTree {
 
 	public static MaxTree generateTree(Civilization civ) //Generate an expectimax tree based on civilization's choices
 	{
-		
+
 	}
-	
+
 	public float value(State state)
 	{
 		if (state.type == StateType.TERMINAL)
-			return state.event.value;
+			state.calcValue = state.event.value;
 		else if (state.type == StateType.MAX)
-			return maxValue(state);
+			state.calcValue = maxValue(state);
 		else if (state.type == StateType.EXP)
-			return expValue(state);
+			state.calcValue = expValue(state);
 		System.err.println("Invalid state type, data: " );
 		System.err.print("; " + state.event.value);
-		return -1;
+		return state.calcValue;
 		//for (Event event: state.events)
-			//System.out.print("; " + event.name + " " + event.value + " " + event.chance);
+		//System.out.print("; " + event.name + " " + event.value + " " + event.chance);
 	}
-	
+
 	public float maxValue(State state)
 	{
 		float max = -1;
@@ -39,17 +39,25 @@ public class MaxTree {
 		}
 		return max;
 	}
-	
+
 	public float expValue(State state)
 	{
-		
+		float sum = 0;
+		for (State child: state.children)
+		{
+			float value = value(child);
+			sum += value * child.event.chance;
+		}
+		return sum;
 	}
-	
+
 	public class State
 	{
 		public StateType type;
 		public ArrayList<State> children = new ArrayList<State>();
-		
+
+		public float calcValue;
+
 		public Event event;
 		//public ArrayList<Event> events = new ArrayList<Event>();
 	}
@@ -58,10 +66,10 @@ public class MaxTree {
 		public String name; public float chance, value;
 		public Event(String n, float c, float v) {name = n; chance = c; value = v;}
 	}
-	
+
 	public enum StateType
 	{
 		TERMINAL, MAX, EXP
 	}
-	
+
 }
