@@ -796,7 +796,7 @@ public class CivilizationSystem extends BaseSystem {
 			if (main != null)
 				main.takeBlendMap(main.sendHighlightMap(main.grid), "res/generatedHighlightMap.png"); 
 		}
-		Intelligence.calculateCivScores(grid)
+		Intelligence.calculateCivScores(grid);
 		/*TODO:
 		 * 
 		 * Figure out why this broke the code

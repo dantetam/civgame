@@ -3,6 +3,7 @@ package game_ai;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import game.BaseEntity;
 import game.Civilization;
 import game.Grid;
 import game.TechTree;
@@ -32,7 +33,7 @@ public class MaxTree {
 	{
 		//Calculate other most advanced civ
 		Grid grid = c.location.grid;
-		/*if (Intelligence.civScores == null) Intelligence.calculateCivScores(grid);
+		if (Intelligence.civScores == null) Intelligence.calculateCivScores(grid);
 		int idMax = 0;
 		for (int i = 1; i < Intelligence.civScores.length; i++)
 		{
@@ -41,8 +42,8 @@ public class MaxTree {
 		}
 		Civilization rival = grid.civs[idMax];
 		int actionQueueTurns = MenuSystem.calcQueueTurnsInt(c, action);
-		int[] heuristic = Intelligence.calculateHeurYield(rival, action, actionQueueTurns);*/
-		
+		//int[] heuristic = Intelligence.calculateHeurYield(rival, action, actionQueueTurns);
+		ArrayList<ArrayList<BaseEntity>> p = genQueuePermutations(Intelligence.civMaxDevScore(rival,(int)(actionQueueTurns*1.5f)));
 	}
 
 	public float value(State state)

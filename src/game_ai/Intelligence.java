@@ -28,6 +28,7 @@ public class Intelligence {
 	
 	public static int prosperityScore(Civilization civ)
 	{
+		if (civ.cities.size() == 0 && civ.units.size() == 0) return 0;
 		return unitsScore(civ) + (int)(techScore(civ)*1.5f) + developmentScore(civ);
 	}
 
@@ -62,19 +63,12 @@ public class Intelligence {
 			sum += evalTech(tech.techs[i]);
 		return sum;
 	}
-	public static int developmentScore(Civilization civ) //Cities, improvements, territory
+	private static int developmentScore(Civilization civ) //Cities, improvements, territory
 	{
 		float sum = 0;
 		for (City city: civ.cities)
 		{
-			double[] product = new double[4];
-			for (Tile t: city.workedLand)
-			{
-				double[] e = City.staticEval(t);
-				for (int j = 0; j < e.length; j++)
-					product[j] += e[j];
-			}
-			sum += product[0]*0.5f + product[1]*0.25f + product[2]*0.5f + product[3];
+			sum += cityDevScore(city);
 		}
 		for (GameEntity en: civ.units)
 		{
@@ -84,8 +78,37 @@ public class Intelligence {
 		return (int)sum;
 	}
 	
+	public static int cityDevScore(City city)
+	{
+		double[] product = new double[4];
+		for (Tile t: city.workedLand)
+		{
+			double[] e = City.staticEval(t);
+			for (int j = 0; j < e.length; j++)
+				product[j] += e[j];
+		}
+		return (int)(product[0]*0.5f + product[1]*0.25f + product[2]*0.5f + product[3]);
+	}
+	
+	public static City civMaxDevScore(Civilization civ)
+	{
+		if (civ.cities.size() == 0) return null;
+		if (civ.cities.size() == 1) return civ.cities.get(0);
+		int maxIndex = 0, maxScore = cityDevScore(civ.cities.get(0));
+		for (int i = 1; i < civ.cities.size(); i++)
+		{
+			int score = cityDevScore(civ.cities.get(i));
+			if (score > maxScore)
+			{
+				maxScore = score;
+				maxIndex = i;
+			}
+		}
+		return civ.cities.get(maxIndex);
+	}
+	
 	private static ArrayList<ArrayList<BaseEntity>> masterList = new ArrayList<ArrayList<BaseEntity>>();
-	public static  possible(ArrayList<BaseEntity> list, City c, int turns)
+	private static void possible(ArrayList<BaseEntity> list, City c, int turns)
 	{
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		ArrayList<String> impr = c.owner.techTree.allowedCityImprovements;
@@ -99,11 +122,28 @@ public class Intelligence {
 		{
 			turnsImpr[i] = MenuSystem.calcQueueTurnsInt(c, impr.get(i));
 		}
-		if (turns <= 0)
-			masterList.add(list);
+		for (int i = 0; i < turnsUnits.length; i++)
+		{
+			if (turns - turnsUnits[i] < 0) 
+				masterList.add(list);
+			else
+				possible(list, c, turns - turnsUnits[i]);
+		}
+		for (int i = 0; i < turnsImpr.length; i++)
+		{
+			if (turns - turnsImpr[i] < 0) 
+				masterList.add(list);
+			else
+				possible(list, c, turns - turnsImpr[i]);
+		}
 	}
 	
-	public static ArrayList<ArrayList<BaseEntity>> 
+	public static ArrayList<ArrayList<BaseEntity>> genQueuePermutations(City c, int turns)
+	{
+		masterList.clear();
+		possible(new ArrayList<BaseEntity>(), c, turns);
+		return masterList;
+	}
 	
 	public static int unitScore(GameEntity en)
 	{
