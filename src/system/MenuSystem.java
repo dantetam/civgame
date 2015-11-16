@@ -2309,7 +2309,7 @@ public class MenuSystem extends BaseSystem {
 		}
 	}*/
 
-	public int calcQueueTurnsInt(City citySelected, String name)
+	public static int calcQueueTurnsInt(City citySelected, String name)
 	{
 		int[] t = citySelected.quickEval();
 		float[] cost = EntityData.getCost(name);

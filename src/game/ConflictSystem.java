@@ -241,7 +241,7 @@ public class ConflictSystem {
 				off += 0.25;
 			}
 		}
-		return new int[]{off,def};
+		return new double[]{off,def};
 	}
 
 	//Attack a city

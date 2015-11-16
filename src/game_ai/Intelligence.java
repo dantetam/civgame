@@ -8,25 +8,30 @@ import game.GameEntity;
 import game.Grid;
 import game.Tech;
 import game.Tile;
+import system.MenuSystem;
 import units.City;
 
 //All around wrapper class for advanced AI concepts used in the game
 
 public class Intelligence {
 
-	private Civilization civilization;
-
-	public Intelligence(Civilization civ)
+	public static int[] civScores = null;
+	
+	public static void calculateCivScores(Grid grid)
 	{
-		civilization = civ;
+		civScores = new int[grid.civs.length];
+		for (int i = 0; i < grid.civs.length; i++)
+		{
+			civScores[i] = Intelligence.developmentScore(grid.civs[i]);
+		}
 	}
-
-	public int prosperityScore(Civilization civ)
+	
+	public static int prosperityScore(Civilization civ)
 	{
 		return unitsScore(civ) + (int)(techScore(civ)*1.5f) + developmentScore(civ);
 	}
 
-	public int unitsScore(Civilization civ) //Not adaptive.
+	public static int unitsScore(Civilization civ) //Not adaptive.
 	{
 		int sum = 0;
 		for (int i = 0; i < civ.units.size(); i++)
@@ -42,13 +47,13 @@ public class Intelligence {
 		}
 		return sum;
 	}
-	public int techScore(Civilization civ)
+	public static int techScore(Civilization civ)
 	{
 		int sum = evalTech(civ.techTree.first);
 		//Was I planning to do anything here? Hmmm...
 		return sum;
 	}
-	public int evalTech(Tech tech)
+	public static int evalTech(Tech tech)
 	{
 		int sum = 0;
 		if (tech.researched())
@@ -57,7 +62,7 @@ public class Intelligence {
 			sum += evalTech(tech.techs[i]);
 		return sum;
 	}
-	public int developmentScore(Civilization civ) //Cities, improvements, territory
+	public static int developmentScore(Civilization civ) //Cities, improvements, territory
 	{
 		float sum = 0;
 		for (City city: civ.cities)
@@ -78,15 +83,34 @@ public class Intelligence {
 		}
 		return (int)sum;
 	}
-
-	public int oneUnitScore(GameEntity en) //Calculates score of a unit. Adaptive.
+	
+	private static ArrayList<ArrayList<BaseEntity>> masterList = new ArrayList<ArrayList<BaseEntity>>();
+	public static  possible(ArrayList<BaseEntity> list, City c, int turns)
 	{
-		float sum = 0;
-		Grid grid = en.location.grid;
+		ArrayList<String> units = c.owner.techTree.allowedUnits;
+		ArrayList<String> impr = c.owner.techTree.allowedCityImprovements;
+		int[] turnsUnits = new int[units.size()];
+		int[] turnsImpr = new int[impr.size()];
+		for (int i = 0; i < units.size(); i++)
+		{
+			turnsUnits[i] = MenuSystem.calcQueueTurnsInt(c, units.get(i));
+		}
+		for (int i = 0; i < impr.size(); i++)
+		{
+			turnsImpr[i] = MenuSystem.calcQueueTurnsInt(c, impr.get(i));
+		}
+		if (turns <= 0)
+			masterList.add(list);
+	}
+	
+	public static ArrayList<ArrayList<BaseEntity>> 
+	
+	public static int unitScore(GameEntity en)
+	{
 		ArrayList<GameEntity> enemies = new ArrayList<GameEntity>();
 		ArrayList<GameEntity> rivals = new ArrayList<GameEntity>();
 		int[][] allowed = en.owner.revealed;
-		for (Civilization civ: grid.civs)
+		for (Civilization civ: en.location.grid.civs)
 		{
 			if (civ.equals(en.owner)) continue;
 			for (GameEntity unit: civ.units)
@@ -100,6 +124,16 @@ public class Intelligence {
 				}
 			}
 		}
+		return unitScoreWithUnits(en, enemies, rivals);
+	}
+	public static int unitScoreWithRival(GameEntity en, ArrayList<GameEntity> enemies)
+	{
+		return unitScoreWithUnits(en, enemies, new ArrayList<GameEntity>());
+	}
+	public static int unitScoreWithUnits(GameEntity en, ArrayList<GameEntity> enemies, ArrayList<GameEntity> rivals) //Calculates score of a unit. Adaptive.
+	{
+		float sum = 0;
+		Grid grid = en.location.grid;
 		if (en.name.equals("Settler"))
 			sum = 10;
 		else if (en.mode == 0)
@@ -122,6 +156,7 @@ public class Intelligence {
 		}
 		averageOffDef /= enemies.size()*2 + rivals.size();
 		sum *= averageOffDef;
+		return (int)sum;
 	}
 
 }

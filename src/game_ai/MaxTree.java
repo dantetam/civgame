@@ -1,17 +1,48 @@
 package game_ai;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import game.Civilization;
+import game.Grid;
+import game.TechTree;
+import system.MenuSystem;
+import units.City;
 
 //An expectimax tree data structure used for determining AI action
 //Depth limited for frequent (per-turn) calculations
 
 public class MaxTree {
 
-	public static MaxTree generateTree(Civilization civ) //Generate an expectimax tree based on civilization's choices
+	public static MaxTree generateTree(City c)
 	{
-
+		TechTree tech = c.owner.techTree;
+		HashMap<String, Integer> predictedGain = new HashMap<String, Integer>(); 
+		for (String action: tech.allowedUnits)
+		{
+			predictedGain.put(action, generateTreeForCityAction(c, action));
+		}
+		for (String action: tech.allowedCityImprovements)
+		{
+			
+		}
+	}
+	
+	public static int generateTreeForCityAction(City c, String action) //Generate an expectimax tree based on civilization's choices
+	{
+		//Calculate other most advanced civ
+		Grid grid = c.location.grid;
+		/*if (Intelligence.civScores == null) Intelligence.calculateCivScores(grid);
+		int idMax = 0;
+		for (int i = 1; i < Intelligence.civScores.length; i++)
+		{
+			if (Intelligence.civScores[i] > Intelligence.civScores[idMax] && c.owner.id != i)
+				idMax = i;
+		}
+		Civilization rival = grid.civs[idMax];
+		int actionQueueTurns = MenuSystem.calcQueueTurnsInt(c, action);
+		int[] heuristic = Intelligence.calculateHeurYield(rival, action, actionQueueTurns);*/
+		
 	}
 
 	public float value(State state)
