@@ -3,8 +3,10 @@ package game_ai;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import data.EntityData;
 import game.BaseEntity;
 import game.Civilization;
+import game.GameEntity;
 import game.Grid;
 import game.TechTree;
 import system.MenuSystem;
@@ -29,7 +31,7 @@ public class MaxTree {
 		}
 	}
 	
-	public static int generateTreeForCityAction(City c, String action) //Generate an expectimax tree based on civilization's choices
+	public static int generateTreeForCityUnit(City c, String unit) //Generate an expectimax tree based on civilization's choices
 	{
 		//Calculate other most advanced civ
 		Grid grid = c.location.grid;
@@ -41,9 +43,14 @@ public class MaxTree {
 				idMax = i;
 		}
 		Civilization rival = grid.civs[idMax];
-		int actionQueueTurns = MenuSystem.calcQueueTurnsInt(c, action);
+		int actionQueueTurns = MenuSystem.calcQueueTurnsInt(c, unit);
 		//int[] heuristic = Intelligence.calculateHeurYield(rival, action, actionQueueTurns);
-		ArrayList<ArrayList<BaseEntity>> p = genQueuePermutations(Intelligence.civMaxDevScore(rival,(int)(actionQueueTurns*1.5f)));
+		ArrayList<ArrayList<BaseEntity>> p = Intelligence.genQueuePermutations(Intelligence.cityMaxDevScore(rival), (int)(actionQueueTurns*1.5f));
+		int sum = 0;
+		for (int i = 0; i < p.size(); i++)
+		{
+			sum += Intelligence.unitScoreWithRival((GameEntity)EntityData.get(c.queue), p.get(i));
+		}
 	}
 
 	public float value(State state)

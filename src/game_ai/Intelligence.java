@@ -16,7 +16,7 @@ import units.City;
 public class Intelligence {
 
 	public static int[] civScores = null;
-	
+
 	public static void calculateCivScores(Grid grid)
 	{
 		civScores = new int[grid.civs.length];
@@ -25,7 +25,7 @@ public class Intelligence {
 			civScores[i] = Intelligence.developmentScore(grid.civs[i]);
 		}
 	}
-	
+
 	public static int prosperityScore(Civilization civ)
 	{
 		if (civ.cities.size() == 0 && civ.units.size() == 0) return 0;
@@ -77,7 +77,7 @@ public class Intelligence {
 		}
 		return (int)sum;
 	}
-	
+
 	public static int cityDevScore(City city)
 	{
 		double[] product = new double[4];
@@ -89,8 +89,8 @@ public class Intelligence {
 		}
 		return (int)(product[0]*0.5f + product[1]*0.25f + product[2]*0.5f + product[3]);
 	}
-	
-	public static City civMaxDevScore(Civilization civ)
+
+	public static City cityMaxDevScore(Civilization civ)
 	{
 		if (civ.cities.size() == 0) return null;
 		if (civ.cities.size() == 1) return civ.cities.get(0);
@@ -106,7 +106,7 @@ public class Intelligence {
 		}
 		return civ.cities.get(maxIndex);
 	}
-	
+
 	private static ArrayList<ArrayList<BaseEntity>> masterList = new ArrayList<ArrayList<BaseEntity>>();
 	private static void possible(ArrayList<BaseEntity> list, City c, int turns)
 	{
@@ -137,23 +137,23 @@ public class Intelligence {
 				possible(list, c, turns - turnsImpr[i]);
 		}
 	}
-	
+
 	public static ArrayList<ArrayList<BaseEntity>> genQueuePermutations(City c, int turns)
 	{
 		masterList.clear();
 		possible(new ArrayList<BaseEntity>(), c, turns);
 		return masterList;
 	}
-	
+
 	public static int unitScore(GameEntity en)
 	{
-		ArrayList<GameEntity> enemies = new ArrayList<GameEntity>();
-		ArrayList<GameEntity> rivals = new ArrayList<GameEntity>();
+		ArrayList<BaseEntity> enemies = new ArrayList<BaseEntity>();
+		ArrayList<BaseEntity> rivals = new ArrayList<BaseEntity>();
 		int[][] allowed = en.owner.revealed;
 		for (Civilization civ: en.location.grid.civs)
 		{
 			if (civ.equals(en.owner)) continue;
-			for (GameEntity unit: civ.units)
+			for (BaseEntity unit: civ.units)
 			{
 				if (allowed[unit.location.row][unit.location.col] == 2)
 				{
@@ -166,11 +166,11 @@ public class Intelligence {
 		}
 		return unitScoreWithUnits(en, enemies, rivals);
 	}
-	public static int unitScoreWithRival(GameEntity en, ArrayList<GameEntity> enemies)
+	public static int unitScoreWithRival(GameEntity en, ArrayList<BaseEntity> enemies)
 	{
-		return unitScoreWithUnits(en, enemies, new ArrayList<GameEntity>());
+		return unitScoreWithUnits(en, enemies, new ArrayList<BaseEntity>());
 	}
-	public static int unitScoreWithUnits(GameEntity en, ArrayList<GameEntity> enemies, ArrayList<GameEntity> rivals) //Calculates score of a unit. Adaptive.
+	public static int unitScoreWithUnits(GameEntity en, ArrayList<BaseEntity> enemies, ArrayList<BaseEntity> rivals) //Calculates score of a unit. Adaptive.
 	{
 		float sum = 0;
 		Grid grid = en.location.grid;
@@ -182,19 +182,27 @@ public class Intelligence {
 			sum = en.offensiveStr + en.defensiveStr;
 		else if (en.mode == 2)
 			sum = en.rangedStr + en.defensiveStr;
-		double averageOffDef = 0;
+		double averageOffDef = 0; int n = 0;
 		//Weighted averages of the off-def potential of a unit versus all adversaries
-		for (GameEntity enemy: enemies)
+		for (BaseEntity enemy: enemies)
 		{
-			double[] offDef = grid.conflictSystem.calcOffDefMod(en, enemy);
-			averageOffDef += offDef[0]*2/offDef[1]; //double the weight
+			if (enemy instanceof GameEntity)
+			{
+				double[] offDef = grid.conflictSystem.calcOffDefMod(en, (GameEntity)enemy);
+				averageOffDef += offDef[0]*2/offDef[1]; 
+				n += 2; //double the weight
+			}
 		}
-		for (GameEntity rival: rivals)
+		for (BaseEntity rival: rivals)
 		{
-			double[] offDef = grid.conflictSystem.calcOffDefMod(en, rival);
-			averageOffDef += offDef[0]/offDef[1];
+			if (rival instanceof GameEntity)
+			{
+				double[] offDef = grid.conflictSystem.calcOffDefMod(en, (GameEntity)rival);
+				averageOffDef += offDef[0]/offDef[1]; 
+				n += 1;
+			}
 		}
-		averageOffDef /= enemies.size()*2 + rivals.size();
+		averageOffDef /= n;
 		sum *= averageOffDef;
 		return (int)sum;
 	}
