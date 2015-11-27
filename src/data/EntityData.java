@@ -15,6 +15,7 @@ import processing.core.PImage;
 import terrain.DiamondSquare;
 //import processing.core.PShape;
 import game.*;
+import game_ai.MaxTree;
 import units.*;
 
 public class EntityData {
@@ -895,7 +896,12 @@ public class EntityData {
 	//TODO: Factor in level of technology and available units
 	public static Improvement queueAi(City c, boolean civ)
 	{
-		String queue = null;
+		String queue = MaxTree.generateTree(c);
+		if (queue == null)
+			return null;
+		//System.out.println(queue);
+		return queue(c, queue);
+		/*String queue = null;
 		int p = 0, cities = c.owner.count("Settler");
 		for (int i = 0; i < c.owner.cities.size(); i++) 
 		{
@@ -957,7 +963,7 @@ public class EntityData {
 		if (c.owner.units.size() > 5*c.owner.cities.size())
 			return null;
 		//System.out.println(queue);
-		return queue(c, queue);
+		return queue(c, queue);*/
 	}
 
 	//Decide which city improvement is best

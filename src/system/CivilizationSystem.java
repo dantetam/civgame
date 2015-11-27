@@ -170,8 +170,8 @@ public class CivilizationSystem extends BaseSystem {
 						}
 						if (c.queue == null && i != 0)
 						{
-							if (civ.units.size() < 15)
-								EntityData.queueAi(c, true);
+							//if (civ.units.size() < 15)
+							EntityData.queueAi(c, true);
 						}
 						if (c.queue != null)
 						{

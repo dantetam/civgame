@@ -51,7 +51,7 @@ public class MaxTree {
 
 	public static int generateTreeForCityBuilding(City c, String building)
 	{
-		Grid grid = c.location.grid;
+		//Grid grid = c.location.grid;
 		int actionQueueTurns = MenuSystem.calcQueueTurnsInt(c, building);
 		Improvement impr = EntityData.cityImprovementMap.get(building);
 		double score = impr.foodFlat + impr.goldFlat + impr.metalFlat;
@@ -82,7 +82,7 @@ public class MaxTree {
 		return sum;
 	}  
 
-	public float value(State state)
+	/*public float value(State state)
 	{
 		if (state.type == StateType.TERMINAL)
 			state.calcValue = state.event.value;
@@ -138,6 +138,6 @@ public class MaxTree {
 	public enum StateType
 	{
 		TERMINAL, MAX, EXP
-	}
+	}*/
 
 }
