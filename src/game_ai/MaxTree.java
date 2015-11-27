@@ -23,12 +23,18 @@ public class MaxTree {
 		HashMap<String, Integer> predictedGain = new HashMap<String, Integer>(); 
 		for (String action: tech.allowedUnits)
 		{
-			predictedGain.put(action, generateTreeForCityAction(c, action));
+			predictedGain.put(action, generateTreeForCityUnit(c, action));
 		}
 		for (String action: tech.allowedCityImprovements)
 		{
-			
+			predictedGain.put(action, generateTreeForCityBuilding(c, action));
 		}
+	}
+	
+	public static int generateTreeForCityBuilding(City c, String unit)
+	{
+		Grid grid = c.location.grid;
+		int actionQueueTurns = MenuSystem.calcQueueTurnsInt(c, unit);
 	}
 	
 	public static int generateTreeForCityUnit(City c, String unit) //Generate an expectimax tree based on civilization's choices
@@ -51,7 +57,9 @@ public class MaxTree {
 		{
 			sum += Intelligence.unitScoreWithRival((GameEntity)EntityData.get(c.queue), p.get(i));
 		}
-	}
+		sum /= p.size()*actionQueueTurns;
+		return sum;
+	}  
 
 	public float value(State state)
 	{
