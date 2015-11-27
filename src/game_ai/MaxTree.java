@@ -2,8 +2,10 @@ package game_ai;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import data.EntityData;
+import data.Improvement;
 import game.BaseEntity;
 import game.Civilization;
 import game.GameEntity;
@@ -17,7 +19,7 @@ import units.City;
 
 public class MaxTree {
 
-	public static MaxTree generateTree(City c)
+	public static String generateTree(City c)
 	{
 		TechTree tech = c.owner.techTree;
 		HashMap<String, Integer> predictedGain = new HashMap<String, Integer>(); 
@@ -27,16 +29,35 @@ public class MaxTree {
 		}
 		for (String action: tech.allowedCityImprovements)
 		{
+			boolean discount = false;
+			for (Improvement en: c.buildings) //Check if building is already built
+			{
+				if (en.name.equals(action))
+				{
+					discount = true;
+					break;
+				}
+			}
+			if (discount) continue; //was there a better way for this? do i have to use something like "qualifier:"?
 			predictedGain.put(action, generateTreeForCityBuilding(c, action));
 		}
+		String max = null; int maxValue = -1;
+		for (Entry<String, Integer> en: predictedGain.entrySet())
+		{
+			if (en.getValue() > maxValue) max = en.getKey();
+		}
+		return max;
 	}
-	
-	public static int generateTreeForCityBuilding(City c, String unit)
+
+	public static int generateTreeForCityBuilding(City c, String building)
 	{
 		Grid grid = c.location.grid;
-		int actionQueueTurns = MenuSystem.calcQueueTurnsInt(c, unit);
+		int actionQueueTurns = MenuSystem.calcQueueTurnsInt(c, building);
+		Improvement impr = EntityData.cityImprovementMap.get(building);
+		double score = impr.foodFlat + impr.goldFlat + impr.metalFlat;
+		return (int)(score/(double)actionQueueTurns);
 	}
-	
+
 	public static int generateTreeForCityUnit(City c, String unit) //Generate an expectimax tree based on civilization's choices
 	{
 		//Calculate other most advanced civ
