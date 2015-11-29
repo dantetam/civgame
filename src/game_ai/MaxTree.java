@@ -19,6 +19,7 @@ import units.City;
 
 public class MaxTree {
 
+	//Return the most optimal choice using weighted averages of heuristics
 	public static String generateTree(City c)
 	{
 		TechTree tech = c.owner.techTree;
@@ -49,6 +50,7 @@ public class MaxTree {
 		return max;
 	}
 
+	//For now, simply compute a heuristic of the predicted gain using loss in resources per turn
 	public static int generateTreeForCityBuilding(City c, String building)
 	{
 		//Grid grid = c.location.grid;
@@ -60,6 +62,8 @@ public class MaxTree {
 
 	public static int generateTreeForCityUnit(City c, String unit) //Generate an expectimax tree based on civilization's choices
 	{
+		//Not really an expectimax algorithm. Using weighted averages + comparison so I guess it's minimax?
+		
 		//Calculate other most advanced civ
 		Grid grid = c.location.grid;
 		if (Intelligence.civScores == null) Intelligence.calculateCivScores(grid);
@@ -73,6 +77,8 @@ public class MaxTree {
 		int actionQueueTurns = MenuSystem.calcQueueTurnsInt(c, unit);
 		//int[] heuristic = Intelligence.calculateHeurYield(rival, action, actionQueueTurns);
 		ArrayList<ArrayList<BaseEntity>> p = Intelligence.genQueuePermutations(Intelligence.cityMaxDevScore(rival), (int)(actionQueueTurns*1.5f));
+		if (p.size() == 0)
+			return Intelligence.unitScoreWithUnits((GameEntity)EntityData.get(c.queue), new ArrayList<BaseEntity>(), new ArrayList<BaseEntity>());
 		int sum = 0;
 		for (int i = 0; i < p.size(); i++)
 		{

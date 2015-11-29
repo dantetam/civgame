@@ -16,6 +16,8 @@ import units.City;
 public class Intelligence {
 
 	public static int[] civScores = null;
+	
+	//Provide some utility methods below for scoring purposes to compare moves
 
 	public static void calculateCivScores(Grid grid)
 	{
@@ -107,7 +109,9 @@ public class Intelligence {
 		return civ.cities.get(maxIndex);
 	}
 
+	//Store these lists manually since doing it recursively is too much of a hassle
 	private static ArrayList<ArrayList<BaseEntity>> masterList = new ArrayList<ArrayList<BaseEntity>>();
+	//Generate a list of queue beelines that can be possibly carried out by City c in given turns
 	private static void possible(ArrayList<BaseEntity> list, City c, int turns)
 	{
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
@@ -138,13 +142,17 @@ public class Intelligence {
 		}
 	}
 
+	//Clear out old results, generate new results, and return them
 	public static ArrayList<ArrayList<BaseEntity>> genQueuePermutations(City c, int turns)
 	{
 		masterList.clear();
+		if (c == null) //No cities established
+			return masterList;
 		possible(new ArrayList<BaseEntity>(), c, turns);
 		return masterList;
 	}
 
+	//Generate score based on available units known, or given units
 	public static int unitScore(GameEntity en)
 	{
 		ArrayList<BaseEntity> enemies = new ArrayList<BaseEntity>();
@@ -202,6 +210,8 @@ public class Intelligence {
 				n += 1;
 			}
 		}
+		if (n == 0)
+			return (int)sum;
 		averageOffDef /= n;
 		sum *= averageOffDef;
 		return (int)sum;
