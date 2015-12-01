@@ -228,8 +228,9 @@ public class Intelligence {
 		{
 			if (enemy instanceof GameEntity)
 			{
-				double[] offDef = ConflictSystem.calcOffDefMod(en, (GameEntity)enemy);
-				averageOffDef += offDef[0]*2/offDef[1]; 
+				//double[] offDef = ConflictSystem.calcOffDefMod(en, (GameEntity)enemy);
+				Object[] offDef = ConflictSystem.attack(en, (GameEntity)enemy);
+				averageOffDef += (Double)offDef[4]*2/(Double)offDef[5]; 
 				n += 2; //double the weight
 			}
 		}
@@ -237,8 +238,9 @@ public class Intelligence {
 		{
 			if (rival instanceof GameEntity)
 			{
-				double[] offDef = ConflictSystem.calcOffDefMod(en, (GameEntity)rival);
-				averageOffDef += offDef[0]/offDef[1]; 
+				//double[] offDef = ConflictSystem.calcOffDefMod(en, (GameEntity)rival);
+				Object[] offDef = ConflictSystem.attack(en, (GameEntity)rival);
+				averageOffDef += (Double)offDef[4]/(Double)offDef[5]; 
 				n += 1;
 			}
 		}

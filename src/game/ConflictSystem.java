@@ -23,9 +23,9 @@ public class ConflictSystem {
 		}
 	}
 
-	public String[] difficultyNames = {"", "Sandbox", "Settler", "Warlord", "Monarch", "Immortal"};
+	public static String[] difficultyNames = {"", "Sandbox", "Settler", "Warlord", "Monarch", "Immortal"};
 	//Return the damage inflicted by a on d in an attack, and d on a in a defense
-	public Object[] attack(GameEntity a, GameEntity d)
+	public static Object[] attack(GameEntity a, GameEntity d)
 	{
 		ArrayList<String> reasonsA = new ArrayList<String>();
 		ArrayList<String> reasonsD = new ArrayList<String>();
@@ -41,7 +41,7 @@ public class ConflictSystem {
 			reasonsD.add("+15% from defensive trait");
 			def += 0.15;
 		}
-		switch (grid.difficultyLevel)
+		switch (Grid.difficultyLevel)
 		{
 		case 1:
 			potentialAdv = 0.15;
@@ -59,18 +59,18 @@ public class ConflictSystem {
 			potentialAdv = -0.15;
 			break;
 		default:
-			System.out.println("Invalid difficulty level: " + grid.difficultyLevel);
+			System.out.println("Invalid difficulty level: " + Grid.difficultyLevel);
 		}
 		if (a.owner.id == 0)
 		{
 			if (potentialAdv >= 0)
 			{
-				reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
+				reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
 				off += potentialAdv;
 			}
 			else
 			{
-				reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
+				reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
 				def += potentialAdv;
 			}
 		}
@@ -78,22 +78,22 @@ public class ConflictSystem {
 		{
 			if (potentialAdv >= 0)
 			{
-				reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
+				reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
 				def += potentialAdv;
 			}
 			else
 			{
-				reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
+				reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
 				off += potentialAdv;
 			}
 		}
 		//Disadvantage to barbarians
-		if (a.owner.id >= grid.barbarians)
+		if (a.owner.id >= Grid.barbarians)
 		{
 			reasonsA.add("-15% from barbarian traditions");
 			off -= 0.15;
 		}
-		if (d.owner.id >= grid.barbarians)
+		if (d.owner.id >= Grid.barbarians)
 		{
 			reasonsA.add("-15% from barbarian traditions");
 			def -= 0.15;
@@ -177,7 +177,7 @@ public class ConflictSystem {
 			reasonsD.add("+50% from spearman against mounted");
 			def += 0.5;
 		}
-		return new Object[]{attack((int)(a.offensiveStr*off), (int)(d.defensiveStr*def)), reasonsA, reasonsD};
+		return new Object[]{attack((int)(a.offensiveStr*off), (int)(d.defensiveStr*def)), reasonsA, reasonsD, off, def};
 	}
 
 	//Return the damage inflicted by a ranged attack
@@ -195,7 +195,7 @@ public class ConflictSystem {
 		{
 			off = ((City)a).morale; 
 		}
-		System.out.println(a.name + "Name");
+		//System.out.println(a.owner + "Name");
 		if (a.owner.trait("Aggressive"))
 			off += 0.1;
 		if (d.owner.trait("Defensive"))
@@ -260,7 +260,7 @@ public class ConflictSystem {
 	//This accepts two sets of parameters: offensive str, defensive str, and possibly evasion str later
 	//The first index is attacker on defender
 	//http://forums.civfanatics.com/showthread.php?t=432238
-	public int[] attack(float a, float d)
+	public static int[] attack(float a, float d)
 	{
 		float spread = 3F/3F;
 

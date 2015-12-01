@@ -29,7 +29,7 @@ public class Grid {
 	public static int difficultyLevel;
 
 	//Keep track of barbarian civs
-	public int barbarians;
+	public static int barbarians;
 
 	//Ensure that random numbers are the same (i.e. seeded)
 	public Random rand;
