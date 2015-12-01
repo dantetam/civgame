@@ -901,7 +901,11 @@ public class EntityData {
 			return null;
 		//System.out.println(queue);
 		return queue(c, queue);
-		/*String queue = null;
+	}
+	
+	public static Improvement queueAiOld(City c, boolean civ)
+	{
+		String queue = null;
 		int p = 0, cities = c.owner.count("Settler");
 		for (int i = 0; i < c.owner.cities.size(); i++) 
 		{
@@ -963,7 +967,7 @@ public class EntityData {
 		if (c.owner.units.size() > 5*c.owner.cities.size())
 			return null;
 		//System.out.println(queue);
-		return queue(c, queue);*/
+		return queue(c, queue);
 	}
 
 	//Decide which city improvement is best

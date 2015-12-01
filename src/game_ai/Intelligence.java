@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import game.BaseEntity;
 import game.Civilization;
+import game.ConflictSystem;
 import game.GameEntity;
 import game.Grid;
 import game.Tech;
@@ -16,7 +17,7 @@ import units.City;
 public class Intelligence {
 
 	public static int[] civScores = null;
-	
+
 	//Provide some utility methods below for scoring purposes to compare moves
 
 	public static void calculateCivScores(Grid grid)
@@ -110,10 +111,13 @@ public class Intelligence {
 	}
 
 	//Store these lists manually since doing it recursively is too much of a hassle
-	private static ArrayList<ArrayList<BaseEntity>> masterList = new ArrayList<ArrayList<BaseEntity>>();
+	private static ArrayList<ArrayList<String>> masterList = new ArrayList<ArrayList<String>>();
 	//Generate a list of queue beelines that can be possibly carried out by City c in given turns
-	private static void possible(ArrayList<BaseEntity> list, City c, int turns)
+	private static void possible(ArrayList<String> list, City c, int turns, int times)
 	{
+		System.out.println("Called with " + turns + " number of turns, " + times + " iterations, and contents (" + list.size() + "): ");
+		for (int i = 0; i < list.size(); i++)
+			System.out.print(list.get(i) + " ");
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
 		ArrayList<String> impr = c.owner.techTree.allowedCityImprovements;
 		int[] turnsUnits = new int[units.size()];
@@ -129,26 +133,37 @@ public class Intelligence {
 		for (int i = 0; i < turnsUnits.length; i++)
 		{
 			if (turns - turnsUnits[i] < 0) 
+			{
 				masterList.add(list);
+				return;
+			}
 			else
-				possible(list, c, turns - turnsUnits[i]);
+			{
+				list.add(units.get(i));
+				possible(list, c, turns - turnsUnits[i], times+1);
+			}
 		}
 		for (int i = 0; i < turnsImpr.length; i++)
 		{
 			if (turns - turnsImpr[i] < 0) 
+			{
 				masterList.add(list);
+				return;
+			}
 			else
-				possible(list, c, turns - turnsImpr[i]);
+			{
+				possible(list, c, turns - turnsImpr[i], times+1);
+			}
 		}
 	}
 
 	//Clear out old results, generate new results, and return them
-	public static ArrayList<ArrayList<BaseEntity>> genQueuePermutations(City c, int turns)
+	public static ArrayList<ArrayList<String>> genQueuePermutations(City c, int turns)
 	{
 		masterList.clear();
 		if (c == null) //No cities established
 			return masterList;
-		possible(new ArrayList<BaseEntity>(), c, turns);
+		possible(new ArrayList<String>(), c, turns, 0);
 		return masterList;
 	}
 
@@ -181,7 +196,6 @@ public class Intelligence {
 	public static int unitScoreWithUnits(GameEntity en, ArrayList<BaseEntity> enemies, ArrayList<BaseEntity> rivals) //Calculates score of a unit. Adaptive.
 	{
 		float sum = 0;
-		Grid grid = en.location.grid;
 		if (en.name.equals("Settler"))
 			sum = 10;
 		else if (en.mode == 0)
@@ -196,7 +210,7 @@ public class Intelligence {
 		{
 			if (enemy instanceof GameEntity)
 			{
-				double[] offDef = grid.conflictSystem.calcOffDefMod(en, (GameEntity)enemy);
+				double[] offDef = ConflictSystem.calcOffDefMod(en, (GameEntity)enemy);
 				averageOffDef += offDef[0]*2/offDef[1]; 
 				n += 2; //double the weight
 			}
@@ -205,7 +219,7 @@ public class Intelligence {
 		{
 			if (rival instanceof GameEntity)
 			{
-				double[] offDef = grid.conflictSystem.calcOffDefMod(en, (GameEntity)rival);
+				double[] offDef = ConflictSystem.calcOffDefMod(en, (GameEntity)rival);
 				averageOffDef += offDef[0]/offDef[1]; 
 				n += 1;
 			}

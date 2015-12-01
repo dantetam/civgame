@@ -78,11 +78,11 @@ public class MaxTree {
 		//int[] heuristic = Intelligence.calculateHeurYield(rival, action, actionQueueTurns);
 		ArrayList<ArrayList<BaseEntity>> p = Intelligence.genQueuePermutations(Intelligence.cityMaxDevScore(rival), (int)(actionQueueTurns*1.5f));
 		if (p.size() == 0)
-			return Intelligence.unitScoreWithUnits((GameEntity)EntityData.get(c.queue), new ArrayList<BaseEntity>(), new ArrayList<BaseEntity>());
+			return Intelligence.unitScoreWithUnits((GameEntity)EntityData.get(unit), new ArrayList<BaseEntity>(), new ArrayList<BaseEntity>());
 		int sum = 0;
 		for (int i = 0; i < p.size(); i++)
 		{
-			sum += Intelligence.unitScoreWithRival((GameEntity)EntityData.get(c.queue), p.get(i));
+			sum += Intelligence.unitScoreWithRival((GameEntity)EntityData.get(unit), p.get(i));
 		}
 		sum /= p.size()*actionQueueTurns;
 		return sum;

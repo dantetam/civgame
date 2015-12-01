@@ -187,7 +187,7 @@ public class ConflictSystem {
 		double[] offDef = calcOffDefMod(a,d);
 		return fire((int)(a.rangedStr*offDef[0]), (int)(d.defensiveStr*offDef[1]));
 	}
-	public double[] calcOffDefMod(BaseEntity a, GameEntity d)
+	public static double[] calcOffDefMod(BaseEntity a, GameEntity d)
 	{
 		double off = 1, def = 1;
 		double potentialAdv = 0;
@@ -199,7 +199,7 @@ public class ConflictSystem {
 			off += 0.1;
 		if (d.owner.trait("Defensive"))
 			def += 0.15;
-		switch (grid.difficultyLevel)
+		switch (Grid.difficultyLevel)
 		{
 		case 1:
 			potentialAdv = 0.2;
@@ -217,7 +217,7 @@ public class ConflictSystem {
 			potentialAdv = -0.2;
 			break;
 		default:
-			System.out.println("Invalid difficulty level: " + grid.difficultyLevel);
+			System.out.println("Invalid difficulty level: " + Grid.difficultyLevel);
 		}
 		if (a.owner.id == 0)
 		{

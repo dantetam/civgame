@@ -26,7 +26,7 @@ public class Grid {
 	public final int aggroDistance = 500;
 	public boolean won = false;
 
-	public int difficultyLevel;
+	public static int difficultyLevel;
 
 	//Keep track of barbarian civs
 	public int barbarians;
