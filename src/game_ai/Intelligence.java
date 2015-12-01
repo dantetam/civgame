@@ -2,6 +2,7 @@ package game_ai;
 
 import java.util.ArrayList;
 
+import data.EntityData;
 import game.BaseEntity;
 import game.Civilization;
 import game.ConflictSystem;
@@ -115,23 +116,26 @@ public class Intelligence {
 	//Generate a list of queue beelines that can be possibly carried out by City c in given turns
 	private static void possible(ArrayList<String> list, City c, int turns, int times)
 	{
-		System.out.println("Called with " + turns + " number of turns, " + times + " iterations, and contents (" + list.size() + "): ");
+		System.out.print("Called with " + turns + " number of turns, " + times + " iterations, and contents (" + list.size() + "): ");
 		for (int i = 0; i < list.size(); i++)
 			System.out.print(list.get(i) + " ");
+		System.out.println();
 		ArrayList<String> units = c.owner.techTree.allowedUnits;
-		ArrayList<String> impr = c.owner.techTree.allowedCityImprovements;
+		//ArrayList<String> impr = c.owner.techTree.allowedCityImprovements;
 		int[] turnsUnits = new int[units.size()];
-		int[] turnsImpr = new int[impr.size()];
+		//int[] turnsImpr = new int[impr.size()];
+		if (times > 5) return;
 		for (int i = 0; i < units.size(); i++)
 		{
 			turnsUnits[i] = MenuSystem.calcQueueTurnsInt(c, units.get(i));
 		}
-		for (int i = 0; i < impr.size(); i++)
+		/*for (int i = 0; i < impr.size(); i++)
 		{
 			turnsImpr[i] = MenuSystem.calcQueueTurnsInt(c, impr.get(i));
-		}
+		}*/
 		for (int i = 0; i < turnsUnits.length; i++)
 		{
+			if (turnsUnits[i] <= 0) continue;
 			if (turns - turnsUnits[i] < 0) 
 			{
 				masterList.add(list);
@@ -139,22 +143,29 @@ public class Intelligence {
 			}
 			else
 			{
-				list.add(units.get(i));
-				possible(list, c, turns - turnsUnits[i], times+1);
+				//list.add(units.get(i));
+				ArrayList<String> temp = new ArrayList<String>(); //Pass a new object, not a reference
+				for (String stringy: list)
+					temp.add(stringy);
+				temp.add(units.get(i));
+				possible(temp, c, turns - turnsUnits[i], times+1);
 			}
 		}
-		for (int i = 0; i < turnsImpr.length; i++)
+		/*for (int i = 0; i < turnsImpr.length; i++)
 		{
+			if (turnsImpr[i] <= 0) continue;
 			if (turns - turnsImpr[i] < 0) 
 			{
 				masterList.add(list);
+				list.clear();
 				return;
 			}
 			else
 			{
+				list.add(impr.get(i));
 				possible(list, c, turns - turnsImpr[i], times+1);
 			}
-		}
+		}*/
 	}
 
 	//Clear out old results, generate new results, and return them
@@ -189,9 +200,16 @@ public class Intelligence {
 		}
 		return unitScoreWithUnits(en, enemies, rivals);
 	}
-	public static int unitScoreWithRival(GameEntity en, ArrayList<BaseEntity> enemies)
+	public static int unitScoreWithRival(GameEntity en, Civilization rival, ArrayList<String> enemies)
 	{
-		return unitScoreWithUnits(en, enemies, new ArrayList<BaseEntity>());
+		ArrayList<BaseEntity> enemiesList = new ArrayList<BaseEntity>();
+		for (String stringy: enemies)
+		{
+			BaseEntity temp = EntityData.get(stringy);
+			temp.owner = rival;
+			enemiesList.add(temp);
+		}
+		return unitScoreWithUnits(en, enemiesList, new ArrayList<BaseEntity>());
 	}
 	public static int unitScoreWithUnits(GameEntity en, ArrayList<BaseEntity> enemies, ArrayList<BaseEntity> rivals) //Calculates score of a unit. Adaptive.
 	{

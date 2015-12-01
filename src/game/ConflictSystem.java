@@ -195,6 +195,7 @@ public class ConflictSystem {
 		{
 			off = ((City)a).morale; 
 		}
+		System.out.println(a.name + "Name");
 		if (a.owner.trait("Aggressive"))
 			off += 0.1;
 		if (d.owner.trait("Defensive"))
