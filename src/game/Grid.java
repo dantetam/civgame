@@ -576,7 +576,35 @@ public class Grid {
 		}
 		return n/land;
 	}
-
+	
+	//Return best unimproved tiles of a city, pre-calculate optimal improvements
+	public Tile bestToImprove(City c)
+	{
+		//ArrayList<TileEntity> imprTiles = new ArrayList<TileEntity>();
+		Tile bestestTile = null; int bestestSum = -1;
+		for (Tile t: c.land)
+		{
+			//Find the best improvement for this individual tile t
+			int bestSum = -1;
+			for (String impr: c.owner.techTree.allowedTileImprovements)
+			{
+				double[] yieldBefore = City.staticEval(t), yieldAfter = City.staticEval(t, impr);
+				int sum = 0;
+				for (int i = 0; i < yieldBefore.length; i++)
+					sum += yieldAfter[i] - yieldBefore[i];
+				if (sum > bestSum)
+					bestSum = sum;
+			}
+			//See if this tile's best is the best overall of every piece of the city's land
+			if (bestSum > bestestSum)
+			{
+				bestestTile = t;
+				bestestSum = bestSum;
+			}
+		}
+		return bestestTile;
+	}
+	
 	//Return the best city scores factoring in previous settlements
 	public Tile returnBestCityScoresMod(int settlerR, int settlerC, int capitalR, int capitalC, double distBias)
 	{
