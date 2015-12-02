@@ -124,7 +124,7 @@ public class Intelligence {
 		//ArrayList<String> impr = c.owner.techTree.allowedCityImprovements;
 		int[] turnsUnits = new int[units.size()];
 		//int[] turnsImpr = new int[impr.size()];
-		if (times > 5) return;
+		if (times > 3) return;
 		for (int i = 0; i < units.size(); i++)
 		{
 			turnsUnits[i] = MenuSystem.calcQueueTurnsInt(c, units.get(i));
@@ -139,6 +139,7 @@ public class Intelligence {
 			if (turns - turnsUnits[i] < 0) 
 			{
 				masterList.add(list);
+				list.clear();
 				return;
 			}
 			else
@@ -230,7 +231,7 @@ public class Intelligence {
 			{
 				//double[] offDef = ConflictSystem.calcOffDefMod(en, (GameEntity)enemy);
 				Object[] offDef = ConflictSystem.attack(en, (GameEntity)enemy);
-				averageOffDef += (Double)offDef[4]*2/(Double)offDef[5]; 
+				averageOffDef += (Double)offDef[3]*2/(Double)offDef[4]; 
 				n += 2; //double the weight
 			}
 		}

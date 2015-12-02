@@ -894,7 +894,7 @@ public class EntityData {
 	}
 
 	//TODO: Factor in level of technology and available units
-	public static Improvement queueAi(City c, boolean civ)
+	public static Improvement queueAi(City c, boolean civ, int d)
 	{
 		String queue = MaxTree.generateTree(c);
 		if (queue == null)

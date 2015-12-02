@@ -31,15 +31,18 @@ public class ConflictSystem {
 		ArrayList<String> reasonsD = new ArrayList<String>();
 		double off = 1, def = 1;
 		double potentialAdv = 0;
-		if (a.owner.trait("Aggressive"))
+		if (a.owner != null && d.owner != null)
 		{
-			reasonsA.add("+10% from aggressive trait");
-			off += 0.1;
-		}
-		if (d.owner.trait("Defensive"))
-		{
-			reasonsD.add("+15% from defensive trait");
-			def += 0.15;
+			if (a.owner.trait("Aggressive"))
+			{
+				reasonsA.add("+10% from aggressive trait");
+				off += 0.1;
+			}
+			if (d.owner.trait("Defensive"))
+			{
+				reasonsD.add("+15% from defensive trait");
+				def += 0.15;
+			}
 		}
 		switch (Grid.difficultyLevel)
 		{
@@ -61,42 +64,45 @@ public class ConflictSystem {
 		default:
 			System.out.println("Invalid difficulty level: " + Grid.difficultyLevel);
 		}
-		if (a.owner.id == 0)
+		if (a.owner != null && d.owner != null)
 		{
-			if (potentialAdv >= 0)
+			if (a.owner.id == 0)
 			{
-				reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
-				off += potentialAdv;
+				if (potentialAdv >= 0)
+				{
+					reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
+					off += potentialAdv;
+				}
+				else
+				{
+					reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
+					def += potentialAdv;
+				}
 			}
-			else
+			else if (d.owner.id == 0)
 			{
-				reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
-				def += potentialAdv;
+				if (potentialAdv >= 0)
+				{
+					reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
+					def += potentialAdv;
+				}
+				else
+				{
+					reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
+					off += potentialAdv;
+				}
 			}
-		}
-		else if (d.owner.id == 0)
-		{
-			if (potentialAdv >= 0)
+			//Disadvantage to barbarians
+			if (a.owner.id >= Grid.barbarians)
 			{
-				reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
-				def += potentialAdv;
+				reasonsA.add("-15% from barbarian traditions");
+				off -= 0.15;
 			}
-			else
+			if (d.owner.id >= Grid.barbarians)
 			{
-				reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
-				off += potentialAdv;
+				reasonsA.add("-15% from barbarian traditions");
+				def -= 0.15;
 			}
-		}
-		//Disadvantage to barbarians
-		if (a.owner.id >= Grid.barbarians)
-		{
-			reasonsA.add("-15% from barbarian traditions");
-			off -= 0.15;
-		}
-		if (d.owner.id >= Grid.barbarians)
-		{
-			reasonsA.add("-15% from barbarian traditions");
-			def -= 0.15;
 		}
 		//Offensive bonus
 		if (a.is("Swordsman"))
@@ -121,20 +127,21 @@ public class ConflictSystem {
 			def += 0.25;
 		}
 		//City defenses
-		if (d.location.improvement != null)
-			if (d.location.improvement instanceof City)
-			{
-				if (d.is("Warrior") || d.is("Archer"))
+		if (d.location != null)
+			if (d.location.improvement != null)
+				if (d.location.improvement instanceof City)
 				{
-					reasonsD.add("+25% from early city defense");
-					def += 0.25;
+					if (d.is("Warrior") || d.is("Archer"))
+					{
+						reasonsD.add("+25% from early city defense");
+						def += 0.25;
+					}
+					if (((City)d.location.improvement).built("Walls"))
+					{
+						reasonsD.add("+40% from walls");
+						def += 0.4;
+					}
 				}
-				if (((City)d.location.improvement).built("Walls"))
-				{
-					reasonsD.add("+40% from walls");
-					def += 0.4;
-				}
-			}
 		//Specific unit advanages
 		if (a.is("Slinger") && d.is("Warrior"))
 		{
@@ -177,7 +184,7 @@ public class ConflictSystem {
 			reasonsD.add("+50% from spearman against mounted");
 			def += 0.5;
 		}
-		return new Object[]{attack((int)(a.offensiveStr*off), (int)(d.defensiveStr*def)), reasonsA, reasonsD, off, def};
+		return new Object[]{attack((int)(a.offensiveStr*off),(int)(d.defensiveStr*def)), reasonsA, reasonsD, off, def};
 	}
 
 	//Return the damage inflicted by a ranged attack

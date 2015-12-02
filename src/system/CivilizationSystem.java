@@ -166,12 +166,12 @@ public class CivilizationSystem extends BaseSystem {
 									EntityData.queue(c, "Warrior");
 								}
 							}*/
-							EntityData.queueAi(c, false);
+							EntityData.queueAiOld(c, false);
 						}
 						if (c.queue == null && i != 0)
 						{
 							//if (civ.units.size() < 15)
-							EntityData.queueAi(c, true);
+							EntityData.queueAiOld(c, true);
 						}
 						if (c.queue != null)
 						{
