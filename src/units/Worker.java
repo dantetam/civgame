@@ -131,7 +131,8 @@ public class Worker extends GameEntity {
 		if (queue == null)
 		{
 			//waddle();
-			waddleInTerritory();
+			//waddleInTerritory();
+			waddleForImprovement();
 		}
 	}
 

@@ -86,6 +86,47 @@ public abstract class GameEntity extends BaseEntity {
 			}
 		}
 	}
+	
+	public void waddleForImprovement()
+	{
+		if (queueTiles.size() == 0)
+		{
+			City nearestCity = location.grid.nearestCivCity(owner, location.row, location.col);
+			Tile t = location.grid.bestToImprove(nearestCity);
+			waddleTo(t.row, t.col);
+		}
+		if (queueTiles.size() > 0)
+		{
+			//location.grid.moveTo(this, queueTiles.get(0).row, queueTiles.get(0).col);
+			passiveWaddle(queueTiles.get(queueTiles.size()-1).row - location.row, queueTiles.get(queueTiles.size()-1).col - location.col);
+			queueTiles.remove(queueTiles.size()-1);
+		}
+		else
+		{
+			while (action > 0)
+			{
+				int r,c;
+				int trials = 0;
+				while (true)
+				{
+					r = (int)(Math.random()*3) - 1;
+					c = (int)(Math.random()*3) - 1;
+					Tile t = location.grid.getTile(location.row + r, location.col + c);
+					if (t != null)
+						if (owner.equals(t.owner)) 
+							break;
+					trials++;
+					if (trials >= 10)
+					{
+						r = (int)(Math.random()*3) - 1;
+						c = (int)(Math.random()*3) - 1;
+						break;
+					}
+				}
+				passiveWaddle(r,c);
+			}
+		}
+	}
 
 	public boolean moved()
 	{

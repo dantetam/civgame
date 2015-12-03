@@ -73,6 +73,12 @@ public class Tile {
 		return Math.sqrt(Math.pow(row-t.row,2) + Math.pow(col-t.col,2));
 	}
 	
+	public double dist(int r, int c)
+	{
+		if (r < 0 || c < 0) return 9999;
+		return Math.sqrt(Math.pow(row-r,2) + Math.pow(col-c,2));
+	}
+	
 	public int manhattan(Tile t)
 	{
 		return Math.abs(t.row - row) + Math.abs(t.col - col);

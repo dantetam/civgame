@@ -39,7 +39,7 @@ public class EntityData {
 	public static HashMap<String,Civilization> civs;
 	public static HashMap<String,CityState> cityStates;
 	
-	public static HashMap<String,int[]> yiedld;
+	public static HashMap<String,int[]> yield;
 	public static double[] resourceLevels;
 
 	public EntityData()

@@ -317,6 +317,21 @@ public class Grid {
 		pathFinder = new Pathfinder(this);
 	}
 
+	public City nearestCivCity(Civilization civ, int r, int c)
+	{
+		City city = null; double dist = -1;
+		for (City candidate: civ.cities)
+		{
+			double d = candidate.location.dist(r,c);
+			if (d < dist || city == null)
+			{
+				city = candidate;
+				dist = d;
+			}
+		}
+		return city;
+	}
+	
 	public Tile findIsolated()
 	{
 		ArrayList<GameEntity> all = new ArrayList<GameEntity>();
