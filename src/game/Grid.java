@@ -599,6 +599,7 @@ public class Grid {
 		Tile bestestTile = null; int bestestSum = -1;
 		for (Tile t: c.land)
 		{
+			if (c.)
 			//Find the best improvement for this individual tile t
 			int bestSum = -1;
 			for (String impr: c.owner.techTree.allowedTileImprovements)
@@ -621,7 +622,7 @@ public class Grid {
 	}
 	
 	//Return the best city scores factoring in previous settlements
-	public Tile returnBestCityScoresMod(int settlerR, int settlerC, int capitalR, int capitalC, double distBias)
+	public Tile returnBestCityScoresMod(int settlerR, int settlerC, int capitalR, int capitalC, double distBias, int maxDist)
 	{
 		evalBefore();
 		int[][] cityScores = new int[rows][cols];
@@ -631,12 +632,12 @@ public class Grid {
 			{
 				int dist = (int)Math.sqrt(Math.pow(r-settlerR,2) + Math.pow(c-settlerC,2));
 				int capitalDist = (int)Math.sqrt(Math.pow(r-settlerR,2) + Math.pow(c-settlerC,2));
-				if (dist > 10 || getTile(r,c).owner != null || getTile(r,c).biome == -1)
+				if (dist > maxDist || getTile(r,c).owner != null || getTile(r,c).biome == -1)
 					cityScores[r][c] = -9999;
 				else
 				{
-					cityScores[r][c] = returnCityScoreNoOwner(r,c) - (int)(distBias*dist) - (int)(distBias*capitalDist);
-					out:
+					cityScores[r][c] = returnCityScoreNoOwner(r,c)*5 - (int)(distBias*dist)*2 - (int)(distBias*capitalDist);
+					/*out:
 						for (int rr = r - 2; rr <= r + 2; rr++)
 						{
 							for (int cc = c - 2; cc <= c + 2; cc++)
@@ -661,7 +662,7 @@ public class Grid {
 										cityScores[r][c] += 2;
 								}
 							}
-						}
+						}*/
 				}
 			}
 		}

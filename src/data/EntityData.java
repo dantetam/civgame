@@ -1136,6 +1136,63 @@ public class EntityData {
 		en.queueTurns = tileImprovementTime(en, tileImpr);
 	}
 	
+	//Return if the tile can support a worker's tileImpr.
+	//Does not factor in tech level of civ, which should be checked before
+	public static boolean allowedTileImprovement(Tile t, String tileImpr)
+	{
+		if (tileImpr.equals("Farm"))
+		{
+			if ((t.resource >= 1 && t.resource <= 3) || (t.resource >= 30 && t.resource <= 30)) return true;
+			return t.grid.irrigated(t.row, t.col) && t.biome >= 3 && t.biome <= 6;
+		}
+		else if (tileImpr.equals("Mine"))
+		{
+			if ((t.resource >= 20 && t.resource <= 22) || t.shape == 2) return true;
+			return t.shape == 1 && t.biome >= 0 && t.biome <= 3;
+		}
+		else if (tileImpr.equals("Windmill"))
+		{
+			return ((t.biome >= 1 && t.biome <= 2) || t.shape > 1);
+		}
+		else if (tileImpr.equals("Road"))
+		{
+			return t.shape != 2;
+		}
+		System.err.println("Invalid improvement being checked: " + tileImpr);
+		return false;
+	}
+	
+	public static String optimalImpr(Tile t)
+	{
+		if (t.resource == 1 || t.resource == 2)
+			return ("Farm");
+		else if (t.resource == 10 || t.resource == 11)
+			return null;
+		else if (t.resource >= 20 && t.resource <= 22)
+			return ("Mine");
+		else if (t.resource >= 30 && t.resource <= 30)
+			return ("Farm");
+		
+		if (t.shape == 2)
+			return ("Mine");
+		else if (t.shape == 1)
+			if (t.biome >= 0 && t.biome <= 3)
+				return ("Mine");
+		
+		if (t.biome >= 3 && t.biome <= 6 && t.grid.irrigated(t.row, t.col) && t.shape == 0)
+			return ("Farm");
+		else if (t.biome >= 1 && t.biome <= 2)
+		{
+			return ("Windmill");
+			/*if (Math.random() < 0.5)
+				return ("Windmill");
+			else
+				return ("Lumbermill");*/
+		}
+		
+		return ("Farm");
+	}
+	
 	public static int tileImprovementTime(GameEntity en, String tileImpr)
 	{
 		int temp = -1;
