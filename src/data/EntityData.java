@@ -1162,37 +1162,6 @@ public class EntityData {
 		return false;
 	}
 	
-	public static String optimalImpr(Tile t)
-	{
-		if (t.resource == 1 || t.resource == 2)
-			return ("Farm");
-		else if (t.resource == 10 || t.resource == 11)
-			return null;
-		else if (t.resource >= 20 && t.resource <= 22)
-			return ("Mine");
-		else if (t.resource >= 30 && t.resource <= 30)
-			return ("Farm");
-		
-		if (t.shape == 2)
-			return ("Mine");
-		else if (t.shape == 1)
-			if (t.biome >= 0 && t.biome <= 3)
-				return ("Mine");
-		
-		if (t.biome >= 3 && t.biome <= 6 && t.grid.irrigated(t.row, t.col) && t.shape == 0)
-			return ("Farm");
-		else if (t.biome >= 1 && t.biome <= 2)
-		{
-			return ("Windmill");
-			/*if (Math.random() < 0.5)
-				return ("Windmill");
-			else
-				return ("Lumbermill");*/
-		}
-		
-		return ("Farm");
-	}
-	
 	public static int tileImprovementTime(GameEntity en, String tileImpr)
 	{
 		int temp = -1;

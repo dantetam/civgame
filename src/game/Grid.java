@@ -599,11 +599,13 @@ public class Grid {
 		Tile bestestTile = null; int bestestSum = -1;
 		for (Tile t: c.land)
 		{
-			if (c.)
+			if (t.improvement != null && t.improvement.name.equals("City"))
+				continue;
 			//Find the best improvement for this individual tile t
 			int bestSum = -1;
 			for (String impr: c.owner.techTree.allowedTileImprovements)
 			{
+				if (!EntityData.allowedTileImprovement(t, impr)) continue;
 				double[] yieldBefore = City.staticEval(t), yieldAfter = City.staticEval(t, impr);
 				int sum = 0;
 				for (int i = 0; i < yieldBefore.length; i++)
