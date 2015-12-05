@@ -553,7 +553,7 @@ public class EntityData {
 		yield.put("Wild wheat", new int[]{1,0,0,0});
 		yield.put("Wild rice", new int[]{2,0,0,0});
 		
-		yield.put("Pasture", new int[]{1,1,0,0});
+		yield.put("Built pasture", new int[]{1,1,0,0});
 		
 		yield.put("Harvested fish", new int[]{3,0,0,0});
 		yield.put("Harvested whale", new int[]{2,3,0,3});
@@ -565,10 +565,15 @@ public class EntityData {
 		yield.put("From spring", new int[]{2,1,0,2});
 		yield.put("Silviculture", new int[]{1,1,3,1});
 		
-		yield.put("Windmill", new int[]{1,1,0,0});
-		yield.put("Lumbermill", new int[]{-1,1,2,0});
+		yield.put("Operating windmill", new int[]{1,1,0,0});
+		yield.put("Operating lumbermill", new int[]{-1,1,2,0});
+		yield.put("Operating forge", new int[]{-1,0,1,0});
+		yield.put("Forge with copper", new int[]{-1,0,3,0});
+		yield.put("Forge with iron", new int[]{-1,0,4,0});
+		yield.put("Forge with coal", new int[]{-1,0,4,0});
 		
-		yield.put("Fort", new int[]{-2,2,-1,0});
+		yield.put("Built trade outpost", new int[]{0,2,1,0});
+		yield.put("Built fort", new int[]{-2,2,-1,0});
 	}
 	
 	public static String optimalImpr(Tile t)

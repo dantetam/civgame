@@ -130,6 +130,7 @@ public class TechTree {
 			t.cImpr("Warehouse");
 
 		t = researched("Pottery");
+			t.tImpr("Trade Outpost");
 
 		t = researched("Metal Working");
 			t.units("Swordsman", "Spearman");
@@ -171,7 +172,7 @@ public class TechTree {
 		
 		t = researched("Writing");
 			t.addAlt(this,"Polytheism");
-			t.cImpr("Library", "Trade Depot");
+			t.cImpr("Library", "Market");
 			t.governmentCivic = "Theocracy";
 	}
 

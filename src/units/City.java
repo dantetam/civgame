@@ -423,6 +423,10 @@ public class City extends TileEntity {
 				else
 					conditions.add("Cultivated");
 			}
+			else if (improvement.equals("Pasture"))
+			{
+				conditions.add("Built pasture");
+			}
 			else if (improvement.equals("Fishing Boats"))
 			{
 				if (t.resource == 10)
@@ -439,15 +443,28 @@ public class City extends TileEntity {
 				else if (t.resource == 22)
 					conditions.add("Mined coal");
 			}
+			else if (improvement.equals("Forge"))
+			{
+				if (t.resource == 20)
+					conditions.add("Forge with copper");
+				else if (t.resource == 21)
+					conditions.add("Forge with iron");
+				else if (t.resource == 22)
+					conditions.add("Forge with coal");
+				else 
+					conditions.add("Operating forge");
+			}
 			else if (improvement.equals("Forest Yard"))
 			{
 				if (t.resource == 30)
 					conditions.add("Silviculture");
 			}
 			else if (improvement.equals("Windmill"))
-				conditions.add("Windmill");
+				conditions.add("Operating windmill");
 			else if (improvement.equals("Lumbermill"))
-				conditions.add("Lumbermill");
+				conditions.add("Operating lumbermill");
+			else if (improvement.equals("Fort"))
+				conditions.add("Built fort");
 		}
 		else
 		{
