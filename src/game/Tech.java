@@ -39,13 +39,17 @@ public class Tech {
 			if (!civ.techTree.obsoleteUnits.contains(unlockUnits[i]))
 				civ.techTree.allowedUnits.add(unlockUnits[i]);
 		for (int i = 0; i < unlockTileImprovements.length; i++)
-			civ.techTree.allowedTileImprovements.add(unlockTileImprovements[i]);
+			if (!civ.techTree.allowedTileImprovements.contains(unlockTileImprovements[i]))
+				civ.techTree.allowedTileImprovements.add(unlockTileImprovements[i]);
 		for (int i = 0; i < unlockCityImprovements.length; i++)
-			civ.techTree.allowedCityImprovements.add(unlockCityImprovements[i]);
+			if (!civ.techTree.allowedCityImprovements.contains(unlockCityImprovements[i]))
+				civ.techTree.allowedCityImprovements.add(unlockCityImprovements[i]);
 		for (int i = 0; i < unlockFieldImprovements.length; i++)
-			civ.techTree.allowedFields.add(unlockFieldImprovements[i]);
+			if (!civ.techTree.allowedFields.contains(unlockFieldImprovements[i]))
+				civ.techTree.allowedFields.add(unlockFieldImprovements[i]);
 		for (int i = 0; i < unlockUnitImprovements.length; i++)
-			civ.techTree.allowedUnitImprovements.add(unlockUnitImprovements[i]);
+			if (!civ.techTree.allowedUnitImprovements.contains(unlockUnitImprovements[i]))
+				civ.techTree.allowedUnitImprovements.add(unlockUnitImprovements[i]);
 		//Add civics
 		if (governmentCivic != null)
 		{
@@ -74,7 +78,7 @@ public class Tech {
 	public void cImpr(String... t) {unlockCityImprovements = t;}
 	public void fImpr(String... t) {unlockFieldImprovements = t;}
 	public void uImpr(String... t) {unlockUnitImprovements = t;}
-	
+
 	//Getter methods
 	public String[] unlockUnits() {return unlockUnits;}
 	public String[] unlockTileImprovements() {return unlockTileImprovements;}

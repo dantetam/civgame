@@ -139,7 +139,7 @@ public class TechTree {
 			t.economicCivic = "Slavery";
 			
 		t = researched("Stone Working");
-			t.tImpr("Light Fortifications");
+			t.tImpr("Fort");
 			t.cImpr("Walls", "Palace");
 			
 		t = researched("Currency");
