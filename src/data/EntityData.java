@@ -576,9 +576,29 @@ public class EntityData {
 		yield.put("Built fort", new int[]{-2,2,-1,0});
 	}
 	
-	public static String optimalImpr(Tile t)
+	//Possibly a duplication of code (see Grid::bestToImprove())
+	public static String optimalImpr(ArrayList<String> imprs, Tile t)
 	{
-		if (t.resource == 1 || t.resource == 2)
+		if (imprs.size() == 0) return null;
+		if (imprs.size() == 1) return imprs.get(0); 
+		//Why do I feel like I should stop rewriting this algorithm?
+		int bestScore = 0; String best = null;
+		for (int i = 0; i < imprs.size(); i++)
+		{
+			double[] yieldBefore = City.staticEval(t), yieldAfter = City.staticEval(t, imprs.get(i));
+			int sum = 0;
+			for (double j: yieldBefore)
+				sum -= j;
+			for (double j: yieldAfter)
+				sum += j;
+			if (sum > bestScore)
+			{
+				bestScore = sum;
+				best = imprs.get(i);
+			}
+		}
+		return best;
+		/*if (t.resource == 1 || t.resource == 2)
 			return ("Farm");
 		else if (t.resource == 10 || t.resource == 11)
 			return null;
@@ -598,13 +618,13 @@ public class EntityData {
 		else if (t.biome >= 1 && t.biome <= 2)
 		{
 			return ("Windmill");
-			/*if (Math.random() < 0.5)
+			if (Math.random() < 0.5)
 				return ("Windmill");
 			else
-				return ("Lumbermill");*/
+				return ("Lumbermill");
 		}
 		
-		return ("Farm");
+		return ("Farm");*/
 	}
 	
 	private static void setupUnitIcons()
