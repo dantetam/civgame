@@ -121,10 +121,12 @@ public class Worker extends GameEntity {
 			}
 			else if (en.location.city != null && en.location.improvement == null && en.location.owner.equals(owner))
 			{
-				City city = en.location.city;
+				//City city = en.location.city;
 				//Factor in the city later
 				//if (city.location.owner.equals(owner)) //just in case
-				EntityData.queueTileImprovement(this, EntityData.optimalImpr(en.owner.techTree.allowedTileImprovements, en.location));
+				String impr = EntityData.optimalImpr(en.owner.techTree.allowedTileImprovements, en.location);
+				if (impr != null)
+					EntityData.queueTileImprovement(this, impr);
 				//en.queueTurns = Math.max(1,(int)(en.queueTurns*((Worker)en).workTime));
 			}
 		}

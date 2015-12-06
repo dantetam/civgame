@@ -1187,6 +1187,10 @@ public class EntityData {
 		{
 			return t.shape != 2;
 		}
+		else if (tileImpr.equals("Pasture"))
+		{
+			return t.shape != 2;
+		}
 		System.err.println("Invalid improvement being checked: " + tileImpr);
 		return false;
 	}
