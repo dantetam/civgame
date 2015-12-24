@@ -1191,6 +1191,10 @@ public class EntityData {
 		{
 			return t.shape != 2;
 		}
+		else if (tileImpr.equals("Forge"))
+		{
+			return true;
+		}
 		System.err.println("Invalid improvement being checked: " + tileImpr);
 		return false;
 	}

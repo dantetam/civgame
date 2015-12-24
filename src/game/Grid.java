@@ -322,6 +322,7 @@ public class Grid {
 		City city = null; double dist = -1;
 		for (City candidate: civ.cities)
 		{
+			if (candidate.land.size() == 0) continue;
 			double d = candidate.location.dist(r,c);
 			if (d < dist || city == null)
 			{
