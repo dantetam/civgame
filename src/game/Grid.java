@@ -26,10 +26,10 @@ public class Grid {
 	public final int aggroDistance = 500;
 	public boolean won = false;
 
-	public static int difficultyLevel;
+	public int difficultyLevel;
 
 	//Keep track of barbarian civs
-	public static int barbarians;
+	public int barbarians;
 
 	//Ensure that random numbers are the same (i.e. seeded)
 	public Random rand;
@@ -760,5 +760,16 @@ public class Grid {
 	}
 
 	//public Tile[][] getTiles() {return tiles;}
+	
+	public boolean equals(Grid grid)
+	{
+		boolean correctCivs = true;
+		if (civs != null && grid.civs != null)
+		{
+			correctCivs = correctCivs && (civs.length == grid.civs.length);
+			correctCivs = correctCivs && (civs[0].equals(grid.civs[0]));
+		}
+		return correctCivs && rows == grid.rows && cols == grid.cols;
+	}
 
 }

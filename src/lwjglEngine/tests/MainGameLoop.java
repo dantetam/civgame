@@ -236,7 +236,9 @@ public class MainGameLoop {
 			//renderer.processTerrain(terrain3);
 			//renderer.processTerrain(terrain4);
 			//renderer.processEntity(levelManager.entities);
+			
 			renderer.processGroups(levelManager);
+			
 			//levelManager.groups.get(0).move(0,80+(float)(40*Math.sin((float)frameCount/250F)),0);
 			/*for (Entity en: levelManager.entities)
 			{

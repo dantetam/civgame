@@ -27,6 +27,12 @@ public class ConflictSystem {
 	//Return the damage inflicted by a on d in an attack, and d on a in a defense
 	public static Object[] attack(GameEntity a, GameEntity d)
 	{
+		Grid grid = a.location.grid;
+		if (!a.location.grid.equals(d.location.grid))
+		{
+			System.out.println("Entities are not of the same grid");
+			return null;
+		}
 		ArrayList<String> reasonsA = new ArrayList<String>();
 		ArrayList<String> reasonsD = new ArrayList<String>();
 		double off = 1, def = 1;
@@ -44,7 +50,7 @@ public class ConflictSystem {
 				def += 0.15;
 			}
 		}
-		switch (Grid.difficultyLevel)
+		switch (grid.difficultyLevel)
 		{
 		case 1:
 			potentialAdv = 0.15;
@@ -62,7 +68,7 @@ public class ConflictSystem {
 			potentialAdv = -0.15;
 			break;
 		default:
-			System.out.println("Invalid difficulty level: " + Grid.difficultyLevel);
+			System.out.println("Invalid difficulty level: " + grid.difficultyLevel);
 		}
 		if (a.owner != null && d.owner != null)
 		{
@@ -70,12 +76,12 @@ public class ConflictSystem {
 			{
 				if (potentialAdv >= 0)
 				{
-					reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
+					reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
 					off += potentialAdv;
 				}
 				else
 				{
-					reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
+					reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
 					def += potentialAdv;
 				}
 			}
@@ -83,22 +89,22 @@ public class ConflictSystem {
 			{
 				if (potentialAdv >= 0)
 				{
-					reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
+					reasonsD.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
 					def += potentialAdv;
 				}
 				else
 				{
-					reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[Grid.difficultyLevel] + "difficulty");
+					reasonsA.add("+"+(potentialAdv*100)+"% from " + difficultyNames[grid.difficultyLevel] + "difficulty");
 					off += potentialAdv;
 				}
 			}
 			//Disadvantage to barbarians
-			if (a.owner.id >= Grid.barbarians)
+			if (a.owner.id >= grid.barbarians)
 			{
 				reasonsA.add("-15% from barbarian traditions");
 				off -= 0.15;
 			}
-			if (d.owner.id >= Grid.barbarians)
+			if (d.owner.id >= grid.barbarians)
 			{
 				reasonsA.add("-15% from barbarian traditions");
 				def -= 0.15;
@@ -196,6 +202,12 @@ public class ConflictSystem {
 	}
 	public static double[] calcOffDefMod(BaseEntity a, GameEntity d)
 	{
+		Grid grid = a.location.grid;
+		if (!a.location.grid.equals(d.location.grid))
+		{
+			System.out.println("Entities are not of the same grid");
+			return null;
+		}
 		double off = 1, def = 1;
 		double potentialAdv = 0;
 		if (a.is("City"))
@@ -207,7 +219,7 @@ public class ConflictSystem {
 			off += 0.1;
 		if (d.owner.trait("Defensive"))
 			def += 0.15;
-		switch (Grid.difficultyLevel)
+		switch (grid.difficultyLevel)
 		{
 		case 1:
 			potentialAdv = 0.2;
@@ -225,7 +237,7 @@ public class ConflictSystem {
 			potentialAdv = -0.2;
 			break;
 		default:
-			System.out.println("Invalid difficulty level: " + Grid.difficultyLevel);
+			System.out.println("Invalid difficulty level: " + grid.difficultyLevel);
 		}
 		if (a.owner.id == 0)
 		{
