@@ -155,6 +155,9 @@ public class CivGame {
 			inputSystem.on = false;
 			menuSystem.select(null); //Fix the selection menu
 			//chunkSystem.update(); //Update once
+			//System.out.println(grid.civs[0]);
+			//System.out.println(grid.civs[0].units.get(0));
+			//System.out.println(grid.civs[0]);
 			Tile t = grid.civs[0].units.get(0).location; //First settler
 			fixCamera(t.row, t.col); //Center the camera at the appropriate location
 

@@ -650,13 +650,14 @@ public class Game extends PApplet {
 	}
 
 	//No alternative solution for looking in files yet
-	private String[] models = {"FishingBoats","Galley","Lumbermill","Mine","Settler","Transport","Warrior","Windmill","WorkBoat","Worker",
+	/*private String[] models = {"FishingBoats","Galley","Lumbermill","Mine","Settler","Transport","Warrior","Windmill","WorkBoat","Worker",
 			"City","OldCity","OldFarm","OldForest","OldRuins",
 			"Farm1","Farm2","Farm3","Farm4","Farm5",
 			"Forest1","Forest2","Forest3","Forest4",
 			"Rock1","Rock2","Rock3",
 			"Ruins1","Ruins2","Ruins3","Ruins4","Ruins5",
-			"Wheat1","Wheat2","Wheat3","Wheat4","Wheat5"};
+			"Wheat1","Wheat2","Wheat3","Wheat4","Wheat5"};*/
+	private ArrayList<String> models = new ArrayList<String>();
 	private String[] icons = {"Archer","Axeman","Barbarian","Settler","Slinger","Spearman","Swordsman","Warrior","Worker",
 			"Barbarian","Capital","CityIcon",
 			"attack", "cityhealth", "defense", "health", "population", "ranged", "speed",
@@ -665,11 +666,26 @@ public class Game extends PApplet {
 			"Ice", "Taiga", "Desert", "Steppe", "DryForest", "Forest", "Rainforest"};
 	private void setModels()
 	{
-		for (int i = 0; i < models.length; i++)
+		/*for (int i = 0; i < models.length; i++)
 		{
 			String[] data = loadStrings("/models/"+models[i]);
 			EntityData.passModelData(models[i], data);
+		}*/
+		
+		File folder = new File("./src/data/models/");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				//System.out.println("File " + listOfFiles[i].getName());
+				String name = listOfFiles[i].getName();
+				if (!name.contains("Thumbs") && !name.endsWith(".png"))
+				{
+					String[] data = loadStrings("/models/"+name);
+					EntityData.passModelData(name, data);
+				}
+			}
 		}
+		
 		for (int i = 0; i < icons.length; i++)
 		{
 			PImage data2 = loadImage("/models/"+icons[i]+".png");
