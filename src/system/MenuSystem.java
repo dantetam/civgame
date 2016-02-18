@@ -1367,9 +1367,7 @@ public class MenuSystem extends BaseSystem {
 	{
 		int iter = 1;
 		for (int i = 0; i < menu.buttons.size(); i++)
-			//for (int i = menus.get(menu).buttons.size() - 1; i >= 0; i--)
 		{
-			//if (i >= menus.get(menu).buttons.size()) break;
 			TextBox b = menu.buttons.get(i);
 			if (b instanceof Button && b.shortcut)
 			{
@@ -1381,7 +1379,6 @@ public class MenuSystem extends BaseSystem {
 				else
 					iter++;
 			}
-			//System.out.println("Assign shortcut " + iter);
 		}
 	}
 

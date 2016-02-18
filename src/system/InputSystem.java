@@ -48,16 +48,16 @@ public class InputSystem extends BaseSystem {
 		ZOOM_IN			(GLFW.GLFW_KEY_I),
 		ZOOM_OUT		(GLFW.GLFW_KEY_O),
 		CLOSE_ALL		(GLFW.GLFW_KEY_X),
-		FUNCTION_1 		(GLFW.GLFW_KEY_F1),
-		FUNCTION_2 		(GLFW.GLFW_KEY_F2),
-		FUNCTION_3 		(GLFW.GLFW_KEY_F3),
-		FUNCTION_4 		(GLFW.GLFW_KEY_F4),
-		FUNCTION_5 		(GLFW.GLFW_KEY_F5),
-		FUNCTION_6 		(GLFW.GLFW_KEY_F6),
-		FUNCTION_7 		(GLFW.GLFW_KEY_F7),
-		FUNCTION_8 		(GLFW.GLFW_KEY_F8),
-		FUNCTION_9 		(GLFW.GLFW_KEY_F9),
-		FUNCTION_0 		(GLFW.GLFW_KEY_F10),
+		FUNCTION_1 		(GLFW.GLFW_KEY_F1,  GLFW.GLFW_KEY_1),
+		FUNCTION_2 		(GLFW.GLFW_KEY_F2,  GLFW.GLFW_KEY_2),
+		FUNCTION_3 		(GLFW.GLFW_KEY_F3,  GLFW.GLFW_KEY_3),
+		FUNCTION_4 		(GLFW.GLFW_KEY_F4,  GLFW.GLFW_KEY_4),
+		FUNCTION_5 		(GLFW.GLFW_KEY_F5,  GLFW.GLFW_KEY_5),
+		FUNCTION_6 		(GLFW.GLFW_KEY_F6,  GLFW.GLFW_KEY_6),
+		FUNCTION_7 		(GLFW.GLFW_KEY_F7,  GLFW.GLFW_KEY_7),
+		FUNCTION_8 		(GLFW.GLFW_KEY_F8,  GLFW.GLFW_KEY_8),
+		FUNCTION_9 		(GLFW.GLFW_KEY_F9,  GLFW.GLFW_KEY_9),
+		FUNCTION_0 		(GLFW.GLFW_KEY_F10, GLFW.GLFW_KEY_0),
 		/*
 		CONSOLE			('`', '~'),
 		FUNCTION_1 		('1', 131),
@@ -689,6 +689,7 @@ public class InputSystem extends BaseSystem {
 		}
 		else if (action.contains("FUNCTION_"))
 		{
+			System.out.println("Function key");
 			main.menuSystem.executeShortcut(Integer.parseInt(action.substring(9)));
 		}
 		else if (action.equals("TOGGLE_KEY_MENU"))
