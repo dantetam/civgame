@@ -34,6 +34,8 @@ public class Loader {
 	private ArrayList<Integer> vbos = new ArrayList<Integer>();
 	private ArrayList<Integer> textures = new ArrayList<Integer>();
 	
+	private ArrayList<String> textureNames = new ArrayList<String>();
+	
 	//Create a new model from float data, which accessed by the renderer
 	public RawModel loadToVAO(float[] pos, float[] textureCoords, float[] normals, int[] indices)
 	{
@@ -95,6 +97,9 @@ public class Loader {
 	
 	public int loadTexture(String fileName)
 	{
+		int index = textureNames.indexOf(fileName);
+		if (index != -1) //Find texture if already loaded
+			return textures.get(index);
 		/*Texture texture = null;
 		try 
 		{
@@ -156,6 +161,7 @@ public class Loader {
         
         //Store later for deleting
         textures.add(textureID);
+        textureNames.add(fileName);
         //Return the texture ID so we can bind it later again
         return textureID;
 	}
