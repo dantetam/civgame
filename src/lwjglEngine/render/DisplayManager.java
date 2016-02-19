@@ -76,9 +76,12 @@ public class DisplayManager {
 		        Mouse.setMouse((float)xpos, (float)ypos);
 		    }
 		}));
+		
+		setMouseCallback();
+		setKeyCallback();
 	}
 	
-	public void setMouseCallback()
+	public static void setMouseCallback()
 	{
 		GLFW.glfwSetMouseButtonCallback(DisplayManager.window, (DisplayManager.mouseButtonCallback = new GLFWMouseButtonCallback() {
 			public void invoke(long window, int button, int action, int mods) {
@@ -98,24 +101,24 @@ public class DisplayManager {
 			}
 		}));
 	}
-	public void setKeyCallback()
+	public static void setKeyCallback()
 	{
 		GLFW.glfwSetKeyCallback(DisplayManager.window, (DisplayManager.keyCallback = new GLFWKeyCallback() {
 			public void invoke(long window, int key, int scancode, int action, int mods) {
 				if (action == GLFW.GLFW_PRESS) {
-					inputSystem.keyPressed(key);
+					main.inputSystem.keyPressed(key);
 					if (key == GLFW.GLFW_KEY_T)
 					{
-						renderSystem.mousePicker.constant -= 0.01f;
-						System.out.println(renderSystem.mousePicker.constant);
+						main.renderSystem.mousePicker.constant -= 0.01f;
+						System.out.println(main.renderSystem.mousePicker.constant);
 					}
 					else if (key == GLFW.GLFW_KEY_Y)
 					{
-						renderSystem.mousePicker.constant += 0.01f;
-						System.out.println(renderSystem.mousePicker.constant);
+						main.renderSystem.mousePicker.constant += 0.01f;
+						System.out.println(main.renderSystem.mousePicker.constant);
 					}
-					TextMaster.update(menuSystem);
-					lwjglSystem.renderer.guiRenderer.update(menuSystem);
+					TextMaster.update(main.menuSystem);
+					main.lwjglSystem.renderer.guiRenderer.update(main.menuSystem);
 					//menuSystem.closeMenus();
 				}
 			}
