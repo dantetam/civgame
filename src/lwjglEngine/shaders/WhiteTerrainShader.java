@@ -100,8 +100,12 @@ public class WhiteTerrainShader extends ShaderProgram {
 			super.loadVector2f(locationSelectedCoord, new Vector2f(-1f, -1f));
 		else
 		{
-			//super.loadVector2f(locationSelectedCoord, new Vector2f(sel.row*0.9f/rows, sel.col*0.9f/cols));
-			super.loadVector2f(locationSelectedCoord, new Vector2f(sel.row/rows, sel.col/cols));
+			//super.loadVector2f(locationSelectedCoord, new Vector2f(sel.row/(rows*0.9f), sel.col/(cols*0.9f)));
+			//super.loadVector2f(locationSelectedCoord, new Vector2f(sel.row/rows, sel.col/cols));
+			super.loadVector2f(locationSelectedCoord, new Vector2f(
+					((float)sel.row+0.5F)/(float)rows*0.9F, 
+					((float)sel.col+0.5F)/(float)cols*0.9F
+					));
 		}
 		if (hi == null)
 		{
@@ -113,8 +117,8 @@ public class WhiteTerrainShader extends ShaderProgram {
 			super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(mousePicker.rayCastHit.x/1600f, mousePicker.rayCastHit.z/1600f));
 			//super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(hi.row/rows, hi.col/cols));
 			super.loadVector2f(locationMouseOverCoord, new Vector2f(
-					(float)Math.floor(mousePicker.rayCastHit.x/1600f*rows)/rows, 
-					(float)Math.floor(mousePicker.rayCastHit.z/1600f*cols)/cols
+					(float)Math.floor(mousePicker.rayCastHit.x/(1600f*0.9f)*rows)/rows, 
+					(float)Math.floor(mousePicker.rayCastHit.z/(1600f*0.9f)*cols)/cols
 					));
 		}
 	}

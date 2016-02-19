@@ -91,7 +91,7 @@ void main(void)
 		float radius = distance(selectedCoord, passTextureCoords);
 		if (radius > 0.025 && radius < 0.045) 
 		{
-			totalColor = totalColor*0.4 + 0.7*vec4(1,1,1,0);
+			totalColor = totalColor*0.4 + 0.7*vec4(1,0,0,0);
 		}
 	}
 	if (mouseOverCoord.x > 0)
