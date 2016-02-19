@@ -117,8 +117,9 @@ public class WhiteTerrainShader extends ShaderProgram {
 			super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(mousePicker.rayCastHit.x/1600f, mousePicker.rayCastHit.z/1600f));
 			//super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(hi.row/rows, hi.col/cols));
 			super.loadVector2f(locationMouseOverCoord, new Vector2f(
-					(float)Math.floor(mousePicker.rayCastHit.x/(1600f*0.9f)*rows)/rows, 
-					(float)Math.floor(mousePicker.rayCastHit.z/(1600f*0.9f)*cols)/cols
+					//Figure out floor correctly
+					(float)Math.floor(mousePicker.rayCastHit.x/(1600f*0.9f)*rows + 0.5f)/rows*0.9f,
+					(float)Math.floor(mousePicker.rayCastHit.z/(1600f*0.9f)*cols + 0.5f)/cols*0.9f
 					));
 		}
 	}
