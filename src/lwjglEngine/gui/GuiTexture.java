@@ -13,7 +13,7 @@ public class GuiTexture {
 	public Vector2f pos, size;
 	public Vector2f origPos;
 	public Vector2f pixelPos, pixelSize;
-	public boolean active = false;
+	public boolean active = true;
 	public Vector4f color = new Vector4f(0,0,0,255);
 	
 	public GuiTexture(int t, Vector2f p, Vector2f s) {

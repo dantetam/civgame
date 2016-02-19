@@ -80,6 +80,7 @@ public class GuiRenderer {
 					normalizeSize(gui.pixelSize)
 					);
 			shader.loadColor(new Vector4f(gui.color.x/255f, gui.color.y/255f, gui.color.z/255f, gui.color.w/255f));
+			//shader.loadColor(new Vector4f(0,0,1,0));
 			//if (gui instanceof TextBox)
 			//System.out.println(gui.color + " " + ((TextBox)gui).display.get(0));
 			shader.loadTransformation(matrix);

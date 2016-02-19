@@ -64,18 +64,24 @@ public class TextMaster {
 		{
 			TextBox text = menuSystem.textboxes.get(i);
 			if (text.active && text.textMeshVao <= 0)
+			{
 				loadText(text);
+			}
 			else if (!text.active && text.textMeshVao > 0)
 			{
 				removeText(text);
 				text.textMeshVao = -1;
 			}
 		}
+		
 		ArrayList<TextBox> allGuis = new ArrayList<TextBox>();
 		for (Menu menu: menuSystem.menus)
 			if (menu.active())
 				for (TextBox textBox: menu.buttons)
 					allGuis.add(textBox);
+		for (TextBox textBox: menuSystem.textboxes)
+			allGuis.add(textBox);
+		
 		for (Entry<FontType, List<TextBox>> en: texts.entrySet())
 		{
 			List<TextBox> guis = en.getValue();

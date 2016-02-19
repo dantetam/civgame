@@ -730,8 +730,7 @@ public class InputSystem extends BaseSystem {
 			main.renderSystem.mousePicker.constant += 0.01f;
 			System.out.println(main.renderSystem.mousePicker.constant);
 		}*/
-		TextMaster.update(main.menuSystem);
-		main.lwjglSystem.renderer.guiRenderer.update(main.menuSystem);
+		main.menuSystem.forceUpdate();
 	}
 
 	public void executeAction(int key)

@@ -15,7 +15,7 @@ public class WhiteTerrainShader extends ShaderProgram {
 	private static final String FRAGMENT_FILE = "src/lwjglEngine/shaders/whiteTerrainFragmentShader.txt";
 
 	private int locationTransformMatrix, locationProjectionMatrix, locationViewMatrix;
-	private int locationSelectedCoord, locationMouseHighlightedCoord;
+	private int locationSelectedCoord, locationMouseHighlightedCoord, locationMouseOverCoord;
 	private int locationLightPosition, locationLightColor;
 	private int locationShineDamper, locationReflectiveness;
 
@@ -43,6 +43,7 @@ public class WhiteTerrainShader extends ShaderProgram {
 		locationViewMatrix = super.getUniformLocation("viewMatrix");
 		locationSelectedCoord = super.getUniformLocation("selectedCoord");
 		locationMouseHighlightedCoord = super.getUniformLocation("mouseHighlightedCoord");
+		locationMouseOverCoord = super.getUniformLocation("mouseOverCoord");
 		locationLightPosition = super.getUniformLocation("lightPosition");
 		locationLightColor = super.getUniformLocation("lightColor");
 		locationShineDamper = super.getUniformLocation("shineDamper");
@@ -98,13 +99,23 @@ public class WhiteTerrainShader extends ShaderProgram {
 		if (sel == null)
 			super.loadVector2f(locationSelectedCoord, new Vector2f(-1f, -1f));
 		else
+		{
+			//super.loadVector2f(locationSelectedCoord, new Vector2f(sel.row*0.9f/rows, sel.col*0.9f/cols));
 			super.loadVector2f(locationSelectedCoord, new Vector2f(sel.row/rows, sel.col/cols));
+		}
 		if (hi == null)
+		{
 			super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(-1f, -1f));
+			super.loadVector2f(locationMouseOverCoord, new Vector2f(-1f, -1f));
+		}
 		else
 		{
 			super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(mousePicker.rayCastHit.x/1600f, mousePicker.rayCastHit.z/1600f));
 			//super.loadVector2f(locationMouseHighlightedCoord, new Vector2f(hi.row/rows, hi.col/cols));
+			super.loadVector2f(locationMouseOverCoord, new Vector2f(
+					(float)Math.floor(mousePicker.rayCastHit.x/1600f*rows)/rows, 
+					(float)Math.floor(mousePicker.rayCastHit.z/1600f*cols)/cols
+					));
 		}
 	}
 
