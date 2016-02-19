@@ -30,6 +30,7 @@ import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
+import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.gui.Keyboard;
 import lwjglEngine.gui.Mouse;
 import render.CivGame;
@@ -74,6 +75,50 @@ public class DisplayManager {
 		    public void invoke(long window, double xpos, double ypos) {
 		        Mouse.setMouse((float)xpos, (float)ypos);
 		    }
+		}));
+	}
+	
+	public void setMouseCallback()
+	{
+		GLFW.glfwSetMouseButtonCallback(DisplayManager.window, (DisplayManager.mouseButtonCallback = new GLFWMouseButtonCallback() {
+			public void invoke(long window, int button, int action, int mods) {
+				if (action == GLFW.GLFW_PRESS) {
+					main.menuSystem.queueMousePass(Mouse.getX(), Mouse.getY()); //includes button == 2 i.e. scroll wheel
+					if (button == 0) {
+						main.inputSystem.passLeftMouseClick(Mouse.getX(), Mouse.getY());
+					} 
+					else if (button == 1) {
+						main.inputSystem.passRightMouseClick(Mouse.getX(), Mouse.getY());
+					}
+					TextMaster.update(main.menuSystem);
+					main.lwjglSystem.renderer.guiRenderer.update(main.menuSystem);
+					//menuSystem.closeMenus();
+				} 
+
+			}
+		}));
+	}
+	public void setKeyCallback()
+	{
+		GLFW.glfwSetKeyCallback(DisplayManager.window, (DisplayManager.keyCallback = new GLFWKeyCallback() {
+			public void invoke(long window, int key, int scancode, int action, int mods) {
+				if (action == GLFW.GLFW_PRESS) {
+					inputSystem.keyPressed(key);
+					if (key == GLFW.GLFW_KEY_T)
+					{
+						renderSystem.mousePicker.constant -= 0.01f;
+						System.out.println(renderSystem.mousePicker.constant);
+					}
+					else if (key == GLFW.GLFW_KEY_Y)
+					{
+						renderSystem.mousePicker.constant += 0.01f;
+						System.out.println(renderSystem.mousePicker.constant);
+					}
+					TextMaster.update(menuSystem);
+					lwjglSystem.renderer.guiRenderer.update(menuSystem);
+					//menuSystem.closeMenus();
+				}
+			}
 		}));
 	}
 	

@@ -240,6 +240,7 @@ public class InputSystem extends BaseSystem {
 			//main.chunkSystem.update();
 			//main.requestUpdate();
 			//System.out.println("Update");
+			main.lwjglSystem.renderer.guiRenderer.update(main.menuSystem);
 		}
 		lastMoving = moving;
 		if (main.menuSystem.menuActivated)
@@ -718,6 +719,7 @@ public class InputSystem extends BaseSystem {
 			if (main.menuSystem.console == null)
 				main.menuSystem.console = "";
 		}
+		main.lwjglSystem.renderer.guiRenderer.update(main.menuSystem);
 	}
 
 	public void executeAction(int key)

@@ -178,49 +178,6 @@ public class CivGame {
 		}*/
 		} catch (Exception e) {e.printStackTrace();}
 	}
-	public void setMouseCallback()
-	{
-		GLFW.glfwSetMouseButtonCallback(DisplayManager.window, (DisplayManager.mouseButtonCallback = new GLFWMouseButtonCallback() {
-			public void invoke(long window, int button, int action, int mods) {
-				if (action == GLFW.GLFW_PRESS) {
-					menuSystem.queueMousePass(Mouse.getX(), Mouse.getY()); //includes button == 2 i.e. scroll wheel
-					if (button == 0) {
-						inputSystem.passLeftMouseClick(Mouse.getX(), Mouse.getY());
-					} 
-					else if (button == 1) {
-						inputSystem.passRightMouseClick(Mouse.getX(), Mouse.getY());
-					}
-					TextMaster.update(menuSystem);
-					lwjglSystem.renderer.guiRenderer.update(menuSystem);
-					//menuSystem.closeMenus();
-				} 
-
-			}
-		}));
-	}
-	public void setKeyCallback()
-	{
-		GLFW.glfwSetKeyCallback(DisplayManager.window, (DisplayManager.keyCallback = new GLFWKeyCallback() {
-			public void invoke(long window, int key, int scancode, int action, int mods) {
-				if (action == GLFW.GLFW_PRESS) {
-					inputSystem.keyPressed(key);
-					if (key == GLFW.GLFW_KEY_T)
-					{
-						renderSystem.mousePicker.constant -= 0.01f;
-						System.out.println(renderSystem.mousePicker.constant);
-					}
-					else if (key == GLFW.GLFW_KEY_Y)
-					{
-						renderSystem.mousePicker.constant += 0.01f;
-						System.out.println(renderSystem.mousePicker.constant);
-					}
-					TextMaster.update(menuSystem);
-					lwjglSystem.renderer.guiRenderer.update(menuSystem);
-					//menuSystem.closeMenus();
-				}
-			}
-		}));
-	}
 
 	/*public void loop()
 	{ 
