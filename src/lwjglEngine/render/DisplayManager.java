@@ -39,7 +39,7 @@ public class DisplayManager {
 
 	public static final int width = 1500, height = 900;
 	public static long window;
-	private static CivGame main;
+	public static CivGame main;
 	
 	//Store the callbacks in memory
 	private static GLFWErrorCallback errorCallback;
@@ -56,6 +56,7 @@ public class DisplayManager {
 	{
 		glfwInit();
 		glfwSetErrorCallback(errorCallback = Callbacks.errorCallbackPrint(System.err));
+		
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -65,20 +66,24 @@ public class DisplayManager {
 		GLContext.createFromCurrent();
 		glfwShowWindow(window);
 
+		setCursorPosCallback();
+		setMouseCallback();
+		setKeyCallback();
+		
 		if (window == 0) {
 		    throw new RuntimeException("Failed to create window");
 		}
 
 		GL11.glViewport(0, 0, width, height);
-		
+	}
+	
+	public static void setCursorPosCallback()
+	{
 		GLFW.glfwSetCursorPosCallback(window, (cursorPosCallback = new GLFWCursorPosCallback() {
 		    public void invoke(long window, double xpos, double ypos) {
 		        Mouse.setMouse((float)xpos, (float)ypos);
 		    }
 		}));
-		
-		setMouseCallback();
-		setKeyCallback();
 	}
 	
 	public static void setMouseCallback()
@@ -101,24 +106,14 @@ public class DisplayManager {
 			}
 		}));
 	}
+	
 	public static void setKeyCallback()
 	{
 		GLFW.glfwSetKeyCallback(DisplayManager.window, (DisplayManager.keyCallback = new GLFWKeyCallback() {
 			public void invoke(long window, int key, int scancode, int action, int mods) {
 				if (action == GLFW.GLFW_PRESS) {
 					main.inputSystem.keyPressed(key);
-					if (key == GLFW.GLFW_KEY_T)
-					{
-						main.renderSystem.mousePicker.constant -= 0.01f;
-						System.out.println(main.renderSystem.mousePicker.constant);
-					}
-					else if (key == GLFW.GLFW_KEY_Y)
-					{
-						main.renderSystem.mousePicker.constant += 0.01f;
-						System.out.println(main.renderSystem.mousePicker.constant);
-					}
-					TextMaster.update(main.menuSystem);
-					main.lwjglSystem.renderer.guiRenderer.update(main.menuSystem);
+					main.menuSystem.forceUpdate();
 					//menuSystem.closeMenus();
 				}
 			}

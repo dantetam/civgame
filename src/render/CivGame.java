@@ -116,8 +116,9 @@ public class CivGame {
 			System.setProperty("org.lwjgl.librarypath", "lib/natives");
 
 			DisplayManager.createDisplay();
-			setMouseCallback();
-			setKeyCallback();
+			DisplayManager.main = this;
+			//setMouseCallback();
+			//setKeyCallback();
 			GLFW.glfwShowWindow(DisplayManager.window);
 
 			generate(terrainType);

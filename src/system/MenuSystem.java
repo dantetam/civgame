@@ -5,6 +5,7 @@ import game.Civilization;
 import game.GameEntity;
 import game.Tech;
 import game.Tile;
+import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.gui.GuiTexture;
 import lwjglEngine.render.DisplayManager;
 import lwjglEngine.render.Loader;
@@ -1496,6 +1497,12 @@ public class MenuSystem extends BaseSystem {
 		main.hint(main.DISABLE_DEPTH_TEST);*/
 	}
 
+	public void forceUpdate()
+	{
+		TextMaster.update(this);
+		main.lwjglSystem.renderer.guiRenderer.update(this);
+	}
+	
 	/*private void strokeTextbox(float r, float g, float b)
 	{
 		if (r == -1 || g == -1 || b == -1)

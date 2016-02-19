@@ -162,7 +162,7 @@ public class MainGameLoop {
 			mousePicker = renderer.setupMousePicker(camera);
 			main.renderSystem.mousePicker = mousePicker;
 			
-			renderer.guiRenderer.update(main.menuSystem);
+			main.menuSystem.forceUpdate(); //Set everything up correctly initially
 			tick();
 
 			stop();

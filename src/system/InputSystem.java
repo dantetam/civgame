@@ -4,6 +4,7 @@ import game.BaseEntity;
 import game.Civilization;
 import game.GameEntity;
 import game.Tile;
+import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.render.DisplayManager;
 
 import java.awt.event.KeyEvent;
@@ -719,6 +720,17 @@ public class InputSystem extends BaseSystem {
 			if (main.menuSystem.console == null)
 				main.menuSystem.console = "";
 		}
+		/*else if (key == GLFW.GLFW_KEY_T)
+		{
+			main.renderSystem.mousePicker.constant -= 0.01f;
+			System.out.println(main.renderSystem.mousePicker.constant);
+		}
+		else if (key == GLFW.GLFW_KEY_Y)
+		{
+			main.renderSystem.mousePicker.constant += 0.01f;
+			System.out.println(main.renderSystem.mousePicker.constant);
+		}*/
+		TextMaster.update(main.menuSystem);
 		main.lwjglSystem.renderer.guiRenderer.update(main.menuSystem);
 	}
 
