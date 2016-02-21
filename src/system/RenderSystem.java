@@ -47,8 +47,8 @@ public class RenderSystem extends BaseSystem {
 		//float angle = (float)Math.atan2(ray.z, ray.x);
 		//Vector3f rayCast = new Vector3f(camPos.x + camPos.y/ray.y*dist*(float)Math.cos(angle),0,camPos.z + camPos.y/ray.y*dist*(float)Math.sin(angle));
 		Tile t = main.grid.getTile(
-				(int)Math.floor(mousePicker.rayCastHit.x/Terrain.SIZE*(float)main.grid.rows),
-				(int)Math.floor(mousePicker.rayCastHit.z/Terrain.SIZE*(float)main.grid.cols)
+				(int)Math.floor(mousePicker.rayCastHit.x/Terrain.SIZE/0.9f*(float)main.grid.rows),
+				(int)Math.floor(mousePicker.rayCastHit.z/Terrain.SIZE/0.9f*(float)main.grid.cols)
 				);
 		main.menuSystem.setMouseHighlighted(t);
 		

@@ -86,14 +86,14 @@ void main(void)
 			totalColor = totalColor*0.6 + 0.4*vec4(1,1,1,0);
 		}
 	}
-	if (selectedCoord.x > 0)
+	/*if (selectedCoord.x > 0)
 	{
 		float radius = distance(selectedCoord, passTextureCoords);
 		if (radius > 0.025 && radius < 0.045) 
 		{
 			totalColor = totalColor*0.4 + 0.7*vec4(1,0,0,0);
 		}
-	}
+	}*/
 	if (mouseOverCoord.x > 0)
 	{
 		float radius = distance(mouseOverCoord, passTextureCoords);
