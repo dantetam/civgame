@@ -113,8 +113,9 @@ public class Settler extends GameEntity {
 	{
 		/*Tile[] candidates = location.grid.returnBestCityScores(location.row, location.col, 1);
 		return candidates[(int)(Math.random()*candidates.length)];*/
-		if (owner.capital != null)
+		if (owner.capital != null && owner.capital.location != null) {
 			return location.grid.returnBestCityScoresMod(location.row, location.col, owner.capital.location.row, owner.capital.location.col, 2, 15);
+		}
 		return location.grid.returnBestCityScoresMod(location.row, location.col, location.row, location.col, 2.5, 15);
 		//return candidates[0];
 	}
