@@ -1,15 +1,10 @@
 A 4X civilization-style turn based strategy written in pure Java with <s>Processing</s> OpenGL/LWJGL for rendering
-<s>14,000+ lines as of 12/15/2014</s>
-<s>17,000+ lines as of 2/17/2015</s>
-35,000+ lines as of 10/27/2015
 
 This game is in deep alpha. Expect lots of bugs, crashes, and general inconvenience.
 
-## Instructions for those familiar with Eclipse
+## Setup Instructions
 
 Make a new project from source, which is cloned down from github.
-
-## Instructions for those who aren't
 
 1. Download Eclipse (https://eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr1a) and store it in a folder you can reach.
 
@@ -26,10 +21,3 @@ Make a new project from source, which is cloned down from github.
 7. Run the project as an application by going to the Toolbar > Run > Run As > Java Application.
 
 8. Have fun. There's a tutorial for the game.
-
-## Priorities:
-<s>
-Balance game to make it playable by average 4X player;
-Update graphics (render terrain textures, polish UI);
-Document and refactor code;
-</s>
