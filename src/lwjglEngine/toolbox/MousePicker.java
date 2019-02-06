@@ -23,12 +23,12 @@ public class MousePicker {
 	public MousePicker(Matrix4f p, Camera c) {
 		camera = c;
 		projMatrix = p;
-		viewMatrix = Maths.createViewMatrix(camera);
+		viewMatrix = MatrixMathUtil.createViewMatrix(camera);
 	}
 	
 	public void update()
 	{
-		viewMatrix = Maths.createViewMatrix(camera);
+		viewMatrix = MatrixMathUtil.createViewMatrix(camera);
 		currentRay = calculateMouseRay(Mouse.getX(), DisplayManager.height - Mouse.getY());
 
 		rayCastHit = new Vector3f(
@@ -58,7 +58,7 @@ public class MousePicker {
 	public Vector2f calculateScreenPos(float posX, float posZ)
 	{
 		//Create a new transformation matrix for the different position
-		Matrix4f transformMatrix = Maths.createTransformMatrix(new Vector3f(posX, 0, posZ), 0, 0, 0, 1);
+		Matrix4f transformMatrix = MatrixMathUtil.createTransformMatrix(new Vector3f(posX, 0, posZ), 0, 0, 0, 1);
 		Vector4f worldPosition = Matrix4f.transform(transformMatrix, new Vector4f(posX, 0, posZ, 1.0f), null);
 
 		//equivalent: glPosition = projectionMatrix * (viewMatrix * worldPosition);

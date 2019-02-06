@@ -125,8 +125,14 @@ public class Loader {
 		    File file = new File("res/"+fileName+".png");
 		    image = ImageIO.read(file); 
 		} catch (IOException e) {
-			System.out.println("Could not load res/"+fileName+".png");
-		    e.printStackTrace(); 
+			System.out.println("Could not load res/"+fileName+".png, loading default file instead");
+			try {
+			    File file = new File("res/colorTexture1.png");
+			    image = ImageIO.read(file); 
+			}
+			catch (IOException e2) {
+				e2.printStackTrace();
+			}
 		}
 		final int BYTES_PER_PIXEL = 4;
 

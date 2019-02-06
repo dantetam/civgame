@@ -18,7 +18,6 @@ import processing.core.*;
 import data.EntityData;
 import data.Field;
 import render.CivGame;
-import render.MouseHelper;
 import render.TextBox;
 import system.MenuSystem.Click;
 import units.City;
@@ -34,7 +33,6 @@ public class InputSystem extends BaseSystem {
 	public boolean lastMoving = false;
 
 	public boolean on = true;
-	public MouseHelper mouseHelper;
 	public PMatrix3D matrix;
 
 	public int time = 20; private int nextSelection = 0;
@@ -100,7 +98,6 @@ public class InputSystem extends BaseSystem {
 	{
 		super(main);
 		keyPresses = new ArrayList<Integer>();
-		mouseHelper = new MouseHelper(main.width, main.height);
 		setKeyBinds();
 	}
 
@@ -124,30 +121,6 @@ public class InputSystem extends BaseSystem {
 	//Goes through keys backwards to avoid arraylist trap
 	public void tick()
 	{
-		/*while (Keyboard.next()) {
-		    if (Keyboard.getEventKeyState()) 
-				keyPresses.add(0,Keyboard.getEventKey());
-		    else {
-		        if (Keyboard.getEventKey() == Keyboard.KEY_A) 
-		        {
-		        	//Simulate dragging of key 'a'?
-		        }
-		    }
-		}*/
-		
-		/*while (Mouse.next()) {
-			if (Mouse.getEventButtonState())
-			{
-				if (Mouse.getEventButton() == 0)
-					queueLeftClick(Mouse.getEventX(), Mouse.getEventY()); //Get the negative because of OpenGL coord system
-				else if (Mouse.getEventButton() == 1)
-					queueRightClick(Mouse.getEventX(), Mouse.getEventY());
-				main.menuSystem.queueClick(Mouse.getEventX(), Mouse.getEventY()); 
-				//else //do nothing for scroll wheel (2)
-				//queueLeftClick();
-			}
-		}*/
-		
 		moving = false;
 		if (!autoSelect)
 		{
@@ -288,45 +261,6 @@ public class InputSystem extends BaseSystem {
 		}
 	}
 
-	//public float lastMouseX = main.width/2; //public float lastMouseY = main.height/2;
-	public void passMouse(float mouseX, float mouseY)
-	{
-		/*if (on) //&& main.menuSystem.selected == null)
-		{
-			float dX = (mouseX - main.centerX)/(main.centerX);
-			float dY = (mouseY - main.centerY)/(main.centerY);
-			main.player.rotY = -(float)Math.PI*dX; //Axis is weird, oh well
-			main.player.rotVertical = (float)Math.PI/4*dY;
-			if (Math.abs(dX) <= 20)
-			{
-				//main.chunkSystem.update();
-			}
-		}
-		main.player.update();
-		int[] tile = mouseHelper.findTile(mouseX + (main.width/2 - main.menuSystem.highlightDispX), mouseY + (main.height/2 - main.menuSystem.highlightDispY));
-		//int[] tile = mouseHelper.findTile(mouseX + (main.width/2 - main.menuSystem.highlightDispX), mouseY + (main.width/2 - main.menuSystem.highlightDispX));
-		//V Temp
-		//int[] tile = mouseHelper.findTile(mouseX, mouseY);
-		//System.out.println(":" + mouseX);
-		//System.out.println(mouseX + main.menuSystem.highlightDispX);
-		if (tile == null || main.menuSystem.menuHighlighted)
-		{
-			main.menuSystem.setMouseHighlighted(null);
-		}
-		else
-		{
-			Tile h = main.menuSystem.highlighted;
-			if (h != null)
-				main.menuSystem.setMouseHighlighted(main.grid.getTile(h.row + tile[1], h.col - tile[0]);
-			if (main.rMouseX != -1 && main.rMouseY != -1)
-			{
-				if (main.menuSystem.lastMouseHighlighted != null && main.menuSystem.getMouseHighlighted() != null)
-					if (!main.menuSystem.lastMouseHighlighted.equals(main.menuSystem.getMouseHighlighted()) && main.menuSystem.getSelected() != null)
-						main.menuSystem.pathTo(main.menuSystem.getMouseHighlighted());
-			}
-		}*/
-	}
-
 	public ArrayList<Click> clicks = new ArrayList<Click>();
 	public class Click {String type; float mouseX, mouseY; Click(String t, float x, float y) {type = t; mouseX = x; mouseY = y;}}
 	public void queueLeftClick(float mouseX, float mouseY)
@@ -402,13 +336,14 @@ public class InputSystem extends BaseSystem {
 				main.menuSystem.select(null);
 				main.resetCamera();
 			}
-			if (main.menuSystem.getMouseHighlighted().improvement != null)
+			if (main.menuSystem.getMouseHighlighted().improvement != null) {
 				if (main.grid.civs[0].cities.contains(main.menuSystem.getMouseHighlighted().improvement))
 				{
 					City c = (City)main.menuSystem.getMouseHighlighted().improvement;
 					main.menuSystem.select(c);
 					//return;
 				}
+			}
 		}
 		main.menuSystem.settlerChoices = null;
 		if (main.menuSystem.getSelected() == null)

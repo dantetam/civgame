@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class RobloxXMLTest {
+public class ExternalModelXMLParser {
 
 	private static XML xml;
 	private static double minX = 0, maxX = 0, minY = 0, maxY = 0, minZ = 0, maxZ = 0;

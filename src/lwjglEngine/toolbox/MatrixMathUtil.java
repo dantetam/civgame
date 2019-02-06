@@ -8,7 +8,7 @@ import lwjglEngine.entities.Camera;
 
 //Courtesy of ThinMatrix. Hope his kickstarter goes well.
 
-public class Maths {
+public class MatrixMathUtil {
 
 	//Rotate normally by a certain translation
 	public static Matrix4f createTransformMatrix(Vector3f translation, float rx, float ry, float rz, float scale)

@@ -11,26 +11,19 @@ import lwjglEngine.render.DisplayManager;
 import lwjglEngine.render.Loader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import menugame.Tutorial;
-import data.ColorImage;
 import data.EntityData;
-import data.Field;
 import data.Improvement;
-import processing.core.PApplet;
 import processing.core.PFont;
-import processing.core.PImage;
 import render.*;
-import render.MouseHelper.Point;
-import render.MouseHelper.Shape;
 import units.Caravan;
 import units.City;
 import units.Settler;
 import units.Warrior;
 import units.Worker;
-import vector.Line;
 
 public class MenuSystem extends BaseSystem {
 
@@ -54,7 +47,8 @@ public class MenuSystem extends BaseSystem {
 	public Tile lastMouseHighlighted;
 	public Tile lastHighlighted;
 	private BaseEntity selected; //Selected by the player with the mouse explicitly
-	public Tile[] settlerChoices; public ArrayList<Tile> movementChoices = new ArrayList<Tile>(), pathToHighlighted = new ArrayList<Tile>();
+	public Tile[] settlerChoices; 
+	public List<Tile> movementChoices = new ArrayList<Tile>(), pathToHighlighted = new ArrayList<Tile>();
 	public String typeOfLastSelected = "";
 
 	//2 click type interactions

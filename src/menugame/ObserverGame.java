@@ -3,6 +3,8 @@ package menugame;
 import render.CivGame;
 import render.Game;
 
+//TODO: Implement this in the JOGL version
+
 public class ObserverGame extends CivGame {
 
 	public ObserverGame(Game game, int numCivs, int numCityStates,

@@ -67,7 +67,6 @@ public class CivGame {
 
 	public MenuSystem menuSystem = new MenuSystem(this);
 	public ArrayList<GuiTexture> guis = new ArrayList<GuiTexture>();
-	public NewMenuSystem newMenuSystem = new NewMenuSystem(this);
 
 	public InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
@@ -97,7 +96,6 @@ public class CivGame {
 		systems.add(renderSystem);
 		//systems.add(lwjglSystem);
 		systems.add(menuSystem);
-		//systems.add(newMenuSystem);
 
 		setup();
 	}
@@ -156,9 +154,6 @@ public class CivGame {
 			inputSystem.on = false;
 			menuSystem.select(null); //Fix the selection menu
 			//chunkSystem.update(); //Update once
-			//System.out.println(grid.civs[0]);
-			//System.out.println(grid.civs[0].units.get(0));
-			//System.out.println(grid.civs[0]);
 			Tile t = grid.civs[0].units.get(0).location; //First settler
 			fixCamera(t.row, t.col); //Center the camera at the appropriate location
 
@@ -168,85 +163,14 @@ public class CivGame {
 				civ.war = Math.min(1, civ.war*2);
 				civ.tallwide = Math.min(0, civ.tallwide/2);
 			}
-			/*if (testing)
-		{
-			for (int i = 0; i < grid.civs.length; i++)
-			{
-				Civilization civ = grid.civs[i];
-				civ.war = Math.min(1, civ.war*2);
-				civ.tallwide = Math.min(0, civ.tallwide/2);
-			}
-		}*/
 		} catch (Exception e) {e.printStackTrace();}
-	}
-
-	/*public void loop()
-	{ 
-		//Functions here already present in maingameloop
-	}*/
-
-	//public void draw()
-	{		
-		/*for (int i = 0; i < systems.size(); i++)
-		{
-			systems.get(i).tick();
-		}*/
-		/*background(255);
-		inputSystem.passMouse(mouseX, mouseY);
-		menuSystem.queueMousePass(mouseX, mouseY);
-		if (menuSystem.menuHighlighted) 
-			cursor();
-		else 
-			noCursor();
-		for (int i = 0; i < systems.size(); i++)
-		{
-			systems.get(i).tick();
-		}
-		if (frameCount == 10 && inputSystem.autoSelect)
-			inputSystem.queueKey((char)32);
-		newMenuSystem.lastMouseX = mouseX; newMenuSystem.lastMouseY = mouseY;*/
 	}
 
 	public boolean newLine = false;
 	public float rMouseX = -1, rMouseY = -1;
 	public void mousePressed()
 	{
-		/*if (!newLine)
-		{
-			print("rHorizontal("+(int)mouseX+","+(int)mouseY);
-		}
-		else
-		{
-			println(","+mouseX+","+mouseY+");");
-		}
-		newLine = !newLine;*/
-		//println(player.toString());
-		//println((int)mouseX+","+(int)mouseY);
-		/*menuSystem.queueClick(mouseX, mouseY);
-		if (newMenuSystem.within(mouseX, mouseY) != null)
-			menuSystem.menuActivated = true;
-		else
-		{
-			if (mouseButton == LEFT)
-			{
-				inputSystem.queueLeftClick(mouseX, mouseY);
-			}
-			else if (mouseButton == RIGHT)
-			{
-				//Pass a right click to input system
-				rMouseX = mouseX; rMouseY = mouseY;
-				BaseEntity en = menuSystem.getSelected();
-				if (en != null)
-				{
-					if (en instanceof GameEntity)
-					{
-						ArrayList<Tile> temp = new ArrayList<Tile>(); temp.add(en.location);
-						menuSystem.movementChoice(temp, true, (int)en.maxAction);
-					}
-				}
-				//inputSystem.queueRightClick(mouseX, mouseY);
-			}
-		}*/
+	
 	}
 
 	public void mouseDragged()
@@ -269,70 +193,6 @@ public class CivGame {
 		}*/
 	}
 
-	/*public void mouseMoved()
-	{
-
-	}*/
-
-	public void keyPressed()
-	{
-		/*if (keyCode == ESC || key == ESC)
-		{
-			key = 0;
-			keyCode = 0;
-		}
-		if (keyCode == KeyEvent.VK_F1) inputSystem.queueKey((char)131);
-		else if (keyCode == KeyEvent.VK_F2) inputSystem.queueKey((char)132);
-		else if (keyCode == KeyEvent.VK_F3) inputSystem.queueKey((char)133);
-		else if (keyCode == KeyEvent.VK_F4) inputSystem.queueKey((char)134);
-		else if (keyCode == KeyEvent.VK_F5) inputSystem.queueKey((char)135);
-		else if (keyCode == KeyEvent.VK_F6) inputSystem.queueKey((char)136);
-		else if (keyCode == KeyEvent.VK_F7) inputSystem.queueKey((char)137);
-		else if (keyCode == KeyEvent.VK_F8) inputSystem.queueKey((char)138);
-		else if (keyCode == KeyEvent.VK_F9) inputSystem.queueKey((char)139);
-		else if (keyCode == KeyEvent.VK_F10) inputSystem.queueKey((char)140);
-		else
-			inputSystem.queueKey(key);
-		//inputSystem.test();
-		 */	}
-
-	/*public void keyReleased()
-	{
-		if (keyCode == ESC || key == ESC)
-		{
-			key = 0;
-			keyCode = 0;
-		}
-		else
-			inputSystem.keyReleased(key);
-	}
-
-	public void keyTyped()
-	{
-		if (keyCode == ESC || key == ESC)
-		{
-			key = 0;
-			keyCode = 0;
-		}
-	}*/
-
-	/*public void fill(Color c)
-	{
-		fill((float)c.r*255F,(float)c.g*255F,(float)c.b*255F);
-	}
-
-	public void line(Point x, Point y, float yOffset)
-	{
-		if (x == null || y == null) return;
-		line((float)x.x, (float)x.y + yOffset, (float)x.z, (float)y.x, (float)y.y + yOffset, (float)y.z);
-	}
-
-	public void vertex(Point x)
-	{
-		if (x == null) return;
-		vertex((float)x.x, (float)x.y, (float)x.z);	
-	}*/
-
 	public void stop()
 	{
 		game.exit();
@@ -341,10 +201,10 @@ public class CivGame {
 
 	public void fixCamera(float r, float c)
 	{
-		if (camera.position.y < 25)
+		/*if (camera.position.y < 25)
 			camera.focusCamera((r-0.5F)*1600F/(float)grid.rows, (c+0.5F)*1600F/(float)grid.cols, -10);
-		else
-			camera.focusCamera((r-0.5F)*1600F/(float)grid.rows, (c+0.5F)*1600F/(float)grid.cols + camera.position.y, -45);
+		else*/
+			camera.focusCamera((r-0.5F)*1600F/(float)grid.rows, (c+0.5F)*1600F/(float)grid.cols + camera.position.y, -35);
 		/*lwjglSystem.camera.position.x = r*lwjglSystem.widthBlock;
 		lwjglSystem.camera.position.y = 60;
 		lwjglSystem.camera.position.x = (c-2)*lwjglSystem.widthBlock;*/

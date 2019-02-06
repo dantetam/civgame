@@ -10,7 +10,7 @@ import lwjglEngine.gui.Keyboard;
 
 public class Camera {
 
-	public Vector3f position = new Vector3f(500,20,500);
+	public Vector3f position = new Vector3f(500,100,500);
 	public float pitch = -10, yaw = 0, roll = 0; //High-low, left-right, tilt
 	private float jerkPitch, jerkYaw; private int turnsPitch, turnsYaw;
 

@@ -29,45 +29,6 @@ public class LevelManager {
 	public ModelManager modelManager;
 
 	public LevelManager(LwjglGrid grid, double[][] heightMap) {
-		//groups = new ArrayList<Group>();
-		
-		/*Group group = new Group();
-		for (int r = 100; r < 120; r ++)
-		{
-			for (int c = 100; c < 120; c ++)
-			{
-				Vector3f pos = new Vector3f((float)r/(float)heightMap.length*1600F, (float)heightMap[r][c], (float)c/(float)heightMap[0].length*1600F);
-				Vector3f rot = new Vector3f(0,0,0);
-				Vector3f size = new Vector3f(1,1,1);
-				group.entities.add(newBox(pos, rot, size, "bluePlasma"));
-				
-				pos = new Vector3f((float)r/(float)heightMap.length*1600F + 2, (float)heightMap[r][c], (float)c/(float)heightMap[0].length*1600F);
-				rot = new Vector3f(0,0,0);
-				size = new Vector3f(1,4,1);
-				group.entities.add(newBox(pos, rot, size, "bluePlasma"));
-			}
-		}
-		groups.add(group);*/
-		/*for (int i = 0; i < 50; i++)
-		{
-			Vector3f pos = new Vector3f((int)(Math.random()*250 - 125), (int)(Math.random()*250), (int)(Math.random()*250 - 125));
-			//Vector3f rot = new Vector3f((int)(Math.random()*180), (int)(Math.random()*180), (int)(Math.random()*180));
-			Vector3f rot = new Vector3f(0,0,0);
-			//Vector3f size = new Vector3f((int)(Math.random()*10 + 10), (int)(Math.random()*10 + 10), (int)(Math.random()*10 + 10));
-			Vector3f size = new Vector3f(5,5,5);
-			entities.add(newBox(pos, rot, size, "bluePlasma"));
-		}*/
-		/*entities.add(newObjectFromModel(
-				new Vector3f(0,0,-25),
-				new Vector3f(0,0,0),
-				new Vector3f(5,5,5),
-				5,
-				"stall",
-				"stallTexture"
-				));*/
-		/*Group group1 = loadFromXML("someisland.txt");
-		group1.move(0, 35, 0);
-		groups.add(group1);*/
 		modelManager = new ModelManager(this, grid, heightMap);
 	}
 
