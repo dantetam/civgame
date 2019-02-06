@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import lwjglEngine.levels.LevelManager;
 import lwjglEngine.levels.ModelManager;
+import vector.Vector3f;
 
 //Extension of the grid to separate LWJGL features from non-LWJGL features
 
@@ -22,6 +23,13 @@ public class LwjglGrid extends Grid {
 	{
 		level = lm;
 		models = lm.modelManager;
+	}
+	
+	public Vector3f get3DPositionFromTile(int r, int c) {
+		float x = ((float)r+0.5F)/(float)rows*1600F*0.9F;
+		float y = 0;
+		float z = ((float)c+0.5F)/(float)cols*1600F*0.9F;
+		return new Vector3f(x, y, z);
 	}
 
 	//The following five methods do not override old behavior. Rather, they extend function to LWJGL systems

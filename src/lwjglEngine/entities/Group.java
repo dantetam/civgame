@@ -2,7 +2,7 @@ package lwjglEngine.entities;
 
 import java.util.ArrayList;
 
-import org.lwjgl.util.vector.Vector3f;
+import vector.Vector3f;
 
 public class Group {
 
@@ -39,6 +39,9 @@ public class Group {
 			en.position.z += position.z;
 		}
 	}
+	public void move(Vector3f translation) {
+		move(translation.x, translation.y, translation.z);
+	}
 	
 	public void rotateToRadiansY(float angle)
 	{
@@ -51,7 +54,6 @@ public class Group {
 		for (Entity en: entities)
 		{
 			float x = en.position.x, z = en.position.z; //Store in memory since these change after rotation
-			//Mr. Chan's precalculus was finally useful in application
 			en.position.x = (float)(x*Math.cos(byAngle) - z*Math.sin(byAngle));
 			en.position.z = (float)(x*Math.sin(byAngle) + z*Math.cos(byAngle));
 			en.rotY += byAngle;

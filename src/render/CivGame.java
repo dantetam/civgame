@@ -30,6 +30,7 @@ import data.ColorImage;
 import data.EntityData;
 import terrain.*;
 import vector.Point;
+import vector.Vector3f;
 import system.*;
 import entity.Player;
 import game.BaseEntity;
@@ -199,12 +200,14 @@ public class CivGame {
 		//super.stop();
 	}
 
-	public void fixCamera(float r, float c)
+	public void fixCamera(int r, int c)
 	{
+		Vector3f tilePosition = grid.get3DPositionFromTile(r, c);
+		camera.focusCamera(tilePosition.x, tilePosition.z, -35);
 		/*if (camera.position.y < 25)
 			camera.focusCamera((r-0.5F)*1600F/(float)grid.rows, (c+0.5F)*1600F/(float)grid.cols, -10);
-		else*/
-			camera.focusCamera((r-0.5F)*1600F/(float)grid.rows, (c+0.5F)*1600F/(float)grid.cols + camera.position.y, -35);
+		else
+			camera.focusCamera((r-0.5F)*1600F/(float)grid.rows, (c+0.5F)*1600F/(float)grid.cols + camera.position.y, -35);*/
 		/*lwjglSystem.camera.position.x = r*lwjglSystem.widthBlock;
 		lwjglSystem.camera.position.y = 60;
 		lwjglSystem.camera.position.x = (c-2)*lwjglSystem.widthBlock;*/

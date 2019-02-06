@@ -17,9 +17,11 @@ public class Camera {
 	public Camera() {}
 	//public Camera(Vector3f p, float a, float b, float c) {}
 
+	//Allow the user to focus on the point (x, z) from a top-view perspective
 	public void focusCamera(float x, float z, float angPitch)
 	{
-		position = new Vector3f(x,position.y,z);
+		float distanceBack = Math.abs(position.y / (float)Math.tan(angPitch));
+		position = new Vector3f(x,position.y,z + distanceBack);
 		turnsPitch = 20; turnsYaw = 20;
 		//jerkPitch = -(pitch-(float)Math.toDegrees(Math.atan(position.y/20F)))/(float)turnsPitch; 
 		jerkPitch = -(pitch+angPitch)/(float)turnsPitch; 
