@@ -36,8 +36,9 @@ public class Game extends PApplet {
 
 	public MenuGame menuGame;
 	public int tickEvery = 6;
+	public String seed = "450691";
 	//public long seed = 87069200L;
-	public String seed = "87069200"; //for easy modification (not by modulo, but substring)
+	//public String seed = "87069200"; //for easy modification (not by modulo, but substring)
 
 	public static void main(String[] args)
 	{
@@ -673,6 +674,9 @@ public class Game extends PApplet {
 		}*/
 		
 		File folder = new File("./src/data/models/");
+		File test = new File("./");
+		for (String sub: test.list())
+			System.out.println(sub);
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {

@@ -13,7 +13,8 @@ public class Camera {
 	public Vector3f position = new Vector3f(500,100,500);
 	public float pitch = -10, yaw = 0, roll = 0; //High-low, left-right, tilt
 	private float jerkPitch, jerkYaw; private int turnsPitch, turnsYaw;
-
+	private static final float LOWER_BOUND_Y = 40, UPPER_BOUND_Y = 400;
+	
 	public Camera() {}
 	//public Camera(Vector3f p, float a, float b, float c) {}
 
@@ -46,10 +47,18 @@ public class Camera {
 			return; //Override keyboard when camera is being shifted
 		}
 		float step = 5f, tilt = 1f;
-		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_I))
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_I)) {
 			position.y -= step;
-		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_O))
+			if (position.y < LOWER_BOUND_Y) {
+				position.y = LOWER_BOUND_Y;
+			}
+		}
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_O)) {
 			position.y += step;
+			if (position.y > UPPER_BOUND_Y) {
+				position.y = UPPER_BOUND_Y;
+			}
+		}
 		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_A))
 		{
 			position.x -= step*Math.cos(Math.toRadians(yaw));

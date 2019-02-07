@@ -70,34 +70,11 @@ void main(void)
 	{
 		totalColor = texture(texture1, tiledCoords);	
 	}
-	
-	/*
-	vec4 highlightColor = texture(blendMap2, passTextureCoords);
-	if (highlightColor.r > 0.02 || highlightColor.g > 0.02 || highlightColor.b > 0.02)
-	{
-		totalColor = highlightColor;
-	}
-	*/
-	
-	if (mouseHighlightedCoord.x > 0)
-	{
-		if (distance(mouseHighlightedCoord, passTextureCoords) < 0.015) 
-		{
-			totalColor = totalColor*0.6 + 0.4*vec4(1,1,1,0);
-		}
-	}
-	/*if (selectedCoord.x > 0)
-	{
-		float radius = distance(selectedCoord, passTextureCoords);
-		if (radius > 0.025 && radius < 0.045) 
-		{
-			totalColor = totalColor*0.4 + 0.7*vec4(1,0,0,0);
-		}
-	}*/
+
 	if (mouseOverCoord.x > 0)
 	{
 		float radius = distance(mouseOverCoord, passTextureCoords);
-		if (radius > 0.025 && radius < 0.045) 
+		if (radius > 0.013 && radius < 0.016) 
 		{
 			totalColor = totalColor*0.4 + 0.7*vec4(1,1,1,0);
 		}
