@@ -46,7 +46,8 @@ public class Game extends PApplet {
 	}
 
 	public void setup()
-	{
+	{		
+		int guiDefaultTexture = -1;
 		size(800,800);
 		//frameRate(60);
 		//arial = createFont("ProggyClean.ttf", 48);
@@ -61,57 +62,57 @@ public class Game extends PApplet {
 
 		Menu menu0 = new Menu("MainMenu");
 		menus.add(menu0);
-		//menu0.addButton("newgame", "New Game", "Start a new game.", 295, 100, 210, 50);
-		menu0.addButton("newgame", "New Game", "Start a new game.", 70, 100, 210, 50);
-		menu0.addButton("backMenu7", "Tutorials", "Learn about the game through play.", 70, 160, 210, 50);
-		menu0.addButton("options", "Options", "Change options such as the level seed.", 70, 220, 210, 50);
-		menu0.addButton("quickgame", "Quick Game", "Conquest - Tiny - Corinth - Warlord - Pangaea", 70, 280, 210, 50);
-		menu0.addButton("observergame", "Spectate Game", "Simulate a random game world with AI civilizations only.", 70, 340, 210, 50);
-		menu0.addButton("exitgame", "Exit", "Exit the game.", 70, 630, 210, 70);
-		menu0.addButton("retract", "<<<", "Hide the menu.", 0, 0, 50, 50);
-		menu0.addButton("pause", "||", "Pause the simulation.", 50, 0, 50, 50);
+		//menu0.addButton(guiDefaultTexture, "newgame", "New Game", "Start a new game.", 295, 100, 210, 50);
+		menu0.addButton(guiDefaultTexture, "newgame", "New Game", "Start a new game.", 70, 100, 210, 50);
+		menu0.addButton(guiDefaultTexture, "backMenu7", "Tutorials", "Learn about the game through play.", 70, 160, 210, 50);
+		menu0.addButton(guiDefaultTexture, "options", "Options", "Change options such as the level seed.", 70, 220, 210, 50);
+		menu0.addButton(guiDefaultTexture, "quickgame", "Quick Game", "Conquest - Tiny - Corinth - Warlord - Pangaea", 70, 280, 210, 50);
+		menu0.addButton(guiDefaultTexture, "observergame", "Spectate Game", "Simulate a random game world with AI civilizations only.", 70, 340, 210, 50);
+		menu0.addButton(guiDefaultTexture, "exitgame", "Exit", "Exit the game.", 70, 630, 210, 70);
+		menu0.addButton(guiDefaultTexture, "retract", "<<<", "Hide the menu.", 0, 0, 50, 50);
+		menu0.addButton(guiDefaultTexture, "pause", "||", "Pause the simulation.", 50, 0, 50, 50);
 		//menu1.on();
 
 		Menu menu1 = new Menu("ChallengeTypeMenu");
 		menus.add(menu1);
-		menu1.addButton("conquestgame", "Conquest", "Destroy all other nations.", 70, 100, 210, 50);
-		menu1.addButton("survivalgame", "Survival", "Survive to be the most powerful.", 70, 160, 210, 50);
-		menu1.addButton("backMenu0", "Back", "Back to the main menu.", 70, 630, 210, 70);
+		menu1.addButton(guiDefaultTexture, "conquestgame", "Conquest", "Destroy all other nations.", 70, 100, 210, 50);
+		menu1.addButton(guiDefaultTexture, "survivalgame", "Survival", "Survive to be the most powerful.", 70, 160, 210, 50);
+		menu1.addButton(guiDefaultTexture, "backMenu0", "Back", "Back to the main menu.", 70, 630, 210, 70);
 
 		Menu menu2 = new Menu("OpponentMenu");
 		menus.add(menu2);
-		menu2.addButton("civs2", "Duel", "2 civs, 4 city states", 70, 100, 210, 50);
-		menu2.addButton("civs3", "Tiny", "3 civs, 6 city states", 70, 160, 210, 50);
-		menu2.addButton("civs5", "Small", "5 civs, 10 city states", 70, 220, 210, 50);
-		menu2.addButton("civs8", "Standard", "8 civs, 16 city states", 70, 280, 210, 50);
-		menu2.addButton("civs12", "Large", "12 civs, 24 city states", 70, 340, 210, 50);
-		//menu2.addButton("civs16", "Huge", 100, 600, 210, 70);
-		//menu2.addButton("civs64", "Testing", 100, 700, 210, 70);
-		menu2.addButton("backMenu1", "Back", "Back to the game mode menu.", 70, 630, 210, 70);
+		menu2.addButton(guiDefaultTexture, "civs2", "Duel", "2 civs, 4 city states", 70, 100, 210, 50);
+		menu2.addButton(guiDefaultTexture, "civs3", "Tiny", "3 civs, 6 city states", 70, 160, 210, 50);
+		menu2.addButton(guiDefaultTexture, "civs5", "Small", "5 civs, 10 city states", 70, 220, 210, 50);
+		menu2.addButton(guiDefaultTexture, "civs8", "Standard", "8 civs, 16 city states", 70, 280, 210, 50);
+		menu2.addButton(guiDefaultTexture, "civs12", "Large", "12 civs, 24 city states", 70, 340, 210, 50);
+		//menu2.addButton(guiDefaultTexture, "civs16", "Huge", 100, 600, 210, 70);
+		//menu2.addButton(guiDefaultTexture, "civs64", "Testing", 100, 700, 210, 70);
+		menu2.addButton(guiDefaultTexture, "backMenu1", "Back", "Back to the game mode menu.", 70, 630, 210, 70);
 
 		Menu menu3 = new Menu("TerrainMenu");
 		menus.add(menu3);
-		menu3.addButton("terrain1", "Archipelago", "A set of small islands.", 70, 100, 210, 50);
-		menu3.addButton("terrain2", "Fractal", "Unpredictable as always.", 70, 160, 210, 50);
-		menu3.addButton("terrain4", "Fractal+", "A true fractal.", 70, 220, 210, 50);
+		menu3.addButton(guiDefaultTexture, "terrain1", "Archipelago", "A set of small islands.", 70, 100, 210, 50);
+		menu3.addButton(guiDefaultTexture, "terrain2", "Fractal", "Unpredictable as always.", 70, 160, 210, 50);
+		menu3.addButton(guiDefaultTexture, "terrain4", "Fractal+", "A true fractal.", 70, 220, 210, 50);
 
-		menu3.addButton("terrain10", "Rolling Hills", "A set of large islands.", 70, 280, 210, 50);
-		menu3.addButton("terrain11", "Pangaea", "One large landmass and satellite islands.", 70, 340, 210, 50);
+		menu3.addButton(guiDefaultTexture, "terrain10", "Rolling Hills", "A set of large islands.", 70, 280, 210, 50);
+		menu3.addButton(guiDefaultTexture, "terrain11", "Pangaea", "One large landmass and satellite islands.", 70, 340, 210, 50);
 
-		//menu3.addButton("terrain5", "Testing", "", 70, 400, 210, 50);
-		//menu2.addButton("newgame", "New Game", 100, 100, 210, 70);
-		menu3.addButton("backMenu6", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
+		//menu3.addButton(guiDefaultTexture, "terrain5", "Testing", "", 70, 400, 210, 50);
+		//menu2.addButton(guiDefaultTexture, "newgame", "New Game", 100, 100, 210, 70);
+		menu3.addButton(guiDefaultTexture, "backMenu6", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
 
 		Menu menu4 = new Menu("OptionsMenu");
 
-		menu4.addButton("randomSeed", "Random Seed", "Get a new random number.", 70, 160, 210, 50);
-		menu4.addButton("useCurrentSeed", "Use Current Seed", "Use the seed of the simulation (must choose terrain).", 70, 220, 210, 50);
-		menu4.addButton("instantSelection", "Automatic Selection: On", "Allow the game to cycle to the next unit automatically.", 70, 280, 210, 50);
-		TextBox t = menu4.addButton("toggleTesting", "Testing: Off", "Enable developer mode. Gives access to extra graphical display,", 70, 340, 210, 50);
+		menu4.addButton(guiDefaultTexture, "randomSeed", "Random Seed", "Get a new random number.", 70, 160, 210, 50);
+		menu4.addButton(guiDefaultTexture, "useCurrentSeed", "Use Current Seed", "Use the seed of the simulation (must choose terrain).", 70, 220, 210, 50);
+		menu4.addButton(guiDefaultTexture, "instantSelection", "Automatic Selection: On", "Allow the game to cycle to the next unit automatically.", 70, 280, 210, 50);
+		TextBox t = menu4.addButton(guiDefaultTexture, "toggleTesting", "Testing: Off", "Enable developer mode. Gives access to extra graphical display,", 70, 340, 210, 50);
 		t.tooltip.add("as well as the developer console.");
-		menu4.addButton("toggleForceCursor", "Force Cursor: Off", "Bring back the cursor if you can't function with it.", 70, 400, 210, 50);
+		menu4.addButton(guiDefaultTexture, "toggleForceCursor", "Force Cursor: Off", "Bring back the cursor if you can't function with it.", 70, 400, 210, 50);
 
-		menu4.addButton("setSeedAndBack", "Back", "Back to the main menu.", 70, 630, 210, 70);
+		menu4.addButton(guiDefaultTexture, "setSeedAndBack", "Back", "Back to the main menu.", 70, 630, 210, 70);
 
 		menus.add(menu4);
 
@@ -120,7 +121,7 @@ public class Game extends PApplet {
 		int n = 0;
 		for (Entry<String, Civilization> i : EntityData.civs.entrySet())
 		{
-			TextBox b = menu5.addButton("civ"+i.getKey(), i.getKey(), "", 70, 100+40*n, 210, 30);
+			TextBox b = menu5.addButton(guiDefaultTexture, "civ"+i.getKey(), i.getKey(), "", 70, 100+40*n, 210, 30);
 			String[] t1 = EntityData.traitDesc(i.getValue().primaryTrait),
 					t2 = EntityData.traitDesc(i.getValue().secondaryTrait);
 			b.tooltip.add(i.getValue().name);
@@ -129,25 +130,25 @@ public class Game extends PApplet {
 			b.tooltip.add(getUnlockedTechs(i.getValue()));
 			n++;
 		}
-		menu5.addButton("backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
+		menu5.addButton(guiDefaultTexture, "backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
 
 		Menu menu6 = new Menu("DifficultyMenu");
 		menus.add(menu6);
-		menu6.addButton("level1", "Sandbox", "Recommended for trying new strategies.", 70, 100, 210, 50);
-		menu6.addButton("level2", "Settler", "Easy difficulty. You get a natural bonus over the passive AI.", 70, 160, 210, 50);
-		menu6.addButton("level3", "Warlord", "Moderate difficulty. You get no bonuses and the AI is more aggressive.", 70, 220, 210, 50);
-		menu6.addButton("level4", "Monarch", "Hard difficulty. The AI gets slight bonuses and favors war.", 70, 280, 210, 50);
-		menu6.addButton("level5", "Immortal", "Impossible difficulty. AI gets massive bonuses and exclusively uses war.", 70, 340, 210, 50);
-		//menu2.addButton("civs16", "Huge", 100, 600, 210, 70);
-		//menu2.addButton("civs64", "Testing", 100, 700, 210, 70);
-		menu6.addButton("backMenu5", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
+		menu6.addButton(guiDefaultTexture, "level1", "Sandbox", "Recommended for trying new strategies.", 70, 100, 210, 50);
+		menu6.addButton(guiDefaultTexture, "level2", "Settler", "Easy difficulty. You get a natural bonus over the passive AI.", 70, 160, 210, 50);
+		menu6.addButton(guiDefaultTexture, "level3", "Warlord", "Moderate difficulty. You get no bonuses and the AI is more aggressive.", 70, 220, 210, 50);
+		menu6.addButton(guiDefaultTexture, "level4", "Monarch", "Hard difficulty. The AI gets slight bonuses and favors war.", 70, 280, 210, 50);
+		menu6.addButton(guiDefaultTexture, "level5", "Immortal", "Impossible difficulty. AI gets massive bonuses and exclusively uses war.", 70, 340, 210, 50);
+		//menu2.addButton(guiDefaultTexture, "civs16", "Huge", 100, 600, 210, 70);
+		//menu2.addButton(guiDefaultTexture, "civs64", "Testing", 100, 700, 210, 70);
+		menu6.addButton(guiDefaultTexture, "backMenu5", "Back", "Back to the civilization menu.", 70, 630, 210, 70);
 
 		Menu menu7 = new Menu("TutorialMenu");
-		menu7.addButton("tutorial", "Beginnings", "Grasp the basics of game control, UI, and basic mechanics.", 70, 100, 210, 50);
-		menu7.addButton("economictutorial", "Economics", "Learn the inner workings of the world's economy.", 70, 160, 210, 50);
-		menu7.addButton("wartutorial", "War", "Learn the basics of war and fighting for economic gain.", 70, 220, 210, 50);
-		menu7.addButton("advancedwartutorial", "Advanced Warfare", "Fight with advanced strategies and powerful units.", 70, 280, 210, 50);
-		menu7.addButton("backMenu0", "Back", "Back to the main menu.", 70, 630, 210, 70);
+		menu7.addButton(guiDefaultTexture, "tutorial", "Beginnings", "Grasp the basics of game control, UI, and basic mechanics.", 70, 100, 210, 50);
+		menu7.addButton(guiDefaultTexture, "economictutorial", "Economics", "Learn the inner workings of the world's economy.", 70, 160, 210, 50);
+		menu7.addButton(guiDefaultTexture, "wartutorial", "War", "Learn the basics of war and fighting for economic gain.", 70, 220, 210, 50);
+		menu7.addButton(guiDefaultTexture, "advancedwartutorial", "Advanced Warfare", "Fight with advanced strategies and powerful units.", 70, 280, 210, 50);
+		menu7.addButton(guiDefaultTexture, "backMenu0", "Back", "Back to the main menu.", 70, 630, 210, 70);
 		menus.add(menu7); 
 
 		//Main main = new Main();

@@ -172,7 +172,7 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu6);
 
 		Menu menu7 = new Menu("EncyclopediaMenu");
-		TextBox temp = new TextBox(loader.loadTexture("guiDefaultTexture"), "", "", 100, 190, 700, 500); // "EncyclopediaText",
+		TextBox temp = new TextBox(guiDefaultTexture, "", "", 100, 190, 700, 500); // "EncyclopediaText",
 		// System.out.println("Found " + menu7.findButtonByCommand("EncyclopediaText"));
 		temp.name = "EncyclopediaText";
 		menu7.buttons.add(temp);
@@ -437,10 +437,7 @@ public class MenuSystem extends BaseSystem {
 		{
 			ArrayList<String> text = EntityData.encyclopediaEntries.get(command.substring(12));
 			TextBox textBox = (TextBox) menus.get(7).findButtonByName("EncyclopediaText");
-			textBox.display.clear();
-			for (int j = 0; j < text.size(); j++) {
-				textBox.display.add(text.get(j));
-			}
+			textBox.setDisplayText(text);
 		}
 
 		else if (command.contains("/")) // if it is a entity-improvement command
@@ -802,20 +799,20 @@ public class MenuSystem extends BaseSystem {
 			Button b = (Button) menus.get(5).addButton(guiDefaultTexture, "research" + s, name, "Research " + s + ".", 0,
 					main.height * 5 / 6 - disp + 30 * i, main.width * 1 / 6, 30);
 			b.lock = true;
-			b.tooltip.clear();
+			b.clearTooltipText();
 			if (turns != -1)
-				b.tooltip.add("Estimated research time: " + turns + " turns");
+				b.addTooltipText("Estimated research time: " + turns + " turns");
 			else
-				b.tooltip.add("Estimated research time: N/A");
-			b.tooltip.add(t.totalR + " research out of " + t.requiredR + "; "
+				b.addTooltipText("Estimated research time: N/A");
+			b.addTooltipText(t.totalR + " research out of " + t.requiredR + "; "
 					+ (int) ((float) t.totalR / (float) t.requiredR * 100) + "%");
-			b.tooltip.add("Requires " + t.requisite.name);
+			b.addTooltipText("Requires " + t.requisite.name);
 			String techString = "";
 			for (int j = 0; j < t.techs.length; j++)
 				techString += t.techs[j].name + ", ";
 			if (t.techs.length != 0)
-				b.tooltip.add("Leads to " + techString.substring(0, techString.length() - 2));
-			b.tooltip.add("Unlocks " + t.unlockString());
+				b.addTooltipText("Leads to " + techString.substring(0, techString.length() - 2));
+			b.addTooltipText("Unlocks " + t.unlockString());
 			// menus.get(5).addButton("research" + s, s, "", main.width/3F,
 			// (float)main.height*2F/6F + 60*i, 200, 50);
 		}
@@ -905,21 +902,21 @@ public class MenuSystem extends BaseSystem {
 
 	// Update the ledger
 	public void updateCivStats() {
-		textboxes.get(4).display.clear();
-		textboxes.get(4).display.add("You:");
+		textboxes.get(4).clearDisplayText();
+		textboxes.get(4).addDisplayText("You:");
 		Civilization c = main.grid.civs[0];
 		String s = c.name + "; Health: " + c.health + "; Gold: " + c.gold + "; Research: " + c.research;
-		textboxes.get(4).display.add(s);
-		textboxes.get(4).display.add("");
+		textboxes.get(4).addDisplayText(s);
+		textboxes.get(4).addDisplayText("");
 
-		textboxes.get(4).display.add("Civilizations:");
+		textboxes.get(4).addDisplayText("Civilizations:");
 		// Menu 8 buttons were moved to menu 11
 		// menus.get(8).activate(false);
 		for (int i = 1; i < main.grid.civs.length; i++) {
 			c = main.grid.civs[i];
 			s = c.name + "; Health: " + c.health + "; Gold: " + c.gold + "; Research: " + c.research + "; Relations: "
 					+ main.grid.civs[0].opinions[i];
-			textboxes.get(4).display.add(s);
+			textboxes.get(4).addDisplayText(s);
 			// menus.get(8).addButton("diplomacy"+i, "Talk", "Conduct diplomacy with " +
 			// c.name + ".", 600, 190+60+15*(i-1), 90, 15);
 		}
@@ -973,12 +970,12 @@ public class MenuSystem extends BaseSystem {
 			for (int i = 0; i < units.size(); i++) {
 				Button b = (Button) menus.get(1).addButton(guiDefaultTexture, "build" + units.get(i), units.get(i),
 						"Construct " + units.get(i) + " here.", 0, main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
-				b.tooltip.clear();
+				b.clearTooltipText();
 				int turns = EntityData.tileImprovementTime(en, units.get(i));
 				if (turns != -1)
-					b.tooltip.add("Estimated build time: " + turns + " turns");
+					b.addTooltipText("Estimated build time: " + turns + " turns");
 				else
-					b.tooltip.add("Estimated build time: N/A");
+					b.addTooltipText("Estimated build time: N/A");
 				double[] yieldBefore = City.staticEval(en.location),
 						yieldAfter = City.staticEval(en.location, units.get(i));
 				double[] temp = new double[] { yieldAfter[0] - yieldBefore[0], yieldAfter[1] - yieldBefore[1],
@@ -987,9 +984,9 @@ public class MenuSystem extends BaseSystem {
 				for (int j = 0; j < temp.length; j++) {
 					if (temp[j] != 0) {
 						if (temp[j] > 0)
-							b.tooltip.add("+" + temp[j] + " " + names[j]);
+							b.addTooltipText("+" + temp[j] + " " + names[j]);
 						else
-							b.tooltip.add("-" + temp[j] + " " + names[j]);
+							b.addTooltipText("-" + temp[j] + " " + names[j]);
 					}
 				}
 			}
@@ -997,8 +994,8 @@ public class MenuSystem extends BaseSystem {
 				Button b = (Button) menus.get(1).addButton(guiDefaultTexture, "buildRoad", "Road",
 						"Construct a road, to expand your civilization's network.", 0, main.height * 5 / 6 + 30,
 						main.width * 1 / 6, 30);
-				b.tooltip.add("Roads allow for increased movement,");
-				b.tooltip.add("and connect resources and cities.");
+				b.addTooltipText("Roads allow for increased movement,");
+				b.addTooltipText("and connect resources and cities.");
 				b.dimTooltip();
 			}
 			// menus.get(1).addButton("buildfarm", "Farm", (float)main.width/3F + 60,
@@ -1074,7 +1071,7 @@ public class MenuSystem extends BaseSystem {
 
 		TextBox button = menus.get(2).addButton(guiDefaultTexture, "unitSleep", "Sleep",
 				"Do not queue and produce anything with this city.", 0, 0, 0, 0);
-		button.tooltip.add("Not recommended.");
+		button.addTooltipText("Not recommended.");
 		if (c.takeover > 0) {
 			menus.get(2).addButton(guiDefaultTexture, "razeCity", "Raze", "Destroy the city, one citizen at a time.", main.width / 3F,
 					(float) main.height * 5F / 6F + 60, 50, 50);
@@ -1168,9 +1165,9 @@ public class MenuSystem extends BaseSystem {
 		double[] data = EntityData.calculateYield(c);
 		TextBox t = new TextBox(loader.loadTexture("partTexture"), "Food per turn: " + (int) Math.floor(data[0]), 0,
 				main.height * 5 / 6, 150, main.height * 1 / 6);
-		t.display.add("Gold per turn: " + (int) Math.floor(data[1]));
-		t.display.add("Metal per turn: " + (int) Math.floor(data[2]));
-		t.display.add("Research per turn: " + (int) Math.floor(data[3]));
+		t.addDisplayText("Gold per turn: " + (int) Math.floor(data[1]));
+		t.addDisplayText("Metal per turn: " + (int) Math.floor(data[2]));
+		t.addDisplayText("Research per turn: " + (int) Math.floor(data[3]));
 		menus.get(2).buttons.add(t);
 
 		menus.get(2).activate(true);
@@ -1180,30 +1177,30 @@ public class MenuSystem extends BaseSystem {
 		int turns = calcQueueTurnsInt(c, s);
 		String name = turns != -1 ? s + " <" + turns + ">" : s + " <N/A>";
 		Button b = (Button) menus.get(2).addButton(guiDefaultTexture, "queue" + s, name, "", 0, 0, 0, 0);
-		b.tooltip.clear();
+		b.clearTooltipText();
 		if (!enabled) {
 			b.command = "";
 			b.color.w = 100;
 			b.shortcut = false;
-			b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));
+			b.addTooltipText("Unlocked by " + c.owner.techTree.unlockedBy(s));
 		}
-		// b.tooltip.add("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) +
+		// b.addTooltipText("Estimated build time: " + calcQueueTurnsInt(c, units.get(i)) +
 		// " turns");
-		b.tooltip.add("Queue a " + s + ".");
+		b.addTooltipText("Queue a " + s + ".");
 		if (turns != -1)
-			b.tooltip.add("Estimated build time: " + turns + " turns");
+			b.addTooltipText("Estimated build time: " + turns + " turns");
 		else
-			b.tooltip.add("Estimated build time: N/A");
+			b.addTooltipText("Estimated build time: N/A");
 
 		float[] cost = EntityData.getCost(s);
-		b.tooltip.add("Requires " + cost[0] + " food");
-		b.tooltip.add("Requires " + cost[2] + " metal");
+		b.addTooltipText("Requires " + cost[0] + " food");
+		b.addTooltipText("Requires " + cost[2] + " metal");
 		// System.out.println(s + ": " + cost[0] + " " + cost[2]);
 
 		GameEntity example = (GameEntity) EntityData.get(s);
-		b.tooltip.add("Offensive strength: " + example.offensiveStr);
-		b.tooltip.add("Defensive strength: " + example.defensiveStr);
-		b.tooltip.add("Ranged strength: " + example.rangedStr);
+		b.addTooltipText("Offensive strength: " + example.offensiveStr);
+		b.addTooltipText("Defensive strength: " + example.defensiveStr);
+		b.addTooltipText("Ranged strength: " + example.rangedStr);
 		// menus.get(2).addButton("queue" + units.get(i), units.get(i), "", 0,
 		// main.height*5/6 - disp + 30*i, main.width*1/6, 30);
 	}
@@ -1212,25 +1209,25 @@ public class MenuSystem extends BaseSystem {
 		int turns = calcQueueTurnsInt(c, s);
 		String name = turns != -1 ? s + " <" + calcQueueTurnsInt(c, s) + ">" : s + " <N/A>";
 		Button b = (Button) menus.get(2).addButton(guiDefaultTexture, "queueBuilding" + s, name, "", 0, 0, 0, 0);
-		b.tooltip.clear();
+		b.clearTooltipText();
 		if (!enabled) {
 			b.command = "";
 			b.color.w = 100;
 			b.shortcut = false;
-			b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));
+			b.addTooltipText("Unlocked by " + c.owner.techTree.unlockedBy(s));
 		}
-		b.tooltip.add("Queue a " + s + ".");
-		// b.tooltip.add(calcQueueTurns(c));
+		b.addTooltipText("Queue a " + s + ".");
+		// b.addTooltipText(calcQueueTurns(c));
 		if (turns != -1)
-			b.tooltip.add("Estimated build time: " + turns + " turns");
+			b.addTooltipText("Estimated build time: " + turns + " turns");
 		else
-			b.tooltip.add("Estimated build time: N/A");
+			b.addTooltipText("Estimated build time: N/A");
 
 		Improvement impr = EntityData.cityImprovementMap.get(s);
 		float[] cost = EntityData.getCost(s);
-		b.tooltip.add(impr.tooltip);
-		b.tooltip.add("Requires " + cost[0] + " food");
-		b.tooltip.add("Requires " + cost[2] + " metal");
+		b.addTooltipText(impr.tooltip);
+		b.addTooltipText("Requires " + cost[0] + " food");
+		b.addTooltipText("Requires " + cost[2] + " metal");
 		/*
 		 * menus.get(2).addButton("queueBuilding" + s, s, "", 0, main.height*5/6 - disp
 		 * + 30*(i+c.owner.techTree.allowedUnits.size()), main.width*1/6, 30);
@@ -1241,25 +1238,25 @@ public class MenuSystem extends BaseSystem {
 		int turns = calcQueueTurnsInt(c, s);
 		Button b = (Button) menus.get(2).addButton(guiDefaultTexture, "qfield" + s, "F: " + s + " <" + calcQueueTurnsInt(c, s) + ">", "",
 				0, 0, 0, 0);
-		b.tooltip.clear();
-		// b.tooltip.add(calcQueueTurns(c));
+		b.clearTooltipText();
+		// b.addTooltipText(calcQueueTurns(c));
 		if (!enabled) {
 			b.command = "";
 			b.color.w = 100;
 			b.shortcut = false;
-			b.tooltip.add("Unlocked by " + c.owner.techTree.unlockedBy(s));
+			b.addTooltipText("Unlocked by " + c.owner.techTree.unlockedBy(s));
 		}
-		b.tooltip.add("Add a " + s + " field.");
+		b.addTooltipText("Add a " + s + " field.");
 		if (turns != -1)
-			b.tooltip.add("Estimated build time: " + turns + " turns");
+			b.addTooltipText("Estimated build time: " + turns + " turns");
 		else
-			b.tooltip.add("Estimated build time: N/A");
+			b.addTooltipText("Estimated build time: N/A");
 
 		Improvement impr = EntityData.getField(s);
-		b.tooltip.add(impr.tooltip);
-		b.tooltip.add("Requires " + (int) impr.foodFlat + " food");
-		b.tooltip.add("Requires " + (int) impr.metalFlat + " metal");
-		b.tooltip.add("Requires " + (int) impr.goldFlat + " gold");
+		b.addTooltipText(impr.tooltip);
+		b.addTooltipText("Requires " + (int) impr.foodFlat + " food");
+		b.addTooltipText("Requires " + (int) impr.metalFlat + " metal");
+		b.addTooltipText("Requires " + (int) impr.goldFlat + " gold");
 		/*
 		 * menus.get(2).addButton("queueBuilding" + buildings.get(i), buildings.get(i),
 		 * "", 0, main.height*5/6 - disp + 30*(i+c.owner.techTree.allowedUnits.size()),
@@ -1275,9 +1272,9 @@ public class MenuSystem extends BaseSystem {
 	 * i = 0; i < fields.size(); i++) { Field f =
 	 * EntityData.getField(fields.get(i)); TextBox b =
 	 * menus.get(16).addButton("makeField"+n+","+f.name, f.name, "", 0, 0, 0, 0);
-	 * //b.tooltip.clear(); b.tooltip = new ArrayList<String>();
-	 * b.tooltip.add(f.name + ""); b.tooltip.add(f.tooltip + "");
-	 * b.tooltip.add("Costs " + f.foodFlat + " F, " + f.goldFlat + " G, " +
+	 * //b.clearTooltipText(); b.tooltip = new ArrayList<String>();
+	 * b.addTooltipText(f.name + ""); b.addTooltipText(f.tooltip + "");
+	 * b.addTooltipText("Costs " + f.foodFlat + " F, " + f.goldFlat + " G, " +
 	 * f.metalFlat + " M"); //System.out.println("Tooltip: " + b.tooltip.get(1));
 	 * //b.dimTooltip(); }
 	 * 
@@ -1298,8 +1295,8 @@ public class MenuSystem extends BaseSystem {
 	 * "Add field", "There is no field built here. Add a new one.", i*150, 0, 100,
 	 * 30); else TextBox b = new TextBox("", "", i*150, 30, 150, 100); b.display =
 	 * new ArrayList<String>(); if (f != null) { if (f.owner != null)
-	 * b.display.add(f.name + " (" + f.owner.name + ")"); else b.display.add(f.name
-	 * + " (unowned)"); } else { b.display.add("No field"); }
+	 * b.addDisplayText(f.name + " (" + f.owner.name + ")"); else b.addDisplayText(f.name
+	 * + " (unowned)"); } else { b.addDisplayText("No field"); }
 	 * menus.get(15).buttons.add(b); } for (int i = 0; i <
 	 * menus.get(15).buttons.size(); i++) { TextBox b =
 	 * menus.get(15).buttons.get(i); b.move(b.posX + main.mouseX, b.posY +
@@ -1325,7 +1322,7 @@ public class MenuSystem extends BaseSystem {
 
 		TextBox text0 = new TextBox(loader.loadTexture("partTexture"), "", main.width * 2 / 6, main.height * 2 / 6,
 				main.width * 2 / 6, main.height / 12); // "HintText"
-		text0.display.add(civ.name);
+		text0.addDisplayText(civ.name);
 
 		menus.get(9).addButton(guiDefaultTexture, "openBorders" + civ.id, "Request open borders.",
 				"Allow unrestricted travel between you and this nation.", main.width * 2 / 6,
@@ -1380,11 +1377,11 @@ public class MenuSystem extends BaseSystem {
 					width2, 20);
 			menus.get(11).buttons.add(b);
 
-			b.tooltip.clear();
+			b.clearTooltipText();
 			String s = civ.name + "; Health: " + civ.health + "; Gold: " + civ.gold + "; Research: " + civ.research
 					+ "; Relations: " + main.grid.civs[0].opinions[i];
-			b.tooltip.add(s);
-			b.tooltip.add("Select to view the diplomatic situation of " + civ.name + ".");
+			b.addTooltipText(s);
+			b.addTooltipText("Select to view the diplomatic situation of " + civ.name + ".");
 			b.dimTooltip();
 
 			// Allow player to talk with other civs in this menu
@@ -1497,10 +1494,10 @@ public class MenuSystem extends BaseSystem {
 	}
 
 	public void selectAndFocus(BaseEntity en) {
-		textboxes.get(5).display.clear();
-		textboxes.get(5).display.add(0, "A UNIT NEEDS ORDERS");
-		textboxes.get(5).display.add("PRESS SPACE");
-		textboxes.get(5).tooltip.set(0, "Please order your unit.");
+		textboxes.get(5).clearDisplayText();
+		//textboxes.get(5).addDisplayText("A UNIT NEEDS ORDERS");
+		textboxes.get(5).addDisplayText("Please order your unit.");
+		textboxes.get(5).addDisplayText("PRESS SPACE");
 		select(en);
 		main.fixCamera(en.location.row, en.location.col);
 		// main.chunkSystem.update();

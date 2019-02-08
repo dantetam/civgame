@@ -138,45 +138,18 @@ public class GuiRenderer {
 	public void update(MenuSystem menuSystem) {
 		guisActive.clear();
 		for (Menu menu : menuSystem.menus) {
-			if (menu.active())
-				for (GuiTexture gui : menu.buttons)
+			if (menu.active()) {
+				for (GuiTexture gui : menu.buttons) {
 					guisActive.add(gui);
-			/*
-			 * if (menu.name.equals("UnitMenu")) { for (GuiTexture gui: menu.buttons) {
-			 * String text = ((TextBox)gui).display.size() > 0 ?
-			 * ((TextBox)gui).display.get(0) : null; System.out.println("Moving: " + text +
-			 * " " + ((TextBox)gui).pos + " " + ((TextBox)gui).size); }
-			 * System.out.println(menu.buttons.size()); }
-			 */
+				}
+			}
 		}
-		// System.out.println("*");
-		// ArrayList<GuiTexture> techMenuGuis = renderTechMenu(menuSystem.techMenu);
-		/*
-		 * if (menuSystem.techMenu.active()) for (GuiTexture gui:
-		 * menuSystem.techMenu.buttons) guis.add(gui);
-		 */
-		for (GuiTexture gui : menuSystem.textboxes)
-			if (gui.active)
+		for (GuiTexture gui : menuSystem.textboxes) {
+			if (gui.active) {
 				guisActive.add(gui);
+			}
+		}
 	}
-	/*
-	 * public ArrayList<GuiTexture> renderTechMenu(TechMenu techMenu) { //Display
-	 * tech tree main.pushStyle(); main.strokeWeight(3);
-	 * //System.out.println("yaaaa"); main.stroke(255,255,255,50); for (int i = 0; i
-	 * < techMenu.lines.size(); i++) { main.line(techMenu.lines.get(i).x1,
-	 * techMenu.lines.get(i).y1, techMenu.lines.get(i).x2,
-	 * techMenu.lines.get(i).y2); } main.fill(255,255,255,255); main.noStroke();
-	 * //Reset alpha for (int i = 0; i < techMenu.buttons.size(); i++) { TextBox b =
-	 * techMenu.buttons.get(i); if (b.active) { main.fill(b.r, b.g, b.b);
-	 * //main.stroke(b.borderR, b.borderG, b.borderB); strokeTextbox(b.borderR,
-	 * b.borderG, b.borderB); if (b.shape == 0) main.rect(b.posX, b.posY, b.sizeX,
-	 * b.sizeY); else if (b.shape == 1) main.ellipse(b.posX, b.posY, b.sizeX,
-	 * b.sizeY); else System.out.println("Invalid button shape: " + b.shape);
-	 * main.textAlign(PApplet.CENTER, PApplet.CENTER); main.fill(255);
-	 * displayText(b); main.fill(255,0,0); //System.out.println(b.display.get(0) +
-	 * ": " + b.posX + " " + b.posY + " " + b.sizeX + " " + b.sizeY);
-	 * shortcutText(b); } } main.popStyle(); }
-	 */
 
 	public int getFontHeight() {
 		return 12;

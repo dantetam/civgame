@@ -1,6 +1,7 @@
 package render;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -14,8 +15,8 @@ import lwjglEngine.render.DisplayManager;
 public class TextBox extends GuiTexture {
 	
 	public String name;
-	public ArrayList<String> tooltip;
-	public ArrayList<String> display;
+	private List<String> tooltip;
+	private List<String> display;
 	public Menu menu;
 	//public boolean enabled;
 
@@ -160,11 +161,47 @@ public class TextBox extends GuiTexture {
 		pixelSize = new Vector2f(x,y);
 	}
 	
-	//Return itself for conveinence
+	//Return itself for convenience
 	public TextBox color(float x, float y, float z) {color.x = x; color.y = y; color.z = z; return this;}
 	public TextBox color(float w) {return color(w,w,w);}
 	public TextBox borderColor(float x, float y, float z) {borderR = x; borderG = y; borderB = z; return this;}
 	public TextBox borderColor(float w) {return borderColor(w,w,w);}
+	
+	public void setDisplayText(List<String> text) {
+		display = text;
+		if (TextMaster.init)
+			TextMaster.loadText(this);
+	}
+	
+	public void setTooltipText(List<String> text) {
+		tooltip = text;
+		if (TextMaster.init)
+			TextMaster.loadText(this);
+	}
+	
+	public List<String> getDisplay() {
+		return display;
+	}
+	
+	public List<String> getTooltip() {
+		return tooltip;
+	}
+	
+	public void clearDisplayText() {
+		display.clear();
+	}
+	
+	public void clearTooltipText() {
+		tooltip.clear();
+	}
+	
+	public void addDisplayText(String line) {
+		display.add(line);
+	}
+	
+	public void addTooltipText(String line) {
+		tooltip.add(line);
+	}
 	
 	//Legacy methods
 	public void activate(boolean a) {active = a;}
@@ -173,149 +210,5 @@ public class TextBox extends GuiTexture {
 	{
 		pos = origPos;
 	}
-	
-	/*public void tick()
-	{
-		for (int i = 0; i < orders.size(); i++)
-		{
-			executeOrder(i);
-		}
-	}
-
-	private void executeOrder(int n)
-	{
-		//System.out.println(orders.size());
-		if (n < 0) return;
-		if (n < orders.size())
-		{
-			//System.out.println("Executed button tick");
-			Order o = orders.get(n);
-			if (n == 0 || o.parallel)
-			{
-				o.execute();
-				if (o.frames <= 0)
-				{
-					orders.remove(n);
-					n--; //ArrayList trap
-				}
-			}
-		}
-	}
-
-	public Order moveTo(float x, float y, float frames)
-	{
-		if (frames == 0) return null;
-		Order temp = new Order(this,"move");
-		temp.dirX = (x-pos.x)/frames;
-		temp.dirY = (y-pos.y)/frames;
-		temp.frames = (int)frames;
-		orders.add(temp);
-		return temp;
-	}
-
-	public Order moveDis(float x, float y, float frames)
-	{
-		if (frames == 0) return null;
-		Order temp = new Order(this,"move");
-		temp.dirX = x/frames;
-		temp.dirY = y/frames;
-		temp.frames = (int)frames;
-		orders.add(temp);
-		return temp;
-	}
-
-	public Order expand(float x, float y, float frames)
-	{
-		if (frames == 0) return null;
-		expanded = true;
-		Order temp = new Order(this,"expand");
-		temp.expX = (x-sizeX)/frames;
-		temp.expY = (y-sizeY)/frames;
-		temp.frames = (int)frames;
-		orders.add(temp);
-		return temp;
-		//System.out.println(temp.expX + " " + temp.expY);
-	}
-
-	public void shake(float x, float y)
-	{
-		Order temp = new Order(this,"move");
-		temp.expX = x;
-		temp.expY = y;
-		temp.frames = 2;
-		orders.add(temp);
-	}
-
-	public Order orderOriginal(boolean yn)
-	{
-		Order temp = new Order(this,"setOriginal");
-		temp.parallel = yn;
-		temp.frames = 2;
-		orders.add(temp);
-		return temp;
-	}
-
-	public void setOriginal()
-	{
-		posX = origX;
-		posY = origY;
-		sizeX = origSizeX;
-		sizeY = origSizeY;
-		expanded = false;
-		orders.clear(); //To be sure
-	}
-
-	public boolean orderOfType(String type)
-	{
-		for (int i = 0; i < orders.size(); i++)
-			if (orders.get(i).name.equals(type))
-				return true;
-		return false;
-	}
-	
-	public void activate(boolean yn) {active = yn;}
-	public boolean active() {return active;}
-	
-	public class Order
-	{
-		public TextBox button;
-		public float dirX, dirY; //speed in these directions per frame
-		public float expX, expY; //dimension gain/loss per frame
-		public int frames;
-		public boolean parallel; //Executed even if not the first element in the "queue"
-		public String name;
-
-		public Order(TextBox button, String name)
-		{
-			this.button = button;
-			this.name = name;
-			//System.out.println(name);
-		}
-
-		public void execute()
-		{
-			if (!button.lock)
-			{
-				if (name.equals("move"))
-				{
-					button.posX += dirX; button.posY += dirY;
-				}
-				else if (name.equals("expand"))
-				{
-					button.sizeX += expX; button.sizeY += expY;
-				}
-				else if (name.equals("setOriginal"))
-				{
-					setOriginal();
-				}
-				frames--;
-			}
-			else
-			{
-				setOriginal();
-			}
-			//System.out.println("Frames: " + frames);
-		}
-	}*/
 
 }

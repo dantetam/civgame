@@ -25,8 +25,7 @@ public class TextMaster {
 	public static boolean init = false;
 
 	public static void init(Loader theLoader) {
-		if (!init)
-		{
+		if (!init) {
 			init = true;
 			renderer = new FontRenderer();
 			loader = theLoader;
@@ -34,107 +33,97 @@ public class TextMaster {
 		}
 	}
 
-	public static void render(){
+	public static void render() {
 		renderer.render(texts);
 	}
 
-	public static void update(MenuSystem menuSystem)
-	{
-		for (int i = 0; i < menuSystem.menus.size(); i++)
-		{
-			for (int j = 0; j < menuSystem.menus.get(i).buttons.size(); j++)
-			{
+	public static void update(MenuSystem menuSystem) {
+		for (int i = 0; i < menuSystem.menus.size(); i++) {
+			for (int j = 0; j < menuSystem.menus.get(i).buttons.size(); j++) {
 				TextBox text = menuSystem.menus.get(i).buttons.get(j);
-				//if ((text.active || menuSystem.menus.get(i).active()) && text.textMeshVao <= 0) //needs to be loaded and not already loaded
-				if (menuSystem.menus.get(i).active() && text.textMeshVao <= 0)
-				{
-					//System.out.println("loading");
+				// if ((text.active || menuSystem.menus.get(i).active()) && text.textMeshVao <=
+				// 0) //needs to be loaded and not already loaded
+				if (menuSystem.menus.get(i).active() && text.textMeshVao <= 0) {
+					// System.out.println("loading");
 					loadText(text);
 				}
-				//else if ((!text.active && !menuSystem.menus.get(i).active()) && text.textMeshVao > 0) //needs to be unloaded and already loaded
-				else if (!menuSystem.menus.get(i).active() && text.textMeshVao > 0) 
-				{
-					//System.out.println("removing");
+				// else if ((!text.active && !menuSystem.menus.get(i).active()) &&
+				// text.textMeshVao > 0) //needs to be unloaded and already loaded
+				else if (!menuSystem.menus.get(i).active() && text.textMeshVao > 0) {
+					// System.out.println("removing");
 					removeText(text);
 					text.textMeshVao = -1;
 				}
 			}
 		}
-		for (int i = 0; i < menuSystem.textboxes.size(); i++)
-		{
+		for (int i = 0; i < menuSystem.textboxes.size(); i++) {
 			TextBox text = menuSystem.textboxes.get(i);
-			if (text.active && text.textMeshVao <= 0)
-			{
+			if (text.active && text.textMeshVao <= 0) {
 				loadText(text);
-			}
-			else if (!text.active && text.textMeshVao > 0)
-			{
+			} else if (!text.active && text.textMeshVao > 0) {
 				removeText(text);
 				text.textMeshVao = -1;
 			}
 		}
-		
+
 		ArrayList<TextBox> allGuis = new ArrayList<TextBox>();
-		for (Menu menu: menuSystem.menus)
+		for (Menu menu : menuSystem.menus)
 			if (menu.active())
-				for (TextBox textBox: menu.buttons)
+				for (TextBox textBox : menu.buttons)
 					allGuis.add(textBox);
-		for (TextBox textBox: menuSystem.textboxes)
+		for (TextBox textBox : menuSystem.textboxes)
 			allGuis.add(textBox);
-		
-		for (Entry<FontType, List<TextBox>> en: texts.entrySet())
-		{
+
+		for (Entry<FontType, List<TextBox>> en : texts.entrySet()) {
 			List<TextBox> guis = en.getValue();
-			for (int i = guis.size() - 1; i >= 0; i--) //Backwards for arraylist trap
+			for (int i = guis.size() - 1; i >= 0; i--) // Backwards for arraylist trap
 				if (!allGuis.contains(guis.get(i)))
 					removeText(guis.get(i));
-			//texts.put(en.getKey(), guis);
+			// texts.put(en.getKey(), guis);
 		}
 	}
 
-	//Lots of code duplication but this is the most simple way to avoid null pointer because of free floating textbox
-	/*public static void loadTextBox(TextBox text)
-	{
-		if ((text.active || text.menu.active()) && text.textMeshVao <= 0) //needs to be loaded and not already loaded
-			loadText(text);
-		else if ((!text.active && !text.menu.active()) && text.textMeshVao > 0) //needs to be unloaded and already loaded
-		{
-			removeText(text);
-			text.textMeshVao = -1;
-		}
-	}*/
+	// Lots of code duplication but this is the most simple way to avoid null
+	// pointer because of free floating textbox
+	/*
+	 * public static void loadTextBox(TextBox text) { if ((text.active ||
+	 * text.menu.active()) && text.textMeshVao <= 0) //needs to be loaded and not
+	 * already loaded loadText(text); else if ((!text.active && !text.menu.active())
+	 * && text.textMeshVao > 0) //needs to be unloaded and already loaded {
+	 * removeText(text); text.textMeshVao = -1; } }
+	 */
 
 	public static void loadText(TextBox text) {
 		if (text.font == null)
 			text.font = defaultFont;
-		/*if (text.lineMaxSize <= 1)
-		{
-			for (int i = 0; i < text.display.size(); i++)
-				if (text.lineMaxSize < text.display.get(i).length())
-					text.lineMaxSize = text.display.get(i).length();
-		}*/
+		/*
+		 * if (text.lineMaxSize <= 1) { for (int i = 0; i < text.display.size(); i++) if
+		 * (text.lineMaxSize < text.display.get(i).length()) text.lineMaxSize =
+		 * text.display.get(i).length(); }
+		 */
 		TextMeshData data = text.font.loadText(text);
-		//System.out.println(data.getVertexPositions() + " " + data.getTextureCoords());
+		// System.out.println(data.getVertexPositions() + " " +
+		// data.getTextureCoords());
 		int vao = loader.loadToVAO(data.getVertexPositions(), data.getTextureCoords());
 		text.textMeshVao = vao;
 		text.vertexCount = data.getVertexCount();
 		List<TextBox> textBatch = texts.get(text.font);
-		if(textBatch == null){
+		if (textBatch == null) {
 			textBatch = new ArrayList<TextBox>();
 			texts.put(text.font, textBatch);
 		}
 		textBatch.add(text);
 	}
 
-	public static void removeText(TextBox text){
+	public static void removeText(TextBox text) {
 		List<TextBox> textBatch = texts.get(text.font);
 		textBatch.remove(text);
-		if(textBatch.isEmpty()){
-			texts.remove(texts.get(text.font));
+		if (textBatch.isEmpty()) {
+			texts.put(text.font, null);
 		}
 	}
 
-	public static void cleanUp(){
+	public static void cleanUp() {
 		renderer.cleanUp();
 	}
 
