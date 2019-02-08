@@ -87,8 +87,7 @@ public class TextBox extends GuiTexture {
 		this.lineMaxSize = 1f;
 		//this.lineMaxSize = c/DisplayManager.width;
 		this.centerText = true;
-		if (TextMaster.init)
-			TextMaster.loadText(this);
+		updateTextTextureVao();
 	}
 	
 	public TextBox(int texture, String text, float a, float b, float c, float d)
@@ -104,8 +103,7 @@ public class TextBox extends GuiTexture {
 		this.fontSize = 0.5f;
 		this.lineMaxSize = 1f;
 		//this.lineMaxSize = c/DisplayManager.width;
-		if (TextMaster.init)
-			TextMaster.loadText(this);
+		updateTextTextureVao();
 	}
 	
 	public TextBox(int texture, String text, String tip, float a, float b, float c, float d)
@@ -120,6 +118,10 @@ public class TextBox extends GuiTexture {
 		this.fontSize = 0.5f;
 		this.lineMaxSize = 1f;
 		//this.lineMaxSize = c/DisplayManager.width;
+		updateTextTextureVao();
+	}
+	
+	private void updateTextTextureVao() {
 		if (TextMaster.init)
 			TextMaster.loadText(this);
 	}
@@ -169,14 +171,12 @@ public class TextBox extends GuiTexture {
 	
 	public void setDisplayText(List<String> text) {
 		display = text;
-		if (TextMaster.init)
-			TextMaster.loadText(this);
+		updateTextTextureVao();
 	}
 	
 	public void setTooltipText(List<String> text) {
 		tooltip = text;
-		if (TextMaster.init)
-			TextMaster.loadText(this);
+		updateTextTextureVao();
 	}
 	
 	public List<String> getDisplay() {
@@ -189,18 +189,32 @@ public class TextBox extends GuiTexture {
 	
 	public void clearDisplayText() {
 		display.clear();
+		updateTextTextureVao();
 	}
 	
 	public void clearTooltipText() {
 		tooltip.clear();
+		updateTextTextureVao();
 	}
 	
 	public void addDisplayText(String line) {
 		display.add(line);
+		updateTextTextureVao();
 	}
 	
 	public void addTooltipText(String line) {
 		tooltip.add(line);
+		updateTextTextureVao();
+	}
+	
+	public void setDisplayText(int index, String line) {
+		display.set(index, line);
+		updateTextTextureVao();
+	}
+	
+	public void setTooltipText(int index, String line) {
+		tooltip.set(index, line);
+		updateTextTextureVao();
 	}
 	
 	//Legacy methods

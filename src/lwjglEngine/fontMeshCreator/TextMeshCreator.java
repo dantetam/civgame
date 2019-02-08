@@ -25,9 +25,9 @@ public class TextMeshCreator {
 
 	private List<Line> createStructure(TextBox text) {
 		List<Line> lines = new ArrayList<Line>();
-		for (int i = 0; i < text.display.size(); i++)
+		for (int i = 0; i < text.getDisplay().size(); i++)
 		{
-			char[] chars = text.display.get(i).toCharArray();
+			char[] chars = text.getDisplay().get(i).toCharArray();
 			Line currentLine = new Line(metaData.getSpaceWidth(), text.fontSize, text.lineMaxSize);
 			Word currentWord = new Word(text.fontSize);
 			for (char c : chars) {

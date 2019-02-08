@@ -471,9 +471,9 @@ public class InputSystem extends BaseSystem {
 		{
 			if (en instanceof City)
 			{
-				main.menuSystem.textboxes.get(5).display.clear();
-				main.menuSystem.textboxes.get(5).display.add(0, "QUEUE PRODUCTION");
-				main.menuSystem.textboxes.get(5).tooltip.set(0, "A city needs orders to produce something.");
+				main.menuSystem.textboxes.get(5).clearDisplayText();
+				main.menuSystem.textboxes.get(5).addDisplayText("QUEUE PRODUCTION");
+				main.menuSystem.textboxes.get(5).setTooltipText(0, "A city needs orders to produce something.");
 				City c = (City)en;
 				main.fixCamera(c.location.row, c.location.col);
 				main.menuSystem.select(c);
@@ -481,10 +481,10 @@ public class InputSystem extends BaseSystem {
 			}
 			else
 			{
-				main.menuSystem.textboxes.get(5).display.clear();
-				main.menuSystem.textboxes.get(5).display.add(0, "A UNIT NEEDS ORDERS");
-				main.menuSystem.textboxes.get(5).display.add("PRESS SPACE");
-				main.menuSystem.textboxes.get(5).tooltip.set(0, "Please order your unit.");
+				main.menuSystem.textboxes.get(5).clearDisplayText();
+				main.menuSystem.textboxes.get(5).addDisplayText("A UNIT NEEDS ORDERS");
+				main.menuSystem.textboxes.get(5).addDisplayText("PRESS SPACE");
+				main.menuSystem.textboxes.get(5).setTooltipText(0, "Please order your unit.");
 				main.fixCamera(en.location.row, en.location.col);
 				main.menuSystem.select(en);
 				//main.menuSystem.message(en.name + " needs orders.");
@@ -492,10 +492,10 @@ public class InputSystem extends BaseSystem {
 		}
 		else
 		{
-			main.menuSystem.textboxes.get(5).display.clear();
-			main.menuSystem.textboxes.get(5).display.add("NO UNITS NEED ORDERS");
-			main.menuSystem.textboxes.get(5).display.add("PRESS SPACE TO ADVANCE");
-			main.menuSystem.textboxes.get(5).tooltip.set(0, "Press SPACE.");
+			main.menuSystem.textboxes.get(5).clearDisplayText();
+			main.menuSystem.textboxes.get(5).addDisplayText("NO UNITS NEED ORDERS");
+			main.menuSystem.textboxes.get(5).addDisplayText("PRESS SPACE TO ADVANCE");
+			main.menuSystem.textboxes.get(5).setTooltipText(0, "Press SPACE.");
 		}
 	}
 
@@ -563,14 +563,14 @@ public class InputSystem extends BaseSystem {
 			BaseEntity selected = availableUnit();
 			if (selected == null)
 			{
-				main.menuSystem.textboxes.get(5).display.clear();
-				main.menuSystem.textboxes.get(5).display.add(0, "...");
-				main.menuSystem.textboxes.get(5).tooltip.set(0, "Please wait...");
+				main.menuSystem.textboxes.get(5).clearDisplayText();
+				main.menuSystem.textboxes.get(5).setDisplayText(0, "...");
+				main.menuSystem.textboxes.get(5).setTooltipText(0, "Please wait...");
 				if (civ.researchTech == null || civ.researchTech == "")
 				{
-					main.menuSystem.textboxes.get(5).display.clear();
-					main.menuSystem.textboxes.get(5).display.add(0, "RESEARCH TECH");
-					main.menuSystem.textboxes.get(5).tooltip.set(0, "Please research a technology.");
+					main.menuSystem.textboxes.get(5).clearDisplayText();;
+					main.menuSystem.textboxes.get(5).setDisplayText(0, "RESEARCH TECH");
+					main.menuSystem.textboxes.get(5).setTooltipText(0, "Please research a technology.");
 					/*main.menuSystem.displayTechMenu(civ);
 					main.menuSystem.menus.get(5).activate(true);*/
 					//Switch to new tech web
@@ -584,9 +584,9 @@ public class InputSystem extends BaseSystem {
 					main.civilizationSystem.requestTurn = true;
 				else
 				{
-					main.menuSystem.textboxes.get(5).display.clear();
-					main.menuSystem.textboxes.get(5).display.add(0, "Press SPACE.");
-					main.menuSystem.textboxes.get(5).tooltip.set(0, "");
+					main.menuSystem.textboxes.get(5).clearDisplayText();
+					main.menuSystem.textboxes.get(5).setDisplayText(0, "Press SPACE.");
+					main.menuSystem.textboxes.get(5).setTooltipText(0, "");
 					main.menuSystem.menus.get(6).activate(true);
 					main.menuSystem.message("You have no cities or units!");
 				}

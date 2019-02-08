@@ -116,20 +116,20 @@ public class TechMenu extends Menu {
 			}
 		}
 		//else {b.color(0);}
-		b.display.add("<" + turns + ">");
+		b.addDisplayText("<" + turns + ">");
 		b.lock = true;
-		b.tooltip.clear();
+		b.clearTooltipText();
 		//b.tooltip.add("Estimated research time: " + turns);
-		b.tooltip.add(t.totalR + " research out of " + t.requiredR + "; " + (int)((float)t.totalR/(float)t.requiredR*100) + "%");
+		b.addTooltipText(t.totalR + " research out of " + t.requiredR + "; " + (int)((float)t.totalR/(float)t.requiredR*100) + "%");
 		if (t.requisite != null)
-			b.tooltip.add("Requires " + t.requisite.name);
+			b.addTooltipText("Requires " + t.requisite.name);
 		String techString = "";
 		for (int j = 0; j < t.techs.length; j++)
 			techString += t.techs[j].name + ", ";
 		if (t.techs.length != 0)
-			b.tooltip.add("Leads to " + techString.substring(0, techString.length()-2));
+			b.addTooltipText("Leads to " + techString.substring(0, techString.length()-2));
 		if (!t.unlockString().isEmpty())
-			b.tooltip.add("Unlocks " + t.unlockString());
+			b.addTooltipText("Unlocks " + t.unlockString());
 		return b;
 	}
 

@@ -711,53 +711,20 @@ public class MenuSystem extends BaseSystem {
 
 	// Send a message, checking for repeats
 	public void message(String... newMessages) {
-		if (!(main instanceof Tutorial)) {
-			for (int i = 0; i < newMessages.length; i++) {
-				String message = newMessages[i];
-				/*
-				 * if (message.length() < 40) { if (messages.size() == 0) messages.add(message);
-				 * if (!messages.get(0).equals(message)) messages.add(0,message); } else {
-				 * messages.add(0,message.substring(40));
-				 * messages.add(0,message.substring(0,40)); }
-				 */
-				if (message == null)
-					continue;
-				if (messages.size() == 0)
-					messages.add(message);
-				if (!messages.get(0).equals(message))
-					messages.add(0, message);
-			}
-			if (!main.grid.civs[0].observe) // Do not shake the GUI if player is not alive
-			{
-				// TODO: Revise
-				/*
-				 * textboxes.get(2).moveDis(0,-5,2); for (int i = 0; i < 10; i++)
-				 * textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
-				 * textboxes.get(2).moveDis(0,5,2); textboxes.get(2).orderOriginal(false);
-				 */
-			}
-		}
-	}
-
-	// Send a message from tutorial level
-	public void messageT(String... newMessages) {
-		if (newMessages.length == 0)
-			return;
-		for (int i = newMessages.length - 1; i >= 0; i--) {
+		for (int i = 0; i < newMessages.length; i++) {
 			String message = newMessages[i];
+			/*
+			 * if (message.length() < 40) { if (messages.size() == 0) messages.add(message);
+			 * if (!messages.get(0).equals(message)) messages.add(0,message); } else {
+			 * messages.add(0,message.substring(40));
+			 * messages.add(0,message.substring(0,40)); }
+			 */
+			if (message == null)
+				continue;
 			if (messages.size() == 0)
 				messages.add(message);
 			if (!messages.get(0).equals(message))
 				messages.add(0, message);
-		}
-		if (!main.grid.civs[0].observe) // Do not shake the GUI if player is not alive
-		{
-			// TODO: Revise
-			/*
-			 * textboxes.get(2).moveDis(0,-5,2); for (int i = 0; i < 10; i++)
-			 * textboxes.get(2).moveDis(0,(10-i)*(int)Math.pow(-1,i),2);
-			 * textboxes.get(2).moveDis(0,5,2); textboxes.get(2).orderOriginal(false);
-			 */
 		}
 	}
 

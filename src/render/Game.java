@@ -5,6 +5,7 @@ import game.GameEntity;
 import game.Grid;
 import game.Tile;
 
+import java.util.List;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -109,7 +110,7 @@ public class Game extends PApplet {
 		menu4.addButton(guiDefaultTexture, "useCurrentSeed", "Use Current Seed", "Use the seed of the simulation (must choose terrain).", 70, 220, 210, 50);
 		menu4.addButton(guiDefaultTexture, "instantSelection", "Automatic Selection: On", "Allow the game to cycle to the next unit automatically.", 70, 280, 210, 50);
 		TextBox t = menu4.addButton(guiDefaultTexture, "toggleTesting", "Testing: Off", "Enable developer mode. Gives access to extra graphical display,", 70, 340, 210, 50);
-		t.tooltip.add("as well as the developer console.");
+		t.addTooltipText("as well as the developer console.");
 		menu4.addButton(guiDefaultTexture, "toggleForceCursor", "Force Cursor: Off", "Bring back the cursor if you can't function with it.", 70, 400, 210, 50);
 
 		menu4.addButton(guiDefaultTexture, "setSeedAndBack", "Back", "Back to the main menu.", 70, 630, 210, 70);
@@ -124,10 +125,10 @@ public class Game extends PApplet {
 			TextBox b = menu5.addButton(guiDefaultTexture, "civ"+i.getKey(), i.getKey(), "", 70, 100+40*n, 210, 30);
 			String[] t1 = EntityData.traitDesc(i.getValue().primaryTrait),
 					t2 = EntityData.traitDesc(i.getValue().secondaryTrait);
-			b.tooltip.add(i.getValue().name);
-			b.tooltip.add(i.getValue().primaryTrait + ": " + t1[0] + ", " + t1[1]);
-			b.tooltip.add(i.getValue().secondaryTrait + ": " + t2[0] + ", " + t2[1]);
-			b.tooltip.add(getUnlockedTechs(i.getValue()));
+			b.addTooltipText(i.getValue().name);
+			b.addTooltipText(i.getValue().primaryTrait + ": " + t1[0] + ", " + t1[1]);
+			b.addTooltipText(i.getValue().secondaryTrait + ": " + t2[0] + ", " + t2[1]);
+			b.addTooltipText(getUnlockedTechs(i.getValue()));
 			n++;
 		}
 		menu5.addButton(guiDefaultTexture, "backMenu2", "Back", "Back to the size menu.", 70, 630, 210, 70);
@@ -299,8 +300,9 @@ public class Game extends PApplet {
 			rect(b.pixelPos.x, b.pixelPos.y, b.pixelSize.x, b.pixelSize.y);
 			textAlign(CENTER, CENTER);
 			fill(255);
-			for (int j = 0; j < b.display.size(); j++)
-				text(b.display.get(j), b.pixelPos.x + b.pixelSize.x/2, b.pixelPos.y + b.pixelSize.y/2);
+			List<String> displayText = b.getDisplay();
+			for (int j = 0; j < displayText.size(); j++)
+				text(displayText.get(j), b.pixelPos.x + b.pixelSize.x/2, b.pixelPos.y + b.pixelSize.y/2);
 		}
 
 		for (int i = 0; i < activeMenu.buttons.size(); i++)
@@ -311,9 +313,9 @@ public class Game extends PApplet {
 		TextBox hover = activeMenu.within(mouseX, mouseY);
 		if (hover != null)
 		{
-			if (hover.tooltip != null)
+			if (hover.getTooltip() != null)
 			{
-				if (!hover.tooltip.equals(""))
+				if (!hover.getTooltip().equals(""))
 				{
 					//TODO: Word wrap if the text goes off the screen
 					tooltip.active = true;
@@ -327,11 +329,11 @@ public class Game extends PApplet {
 					rect(tooltip.posX, tooltip.posY, tooltip.sizeX, tooltip.sizeY);
 					fill(255);
 					noStroke();
-					if (hover.tooltip.size() == 1)
-						text(hover.tooltip.get(0), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10);
+					if (hover.getTooltip().size() == 1)
+						text(hover.getTooltip().get(0), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 10);
 					else
-						for (int i = 0; i < hover.tooltip.size(); i++)
-							text(hover.tooltip.get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 7 + 14*i);
+						for (int i = 0; i < hover.getTooltip().size(); i++)
+							text(hover.getTooltip().get(i), tooltip.posX + tooltip.sizeX/2, tooltip.posY + 7 + 14*i);
 				}
 			}
 			/*float len = 100;
@@ -513,17 +515,17 @@ public class Game extends PApplet {
 								TextBox b = menus.get(0).buttons.get(j);
 								if (((Button)b).command.equals("retract"))
 								{
-									b.display.clear();
-									b.tooltip.clear();
+									b.clearDisplayText();
+									b.clearTooltipText();
 									if (retract) 
 									{
-										b.display.add(">>>");
-										b.tooltip.add("Show the menu");
+										b.addDisplayText(">>>");
+										b.addTooltipText("Show the menu");
 									}
 									else
 									{
-										b.display.add("<<<");
-										b.tooltip.add("Hide the menu");
+										b.addDisplayText("<<<");
+										b.addTooltipText("Hide the menu");
 									}
 									b.dimTooltip();
 								}
@@ -603,27 +605,27 @@ public class Game extends PApplet {
 						{
 							TextBox b = menus.get(4).findButtonByCommand("instantSelection");
 							if (automaticSelection)
-								b.display.set(0, "Automatic Selection: Off");
+								b.setDisplayText(0, "Automatic Selection: Off");
 							else
-								b.display.set(0, "Automatic Selection: On");
+								b.setDisplayText(0, "Automatic Selection: On");
 							automaticSelection = !automaticSelection;
 						}
 						else if (command.equals("toggleTesting"))
 						{
 							TextBox b = menus.get(4).findButtonByCommand("toggleTesting");
 							if (testing)
-								b.display.set(0, "Testing: Off");
+								b.setDisplayText(0, "Testing: Off");
 							else
-								b.display.set(0, "Testing: On");
+								b.setDisplayText(0, "Testing: On");
 							testing = !testing;
 						}
 						else if (command.equals("toggleForceCursor"))
 						{
 							TextBox b = menus.get(4).findButtonByCommand("toggleForceCursor");
 							if (forceCursor)
-								b.display.set(0, "Force Cursor: Off");
+								b.setDisplayText(0, "Force Cursor: Off");
 							else
-								b.display.set(0, "Force Cursor: On");
+								b.setDisplayText(0, "Force Cursor: On");
 							forceCursor = !forceCursor;
 						}
 						else if (command.equals("randomSeed"))
