@@ -677,9 +677,6 @@ public class Game extends PApplet {
 		}*/
 		
 		File folder = new File("./src/data/models/");
-		File test = new File("./");
-		for (String sub: test.list())
-			System.out.println(sub);
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {

@@ -218,7 +218,7 @@ public class CivGame {
 		// centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
 	}
 
-	private static final int blendMapWidth = 512, blendMapHeight = 512;
+	private static final int blendMapWidth = 256, blendMapHeight = 256;
 
 	private BufferedImage sendBlendMap(Grid grid) {
 		try {
