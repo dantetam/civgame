@@ -15,7 +15,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import lwjglEngine.shaders.ShaderProgram;
 import lwjglEngine.shaders.StaticShader;
 import lwjglEngine.textures.ModelTexture;
-import lwjglEngine.toolbox.Maths;
+import lwjglEngine.toolbox.MatrixMathUtil;
 import lwjglEngine.entities.Entity;
 
 public class EntityRenderer {
@@ -85,7 +85,7 @@ public class EntityRenderer {
 	private void prepareInstance(Entity entity)
 	{
 		//Access transformMatrix
-		Matrix4f transformMatrix = Maths.createTransformMatrix(
+		Matrix4f transformMatrix = MatrixMathUtil.createTransformMatrix(
 				entity.position, 
 				entity.rotX, 
 				entity.rotY, 

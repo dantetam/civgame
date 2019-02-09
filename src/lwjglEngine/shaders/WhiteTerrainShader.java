@@ -4,7 +4,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 
 import game.Tile;
-import lwjglEngine.toolbox.Maths;
+import lwjglEngine.toolbox.MatrixMathUtil;
 import lwjglEngine.toolbox.MousePicker;
 import lwjglEngine.entities.Camera;
 import lwjglEngine.entities.Light;
@@ -89,7 +89,7 @@ public class WhiteTerrainShader extends ShaderProgram {
 	//Create a new view matrix based on the properties of the camera
 	public void loadViewMatrix(Camera camera) 
 	{
-		Matrix4f matrix = Maths.createViewMatrix(camera);
+		Matrix4f matrix = MatrixMathUtil.createViewMatrix(camera);
 		super.loadMatrix(locationViewMatrix, matrix);
 	}
 

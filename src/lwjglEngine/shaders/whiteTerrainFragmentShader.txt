@@ -70,34 +70,11 @@ void main(void)
 	{
 		totalColor = texture(texture1, tiledCoords);	
 	}
-	
-	/*
-	vec4 highlightColor = texture(blendMap2, passTextureCoords);
-	if (highlightColor.r > 0.02 || highlightColor.g > 0.02 || highlightColor.b > 0.02)
-	{
-		totalColor = highlightColor;
-	}
-	*/
-	
-	if (mouseHighlightedCoord.x > 0)
-	{
-		if (distance(mouseHighlightedCoord, passTextureCoords) < 0.015) 
-		{
-			totalColor = totalColor*0.6 + 0.4*vec4(1,1,1,0);
-		}
-	}
-	/*if (selectedCoord.x > 0)
-	{
-		float radius = distance(selectedCoord, passTextureCoords);
-		if (radius > 0.025 && radius < 0.045) 
-		{
-			totalColor = totalColor*0.4 + 0.7*vec4(1,0,0,0);
-		}
-	}*/
+
 	if (mouseOverCoord.x > 0)
 	{
 		float radius = distance(mouseOverCoord, passTextureCoords);
-		if (radius > 0.025 && radius < 0.045) 
+		if (radius > 0.013 && radius < 0.016) 
 		{
 			totalColor = totalColor*0.4 + 0.7*vec4(1,1,1,0);
 		}
@@ -114,20 +91,19 @@ void main(void)
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitLightVector = normalize(toLightVector);
 
-	float nDot1 = dot(unitNormal, unitLightVector);
-	float brightness = max(nDot1, 0.2);
+	float nDot1 = dot(unitNormal, unitLightVector) + 0.2;
+	float brightness = max(nDot1, 0.4);
 	vec3 diffuse = brightness * lightColor;
 
-	vec3 unitToCameraVector = normalize(toCameraVector);
-	vec3 lightDirection = -unitLightVector;
-	vec3 reflectedLight = reflect(lightDirection, unitNormal);
-	
-	float specular = dot(reflectedLight, unitToCameraVector);
-	specular = max(specular, 0.0);
-	float dampedFactor = pow(specular, shineDamper);
-	vec3 finalSpecular = dampedFactor * reflectness * lightColor;
-
-	//outColor = vec4(color,1.0);
+	outColor = vec4(diffuse,1.0) * totalColor;
 	//Linear interpolation of textures, by sampling the 2D texture by input coordinates
-	outColor = vec4(diffuse,1.0) * totalColor + vec4(finalSpecular, 1.0);
+	//vec3 unitToCameraVector = normalize(toCameraVector);
+	//vec3 lightDirection = -unitLightVector;
+	//vec3 reflectedLight = reflect(lightDirection, unitNormal);
+	
+	//float specular = dot(reflectedLight, unitToCameraVector);
+	//specular = max(specular, 0.0);
+	//float dampedFactor = pow(specular, shineDamper);
+	//vec3 finalSpecular = dampedFactor * reflectness * lightColor;
+	//outColor = vec4(diffuse,1.0) * totalColor + vec4(finalSpecular, 1.0);
 }

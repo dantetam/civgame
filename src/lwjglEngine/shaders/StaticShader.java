@@ -4,7 +4,7 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import lwjglEngine.entities.Camera;
 import lwjglEngine.entities.Light;
-import lwjglEngine.toolbox.Maths;
+import lwjglEngine.toolbox.MatrixMathUtil;
 
 public class StaticShader extends ShaderProgram {
 
@@ -58,7 +58,7 @@ public class StaticShader extends ShaderProgram {
 	//Create a new view matrix based on the properties of the camera
 	public void loadViewMatrix(Camera camera) 
 	{
-		Matrix4f matrix = Maths.createViewMatrix(camera);
+		Matrix4f matrix = MatrixMathUtil.createViewMatrix(camera);
 		super.loadMatrix(locationViewMatrix, matrix);
 	}
 	

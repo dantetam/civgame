@@ -92,7 +92,7 @@ public abstract class GameEntity extends BaseEntity {
 		if (queueTiles.size() == 0)
 		{
 			City nearestCity = location.grid.nearestCivCity(owner, location.row, location.col);
-			Tile t = location.grid.bestToImprove(nearestCity);
+			Tile t = nearestCity != null ? location.grid.bestToImprove(nearestCity) : null;
 			if (t != null)
 				waddleTo(t.row, t.col);
 			else

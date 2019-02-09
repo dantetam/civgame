@@ -21,7 +21,7 @@ import lwjglEngine.terrain.Terrain;
 import lwjglEngine.textures.ModelTexture;
 import lwjglEngine.textures.TerrainTexturePack;
 import lwjglEngine.textures.WhiteTerrainTexturePack;
-import lwjglEngine.toolbox.Maths;
+import lwjglEngine.toolbox.MatrixMathUtil;
 
 public class TerrainRenderer {
 
@@ -103,7 +103,7 @@ public class TerrainRenderer {
 	private void loadModelMatrix(Terrain terrain)
 	{
 		//Access transformMatrix
-		Matrix4f transformMatrix = Maths.createTransformMatrix(
+		Matrix4f transformMatrix = MatrixMathUtil.createTransformMatrix(
 				new Vector3f(terrain.x, 0, terrain.z), 
 				0,
 				0,

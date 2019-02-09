@@ -5,6 +5,7 @@ import java.util.HashMap;
 import data.EntityData;
 import lwjglEngine.entities.Group;
 import lwjglEngine.tests.MainGameLoop;
+import vector.Vector3f;
 import game.BaseEntity;
 import game.Grid;
 import game.LwjglGrid;
@@ -15,7 +16,8 @@ import game.Tile;
 public class ModelManager {
 
 	private LevelManager lm;
-	private int rows, cols; //For reference by this class only
+	private LwjglGrid grid;
+	private int rows, cols;
 
 	public HashMap<BaseEntity, Group> units, improvements;
 	public HashMap<Tile, Group> resources, features;
@@ -23,6 +25,7 @@ public class ModelManager {
 	public ModelManager(LevelManager main, LwjglGrid grid, double[][] heightMap) 
 	{
 		lm = main;
+		this.grid = grid;
 		rows = grid.rows; cols = grid.cols;
 		units = new HashMap<BaseEntity, Group>();
 		improvements = new HashMap<BaseEntity, Group>();
@@ -64,7 +67,10 @@ public class ModelManager {
 	{
 		//Accidentally did not set rows and cols to non-zero value. Did not call div zero error.
 		//Floating point precision? Infinity vector?
-		candidate.move(((float)r+0.5F)/(float)rows*1600F*0.9F, -candidate.boundingBox()[1], ((float)c+0.5F)/(float)cols*1600F*0.9F);
+		Vector3f modelPosition = grid.get3DPositionFromTile(r, c);
+		modelPosition.y -= candidate.boundingBox()[1];
+		candidate.move(modelPosition);
+		//candidate.move(((float)r+0.5F)/(float)rows*1600F*0.9F, -candidate.boundingBox()[1], ((float)c+0.5F)/(float)cols*1600F*0.9F);
 	}
 
 	private Group access(BaseEntity en)
