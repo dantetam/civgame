@@ -37,7 +37,7 @@ import render.CivGame;
 
 public class DisplayManager {
 
-	public static final int width = 1500, height = 900;
+	public static final int width = (int) CivGame.WIDTH, height = (int) CivGame.HEIGHT;
 	public static long window;
 	public static CivGame main;
 	

@@ -28,7 +28,7 @@ public class TextBox extends GuiTexture {
 	public boolean monospace = false, noOverlap = false;
 
 	// 0-255
-	public Vector3f textColor = new Vector3f(255, 0, 0);
+	public Vector3f textColor = new Vector3f(255, 255, 255);
 	public float borderR = -1, borderG = -1, borderB = -1; // default nostroke
 	public int shape = 0; // 0 -> rectangle (default), 1 -> ellipse
 

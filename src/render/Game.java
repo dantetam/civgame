@@ -498,7 +498,7 @@ public class Game extends PApplet {
 						}
 						else if (command.equals("quickgame"))
 						{
-							PFrame f = new PFrame(this,1500,900,3,4,3,"Conquest","terrain11","Corinth",System.currentTimeMillis());
+							PFrame f = new PFrame(this,(int) CivGame.WIDTH,(int) CivGame.HEIGHT,3,4,3,"Conquest","terrain11","Corinth",System.currentTimeMillis());
 							//f.setTitle("Tamora");
 							background(255);
 							noLoop();
@@ -581,7 +581,7 @@ public class Game extends PApplet {
 						}
 						else if (command.contains("terrain"))
 						{
-							PFrame f = new PFrame(this,1500,900,numCivs,numCityStates,difficultyLevel,challengeType,command,civChoice,Long.parseLong(seed));
+							PFrame f = new PFrame(this,(int) CivGame.WIDTH,(int) CivGame.HEIGHT,numCivs,numCityStates,difficultyLevel,challengeType,command,civChoice,Long.parseLong(seed));
 							//f.setTitle("Tamora");
 							//setVisible(false);
 							background(255);

@@ -63,8 +63,8 @@ public class CivGame {
 	// private RenderSystem renderSystem = new RenderSystem(this);
 	public MainGameLoop lwjglSystem;
 	public Camera camera; // double reference for quick fix
-	public float width = 1500, height = 900;
-	public float centerX = width / 2, centerY = height / 2; // for rendering purposes, to determine how the position of
+	public static float WIDTH = 2560, HEIGHT = 1440;
+	public float centerX = WIDTH / 2, centerY = HEIGHT / 2; // for rendering purposes, to determine how the position of
 															// the mouse affects the camera
 
 	public MenuSystem menuSystem = new MenuSystem(this);
