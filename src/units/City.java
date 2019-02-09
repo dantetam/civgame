@@ -2,6 +2,7 @@ package units;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import data.EntityData;
 import data.Field;
@@ -287,19 +288,16 @@ public class City extends TileEntity {
 		return staticEval(t, null);
 	}
 
-	// If only Java functions could return two things, like in Lua
-	// Why do I write in Java? Because I'm masochistic.
-	// It's not even 4 AM yet...smh
 	public static double[] staticEval(Tile t, String improvement) {
 		double[] temp = { 0, 0, 0, 0 };
-		ArrayList<String> conditions = staticEvalReasons(t, improvement);
-		for (int i = 0; i < conditions.size(); i++) {
-			int[] yield = EntityData.yield.get(conditions.get(i));
+		List<String> conditions = staticEvalReasons(t, improvement);
+		for (String condition : conditions) {
+			int[] yield = EntityData.yield.get(condition);
 			for (int j = 0; j <= 3; j++) {
 				try {
 					temp[j] += yield[j];
 				} catch (Exception e) {
-					System.out.println("Invalid terrain modifier: " + conditions.get(i));
+					System.out.println("Invalid terrain modifier: " + condition);
 				}
 			}
 		}
@@ -313,9 +311,8 @@ public class City extends TileEntity {
 	}
 
 	// Evaluate when an improvement is planned
-	public static ArrayList<String> staticEvalReasons(Tile t, String improvement) {
-		// int f = 0, g = 0, m = 0, r = 0;
-		ArrayList<String> conditions = new ArrayList<String>();
+	public static List<String> staticEvalReasons(Tile t, String improvement) {
+		List<String> conditions = new ArrayList<String>();
 		if (t.biome == -1)
 			conditions.add("From sea");
 		else if (t.biome == 0)
@@ -333,8 +330,7 @@ public class City extends TileEntity {
 		else if (t.biome == 6)
 			conditions.add("From rainforest");
 		else {
-			System.err.println("Invalid biomerrr " + t.biome);
-			// f = 0; g = 0; m = 0; r = 0;
+			System.err.println("Invalid biome " + t.biome);
 		}
 		if (t.biome >= 4 && t.biome <= 6) {
 			if (!t.forest)

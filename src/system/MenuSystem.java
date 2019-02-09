@@ -1315,6 +1315,8 @@ public class MenuSystem extends BaseSystem {
 				else
 					conditions = City.staticEvalReasons(mouseHighlighted, null);
 				TextBox text6 = textboxes.get(6), text7 = textboxes.get(7);
+				text6.clearDisplayText();
+				text7.clearDisplayText();
 				int[] bYield = { 0, 0, 0, 0 };
 				for (int i = 0; i < conditions.size(); i++) {
 					text6.addDisplayText(conditions.get(i));
