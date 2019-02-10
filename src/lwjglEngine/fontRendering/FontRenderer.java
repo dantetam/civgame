@@ -48,9 +48,8 @@ public class FontRenderer {
 		GL30.glBindVertexArray(text.textMeshVao);
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
-		//shader.loadColour(new Vector3f(1,0,1));
 		shader.loadColour(new Vector3f(text.textColor.x/255f, text.textColor.y/255f, text.textColor.z/255f));
-		shader.loadTranslation(new Vector2f(text.pos.x + text.size.x/2f, text.pos.y + text.size.y/2f));
+		shader.loadTranslation(new Vector2f(text.pos.x + text.size.x/2f, text.pos.y));
 		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, text.vertexCount); //problem probably has to do with incorrect setting of maxlines and other textbox properties (lwjgl inherited)
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);

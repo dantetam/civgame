@@ -1,44 +1,25 @@
 package render;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
-
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
-import org.lwjgl.util.vector.Vector2f;
-
 import lwjglEngine.entities.Camera;
-import lwjglEngine.fontRendering.TextMaster;
 import lwjglEngine.gui.GuiTexture;
-import lwjglEngine.gui.Mouse;
 import lwjglEngine.render.DisplayManager;
 import lwjglEngine.tests.MainGameLoop;
-import data.Color;
-import data.ColorImage;
 import data.EntityData;
 import terrain.*;
-import vector.Point;
 import vector.Vector3f;
 import system.*;
 import entity.Player;
-import game.BaseEntity;
 import game.Civilization;
-import game.GameEntity;
 import game.Grid;
 import game.LwjglGrid;
-import game.Pathfinder;
 import game.Tile;
 
 public class CivGame {
@@ -63,18 +44,23 @@ public class CivGame {
 	// private RenderSystem renderSystem = new RenderSystem(this);
 	public MainGameLoop lwjglSystem;
 	public Camera camera; // double reference for quick fix
-	public static float WIDTH = 2560, HEIGHT = 1440;
+	public static float WIDTH = 1500, HEIGHT = 900;
 	public float centerX = WIDTH / 2, centerY = HEIGHT / 2; // for rendering purposes, to determine how the position of
 															// the mouse affects the camera
-
+	private static final int blendMapWidth = 256, blendMapHeight = 256;
+	
 	public MenuSystem menuSystem = new MenuSystem(this);
 	public ArrayList<GuiTexture> guis = new ArrayList<GuiTexture>();
 
 	public InputSystem inputSystem = new InputSystem(this);
 	public CivilizationSystem civilizationSystem = new CivilizationSystem(this);
 	public RenderSystem renderSystem = new RenderSystem(this);
+	public AutoSelectSystem autoSelectSystem = new AutoSelectSystem(this);
 	// public ChunkSystem chunkSystem;
 
+	public final int autoSelectFramesWaitMax = 120;
+	public int autoSelectFramesWait = autoSelectFramesWaitMax;
+	public void resetAutoSelectWait() { autoSelectFramesWait = autoSelectFramesWaitMax; }
 	public boolean testing = false, tacticalView = false, keyMenu = false, forceCursor = false; // tacticalView ->
 																								// display special tile
 																								// yield and tile
@@ -98,6 +84,7 @@ public class CivGame {
 
 		systems.add(civilizationSystem);
 		systems.add(inputSystem);
+		systems.add(autoSelectSystem);
 		systems.add(renderSystem);
 		// systems.add(lwjglSystem);
 		systems.add(menuSystem);
@@ -105,8 +92,8 @@ public class CivGame {
 		setup();
 	}
 
-	public void options(boolean autoSelect, boolean t, boolean fc) {
-		inputSystem.autoSelect = autoSelect;
+	public void options(boolean as, boolean t, boolean fc) {
+		//TODO: Autoselect is always on by default
 		testing = t;
 		forceCursor = fc;
 	}
@@ -196,30 +183,12 @@ public class CivGame {
 	public void fixCamera(int r, int c) {
 		Vector3f tilePosition = grid.get3DPositionFromTile(r, c);
 		camera.focusCamera(tilePosition.x, tilePosition.z, -35);
-		/*
-		 * if (camera.position.y < 25)
-		 * camera.focusCamera((r-0.5F)*1600F/(float)grid.rows,
-		 * (c+0.5F)*1600F/(float)grid.cols, -10); else
-		 * camera.focusCamera((r-0.5F)*1600F/(float)grid.rows,
-		 * (c+0.5F)*1600F/(float)grid.cols + camera.position.y, -35);
-		 */
-		/*
-		 * lwjglSystem.camera.position.x = r*lwjglSystem.widthBlock;
-		 * lwjglSystem.camera.position.y = 60; lwjglSystem.camera.position.x =
-		 * (c-2)*lwjglSystem.widthBlock;
-		 */
-		// player.rotY = 0;
-		// player.rotVertical = 0;
-		// player.update();
 	}
-
+	
 	public void resetCamera() {
-		// centerX = mouseX/(1 - player.rotY/(float)Math.PI);
-		// centerY = mouseY/(1 + 4*player.rotVertical/(float)Math.PI);
+		
 	}
-
-	private static final int blendMapWidth = 256, blendMapHeight = 256;
-
+	
 	private BufferedImage sendBlendMap(Grid grid) {
 		try {
 			BufferedImage img = new BufferedImage(blendMapWidth, blendMapHeight, BufferedImage.TYPE_INT_RGB);
@@ -698,6 +667,5 @@ public class CivGame {
 	public float widthBlock() {
 		return lwjglSystem.widthBlock;
 	}
-	// public void setUpdateFrame(int frames) {chunkSystem.updateFrame = frames;}
 
 }

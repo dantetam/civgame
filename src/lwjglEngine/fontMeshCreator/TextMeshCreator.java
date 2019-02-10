@@ -25,8 +25,7 @@ public class TextMeshCreator {
 
 	private List<Line> createStructure(TextBox text) {
 		List<Line> lines = new ArrayList<Line>();
-		for (int i = 0; i < text.getDisplay().size(); i++)
-		{
+		for (int i = 0; i < text.getDisplay().size(); i++) {
 			char[] chars = text.getDisplay().get(i).toCharArray();
 			Line currentLine = new Line(metaData.getSpaceWidth(), text.fontSize, text.lineMaxSize);
 			Word currentWord = new Word(text.fontSize);
@@ -61,33 +60,33 @@ public class TextMeshCreator {
 	}
 
 	private TextMeshData createQuadVertices(TextBox text, List<Line> lines) {
-		double curserX = 0f;
-		double curserY = 0f;
+		double cursorX = 0f;
+		double cursorY = 0f;
 		List<Float> vertices = new ArrayList<Float>();
 		List<Float> textureCoords = new ArrayList<Float>();
 		for (Line line : lines) {
 			if (text.centerText) {
-				curserX = (line.getMaxLength() - line.getLineLength()) / 2;
+				cursorX = (line.getMaxLength() - line.getLineLength()) / 2;
 			}
 			for (Word word : line.getWords()) {
 				for (Character letter : word.getCharacters()) {
-					addVerticesForCharacter(curserX, curserY, letter, text.fontSize, vertices);
+					addVerticesForCharacter(cursorX, cursorY, letter, text.fontSize, vertices);
 					addTexCoords(textureCoords, letter.getxTextureCoord(), letter.getyTextureCoord(),
 							letter.getXMaxTextureCoord(), letter.getYMaxTextureCoord());
-					curserX += letter.getxAdvance() * text.fontSize;
+					cursorX += letter.getxAdvance() * text.fontSize;
 				}
-				curserX += metaData.getSpaceWidth() * text.fontSize;
+				cursorX += metaData.getSpaceWidth() * text.fontSize;
 			}
-			curserX = 0;
-			curserY += LINE_HEIGHT * text.fontSize;
-		}		
+			cursorX = 0;
+			cursorY += LINE_HEIGHT * text.fontSize;
+		}
 		return new TextMeshData(listToArray(vertices), listToArray(textureCoords));
 	}
 
-	private void addVerticesForCharacter(double curserX, double curserY, Character character, double fontSize,
+	private void addVerticesForCharacter(double cursorX, double cursorY, Character character, double fontSize,
 			List<Float> vertices) {
-		double x = curserX + (character.getxOffset() * fontSize);
-		double y = curserY + (character.getyOffset() * fontSize);
+		double x = cursorX + (character.getxOffset() * fontSize);
+		double y = cursorY + (character.getyOffset() * fontSize);
 		double maxX = x + (character.getSizeX() * fontSize);
 		double maxY = y + (character.getSizeY() * fontSize);
 		double properX = (2 * x) - 1;
@@ -126,7 +125,6 @@ public class TextMeshCreator {
 		texCoords.add((float) x);
 		texCoords.add((float) y);
 	}
-
 
 	private static float[] listToArray(List<Float> listOfFloats) {
 		float[] array = new float[listOfFloats.size()];

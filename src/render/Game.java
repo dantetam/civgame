@@ -108,10 +108,10 @@ public class Game extends PApplet {
 
 		menu4.addButton(guiDefaultTexture, "randomSeed", "Random Seed", "Get a new random number.", 70, 160, 210, 50);
 		menu4.addButton(guiDefaultTexture, "useCurrentSeed", "Use Current Seed", "Use the seed of the simulation (must choose terrain).", 70, 220, 210, 50);
-		menu4.addButton(guiDefaultTexture, "instantSelection", "Automatic Selection: On", "Allow the game to cycle to the next unit automatically.", 70, 280, 210, 50);
+		//menu4.addButton(guiDefaultTexture, "instantSelection", "Automatic Selection: On", "Allow the game to cycle to the next unit automatically.", 70, 280, 210, 50);
 		TextBox t = menu4.addButton(guiDefaultTexture, "toggleTesting", "Testing: Off", "Enable developer mode. Gives access to extra graphical display,", 70, 340, 210, 50);
 		t.addTooltipText("as well as the developer console.");
-		menu4.addButton(guiDefaultTexture, "toggleForceCursor", "Force Cursor: Off", "Bring back the cursor if you can't function with it.", 70, 400, 210, 50);
+		//menu4.addButton(guiDefaultTexture, "toggleForceCursor", "Force Cursor: Off", "Bring back the cursor if you can't function with it.", 70, 400, 210, 50);
 
 		menu4.addButton(guiDefaultTexture, "setSeedAndBack", "Back", "Back to the main menu.", 70, 630, 210, 70);
 

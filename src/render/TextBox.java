@@ -76,7 +76,7 @@ public class TextBox extends GuiTexture {
 		// tooltip.add(text);
 		// enabled = false;
 
-		this.fontSize = fontSize;
+		//this.fontSize = fontSize;
 		// this.font = font;
 		this.fontSize = 0.5f;
 		this.lineMaxSize = 1f;

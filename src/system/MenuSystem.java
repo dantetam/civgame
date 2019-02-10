@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import menugame.Tutorial;
 import data.EntityData;
 import data.Improvement;
@@ -278,10 +280,15 @@ public class MenuSystem extends BaseSystem {
 	public boolean menuActivated = false, menuHighlighted = false;
 
 	public void tick() {
+		if (techMenu.active())
+			makeShortcut(techMenu);
 		for (int menu = 0; menu < menus.size(); menu++) {
 			// if (!main.enabled) break;
 			if (menus.get(menu).active()) {
 				// System.out.println("Menu " + menu);
+				if (!menus.get(menu).noShortcuts) {
+					makeShortcut(menus.get(menu));
+				}
 				for (int i = clicks.size() - 1; i >= 0; i--) {
 					String command = menus.get(menu).click(clicks.get(i).mouseX, clicks.get(i).mouseY);
 					if (command != null && !command.equals("")) {
@@ -290,14 +297,11 @@ public class MenuSystem extends BaseSystem {
 						if (executeAction(command)) {
 							main.resetCamera();
 						}
+						forceUpdate();
 					}
 				}
 			}
-			if (menus.get(menu).active() && !menus.get(menu).noShortcuts)
-				makeShortcut(menus.get(menu));
 		}
-		if (techMenu.active())
-			makeShortcut(techMenu);
 		clicks.clear();
 	}
 
@@ -346,6 +350,9 @@ public class MenuSystem extends BaseSystem {
 		clicks.add(0, new Click(false, mouseX, mouseY));
 	}
 
+	/*
+	 * Returns true if the command was ineffective or not successful
+	 */
 	public boolean executeAction(String command) {
 		System.out.println("MenuSystem executed " + command);
 		// closeMenus();
@@ -366,10 +373,7 @@ public class MenuSystem extends BaseSystem {
 			System.exit(0);
 			return false;
 		} else if (command.equals("close")) {
-			// Replace with a loop later
-			// done
 			closeMenus();
-			// select(null);
 		} else if (command.equals("markTile")) {
 			System.out.println("marked tile");
 			if (mouseHighlighted != null)
@@ -1036,7 +1040,6 @@ public class MenuSystem extends BaseSystem {
 		b.shortcut = false;
 
 		menus.get(1).activate(true);
-		// System.out.println(menus.get(1).buttons.size());
 	}
 
 	// Choose which builds to allow i.e. which can be queued up in the city (factor
@@ -1146,6 +1149,7 @@ public class MenuSystem extends BaseSystem {
 		double[] data = EntityData.calculateYield(c);
 		TextBox t = new TextBox(loader.loadTexture("partTexture"), "Food per turn: " + (int) Math.floor(data[0]), 0,
 				main.HEIGHT * 5 / 6, 150, main.HEIGHT * 1 / 6);
+		t.textColor = new Vector3f(255, 0, 0);
 		t.addDisplayText("Gold per turn: " + (int) Math.floor(data[1]));
 		t.addDisplayText("Metal per turn: " + (int) Math.floor(data[2]));
 		t.addDisplayText("Research per turn: " + (int) Math.floor(data[3]));
@@ -1348,7 +1352,8 @@ public class MenuSystem extends BaseSystem {
 				text7.addDisplayText(s);
 				s = "";
 				if (mouseHighlighted.improvement == null) {
-					String impr = EntityData.optimalImpr(main.grid.civs[0].techTree.allowedTileImprovements, mouseHighlighted);
+					String impr = EntityData.optimalImpr(main.grid.civs[0].techTree.allowedTileImprovements,
+							mouseHighlighted);
 					if (impr != null)
 						text6.addDisplayText("With " + impr.toLowerCase());
 					double[] aYield = City.staticEval(mouseHighlighted, impr);
