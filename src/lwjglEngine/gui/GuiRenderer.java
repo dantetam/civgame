@@ -89,10 +89,6 @@ public class GuiRenderer {
 		 * showText((TextBox)gui); }
 		 */
 		shader.stop();
-		/*
-		 * for (GuiTexture gui: guis) { fpsFont.drawString(280.0F, 300.0F, "",
-		 * Color.red); }
-		 */
 	}
 
 	private Vector2f normalize(Vector2f v) {

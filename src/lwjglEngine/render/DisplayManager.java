@@ -35,9 +35,15 @@ import lwjglEngine.gui.Keyboard;
 import lwjglEngine.gui.Mouse;
 import render.CivGame;
 
+/**
+ * 
+ * Handles OpenGL specific setup and native GLFW events, such as keyboard and mouse events
+ *
+ */
+
 public class DisplayManager {
 
-	public static final int width = 1500, height = 900;
+	public static final int width = (int) CivGame.WIDTH, height = (int) CivGame.HEIGHT;
 	public static long window;
 	public static CivGame main;
 	
@@ -93,13 +99,12 @@ public class DisplayManager {
 				if (action == GLFW.GLFW_PRESS) {
 					main.menuSystem.queueMousePass(Mouse.getX(), Mouse.getY()); //includes button == 2 i.e. scroll wheel
 					if (button == 0) {
-						main.inputSystem.passLeftMouseClick(Mouse.getX(), Mouse.getY());
+						main.inputSystem.processLeftMouseClick(Mouse.getX(), Mouse.getY());
 					} 
 					else if (button == 1) {
-						main.inputSystem.passRightMouseClick(Mouse.getX(), Mouse.getY());
+						main.inputSystem.processRightMouseClick(Mouse.getX(), Mouse.getY());
 					}
-					TextMaster.update(main.menuSystem);
-					main.lwjglSystem.renderer.guiRenderer.update(main.menuSystem);
+					main.menuSystem.forceUpdate();
 					//menuSystem.closeMenus();
 				} 
 

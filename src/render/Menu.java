@@ -79,18 +79,18 @@ public class Menu {
 
 	public String click(float mouseX, float mouseY)
 	{
-		if (this.name.equals("UnitMenu"))
-			System.out.println(buttons.size());
-		for (int i = 0; i < buttons.size(); i++)
+		System.out.println("-----------------");
+		System.out.println(buttons.size());
+		for (TextBox b : buttons)
 		{
-			TextBox b = buttons.get(i);
-			if (this.name.equals("UnitMenu"))
-			{
-				System.out.println(b.getDisplay().get(0) + "; Pos: " + b.pixelPos + "; Size: " + b.pixelSize + "; Bounding Box Edge: " + new Vector2f(b.pixelPos.x + b.pixelSize.x, b.pixelPos.y + b.pixelSize.y) + "; Mouse: " + mouseX + "," + mouseY);
-			}
+			System.out.println(b.getDisplay().get(0) + "; Pos: " + b.pixelPos + "; Size: " + b.pixelSize + "; Bounding Box Edge: " + new Vector2f(b.pixelPos.x + b.pixelSize.x, b.pixelPos.y + b.pixelSize.y) + "; Mouse: " + mouseX + "," + mouseY);
 			if (b instanceof Button)
-				if (b.within(mouseX, mouseY)) //mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y
+				if (b.within(mouseX, mouseY)) { //mouseX > b.pos.x && mouseX < b.pos.x+b.size.x && mouseY > b.pos.y && mouseY < b.pos.y+b.size.y
+					System.out.println("^ Yes! ^");
 					return ((Button)b).command;
+				}
+				else
+					System.out.println("^ Not successful ^");
 		}
 		return null;
 	}
@@ -128,23 +128,9 @@ public class Menu {
 	}
 
 	public boolean requestUpdate = false;
-	public void activate(boolean yn) {active = yn; if (yn) requestUpdate = true;}
+	public void activate(boolean yn) {
+		System.out.println("Menu " + name + " was updated to be active: " + yn);
+		active = yn; if (yn) requestUpdate = true;}
 	public boolean active() {return active;}
-
-	/*public void on()
-	{
-		for (int i = 0; i < buttons.size(); i++)
-		{
-			buttons.get(i).enabled = true;
-		}
-	}
-
-	public void off()
-	{
-		for (int i = 0; i < buttons.size(); i++)
-		{
-			buttons.get(i).enabled = false;
-		}
-	}*/
 
 }
