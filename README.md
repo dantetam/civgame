@@ -1,3 +1,5 @@
+![bg2](https://user-images.githubusercontent.com/4561104/136892619-93ee8674-ede0-490e-b62d-e9468d92d1d8.png)
+
 A 4X civilization-style turn based strategy written in pure Java with <s>Processing</s> OpenGL/LWJGL for rendering
 
 This game is in deep alpha. Expect lots of bugs, crashes, and general inconvenience.
