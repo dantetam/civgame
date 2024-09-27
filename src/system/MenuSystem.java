@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import menugame.Tutorial;
 import data.EntityData;
 import data.Improvement;
@@ -37,7 +39,7 @@ public class MenuSystem extends BaseSystem {
 	public boolean info; // loadout, loadoutDisplay, techMenu, continueMenu; //Access the menu's active
 							// property instead
 	public int multiplier = 1;
-	public float highlightDispX = main.width / 2, highlightDispY = main.width / 2;
+	public float highlightDispX = main.WIDTH / 2, highlightDispY = main.HEIGHT / 2;
 	public int sight = 7;
 
 	public Tile target;
@@ -112,28 +114,28 @@ public class MenuSystem extends BaseSystem {
 		int height = 30;
 		// menu0.addButton("exitgame", "Exit", "Exit this session of the game.",
 		// main.width - 100, 0, 100, height).lock = true;
-		menu0.addButton(guiDefaultTexture, "close", "Close All", "Close all open menus.", main.width - 100, 70, 100,
+		menu0.addButton(guiDefaultTexture, "close", "Close All", "Close all open menus.", main.WIDTH - 100, 70, 100,
 				height).lock = true;
-		menu0.addButton(guiDefaultTexture, "minimap", "Minimap", "Open the minimap of the world.", main.width - 100,
+		menu0.addButton(guiDefaultTexture, "minimap", "Minimap", "Open the minimap of the world.", main.WIDTH - 100,
 				100, 100, height).lock = true;
-		menu0.addButton(guiDefaultTexture, "info", "Information", "", main.width - 100, 130, 100, height).lock = true;
+		menu0.addButton(guiDefaultTexture, "info", "Information", "", main.WIDTH - 100, 130, 100, height).lock = true;
 		// menu0.buttons.add(new Button("loadout", "Loadout", "Change loadouts of
 		// certain units.", main.width - 100, 160, 100, height, 3, 4));
-		menu0.addButton(guiDefaultTexture, "loadout", "Loadout", "Change loadouts of certain units.", main.width - 100,
+		menu0.addButton(guiDefaultTexture, "loadout", "Loadout", "Change loadouts of certain units.", main.WIDTH - 100,
 				160, 100, height).lock = true;
 		menu0.addButton(guiDefaultTexture, "stats", "Statistics", "Compare stats of different civilizations.",
-				main.width - 100, 190, 100, height).lock = true;
+				main.WIDTH - 100, 190, 100, height).lock = true;
 		// menu0.addButton("techs", "Techs", "Choose technologies to research.",
 		// main.width - 100, 220, 100, height).lock = true;
-		menu0.addButton(guiDefaultTexture, "techsweb", "Techs", "Choose technologies to research.", main.width - 100,
+		menu0.addButton(guiDefaultTexture, "techsweb", "Techs", "Choose technologies to research.", main.WIDTH - 100,
 				220, 100, height).lock = true;
 		menu0.addButton(guiDefaultTexture, "encyclopedia", "Reference", "A encyclopedia-like list of articles.",
-				main.width - 100, 250, 100, height).lock = true;
+				main.WIDTH - 100, 250, 100, height).lock = true;
 		menu0.addButton(guiDefaultTexture, "relations", "Relations", "The wars and alliances of this world.",
-				main.width - 100, 280, 100, height).lock = true;
-		menu0.addButton(guiDefaultTexture, "civic", "Civics", "Change the ideals of your government.", main.width - 100,
+				main.WIDTH - 100, 280, 100, height).lock = true;
+		menu0.addButton(guiDefaultTexture, "civic", "Civics", "Change the ideals of your government.", main.WIDTH - 100,
 				310, 100, height).lock = true;
-		menu0.addButton(guiDefaultTexture, "log", "Messages", "", main.width * 3 / 4, 0, main.width * 1 / 4,
+		menu0.addButton(guiDefaultTexture, "log", "Messages", "", main.WIDTH * 3 / 4, 0, main.WIDTH * 1 / 4,
 				height).lock = true;
 		// menu0.addButton("log", "Messages", "View your messages.", main.width*3/4, 0,
 		// main.width*1/4, height).lock = true;
@@ -144,7 +146,7 @@ public class MenuSystem extends BaseSystem {
 			b.move(0, 70 + (i) * height);
 		}
 
-		TextBox b = menu0.addButton(guiDefaultTexture, "markTile", "MarkTile", "Mark this tile", main.width - 100, 70,
+		TextBox b = menu0.addButton(guiDefaultTexture, "markTile", "MarkTile", "Mark this tile", main.WIDTH - 100, 70,
 				100, height);
 		b.lock = true;
 		b.activate(false);
@@ -170,8 +172,8 @@ public class MenuSystem extends BaseSystem {
 		menus.add(menu5);
 
 		Menu menu6 = new Menu("ContinueMenu"); // Menu when player loses the game
-		menu6.addButton(guiDefaultTexture, "continue", "You have lost the game. Continue?", "", main.width * 2 / 6, 100,
-				main.width * 2 / 6, 200);
+		menu6.addButton(guiDefaultTexture, "continue", "You have lost the game. Continue?", "", main.WIDTH * 2 / 6, 100,
+				main.WIDTH * 2 / 6, 200);
 		menus.add(menu6);
 
 		Menu menu7 = new Menu("EncyclopediaMenu");
@@ -212,42 +214,42 @@ public class MenuSystem extends BaseSystem {
 
 		menu0.activate(true);
 
-		TextBox text0 = new TextBox(guiDefaultTexture, "", "", main.width - 200, main.height - 250, 200, 100); // "HintText"
+		TextBox text0 = new TextBox(guiDefaultTexture, "", "", main.WIDTH - 200, main.HEIGHT - 250, 200, 100); // "HintText"
 		text0.color.w = 0;
 		textboxes.add(text0);
 
-		TextBox text1 = new TextBox(guiDefaultTexture, "", main.width - 400, main.height - 150, 200, 150); // "SelectedText"
+		TextBox text1 = new TextBox(guiDefaultTexture, "", main.WIDTH - 400, main.HEIGHT - 150, 200, 150); // "SelectedText"
 		textboxes.add(text1);
 
-		TextBox text2 = new TextBox(guiDefaultTexture, "", main.width * 3 / 4, 30, main.width / 4, 100); // "Messages"
+		TextBox text2 = new TextBox(guiDefaultTexture, "", main.WIDTH * 3 / 4, 30, main.WIDTH / 4, 100); // "Messages"
 		textboxes.add(text2);
 
-		TextBox text3 = new TextBox(guiDefaultTexture, "", main.width / 6, 0, 300, 50); // "PlayerStatus"
+		TextBox text3 = new TextBox(guiDefaultTexture, "", main.WIDTH / 6, 0, 300, 50); // "PlayerStatus"
 		textboxes.add(text3);
 
 		TextBox text4 = new TextBox(guiDefaultTexture, "", 100, 190, 500, 250); // "LedgerText"
 		textboxes.add(text4);
 
-		TextBox text5 = new TextBox(guiDefaultTexture, "...", main.width - 400, main.height - 200 + 15, 200, 35); // "ConditionText"
+		TextBox text5 = new TextBox(guiDefaultTexture, "...", main.WIDTH - 400, main.HEIGHT - 200 + 15, 200, 35); // "ConditionText"
 		// ArrayList<String> stringy = new ArrayList<String>(); stringy.add("...");
 		// text5.display = stringy;
 		text5.autoClear = false;
 		textboxes.add(text5);
 
-		TextBox text6 = new TextBox(guiDefaultTexture, "", main.width - 200, main.height - 150, 100, 150); // "Detail1Text"
+		TextBox text6 = new TextBox(guiDefaultTexture, "", main.WIDTH - 200, main.HEIGHT - 150, 100, 150); // "Detail1Text"
 																											// (goes
 																											// with
 																											// HintText)
 		textboxes.add(text6);
 
-		TextBox text7 = new TextBox(guiDefaultTexture, "", main.width - 100, main.height - 150, 100, 150); // "Detail2Text"
+		TextBox text7 = new TextBox(guiDefaultTexture, "", main.WIDTH - 100, main.HEIGHT - 150, 100, 150); // "Detail2Text"
 																											// (goes
 																											// with
 																											// HintText)
 		text7.monospace = true;
 		textboxes.add(text7);
 
-		TextBox text8 = new TextBox(guiDefaultTexture, "", main.width / 6, 50, 300, 30);
+		TextBox text8 = new TextBox(guiDefaultTexture, "", main.WIDTH / 6, 50, 300, 30);
 		textboxes.add(text8);
 
 		text4.activate(false);
@@ -278,10 +280,15 @@ public class MenuSystem extends BaseSystem {
 	public boolean menuActivated = false, menuHighlighted = false;
 
 	public void tick() {
+		if (techMenu.active())
+			makeShortcut(techMenu);
 		for (int menu = 0; menu < menus.size(); menu++) {
 			// if (!main.enabled) break;
 			if (menus.get(menu).active()) {
 				// System.out.println("Menu " + menu);
+				if (!menus.get(menu).noShortcuts) {
+					makeShortcut(menus.get(menu));
+				}
 				for (int i = clicks.size() - 1; i >= 0; i--) {
 					String command = menus.get(menu).click(clicks.get(i).mouseX, clicks.get(i).mouseY);
 					if (command != null && !command.equals("")) {
@@ -290,14 +297,11 @@ public class MenuSystem extends BaseSystem {
 						if (executeAction(command)) {
 							main.resetCamera();
 						}
+						forceUpdate();
 					}
 				}
 			}
-			if (menus.get(menu).active() && !menus.get(menu).noShortcuts)
-				makeShortcut(menus.get(menu));
 		}
-		if (techMenu.active())
-			makeShortcut(techMenu);
 		clicks.clear();
 	}
 
@@ -346,6 +350,9 @@ public class MenuSystem extends BaseSystem {
 		clicks.add(0, new Click(false, mouseX, mouseY));
 	}
 
+	/*
+	 * Returns true if the command was ineffective or not successful
+	 */
 	public boolean executeAction(String command) {
 		System.out.println("MenuSystem executed " + command);
 		// closeMenus();
@@ -366,10 +373,7 @@ public class MenuSystem extends BaseSystem {
 			System.exit(0);
 			return false;
 		} else if (command.equals("close")) {
-			// Replace with a loop later
-			// done
 			closeMenus();
-			// select(null);
 		} else if (command.equals("markTile")) {
 			System.out.println("marked tile");
 			if (mouseHighlighted != null)
@@ -742,8 +746,8 @@ public class MenuSystem extends BaseSystem {
 	public void updateMessages() {
 		menus.get(10).buttons.clear();
 		for (int i = 0; i < messages.size(); i++) {
-			TextBox msg = new TextBox(loader.loadTexture("partTexture"), messages.get(i), main.width * 4.5F / 6,
-					30 + 14 * i, main.width * 1.5F / 6, 14);
+			TextBox msg = new TextBox(loader.loadTexture("partTexture"), messages.get(i), main.WIDTH * 4.5F / 6,
+					30 + 14 * i, main.WIDTH * 1.5F / 6, 14);
 			menus.get(10).buttons.add(msg);
 			if (i == 19)
 				break;
@@ -774,7 +778,7 @@ public class MenuSystem extends BaseSystem {
 			int turns = calcQueueTurnsTech(civ, t);
 			String name = turns != -1 ? s + " <" + turns + ">" : s + " <N/A>";
 			Button b = (Button) menus.get(5).addButton(guiDefaultTexture, "research" + s, name, "Research " + s + ".",
-					0, main.height * 5 / 6 - disp + 30 * i, main.width * 1 / 6, 30);
+					0, main.HEIGHT * 5 / 6 - disp + 30 * i, main.WIDTH * 1 / 6, 30);
 			b.lock = true;
 			b.clearTooltipText();
 			if (turns != -1)
@@ -922,33 +926,33 @@ public class MenuSystem extends BaseSystem {
 
 		// int n = 0;
 		menus.get(1).addButton(guiDefaultTexture, "unitKill", "Destroy", "Destroy this unit.", 0,
-				main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
+				main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6, 30);
 		menus.get(1).addButton(guiDefaultTexture, "unitSkipTurn", "Skip Turn", "Do nothing this turn.", 0,
-				main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
+				main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6, 30);
 		menus.get(1).addButton(guiDefaultTexture, "unitSleep", "Sleep",
-				"This unit will be inactive until you select it again.", 0, main.height * 5 / 6 + 30,
-				main.width * 1 / 6, 30);
+				"This unit will be inactive until you select it again.", 0, main.HEIGHT * 5 / 6 + 30,
+				main.WIDTH * 1 / 6, 30);
 		if (stack.size() == 0)
 			menus.get(1).addButton(guiDefaultTexture, "stack", "Create Stack",
-					"Group a set of units together that can be moved.", 0, main.height * 5 / 6 + 30, main.width * 1 / 6,
+					"Group a set of units together that can be moved.", 0, main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6,
 					30);
 		else
 			menus.get(1).addButton(guiDefaultTexture, "stack", "Separate Stack",
-					"Make multiple units out of the stack.", 0, main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
+					"Make multiple units out of the stack.", 0, main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6, 30);
 
 		if (en.name.equals("Settler")) {
 			menus.get(1).addButton(guiDefaultTexture, "unitSettle", "Settle", "Settle a city here.", 0,
-					main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
+					main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6, 30);
 
 		} else if (en.name.equals("Warrior")) {
 			menus.get(1).addButton(guiDefaultTexture, "unitRaze", "Attack", "Attack the improvement here.", 0,
-					main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
+					main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6, 30);
 
 		} else if (en.name.equals("Worker")) {
 			ArrayList<String> units = main.grid.civs[0].techTree.allowedTileImprovements;
 			for (int i = 0; i < units.size(); i++) {
 				Button b = (Button) menus.get(1).addButton(guiDefaultTexture, "build" + units.get(i), units.get(i),
-						"Construct " + units.get(i) + " here.", 0, main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
+						"Construct " + units.get(i) + " here.", 0, main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6, 30);
 				b.clearTooltipText();
 				int turns = EntityData.tileImprovementTime(en, units.get(i));
 				if (turns != -1)
@@ -971,8 +975,8 @@ public class MenuSystem extends BaseSystem {
 			}
 			if (!en.location.road) {
 				Button b = (Button) menus.get(1).addButton(guiDefaultTexture, "buildRoad", "Road",
-						"Construct a road, to expand your civilization's network.", 0, main.height * 5 / 6 + 30,
-						main.width * 1 / 6, 30);
+						"Construct a road, to expand your civilization's network.", 0, main.HEIGHT * 5 / 6 + 30,
+						main.WIDTH * 1 / 6, 30);
 				b.addTooltipText("Roads allow for increased movement,");
 				b.addTooltipText("and connect resources and cities.");
 				b.dimTooltip();
@@ -986,7 +990,7 @@ public class MenuSystem extends BaseSystem {
 				City c = en.owner.cities.get(i);
 				if (!c.equals(((Caravan) en).home)) {
 					menus.get(1).addButton(guiDefaultTexture, "unitCaravan" + i, "Caravan" + c.name,
-							"Establish a trade route.", 0, main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
+							"Establish a trade route.", 0, main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6, 30);
 
 				}
 			}
@@ -994,17 +998,17 @@ public class MenuSystem extends BaseSystem {
 
 		if (en.mode == 1 && en.rangedStr > 0) {
 			menus.get(1).addButton(guiDefaultTexture, "rangedMode", "Ranged", "Allow this unit to use ranged attacks.",
-					0, main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
+					0, main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6, 30);
 
 		} else if (en.mode == 2 && en.offensiveStr > 0) {
 			menus.get(1).addButton(guiDefaultTexture, "meleeMode", "Melee", "Allow this unit to use melee attacks.", 0,
-					main.height * 5 / 6 + 30, main.width * 1 / 6, 30);
+					main.HEIGHT * 5 / 6 + 30, main.WIDTH * 1 / 6, 30);
 
 		}
 
 		for (int i = 0; i < menus.get(1).buttons.size(); i++) {
 			TextBox b = menus.get(1).buttons.get(i);
-			b.move(b.pos.x, main.height * 5 / 6 - (menus.get(1).buttons.size() + 2) * height + i * height); // Shift the
+			b.move(b.pos.x, main.HEIGHT * 5 / 6 - (menus.get(1).buttons.size() + 2) * height + i * height); // Shift the
 																											// buttons
 																											// to their
 																											// proper
@@ -1032,11 +1036,10 @@ public class MenuSystem extends BaseSystem {
 		// "Encyclopedia entry for "+en.name+"
 		// >",0,main.height*5/6-height,main.height/6,height);
 		TextBox b = menus.get(1).addButton(guiDefaultTexture, "", en.name, "Encyclopedia entry for " + en.name + " >",
-				0, main.height * 5 / 6 - height, main.height / 6, height);
+				0, main.HEIGHT * 5 / 6 - height, main.HEIGHT / 6, height);
 		b.shortcut = false;
 
 		menus.get(1).activate(true);
-		// System.out.println(menus.get(1).buttons.size());
 	}
 
 	// Choose which builds to allow i.e. which can be queued up in the city (factor
@@ -1053,7 +1056,7 @@ public class MenuSystem extends BaseSystem {
 		button.addTooltipText("Not recommended.");
 		if (c.takeover > 0) {
 			menus.get(2).addButton(guiDefaultTexture, "razeCity", "Raze", "Destroy the city, one citizen at a time.",
-					main.width / 3F, (float) main.height * 5F / 6F + 60, 50, 50);
+					main.WIDTH / 3F, (float) main.HEIGHT * 5F / 6F + 60, 50, 50);
 		}
 
 		float height = 20;
@@ -1100,32 +1103,32 @@ public class MenuSystem extends BaseSystem {
 		// (float)main.height*5F/6F, 50, 50);
 
 		menus.get(2).addButton(guiDefaultTexture, "addAdmin", "Admin+", "Convert one citizen to admin.",
-				main.width / 6F, (float) main.height * 5F / 6F, 50, 50).shortcut = false;
-		menus.get(2).addButton(guiDefaultTexture, "subAdmin", "Admin-", "Revert one admin to citizen.", main.width / 6F,
-				(float) main.height * 5F / 6F + 60, 50, 50).shortcut = false;
+				main.WIDTH / 6F, (float) main.HEIGHT * 5F / 6F, 50, 50).shortcut = false;
+		menus.get(2).addButton(guiDefaultTexture, "subAdmin", "Admin-", "Revert one admin to citizen.", main.WIDTH / 6F,
+				(float) main.HEIGHT * 5F / 6F + 60, 50, 50).shortcut = false;
 		menus.get(2).addButton(guiDefaultTexture, "addArtist", "Artist+", "Convert one citizen to artist.",
-				main.width / 6F + 60, (float) main.height * 5F / 6F, 50, 50).shortcut = false;
+				main.WIDTH / 6F + 60, (float) main.HEIGHT * 5F / 6F, 50, 50).shortcut = false;
 		menus.get(2).addButton(guiDefaultTexture, "subArtist", "Artist-", "Revert one artist to citizen.",
-				main.width / 6F + 60, (float) main.height * 5F / 6F + 60, 50, 50).shortcut = false;
+				main.WIDTH / 6F + 60, (float) main.HEIGHT * 5F / 6F + 60, 50, 50).shortcut = false;
 		menus.get(2).addButton(guiDefaultTexture, "addSci", "Sci+", "Convert one citizen to scientist.",
-				main.width / 6F + 120, (float) main.height * 5F / 6F, 50, 50).shortcut = false;
+				main.WIDTH / 6F + 120, (float) main.HEIGHT * 5F / 6F, 50, 50).shortcut = false;
 		menus.get(2).addButton(guiDefaultTexture, "subSci", "Sci-", "Revert one scientist to citizen.",
-				main.width / 6F + 120, (float) main.height * 5F / 6F + 60, 50, 50).shortcut = false;
+				main.WIDTH / 6F + 120, (float) main.HEIGHT * 5F / 6F + 60, 50, 50).shortcut = false;
 
 		if (c.sortie == 1) {
 			menus.get(2).addButton(guiDefaultTexture, "sortie", "Sortie",
-					"Raise a temporary garrison (cannot leave borders).", main.width / 6F - 60,
-					(float) main.height * 5F / 6F, 50, 50);
+					"Raise a temporary garrison (cannot leave borders).", main.WIDTH / 6F - 60,
+					(float) main.HEIGHT * 5F / 6F, 50, 50);
 		} else if (c.sortie == 2) {
 			menus.get(2).addButton(guiDefaultTexture, "endSortie", "End sortie",
-					"End the sortie and return troops to city.", main.width / 6F - 60, (float) main.height * 5F / 6F,
+					"End the sortie and return troops to city.", main.WIDTH / 6F - 60, (float) main.HEIGHT * 5F / 6F,
 					50, 50);
 		}
 
 		int n = menus.get(2).buttons.size();
 		for (int i = 0; i < n; i++) {
 			TextBox b = menus.get(2).buttons.get(i);
-			b.move(0, main.height * 5 / 6 + i * height - (n * 1 + 2) * height); // Shift the buttons to their proper
+			b.move(0, main.HEIGHT * 5 / 6 + i * height - (n * 1 + 2) * height); // Shift the buttons to their proper
 																				// place
 			b.resize(150, height);
 
@@ -1141,11 +1144,12 @@ public class MenuSystem extends BaseSystem {
 		 */
 
 		menus.get(2).buttons.add(
-				new TextBox(loader.loadTexture("partTexture"), c.name, 0, main.height * 5 / 6 - height, 150, height));
+				new TextBox(loader.loadTexture("partTexture"), c.name, 0, main.HEIGHT * 5 / 6 - height, 150, height));
 
 		double[] data = EntityData.calculateYield(c);
 		TextBox t = new TextBox(loader.loadTexture("partTexture"), "Food per turn: " + (int) Math.floor(data[0]), 0,
-				main.height * 5 / 6, 150, main.height * 1 / 6);
+				main.HEIGHT * 5 / 6, 150, main.HEIGHT * 1 / 6);
+		t.textColor = new Vector3f(255, 0, 0);
 		t.addDisplayText("Gold per turn: " + (int) Math.floor(data[1]));
 		t.addDisplayText("Metal per turn: " + (int) Math.floor(data[2]));
 		t.addDisplayText("Research per turn: " + (int) Math.floor(data[3]));
@@ -1309,7 +1313,7 @@ public class MenuSystem extends BaseSystem {
 				hintText.add(resource);
 			hintText.add(" ");
 			if (mouseHighlighted != null) {
-				ArrayList<String> conditions;
+				List<String> conditions;
 				if (mouseHighlighted.improvement != null)
 					conditions = City.staticEvalReasons(mouseHighlighted, mouseHighlighted.improvement.name);
 				else
@@ -1348,7 +1352,8 @@ public class MenuSystem extends BaseSystem {
 				text7.addDisplayText(s);
 				s = "";
 				if (mouseHighlighted.improvement == null) {
-					String impr = EntityData.optimalImpr(main.grid.civs[0].techTree.allowedTileImprovements, mouseHighlighted);
+					String impr = EntityData.optimalImpr(main.grid.civs[0].techTree.allowedTileImprovements,
+							mouseHighlighted);
 					if (impr != null)
 						text6.addDisplayText("With " + impr.toLowerCase());
 					double[] aYield = City.staticEval(mouseHighlighted, impr);
@@ -1416,8 +1421,8 @@ public class MenuSystem extends BaseSystem {
 		ArrayList<Improvement> valid = EntityData.getValidImprovements(main.grid.civs[0], en);
 		for (int i = 0; i < valid.size(); i++) {
 			Improvement temp = valid.get(i);
-			menus.get(4).addButton(guiDefaultTexture, en.name + "/" + temp.name, temp.name, "", main.width / 3F,
-					(float) main.height * 2F / 6F + 60 * i, 200, 50);
+			menus.get(4).addButton(guiDefaultTexture, en.name + "/" + temp.name, temp.name, "", main.WIDTH / 3F,
+					(float) main.HEIGHT * 2F / 6F + 60 * i, 200, 50);
 		}
 	}
 
@@ -1425,31 +1430,31 @@ public class MenuSystem extends BaseSystem {
 		Civilization plr = main.grid.civs[0];
 		menus.get(9).buttons.clear();
 
-		TextBox text0 = new TextBox(loader.loadTexture("partTexture"), "", main.width * 2 / 6, main.height * 2 / 6,
-				main.width * 2 / 6, main.height / 12); // "HintText"
+		TextBox text0 = new TextBox(loader.loadTexture("partTexture"), "", main.WIDTH * 2 / 6, main.HEIGHT * 2 / 6,
+				main.WIDTH * 2 / 6, main.HEIGHT / 12); // "HintText"
 		text0.addDisplayText(civ.name);
 
 		menus.get(9).addButton(guiDefaultTexture, "openBorders" + civ.id, "Request open borders.",
-				"Allow unrestricted travel between you and this nation.", main.width * 2 / 6,
-				main.height * 2 / 6 + main.height / 12 + 10, main.width * 2 / 6, main.height / 24);
+				"Allow unrestricted travel between you and this nation.", main.WIDTH * 2 / 6,
+				main.HEIGHT * 2 / 6 + main.HEIGHT / 12 + 10, main.WIDTH * 2 / 6, main.HEIGHT / 24);
 
 		if (!plr.isWar(civ)) {
 			menus.get(9).addButton(guiDefaultTexture, "declareWar" + civ.id, "Declare war.",
-					"Declare war on this civilization (and cancel all deals).", main.width * 2 / 6,
-					main.height * 2 / 6 + main.height / 12 + main.height / 24 + 20, main.width * 2 / 6,
-					main.height / 24);
+					"Declare war on this civilization (and cancel all deals).", main.WIDTH * 2 / 6,
+					main.HEIGHT * 2 / 6 + main.HEIGHT / 12 + main.HEIGHT / 24 + 20, main.WIDTH * 2 / 6,
+					main.HEIGHT / 24);
 		} else {
 			menus.get(9).addButton(guiDefaultTexture, "declarePeace" + civ.id, "Declare peace.",
-					"Negotiate peace with this nation.", main.width * 2 / 6,
-					main.height * 2 / 6 + main.height / 12 + main.height / 24 + 20, main.width * 2 / 6,
-					main.height / 24);
+					"Negotiate peace with this nation.", main.WIDTH * 2 / 6,
+					main.HEIGHT * 2 / 6 + main.HEIGHT / 12 + main.HEIGHT / 24 + 20, main.WIDTH * 2 / 6,
+					main.HEIGHT / 24);
 		}
 
 		if (!plr.isAlly(civ))
 			menus.get(9).addButton(guiDefaultTexture, "ally" + civ.id, "Request an alliance.",
-					"Request a mutual protection and aggression between you and this nation.", main.width * 2 / 6,
-					main.height * 2 / 6 + main.height / 12 + 2 * main.height / 24 + 30, main.width * 2 / 6,
-					main.height / 24);
+					"Request a mutual protection and aggression between you and this nation.", main.WIDTH * 2 / 6,
+					main.HEIGHT * 2 / 6 + main.HEIGHT / 12 + 2 * main.HEIGHT / 24 + 30, main.WIDTH * 2 / 6,
+					main.HEIGHT / 24);
 
 		menus.get(9).buttons.add(text0);
 	}
@@ -1536,13 +1541,13 @@ public class MenuSystem extends BaseSystem {
 		menus.get(12).buttons.clear();
 		for (int i = 0; i < civ.techTree.governmentCivics.size(); i++) {
 			String s = civ.techTree.governmentCivics.get(i);
-			menus.get(12).addButton(guiDefaultTexture, "gCivic" + s, s, "", main.width / 3F,
-					(float) main.height * 2F / 6F + 60 * i, 200, 50);
+			menus.get(12).addButton(guiDefaultTexture, "gCivic" + s, s, "", main.WIDTH / 3F,
+					(float) main.HEIGHT * 2F / 6F + 60 * i, 200, 50);
 		}
 		for (int i = 0; i < civ.techTree.governmentCivics.size(); i++) {
 			String s = civ.techTree.economicCivics.get(i);
-			menus.get(12).addButton(guiDefaultTexture, "eCivic" + s, s, "", main.width / 3F + 250,
-					(float) main.height * 2F / 6F + 60 * i, 200, 50);
+			menus.get(12).addButton(guiDefaultTexture, "eCivic" + s, s, "", main.WIDTH / 3F + 250,
+					(float) main.HEIGHT * 2F / 6F + 60 * i, 200, 50);
 		}
 	}
 
@@ -1643,7 +1648,7 @@ public class MenuSystem extends BaseSystem {
 			}
 			// textboxes.get(1).orders.clear();
 			textboxes.get(1).activate(true);
-			textboxes.get(1).move(main.width - 400, main.height);
+			textboxes.get(1).move(main.WIDTH - 400, main.HEIGHT);
 			// textboxes.get(1).moveTo(textboxes.get(1).origX,textboxes.get(1).origY,20);
 		} else {
 			stack.clear();

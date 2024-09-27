@@ -35,9 +35,6 @@ public class InputSystem extends BaseSystem {
 	public boolean on = true;
 	public PMatrix3D matrix;
 
-	public int time = 20; private int nextSelection = 0;
-	public boolean autoSelect;
-
 	public enum KeyPressBind
 	{
 		ADVANCE_TURN   	(GLFW.GLFW_KEY_SPACE, 0),
@@ -122,18 +119,6 @@ public class InputSystem extends BaseSystem {
 	public void tick()
 	{
 		moving = false;
-		if (!autoSelect)
-		{
-			nextSelection = 0;
-		}
-		else
-		{
-			if (nextSelection == main.lwjglSystem.frameCount)
-			{
-				nextSelection = 0;
-				selectAvailableUnit();
-			}
-		}
 		for (int i = keyPresses.size() - 1; i >= 0; i--)
 		{
 			executeAction(keyPresses.get(i));
@@ -226,11 +211,11 @@ public class InputSystem extends BaseSystem {
 			Click c = clicks.get(i);
 			if (c.type.equals("Left"))
 			{
-				passLeftMouseClick(c.mouseX, c.mouseY);
+				processLeftMouseClick(c.mouseX, c.mouseY);
 			}
 			else if (c.type.equals("Right"))
 			{
-				passRightMouseClick(c.mouseX, c.mouseY);
+				processRightMouseClick(c.mouseX, c.mouseY);
 			}
 			clicks.remove(i);
 		}
@@ -275,7 +260,7 @@ public class InputSystem extends BaseSystem {
 	//Make a system to cycle through units on a list
 	//private ArrayList<GameEntity> lastList = null;
 	//private int num = 0;
-	public void passLeftMouseClick(float mouseX, float mouseY)
+	public void processLeftMouseClick(float mouseX, float mouseY)
 	{
 		Field field = EntityData.getField(main.menuSystem.candidateField);
 		if (field != null)
@@ -360,7 +345,7 @@ public class InputSystem extends BaseSystem {
 		}
 	}
 
-	public void passRightMouseClick(float mouseX, float mouseY)
+	public void processRightMouseClick(float mouseX, float mouseY)
 	{	
 		ArrayList<GameEntity> s = main.menuSystem.stack;
 		if (s.size() > 0)
@@ -464,7 +449,7 @@ public class InputSystem extends BaseSystem {
 			nextSelection = 0;
 	}*/
 
-	private void selectAvailableUnit()
+	public void selectAvailableUnit()
 	{
 		BaseEntity en = availableUnit();
 		if (en != null)
@@ -499,19 +484,6 @@ public class InputSystem extends BaseSystem {
 		}
 	}
 
-	//A comparator to sort units by distance
-	//Thank you stackoverflow
-	/*class GameEntityCompare implements Comparator<GameEntity> {
-		private Tile t;
-		public GameEntityCompare(Tile t) {this.t = t;}
-	    public int compare(GameEntity o1, GameEntity o2) {
-	        if (o1.location.dist(t) < o2.location.dist(t))
-		        return -1;
-	        else if (o1.location.dist(t) > o2.location.dist(t))
-		        return 1;
-	        return 0;
-	    }
-	}*/
 	//Find the next unit with action and return it
 	//If there are no available units, return null
 	public BaseEntity availableUnit()
@@ -556,9 +528,10 @@ public class InputSystem extends BaseSystem {
 
 	public void executeAction(String action)
 	{
-		//System.out.println("InputSystem executed " + action);
+		System.out.println("InputSystem executed " + action);
 		if (action.equals("ADVANCE_TURN"))
 		{
+			main.resetAutoSelectWait();
 			Civilization civ = main.grid.civs[0];
 			BaseEntity selected = availableUnit();
 			if (selected == null)
@@ -671,23 +644,6 @@ public class InputSystem extends BaseSystem {
 	public void executeAction(int key)
 	{
 		String action = keyPressBinds.get(key);
-		//if (action != null) {System.out.println(action);}
-		/*if (main.menuSystem.console != null) //Give priority to toggling console
-		{
-			if (action != null)
-			{
-				if (action.equals("CONSOLE"))
-				{
-					main.menuSystem.console = null;
-					return; //Do not add the tilde key to console
-				}
-			}
-			if (key == Keyboard.KEY_BACK && !main.menuSystem.console.isEmpty())
-				main.menuSystem.console = main.menuSystem.console.substring(0, main.menuSystem.console.length()-1);
-			else
-				main.menuSystem.console += key;
-			return;
-		}*/
 		if (action == null) return;
 		executeAction(action);
 	}
